@@ -1,0 +1,58 @@
+{% macro input(name, value, error) %}
+	<input class="govuk-input {% if error is defined %}govuk-input--error{% endif %}" id="{{ name }}" type="text" name="{{ name }}" value="{{ value|e }}"/>
+{% endmacro %}
+
+{% macro textarea(name, value, error) %}
+	<textarea class="govuk-textarea" name="{{ name }}" rows="{{ rows|default(10) }}" cols="{{ cols|default(40) }}">{{ value }}</textarea>
+{% endmacro %}
+
+{% macro file_upload(name, error) %}
+	<div class="file-upload">
+		Drag and drop ONLY ONE FILE!
+	</div>
+{% endmacro %}
+
+{% macro multi_file_upload(name, error) %}
+	<div class="file-upload">
+		Drag and drop as many files as you want here.
+	</div>
+{% endmacro %}
+
+{% macro autocomplete(name, data, error) %}
+	<select id="location-picker" name="{{ name }}" class="govuk-select">
+		<option value="">Select</option>
+		{% for dat in data %}
+			<option value="{{ dat }}">{{ dat }}</option>
+		{% endfor %}
+	</select>
+	<script src="/javascripts/accessible-autocomplete.min.js"></script>
+	<script>
+		accessibleAutocomplete.enhanceSelectElement({defaultValue: '',  displayMenu: 'overlay', selectElement: document.querySelector('#location-picker')});
+	</script>
+{% endmacro %}
+
+{% macro radiobuttons(name, data, error) %}
+	<div class="govuk-radios {% if data.length == 2 %}govuk-radios--inline{% endif %}">
+		{% for dat in data %}
+			<div class="govuk-radios__item">
+				<input class="govuk-radios__input" id="{{ dat }}" name="{{ name }}" type="radio" value="{{ dat }}">
+				<label class="govuk-label govuk-radios__label" for="{{ dat }}">
+					{{ dat }}
+				</label>
+			</div>
+		{% endfor %}
+	</div>
+{% endmacro %}
+
+{% macro checkboxes(name, data, error) %}
+	<div class="govuk-checkboxes">
+		{% for dat in data %}
+			<div class="govuk-checkboxes__item">
+				<input class="govuk-checkboxes__input" id="{{ dat }}" name="{{ name }}" type="checkbox" value="{{ dat }}">
+				<label class="govuk-label govuk-checkboxes__label" for="{{ dat }}">
+					{{ dat }}
+				</label>
+			</div>
+		{% endfor %}
+	</div>
+{% endmacro %}

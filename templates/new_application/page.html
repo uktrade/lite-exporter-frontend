@@ -1,0 +1,98 @@
+{% import 'new-application/components.html' as components %}
+{% extends 'layouts/two_pane.html' %}
+
+{% block twoThirds %}
+
+	<a href="#" class="govuk-back-link">Back</a>
+
+	<!-- Error Summary -->
+	{% if error %}
+		<div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="error-summary">
+			<h2 class="govuk-error-summary__title" id="error-summary-title">
+				There are errors on this page
+			</h2>
+			<div class="govuk-error-summary__body">
+				<ul class="govuk-list govuk-error-summary__list">
+					{% for key, value in error.errors %}
+						<li>
+							<a href="#{{ key }}">{{ value }}</a>
+						</li>
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
+	{% endif %}
+
+	<!-- Page header and description -->
+	<h1 class="govuk-heading-l">{{ page.title }}</h1>
+	<div class="govuk-form-group">
+		<p class="govuk-caption-m">
+			{{ page.description }}
+		</p>
+	</div>
+
+	<!-- Questions -->
+	<form action="/new-application/form/{{ page.id }}?id={{ draftId }}" method="post">
+		{% for question in page.questions %}
+			<div class="govuk-form-group
+						{% if error %}
+							{% if error.errors[question.fieldName] is defined %}
+								govuk-form-group--error
+							{% endif %}
+						{% endif %}">
+				<label class="govuk-label" for="{{ question.fieldName }}-hint">
+					{{ question.title }}
+				</label>
+				<span id="{{ question.fieldName }}-hint" class="govuk-hint">
+					{{ question.description }}
+				</span>
+
+				{% if error %}
+					{% if error.errors[question.fieldName] is defined %}
+						<span id="passport-issued-error" class="govuk-error-message">
+							<span class="govuk-visually-hidden">Error:</span>
+							{{ error.errors[question.fieldName] }}
+						</span>
+					{% endif %}
+				{% endif %}
+
+				<div class="govuk-form-group">
+					{% if question.type == "autocomplete" %}
+						{{ components.autocomplete( question.fieldName, question.data, error.errors[question.fieldName] is defined ) }}
+					{% endif %}
+					{% if question.type == "input" %}
+						{{ components.input( question.fieldName, body[question.fieldName], error.errors[question.fieldName] ) }}
+					{% endif %}
+					{% if question.type == "checkboxes" %}
+						{{ components.checkboxes( question.fieldName, question.data, error.errors[question.fieldName] is defined ) }}
+					{% endif %}
+					{% if question.type == "radiobuttons" %}
+						{{ components.radiobuttons( question.fieldName, question.data, error.errors[question.fieldName] is defined ) }}
+					{% endif %}
+					{% if question.type == "textarea" %}
+						{{ components.textarea( question.fieldName, body[question.fieldName], error.errors[question.fieldName] is defined ) }}
+					{% endif %}
+					{% if question.type == "file_upload" %}
+						{{ components.file_upload( question.fieldName, error.errors[question.fieldName] is defined ) }}
+					{% endif %}
+					{% if question.type == "multi_file_upload" %}
+						{{ components.multi_file_upload( question.fieldName, error.errors[question.fieldName] is defined ) }}
+					{% endif %}
+				</div>
+			</div>
+		{% endfor %}
+
+		<!-- Buttons -->
+		<div class="govuk-form-group">
+			<div class="buttons-row">
+				<button type="submit" class="govuk-button" name="button" action="submit">Save and continue</button>
+				{% if page.options.hideOverviewButton != true %}
+					<a role="button" draggable="false" class="govuk-button govuk-button--secondary" href="/new-application/form/overview?id={{ draftId }}">
+						Go to Overview
+					</a>
+				{% endif %}
+			</div>
+		</div>
+	</form>
+
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends 'layouts/base.html' %}
+
+{% block body %}
+
+	<a href="#" class="govuk-back-link">Back</a>
+
+	<a href="{% url 'new_application:cancel' %}?id={{ draft.id }}&return=hub" class="cancel-link">Delete Application</a>
+
+	<span class="govuk-caption-l">{{ title }}</span>
+	<h2 class="govuk-heading-l">
+		{{ draft.name }}
+	</h2>
+
+	<span class="govuk-caption-m">The following sections can be completed in any order.</span>
+
+	<!-- Sections -->
+	<div class="section-container">
+		{% for section in sections %}
+			<div class="section">
+				<div class="section-header">
+					<a href="/new-application/form/section/{{ section.id }}?id={{ id }}" class="govuk-heading-s govuk-link">{{ section.title }}</a>
+					{% if loop.index == 1 %}
+						<dl class="govuk-summary-list">
+							<div class="govuk-summary-list__row">
+								<dt class="govuk-summary-list__key">
+									Application Name
+								</dt>
+								<dd class="govuk-summary-list__value">
+									{{ draft.name }}
+								</dd>
+							</div>
+							<div class="govuk-summary-list__row">
+								<dt class="govuk-summary-list__key">
+									Creation Date
+								</dt>
+								<dd class="govuk-summary-list__value">
+									{{ draft.created_at }}
+								</dd>
+							</div>
+						</dl>
+					{% else %}
+						<span class="govuk-caption-m">{{ section.description }}</span>
+					{% endif %}
+				</div>
+				{% if loop.index != 1 %}
+					<p class="info-label">Not started</p>
+				{% else %}
+					<p class="info-label info-label--blue">Completed</p>
+				{% endif %}
+			</div>
+		{% endfor %}
+	</div>
+
+	<form action="/new-application/form/submit?id={{ draft.id }}" method="post">
+		<button type="submit" class="govuk-button govuk-button--start" name="button" data-prevent-double-click="true">Submit Application</button>
+	</form>
+
+	<script src="/javascripts/modal.js"></script>
+	<script src="/javascripts/specific/overview.js"></script>
+{% endblock %}

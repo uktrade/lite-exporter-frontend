@@ -1,0 +1,62 @@
+{% extends 'layouts/full_width.html' %}
+
+{% block body %}
+
+	{% if applicationDeleted == "true" %}
+		<div class="information information-animated">
+			Application Deleted
+		</div>
+	{% endif %}
+
+	<div class="govuk-breadcrumbs">
+		<ol class="govuk-breadcrumbs__list">
+			<li class="govuk-breadcrumbs__list-item">
+				<a class="govuk-breadcrumbs__link" href="/">Home</a>
+			</li>
+			<li class="govuk-breadcrumbs__list-item">
+				<a class="govuk-breadcrumbs__link" href="/">License controlled items and services</a>
+			</li>
+		</ol>
+	</div>
+	<h1 class="govuk-heading-l">{{ title }}</h1>
+
+	{% if drafts %}
+		<table class="govuk-table">
+			<thead class="govuk-table__head">
+				<tr class="govuk-table__row">
+					<th class="govuk-table__header" scope="col">Name</th>
+					<th class="govuk-table__header" scope="col">Date Created</th>
+					<th class="govuk-table__header" scope="col">?</th>
+					<th class="govuk-table__header" scope="col">?</th>
+					<th class="govuk-table__header" scope="col">?</th>
+					<th class="govuk-table__header" scope="col"></th>
+				</tr>
+			</thead>
+			<tbody class="govuk-table__body">
+				{% for draft in drafts %}
+					<tr class="govuk-table__row">
+						<td class="govuk-table__header">
+							<a class="govuk-link" href="{% url 'new_application:overview' %}?id={{ draft.id }}">
+								{{ draft.name }}
+							</a>
+						</td>
+						<td class="govuk-table__cell">
+							{{ draft.created_at }}
+						</td>
+						<td class="govuk-table__cell">{{ draft.control_code }}</td>
+						<td class="govuk-table__cell">{{ draft.destination }}</td>
+						<td class="govuk-table__cell">{{ draft.activity }}</td>
+						<td class="govuk-table__cell">
+							<a href="{% url 'new_application:cancel' %}?id={{ draft.id }}&return=drafts" style="margin: 0;" class="cancel-link">Delete</a>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	{% else %}
+		<p class="govuk-caption-m">You don't have any drafts at the moment.</p>
+	{% endif %}
+
+	<script src="/javascripts/modal.js"></script>
+	<script src="/javascripts/specific/overview.js"></script>
+{% endblock %}
