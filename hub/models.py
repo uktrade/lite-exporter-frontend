@@ -1,3 +1,12 @@
-from django.db import models
+class Section:
+    def __init__(self, title, description, tiles):
+        self.title = title
+        self.description = description
+        self.tiles = tiles
 
-# Create your models here.
+
+class Tile:
+    def __init__(self, title, description, url):
+        self.title = title
+        self.description = description
+        self.url = url

@@ -1,25 +1,29 @@
 {% extends 'layouts/base.html' %}
 
 {% block body %}
-<div class="govuk-breadcrumbs">
-	<ol class="govuk-breadcrumbs__list">
-		<li class="govuk-breadcrumbs__list-item">
-			<a class="govuk-breadcrumbs__link" href="#">Home</a>
-		</li>
-		<li class="govuk-breadcrumbs__list-item">
-			License controlled items and services
-		</li>
-	</ol>
-</div>
-<h1 class="govuk-heading-xl">Exporter Hub</h1>
-<section class="lite-hub-section">
-	<h3 class="govuk-heading-m">Test Section</h3>
-	<h3 class="govuk-caption-m">Test Description</h3>
-	<div class="lite-tiles">
-		<a href="https://google.com" class="lite-tile">
-			<h4>Example tile</h4>
-			<p>I Am Easy to Find</p>
-		</a>
+	<div class="govuk-breadcrumbs">
+		<ol class="govuk-breadcrumbs__list">
+			<li class="govuk-breadcrumbs__list-item">
+				<a class="govuk-breadcrumbs__link" href="#">Home</a>
+			</li>
+			<li class="govuk-breadcrumbs__list-item">
+				License controlled items and services
+			</li>
+		</ol>
 	</div>
-</section>
+	<h1 class="govuk-heading-xl">Exporter Hub</h1>
+	{% for section in sections %}
+		<section class="lite-hub-section">
+			<h3 class="govuk-heading-m">{{ section.title }}</h3>
+			<span class="govuk-caption-m">{{ section.description }}</span>
+			<div class="lite-tiles">
+				{% for tile in section.tiles %}
+					<a href="{{ tile.url }}" class="lite-tile">
+						<h4>{{ tile.title }}</h4>
+						<p>{{ tile.description }}</p>
+					</a>
+				{% endfor %}
+			</div>
+		</section>
+	{% endfor %}
 {% endblock %}
