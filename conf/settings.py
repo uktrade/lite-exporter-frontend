@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'sass_processor',
 ]
 
 MIDDLEWARE = [
@@ -107,4 +108,30 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
-STATIC_URL = '/static/'
+DATA_DIR = os.path.dirname(BASE_DIR)
+
+STATIC_URL = '/assets/'
+STATIC_ROOT = os.path.join(DATA_DIR, 'assets')
+SASS_ROOT = os.path.join(BASE_DIR, 'assets')
+SASS_PROCESSOR_ROOT = SASS_ROOT
+
+COMPRESS_PRECOMPILERS = (
+    ('text/x-scss', 'django_libsass.SassCompiler'),
+)
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'assets'),
+)
+
+SASS_PROCESSOR_INCLUDE_DIRS = (
+    os.path.join(BASE_DIR, 'assets'),
+    SASS_ROOT
+)
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'sass_processor.finders.CssFinder',
+)
+
+SASS_PROCESSOR_ENABLED = True
