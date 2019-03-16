@@ -13,7 +13,7 @@ if os.path.exists(ENV_FILE):
 env = Env(
     DEBUG=(bool, True),
     ALLOWED_HOSTS=(str, ''),
-    LITE_API_URL=(str, 'https://lite-api-dev.london.cloudapps.digital')
+    LITE_API_URL=(str, 'http://127.0.0.1:8000')
 )
 
 env.read_env()
@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'sass_processor',
+    'django.contrib.humanize',
 ]
 
 MIDDLEWARE = [

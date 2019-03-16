@@ -55,6 +55,7 @@
 		<button type="submit" class="govuk-button govuk-button--start" name="button" data-prevent-double-click="true">Submit Application</button>
 	</form>
 
-	<script src="/javascripts/modal.js"></script>
-	<script src="/javascripts/specific/overview.js"></script>
+	{% load static %}
+	<script src="{% static 'javascripts/modal.js' %}"></script>
+	<script src="{% static 'javascripts/specific/overview.js' %}"></script>
 {% endblock %}

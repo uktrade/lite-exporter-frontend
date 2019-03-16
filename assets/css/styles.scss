@@ -5,6 +5,10 @@
 // LITE Shared
 //@import "components/all";
 
+main {
+	min-height: 70vh;
+}
+
 .govuk-main-wrapper {
 	padding: govuk-spacing(4) 0;
 }
