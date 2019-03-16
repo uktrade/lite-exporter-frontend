@@ -16,7 +16,7 @@ Application for handling exporter related activity in LITE.
   * `source bin/activate`
   * `cd ..`
 * Run `pip install -r requirements.txt`
-* Run the application: `python manage.py migrate && ./manage.py runserver 9000`
+* Run the application: `./manage.py migrate && ./manage.py runserver 9000`
 * Go to the index page (e.g. `http://localhost:9000`)
 
 ## LITE Repositories

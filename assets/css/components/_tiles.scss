@@ -1,4 +1,4 @@
-$card-color: rgb(240, 240, 240);
+$card-color: govuk-colour("grey-4");
 
 .lite-tiles {
 	display: grid;
@@ -19,7 +19,7 @@ $card-color: rgb(240, 240, 240);
 		padding: govuk-spacing(4) govuk-spacing(4) govuk-spacing(3);
 		box-sizing: border-box;
 		text-decoration: none;
-		box-shadow: 0 3px 0 darken($card-color, 5%);
+		box-shadow: 0 3px 0 darken($card-color, 4%);
 		@include govuk-media-query($from: tablet) {
 			min-height: 120px;
 		}

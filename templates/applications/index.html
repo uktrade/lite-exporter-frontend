@@ -1,0 +1,66 @@
+{% extends 'layouts/full_width.html' %}
+
+{% block body %}
+	<div class="govuk-breadcrumbs">
+		<ol class="govuk-breadcrumbs__list">
+			<li class="govuk-breadcrumbs__list-item">
+				<a class="govuk-breadcrumbs__link" href="/">Home</a>
+			</li>
+			<li class="govuk-breadcrumbs__list-item">
+				<a class="govuk-breadcrumbs__link" href="/">License controlled items and services</a>
+			</li>
+		</ol>
+	</div>
+	<h1 class="govuk-heading-l">Applications</h1>
+
+	<a href="/new-application" class="govuk-link">New Application</a>
+	<a href="/applications/dfd4fb4d-5340-48b7-8ef4-58ec0fbd7759#" class="govuk-link">Example Application</a>
+
+	{% if body.length %}
+		<table class="govuk-table">
+			<thead class="govuk-table__head">
+				<tr class="govuk-table__row">
+					<th class="govuk-table__header" scope="col">Reference</th>
+					<th class="govuk-table__header" scope="col">Last Updated</th>
+					<th class="govuk-table__header" scope="col">Control Code</th>
+					<th class="govuk-table__header" scope="col">Destination</th>
+					<th class="govuk-table__header" scope="col">Activity</th>
+					<th class="govuk-table__header" scope="col">Usage</th>
+				</tr>
+			</thead>
+			<tbody class="govuk-table__body">
+				{% for application in body %}
+					<tr class="govuk-table__row">
+						<td class="govuk-table__cell">
+							<a class="govuk-link" href="/applications/{{ application.id }}">{{ application.id }}</a>
+						</td>
+						<td class="govuk-table__cell">
+							<a class="hoverable-link tooltip">
+								<span class="tooltip-content" style="min-width: 150px;">
+									{{ application.last_modified_at }}
+								</span>
+								{{ application.last_modified_at }}
+							</a>
+						</td>
+						<td class="govuk-table__cell">
+							<a class="hoverable-link tooltip">
+								<span class="tooltip-content" style="min-width: 300px;">
+									<b>ML1a</b>
+									<br/>
+									Smooth-bore weapons with a calibre of less than 20mm, other firearms and automatic weapons with a calibre of 12.7mm or less, and accessories and specially designed components
+								</span>
+								{{ application.control_code }}
+							</a>
+						</td>
+						<td class="govuk-table__cell">{{ application.destination }}</td>
+						<td class="govuk-table__cell">{{ application.activity }}</td>
+						<td class="govuk-table__cell">{{ application.usage }}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	{% else %}
+		<p class="govuk-caption-m">You don't have any applications at the moment.</p>
+	{% endif %}
+
+{% endblock %}

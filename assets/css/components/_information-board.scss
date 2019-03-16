@@ -1,0 +1,20 @@
+.information-board {
+	display: block;
+	position: relative;
+	height: 250px;
+	margin-bottom: govuk-spacing(6);
+
+	&:before {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 50%;
+		bottom: 0;
+		width: 100vw;
+		transform: translateX(-50vw);
+		background-color: govuk-colour("grey-4");
+		border-width: 1px 0;
+		border-style: solid;
+		border-color: darken(govuk-colour("grey-4"), 2%);
+	}
+}

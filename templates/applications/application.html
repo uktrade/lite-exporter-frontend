@@ -1,0 +1,80 @@
+{% extends 'layouts/base.html' %}
+
+{% block body %}
+
+<a href="#" class="govuk-back-link">Back</a>
+
+<h1 class="govuk-heading-l">{{ title }}</h1>
+
+<div class="information-board">
+
+</div>
+
+<div class="lite-tabs--fade">
+	<div class="lite-tabs">
+		<a class="lite-tabs__tab selected">Status Tracker</a>
+		<a class="lite-tabs__tab">Requests for Information</a>
+		<a class="lite-tabs__tab">Messages</a>
+		<a class="lite-tabs__tab">Ammend/Withdraw</a>
+		<a class="lite-tabs__tab">Outcome Documents</a>
+	</div>
+</div>
+
+<div class="section-container no-borders">
+	<div class="section">
+		<div class="section-header">
+			<p class="govuk-heading-s">Draft</p>
+			<span class="govuk-caption-m">Created on 21 March 2019</span>
+		</div>
+		<p class="info-label info-label--blue">Completed</p>
+	</div>
+	<div class="section">
+		<div class="section-header">
+			<p class="govuk-heading-s">Submitted</p>
+			<span class="govuk-caption-m">Submitted on 23 March 2019</span>
+		</div>
+		<p class="info-label info-label--blue">Completed</p>
+	</div>
+	<div class="section">
+		<div class="section-header">
+			<p class="govuk-heading-s">Initial Checks</p>
+			<span class="govuk-caption-m">Checking your organisation details</span>
+		</div>
+		<p class="info-label info-label--orange">In Progress</p>
+	</div>
+	<div class="section">
+		<div class="section-header">
+			<p class="govuk-heading-s">Technical Assessment</p>
+			<span class="govuk-caption-m">Classification code validation</span>
+		</div>
+		<p class="info-label">Not started</p>
+	</div>
+	<div class="section">
+		<div class="section-header">
+			<p class="govuk-heading-s">Licensing Unit Processing</p>
+			<span class="govuk-caption-m">Checking application form details and other documentation</span>
+		</div>
+		<p class="info-label">Not started</p>
+	</div>
+	<div class="section">
+		<div class="section-header">
+			<p class="govuk-heading-s">With OGD Advisers</p>
+			<span class="govuk-caption-m">Additional advice from other government departments</span>
+		</div>
+		<p class="info-label">Not started</p>
+	</div>
+	<div class="section">
+		<div class="section-header">
+			<p class="govuk-heading-s">Final Assessment</p>
+			<span class="govuk-caption-m">Undergoing final checks</span>
+		</div>
+		<p class="info-label">Not started</p>
+	</div>
+	<div class="section">
+		<div class="section-header">
+			<p class="govuk-heading-s">Decision Reached</p>
+		</div>
+		<p class="info-label">Not started</p>
+	</div>
+</div>
+{% endblock %}
