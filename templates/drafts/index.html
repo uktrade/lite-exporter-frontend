@@ -1,5 +1,7 @@
 {% extends 'layouts/full_width.html' %}
 
+{% load humanize %}
+
 {% block body %}
 
 	{% if applicationDeleted == "true" %}
@@ -22,40 +24,59 @@
 						</a>
 					</th>
 					<th class="lite-table__header">
-						<a class="lite-table__chevron">
-							Created On
-						</a>
+						Created On
 					</th>
 					<th class="lite-table__header">
-						<a class="lite-table__chevron">
-							Goods
-						</a>
+						Goods
 					</th>
 					<th class="lite-table__header">
-						<a class="lite-table__chevron">
-							People
-						</a>
+						People
 					</th>
 					<th class="lite-table__header">
 					</th>
 				</tr>
 			</thead>
 			<tbody class="lite-table__head">
-				<tr class="lite-table__row">
-					<td class="lite-table__cell">
-						<a class="govuk-link" href="{% url 'new_application:overview' %}?id={{ draft.id }}">
-							{{ draft.name }}
-						</a>
-					</td>
-					<td class="lite-table__cell">{{ draft.created_at }}</td>
-					<td class="lite-table__cell">17 Goods</td>
-					<td class="lite-table__cell">2 People</td>
-					<td class="lite-table__cell">
-						<a href="{% url 'new_application:cancel' %}?id={{ draft.id }}&return=drafts" style="margin: 0;" class="cancel-link">Delete</a>
-					</td>
-				</tr>
+				{% for draft in drafts %}
+					<tr class="lite-table__row">
+						<td class="lite-table__cell">
+							<a class="govuk-link" href="{% url 'new_application:overview' %}?id={{ draft.id }}">
+								{{ draft.name }}
+							</a>
+						</td>
+						<td class="lite-table__cell">
+							<a class="hoverable-link tooltip">
+								<span class="tooltip-content" style="min-width: 150px;">
+									{{ draft.last_modified_at }}
+								</span>
+								{{ draft.last_modified_at|naturaltime }}
+							</a>
+						</td>
+						<td class="lite-table__cell">17 Goods</td>
+						<td class="lite-table__cell">2 People</td>
+						<td class="lite-table__cell">
+							<a href="{% url 'new_application:cancel' %}?id={{ draft.id }}&return=drafts" style="margin: 0;" class="cancel-link">Delete</a>
+						</td>
+					</tr>
+				{% endfor %}
 			</tbody>
 		</table>
+
+		<div class="lite-pagination">
+			<a href="#" class="lite-pagination--item lite-pagination--selected-item">
+				1
+			</a>
+			<a href="#" class="lite-pagination--item">
+				2
+			</a>
+			<a href="#" class="lite-pagination--item">
+				3
+			</a>
+			<a href="#" class="lite-pagination--item">
+				4
+			</a>
+		</div>
+
 	{% else %}
 		<p class="govuk-caption-m">You don't have any drafts at the moment.</p>
 	{% endif %}
@@ -63,5 +84,5 @@
 	{% load static %}
 	<script src="{% static 'javascripts/modal.js' %}"></script>
 	<script src="{% static 'javascripts/specific/overview.js' %}"></script>
-	
+
 {% endblock %}
