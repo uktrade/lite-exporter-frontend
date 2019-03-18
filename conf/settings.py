@@ -1,5 +1,6 @@
 import json
 import os
+import sys
 
 from environ import Env
 
@@ -13,7 +14,8 @@ if os.path.exists(ENV_FILE):
 env = Env(
     DEBUG=(bool, True),
     ALLOWED_HOSTS=(str, ''),
-    LITE_API_URL=(str, 'http://127.0.0.1:8000')
+    LITE_API_URL=(str, 'http://127.0.0.1:8000'),
+    DATABASE_URL=(str, 'postgres://postgres:password@localhost:5432/postgres')
 )
 
 env.read_env()
@@ -138,3 +140,18 @@ STATICFILES_FINDERS = (
 )
 
 SASS_PROCESSOR_ENABLED = True
+
+# Database
+# https://docs.djangoproject.com/en/2.1/ref/settings/#databases
+
+if 'test' in sys.argv:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': 'mydatabase'
+        }
+    }
+else:
+    DATABASES = {
+        'default': env.db()
+    }
