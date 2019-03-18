@@ -15,11 +15,11 @@ def index(request):
 
 def overview(request):
     response = requests.get(env("LITE_API_URL") + '/drafts/' + request.GET.get('id'))
-    draft = json.loads(response.text)
+    data = json.loads(response.text)
 
     context = {
         'title': 'Overview',
-        'draft': draft,
+        'data': data,
     }
     return render(request, 'new_application/overview.html', context)
 

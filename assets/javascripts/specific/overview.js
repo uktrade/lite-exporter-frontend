@@ -1,5 +1,5 @@
 // Show Cancel Application modal
-$(document).on("click", "a[href^='/new-application/form/cancel?']", function(e) {
+$(document).on("click", "a[href^='/new-application/draft/cancel?']", function(e) {
 	var link = $(this).attr("href");
 	var draftId = link.substring(link.indexOf("=") + 1, link.lastIndexOf("&"));
 	var returnTo = link.substring(link.lastIndexOf("&"));

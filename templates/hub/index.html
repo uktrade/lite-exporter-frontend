@@ -1,6 +1,6 @@
 {% extends 'layouts/base.html' %}
 
-{% block body %}
+{% block back-button %}
 	<div class="govuk-breadcrumbs">
 		<ol class="govuk-breadcrumbs__list">
 			<li class="govuk-breadcrumbs__list-item">
@@ -11,6 +11,10 @@
 			</li>
 		</ol>
 	</div>
+{% endblock %}
+
+{% block body %}
+
 	<h1 class="govuk-heading-xl">Exporter Hub</h1>
 	{% for section in sections %}
 		<section class="lite-hub-section">
