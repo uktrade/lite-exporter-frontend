@@ -8,8 +8,7 @@
 }
 
 .lite-table__header {
-	@include govuk-typography-weight-bold;
-	font-size: 14px;
+	@include govuk-font($size: 14, $weight: bold);
 	letter-spacing: 1px;
 	text-transform: uppercase;
 	color: govuk-colour("grey-1");
