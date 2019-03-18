@@ -11,7 +11,7 @@
 	<!--<a href="/new-application" class="govuk-link">New Application</a>
 	<a href="/applications/dfd4fb4d-5340-48b7-8ef4-58ec0fbd7759#" class="govuk-link">Example Application</a>-->
 
-	{% if applications %}
+	{% if data %}
 		<table class="lite-table">
 			<thead class="lite-table__head">
 				<tr class="lite-table__row">
@@ -20,18 +20,36 @@
 							Reference
 						</a>
 					</th>
+					<th class="lite-table__header" scope="col">Goods</th>
+					<th class="lite-table__header" scope="col">Destinations</th>
 					<th class="lite-table__header" scope="col">Last Updated</th>
-					<th class="lite-table__header" scope="col">Control Code</th>
-					<th class="lite-table__header" scope="col">Destination</th>
-					<th class="lite-table__header" scope="col">Activity</th>
-					<th class="lite-table__header" scope="col">Usage</th>
 				</tr>
 			</thead>
 			<tbody class="lite-table__body">
-				{% for application in applications %}
+				{% for application in data.applications %}
 					<tr class="lite-table__row">
 						<td class="lite-table__cell">
-							<a class="govuk-link" href="/applications/{{ application.id }}">Application for ML1a</a>
+							<a class="govuk-link" href="/applications/{{ application.id }}">{{ application.name|default:"Untitled" }}</a>
+						</td>
+						<td class="lite-table__cell">
+							<a class="hoverable-link tooltip">
+								<span class="tooltip-content" style="min-width: 150px;">
+									{% for good in application.goods %}
+										{{ good.name }}<br/>
+									{% endfor %}
+								</span>
+								{{ application.goods|length }} Goods
+							</a>
+						</td>
+						<td class="lite-table__cell">
+							<a class="hoverable-link tooltip">
+								<span class="tooltip-content" style="min-width: 150px;">
+									{% for destination in application.destinations %}
+										{{ destination.name }}<br/>
+									{% endfor %}
+								</span>
+								{{ application.destinations|length }} Destinations
+							</a>
 						</td>
 						<td class="lite-table__cell">
 							<a class="hoverable-link tooltip">
@@ -41,19 +59,6 @@
 								{{ application.last_modified_at|naturaltime }}
 							</a>
 						</td>
-						<td class="lite-table__cell">
-							<a class="hoverable-link tooltip">
-								<span class="tooltip-content" style="min-width: 300px;">
-									<b>ML1a</b>
-									<br/>
-									Smooth-bore weapons with a calibre of less than 20mm, other firearms and automatic weapons with a calibre of 12.7mm or less, and accessories and specially designed components
-								</span>
-								{{ application.control_code }}
-							</a>
-						</td>
-						<td class="lite-table__cell">{{ application.destination }}</td>
-						<td class="lite-table__cell">{{ application.activity }}</td>
-						<td class="lite-table__cell">{{ application.usage }}</td>
 					</tr>
 				{% endfor %}
 			</tbody>

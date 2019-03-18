@@ -10,17 +10,18 @@ def index(request):
     response = requests.get(env("LITE_API_URL") + '/applications/')
 
     context = {
+        'data': json.loads(response.text),
         'title': 'Applications',
-        'applications': json.loads(response.text),
     }
     return render(request, 'applications/index.html', context)
 
 
 def application(request, id):
-    response = requests.get(env("LITE_API_URL") + '/applications/')
+    response = requests.get(env("LITE_API_URL") + '/applications/' + str(id) + '/')
+    data = json.loads(response.text)
 
     context = {
-        'title': 'Application for ML1a',
-        'applications': json.loads(response.text),
+        'data': data,
+        'title': data.get("application").get("name"),
     }
     return render(request, 'applications/application.html', context)

@@ -1,8 +1,9 @@
-.information-board {
+.lite-information-board {
 	display: block;
 	position: relative;
-	height: 250px;
 	margin-bottom: govuk-spacing(6);
+	padding: govuk-spacing(4) 0;
+	z-index: 0;
 
 	&:before {
 		content: "";
@@ -16,5 +17,14 @@
 		border-width: 1px 0;
 		border-style: solid;
 		border-color: darken(govuk-colour("grey-4"), 2%);
+		z-index: -1;
+	}
+
+	.govuk-grid-row {
+		margin-bottom: govuk-spacing(4);
+
+		&:last-of-type {
+			margin-bottom: 0;
+		}
 	}
 }
