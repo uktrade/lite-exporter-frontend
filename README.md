@@ -11,7 +11,8 @@ Application for handling exporter related activity in LITE.
 * Set up your local config file:
   * `cp local.env .env`
   * If your local Postgres is not running with default options, edit the `DATABASE_URL` sections of `.env` file
-* Activate your Python virtual environment:
+* Create and activate your Python virtual environment:
+  * `python -m venv venv`
   * `cd venv`
   * `source bin/activate`
   * `cd ..`
