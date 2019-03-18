@@ -14,7 +14,7 @@
 
 	<h1 class="govuk-heading-l">{{ title }}</h1>
 
-	{% if drafts %}
+	{% if data %}
 		<table class="lite-table">
 			<thead class="lite-table__head">
 				<tr class="lite-table__row">
@@ -37,7 +37,7 @@
 				</tr>
 			</thead>
 			<tbody class="lite-table__head">
-				{% for draft in drafts %}
+				{% for draft in data.drafts %}
 					<tr class="lite-table__row">
 						<td class="lite-table__cell">
 							<a class="govuk-link" href="{% url 'new_application:overview' %}?id={{ draft.id }}">

@@ -38,7 +38,7 @@
 										{{ good.name }}<br/>
 									{% endfor %}
 								</span>
-								{{ application.goods|length }} Goods
+								{{ application.goods|length }} Good{{ application.goods|pluralize }}
 							</a>
 						</td>
 						<td class="lite-table__cell">
@@ -48,7 +48,7 @@
 										{{ destination.name }}<br/>
 									{% endfor %}
 								</span>
-								{{ application.destinations|length }} Destinations
+								{{ application.destinations|length }} Destination{{ application.destinations|pluralize }}
 							</a>
 						</td>
 						<td class="lite-table__cell">

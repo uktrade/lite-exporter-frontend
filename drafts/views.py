@@ -11,6 +11,6 @@ def index(request):
 
     context = {
         'title': 'Drafts',
-        'drafts': json.loads(response.text),
+        'data': json.loads(response.text),
     }
     return render(request, 'drafts/index.html', context)

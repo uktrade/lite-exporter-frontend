@@ -38,11 +38,20 @@
 		<div class="govuk-grid-column-one-third">
 			<p class="lite-heading-s">Goods</p>
 			{% for good in data.application.goods %}
-				<p class="govuk-label">{{ good.name }}</p>
+				<p class="govuk-label">
+					<a class="hoverable-link tooltip">
+						<span class="tooltip-content" style="min-width: 150px;">
+							{{ good.description }}
+						</span>
+						{{ good.name }}
+					</a>
+				</p>
 			{% endfor %}
 		</div>
 		<div class="govuk-grid-column-one-third">
-			<p class="lite-heading-s">Destinations</p>
+			<p class="lite-heading-s">
+				Destination{{ data.application.destinations|pluralize }}
+			</p>
 			{% for destination in data.application.destinations %}
 				<p class="govuk-label">{{ destination.name }}</p>
 			{% endfor %}
