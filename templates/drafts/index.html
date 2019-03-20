@@ -50,8 +50,26 @@
 								{{ draft.last_modified_at|naturaltime }}
 							</a>
 						</td>
-						<td class="lite-table__cell">17 Goods</td>
-						<td class="lite-table__cell">2 People</td>
+						<td class="lite-table__cell">
+							<a class="hoverable-link tooltip">
+								<span class="tooltip-content" style="min-width: 150px;">
+									{% for good in application.goods %}
+										{{ good.name }}<br/>
+									{% endfor %}
+								</span>
+								{{ application.goods|length }} Good{{ application.goods|length|pluralize }}
+							</a>
+						</td>
+						<td class="lite-table__cell">
+							<a class="hoverable-link tooltip">
+								<span class="tooltip-content" style="min-width: 150px;">
+									{% for destination in application.destinations %}
+										{{ destination.name }}<br/>
+									{% endfor %}
+								</span>
+								{{ application.destinations|length }} Destination{{ application.destinations|length|pluralize }}
+							</a>
+						</td>
 						<td class="lite-table__cell">
 							<a href="{% url 'new_application:cancel' %}?id={{ draft.id }}&return=drafts" style="margin: 0;" class="cancel-link">Delete</a>
 						</td>
