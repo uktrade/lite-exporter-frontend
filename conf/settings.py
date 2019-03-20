@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'sass_processor',
     'django.contrib.humanize',
+    'formtools'
 ]
 
 MIDDLEWARE = [
