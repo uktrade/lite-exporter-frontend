@@ -1,12 +1,12 @@
 // GOV.UK Design System
 @import "../../node_modules/govuk-frontend/all";
 
-// LITE Exporter Frontend
-@import "components/all";
-@import "core/all";
+// LITE Shared Assets
+@import "../../node_modules/lite-shared-assets/scss/all";
 
-// LITE Shared
-//@import "components/all";
+// Local Assets
+// @import "components/all";
+// @import "core/all";
 
 main {
 	min-height: 60vh;

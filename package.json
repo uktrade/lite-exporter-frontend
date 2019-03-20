@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/uktrade/lite-exporter-frontend#readme",
   "dependencies": {
-    "govuk-frontend": "^2.9.0"
+    "govuk-frontend": "^2.9.0",
+    "lite-shared-assets": "^1.0.1"
   }
 }
