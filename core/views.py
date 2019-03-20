@@ -8,17 +8,16 @@ def hub(request):
     context = {
         'title': 'Exporter Hub',
         'sections': [
-            Section("Get a licence", "placeholder", [
+            Section("", "", [
                 Tile("Apply for a licence", "placeholder", reverse_lazy('new_application:index')),
             ]),
             Section("placeholder", "placeholder", [
-                Tile("Drafts", "You have 4 drafts at the moment", reverse_lazy('drafts:drafts')),
+                Tile("Drafts", "You don't have any drafts at the moment.", reverse_lazy('drafts:drafts')),
                 Tile("Applications", "placeholder", reverse_lazy('applications:applications')),
                 Tile("Licences", "placeholder", reverse_lazy('licences:licences')),
-            ]),
-            Section("placeholder", "placeholder", [
                 Tile("My Profile", "placeholder", "/placeholder"),
                 Tile("Settings", "placeholder", "/placeholder"),
+                Tile("Placeholder", "placeholder", "/placeholder"),
             ]),
             Section("placeholder", "placeholder", [
                 Tile("Help", "Get help with all things LITE", "/placeholder"),

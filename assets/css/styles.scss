@@ -36,3 +36,12 @@ main {
 		border-bottom: none;
 	}
 }
+
+.lite-section-break {
+	margin: 0;
+	padding: 0;
+	height: 2px;
+	border: none;
+	background-color: transparent;
+	margin-bottom: govuk-spacing(6);
+}
