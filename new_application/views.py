@@ -65,7 +65,8 @@ def form(request, pk):
                 'title': page.title,
                 'page': page,
                 'errors': data['errors'],
-                'data': data
+                'data': data,
+                'draft_id': request.GET.get('id'),
             }
             return render(request, 'new_application/form.html', context)
 
@@ -88,7 +89,8 @@ def form(request, pk):
         context = {
             'title': page.title,
             'page': page,
-            'data': data
+            'data': data,
+            'draft_id': request.GET.get('id'),
         }
         return render(request, 'new_application/form.html', context)
 

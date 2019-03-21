@@ -36,7 +36,7 @@
 
 		{% for question in page.questions %}
 			<div class="govuk-form-group
-						{% if errors %}
+						{% if errors|keyvalue:question.name %}
 								govuk-form-group--error
 						{% endif %}">
 				<label class="govuk-label" for="{{ question.name }}">
@@ -46,7 +46,7 @@
 					{{ question.description }}
 				</span>
 
-                <!-- Error goes here -->
+                <!-- Error -->
 				{% if errors %}
 					{% if errors|keyvalue:question.name %}
 						<span id="passport-issued-error" class="govuk-error-message">
@@ -85,9 +85,11 @@
 		<div class="govuk-form-group">
 			<div class="buttons-row">
 				<button type="submit" class="govuk-button" name="button" action="submit">Save and continue</button>
-				<a role="button" draggable="false" class="govuk-button govuk-button--secondary" href="/new-application/form/overview?id={{ draftId }}">
-					Go to Overview
-				</a>
+				{% if draft_id %}
+					<a role="button" draggable="false" class="govuk-button govuk-button--secondary" href="{% url 'new_application:overview' %}?id={{ draft_id }}">
+						Go to Overview
+					</a>
+				{% endif %}
 			</div>
 		</div>
 	</form>
