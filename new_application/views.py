@@ -1,11 +1,11 @@
 import json
 
 import requests
-from django.shortcuts import render
-from django.shortcuts import redirect
-from formtools.wizard.views import NamedUrlSessionWizardView
+from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 
 from conf.settings import env
+from form import forms
 
 
 def index(request):
@@ -15,12 +15,82 @@ def index(request):
     return render(request, 'new_application/index.html', context)
 
 
-class ContactWizard(NamedUrlSessionWizardView):
-    template_name = "new_application/page.html"
+def get_form_by_id(id):
+    for form in forms.section1.forms:
+        if form.id == id:
+            return form
+    return
 
-    def done(self, form_list, **kwargs):
-        # do_something_with_the_form_data(form_list)
-        return redirect('/new-application/draft/overview?id=123')
+
+def get_next_form_after_id(id):
+    next_one = False
+    for form in forms.section1.forms:
+        if next_one:
+            return form
+        if form.id == id:
+            next_one = True
+    return
+
+
+def start(request):
+    return redirect("/new-application/form/" + str(forms.section1.forms[0].id))
+
+
+def form(request, pk):
+    if request.method == 'POST':
+        data = {}
+
+        # Add body fields to data
+        for key, value in request.POST.items():
+            if key != "button":
+                data[key] = value
+
+        # Set User ID
+        data['user_id'] = '12345'
+
+        # Post it to API
+        if request.GET.get('id'):
+            response = requests.put(env("LITE_API_URL") + '/drafts/' + request.GET.get('id') + '/',
+                                    json=data)
+            data = json.loads(response.text)
+        else:
+            response = requests.post(env("LITE_API_URL") + '/drafts/',
+                                     json=data)
+            data = json.loads(response.text)
+
+        # If there are errors returned from LITE API, return and show them
+        if 'errors' in data:
+            page = get_form_by_id(pk)
+            context = {
+                'title': page.title,
+                'page': page,
+                'errors': data['errors'],
+                'data': data
+            }
+            return render(request, 'new_application/form.html', context)
+
+        # Get the next form, if null go to overview
+        next_form = get_next_form_after_id(pk)
+        if next_form:
+            return redirect(reverse_lazy('new_application:form',
+                                         kwargs={'pk': next_form.id}) + '?id=' + str(data['draft']['id']))
+        else:
+            return redirect(reverse_lazy('new_application:overview') + '?id=' + request.GET.get('id'))
+
+    elif request.method == 'GET':
+        page = get_form_by_id(pk)
+        data = {}
+
+        if request.GET.get('id'):
+            response = requests.get(env("LITE_API_URL") + '/drafts/' + request.GET.get('id'))
+            data = json.loads(response.text)['draft']
+
+        context = {
+            'title': page.title,
+            'page': page,
+            'data': data
+        }
+        return render(request, 'new_application/form.html', context)
 
 
 def overview(request):

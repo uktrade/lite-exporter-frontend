@@ -1,64 +1,42 @@
 {% extends 'layouts/two_pane.html' %}
 
-{% block back-button %}
-	<div class="govuk-breadcrumbs">
-		<ol class="govuk-breadcrumbs__list">
-			<li class="govuk-breadcrumbs__list-item">
-				<a class="govuk-breadcrumbs__link" href="/">Home</a>
-			</li>
-			<li class="govuk-breadcrumbs__list-item">
-				<a class="govuk-breadcrumbs__link" href="/">License controlled items and services</a>
-			</li>
-		</ol>
-	</div>
+{% block twoThirds %}
+	<h1 class="govuk-heading-xl">{{ title }}</h1>
+
+	<p class="govuk-body">Use this service to:</p>
+
+	<ul class="govuk-list govuk-list--bullet">
+		<li>do something</li>
+		<li>update your name, address or other details</li>
+		<li>do something else</li>
+	</ul>
+
+	<p class="govuk-body">Registering takes around 5 minutes.</p>
+
+	<a href="{% url 'new_application:start' %}" role="button" draggable="false" class="govuk-button govuk-button--start govuk-!-margin-top-2 govuk-!-margin-bottom-8">
+		Start now
+	</a>
+
+	<h2 class="govuk-heading-m">Before you start</h2>
+
+	<p class="govuk-body">You can also
+		<a class="govuk-link" href="#">register by post</a>.</p>
+
+	<p class="govuk-body">You cannot register for this service if you’re in the UK illegally.</p>
 {% endblock %}
-
-{% block body %}
-	<div class="govuk-grid-row">
-		<div class="govuk-grid-column-two-thirds">
-
-			<h1 class="govuk-heading-xl">{{ title }}</h1>
-
-			<p class="govuk-body">Use this service to:</p>
-
-			<ul class="govuk-list govuk-list--bullet">
-				<li>do something</li>
-				<li>update your name, address or other details</li>
-				<li>do something else</li>
+{% block oneThird %}
+	<aside class="lite-related-items" role="complementary">
+		<h2 class="govuk-heading-m" id="subsection-title">
+			Related Links
+		</h2>
+		<nav role="navigation" aria-labelledby="subsection-title">
+			<ul class="govuk-list govuk-!-font-size-16">
+				<li>
+					<a class="govuk-link" href="/applications">
+						View your Applications
+					</a>
+				</li>
 			</ul>
-
-			<p class="govuk-body">Registering takes around 5 minutes.</p>
-
-			<a href="/new-application/form/start/" role="button" draggable="false" class="govuk-button govuk-button--start govuk-!-margin-top-2 govuk-!-margin-bottom-8">
-				Start now
-			</a>
-
-			<h2 class="govuk-heading-m">Before you start</h2>
-
-			<p class="govuk-body">You can also
-				<a class="govuk-link" href="#">register by post</a>.</p>
-
-			<p class="govuk-body">You cannot register for this service if you’re in the UK illegally.</p>
-		</div>
-
-		<div class="govuk-grid-column-one-third">
-
-			<!-- The Related items component is not part of GOV.UK Frontend but will be styled if used in the Prototype Kit -->
-
-			<aside class="lite-related-items" role="complementary">
-				<h2 class="govuk-heading-m" id="subsection-title">
-					Related Links
-				</h2>
-				<nav role="navigation" aria-labelledby="subsection-title">
-					<ul class="govuk-list govuk-!-font-size-16">
-						<li>
-							<a class="govuk-link" href="/applications">
-								View your Applications
-							</a>
-						</li>
-					</ul>
-				</nav>
-			</aside>
-		</div>
-	</div>
-{% endblock %}
+		</nav>
+	</aside>
+{% endblock%}
