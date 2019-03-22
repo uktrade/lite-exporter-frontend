@@ -1,6 +1,6 @@
 from form.models import Section, Form, Question, InputType, ArrayQuestion, Option
 
-section1 = Section("asd", "sd", [
+section1 = Section("Application Information", "sd", [
 	Form("Enter a name or reference for your application", "This can make it easier to find in the future.", [
 		Question(title='',
 				 description='',

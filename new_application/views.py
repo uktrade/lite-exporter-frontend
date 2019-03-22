@@ -1,4 +1,6 @@
-import json
+from django.http import Http404
+
+import libraries.jsondate as json
 
 import requests
 from django.shortcuts import render, redirect
@@ -96,14 +98,33 @@ def form(request, pk):
 
 
 def overview(request):
-    response = requests.get(env("LITE_API_URL") + '/drafts/' + request.GET.get('id'))
+    draft_id = request.GET.get('id')
+    response = requests.get(env("LITE_API_URL") + '/drafts/' + draft_id)
     data = json.loads(response.text)
 
     context = {
         'title': 'Overview',
         'data': data,
+        'sections': [forms.section1],
+        'draft_id': draft_id
     }
     return render(request, 'new_application/overview.html', context)
+
+
+def submit(request):
+    draft_id = request.GET.get('id')
+    response = requests.post(env("LITE_API_URL") + '/applications/',
+                             data={'id': draft_id})
+    data = json.loads(response.text)
+
+    if 'errors' in data:
+        raise Http404
+
+    context = {
+        'title': 'Application Submitted',
+        'data': data
+    }
+    return render(request, 'new_application/application_success.html', context)
 
 
 def cancel(request):
