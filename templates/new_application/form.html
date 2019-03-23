@@ -13,9 +13,14 @@
 			<div class="govuk-error-summary__body">
 				<ul class="govuk-list govuk-error-summary__list">
 					{% for key, value in errors.items %}
-					<li>
-						<a href="#{{ key }}">{{ key }}: {{ value }}</a>
-					</li>
+						<li>
+							<a href="#{{ key }}">
+								{{ key|title }}:
+								{% for error in value %}
+									{{ error }}
+								{% endfor %}
+							</a>
+						</li>
 					{% endfor %}
 				</ul>
 			</div>
@@ -42,16 +47,18 @@
 				<label class="govuk-label" for="{{ question.name }}">
 					{{ question.title }}
 				</label>
-				<span id="{{ question.name }}" class="govuk-hint" for="{{ question.name }}">
+				<span class="govuk-hint" for="{{ question.name }}">
 					{{ question.description }}
 				</span>
 
                 <!-- Error -->
 				{% if errors %}
 					{% if errors|keyvalue:question.name %}
-						<span id="passport-issued-error" class="govuk-error-message">
+						<span for="{{ question.name }}" class="govuk-error-message">
 							<span class="govuk-visually-hidden">Error:</span>
-							{{ errors|keyvalue:question.name }}
+							{% for error in errors|keyvalue:question.name %}
+								{{ error }}
+							{% endfor %}
 						</span>
 					{% endif %}
 				{% endif %}

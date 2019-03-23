@@ -54,11 +54,11 @@ def form(request, pk):
         if request.GET.get('id'):
             response = requests.put(env("LITE_API_URL") + '/drafts/' + request.GET.get('id') + '/',
                                     json=data)
-            data = json.loads(response.text)
         else:
             response = requests.post(env("LITE_API_URL") + '/drafts/',
                                      json=data)
-            data = json.loads(response.text)
+
+        data = json.loads(response.text)
 
         # If there are errors returned from LITE API, return and show them
         if 'errors' in data:
@@ -136,7 +136,9 @@ def cancel(request):
 
 
 def cancel_confirm(request):
-    requests.delete(env("LITE_API_URL") + '/drafts/' + request.GET.get('id'))
+    requests.delete(env('LITE_API_URL') + '/drafts/' + request.GET.get('id'))
 
-    context = {}
-    return render(request, 'new_application/overview.html', context)
+    if request.GET.get('return') == 'drafts':
+        return redirect('/drafts?application_deleted=true')
+
+    return redirect('/?application_deleted=true')

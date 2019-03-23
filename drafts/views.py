@@ -12,5 +12,6 @@ def index(request):
     context = {
         'title': 'Drafts',
         'data': json.loads(response.text),
+        'applicationDeleted': request.GET.get('application_deleted')
     }
     return render(request, 'drafts/index.html', context)

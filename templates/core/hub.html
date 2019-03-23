@@ -14,8 +14,15 @@
 {% endblock %}
 
 {% block body %}
+    {% if applicationDeleted == "true" %}
+		<div class="information information-animated">
+			Application Deleted
+		</div>
+	{% endif %}
+
 	<h1 class="govuk-heading-xl" style="margin-bottom: 25px;">Exporter Hub</h1>
 	<span class="govuk-caption-l" style="margin-bottom: 45px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>
+
 	{% for section in sections %}
 		<section class="lite-hub-section">
 			<h3 class="govuk-heading-m">{{ section.title }}</h3>

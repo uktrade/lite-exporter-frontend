@@ -23,6 +23,7 @@ def hub(request):
                 Tile("Help", "Get help with all things LITE", "/placeholder"),
             ]),
         ],
+        'applicationDeleted': request.GET.get('application_deleted')
     }
     return render(request, 'core/hub.html', context)
 
