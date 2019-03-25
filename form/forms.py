@@ -7,25 +7,25 @@ section1 = Section("Application Information", "sd", [
 				 input_type=InputType.INPUT,
 				 name='name'),
 	]),
-	Form("Control code", "This can make it easier to find in the future.", [
+	Form("Control code", "", [
 		Question(title='',
 				 description='',
 				 input_type=InputType.INPUT,
 				 name='control_code'),
 	]),
-	Form("Destination", "it might be over soon", [
+	Form("Destination", "", [
 		Question(title='',
 				 description='',
 				 input_type=InputType.INPUT,
 				 name='destination'),
 	]),
-	Form("Usage", "it might be over soon", [
+	Form("Usage", "", [
 		Question(title='',
 				 description='',
 				 input_type=InputType.INPUT,
 				 name='usage'),
 	]),
-	Form("Activity", "it might be over soon", [
+	Form("Activity", "", [
 		Question(title='',
 				 description='',
 				 input_type=InputType.INPUT,

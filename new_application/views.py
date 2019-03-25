@@ -106,7 +106,7 @@ def overview(request):
         'title': 'Overview',
         'data': data,
         'sections': [forms.section1],
-        'draft_id': draft_id
+        'draft_id': draft_id,
     }
     return render(request, 'new_application/overview.html', context)
 
