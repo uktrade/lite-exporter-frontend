@@ -14,8 +14,6 @@ if os.path.exists(ENV_FILE):
 env = Env(
     DEBUG=(bool, True),
     ALLOWED_HOSTS=(str, ''),
-    LITE_API_URL=(str, 'http://127.0.0.1:8000'),
-    DATABASE_URL=(str, 'postgres://postgres:password@localhost:5432/postgres')
 )
 
 env.read_env()
