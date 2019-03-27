@@ -58,25 +58,37 @@ def form(request, pk):
             response = requests.post(env("LITE_API_URL") + '/drafts/',
                                      json=data)
 
-        data = json.loads(response.text)
+        response_data = json.loads(response.text)
 
         # If there are errors returned from LITE API, return and show them
-        if 'errors' in data:
+        if 'errors' in response_data:
             page = get_form_by_id(pk)
             context = {
                 'title': page.title,
                 'page': page,
-                'errors': data['errors'],
+                'errors': response_data['errors'],
                 'data': data,
                 'draft_id': request.GET.get('id'),
             }
             return render(request, 'new_application/form.html', context)
 
+        # If a return query param is set, go there instead of the next form
+        return_to = request.GET.get('return')
+
+        if return_to == 'overview':
+            return redirect(reverse_lazy('new_application:overview') + '?id=' + request.GET.get('id'))
+
+        if return_to == 'goods':
+            return redirect(reverse_lazy('new_application:overview') + '?id=' + request.GET.get('id'))
+
+        if return_to == 'people':
+            return redirect(reverse_lazy('new_application:overview') + '?id=' + request.GET.get('id'))
+
         # Get the next form, if null go to overview
         next_form = get_next_form_after_id(pk)
         if next_form:
             return redirect(reverse_lazy('new_application:form',
-                                         kwargs={'pk': next_form.id}) + '?id=' + str(data['draft']['id']))
+                                         kwargs={'pk': next_form.id}) + '?id=' + str(response_data['draft']['id']))
         else:
             return redirect(reverse_lazy('new_application:overview') + '?id=' + request.GET.get('id'))
 

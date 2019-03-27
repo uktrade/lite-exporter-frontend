@@ -32,7 +32,7 @@
 										</dt>
 										<dd class="govuk-summary-list__value">
 											{{ data.draft|keyvalue:form.questions.0.name }}
-											<a href="/new-application/form/{{ form.id }}?id={{ draft_id }}" class="govuk-link" style="float: right;">Edit</a>
+											<a href="/new-application/form/{{ form.id }}?id={{ draft_id }}&return=overview" class="govuk-link" style="float: right;">Edit</a>
 										</dd>
 									</div>
 								{% else %}
@@ -43,7 +43,7 @@
 											</dt>
 											<dd class="govuk-summary-list__value">
 												{{ data.draft|keyvalue:question.name }}
-												<a href="/new-application/form/{{ form.id }}?id={{ draft_id }}" class="govuk-link" style="float: right;">Edit</a>
+												<a href="/new-application/form/{{ form.id }}?id={{ draft_id }}&return=overview" class="govuk-link" style="float: right;">Edit</a>
 											</dd>
 										</div>
 									{% endfor %}
