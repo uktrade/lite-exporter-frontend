@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
 
-from core.models import Section, Tile
+from core.helpers import Section, Tile
 
 
 def hub(request):
@@ -9,18 +9,11 @@ def hub(request):
         'title': 'Exporter Hub',
         'sections': [
             Section("", "", [
-                Tile("Apply for a licence", "placeholder", reverse_lazy('new_application:index')),
+                Tile("Apply for a licence", "", reverse_lazy('new_application:index')),
             ]),
-            Section("placeholder", "placeholder", [
-                Tile("Drafts", "You don't have any drafts at the moment.", reverse_lazy('drafts:drafts')),
-                Tile("Applications", "placeholder", reverse_lazy('applications:applications')),
-                Tile("Licences", "placeholder", reverse_lazy('licences:licences')),
-                Tile("My Profile", "placeholder", "/placeholder"),
-                Tile("Settings", "placeholder", "/placeholder"),
-                Tile("Placeholder", "placeholder", "/placeholder"),
-            ]),
-            Section("placeholder", "placeholder", [
-                Tile("Help", "Get help with all things LITE", "/placeholder"),
+            Section("Manage", "", [
+                Tile("Drafts", "", reverse_lazy('drafts:drafts')),
+                Tile("Applications", "", reverse_lazy('applications:applications')),
             ]),
         ],
         'applicationDeleted': request.GET.get('application_deleted')

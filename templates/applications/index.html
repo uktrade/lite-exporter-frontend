@@ -8,15 +8,14 @@
 		<h1 class="govuk-heading-l">Applications</h1>
 		<div class="app-bar--right">
 			<a href="/new-application" class="govuk-button govuk-button--secondary" draggable="false" role="button">New Application</a>
-			<div class="lite-search-wrapper">
+			<!--<div class="lite-search-wrapper">
 				<input type="search" name="search" class="govuk-input">
 				<div class="search-button">
 
 				</div>
-			</div>
+			</div>-->
 		</div>
 	</div>
-
 
 	{% if data.applications|length %}
 		<table class="lite-table">
@@ -27,8 +26,8 @@
 							Reference
 						</a>
 					</th>
-					<th class="lite-table__header" scope="col">Goods</th>
-					<th class="lite-table__header" scope="col">Destinations</th>
+					<!--<th class="lite-table__header" scope="col">Goods</th>
+					<th class="lite-table__header" scope="col">Destinations</th>-->
 					<th class="lite-table__header" scope="col">Last Updated</th>
 				</tr>
 			</thead>
@@ -36,9 +35,9 @@
 				{% for application in data.applications %}
 					<tr class="lite-table__row">
 						<td class="lite-table__cell">
-							<a class="govuk-link" href="/applications/{{ application.id }}">{{ application.name|default:"Untitled" }}</a>
+							{{ application.name|default:"Untitled" }}
 						</td>
-						<td class="lite-table__cell">
+						<!--<td class="lite-table__cell">
 							<a class="hoverable-link tooltip">
 								<span class="tooltip-content" style="min-width: 150px;">
 									{% for good in application.goods %}
@@ -57,7 +56,7 @@
 								</span>
 								{{ application.destinations|length }} Destination{{ application.destinations|length|pluralize }}
 							</a>
-						</td>
+						</td>-->
 						<td class="lite-table__cell">
 							<a class="hoverable-link tooltip">
 								<span class="tooltip-content" style="min-width: 150px;">
@@ -71,7 +70,7 @@
 			</tbody>
 		</table>
 
-		<div class="lite-pagination">
+		<!--<div class="lite-pagination">
 			<a href="#" class="lite-pagination--item lite-pagination--selected-item">
 				1
 			</a>
@@ -84,7 +83,7 @@
 			<a href="#" class="lite-pagination--item">
 				4
 			</a>
-		</div>
+		</div>-->
 
 	{% else %}
 		<p class="govuk-caption-l">You don't have any applications at the moment.</p>

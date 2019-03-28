@@ -24,12 +24,12 @@
 					<th class="lite-table__header">
 						Created On
 					</th>
-					<th class="lite-table__header">
+					<!--<th class="lite-table__header">
 						Goods
 					</th>
 					<th class="lite-table__header">
 						People
-					</th>
+					</th>-->
 					<th class="lite-table__header">
 					</th>
 				</tr>
@@ -50,7 +50,7 @@
 								{{ draft.last_modified_at|naturaltime }}
 							</a>
 						</td>
-						<td class="lite-table__cell">
+						<!--<td class="lite-table__cell">
 							<a class="hoverable-link tooltip">
 								<span class="tooltip-content" style="min-width: 150px;">
 									{% for good in application.goods %}
@@ -69,7 +69,7 @@
 								</span>
 								{{ application.destinations|length }} Destination{{ application.destinations|length|pluralize }}
 							</a>
-						</td>
+						</td>-->
 						<td class="lite-table__cell">
 							<a href="{% url 'new_application:cancel' %}?id={{ draft.id }}&return=drafts" style="margin: 0;" class="cancel-link">Delete</a>
 						</td>
@@ -78,7 +78,7 @@
 			</tbody>
 		</table>
 
-		<div class="lite-pagination">
+		<!--<div class="lite-pagination">
 			<a href="#" class="lite-pagination--item lite-pagination--selected-item">
 				1
 			</a>
@@ -91,7 +91,7 @@
 			<a href="#" class="lite-pagination--item">
 				4
 			</a>
-		</div>
+		</div>-->
 
 	{% else %}
 		<p class="govuk-caption-l">You don't have any drafts at the moment.</p>
