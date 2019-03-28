@@ -7,12 +7,14 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 
 from conf.settings import env
+from core.builtins.custom_tags import get_string
 from form import forms
 
 
 def index(request):
     context = {
-        'title': 'Apply for a licence',
+        'title': get_string('APPLY_FOR_A_LICENCE'),
+        'service_uses': get_string('LICENCE_USE_THIS_SERVICE_TO'),
     }
     return render(request, 'new_application/index.html', context)
 

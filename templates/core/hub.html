@@ -16,12 +16,16 @@
 {% block body %}
     {% if applicationDeleted == "true" %}
 		<div class="information information-animated">
-			Application Deleted
+			{% get_string 'APPLICATION_DELETED' %}
 		</div>
 	{% endif %}
 
-	<h1 class="govuk-heading-xl" style="margin-bottom: 25px;">Exporter Hub</h1>
-	<span class="govuk-caption-l" style="margin-bottom: 45px;">Home for Exporters</span>
+	<h1 class="govuk-heading-xl" style="margin-bottom: 25px;">
+        {{ title }}
+    </h1>
+	<span class="govuk-caption-l" style="margin-bottom: 45px;">
+        {% get_string 'EXPORTER_HUB_DESCRIPTION' %}
+    </span>
 
 	{% for section in sections %}
 		<section class="lite-hub-section">
