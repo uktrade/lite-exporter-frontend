@@ -9,16 +9,22 @@ from ui_automation.pages.apply_for_a_licence_page import ApplyForALicencePage
 class DraftTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        # get the path of ChromeDriverServer
-        project_root = os.path.dirname(os.path.abspath(__file__))
-        base_dir = os.path.dirname(project_root)
-        print("dir:" + base_dir)
-
-        chrome_driver_path = "/usr/local/bin/chromedriver"
-        # create a new Chrome session
-        cls.driver = webdriver.Chrome(chrome_driver_path)
-        cls.driver.implicitly_wait(30)
-        cls.driver.maximize_window()
+        # # get the path of ChromeDriverServer
+        # project_root = os.path.dirname(os.path.abspath(__file__))
+        # base_dir = os.path.dirname(project_root)
+        # print("dir:" + base_dir)
+        #
+        # chrome_driver_path = "/usr/local/bin/chromedriver"
+        # # create a new Chrome session
+        # cls.driver = webdriver.Chrome(chrome_driver_path)
+        # cls.driver.implicitly_wait(30)
+        # cls.driver.maximize_window()
+        chrome_options = webdriver.ChromeOptions()
+        chrome_options.add_argument('--no-sandbox')
+        chrome_options.add_argument('--headless')
+        chrome_options.add_argument('--disable-gpu')
+        cls.driver = webdriver.Chrome(chrome_options=chrome_options)
+        cls.driver.implicitly_wait(10)
 
         # navigate to the application home page
         cls.driver.get("https://lite-exporter-frontend-dev.london.cloudapps.digital/")
@@ -67,3 +73,7 @@ class DraftTest(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         cls.driver.quit()
+
+if __name__ == '__main__':
+    suite = unittest.TestLoader().loadTestsFromTestCase(DraftTest)
+    unittest.TextTestRunner(verbosity=2).run(suite)
