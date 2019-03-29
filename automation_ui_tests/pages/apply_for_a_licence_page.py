@@ -38,3 +38,9 @@ class ApplyForALicencePage():
 
     def click_save_and_continue(self):
         self.driver.find_element_by_css_selector("button[action*='submit']").click()
+
+    def click_delete_application(self):
+        self.driver.find_element_by_css_selector(".cancel-link").click()
+
+    def click_submit_application(self):
+        self.driver.find_element_by_css_selector("button[type*='submit']").click()

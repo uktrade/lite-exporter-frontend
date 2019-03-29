@@ -85,6 +85,64 @@ class DraftTest(unittest.TestCase):
         appName = self.driver.find_element_by_tag_name("h2").text
         assert "TestApp" in appName
         print("application opened to application overview")
+
+        apply_for_licence.click_delete_application()
+
+        print("Test Complete")
+
+    def test_submit_application(self):
+        print("Test Started")
+        driver = self.driver
+
+        exporter_hub = ExporterHubPage(driver)
+        apply_for_licence = ApplyForALicencePage(driver)
+
+        exporter_hub.click_apply_for_a_licence()
+        print("Clicked apply for a licence")
+
+        apply_for_licence.click_start_btn()
+        print("Clicked start button")
+
+        apply_for_licence.enter_name_or_reference_for_application("TestApp")
+        apply_for_licence.click_save_and_continue()
+        print("Entered name of application and clicked save and continue")
+
+        apply_for_licence.enter_control_code("000T")
+        apply_for_licence.click_save_and_continue()
+        print("Entered control code and clicked save and continue")
+
+        apply_for_licence.enter_destination("Cuba")
+        apply_for_licence.click_save_and_continue()
+        print("Entered Destination and clicked save and continue")
+
+        apply_for_licence.enter_usage("communication")
+        apply_for_licence.click_save_and_continue()
+        print("Entered usage and clicked save and continue")
+
+        apply_for_licence.enter_activity("Proliferation")
+        apply_for_licence.click_save_and_continue()
+        print("Entered Activity and clicked save and continue")
+
+        assert "Overview" in self.driver.title
+        print("On the application overview page")
+
+        apply_for_licence.click_submit_application()
+
+        application_complete = self.driver.find_element_by_tag_name("h1").text
+        assert "Application complete" in application_complete
+
+        appId = self.driver.current_url[-36:]
+        self.driver.get("https://lite-exporter-frontend-dev.london.cloudapps.digital/")
+        print("On Exporter Hub Page")
+
+        # verify application is in drafts
+        exporter_hub.click_applications()
+        print("Clicked Applications")
+
+        drafts_table = self.driver.find_element_by_class_name("lite-table")
+        drafts_table.find_element_by_xpath("//*[contains(text(),'TestApp')]").click()
+        print("application found in submitted applications list")
+
         print("Test Complete")
 
 
