@@ -1,10 +1,10 @@
 from selenium import webdriver
 import unittest
-import sys
-import os
+import datetime
+from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.common.by import By
 from automation_ui_tests.pages.exporter_hub_page import ExporterHubPage
 from automation_ui_tests.pages.apply_for_a_licence_page import ApplyForALicencePage
-
 
 class DraftTest(unittest.TestCase):
     @classmethod
@@ -18,7 +18,7 @@ class DraftTest(unittest.TestCase):
         cls.driver.implicitly_wait(10)
 
         # navigate to the application home page
-        cls.driver.get("https://lite-exporter-frontend-uat.london.cloudapps.digital/")
+        cls.driver.get("https://lite-exporter-frontend-staging.london.cloudapps.digital/")
 
 
     def test_start_draft_application(self):
@@ -34,7 +34,8 @@ class DraftTest(unittest.TestCase):
         apply_for_licence.click_start_btn()
         print("Clicked start button")
 
-        apply_for_licence.enter_name_or_reference_for_application("TestApp")
+        nowId = str(datetime.datetime.now())
+        apply_for_licence.enter_name_or_reference_for_application("TestApp " + nowId)
         apply_for_licence.click_save_and_continue()
         print("Entered name of application and clicked save and continue")
 
@@ -93,7 +94,8 @@ class DraftTest(unittest.TestCase):
         apply_for_licence.click_start_btn()
         print("Clicked start button")
 
-        apply_for_licence.enter_name_or_reference_for_application("TestApp")
+        nowId = str(datetime.datetime.now())
+        apply_for_licence.enter_name_or_reference_for_application("TestApp "+nowId)
         apply_for_licence.click_save_and_continue()
         print("Entered name of application and clicked save and continue")
 
@@ -121,7 +123,6 @@ class DraftTest(unittest.TestCase):
         application_complete = self.driver.find_element_by_tag_name("h1").text
         assert "Application complete" in application_complete
 
-        appId = self.driver.current_url[-36:]
         self.driver.get("https://lite-exporter-frontend-uat.london.cloudapps.digital/")
         print("On Exporter Hub Page")
 
@@ -129,8 +130,7 @@ class DraftTest(unittest.TestCase):
         exporter_hub.click_applications()
         print("Clicked Applications")
 
-        drafts_table = self.driver.find_element_by_class_name("lite-table")
-        drafts_table.find_element_by_xpath("//*[contains(text(),'TestApp')]").click()
+        self.assertTrue(self.is_element_present(By.XPATH,"//*[text()[contains(.,'" + nowId + "')]]"))
         print("application found in submitted applications list")
 
         print("Test Complete")
@@ -139,6 +139,18 @@ class DraftTest(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         cls.driver.quit()
+
+    def is_element_present(self, how, what):
+        """
+        Helper method to confirm the presence of an element on page
+        :params how: By locator type
+        :params what: locator value
+        """
+        try:
+            self.driver.find_element(by=how, value=what)
+        except NoSuchElementException: return False
+        return True
+
 
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(DraftTest)
