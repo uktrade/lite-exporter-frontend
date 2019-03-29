@@ -58,7 +58,7 @@ class DraftTest(unittest.TestCase):
         print("On the application overview page")
 
         appId = self.driver.current_url[-36:]
-        self.driver.get("https://lite-exporter-frontend-dev.london.cloudapps.digital/")
+        self.driver.get("https://lite-exporter-frontend-staging.london.cloudapps.digital/")
         print("On Exporter Hub Page")
 
         # verify application is in drafts
@@ -122,7 +122,7 @@ class DraftTest(unittest.TestCase):
         assert "Application complete" in application_complete
 
         appId = self.driver.current_url[-36:]
-        self.driver.get("https://lite-exporter-frontend-dev.london.cloudapps.digital/")
+        self.driver.get("https://lite-exporter-frontend-staging.london.cloudapps.digital/")
         print("On Exporter Hub Page")
 
         # verify application is in drafts
