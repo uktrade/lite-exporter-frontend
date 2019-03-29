@@ -18,7 +18,7 @@ class DraftTest(unittest.TestCase):
         cls.driver.implicitly_wait(10)
 
         # navigate to the application home page
-        cls.driver.get("https://lite-exporter-frontend-dev.london.cloudapps.digital/")
+        cls.driver.get("https://lite-exporter-frontend-staging.london.cloudapps.digital/")
 
 
     def test_start_draft_application(self):
