@@ -1,6 +1,7 @@
 from selenium import webdriver
 import unittest
 import datetime
+import os
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 from automation_ui_tests.pages.exporter_hub_page import ExporterHubPage
@@ -18,7 +19,7 @@ class DraftTest(unittest.TestCase):
         cls.driver.implicitly_wait(10)
 
         # navigate to the application home page
-        cls.driver.get("https://lite-exporter-frontend-staging.london.cloudapps.digital/")
+        cls.driver.get("https://lite-exporter-frontend-uat.london.cloudapps.digital/")
 
 
     def test_start_draft_application(self):
