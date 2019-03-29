@@ -24,7 +24,7 @@ pipeline {
             sh 'echo running'
             sh 'ls'
             sh 'python --version'
-            sh 'python test.py'
+            sh 'python -m unittest automation_ui_tests/tests/draft_application.py'
             println "Result: Done"
           }
         }
