@@ -10,22 +10,22 @@ class DraftTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         # get the path of ChromeDriverServer
-        project_root = os.path.dirname(os.path.abspath(__file__))
-        base_dir = os.path.dirname(project_root)
-        print("dir:" + base_dir)
+        # project_root = os.path.dirname(os.path.abspath(__file__))
+        # base_dir = os.path.dirname(project_root)
+        # print("dir:" + base_dir)
+        #
+        # chrome_driver_path = base_dir + "/drivers/chromedriver"
+        # # create a new Chrome session
+        # cls.driver = webdriver.Chrome(chrome_driver_path)
+        # cls.driver.implicitly_wait(30)
+        # cls.driver.maximize_window()
 
-        chrome_driver_path = base_dir + "/drivers/chromedriver"
-        # create a new Chrome session
-        cls.driver = webdriver.Chrome(chrome_driver_path)
-        cls.driver.implicitly_wait(30)
-        cls.driver.maximize_window()
-
-        # chrome_options = webdriver.ChromeOptions()
-        # chrome_options.add_argument('--no-sandbox')
-        # chrome_options.add_argument('--headless')
-        # chrome_options.add_argument('--disable-gpu')
-        # cls.driver = webdriver.Chrome(chrome_options=chrome_options)
-        # cls.driver.implicitly_wait(10)
+        chrome_options = webdriver.ChromeOptions()
+        chrome_options.add_argument('--no-sandbox')
+        chrome_options.add_argument('--headless')
+        chrome_options.add_argument('--disable-gpu')
+        cls.driver = webdriver.Chrome(chrome_options=chrome_options)
+        cls.driver.implicitly_wait(10)
 
         # navigate to the application home page
         cls.driver.get("https://lite-exporter-frontend-dev.london.cloudapps.digital/")
