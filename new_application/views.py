@@ -128,7 +128,7 @@ def overview(request):
 def submit(request):
     draft_id = request.GET.get('id')
     response = requests.post(env("LITE_API_URL") + '/applications/',
-                             data={'id': draft_id})
+                             json={'id': draft_id})
     data = json.loads(response.text)
 
     if 'errors' in data:
