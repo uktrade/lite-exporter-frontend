@@ -4,14 +4,14 @@ from django.template.defaultfilters import stringfilter
 from conf import strings
 import datetime
 
-register = template.Library()
+from conf.constants import ISO8601_FMT
 
-ISO8601_FMT = '%Y-%m-%dT%H:%M:%SZ'
+register = template.Library()
 
 
 @register.simple_tag
 def get_string(value):
-    return strings.constants.get(value, 'COULDN\'T FIND STRING')
+    return strings.constants[value]
 
 
 @register.filter
