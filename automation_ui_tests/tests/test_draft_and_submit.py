@@ -8,6 +8,7 @@ from automation_ui_tests.pages.exporter_hub_page import ExporterHubPage
 from automation_ui_tests.pages.apply_for_a_licence_page import ApplyForALicencePage
 from automation_ui_tests.pages.applications_page import ApplicationsPage
 
+
 class DraftTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -141,9 +142,11 @@ class DraftTest(unittest.TestCase):
         self.assertTrue(self.is_element_present(By.XPATH,"//*[text()[contains(.,'" + nowId + "')]]"))
         print("application found in submitted applications list")
 
+        # Check application status is Submitted
+        status = driver.find_element_by_xpath("//*[text()[contains(.,'" + nowId + "')]]/following-sibling::td[last()]")
+        assert status.is_displayed()
+        assert status.text == "Submitted"
         print("Test Complete")
-
-
 
     def test_must_enter_fields_for_application(self):
         print("Test Started")
