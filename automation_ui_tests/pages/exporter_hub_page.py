@@ -4,7 +4,7 @@ class ExporterHubPage():
     def __init__(self, driver):
         self.driver = driver
 
-        self.url = "http://localhost:9000/"
+        self.url = "https://lite-exporter-frontend-staging.london.cloudapps.digital/"
         self.apply_for_a_licence_btn = "a[href*='/new-application/']"
         self.drafts_btn = "a[href*='/drafts/']"
         self.applications_btn = "a[href*='/applications/']"

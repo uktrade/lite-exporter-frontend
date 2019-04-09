@@ -86,6 +86,7 @@ class DraftTest(unittest.TestCase):
         print("application opened to application overview")
 
         apply_for_licence.click_delete_application()
+        assert 'Exporter Hub - LITE' in driver.title
 
         print("Test Complete")
 
@@ -151,6 +152,9 @@ class DraftTest(unittest.TestCase):
     def test_must_enter_fields_for_application(self):
         print("Test Started")
         driver = self.driver
+
+        assert 'Exporter Hub - LITE' in driver.title
+
         exporter_hub = ExporterHubPage(driver)
         apply_for_licence = ApplyForALicencePage(driver)
         exporter_hub.click_apply_for_a_licence()
@@ -221,6 +225,7 @@ class DraftTest(unittest.TestCase):
         print("Test Complete")
 
         apply_for_licence.click_delete_application()
+        assert 'Exporter Hub - LITE' in driver.title
 
     def test_status_column_and_refresh_btn_on_applications(self):
         print("Test Started")
