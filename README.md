@@ -11,6 +11,7 @@ Application for handling exporter related activity in LITE.
 * Set up your local config file:
   * `cp sample.env .env`
   * If your local Postgres is not running with default options, edit the `DATABASE_URL` sections of `.env` file
+* Download the appropriate [strings.json](https://github.com/uktrade/lite-content/blob/master/lite-exporter-frontend/strings.json) from lite-content and copy it to the root of the project
 * Create and activate your Python virtual environment:
   * `python -m venv venv`
   * `cd venv`
