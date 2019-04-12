@@ -11,7 +11,9 @@ Application for handling exporter related activity in LITE.
 * Set up your local config file:
   * `cp sample.env .env`
   * If you're not running Postgres with the default options, edit the `DATABASE_URL` sections of the `.env` file
-* Download [strings.json](https://github.com/uktrade/lite-content/blob/master/lite-exporter-frontend/strings.json) from lite-content and copy it to the root of the project
+* Initialize lite-content
+  * `git submodule init`
+  * `git submodule update`
 * Ensure you have [node v10](https://nodejs.org/en/download/) installed
   * `node -v` to see version
 * Install dependencies
