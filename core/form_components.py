@@ -11,11 +11,12 @@ class Section:
 
 
 class Form:
-    def __init__(self, title, description, questions):
+    def __init__(self, title, description, questions, helpers=None):
         self.id = uuid.uuid1()
         self.title = title
         self.description = description
         self.questions = questions
+        self.helpers = helpers
 
 
 class Question:
@@ -38,6 +39,12 @@ class Option(Question):
         self.key = key
         self.value = value
         self.sections = sections
+
+
+class HelpSection:
+    def __init__(self, title, description):
+        self.title = title
+        self.description = description
 
 
 class InputType(Enum):

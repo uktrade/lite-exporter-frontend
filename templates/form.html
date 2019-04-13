@@ -36,7 +36,7 @@
 	</div>
 
 	<!-- Questions -->
-	<form action="" method="post">
+	<form method="post">
 		{% csrf_token %}
 
 		{% for question in page.questions %}
@@ -91,7 +91,7 @@
 		<!-- Buttons -->
 		<div class="govuk-form-group">
 			<div class="buttons-row">
-				<button type="submit" class="govuk-button" name="button" action="submit">Save and continue</button>
+				<button type="submit" class="govuk-button" action="submit">Save and continue</button>
 				{% if draft_id %}
 					<a role="button" draggable="false" class="govuk-button govuk-button--secondary" href="{% url 'new_application:overview' %}?id={{ draft_id }}">
 						Go to Overview
@@ -103,12 +103,14 @@
 
 {% endblock %}
 {% block oneThird %}
-	<!--<aside class="lite-related-items" role="complementary">
-		<h2 class="govuk-heading-m" id="subsection-title">
-			Help
-		</h2>
-		<p class="govuk-body">
-			Don't know your control code? Use Codefinder to find it.
-		</p>
-	</aside>-->
+	{% for question in page.helpers %}
+		<aside class="lite-related-items" role="complementary">
+			<h2 class="govuk-heading-m" id="subsection-title">
+				{{ question.title }}
+			</h2>
+			<p class="govuk-body">
+				{{ question.description }}
+			</p>
+		</aside>
+	{% endfor %}
 {% endblock %}

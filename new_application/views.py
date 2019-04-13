@@ -1,4 +1,3 @@
-import json
 from django.http import Http404
 
 import requests
@@ -7,7 +6,7 @@ from django.urls import reverse_lazy
 
 from conf.settings import env
 from core.builtins.custom_tags import get_string
-from form import forms
+from new_application import forms
 
 
 def index(request):
@@ -71,7 +70,7 @@ def form(request, pk):
                 'data': data,
                 'draft_id': request.GET.get('id'),
             }
-            return render(request, 'new_application/form.html', context)
+            return render(request, 'form.html', context)
 
         # If a return query param is set, go there instead of the next form
         return_to = request.GET.get('return')
@@ -107,7 +106,7 @@ def form(request, pk):
             'data': data,
             'draft_id': request.GET.get('id'),
         }
-        return render(request, 'new_application/form.html', context)
+        return render(request, 'form.html', context)
 
 
 def overview(request):
