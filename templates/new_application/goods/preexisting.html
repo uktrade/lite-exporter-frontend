@@ -1,0 +1,44 @@
+{% extends 'layouts/two_pane.html' %}
+
+{% block back-button %}
+	<a href="{% url 'new_application:goods' %}?id={{ draft_id }}" class="govuk-back-link">Back to Goods</a>
+{% endblock%}
+
+{% block twoThirds %}
+
+	<span class="govuk-caption-m">Add good to {{ draft.name }}</span>
+	<h2 class="govuk-heading-l">Search Goods</h2>
+
+	<form method="post" class="govuk-form-group">
+		{% csrf_token %}
+		<input type="hidden" name="id" value="{{ draft_id }}">
+		<div class="lite-search-wrapper">
+			<input type="search" name="search" class="govuk-input" placeholder="Search">
+			<div class="search-button">
+
+			</div>
+		</div>
+	</form>
+
+	<br/>
+
+	<p class="lite-heading-s">Recent Goods</p>
+
+	{% if data.goods|length %}
+		<table class="lite-table">
+			<tbody class="lite-table__body">
+				{% for good in data.goods %}
+					<tr class="lite-table__row">
+						<td class="lite-table__cell">{{ good.name }}</td>
+						<td class="lite-table__cell">{{ good.part_number }}</td>
+						<td class="lite-table__cell">{{ good.quantity }}</td>
+						<td class="lite-table__cell">{{ good.control_code }}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	{% else %}
+		<p class="govuk-caption-l">You don't have any goods at the moment.</p>
+	{% endif %}
+
+{% endblock %}
