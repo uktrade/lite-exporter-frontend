@@ -28,6 +28,7 @@
 	{% endif %}
 
 	<!-- Page header and description -->
+	<span class="govuk-caption-l">{{ page.caption }}</span>
 	<h1 class="govuk-heading-l">{{ page.title }}</h1>
 	<div class="govuk-form-group">
 		<p class="govuk-caption-m">
@@ -40,7 +41,7 @@
 		{% csrf_token %}
 
 		{% for question in page.questions %}
-			<div class="govuk-form-group
+			<div id="pane_{{ question.name }}" class="govuk-form-group
 						{% if errors|keyvalue:question.name %}
 								govuk-form-group--error
 						{% endif %}">
@@ -100,6 +101,30 @@
 			</div>
 		</div>
 	</form>
+
+	<script type="text/javascript">
+		function showHidePanels() {
+			$('input:radio').each(function () {
+				var $this = $(this)
+				var show_pane = $this.attr('show_pane')
+				$('#' + show_pane).addClass('govuk-inset-text')
+
+				if (show_pane) {
+					if ($this.is(':checked')) {
+						$('#' + show_pane).show()
+					} else {
+						$('#' + show_pane).hide()
+					}
+				}
+			});
+		}
+
+		showHidePanels()
+
+		$("input:radio").on("change", function() {
+			showHidePanels()
+		});
+	</script>
 
 {% endblock %}
 {% block oneThird %}
