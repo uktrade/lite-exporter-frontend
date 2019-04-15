@@ -1,10 +1,10 @@
-from core.form_components import Form, Question, InputType, HelpSection, ArrayQuestion, Option
+from core.form_components import Form, Question, InputType, ArrayQuestion, Option
 
-form = Form("Add Good", "This is an example description", [
-    Question(title='Name',
-             description='Set a name for your good',
-             input_type=InputType.INPUT,
-             name='name'),
+form = Form('Add Good', '', [
+    Question(title='Description of good',
+             description='This can make it easier to find your good later',
+             input_type=InputType.TEXTAREA,
+             name='description'),
     ArrayQuestion(title='Is your good controlled?',
                   description='If you dont know you can use <a href="https://google.com">Permissions Finder</a>',
                   input_type=InputType.RADIOBUTTONS,
@@ -27,11 +27,4 @@ form = Form("Add Good", "This is an example description", [
              description='',
              input_type=InputType.INPUT,
              name='part_number'),
-], [
-    HelpSection(title='Dont know your control code?',
-                description='Use Codefinder'),
-    HelpSection(title='Dont know your control code?',
-                description='Use Codefinder'),
-    HelpSection(title='Dont know your control code?',
-                description='Use Codefinder'),
 ])

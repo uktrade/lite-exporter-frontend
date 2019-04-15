@@ -48,7 +48,7 @@
 					{{ question.title }}
 				</label>
 				<span class="govuk-hint" for="{{ question.name }}">
-					{{ question.description }}
+					{{ question.description|safe }}
 				</span>
 
                 <!-- Error -->
