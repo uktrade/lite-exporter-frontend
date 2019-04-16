@@ -21,12 +21,13 @@ class Form:
 
 
 class Question:
-    def __init__(self, title, description, input_type, name):
+    def __init__(self, title, description, input_type, name, extras=None):
         self.id = uuid.uuid1()
         self.title = title
         self.description = description
         self.input_type = input_type
         self.name = name
+        self.extras = extras
 
 
 class ArrayQuestion(Question):
