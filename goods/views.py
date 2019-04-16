@@ -1,53 +1,17 @@
 import requests
-from django.shortcuts import render
+from django.http import Http404
+from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
 
 from conf.settings import env
 from goods import forms
 
-
-
-data = {
-    'goods': [
-        {
-            'id': '123',
-            'name': 'Moonshine Freeze',
-            'description': 'Banana',
-            'part_number': 'M123',
-            'quantity': 123,
-            'control_code': 'ML1a',
-        },
-        {
-            'id': '123',
-            'name': 'Moonshine Freeze',
-            'description': 'Banana',
-            'part_number': 'M123',
-            'quantity': 123,
-            'control_code': 'ML1a',
-        },
-        {
-            'id': '123',
-            'name': 'Moonshine Freeze',
-            'description': 'Banana',
-            'part_number': 'M123',
-            'quantity': 123,
-            'control_code': 'ML1a',
-        },
-        {
-            'id': '123',
-            'name': 'Moonshine Freeze',
-            'description': 'Banana',
-            'part_number': 'M123',
-            'quantity': 123,
-            'control_code': 'ML1a',
-        }
-    ],
-}
+GOODS_URL = env("LITE_API_URL") + '/goods/'
 
 
 class Goods(TemplateView):
     def get(self, request, **kwargs):
-        # data = requests.get(env("LITE_API_URL") + '/goods/').json()
+        data = requests.get(GOODS_URL).json()
 
         context = {
           'data': data,
@@ -63,3 +27,17 @@ class AddGood(TemplateView):
             'page': forms.form,
         }
         return render(request, 'form/form.html', context)
+
+    def post(self, request, **kwargs):
+        response = requests.post(GOODS_URL, json=request.POST)
+
+        if response.status_code == 400:
+            context = {
+                'title': 'Add Good',
+                'page': forms.form,
+                'data': request.POST,
+                'errors': response.json().get('errors')
+            }
+            return render(request, 'form/form.html', context)
+
+        return redirect('/goods/')
