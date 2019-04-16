@@ -24,7 +24,7 @@ form = Form(title='Add Good', description='', caption='Business Name Goes Here',
     ArrayQuestion(title='Is your good intended to be incorporated into an end product?',
                   description='',
                   input_type=InputType.RADIOBUTTONS,
-                  name='know_your_control_code',
+                  name='into_end_product',
                   data=[
                       Option(key='yes',
                              value='Yes'),
