@@ -69,11 +69,11 @@
 					{% if question.input_type.name == "INPUT" %}
                     	{% include "form/components/input.html" with name=question.name value=data|keyvalue:question.name|default:'' error=errors|keyvalue:question.name %}
 					{% elif question.input_type.name == "TEXTAREA" %}
-                    	{% include "form/components/textarea.html" with name=question.name value=question.name %}
+                    	{% include "form/components/textarea.html" with name=question.name value=data|keyvalue:question.name|default:'' error=errors|keyvalue:question.name %}
 					{% elif question.input_type.name == "NUMBER" %}
                     	{% include "form/components/number.html" with name=question.name value=question.name %}
 					{% elif question.input_type.name == "RADIOBUTTONS" %}
-                    	{% include "form/components/radiobuttons.html" with name=question.name value=question.name data=question.data %}
+                    	{% include "form/components/radiobuttons.html" with name=question.name value=data|keyvalue:question.name|default:'' data=question.data %}
 					{% elif question.input_type.name == "CHECKBOXES" %}
                     	{% include "form/components/checkboxes.html" with name=question.name value=question.name data=question.data %}
 					{% elif question.input_type.name == "SELECT" %}
