@@ -23,8 +23,8 @@
 					<th class="lite-table__header" scope="col">
 						Reference
 					</th>
-					<!--<th class="lite-table__header" scope="col">Goods</th>
-					<th class="lite-table__header" scope="col">Destinations</th>-->
+					<th class="lite-table__header" scope="col">Goods</th>
+					<!--<th class="lite-table__header" scope="col">Destinations</th>-->
 					<th class="lite-table__header" scope="col">Last Updated</th>
 					<th class="lite-table__header" scope="col">Status</th>
 				</tr>
@@ -35,7 +35,7 @@
 						<td class="lite-table__cell">
 							{{ application.name|default:"Untitled" }}
 						</td>
-						<!--<td class="lite-table__cell">
+						<td class="lite-table__cell">
 							<a class="hoverable-link tooltip">
 								<span class="tooltip-content" style="min-width: 150px;">
 									{% for good in application.goods %}
@@ -45,7 +45,7 @@
 								{{ application.goods|length }} Good{{ application.goods|length|pluralize }}
 							</a>
 						</td>
-						<td class="lite-table__cell">
+						<!--<td class="lite-table__cell">
 							<a class="hoverable-link tooltip">
 								<span class="tooltip-content" style="min-width: 150px;">
 									{% for destination in application.destinations %}
