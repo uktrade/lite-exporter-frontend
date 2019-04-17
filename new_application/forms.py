@@ -1,17 +1,11 @@
 from core.form_components import Section, Form, Question, InputType
 
-section1 = Section("Application Information", "sd", [
+section1 = Section("Application Information", "", [
     Form("Enter a name or reference for your application", "This can make it easier to find in the future.", [
         Question(title='',
                  description='',
                  input_type=InputType.INPUT,
                  name='name'),
-    ]),
-    Form("Control code", "", [
-        Question(title='',
-                 description='',
-                 input_type=InputType.INPUT,
-                 name='control_code'),
     ]),
     Form("Destination", "", [
         Question(title='',
