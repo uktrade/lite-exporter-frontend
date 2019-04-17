@@ -9,6 +9,8 @@ from core.builtins.custom_tags import get_string
 from new_application import forms
 from goods import forms as goods_form
 
+GOODS_URL = env("LITE_API_URL") + '/goods/'
+
 
 def index(request):
     context = {
@@ -157,19 +159,19 @@ def cancel_confirm(request):
 
 def goods(request):
     draft_id = request.GET.get('id')
-    data = requests.get(env("LITE_API_URL") + '/drafts/' + draft_id).json()
+    # data = requests.get(env("LITE_API_URL") + '/drafts/' + draft_id + '/goods/').json()
 
     context = {
         'title': 'Goods',
         'draft_id': draft_id,
-        'data': data,
+        'data': {},
     }
     return render(request, 'new_application/goods/index.html', context)
 
 
 def add(request):
     draft_id = request.GET.get('id')
-    data = requests.get(env("LITE_API_URL") + '/drafts/' + draft_id).json()
+    data = requests.get(GOODS_URL).json()
 
     context = {
         'title': 'Goods',
@@ -183,48 +185,12 @@ def add(request):
 def add_preexisting(request):
     draft_id = request.GET.get('id')
     draft = requests.get(env("LITE_API_URL") + '/drafts/' + draft_id).json().get('draft')
-
-    data = {
-        'goods': [
-            {
-                'id': '123',
-                'name': 'Moonshine Freeze',
-                'description': 'Banana',
-                'part_number': 'M123',
-                'quantity': 123,
-                'control_code': 'ML1a',
-            },
-            {
-                'id': '123',
-                'name': 'Moonshine Freeze',
-                'description': 'Banana',
-                'part_number': 'M123',
-                'quantity': 123,
-                'control_code': 'ML1a',
-            },
-            {
-                'id': '123',
-                'name': 'Moonshine Freeze',
-                'description': 'Banana',
-                'part_number': 'M123',
-                'quantity': 123,
-                'control_code': 'ML1a',
-            },
-            {
-                'id': '123',
-                'name': 'Moonshine Freeze',
-                'description': 'Banana',
-                'part_number': 'M123',
-                'quantity': 123,
-                'control_code': 'ML1a',
-            }
-        ],
-    }
+    data = requests.get(GOODS_URL).json()
 
     context = {
         'title': 'Goods',
         'draft_id': draft_id,
         'data': data,
-		'draft': draft,
+        'draft': draft,
     }
     return render(request, 'new_application/goods/preexisting.html', context)
