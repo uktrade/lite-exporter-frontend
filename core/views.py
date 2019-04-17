@@ -7,10 +7,10 @@ from core.helpers import Section, Tile
 
 def hub(request):
     context = {
-        'title': get_string('EXPORTER_HUB_TITLE'),
+        'title': get_string('hub.title'),
         'sections': [
             Section("", "", [
-                Tile(get_string('APPLY_FOR_A_LICENCE'), "", reverse_lazy('new_application:index')),
+                Tile(get_string('licences.apply_for_a_licence'), "", reverse_lazy('new_application:index')),
             ]),
             Section("Manage", "", [
                 Tile(get_string('DRAFTS'), "", reverse_lazy('drafts:drafts')),
@@ -25,14 +25,14 @@ def hub(request):
 
 def signin(request):
     context = {
-        'title': get_string('SIGN_IN'),
+        'title': get_string('misc.sign_in'),
     }
     return render(request, 'core/signin.html', context)
 
 
 def signout(request):
     context = {
-        'title': get_string('SIGNED_OUT'),
+        'title': get_string('misc.signed_out'),
     }
     return render(request, 'core/signout.html', context)
 

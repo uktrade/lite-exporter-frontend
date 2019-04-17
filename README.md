@@ -11,15 +11,12 @@ Application for handling exporter related activity in LITE.
 * Set up your local config file:
   * `cp sample.env .env`
   * If you're not running Postgres with the default options, edit the `DATABASE_URL` sections of the `.env` file
-* Ensure you have [node v10](https://nodejs.org/en/download/) installed
-  * `node -v` to see version
-* Install dependencies
-  * `npm install`
-* Create and activate your Python virtual environment:
-  * `python -m venv venv`
-  * `source venv/bin/activate`
-* Run `pip install -r requirements.txt`
-* Run the application: `./manage.py migrate && ./manage.py runserver 9000`
+* Initialise submodules
+  * `git submodule init`
+  * `git submodule update`
+* Setup Pipenv environment:
+  * `pipenv sync`
+* Run the application: `pipenv run ./manage.py migrate && pipenv run ./manage.py runserver 9000`
 * Go to the index page (e.g. `http://localhost:9000`)
 
 ## LITE Repositories
