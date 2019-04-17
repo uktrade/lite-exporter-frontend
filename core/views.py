@@ -13,8 +13,8 @@ def hub(request):
                 Tile(get_string('licences.apply_for_a_licence'), "", reverse_lazy('new_application:index')),
             ]),
             Section("Manage", "", [
-                Tile(get_string('DRAFTS'), "", reverse_lazy('drafts:drafts')),
-                Tile(get_string('APPLICATIONS'), "", reverse_lazy('applications:applications')),
+                Tile(get_string('drafts.title'), "", reverse_lazy('drafts:drafts')),
+                Tile(get_string('applications.title'), "", reverse_lazy('applications:applications')),
                 Tile('My Goods', "", reverse_lazy('goods:goods')),
             ]),
         ],
