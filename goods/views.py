@@ -11,7 +11,8 @@ GOODS_URL = env("LITE_API_URL") + '/goods/'
 
 class Goods(TemplateView):
     def get(self, request, **kwargs):
-        data = requests.get(GOODS_URL).json()
+        data = requests.get(GOODS_URL,
+                            headers={'Authorization': 'Bearer ' + request.session['access_token']}).json()
 
         context = {
           'data': data,
@@ -29,7 +30,9 @@ class AddGood(TemplateView):
         return render(request, 'form/form.html', context)
 
     def post(self, request, **kwargs):
-        response = requests.post(GOODS_URL, json=request.POST)
+        response = requests.post(GOODS_URL,
+                                 json=request.POST,
+                                 headers={'Authorization': 'Bearer ' + request.session['access_token']})
 
         if response.status_code == 400:
             context = {
