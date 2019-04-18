@@ -6,7 +6,8 @@ from django.urls import reverse_lazy
 
 from conf.settings import env
 from core.builtins.custom_tags import get_string
-from form import forms
+from new_application import forms
+from goods import forms as goods_form
 
 
 def index(request):
@@ -70,7 +71,7 @@ def form(request, pk):
                 'data': data,
                 'draft_id': request.GET.get('id'),
             }
-            return render(request, 'new_application/form.html', context)
+            return render(request, 'form/form.html', context)
 
         # If a return query param is set, go there instead of the next form
         return_to = request.GET.get('return')
@@ -106,7 +107,7 @@ def form(request, pk):
             'data': data,
             'draft_id': request.GET.get('id'),
         }
-        return render(request, 'new_application/form.html', context)
+        return render(request, 'form/form.html', context)
 
 
 def overview(request):
@@ -152,3 +153,78 @@ def cancel_confirm(request):
         return redirect('/drafts?application_deleted=true')
 
     return redirect('/?application_deleted=true')
+
+
+def goods(request):
+    draft_id = request.GET.get('id')
+    data = requests.get(env("LITE_API_URL") + '/drafts/' + draft_id).json()
+
+    context = {
+        'title': 'Goods',
+        'draft_id': draft_id,
+        'data': data,
+    }
+    return render(request, 'new_application/goods/index.html', context)
+
+
+def add(request):
+    draft_id = request.GET.get('id')
+    data = requests.get(env("LITE_API_URL") + '/drafts/' + draft_id).json()
+
+    context = {
+        'title': 'Goods',
+        'draft_id': draft_id,
+        'data': data,
+        'page': goods_form.form,
+    }
+    return render(request, 'form/form.html', context)
+
+
+def add_preexisting(request):
+    draft_id = request.GET.get('id')
+    draft = requests.get(env("LITE_API_URL") + '/drafts/' + draft_id).json().get('draft')
+
+    data = {
+        'goods': [
+            {
+                'id': '123',
+                'name': 'Moonshine Freeze',
+                'description': 'Banana',
+                'part_number': 'M123',
+                'quantity': 123,
+                'control_code': 'ML1a',
+            },
+            {
+                'id': '123',
+                'name': 'Moonshine Freeze',
+                'description': 'Banana',
+                'part_number': 'M123',
+                'quantity': 123,
+                'control_code': 'ML1a',
+            },
+            {
+                'id': '123',
+                'name': 'Moonshine Freeze',
+                'description': 'Banana',
+                'part_number': 'M123',
+                'quantity': 123,
+                'control_code': 'ML1a',
+            },
+            {
+                'id': '123',
+                'name': 'Moonshine Freeze',
+                'description': 'Banana',
+                'part_number': 'M123',
+                'quantity': 123,
+                'control_code': 'ML1a',
+            }
+        ],
+    }
+
+    context = {
+        'title': 'Goods',
+        'draft_id': draft_id,
+        'data': data,
+		'draft': draft,
+    }
+    return render(request, 'new_application/goods/preexisting.html', context)

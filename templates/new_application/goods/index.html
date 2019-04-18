@@ -1,0 +1,20 @@
+{% extends 'layouts/base.html' %}
+
+{% block back-button %}
+	<a href="{% url 'new_application:overview' %}?id={{ draft_id }}" class="govuk-back-link">Back to Overview</a>
+{% endblock%}
+
+{% block body %}
+
+	<span class="govuk-caption-m">{{ data.draft.name }}</span>
+	<div class="app-bar">
+		<h2 class="govuk-heading-l">{{ title }}</h2>
+		<div class="app-bar--right">
+			<a href="{% url 'new_application:add' %}?id={{ draft_id }}" role='button' draggable='false' class='govuk-button govuk-button--secondary'>Add</a>
+			<a href="{% url 'new_application:add_preexisting' %}?id={{ draft_id }}" role='button' draggable='false' class='govuk-button govuk-button--secondary'>Add from pre-existing</a>
+		</div>
+	</div>
+
+	<p class="govuk-caption-m">You haven't added any goods at the moment.</p>
+
+{% endblock %}

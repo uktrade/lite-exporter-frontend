@@ -28,6 +28,7 @@
 	{% endif %}
 
 	<!-- Page header and description -->
+	<span class="govuk-caption-l">{{ page.caption }}</span>
 	<h1 class="govuk-heading-l">{{ page.title }}</h1>
 	<div class="govuk-form-group">
 		<p class="govuk-caption-m">
@@ -36,11 +37,11 @@
 	</div>
 
 	<!-- Questions -->
-	<form action="" method="post">
+	<form method="post">
 		{% csrf_token %}
 
 		{% for question in page.questions %}
-			<div class="govuk-form-group
+			<div id="pane_{{ question.name }}" class="govuk-form-group
 						{% if errors|keyvalue:question.name %}
 								govuk-form-group--error
 						{% endif %}">
@@ -48,7 +49,7 @@
 					{{ question.title }}
 				</label>
 				<span class="govuk-hint" for="{{ question.name }}">
-					{{ question.description }}
+					{{ question.description|safe }}
 				</span>
 
                 <!-- Error -->
@@ -66,23 +67,23 @@
 				<!-- Select component based on input_type -->
 				<div class="govuk-form-group">
 					{% if question.input_type.name == "INPUT" %}
-                    	{% include "new_application/components/input.html" with name=question.name value=data|keyvalue:question.name|default:'' error=errors|keyvalue:question.name %}
+                    	{% include "form/components/input.html" with name=question.name value=data|keyvalue:question.name|default:'' error=errors|keyvalue:question.name %}
 					{% elif question.input_type.name == "TEXTAREA" %}
-                    	{% include "new_application/components/textarea.html" with name=question.name value=question.name %}
+                    	{% include "form/components/textarea.html" with name=question.name extras=question.extras value=data|keyvalue:question.name|default:'' error=errors|keyvalue:question.name %}
 					{% elif question.input_type.name == "NUMBER" %}
-                    	{% include "new_application/components/number.html" with name=question.name value=question.name %}
+                    	{% include "form/components/number.html" with name=question.name value=question.name %}
 					{% elif question.input_type.name == "RADIOBUTTONS" %}
-                    	{% include "new_application/components/radiobuttons.html" with name=question.name value=question.name data=question.data %}
+                    	{% include "form/components/radiobuttons.html" with name=question.name value=data|keyvalue:question.name|default:'' data=question.data %}
 					{% elif question.input_type.name == "CHECKBOXES" %}
-                    	{% include "new_application/components/checkboxes.html" with name=question.name value=question.name data=question.data %}
+                    	{% include "form/components/checkboxes.html" with name=question.name value=question.name data=question.data %}
 					{% elif question.input_type.name == "SELECT" %}
-                    	{% include "new_application/components/select.html" with name=question.name value=question.name data=question.data %}
+                    	{% include "form/components/select.html" with name=question.name value=question.name data=question.data %}
 					{% elif question.input_type.name == "AUTOCOMPLETE" %}
-                    	{% include "new_application/components/autocomplete.html" with name=question.name value=question.name data=question.data %}
+                    	{% include "form/components/autocomplete.html" with name=question.name value=question.name data=question.data %}
 					{% elif question.input_type.name == "FILE_UPLOAD" %}
-                    	{% include "new_application/components/file_upload.html" with name=question.name value=question.name %}
+                    	{% include "form/components/file_upload.html" with name=question.name value=question.name %}
 					{% elif question.input_type.name == "MULTI_FILE_UPLOAD" %}
-                    	{% include "new_application/components/multi_file_upload.html" with name=question.name value=question.name %}
+                    	{% include "form/components/multi_file_upload.html" with name=question.name value=question.name %}
 					{% endif %}
 				</div>
 			</div>
@@ -91,7 +92,7 @@
 		<!-- Buttons -->
 		<div class="govuk-form-group">
 			<div class="buttons-row">
-				<button type="submit" class="govuk-button" name="button" action="submit">Save and continue</button>
+				<button type="submit" class="govuk-button" action="submit">Save and continue</button>
 				{% if draft_id %}
 					<a role="button" draggable="false" class="govuk-button govuk-button--secondary" href="{% url 'new_application:overview' %}?id={{ draft_id }}">
 						Go to Overview
@@ -101,14 +102,40 @@
 		</div>
 	</form>
 
+	<script type="text/javascript">
+		function showHidePanels() {
+			$('input:radio').each(function () {
+				var $this = $(this)
+				var show_pane = $this.attr('show_pane')
+				$('#' + show_pane).addClass('govuk-inset-text')
+
+				if (show_pane) {
+					if ($this.is(':checked')) {
+						$('#' + show_pane).show()
+					} else {
+						$('#' + show_pane).hide()
+					}
+				}
+			});
+		}
+
+		showHidePanels()
+
+		$("input:radio").on("change", function() {
+			showHidePanels()
+		});
+	</script>
+
 {% endblock %}
 {% block oneThird %}
-	<!--<aside class="lite-related-items" role="complementary">
-		<h2 class="govuk-heading-m" id="subsection-title">
-			Help
-		</h2>
-		<p class="govuk-body">
-			Don't know your control code? Use Codefinder to find it.
-		</p>
-	</aside>-->
+	{% for question in page.helpers %}
+		<aside class="lite-related-items" role="complementary">
+			<h2 class="govuk-heading-m" id="subsection-title">
+				{{ question.title }}
+			</h2>
+			<p class="govuk-body">
+				{{ question.description }}
+			</p>
+		</aside>
+	{% endfor %}
 {% endblock %}
