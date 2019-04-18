@@ -27,31 +27,28 @@ def hub(request):
 def login(request):
     if request.method == 'GET':
         context = {
-	        'title': get_string('misc.sign_in'),
+            'title': get_string('misc.sign_in'),
         }
         return render(request, 'core/login.html', context)
     if request.method == 'POST':
         # Get token
-        response = requests.post(env('LITE_API_URL') + '/o/token/',
+        response = requests.post(env('LITE_API_URL') + '/users/token/',
                                  data={
-                                     'grant_type': 'password',
-                                     'username': request.POST.get('email'),
+                                     'email': request.POST.get('email'),
                                      'password': request.POST.get('password'),
-                                     'client_id': env('CLIENT_ID'),
-                                     'client_secret': env('CLIENT_SECRET'),
                                  },
-                                 ).json()
+                                 )
 
         # If there are errors, return previous page
-        if 'error' in response:
+        if response.status_code == 401:
             context = {
-		        'title': get_string('misc.sign_in'),
-                'error': response.get('error'),
+                'title': get_string('misc.sign_in'),
+                'error': 'Incorrect credentials',
                 'email': request.POST.get('email')
             }
             return render(request, 'core/login.html', context)
 
-        access_token = response.get('access_token')
+        access_token = response.json().get('access')
 
         header = {'Authorization': 'Bearer ' + access_token}
 
