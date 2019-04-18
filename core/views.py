@@ -9,14 +9,14 @@ from core.helpers import Section, Tile
 
 def hub(request):
     context = {
-        'title': get_string('EXPORTER_HUB_TITLE'),
+        'title': get_string('hub.title'),
         'sections': [
             Section("", "", [
-                Tile(get_string('APPLY_FOR_A_LICENCE'), "", reverse_lazy('new_application:index')),
+                Tile(get_string('licences.apply_for_a_licence'), "", reverse_lazy('new_application:index')),
             ]),
             Section("Manage", "", [
-                Tile(get_string('DRAFTS'), "", reverse_lazy('drafts:drafts')),
-                Tile(get_string('APPLICATIONS'), "", reverse_lazy('applications:applications')),
+                Tile(get_string('drafts.title'), "", reverse_lazy('drafts:drafts')),
+                Tile(get_string('applications.title'), "", reverse_lazy('applications:applications')),
             ]),
         ],
         'applicationDeleted': request.GET.get('application_deleted'),
@@ -27,7 +27,7 @@ def hub(request):
 def login(request):
     if request.method == 'GET':
         context = {
-            'title': 'Log in',
+	        'title': get_string('misc.sign_in'),
         }
         return render(request, 'core/login.html', context)
     if request.method == 'POST':
@@ -45,7 +45,7 @@ def login(request):
         # If there are errors, return previous page
         if 'error' in response:
             context = {
-                'title': 'Log in',
+		        'title': get_string('misc.sign_in'),
                 'error': response.get('error'),
                 'email': request.POST.get('email')
             }
@@ -68,7 +68,7 @@ def login(request):
 
 def logout(request):
     context = {
-        'title': 'Logged out',
+        'title': get_string('misc.signed_out'),
     }
     request.session['access_token'] = None
     request.session['user'] = None
