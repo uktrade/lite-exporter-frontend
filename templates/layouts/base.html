@@ -57,19 +57,12 @@
 				</a>
 			</div>
 
-			{% if not request.session.user.email %}
-				<a href="/login" class="user-menu-profile" style="position: absolute;
-								top: 10px;
-								right: 0;">
-					<p>Login</p>
-					<div class="user-icon"></div>
-				</a>
-			{% else %}
+			{% if user.is_authenticated %}
 				<div id="user-menu">
 					<a href="/logout">Log out</a>
 					<div class="divider"></div>
 					<a class="user-menu-profile">
-						<p>{{ request.session.user.first_name }}</p>
+						<p>{{ user.first_name }}</p>
 						<div class="user-icon signed-in"></div>
 					</a>
 				</div>
