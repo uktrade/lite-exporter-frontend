@@ -30,8 +30,8 @@ def login(request):
             'title': get_string('misc.sign_in'),
         }
         return render(request, 'core/login.html', context)
+
     if request.method == 'POST':
-        # Get token
         response = requests.post(env('LITE_API_URL') + '/users/token/',
                                  data={
                                      'email': request.POST.get('email'),
@@ -39,16 +39,18 @@ def login(request):
                                  },
                                  )
 
-        # If there are errors, return previous page
-        if response.status_code == 401:
+        # If login isn't successful, return previous page
+        if response.status_code != 200:
             context = {
                 'title': get_string('misc.sign_in'),
-                'error': 'Incorrect credentials',
-                'email': request.POST.get('email')
+                'error': True,
+                'email': request.POST.get('email'),
             }
             return render(request, 'core/login.html', context)
 
+        # Get tokens and get signed in account
         access_token = response.json().get('access')
+        refresh_token = response.json().get('refresh')
 
         header = {'Authorization': 'Bearer ' + access_token}
 
@@ -57,6 +59,7 @@ def login(request):
 
         # Set Session Info
         request.session['access_token'] = access_token
+        request.session['refresh_token'] = refresh_token
         request.session['user'] = user.get('user')
 
         # Redirect to index page as a signed in user
