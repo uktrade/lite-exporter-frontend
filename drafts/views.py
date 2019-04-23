@@ -7,7 +7,7 @@ from conf.settings import env
 
 @login_required
 def index(request):
-    response = requests.get(env("LITE_API_URL") + '/drafts/')
+    response = requests.get(env("LITE_API_URL") + '/drafts/', json={'id': str(request.user.id)})
 
     context = {
         'title': 'Drafts',

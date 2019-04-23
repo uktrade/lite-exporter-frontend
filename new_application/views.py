@@ -47,8 +47,8 @@ def form(request, pk):
             if key != "button":
                 data[key] = value
 
-        # Set User ID
-        data['user_id'] = '12345'
+        # Add User ID to data
+        data['id'] = str(request.user.id)
 
         # Post it to API
         if request.GET.get('id'):
