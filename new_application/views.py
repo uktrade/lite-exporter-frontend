@@ -4,8 +4,10 @@ import requests
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 
+from conf.client import get
 from conf.settings import env
 from core.builtins.custom_tags import get_string
+from drafts.services import get_draft
 from form import forms
 
 
@@ -44,8 +46,7 @@ def form(request, pk):
 
         # Add body fields to data
         for key, value in request.POST.items():
-            if key != "button":
-                data[key] = value
+            data[key] = value
 
         # Add User ID to data
         data['id'] = str(request.user.id)
@@ -78,12 +79,6 @@ def form(request, pk):
         if return_to == 'overview':
             return redirect(reverse_lazy('new_application:overview') + '?id=' + request.GET.get('id'))
 
-        if return_to == 'goods':
-            return redirect(reverse_lazy('new_application:overview') + '?id=' + request.GET.get('id'))
-
-        if return_to == 'people':
-            return redirect(reverse_lazy('new_application:overview') + '?id=' + request.GET.get('id'))
-
         # Get the next form, if null go to overview
         next_form = get_next_form_after_id(pk)
         if next_form:
@@ -97,8 +92,8 @@ def form(request, pk):
         data = {}
 
         if request.GET.get('id'):
-            response = requests.get(env("LITE_API_URL") + '/drafts/' + request.GET.get('id'))
-            data = response.json()['draft']
+            data, status_code = get_draft(request, request.GET.get('id'))
+            data = data['draft']
 
         context = {
             'title': page.title,
@@ -111,7 +106,7 @@ def form(request, pk):
 
 def overview(request):
     draft_id = request.GET.get('id')
-    data = requests.get(env("LITE_API_URL") + '/drafts/' + draft_id).json()
+    data, status_code = get_draft(request, request.GET.get('id'))
 
     context = {
         'title': 'Overview',

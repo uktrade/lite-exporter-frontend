@@ -7,12 +7,6 @@ section1 = Section("Application Information", "sd", [
 				 input_type=InputType.INPUT,
 				 name='name'),
 	]),
-	Form("Control code", "", [
-		Question(title='',
-				 description='',
-				 input_type=InputType.INPUT,
-				 name='control_code'),
-	]),
 	Form("Destination", "", [
 		Question(title='',
 				 description='',
