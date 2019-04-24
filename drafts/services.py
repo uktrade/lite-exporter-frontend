@@ -1,6 +1,5 @@
 from conf.client import get, post, put, delete
-
-DRAFTS_URL = '/drafts/'
+from conf.constants import APPLICATIONS_URL, DRAFTS_URL
 
 
 def get_drafts(request):
@@ -19,10 +18,15 @@ def post_drafts(request, json):
 
 
 def put_draft(request, pk, json):
-    data = put(request, DRAFTS_URL + pk, json)
+    data = put(request, DRAFTS_URL + pk + '/', json)
     return data.json(), data.status_code
 
 
 def delete_draft(request, pk):
     data = delete(request, DRAFTS_URL + pk)
+    return data.json(), data.status_code
+
+
+def submit_draft(request, pk):
+    data = post(request, APPLICATIONS_URL, {'id': pk})
     return data.json(), data.status_code

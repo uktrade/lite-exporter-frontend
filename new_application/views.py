@@ -1,11 +1,9 @@
-import requests
 from django.http import Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 
-from conf.settings import env
 from core.builtins.custom_tags import get_string
-from drafts.services import get_draft, post_drafts, put_draft, delete_draft
+from drafts.services import get_draft, post_drafts, put_draft, delete_draft, submit_draft
 from form import forms
 
 
@@ -105,16 +103,14 @@ def overview(request):
 
 
 def submit(request):
-    draft_id = request.GET.get('id')
-    data = requests.post(env("LITE_API_URL") + '/applications/',
-                         json={'id': draft_id}).json()
+    data, status_code = submit_draft(request, request.GET.get('id'))
 
-    if 'errors' in data:
+    if status_code is not 201:
         raise Http404
 
     context = {
         'title': 'Application Submitted',
-        'data': data
+        'data': data,
     }
     return render(request, 'new_application/application_success.html', context)
 
@@ -128,7 +124,7 @@ def cancel(request):
 
 
 def cancel_confirm(request):
-    data, status_code = delete_draft(request, request.GET.get('id'))
+    delete_draft(request, request.GET.get('id'))
 
     if request.GET.get('return') == 'drafts':
         return redirect('/drafts?application_deleted=true')
