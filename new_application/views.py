@@ -3,7 +3,8 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 
 from core.builtins.custom_tags import get_string
-from drafts.services import get_draft, post_drafts, put_draft, delete_draft, submit_draft
+from drafts.services import get_draft, post_drafts, put_draft, delete_draft, submit_draft, get_draft_goods, get_drafts
+from goods.services import get_goods
 from new_application import forms
 
 
@@ -134,12 +135,25 @@ def cancel_confirm(request):
 
 def goods(request):
     draft_id = request.GET.get('id')
-    # data = requests.get(env("LITE_API_URL") + '/drafts/' + draft_id + '/goods/').json()
+    data, status_code = get_draft_goods(request, draft_id)
 
     context = {
         'title': 'Goods',
         'draft_id': draft_id,
-        'data': {},
+        'data': data,
     }
     return render(request, 'new_application/goods/index.html', context)
 
+
+def add_preexisting(request):
+    draft_id = request.GET.get('id')
+    draft, status_code = get_draft(request, draft_id)
+    data, status_code = get_goods(request)
+
+    context = {
+        'title': 'Goods',
+        'draft_id': draft_id,
+        'data': data,
+        'draft': draft,
+    }
+    return render(request, 'new_application/goods/preexisting.html', context)

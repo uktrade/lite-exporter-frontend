@@ -30,3 +30,14 @@ def delete_draft(request, pk):
 def submit_draft(request, pk):
     data = post(request, APPLICATIONS_URL, {'id': pk})
     return data.json(), data.status_code
+
+
+# Goods
+def get_draft_goods(request, pk):
+    data = get(request, DRAFTS_URL + pk + '/goods/')
+    return data.json(), data.status_code
+
+
+def get_draft_good(request, pk, draft_pk):
+    data = get(request, DRAFTS_URL + pk + '/goods/' + draft_pk + '/')
+    return data.json(), data.status_code

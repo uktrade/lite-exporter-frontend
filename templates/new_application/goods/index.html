@@ -10,8 +10,7 @@
 	<div class="app-bar">
 		<h2 class="govuk-heading-l">{{ title }}</h2>
 		<div class="app-bar--right">
-			<a href="{% url 'new_application:add' %}?id={{ draft_id }}" role='button' draggable='false' class='govuk-button govuk-button--secondary'>Add</a>
-			<a href="{% url 'new_application:add_preexisting' %}?id={{ draft_id }}" role='button' draggable='false' class='govuk-button govuk-button--secondary'>Add from pre-existing</a>
+			<a href="{% url 'new_application:add_preexisting' %}?id={{ draft_id }}" role='button' draggable='false' class='govuk-button'>Add from organisations goods</a>
 		</div>
 	</div>
 
