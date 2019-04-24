@@ -6,8 +6,6 @@ from core.builtins.custom_tags import get_string
 from drafts.services import get_draft, post_drafts, put_draft, delete_draft, submit_draft
 from new_application import forms
 
-GOODS_URL = env("LITE_API_URL") + '/goods/'
-
 
 def index(request):
     context = {
@@ -145,29 +143,3 @@ def goods(request):
     }
     return render(request, 'new_application/goods/index.html', context)
 
-
-def add(request):
-    draft_id = request.GET.get('id')
-    data = requests.get(GOODS_URL).json()
-
-    context = {
-        'title': 'Goods',
-        'draft_id': draft_id,
-        'data': data,
-        'page': goods_form.form,
-    }
-    return render(request, 'form/form.html', context)
-
-
-def add_preexisting(request):
-    draft_id = request.GET.get('id')
-    draft = requests.get(env("LITE_API_URL") + '/drafts/' + draft_id).json().get('draft')
-    data = requests.get(GOODS_URL).json()
-
-    context = {
-        'title': 'Goods',
-        'draft_id': draft_id,
-        'data': data,
-        'draft': draft,
-    }
-    return render(request, 'new_application/goods/preexisting.html', context)
