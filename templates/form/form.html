@@ -28,7 +28,9 @@
 	{% endif %}
 
 	<!-- Page header and description -->
-	<span class="govuk-caption-l">{{ page.caption }}</span>
+	{% if page.caption %}
+		<span class="govuk-caption-l">{{ page.caption }}</span>
+	{% endif %}
 	<h1 class="govuk-heading-l">{{ page.title }}</h1>
 	<div class="govuk-form-group">
 		<p class="govuk-caption-m">
