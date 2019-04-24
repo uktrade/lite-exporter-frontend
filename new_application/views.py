@@ -1,13 +1,12 @@
 from django.http import Http404
-
-import requests
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 
-from conf.settings import env
 from core.builtins.custom_tags import get_string
 from new_application import forms
 from goods import forms as goods_form
+from drafts.services import get_draft, post_drafts, put_draft, delete_draft, submit_draft
+from form import forms
 
 
 def index(request):
@@ -41,33 +40,21 @@ def start(request):
 
 def form(request, pk):
     if request.method == 'POST':
-        data = {}
+        data = request.POST
 
-        # Add body fields to data
-        for key, value in request.POST.items():
-            if key != "button":
-                data[key] = value
-
-        # Set User ID
-        data['user_id'] = '12345'
-
-        # Post it to API
+        # Send data to API
         if request.GET.get('id'):
-            response = requests.put(env("LITE_API_URL") + '/drafts/' + request.GET.get('id') + '/',
-                                    json=data)
+            response, status_code = put_draft(request, request.GET.get('id'), data)
         else:
-            response = requests.post(env("LITE_API_URL") + '/drafts/',
-                                     json=data)
-
-        response_data = response.json()
+            response, status_code = post_drafts(request, data)
 
         # If there are errors returned from LITE API, return and show them
-        if 'errors' in response_data:
+        if 'errors' in response:
             page = get_form_by_id(pk)
             context = {
                 'title': page.title,
                 'page': page,
-                'errors': response_data['errors'],
+                'errors': response['errors'],
                 'data': data,
                 'draft_id': request.GET.get('id'),
             }
@@ -79,17 +66,11 @@ def form(request, pk):
         if return_to == 'overview':
             return redirect(reverse_lazy('new_application:overview') + '?id=' + request.GET.get('id'))
 
-        if return_to == 'goods':
-            return redirect(reverse_lazy('new_application:overview') + '?id=' + request.GET.get('id'))
-
-        if return_to == 'people':
-            return redirect(reverse_lazy('new_application:overview') + '?id=' + request.GET.get('id'))
-
         # Get the next form, if null go to overview
         next_form = get_next_form_after_id(pk)
         if next_form:
             return redirect(reverse_lazy('new_application:form',
-                                         kwargs={'pk': next_form.id}) + '?id=' + str(response_data['draft']['id']))
+                                         kwargs={'pk': next_form.id}) + '?id=' + str(response['draft']['id']))
         else:
             return redirect(reverse_lazy('new_application:overview') + '?id=' + request.GET.get('id'))
 
@@ -98,8 +79,8 @@ def form(request, pk):
         data = {}
 
         if request.GET.get('id'):
-            response = requests.get(env("LITE_API_URL") + '/drafts/' + request.GET.get('id'))
-            data = response.json()['draft']
+            data, status_code = get_draft(request, request.GET.get('id'))
+            data = data['draft']
 
         context = {
             'title': page.title,
@@ -112,7 +93,7 @@ def form(request, pk):
 
 def overview(request):
     draft_id = request.GET.get('id')
-    data = requests.get(env("LITE_API_URL") + '/drafts/' + draft_id).json()
+    data, status_code = get_draft(request, request.GET.get('id'))
 
     context = {
         'title': 'Overview',
@@ -124,16 +105,14 @@ def overview(request):
 
 
 def submit(request):
-    draft_id = request.GET.get('id')
-    data = requests.post(env("LITE_API_URL") + '/applications/',
-                         json={'id': draft_id}).json()
+    data, status_code = submit_draft(request, request.GET.get('id'))
 
-    if 'errors' in data:
+    if status_code is not 201:
         raise Http404
 
     context = {
         'title': 'Application Submitted',
-        'data': data
+        'data': data,
     }
     return render(request, 'new_application/application_success.html', context)
 
@@ -147,7 +126,7 @@ def cancel(request):
 
 
 def cancel_confirm(request):
-    requests.delete(env('LITE_API_URL') + '/drafts/' + request.GET.get('id'))
+    delete_draft(request, request.GET.get('id'))
 
     if request.GET.get('return') == 'drafts':
         return redirect('/drafts?application_deleted=true')

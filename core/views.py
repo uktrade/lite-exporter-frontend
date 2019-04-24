@@ -37,8 +37,8 @@ def login(request):
         return render(request, 'core/login.html', context)
 
     if request.method == 'POST':
-        response = requests.post(env('LITE_API_URL') + '/users/token/',
-                                 data={
+        response = requests.post(env('LITE_API_URL') + '/users/authenticate/',
+                                 json={
                                      'email': request.POST.get('email'),
                                      'password': request.POST.get('password'),
                                  },
@@ -53,36 +53,24 @@ def login(request):
             }
             return render(request, 'core/login.html', context)
 
-        # Get tokens and get signed in account
-        access_token = response.json().get('access')
-        refresh_token = response.json().get('refresh')
+        user_data = response.json().get('user')
 
-        header = {'Authorization': 'Bearer ' + access_token}
-
-        user = requests.get(env('LITE_API_URL') + '/users/me/',
-                            headers=header).json().get('user')
-
-        user_object, created = User.objects.get_or_create(id=user.get('id'), defaults={
-            'email': user.get('email'),
-            'first_name': user.get('first_name'),
-            'last_name': user.get('last_name'),
+        user_object, created = User.objects.get_or_create(id=user_data.get('id'), defaults={
+            'email': user_data.get('email'),
+            'first_name': user_data.get('first_name'),
+            'last_name': user_data.get('last_name'),
         })
 
         django_login(request, user=user_object)
-
-        # Set Session Info
-        request.session['access_token'] = access_token
-        request.session['refresh_token'] = refresh_token
 
         # Redirect to index page as a signed in user
         return redirect('/')
 
 
 def logout(request):
+    django_logout(request)
+
     context = {
         'title': get_string('misc.signed_out'),
     }
-    del request.session['access_token']
-    del request.session['refresh_token']
-    django_logout(request)
     return render(request, 'core/loggedout.html', context)
