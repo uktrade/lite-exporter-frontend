@@ -1,7 +1,7 @@
 from conf.settings import env
 from core.form_components import Form, Question, InputType, ArrayQuestion, Option
 
-form = Form(title='Add Good', description='', caption='Business Name Goes Here', questions=[
+form = Form(title='Add Good', description='', caption='', questions=[
     Question(title='Description of good',
              description='This can make it easier to find your good later',
              input_type=InputType.TEXTAREA,

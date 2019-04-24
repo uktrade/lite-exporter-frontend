@@ -18,10 +18,4 @@ urlpatterns = [
     path('draft/cancel', views.cancel, name='cancel'),
     # ex: /draft/cancel-confirm?id=abc
     path('draft/cancel-confirm', views.cancel_confirm, name='cancel_confirm'),
-    # ex: /draft/goods?id=abc
-    path('draft/goods', views.goods, name='goods'),
-    # ex: /draft/goods/add?id=abc
-    path('draft/goods/add', views.add, name='add'),
-    # ex: /draft/goods/add_preexisting?id=abc
-    path('draft/goods/add_preexisting', views.add_preexisting, name='add_preexisting'),
 ]

@@ -1,17 +1,13 @@
-import requests
-from django.http import Http404
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
 
-from conf.settings import env
 from goods import forms
-
-GOODS_URL = env("LITE_API_URL") + '/goods/'
+from goods.services import get_goods, post_goods
 
 
 class Goods(TemplateView):
     def get(self, request, **kwargs):
-        data = requests.get(GOODS_URL).json()
+        data, status_code = get_goods(request)
 
         context = {
           'data': data,
@@ -29,14 +25,14 @@ class AddGood(TemplateView):
         return render(request, 'form/form.html', context)
 
     def post(self, request, **kwargs):
-        response = requests.post(GOODS_URL, json=request.POST)
+        data, status_code = post_goods(request, request.POST)
 
-        if response.status_code == 400:
+        if status_code == 400:
             context = {
                 'title': 'Add Good',
                 'page': forms.form,
                 'data': request.POST,
-                'errors': response.json().get('errors')
+                'errors': data.get('errors')
             }
             return render(request, 'form/form.html', context)
 

@@ -71,9 +71,6 @@
 				{% endif %}
 			</div>
 		{% endfor %}
-		<div>
-			<a href="goods?id={{ draft_id }}" class="govuk-link">Goods</a>
-		</div>
 	</div>
 
 	<form action="{% url 'new_application:submit' %}?id={{ draft_id }}" method="post">
