@@ -194,5 +194,5 @@ class AddPreexistingGood(TemplateView):
             }
             return render(request, 'form/form.html', context)
 
-        return redirect('/goods/')
+        return redirect(reverse_lazy('new_application:goods') + '?id=' + draft_id)
 
