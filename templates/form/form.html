@@ -71,7 +71,9 @@
 
 					<!-- Select component based on input_type -->
 					<div class="govuk-form-group">
-						{% if question.input_type.name == "INPUT" %}
+						{% if question.input_type.name == "HIDDEN" %}
+							<input type="hidden" name="{{ question.name }}" value="{{ question.value }}">
+						{% elif question.input_type.name == "INPUT" %}
 	                    	{% include "form/components/input.html" with name=question.name value=data|keyvalue:question.name|default:'' error=errors|keyvalue:question.name %}
 						{% elif question.input_type.name == "TEXTAREA" %}
 	                    	{% include "form/components/textarea.html" with name=question.name extras=question.extras value=data|keyvalue:question.name|default:'' error=errors|keyvalue:question.name %}

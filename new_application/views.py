@@ -163,27 +163,34 @@ def add_preexisting(request):
 
 class AddPreexistingGood(TemplateView):
     def get(self, request, **kwargs):
-        data, status_code = get_good(request, str(kwargs['pk']))
-        good = data.get('good')
+        good, status_code = get_good(request, str(kwargs['pk']))
+        good = good.get('good')
 
         context = {
             'title': 'Add a pre-existing good to your application',
-            'page': forms.preexisting_good_form(good.get('description'), good.get('control_code'),
+            'page': forms.preexisting_good_form(good.get('id'),
+                                                good.get('description'),
+                                                good.get('control_code'),
                                                 good.get('part_number')),
         }
         return render(request, 'form/form.html', context)
 
     def post(self, request, **kwargs):
-        data, status_code = post_draft_preexisting_goods(request, request.POST, request.body)
+        draft_id = request.GET.get('id')
+        data, status_code = post_draft_preexisting_goods(request, draft_id, request.POST)
 
-        if status_code == 400:
-            data, status_code = get_good(request, str(kwargs['pk']))
-            good = data.get('good')
+        if status_code != 201:
+            good, status_code = get_good(request, str(kwargs['pk']))
+            good = good.get('good')
 
             context = {
                 'title': 'Add a pre-existing good to your application',
-                'page': forms.preexisting_good_form(good.get('description'), good.get('control_code'),
+                'page': forms.preexisting_good_form(good.get('id'),
+                                                    good.get('description'),
+                                                    good.get('control_code'),
                                                     good.get('part_number')),
+                'body': request.POST,
+                'errors': data.get('errors'),
             }
             return render(request, 'form/form.html', context)
 

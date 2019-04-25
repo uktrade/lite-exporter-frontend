@@ -36,6 +36,13 @@ class ArrayQuestion(Question):
         self.data = data
 
 
+class HiddenField:
+    def __init__(self, name, value):
+        self.name = name
+        self.value = value
+        self.input_type = InputType.HIDDEN
+
+
 class Option:
     def __init__(self, key, value, show_pane=None, sections=None):
         self.key = key
@@ -65,3 +72,4 @@ class InputType(Enum):
     FILE_UPLOAD = 7
     MULTI_FILE_UPLOAD = 8
     AUTOCOMPLETE = 9
+    HIDDEN = 10
