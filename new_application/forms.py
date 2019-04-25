@@ -1,4 +1,4 @@
-from core.form_components import Section, Form, Question, InputType
+from core.form_components import Section, Form, Question, InputType, HTMLBlock
 
 section1 = Section("Application Information", "", [
     Form("Enter a name or reference for your application", "This can make it easier to find in the future.", [
@@ -26,3 +26,25 @@ section1 = Section("Application Information", "", [
                  name='activity'),
     ]),
 ])
+
+
+def preexisting_good_form(description, control_code, part_number):
+    return Form('Add a pre-existing good to your application', '', [
+        HTMLBlock('<div class="govuk-inset-text">'
+                  '<p><span style="opacity: 0.6;">Description:</span> ' + description + '</p>'
+                  '<p><span style="opacity: 0.6;">Control Code:</span> ' + control_code + '</p>'
+                  '<p><span style="opacity: 0.6;">Part Number:</span> ' + part_number + '</p>'
+                  '</div>'),
+        Question(title='Quantity',
+                 description='',
+                 input_type=InputType.INPUT,
+                 name='destination'),
+        Question(title='Value',
+                 description='',
+                 input_type=InputType.INPUT,
+                 name='destination'),
+        Question(title='Unit of Measurement',
+                 description='',
+                 input_type=InputType.INPUT,
+                 name='destination'),
+    ])

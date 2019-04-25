@@ -1,10 +1,12 @@
 from django.http import Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
+from django.views.generic import TemplateView
 
 from core.builtins.custom_tags import get_string
-from drafts.services import get_draft, post_drafts, put_draft, delete_draft, submit_draft, get_draft_goods, get_drafts
-from goods.services import get_goods
+from drafts.services import get_draft, post_drafts, put_draft, delete_draft, submit_draft, get_draft_goods, get_drafts, \
+    post_draft_preexisting_goods
+from goods.services import get_goods, get_good
 from new_application import forms
 
 
@@ -157,3 +159,33 @@ def add_preexisting(request):
         'draft': draft,
     }
     return render(request, 'new_application/goods/preexisting.html', context)
+
+
+class AddPreexistingGood(TemplateView):
+    def get(self, request, **kwargs):
+        data, status_code = get_good(request, str(kwargs['pk']))
+        good = data.get('good')
+
+        context = {
+            'title': 'Add a pre-existing good to your application',
+            'page': forms.preexisting_good_form(good.get('description'), good.get('control_code'),
+                                                good.get('part_number')),
+        }
+        return render(request, 'form/form.html', context)
+
+    def post(self, request, **kwargs):
+        data, status_code = post_draft_preexisting_goods(request, request.POST, request.body)
+
+        if status_code == 400:
+            data, status_code = get_good(request, str(kwargs['pk']))
+            good = data.get('good')
+
+            context = {
+                'title': 'Add a pre-existing good to your application',
+                'page': forms.preexisting_good_form(good.get('description'), good.get('control_code'),
+                                                    good.get('part_number')),
+            }
+            return render(request, 'form/form.html', context)
+
+        return redirect('/goods/')
+

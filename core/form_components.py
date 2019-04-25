@@ -50,6 +50,11 @@ class HelpSection:
         self.description = description
 
 
+class HTMLBlock:
+    def __init__(self, html):
+        self.html = html
+
+
 class InputType(Enum):
     INPUT = 1
     TEXTAREA = 2

@@ -38,6 +38,11 @@ def get_draft_goods(request, pk):
     return data.json(), data.status_code
 
 
-def get_draft_good(request, pk, draft_pk):
-    data = get(request, DRAFTS_URL + pk + '/goods/' + draft_pk + '/')
+def get_draft_good(request, pk, good_pk):
+    data = get(request, DRAFTS_URL + pk + '/goods/' + good_pk + '/')
+    return data.json(), data.status_code
+
+
+def post_draft_preexisting_goods(request, pk, json):
+    data = post(request, DRAFTS_URL + pk + '/goods/', json)
     return data.json(), data.status_code
