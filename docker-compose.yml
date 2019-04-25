@@ -6,7 +6,7 @@ services:
     environment:
       - POSTGRES_PASSWORD=password
     networks:
-      - lite-api_lite-dev-network
+      - lite-dev-network
   exporter-fe:
     env_file:
       - .env
@@ -17,10 +17,12 @@ services:
       - ${PORT}:${PORT}
     depends_on:
       - fedb
+    expose:
+      - ${PORT}
     networks:
-      - lite-api_lite-dev-network
-    command: python3 manage.py runserver 0.0.0.0:${PORT}
+      - lite-dev-network
+    command: pipenv run ./manage.py runserver 0.0.0.0:${PORT}
 
 networks:
-  lite-api_lite-dev-network:
+  lite-dev-network:
     external: true
