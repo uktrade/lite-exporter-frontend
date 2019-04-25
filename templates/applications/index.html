@@ -39,7 +39,7 @@
 							<a class="hoverable-link tooltip">
 								<span class="tooltip-content" style="min-width: 150px;">
 									{% for good in application.goods %}
-										{{ good.name }}<br/>
+										{{ good.good.description }}<br/>
 									{% endfor %}
 								</span>
 								{{ application.goods|length }} Good{{ application.goods|length|pluralize }}
