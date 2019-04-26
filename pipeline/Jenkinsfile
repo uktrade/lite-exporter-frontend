@@ -76,15 +76,16 @@ pipeline
 
                                 // running selenium tests using pytest via docker
                                 sh "docker run " +
-                                        "--privileged " +                           // The --privileged flag gives all capabilities to the container,
-                                        "--shm-size=1g " +                          // shared memory size is set to 1G to prevent chromedriver memory leak
-                                        "--rm " +                                   // remove container at the end of the session
-                                        "-e PYTHONPATH=/code/ui_automation_tests/ " +                   // environment variable support
+                                        "--privileged " +                               // The --privileged flag gives all capabilities to the container,
+                                        "--shm-size=1g " +                              // shared memory size is set to 1G to prevent chromedriver memory leak
+                                        "--rm " +                                       // remove container at the end of the session
+                                        "--show-capture "
+                                        "-e PYTHONPATH=/code/ui_automation_tests/ " +  // environment variable support
                                         "-e ENVIRONMENT=${params.ENVIRONMENT} " +
-                                        "-w=/code " +                               // setting working directory
-                                        "-v `pwd`/ui_automation_tests:/code " +                 // mount git repository to the container
-                                        "exporter/selenium_image:latest " +         // the specific image that being used (latest image by default)
-                                        "-v " +                                     // verbose (for debugging purpose)
+                                        "-w=/code " +                                   // setting working directory
+                                        "-v `pwd`/ui_automation_tests:/code " +         // mount git repository to the container
+                                        "exporter/selenium_image:latest " +             // the specific image that being used (latest image by default)
+                                        "-v " +                                         // verbose (for debugging purpose)
                                         "${params.TESTS_TO_RUN}"
                             }
                             catch (error)
