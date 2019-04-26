@@ -11,6 +11,8 @@ import helpers.helpers as utils
 import pytest
 import logging
 
+LOGGER = logging.getLogger(__name__)
+
 
 @pytest.fixture(scope="function")
 def open_exporter_hub(driver, url):
@@ -20,8 +22,9 @@ def open_exporter_hub(driver, url):
     # assert driver.title == "Exporter Hub - LITE"
 
 
-def test_start_draft_application(driver, open_exporter_hub, url, caplog):
-    caplog.set_level(logging.INFO)
+def test_start_draft_application(driver, open_exporter_hub, url):
+    LOGGER.info('eggs info')
+
     logging.info("Test Started")
     exporter_hub = ExporterHubPage(driver)
     apply_for_licence = ApplyForALicencePage(driver)
