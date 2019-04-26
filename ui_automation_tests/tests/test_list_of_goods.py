@@ -17,6 +17,7 @@ def open_exporter_hub(driver, url):
     # navigate to the application home page
     driver.get(url)
     # driver.maximize_window()
+    print(driver.current_url)
 
 
 def test_add_goods_to_list_of_goods(driver, open_exporter_hub, url):

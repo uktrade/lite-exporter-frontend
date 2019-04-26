@@ -20,7 +20,7 @@ def open_exporter_hub(driver, url):
     driver.get(url)
     # driver.maximize_window()
     # assert driver.title == "Exporter Hub - LITE"
-    print("navigated to: " + driver.current_url)
+    print(driver.current_url)
 
 
 def test_start_draft_application(driver, open_exporter_hub, url):
@@ -32,6 +32,7 @@ def test_start_draft_application(driver, open_exporter_hub, url):
 
     exporter_hub.click_apply_for_a_licence()
 
+    print("Starting draft application")
     apply_for_licence.click_start_now_btn()
     logging.info("Clicked start button")
 
@@ -89,6 +90,7 @@ def test_submit_application(driver, open_exporter_hub, url):
     exporter_hub.click_apply_for_a_licence()
     logging.info("Clicked apply for a licence")
 
+    print("Starting application")
     apply_for_licence.click_start_now_btn()
     logging.info("Clicked start button")
 

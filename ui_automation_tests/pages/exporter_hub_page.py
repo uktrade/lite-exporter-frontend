@@ -19,7 +19,6 @@ class ExporterHubPage():
 
     def click_apply_for_a_licence(self):
         self.driver.find_element_by_css_selector(self.apply_for_a_licence_btn).click()
-        print("Clicked apply for a licence")
 
     def click_drafts(self):
         self.driver.find_element_by_css_selector(self.drafts_btn).click()

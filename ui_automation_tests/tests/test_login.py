@@ -18,6 +18,7 @@ def open_exporter_hub(driver, url):
     driver.get(url)
     # driver.maximize_window()
     assert driver.title == "Log In - LITE"
+    print(driver.current_url)
 
 
 def test_login_invalid_credentials(driver, open_exporter_hub):
