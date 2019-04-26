@@ -8,7 +8,7 @@ services:
     ports:
       - 5430:5432
     networks:
-      - lite-dev-network
+      - lite-api_default
   exporter-fe:
     env_file:
       - .env
@@ -22,9 +22,9 @@ services:
     expose:
       - ${PORT}
     networks:
-      - lite-dev-network
+      - lite-api_default
     command: pipenv run ./manage.py runserver 0.0.0.0:${PORT}
 
 networks:
-  lite-dev-network:
+  lite-api_default:
     external: false
