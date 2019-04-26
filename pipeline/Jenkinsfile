@@ -15,6 +15,11 @@ pipeline
 
                 // Define environment to run tests on
                 choice(name: 'ENVIRONMENT', description: 'choose what environment to run in', choices: 'dev\nstaging\nuat')
+
+                //Define branch to run
+                string(name: 'BRANCH', defaultValue: 'master', description: 'choose branch to run against')
+
+
             }
 
             options
@@ -35,7 +40,7 @@ pipeline
                     {
                         // checking out repository
                         checkout([
-                                $class: 'GitSCM', branches: [[name: 'master']],
+                                $class: 'GitSCM', branches: [[name: '${params.BRANCH}']],
                                 userRemoteConfigs: [[url: 'https://github.com/uktrade/lite-exporter-frontend.git']]
                         ])
 
