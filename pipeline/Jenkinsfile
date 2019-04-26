@@ -40,7 +40,8 @@ pipeline
                     {
                         // checking out repository
                         checkout([
-                                $class: 'GitSCM', branches: [[name: '${params.BRANCH}']],
+                                $class: 'GitSCM',
+                                branches: '${params.BRANCH}',
                                 userRemoteConfigs: [[url: 'https://github.com/uktrade/lite-exporter-frontend.git']]
                         ])
 
