@@ -5,8 +5,10 @@ services:
     image: "postgres"
     environment:
       - POSTGRES_PASSWORD=password
+    ports:
+      - 5430:5432
     networks:
-      - lite-api_default
+      - lite-dev-network
   exporter-fe:
     env_file:
       - .env
@@ -20,9 +22,9 @@ services:
     expose:
       - ${PORT}
     networks:
-      - lite-api_default
+      - lite-dev-network
     command: pipenv run ./manage.py runserver 0.0.0.0:${PORT}
 
 networks:
-  lite-api_default:
-    external: true
+  lite-dev-network:
+    external: false
