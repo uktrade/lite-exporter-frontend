@@ -11,15 +11,13 @@ pipeline
                 choice(name: 'DRIVER', description: 'Choose browser', choices: 'chrome\nfirefox\nheadless')
 
                 // Define test path to run
-                string(name: 'TESTS_TO_RUN', defaultValue: 'tests/test_draft_and_submit.py', description: 'choose test to run')                // Define test path to run
+                string(name: 'TESTS_TO_RUN', defaultValue: 'tests/test_draft_and_submit.py', description: 'choose test to run, leave blank to run all tests')
 
                 // Define environment to run tests on
-                choice(name: 'ENVIRONMENT', description: 'choose what environment to run in', choices: 'dev\nstaging\nuat')
+                choice(name: 'ENVIRONMENT', description: 'choose what environment to run in', choices: 'staging\ndev\nuat')
 
                 //Define branch to run
                 string(name: 'BRANCH', defaultValue: 'master', description: 'choose branch to run against')
-
-
             }
 
             options
@@ -84,7 +82,7 @@ pipeline
                                         "--privileged " +                               // The --privileged flag gives all capabilities to the container,
                                         "--shm-size=1g " +                              // shared memory size is set to 1G to prevent chromedriver memory leak
                                         "--rm " +                                       // remove container at the end of the session
-                                        "-e PYTHONPATH=/code/ui_automation_tests/ " +  // environment variable support
+                                        "-e PYTHONPATH=/code/ui_automation_tests/ " +   // environment variable support
                                         "-e ENVIRONMENT=${params.ENVIRONMENT} " +
                                         "-w=/code " +                                   // setting working directory
                                         "-v `pwd`/ui_automation_tests:/code " +         // mount git repository to the container
