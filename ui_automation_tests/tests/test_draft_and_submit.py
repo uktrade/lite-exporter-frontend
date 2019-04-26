@@ -17,7 +17,7 @@ def open_exporter_hub(driver, url):
     # navigate to the application home page
     driver.get(url)
     # driver.maximize_window()
-    assert driver.title == "Exporter Hub - LITE"
+    # assert driver.title == "Exporter Hub - LITE"
 
 
 def test_start_draft_application(driver, open_exporter_hub, url):
@@ -25,7 +25,8 @@ def test_start_draft_application(driver, open_exporter_hub, url):
     exporter_hub = ExporterHubPage(driver)
     apply_for_licence = ApplyForALicencePage(driver)
 
-    exporter_hub.go_to(url)
+    exporter_hub.login("test@mail.com", "password")
+
     exporter_hub.click_apply_for_a_licence()
     logging.info("Clicked apply for a licence")
 
@@ -33,13 +34,9 @@ def test_start_draft_application(driver, open_exporter_hub, url):
     logging.info("Clicked start button")
 
     app_time_id = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    apply_for_licence.enter_name_or_reference_for_application("TestApp " + app_time_id)
+    apply_for_licence.enter_name_or_reference_for_application("Test Application " + app_time_id)
     apply_for_licence.click_save_and_continue()
     logging.info("Entered name of application and clicked save and continue")
-
-    apply_for_licence.enter_control_code("000T")
-    apply_for_licence.click_save_and_continue()
-    logging.info("Entered control code and clicked save and continue")
 
     apply_for_licence.enter_destination("Cuba")
     apply_for_licence.click_save_and_continue()
@@ -72,7 +69,7 @@ def test_start_draft_application(driver, open_exporter_hub, url):
     assert "Overview" in driver.title
 
     appName = driver.find_element_by_tag_name("h2").text
-    assert "TestApp" in appName
+    assert "Test Application" in appName
     logging.info("application opened to application overview")
 
     apply_for_licence.click_delete_application()
@@ -86,7 +83,6 @@ def test_submit_application(driver, open_exporter_hub, url):
     exporter_hub = ExporterHubPage(driver)
     apply_for_licence = ApplyForALicencePage(driver)
 
-    exporter_hub.go_to(url)
     exporter_hub.click_apply_for_a_licence()
     logging.info("Clicked apply for a licence")
 
@@ -94,13 +90,9 @@ def test_submit_application(driver, open_exporter_hub, url):
     logging.info("Clicked start button")
 
     app_time_id = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    apply_for_licence.enter_name_or_reference_for_application("TestApp " + app_time_id)
+    apply_for_licence.enter_name_or_reference_for_application("Test Application " + app_time_id)
     apply_for_licence.click_save_and_continue()
     logging.info("Entered name of application and clicked save and continue")
-
-    apply_for_licence.enter_control_code("000T")
-    apply_for_licence.click_save_and_continue()
-    logging.info("Entered control code and clicked save and continue")
 
     apply_for_licence.enter_destination("Cuba")
     apply_for_licence.click_save_and_continue()
@@ -141,9 +133,9 @@ def test_submit_application(driver, open_exporter_hub, url):
 
 def test_must_enter_fields_for_application(driver, open_exporter_hub):
     logging.info("Test Started")
-
     exporter_hub = ExporterHubPage(driver)
     apply_for_licence = ApplyForALicencePage(driver)
+
     exporter_hub.click_apply_for_a_licence()
     logging.info("Clicked apply for a licence")
     apply_for_licence.click_start_now_btn()
@@ -159,18 +151,6 @@ def test_must_enter_fields_for_application(driver, open_exporter_hub):
     logging.info("Error displayed successfully")
 
     apply_for_licence.enter_name_or_reference_for_application("a")
-    apply_for_licence.click_save_and_continue()
-
-    logging.info("no control code entered")
-    logging.info("clicked save and continue")
-    apply_for_licence.click_save_and_continue()
-
-    element = driver.find_element_by_css_selector('.govuk-error-summary')
-    assert element.is_displayed()
-    assert 'Control_Code: This field may not be blank.' in element.text
-    logging.info("Error displayed successfully")
-
-    apply_for_licence.enter_control_code("b")
     apply_for_licence.click_save_and_continue()
 
     logging.info("no Destination entered")

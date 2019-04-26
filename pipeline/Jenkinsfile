@@ -35,7 +35,7 @@ pipeline
                     {
                         // checking out repository
                         checkout([
-                                $class: 'GitSCM', branches: [[name: 'Test-Refactor-E2E']],
+                                $class: 'GitSCM', branches: [[name: 'master']],
                                 userRemoteConfigs: [[url: 'https://github.com/uktrade/lite-exporter-frontend.git']]
                         ])
 
@@ -80,6 +80,7 @@ pipeline
                                         "--shm-size=1g " +                          // shared memory size is set to 1G to prevent chromedriver memory leak
                                         "--rm " +                                   // remove container at the end of the session
                                         "-e PYTHONPATH=/code/ui_automation_tests/ " +                   // environment variable support
+                                        "-e ENVIRONMENT=${params.ENVIRONMENT} " +
                                         "-w=/code " +                               // setting working directory
                                         "-v `pwd`/ui_automation_tests:/code " +                 // mount git repository to the container
                                         "exporter/selenium_image:latest " +         // the specific image that being used (latest image by default)
