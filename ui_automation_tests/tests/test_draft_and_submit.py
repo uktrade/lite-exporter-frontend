@@ -20,15 +20,13 @@ def open_exporter_hub(driver, url):
     driver.get(url)
     # driver.maximize_window()
     # assert driver.title == "Exporter Hub - LITE"
+    print(driver.current_url)
 
 
 def test_start_draft_application(driver, open_exporter_hub, url):
-    LOGGER.info('eggs info')
-
     logging.info("Test Started")
     exporter_hub = ExporterHubPage(driver)
     apply_for_licence = ApplyForALicencePage(driver)
-    print("Hello World")
     exporter_hub.login("test@mail.com", "password")
 
     exporter_hub.click_apply_for_a_licence()
