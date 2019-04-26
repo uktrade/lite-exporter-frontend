@@ -79,7 +79,6 @@ pipeline
                                         "--privileged " +                               // The --privileged flag gives all capabilities to the container,
                                         "--shm-size=1g " +                              // shared memory size is set to 1G to prevent chromedriver memory leak
                                         "--rm " +                                       // remove container at the end of the session
-                                        "--show-capture "
                                         "-e PYTHONPATH=/code/ui_automation_tests/ " +  // environment variable support
                                         "-e ENVIRONMENT=${params.ENVIRONMENT} " +
                                         "-w=/code " +                                   // setting working directory

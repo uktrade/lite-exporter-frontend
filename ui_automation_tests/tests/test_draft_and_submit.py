@@ -20,7 +20,8 @@ def open_exporter_hub(driver, url):
     # assert driver.title == "Exporter Hub - LITE"
 
 
-def test_start_draft_application(driver, open_exporter_hub, url):
+def test_start_draft_application(driver, open_exporter_hub, url, caplog):
+    caplog.set_level(logging.INFO)
     logging.info("Test Started")
     exporter_hub = ExporterHubPage(driver)
     apply_for_licence = ApplyForALicencePage(driver)
