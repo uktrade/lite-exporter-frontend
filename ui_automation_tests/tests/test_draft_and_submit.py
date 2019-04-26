@@ -20,17 +20,17 @@ def open_exporter_hub(driver, url):
     driver.get(url)
     # driver.maximize_window()
     # assert driver.title == "Exporter Hub - LITE"
-    print(driver.current_url)
+    print("navigated to: " + driver.current_url)
 
 
 def test_start_draft_application(driver, open_exporter_hub, url):
-    print("Test Started")
     exporter_hub = ExporterHubPage(driver)
     apply_for_licence = ApplyForALicencePage(driver)
+
+    print("logging in as test@mail.com")
     exporter_hub.login("test@mail.com", "password")
 
     exporter_hub.click_apply_for_a_licence()
-    logging.info("Clicked apply for a licence")
 
     apply_for_licence.click_start_now_btn()
     logging.info("Clicked start button")
@@ -60,6 +60,7 @@ def test_start_draft_application(driver, open_exporter_hub, url):
     logging.info("On Exporter Hub Page")
 
     # verify application is in drafts
+    print("verifying application is in drafts")
     exporter_hub.click_drafts()
     logging.info("Clicked drafts")
 
@@ -77,7 +78,7 @@ def test_start_draft_application(driver, open_exporter_hub, url):
     apply_for_licence.click_delete_application()
     assert 'Exporter Hub - LITE' in driver.title, "Delete Application link on overview page failed to go to Exporter Hub page"
 
-    logging.info("Test Complete")
+    print("Test Complete")
 
 
 def test_submit_application(driver, open_exporter_hub, url):
@@ -111,22 +112,24 @@ def test_submit_application(driver, open_exporter_hub, url):
     assert "Overview" in driver.title
     logging.info("On the application overview page")
 
+    print("Submitting application...")
     apply_for_licence.click_submit_application()
 
     application_complete = driver.find_element_by_tag_name("h1").text
     assert "Application complete" in application_complete
+    print("Application submitted")
 
     exporter_hub.go_to(url)
     logging.info("On Exporter Hub Page")
 
-    # verify application is in drafts
     exporter_hub.click_applications()
     logging.info("Clicked Applications")
 
     assert utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'" + app_time_id + "')]]")
-    logging.info("application found in submitted applications list")
+    print("application found in submitted applications list")
 
     # Check application status is Submitted
+    print("verifying application status is Submitted")
     status = driver.find_element_by_xpath("//*[text()[contains(.,'" + app_time_id + "')]]/following-sibling::td[last()]")
     assert status.is_displayed()
     assert status.text == "Submitted"
