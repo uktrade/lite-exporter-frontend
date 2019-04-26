@@ -7,7 +7,7 @@ from selenium.webdriver.common.by import By
 from pages.exporter_hub_page import ExporterHubPage
 from pages.apply_for_a_licence_page import ApplyForALicencePage
 from pages.applications_page import ApplicationsPage
-import ui_automation_tests.helpers.helpers as utils
+import helpers.helpers as utils
 import pytest
 import logging
 
