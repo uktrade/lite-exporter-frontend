@@ -17,7 +17,8 @@ pipeline
                 choice(name: 'ENVIRONMENT', description: 'choose what environment to run in', choices: 'dev\nstaging\nuat')
 
                 //Define branch to run
-                gitParameter branchFilter: 'origin/(.*)', defaultValue: 'master', name: 'BRANCH', type: 'PT_BRANCH'
+                string(name: 'BRANCH', defaultValue: 'master', description: 'choose branch to run against')
+
 
             }
 
