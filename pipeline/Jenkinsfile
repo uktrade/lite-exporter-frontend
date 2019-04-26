@@ -17,8 +17,7 @@ pipeline
                 choice(name: 'ENVIRONMENT', description: 'choose what environment to run in', choices: 'dev\nstaging\nuat')
 
                 //Define branch to run
-                string(name: 'BRANCH', defaultValue: 'master', description: 'choose branch to run against')
-
+                gitParameter branchFilter: 'origin/(.*)', defaultValue: 'master', name: 'BRANCH', type: 'PT_BRANCH'
 
             }
 
@@ -40,8 +39,7 @@ pipeline
                     {
                         // checking out repository
                         checkout([
-                                $class: 'GitSCM',
-                                branches: '${params.BRANCH}',
+                                $class: 'GitSCM', branches: [[name: "${params.BRANCH}"]],
                                 userRemoteConfigs: [[url: 'https://github.com/uktrade/lite-exporter-frontend.git']]
                         ])
 
