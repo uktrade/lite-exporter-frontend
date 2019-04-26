@@ -25,7 +25,7 @@ pipeline
             options
             {
                 // keep last 100 builds
-                buildDiscarder(logRotator(numToKeepStr: '3'))
+                buildDiscarder(logRotator(numToKeepStr: '10'))
 
                 // add timestamp
                 timestamps()
