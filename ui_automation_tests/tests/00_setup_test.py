@@ -1,11 +1,5 @@
-from selenium import webdriver
-import unittest
-import datetime
-import os
-from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
-
-import ui_automation_tests.helpers.helpers as utils
+import helpers.helpers as utils
 import pytest
 
 
