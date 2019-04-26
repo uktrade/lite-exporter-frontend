@@ -21,6 +21,7 @@ def open_exporter_hub(driver, url):
     print(driver.current_url)
 
 
+@pytest.mark.run(order=1)
 def test_login_invalid_credentials(driver, open_exporter_hub):
     logging.info("Test Started")
     exporter_hub = ExporterHubPage(driver)
