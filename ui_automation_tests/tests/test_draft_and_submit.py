@@ -24,7 +24,7 @@ def open_exporter_hub(driver, url):
 
 
 def test_start_draft_application(driver, open_exporter_hub, url):
-    logging.info("Test Started")
+    print("Test Started")
     exporter_hub = ExporterHubPage(driver)
     apply_for_licence = ApplyForALicencePage(driver)
     exporter_hub.login("test@mail.com", "password")

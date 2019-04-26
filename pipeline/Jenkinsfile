@@ -84,7 +84,8 @@ pipeline
                                         "-w=/code " +                                   // setting working directory
                                         "-v `pwd`/ui_automation_tests:/code " +         // mount git repository to the container
                                         "exporter/selenium_image:latest " +             // the specific image that being used (latest image by default)
-                                        "-v=2" +                                         // verbose (for debugging purpose)
+                                        "-v " +                                         // verbose (for debugging purpose)
+                                        "-s " +
                                         "${params.TESTS_TO_RUN}"
                             }
                             catch (error)
