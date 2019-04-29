@@ -5,8 +5,12 @@ from conf.constants import GOODS_URL
 
 
 def get_goods(request, params=None):
-    params = urlencode(params)
-    data = get(request, GOODS_URL + '?' + params)
+    if params:
+        query_params = urlencode(params)
+        data = get(request, GOODS_URL + '?' + query_params)
+    else:
+        data = get(request, GOODS_URL)
+
     return data.json(), data.status_code
 
 
