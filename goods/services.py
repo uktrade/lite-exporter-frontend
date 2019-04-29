@@ -1,9 +1,12 @@
+from urllib.parse import urlencode
+
 from conf.client import get, post
 from conf.constants import GOODS_URL
 
 
-def get_goods(request):
-    data = get(request, GOODS_URL)
+def get_goods(request, params=None):
+    params = urlencode(params)
+    data = get(request, GOODS_URL + '?' + params)
     return data.json(), data.status_code
 
 
