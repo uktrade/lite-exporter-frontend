@@ -1,18 +1,21 @@
 from selenium.webdriver.common.by import By
 import helpers.helpers as utils
 import pytest
-
+import  logging
+log = logging.getLogger()
+console = logging.StreamHandler()
+log.addHandler(console)
 
 @pytest.fixture(scope="function")
 def open_internal_hub(driver, internal_url):
     # navigate to the application home page
     driver.get(internal_url)
     # driver.maximize_window()
-    print(driver.current_url)
+    log.info(driver.current_url)
 
 
 def test_new_organisation_setup(driver, open_internal_hub):
-    print("Setting up new organisation")
+    log.info("Setting up new organisation")
 
     manage_organisations_btn = driver.find_element_by_css_selector("a[href*='/organisations']")
     manage_organisations_btn.click()

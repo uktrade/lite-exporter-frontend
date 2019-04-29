@@ -10,14 +10,16 @@ from pages.applications_page import ApplicationsPage
 import helpers.helpers as utils
 import pytest
 import logging
-
+log = logging.getLogger()
+console = logging.StreamHandler()
+log.addHandler(console)
 
 @pytest.fixture(scope="function")
 def open_exporter_hub(driver, url):
     # navigate to the application home page
     driver.get(url)
     # driver.maximize_window()
-    print(driver.current_url)
+    log.info(driver.current_url)
 
 
 def test_add_goods(driver, open_exporter_hub, url):
@@ -53,7 +55,7 @@ def test_add_goods_to_application(driver, open_exporter_hub):
 
     exporter_hub.click_apply_for_a_licence()
 
-    print("Starting application")
+    log.info("Starting application")
     apply_for_licence.click_start_now_btn()
     logging.info("Clicked start button")
     app_time_id = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -79,7 +81,7 @@ def test_add_goods_to_application(driver, open_exporter_hub):
 
     apply_for_licence.click_save_and_continue()
 
-    print("verifying goods added")
+    log.info("verifying goods added")
     assert utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'part-123')]]")
     assert utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'1')]]")
     assert utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'1500.00')]]")

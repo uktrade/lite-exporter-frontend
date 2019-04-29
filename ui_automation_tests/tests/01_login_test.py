@@ -10,7 +10,9 @@ from pages.applications_page import ApplicationsPage
 import helpers.helpers as utils
 import pytest
 import logging
-
+log = logging.getLogger()
+console = logging.StreamHandler()
+log.addHandler(console)
 
 @pytest.fixture(scope="function")
 def open_exporter_hub(driver, url):
@@ -18,7 +20,7 @@ def open_exporter_hub(driver, url):
     driver.get(url)
     # driver.maximize_window()
     assert driver.title == "Log In - LITE"
-    print(driver.current_url)
+    log.info(driver.current_url)
 
 
 def test_login_invalid_credentials(driver, open_exporter_hub):
