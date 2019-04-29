@@ -20,7 +20,7 @@ def open_exporter_hub(driver, url):
     print(driver.current_url)
 
 
-def test_add_goods_to_list_of_goods(driver, open_exporter_hub, url):
+def test_add_goods(driver, open_exporter_hub, url):
     exporter_hub = ExporterHubPage(driver)
     exporter_hub.login("test@mail.com", "password")
 
@@ -42,6 +42,48 @@ def test_add_goods_to_list_of_goods(driver, open_exporter_hub, url):
     exporter_hub.verify_good_is_in_goods_list(time_id, "part-123", "ML6")
 
     logging.info("Test Complete")
+
+
+def test_add_goods_to_application(driver, open_exporter_hub):
+    exporter_hub = ExporterHubPage(driver)
+    apply_for_licence = ApplyForALicencePage(driver)
+
+    # print("logging in as test@mail.com")
+    # exporter_hub.login("test@mail.com", "password")
+
+    exporter_hub.click_apply_for_a_licence()
+
+    print("Starting application")
+    apply_for_licence.click_start_now_btn()
+    logging.info("Clicked start button")
+    app_time_id = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    apply_for_licence.enter_name_or_reference_for_application("Test Application " + app_time_id)
+    apply_for_licence.click_save_and_continue()
+    apply_for_licence.enter_destination("Cuba")
+    apply_for_licence.click_save_and_continue()
+    apply_for_licence.click_go_to_overview()
+    apply_for_licence.click_goods_link()
+    apply_for_licence.click_add_from_organisations_goods()
+    apply_for_licence.add_good_to_application("part-123")
+    apply_for_licence.click_save_and_continue()
+
+    element = driver.find_element_by_css_selector('.govuk-error-summary')
+    assert element.is_displayed()
+    assert 'Quantity: A valid number is required.' in element.text
+    assert 'Unit: This field may not be blank.' in element.text
+    assert 'Value: A valid number is required.' in element.text
+
+    apply_for_licence.enter_quantity("1")
+    apply_for_licence.enter_value("1500")
+    apply_for_licence.enter_unit_of_measurement("kg")
+
+    apply_for_licence.click_save_and_continue()
+
+    print("verifying goods added")
+    assert utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'part-123')]]")
+    assert utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'1')]]")
+    assert utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'1500.00')]]")
+    assert utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'kg')]]")
 
 
 def test_teardown(driver):
