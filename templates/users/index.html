@@ -1,0 +1,37 @@
+{% extends 'layouts/full_width.html' %}
+
+{% load humanize %}
+
+{% block body %}
+
+	<div class="app-bar">
+		<h1 class="govuk-heading-l">People</h1>
+		<div class="app-bar--right">
+			<a href="{% url 'users:add' %}" class="govuk-button" draggable="false" role="button">
+				Add a user
+			</a>
+		</div>
+	</div>
+
+	{% if data.users|length %}
+		<table class="lite-table">
+			<thead class="lite-table__head">
+				<tr class="lite-table__row">
+					<th class="lite-table__header" scope="col">Name</th>
+					<th class="lite-table__header" scope="col">Email</th>
+				</tr>
+			</thead>
+			<tbody class="lite-table__body">
+				{% for user in data.users %}
+					<tr class="lite-table__row">
+						<td class="lite-table__cell">{{ user.first_name }} {{user.last_name }}</td>
+						<td class="lite-table__cell">{{ user.email }}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	{% else %}
+		<p class="govuk-caption-l">You don't have any users at the moment.</p>
+	{% endif %}
+
+{% endblock %}
