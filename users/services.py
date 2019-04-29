@@ -1,4 +1,6 @@
-from conf.client import get, post
+import json
+
+from conf.client import get, post, delete, put
 from conf.constants import USERS_URL
 
 
@@ -14,4 +16,14 @@ def get_user(request, pk):
 
 def post_users(request, json):
     data = post(request, USERS_URL, json)
+    return data.json(), data.status_code
+
+
+def deactivate_user(request, pk, json):
+    data = put(request, USERS_URL + pk + "/", json)
+    return data.json(), data.status_code
+
+
+def reactivate_user(request, pk, json):
+    data = put(request, USERS_URL + pk + "/", json)
     return data.json(), data.status_code

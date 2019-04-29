@@ -1,0 +1,10 @@
+{% extends "layouts/two_pane.html" %}
+
+{% block body %}
+	<h1 class="govuk-heading-l">{{ title }}</h1>
+	<p class="govuk-caption-m">This user will be able to log in and perform tasks on LITE on behalf of your organisation.</p>
+	<div class="buttons-row">
+		<a href="{% url 'users:reactivate_confirm' %}?id={{ user_id }}" role="button" draggable="false" class="govuk-button govuk-!-margin-right-2">Reactivate User</a>
+		<a href="{% url 'users:users' %}" role="button" draggable="false" class="govuk-button govuk-button--secondary">Cancel</a>
+	</div>
+{% endblock %}
