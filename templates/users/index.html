@@ -28,19 +28,21 @@
 					<th class="lite-table__header" scope="col">Status</th>
                     <th class="lite-table__header" scope="col"></th>
 					<th class="lite-table__header" scope="col"></th>
+					<th class="lite-table__header" scope="col"></th>
 				</tr>
 			</thead>
 			<tbody class="lite-table__body">
 				{% for user in data.users %}
 					<tr class="lite-table__row">
-						<td class="lite-table__cell">{{ user.first_name }} {{user.last_name }}</td>
+						<td class="lite-table__cell">
+							<a href="{% url 'users:profile' %}?id={{ user.id }}&return=users" style="margin: 0;" class="govuk-link">
+								{{ user.first_name }} {{ user.last_name }}
+							</a>
+						</td>
 						<td class="lite-table__cell">{{ user.email }}</td>
 						<td class="lite-table__cell">{{ user.status }}</td>
-                        <td class="lite-table__cell">
-							<a href="{% url 'users:deactivate' %}?id={{ user.id }}&return=users" style="margin: 0;" class="cancel-link">Deactivate</a>
-						</td>
 						<td class="lite-table__cell">
-							<a href="{% url 'users:reactivate' %}?id={{ user.id }}&return=users" style="margin: 0;" class="link">Reactivate</a>
+							<a href="{% url 'users:profile' %}?id={{ user.id }}&return=users" style="margin: 0;" class="govuk-link">Edit</a>
 						</td>
 					</tr>
 				{% endfor %}

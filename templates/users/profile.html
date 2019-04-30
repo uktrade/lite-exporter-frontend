@@ -1,0 +1,29 @@
+{% extends 'layouts/base.html' %}
+
+{% load humanize custom_tags %}
+
+{% block back-button %}
+	<a href="#" class="govuk-back-link">Back</a>
+{% endblock %}
+
+{% block body %}
+
+	<span class="govuk-caption-l">{{ title }}</span>
+	<h2 class="govuk-heading-l">
+		{{ data.user.first_name }} {{ data.user.last_name }}
+	</h2>
+    <p class="govuk-label">
+        First name: {{ data.user.first_name }}
+    </p>
+    <p class="govuk-label">Last name: {{ data.user.last_name }}</p>
+    <p class="govuk-label">Email: {{ data.user.email }}</p>
+    <p class="govuk-label">Status: {{ data.user.status }}</p>
+    <div>
+        <a href="{% url 'users:profile' %}?id={{ user.id }}&return=users" type="submit" class="govuk-button">Edit</a>
+    </div>
+    {% if data.user.status == 'active' %}
+        <a href="{% url 'users:deactivate' %}?id={{ data.user.id }}&return=users" role="button" draggable="false" class="govuk-button govuk-button--destructive govuk-!-margin-right-2">Deactivate</a>
+    {% elif data.user.status == 'deactivated' %}
+        <a href="{% url 'users:reactivate' %}?id={{ data.user.id }}&return=users" role="button" draggable="false" class="govuk-button govuk-!-margin-right-2">Reactivate</a>
+    {% endif %}
+{% endblock %}

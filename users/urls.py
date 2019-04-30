@@ -15,4 +15,6 @@ urlpatterns = [
     path('users/deactivate-confirm/', views.deactivate_confirm, name='deactivate_confirm'),
     path('reactivate', views.reactivate, name='reactivate'),
     path('users/reactivate-confirm/', views.reactivate_confirm, name='reactivate_confirm'),
+    path('profile/', views.ViewUser.as_view(), name='profile'),
+    path('edit', views.EditUser.as_view(), name='edit')
 ]

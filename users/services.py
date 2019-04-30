@@ -1,6 +1,4 @@
-import json
-
-from conf.client import get, post, delete, put
+from conf.client import get, post, put
 from conf.constants import USERS_URL
 
 
