@@ -22,7 +22,7 @@ def hub(request):
                 Tile(get_string('drafts.title'), "", reverse_lazy('drafts:drafts')),
                 Tile(get_string('applications.title'), "", reverse_lazy('applications:applications')),
                 Tile('My Goods', "", reverse_lazy('goods:goods')),
-                Tile('People', "", reverse_lazy('users:users')),
+                Tile('Users', "", reverse_lazy('users:users')),
             ]),
         ],
         'applicationDeleted': request.GET.get('application_deleted'),
