@@ -4,7 +4,14 @@
 
 {% block body %}
 
-	<h1 class="govuk-heading-l">{{ title }}</h1>
+	<div class="lite-app-bar">
+		<h1 class="govuk-heading-l">{{ title }}</h1>
+		<div class="app-bar--right">
+			<a href="{% url 'sites:new' %}" class="govuk-button" draggable="false" role="button">
+				New Site
+			</a>
+		</div>
+	</div>
 
 	{% if data.sites|length %}
 		<table class="lite-table">
@@ -16,6 +23,7 @@
 					<th class="lite-table__header">
 						ID
 					</th>
+					<th class="lite-table__header"></th>
 				</tr>
 			</thead>
 			<tbody class="lite-table__head">
@@ -28,6 +36,9 @@
 						</td>
 						<td class="lite-table__cell">
 							{{ site.id }}
+						</td>
+						<td class="lite-table__cell">
+							<a href="{% url 'sites:edit' site.id %}">Edit</a>
 						</td>
 					</tr>
 				{% endfor %}
