@@ -26,7 +26,7 @@ def test_add_goods(driver, open_exporter_hub, url):
     exporter_hub = ExporterHubPage(driver)
     exporter_hub.login("test@mail.com", "password")
 
-    time_id = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    time_id = datetime.datetime.now().strftime("%m%d-%H%M")
 
     # Click My goods assert is on the my goods page
     exporter_hub.click_my_goods()
@@ -50,23 +50,23 @@ def test_add_goods_to_application(driver, open_exporter_hub):
     exporter_hub = ExporterHubPage(driver)
     apply_for_licence = ApplyForALicencePage(driver)
 
-    # print("logging in as test@mail.com")
     # exporter_hub.login("test@mail.com", "password")
 
     exporter_hub.click_apply_for_a_licence()
-
     log.info("Starting application")
     apply_for_licence.click_start_now_btn()
     logging.info("Clicked start button")
-    app_time_id = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    apply_for_licence.enter_name_or_reference_for_application("Test Application " + app_time_id)
+    time_id = datetime.datetime.now().strftime("%m%d-%H%M")
+    apply_for_licence.enter_name_or_reference_for_application("Test Application " + time_id)
     apply_for_licence.click_save_and_continue()
     apply_for_licence.enter_destination("Cuba")
     apply_for_licence.click_save_and_continue()
     apply_for_licence.click_go_to_overview()
+
     apply_for_licence.click_goods_link()
     apply_for_licence.click_add_from_organisations_goods()
-    apply_for_licence.add_good_to_application("part-123")
+    apply_for_licence.add_good_to_application("Good T1")
+
     apply_for_licence.click_save_and_continue()
 
     element = driver.find_element_by_css_selector('.govuk-error-summary')
@@ -82,10 +82,98 @@ def test_add_goods_to_application(driver, open_exporter_hub):
     apply_for_licence.click_save_and_continue()
 
     log.info("verifying goods added")
-    assert utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'part-123')]]")
+    assert utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'Good T1')]]")
     assert utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'1')]]")
     assert utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'1500.00')]]")
     assert utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'kg')]]")
+
+
+def test_search_for_goods_by_description(driver, open_exporter_hub):
+    exporter_hub = ExporterHubPage(driver)
+    goods = ApplyForALicencePage(driver)
+
+    # exporter_hub.login("test@mail.com", "password")
+    exporter_hub.click_apply_for_a_licence()
+
+    log.info("Starting application")
+    goods.click_start_now_btn()
+    logging.info("Clicked start button")
+    time_id = datetime.datetime.now().strftime("%m%d-%H%M")
+    goods.enter_name_or_reference_for_application("Test Application " + time_id)
+    goods.click_save_and_continue()
+    goods.enter_destination("Cuba")
+    goods.click_save_and_continue()
+    goods.click_go_to_overview()
+    goods.click_goods_link()
+    goods.click_add_from_organisations_goods()
+
+    goods.enter_description("Good 1")
+    goods.click_filter_btn()
+
+    goods = driver.find_elements_by_xpath("//div[@class='lite-item']")
+    assert len(goods) == 1
+    assert goods[0].find_element(By.TAG_NAME, "h4").text == "Good 1"
+
+
+def test_search_for_goods_by_part_number(driver, open_exporter_hub):
+    exporter_hub = ExporterHubPage(driver)
+    goods = ApplyForALicencePage(driver)
+
+    # exporter_hub.login("test@mail.com", "password")
+    exporter_hub.click_apply_for_a_licence()
+
+    log.info("Starting application")
+    goods.click_start_now_btn()
+    logging.info("Clicked start button")
+    time_id = datetime.datetime.now().strftime("%m%d-%H%M")
+    goods.enter_name_or_reference_for_application("Test Application " + time_id)
+    goods.click_save_and_continue()
+    goods.enter_destination("Cuba")
+    goods.click_save_and_continue()
+    goods.click_go_to_overview()
+    goods.click_goods_link()
+    goods.click_add_from_organisations_goods()
+
+    goods.enter_part_number("G1-12")
+    goods.click_filter_btn()
+
+    goods = driver.find_elements_by_xpath("//div[@class='lite-item']")
+    assert len(goods) == 1
+    assert "G1-12" in goods[0].text
+
+
+def test_remove_filter(driver,open_exporter_hub):
+    exporter_hub = ExporterHubPage(driver)
+    goods = ApplyForALicencePage(driver)
+
+    # exporter_hub.login("test@mail.com", "password")
+    exporter_hub.click_apply_for_a_licence()
+
+    log.info("Starting application")
+    goods.click_start_now_btn()
+    logging.info("Clicked start button")
+    time_id = datetime.datetime.now().strftime("%m%d-%H%M")
+    goods.enter_name_or_reference_for_application("Test Application " + time_id)
+    goods.click_save_and_continue()
+    goods.enter_destination("Cuba")
+    goods.click_save_and_continue()
+    goods.click_go_to_overview()
+    goods.click_goods_link()
+    goods.click_add_from_organisations_goods()
+
+    goods.enter_description("Good T1")
+    goods.enter_part_number("G1-12")
+    goods.click_filter_btn()
+
+    goods = driver.find_elements_by_xpath("//div[@class='lite-item']")
+    assert len(goods) == 1
+
+    filter_tags = driver.find_elements_by_css_selector(".lite-filter-bar a")
+    for tag in range(len(filter_tags)):
+        driver.find_element_by_css_selector(".lite-filter-bar a").click()
+
+    goods = driver.find_elements_by_xpath("//div[@class='lite-item']")
+    assert len(goods) > 1
 
 
 def test_teardown(driver):
