@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
 from core.builtins.custom_tags import get_string
-from drafts.services import get_draft, post_drafts, put_draft, delete_draft, submit_draft, get_draft_goods, get_drafts, \
+from drafts.services import get_draft, post_drafts, put_draft, delete_draft, submit_draft, get_draft_goods, \
     post_draft_preexisting_goods
 from goods.services import get_goods, get_good
 from new_application import forms
@@ -152,13 +152,18 @@ def goods(request):
 def add_preexisting(request):
     draft_id = request.GET.get('id')
     draft, status_code = get_draft(request, draft_id)
-    data, status_code = get_goods(request)
+    description = request.GET.get('description', '')
+    part_number = request.GET.get('part_number', '')
+    data, status_code = get_goods(request, {'description': description,
+                                            'part_number': part_number})
 
     context = {
         'title': 'Goods',
         'draft_id': draft_id,
         'data': data,
         'draft': draft,
+        'description': description,
+        'part_number': part_number,
     }
     return render(request, 'new_application/goods/preexisting.html', context)
 
