@@ -107,12 +107,12 @@ def test_search_for_goods_by_description(driver, open_exporter_hub):
     goods.click_goods_link()
     goods.click_add_from_organisations_goods()
 
-    goods.enter_description("Good 1")
+    goods.enter_description("Good T1")
     goods.click_filter_btn()
 
     goods = driver.find_elements_by_xpath("//div[@class='lite-item']")
     assert len(goods) == 1
-    assert goods[0].find_element(By.TAG_NAME, "h4").text == "Good 1"
+    assert goods[0].find_element(By.TAG_NAME, "h4").text == "Good T1"
 
 
 def test_search_for_goods_by_part_number(driver, open_exporter_hub):

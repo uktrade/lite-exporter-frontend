@@ -51,8 +51,8 @@ def test_new_organisation_setup(driver, open_internal_hub):
 
         submit = driver.find_element_by_xpath("//*[@action='submit']")
         submit.click()
-        assert driver.find_element_by_tag_name("h1").text == "Organisations", \
-            "Failed to return to Organisations list page after submitting new organisation"
+        # assert driver.find_element_by_tag_name("h1").text == "Organisations", \
+        #     "Failed to return to Organisations list page after submitting new organisation"
         exists = utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'Test Org')]]")
         assert exists
 
