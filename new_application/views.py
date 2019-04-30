@@ -137,12 +137,14 @@ def cancel_confirm(request):
 
 def goods(request):
     draft_id = request.GET.get('id')
+    draft, status_code = get_draft(request, draft_id)
     data, status_code = get_draft_goods(request, draft_id)
 
     context = {
         'title': 'Goods',
         'draft_id': draft_id,
         'data': data,
+		'draft': draft,
     }
     return render(request, 'new_application/goods/index.html', context)
 
@@ -195,4 +197,3 @@ class AddPreexistingGood(TemplateView):
             return render(request, 'form/form.html', context)
 
         return redirect(reverse_lazy('new_application:goods') + '?id=' + draft_id)
-
