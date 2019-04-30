@@ -19,11 +19,6 @@ def post_users(request, json):
     return data.json(), data.status_code
 
 
-def deactivate_user(request, pk, json):
-    data = put(request, USERS_URL + pk + "/", json)
-    return data.json(), data.status_code
-
-
-def reactivate_user(request, pk, json):
+def update_user(request, pk, json):
     data = put(request, USERS_URL + pk + "/", json)
     return data.json(), data.status_code

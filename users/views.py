@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
 
 from users import forms
-from users.services import get_users, post_users, deactivate_user, reactivate_user
+from users.services import get_users, post_users, update_user
 
 
 class Users(TemplateView):
@@ -49,7 +49,7 @@ def deactivate(request):
 
 
 def deactivate_confirm(request):
-    deactivate_user(request, request.GET.get('id'), json={"status": "deactivated"})
+    update_user(request, request.GET.get('id'), json={"status": "deactivated"})
 
     if request.GET.get('return') == 'users':
         return redirect('/users?user_deactivated=true')
@@ -66,7 +66,7 @@ def reactivate(request):
 
 
 def reactivate_confirm(request):
-    reactivate_user(request, request.GET.get('id'), json={"status": "active"})
+    update_user(request, request.GET.get('id'), json={"status": "active"})
 
     if request.GET.get('return') == 'users':
         return redirect('/users?user_reactivated=true')
