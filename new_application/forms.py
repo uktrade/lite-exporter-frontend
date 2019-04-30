@@ -1,4 +1,4 @@
-from core.form_components import Section, Form, Question, InputType, HTMLBlock, HiddenField
+from core.form_components import Section, Form, Question, InputType, HTMLBlock, HiddenField, ArrayQuestion, Option
 
 section1 = Section("Application Information", "", [
     Form("Enter a name or reference for your application", "This can make it easier to find in the future.", [
@@ -45,8 +45,23 @@ def preexisting_good_form(id, description, control_code, part_number):
                  description='',
                  input_type=InputType.INPUT,
                  name='quantity'),
-        Question(title='Unit of Measurement',
-                 description='',
-                 input_type=InputType.INPUT,
                  name='unit'),
+                      input_type=InputType.SELECT,
+                      name='unit',
+                      data=[
+                          Option(key='GRM',
+                                 value='Gram/s'),
+                          Option(key='KGM',
+                                 value='Kilogram/s'),
+                          Option(key='NAR',
+                                 value='Number of articles'),
+                          Option(key='MTK',
+                                 value='Square Metre/s'),
+                          Option(key='MTR',
+                                 value='Metre/s'),
+                          Option(key='LTR',
+                                 value='Litre/s'),
+                          Option(key='MTQ',
+                                 value='Cubic Metre/s'),
+                      ])
     ])
