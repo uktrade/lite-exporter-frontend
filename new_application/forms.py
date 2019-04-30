@@ -45,7 +45,8 @@ def preexisting_good_form(id, description, control_code, part_number):
                  description='',
                  input_type=InputType.INPUT,
                  name='quantity'),
-                 name='unit'),
+        ArrayQuestion(title='Unit of Measurement',
+                      description='',
                       input_type=InputType.SELECT,
                       name='unit',
                       data=[
