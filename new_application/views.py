@@ -141,10 +141,10 @@ def goods(request):
     data, status_code = get_draft_goods(request, draft_id)
 
     context = {
-        'title': 'Goods',
+        'title': 'Application Goods',
         'draft_id': draft_id,
         'data': data,
-		'draft': draft,
+        'draft': draft,
     }
     return render(request, 'new_application/goods/index.html', context)
 
