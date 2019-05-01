@@ -1,3 +1,4 @@
+from selenium import webdriver
 from selenium.webdriver.common.by import By
 import helpers.helpers as utils
 import pytest
@@ -13,6 +14,7 @@ class ExporterHubPage():
         self.applications_btn = "a[href*='/applications/']"
         self.my_goods_btn = "a[href*='/goods/']"
         self.add_a_good_btn = "a[href*='/goods/add/']"
+        self.users_btn = "a[href*='/users/']"
 
     def go_to(self, url):
         self.driver.get(url)
@@ -36,6 +38,8 @@ class ExporterHubPage():
         password_tb.send_keys(password)
 
     def login(self, email, password):
+        if "logout" in self.driver.current_url:
+            self.driver.find_element_by_xpath("//a[text()[contains(.,'Log In')]]").click()
         self.enter_email(email)
         self.enter_password(password)
         self.click_submit()
@@ -84,3 +88,37 @@ class ExporterHubPage():
         assert goods_row.is_displayed()
         assert goods_row.find_element_by_xpath(".//following-sibling::td").text == part_number
         assert goods_row.find_element_by_xpath(".//following-sibling::td[2]").text == control_code
+
+    def click_users(self):
+        self.driver.find_element_by_css_selector(self.users_btn).click()
+
+    def click_add_a_user_btn(self):
+        self.driver.find_element_by_css_selector("a[href*='/users/add']").click()
+
+    def enter_first_name(self, first_name):
+        self.driver.find_element_by_id("first_name").clear()
+        self.driver.find_element_by_id("first_name").send_keys(first_name)
+
+    def enter_last_name(self, last_name):
+        self.driver.find_element_by_id("last_name").clear()
+        self.driver.find_element_by_id("last_name").send_keys(last_name)
+
+    def click_edit_for_user(self, user_name):
+        self.driver.find_element_by_xpath("//*[text()[contains(.,'" + user_name + "')]]/following::td[last()]/a")
+
+    def click_user_name_link(self, user_name):
+        self.driver.find_element_by_xpath("//*[text()[contains(.,'" + user_name + "')]]")
+
+    def click_deactivate_btn(self):
+        self.driver.find_element_by_xpath("//*[text()[contains(.,'Deactivate')]]").click()
+        self.driver.find_element_by_xpath("//*[text()[contains(.,'Yes')]]").click()
+
+    def click_activate_btn(self):
+        self.driver.find_element_by_xpath("//*[text()[contains(.,'Activate')]]").click()
+        self.driver.find_element_by_xpath("//*[text()[contains(.,'Yes')]]").click()
+
+    def logout(self):
+        self.driver = webdriver.Chrome()
+        self.driver.find_element_by_css_selector("a[href*='/logout']").click()
+        assert "logout" in self.driver.current_url
+
