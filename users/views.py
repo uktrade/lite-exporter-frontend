@@ -45,6 +45,7 @@ class ViewUser(TemplateView):
     def get(self, request, **kwargs):
         data, status_code = get_user(request, str(kwargs['pk']))
         user = data.get('user')
+        print(request.user.id)
 
         context = {
             'data': data,

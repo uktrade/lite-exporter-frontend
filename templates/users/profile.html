@@ -43,7 +43,7 @@
 		<a href="{% url 'users:edit' data.user.id %}" type="submit" class="govuk-button">Edit</a>
 	</div>
 
-	{% if user.id =! data.user.id %}
+	{% if request.user.id|stringformat:"s" != data.user.id|stringformat:"s" %}
 		{% if data.user.status == 'active' %}
 			<a href="{% url 'users:change_status' data.user.id 'deactivate' %}" role="button" draggable="false" class="govuk-button govuk-button--destructive govuk-!-margin-right-2">Deactivate</a>
 		{% elif data.user.status == 'deactivated' %}
