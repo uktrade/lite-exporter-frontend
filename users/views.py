@@ -1,7 +1,8 @@
+from django.http import Http404
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
-from core.form_components import Form, Question, InputType
 from users import forms
 from users.services import get_users, post_users, update_user, get_user
 
@@ -13,7 +14,6 @@ class Users(TemplateView):
         context = {
             'data': data,
             'title': 'Users',
-            # 'userDeactivated': request.GET.get('user_deactivated')
         }
         return render(request, 'users/index.html', context)
 
@@ -38,27 +38,30 @@ class AddUser(TemplateView):
             }
             return render(request, 'form/form.html', context)
 
-        return redirect('/users/')
+        return redirect(reverse_lazy('users:users'))
 
 
 class ViewUser(TemplateView):
     def get(self, request, **kwargs):
-        pk = request.GET.get('id')
+        data, status_code = get_user(request, str(kwargs['pk']))
+        user = data.get('user')
 
-        if pk is None:
-            pk = str(request.user.id)
-
-        data, status_code = get_user(request, pk)
         context = {
             'data': data,
-            'title': 'User Profile'
+            'title': user.get('first_name') + ' ' + user.get('last_name')
         }
         return render(request, 'users/profile.html', context)
 
 
+class ViewProfile(TemplateView):
+    def get(self, request, **kwargs):
+        user = request.user
+        return redirect(reverse_lazy('users:user', kwargs={'pk': user.id}))
+
+
 class EditUser(TemplateView):
     def get(self, request, **kwargs):
-        data, status_code = get_user(request, request.GET.get('id'))
+        data, status_code = get_user(request, str(kwargs['pk']))
         context = {
             'data': data,
             'title': 'Edit User',
@@ -67,7 +70,7 @@ class EditUser(TemplateView):
         return render(request, 'form/form.html', context)
 
     def post(self, request, **kwargs):
-        data, status_code = update_user(request, request.GET.get('id'), request.POST)
+        data, status_code = update_user(request, str(kwargs['pk']), request.POST)
         if status_code == 400:
             context = {
                 'title': 'Add User',
@@ -77,38 +80,39 @@ class EditUser(TemplateView):
             }
             return render(request, 'form/form.html', context)
 
-        return redirect('/users/profile/?id='+str(request.GET.get('id')))
+        return redirect(reverse_lazy('users:user', kwargs={'pk': str(kwargs['pk'])}))
 
 
-def deactivate(request):
-    context = {
-        'title': 'Are you sure you want to deactivate this user?',
-        'user_id': request.GET.get('id'),
-    }
-    return render(request, 'users/deactivate_confirmation.html', context)
+class ChangeUserStatus(TemplateView):
+    def get(self, request, **kwargs):
+        status = kwargs['status']
+        description = ''
 
+        if status != 'deactivate' and status != 'reactivate':
+            raise Http404
 
-def deactivate_confirm(request):
-    update_user(request, request.GET.get('id'), json={"status": "deactivated"})
+        if status == 'deactivate':
+            description = 'This user will no longer be able to log in or perform tasks on LITE ' \
+                          'on behalf of your organisation.'
 
-    if request.GET.get('return') == 'users':
-        return redirect('/users?user_deactivated=true')
+        if status == 'reactivate':
+            description = 'This user will be able to log in to and perform tasks on LITE on behalf ' \
+                          'of your organisation.'
 
-    return redirect('/users/?user_deactivated=true')
+        context = {
+            'title': 'Are you sure you want to {} this user?'.format(status),
+            'description': description,
+            'user_id': str(kwargs['pk']),
+            'status': status,
+        }
+        return render(request, 'users/change_status.html', context)
 
+    def post(self, request, **kwargs):
+        status = kwargs['status']
 
-def reactivate(request):
-    context = {
-        'title': 'Are you sure you want to reactivate this user?',
-        'user_id': request.GET.get('id'),
-    }
-    return render(request, 'users/reactivate_confirmation.html', context)
+        if status != 'deactivate' and status != 'reactivate':
+            raise Http404
 
+        update_user(request, str(kwargs['pk']), json={'status': request.POST['status']})
 
-def reactivate_confirm(request):
-    update_user(request, request.GET.get('id'), json={"status": "active"})
-
-    if request.GET.get('return') == 'users':
-        return redirect('/users?user_reactivated=true')
-
-    return redirect('/users?user_reactivated=true')
+        return redirect('/users/')

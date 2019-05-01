@@ -6,15 +6,15 @@ app_name = 'users'
 urlpatterns = [
     # ex: /users/
     path('', views.Users.as_view(), name='users'),
-    # ex: /user/43a88949-5db9-4334-b0cc-044e91827451
-    # path('<uuid:pk>', views.EditUser.as_view(), name='user'),
-    # ex: /user/add/
+    # ex: /users/43a88949-5db9-4334-b0cc-044e91827451/ - Go to a user's profile
+    path('<uuid:pk>/', views.ViewUser.as_view(), name='user'),
+    # ex: /users/add/
     path('add', views.AddUser.as_view(), name='add'),
-    path('deactivate', views.deactivate, name='deactivate'),
-    # ex: /draft/cancel-confirm?id=abc
-    path('users/deactivate-confirm/', views.deactivate_confirm, name='deactivate_confirm'),
-    path('reactivate', views.reactivate, name='reactivate'),
-    path('users/reactivate-confirm/', views.reactivate_confirm, name='reactivate_confirm'),
-    path('profile/', views.ViewUser.as_view(), name='profile'),
-    path('edit', views.EditUser.as_view(), name='edit')
+    # ex: /users/43a88949-5db9-4334-b0cc-044e91827451/edit/
+    path('<uuid:pk>/edit/', views.EditUser.as_view(), name='edit'),
+    # ex: /users/43a88949-5db9-4334-b0cc-044e91827451/edit/deactivate/
+    # ex: /users/43a88949-5db9-4334-b0cc-044e91827451/edit/reactivate/
+    path('<uuid:pk>/edit/<str:status>/', views.ChangeUserStatus.as_view(), name='change_status'),
+    # ex: /users/profile/ - Go to signed in user's profile
+    path('profile/', views.ViewProfile.as_view(), name='profile'),
 ]
