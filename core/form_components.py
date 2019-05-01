@@ -73,3 +73,4 @@ class InputType(Enum):
     MULTI_FILE_UPLOAD = 8
     AUTOCOMPLETE = 9
     HIDDEN = 10
+    CURRENCY = 12
