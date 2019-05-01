@@ -30,9 +30,7 @@
 				{% for site in data.sites %}
 					<tr class="lite-table__row">
 						<td class="lite-table__cell">
-							<a class="govuk-link" href="{% url 'new_application:overview' %}?id={{ draft.id }}">
-								{{ site.name }}
-							</a>
+							{{ site.name }}
 						</td>
 						<td class="lite-table__cell">
 							{{ site.id }}
