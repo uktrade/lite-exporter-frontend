@@ -137,5 +137,20 @@ def test_reactivate_users(driver, open_exporter_hub, url):
     assert driver.title == "Exporter Hub - LITE"
 
 
+def test_inability_to_deactivate_oneself(driver, url):
+    exporter_hub = ExporterHubPage(driver)
+    exporter_hub.go_to(url)
+    log.info("logging in as test@mail.com")
+    if "login" in driver.current_url:
+        log.info("logging in as test@mail.com")
+        exporter_hub.login("test@mail.com", "password")
+    else:
+        exporter_hub.go_to(url)
+
+    exporter_hub.click_users()
+    exporter_hub.click_user_name_link("Test User1")
+    assert not utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'Deactivate')]]")
+
+
 def test_teardown(driver):
     driver.quit()
