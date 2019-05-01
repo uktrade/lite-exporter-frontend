@@ -1,7 +1,9 @@
 from selenium.webdriver.common.by import By
 import helpers.helpers as utils
 import pytest
-import  logging
+import logging
+from pages.exporter_hub_page import ExporterHubPage
+
 log = logging.getLogger()
 console = logging.StreamHandler()
 log.addHandler(console)
@@ -41,6 +43,24 @@ def test_new_organisation_setup(driver, open_internal_hub):
 
         exists = utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'Test Org')]]")
         assert exists
+
+
+def test_add_users_setup(driver, url):
+    log.info("add test user")
+    exporter_hub = ExporterHubPage(driver)
+    exporter_hub.go_to(url)
+    exporter_hub.login("test@mail.com", "password")
+    exporter_hub.click_users()
+    exists = utils.is_element_present(driver, By.XPATH, "//td[text()[contains(.,'testuser_1@mail.com')]]")
+    if not exists:
+        for x in range(3):
+            i = str(x + 1)
+            exporter_hub.click_add_a_user_btn()
+            exporter_hub.enter_first_name("Test")
+            exporter_hub.enter_last_name("user_" + i)
+            exporter_hub.enter_email("testuser_" + i + "@mail.com")
+            exporter_hub.enter_password("1234")
+            exporter_hub.click_save_and_continue()
 
 
 def test_teardown(driver):

@@ -14,7 +14,7 @@ class ExporterHubPage():
         self.applications_btn = "a[href*='/applications/']"
         self.my_goods_btn = "a[href*='/goods/']"
         self.add_a_good_btn = "a[href*='/goods/add/']"
-        self.users_btn = "a[href*='/users/']"
+        self.users_btn = "a[href='/users/']"
 
     def go_to(self, url):
         self.driver.get(url)
@@ -104,21 +104,20 @@ class ExporterHubPage():
         self.driver.find_element_by_id("last_name").send_keys(last_name)
 
     def click_edit_for_user(self, user_name):
-        self.driver.find_element_by_xpath("//*[text()[contains(.,'" + user_name + "')]]/following::td[last()]/a")
+        self.driver.find_element_by_xpath("//*[text()[contains(.,'" + user_name + "')]]/following-sibling::td[last()]/a").click()
 
     def click_user_name_link(self, user_name):
-        self.driver.find_element_by_xpath("//*[text()[contains(.,'" + user_name + "')]]")
+        self.driver.find_element_by_xpath("//*[text()[contains(.,'" + user_name + "')]]").click()
 
     def click_deactivate_btn(self):
         self.driver.find_element_by_xpath("//*[text()[contains(.,'Deactivate')]]").click()
-        self.driver.find_element_by_xpath("//*[text()[contains(.,'Yes')]]").click()
+        self.driver.find_element_by_xpath("//*[text()[contains(.,'Deactivate User')]]").click()
 
-    def click_activate_btn(self):
-        self.driver.find_element_by_xpath("//*[text()[contains(.,'Activate')]]").click()
-        self.driver.find_element_by_xpath("//*[text()[contains(.,'Yes')]]").click()
+    def click_reactivate_btn(self):
+        self.driver.find_element_by_xpath("//*[text()[contains(.,'Reactivate')]]").click()
+        self.driver.find_element_by_xpath("//*[text()[contains(.,'Reactivate User')]]").click()
 
     def logout(self):
-        self.driver = webdriver.Chrome()
         self.driver.find_element_by_css_selector("a[href*='/logout']").click()
         assert "logout" in self.driver.current_url
 
