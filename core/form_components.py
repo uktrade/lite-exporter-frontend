@@ -11,13 +11,14 @@ class Section:
 
 
 class Form:
-    def __init__(self, title, description, questions, caption=None, helpers=None):
+    def __init__(self, title, description, questions, caption=None, helpers=None, javascript_imports=None):
         self.id = uuid.uuid1()
         self.title = title
         self.description = description
         self.questions = questions
         self.helpers = helpers
         self.caption = caption
+        self.javascript_imports = javascript_imports
 
 
 class Question:
@@ -60,6 +61,12 @@ class HelpSection:
 class HTMLBlock:
     def __init__(self, html):
         self.html = html
+
+
+class SideBySideSection:
+    def __init__(self, questions):
+        self.input_type = 'side_by_side'
+        self.questions = questions
 
 
 class InputType(Enum):

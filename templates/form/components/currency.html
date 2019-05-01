@@ -1,7 +1,7 @@
 <div class="govuk-visually-hidden">in pounds</div>
 <div class="lite-currency-input">
-	<div class="lite-currency-input__symbol" aria-hidden="true">£</div>
-	<input class="govuk-input govuk-input--width-20 {% if error %}govuk-input--error{% endif %}"
+	<div class="lite-currency-input__symbol {% if error %}lite-currency--error{% endif %}" aria-hidden="true">£</div>
+	<input class="govuk-input govuk-input--width-10 {% if error %}govuk-input--error{% endif %}"
 	       id="{{ name }}"
 	       type="text"
 	       name="{{ name }}"
