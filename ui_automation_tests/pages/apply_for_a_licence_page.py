@@ -1,4 +1,5 @@
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import Select
 
 
 class ApplyForALicencePage():
@@ -73,9 +74,9 @@ class ApplyForALicencePage():
         self.driver.find_element_by_id("value").clear()
         self.driver.find_element_by_id("value").send_keys(value)
 
-    def enter_unit_of_measurement(self, unit):
-        self.driver.find_element_by_id("unit").clear()
-        self.driver.find_element_by_id("unit").send_keys(unit)
+    def select_unit_of_measurement(self, unit):
+        select = Select(self.driver.find_element_by_id('unit'))
+        select.select_by_visible_text(unit)
 
     def enter_description(self, description):
         self.driver.find_element_by_id("description").clear()
