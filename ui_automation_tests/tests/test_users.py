@@ -149,7 +149,9 @@ def test_inability_to_deactivate_oneself(driver, url):
 
     exporter_hub.click_users()
     exporter_hub.click_user_name_link("Test User1")
-    assert not utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'Deactivate')]]")
+    buttons = driver.find_elements_by_xpath("//*[text()[contains(.,'Deactivate')]]|//*[text()[contains(.,'Edit')]]")
+    assert len(buttons) == 1
+    assert "Deactivate" not in buttons[0].text, "Expected no deactivate button"
 
 
 def test_teardown(driver):
