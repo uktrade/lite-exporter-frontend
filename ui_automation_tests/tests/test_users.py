@@ -10,20 +10,19 @@ from pages.applications_page import ApplicationsPage
 import helpers.helpers as utils
 import pytest
 import logging
-
 log = logging.getLogger()
 console = logging.StreamHandler()
 log.addHandler(console)
 
-@pytest.mark.parametrize("user_id","")
 
 @pytest.fixture(scope="function")
 def open_exporter_hub(driver, url):
-    # navigate to the application home page
     driver.get(url)
     # driver.maximize_window()
     # assert driver.title == "Exporter Hub - LITE"
     log.info(driver.current_url)
+
+# LT-937
 
 
 def test_add_users(driver, open_exporter_hub, url):
@@ -32,14 +31,12 @@ def test_add_users(driver, open_exporter_hub, url):
     last_name = "User" + user_id
     full_name = first_name + last_name
     email = full_name.lower() + "@mail.com"
-
     # logged in exporter hub as exporter
-    # Given I am a logged-in exporter on the exporter dashboard
     exporter_hub = ExporterHubPage(driver)
     log.info("logging in as test@mail.com")
     exporter_hub.login("test@mail.com", "password")
 
-    # I want to add a user # Then I should have an option to manage users
+    # I want to add a user # I should have an option to manage users
     exporter_hub.click_users()
 
     # When I choose the option to manage users # Then I should see the current user for my company
@@ -56,8 +53,7 @@ def test_add_users(driver, open_exporter_hub, url):
     # When I Save
     exporter_hub.click_save_and_continue()
 
-    # Then I return to "Manage users"
-    # And I can see the original list of users
+    # Then I return to "Manage users" # And I can see the original list of users
     assert driver.find_element_by_tag_name("h1").text == "Users", \
         "Failed to return to Users list page after Adding user"
 
@@ -68,25 +64,19 @@ def test_add_users(driver, open_exporter_hub, url):
 def test_deactivate_users(driver, url):
     exporter_hub = ExporterHubPage(driver)
     exporter_hub.go_to(url)
-
     if "login" in driver.current_url:
         log.info("logging in as test@mail.com")
         exporter_hub.login("test@mail.com", "password")
-    else:
-        exporter_hub.go_to(url)
 
     full_name = "Test user_1"
     email = "testuser_1@mail.com"
     password = "1234"
 
-    # Given I am a logged-in user
-    # *I want to* deactivate users
-    # When I choose the option to manage users
+    # Given I am a logged-in user # I want to deactivate users # When I choose the option to manage users
     exporter_hub.click_users()
 
     # I should have the option to deactivate an active user # edit link, and link from user name
     exporter_hub.click_edit_for_user(email)
-    # exporter_hub.click_user_name_link("Test User")
 
     # When I choose to deactivate an active user # Then I return to "Manage users"
     exporter_hub.click_deactivate_btn()
@@ -107,33 +97,26 @@ def test_reactivate_users(driver, open_exporter_hub, url):
     if "login" in driver.current_url:
         log.info("logging in as test@mail.com")
         exporter_hub.login("test@mail.com", "password")
-    else:
-        exporter_hub.go_to(url)
 
     full_name = "Test user_1"
     email = "testuser_1@mail.com"
     password = "1234"
 
-    # As a logged in user
-    # I want to reactivate users who have previously been deactivated
+    # As a logged in user # I want to reactivate users who have previously been deactivated
     # So that returned users can perform actions in the system
-    # Then I should see the current active and deactivated users
-    # And I should have the option to activate a deactivated user
     exporter_hub.click_users()
-    exporter_hub.click_user_name_link(full_name)
 
-    # When I choose to activate a deactivated user
-    # Then I am asked "Are you sure you want to re-activate user <insert name>?"
+    # When I choose to activate a deactivated user # Then I am asked "Are you sure you want to re-activate"
+    exporter_hub.click_user_name_link(full_name)
     exporter_hub.click_reactivate_btn()
 
     assert utils.is_element_present(driver, By.XPATH,
                                     "//td[text()='" + email + "']/following-sibling::td[text()='active']"),\
         "user should status was expected to be active"
 
+    # Given I am a reactivated I can log in
     exporter_hub.logout()
     exporter_hub.login(email, password)
-
-    # Given I am a reactivated I can log in
     assert driver.title == "Exporter Hub - LITE"
 
 
@@ -147,11 +130,10 @@ def test_inability_to_deactivate_oneself(driver, url):
     else:
         exporter_hub.go_to(url)
 
-    exporter_hub.click_users()
-    exporter_hub.click_user_name_link("Test User1")
-    buttons = driver.find_elements_by_xpath("//*[text()[contains(.,'Deactivate')]]|//*[text()[contains(.,'Edit')]]")
-    assert len(buttons) == 1
-    assert "Deactivate" not in buttons[0].text, "Expected no deactivate button"
+    exporter_hub.click_user_profile()
+    assert "Test" in driver.find_element_by_tag_name("h1").text
+    deactivate = utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'Deactivate')]]")
+    assert not deactivate
 
 
 def test_teardown(driver):
