@@ -29,7 +29,7 @@ section1 = Section("Application Information", "", [
 ])
 
 
-def preexisting_good_form(id, description, control_code, part_number):
+def preexisting_good_form(id, description, control_code, part_number, units):
     return Form('Add a pre-existing good to your application', '', [
         HTMLBlock('<div class="govuk-inset-text">'
                   '<p><span style="opacity: 0.6;">Description:</span> ' + description + '</p>'
@@ -51,22 +51,7 @@ def preexisting_good_form(id, description, control_code, part_number):
                           description='',
                           input_type=InputType.SELECT,
                           name='unit',
-                          data=[
-                              Option(key='GRM',
-                                     value='Gram(s)'),
-                              Option(key='KGM',
-                                     value='Kilogram(s)'),
-                              Option(key='NAR',
-                                     value='Number of articles'),
-                              Option(key='MTK',
-                                     value='Square Metre(s)'),
-                              Option(key='MTR',
-                                     value='Metre(s)'),
-                              Option(key='LTR',
-                                     value='Litre(s)'),
-                              Option(key='MTQ',
-                                     value='Cubic Metre(s)'),
-                          ])
+                          data=units)
         ]),
     ], javascript_imports=[
         '/assets/javascripts/specific/add_good.js'

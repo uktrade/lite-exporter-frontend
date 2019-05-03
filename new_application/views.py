@@ -3,11 +3,14 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
+from conf.client import get
+from conf.constants import UNITS_URL
 from core.builtins.custom_tags import get_string
 from drafts.services import get_draft, post_drafts, put_draft, delete_draft, submit_draft, get_draft_goods, \
     post_draft_preexisting_goods
 from goods.services import get_goods, get_good
 from new_application import forms
+from new_application.services import get_units
 
 
 def index(request):
@@ -178,7 +181,8 @@ class AddPreexistingGood(TemplateView):
             'page': forms.preexisting_good_form(good.get('id'),
                                                 good.get('description'),
                                                 good.get('control_code'),
-                                                good.get('part_number')),
+                                                good.get('part_number'),
+                                                get_units(request)),
         }
         return render(request, 'form/form.html', context)
 
@@ -195,7 +199,8 @@ class AddPreexistingGood(TemplateView):
                 'page': forms.preexisting_good_form(good.get('id'),
                                                     good.get('description'),
                                                     good.get('control_code'),
-                                                    good.get('part_number')),
+                                                    good.get('part_number'),
+                                                    get_units(request)),
                 'body': request.POST,
                 'errors': data.get('errors'),
             }
