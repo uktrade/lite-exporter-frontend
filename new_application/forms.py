@@ -1,4 +1,4 @@
-from core.form_components import Section, Form, Question, InputType, HTMLBlock, HiddenField
+from libraries.forms.components import Section, Form, Question, InputType, HTMLBlock, HiddenField
 
 section1 = Section("Application Information", "", [
     Form("Enter a name or reference for your application", "This can make it easier to find in the future.", [

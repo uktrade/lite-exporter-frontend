@@ -1,4 +1,4 @@
-from core.form_components import Form, Question, InputType
+from libraries.forms.components import Form, InputType, Question
 
 new_site_form = Form(title='New Site', description='', caption='', questions=[
     Question(title='Name of site',

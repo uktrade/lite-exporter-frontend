@@ -1,5 +1,5 @@
 from conf.settings import env
-from core.form_components import Form, Question, InputType, ArrayQuestion, Option
+from libraries.forms.components import Form, Question, ArrayQuestion, Option, InputType
 
 form = Form(title='Add Good', description='', caption='', questions=[
     Question(title='Description of good',
