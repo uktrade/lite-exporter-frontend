@@ -1,8 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
 
+from libraries.forms.helpers import nest_data
 from sites import forms
-from sites.services import get_sites, get_site
+from sites.services import get_sites, get_site, post_sites
 
 
 class Sites(TemplateView):
@@ -23,6 +24,24 @@ class NewSite(TemplateView):
             'page': forms.new_site_form,
         }
         return render(request, 'form.html', context)
+
+    def post(self, request, **kwargs):
+        data = request.POST.copy()
+
+        # Post the data to the validator and check for errors
+        nested_data = nest_data(data)
+        validated_data, status_code = post_sites(request, nested_data)
+
+        if 'errors' in validated_data:
+            context = {
+                'page': forms.new_site_form,
+                'title': forms.new_site_form.title,
+                'errors': validated_data['errors'],
+                'data': data,
+            }
+            return render(request, 'form.html', context)
+
+        return redirect('/sites/')
 
 
 class EditSite(TemplateView):
