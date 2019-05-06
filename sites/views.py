@@ -46,7 +46,16 @@ class NewSite(TemplateView):
 
 class EditSite(TemplateView):
     def get(self, request, **kwargs):
-        data, status_code = get_site(request, kwargs['pk'])
+        # data, status_code = get_site(request, str(kwargs['pk']))
+
+        context = {
+            'title': 'Edit Site',
+            'page': forms.edit_site_form,
+        }
+        return render(request, 'form.html', context)
+
+    def post(self, request, **kwargs):
+        # data, status_code = get_site(request, str(kwargs['pk']))
 
         context = {
             'title': 'Edit Site',
