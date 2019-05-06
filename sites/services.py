@@ -13,7 +13,7 @@ def get_site(request, pk):
 
 
 def put_site(request, pk, json):
-    data = put(request, SITES_URL + pk, json=json)
+    data = put(request, SITES_URL + pk + '/', json=json)
     return data.json(), data.status_code
 
 

@@ -57,14 +57,14 @@ class EditSite(TemplateView):
 
     def post(self, request, **kwargs):
         site, status_code = get_site(request, str(kwargs['pk']))
-        validated_data, status_code = put_site(request, str(kwargs['pk']), json=request.POST)
+        validated_data, status_code = put_site(request, str(kwargs['pk']), json=nest_data(request.POST))
 
         if 'errors' in validated_data:
             context = {
                 'title': 'Edit Site',
                 'page': forms.edit_site_form,
                 'data': flatten_data(site.get('site')),
-                'errors': validated_data.get('errors'),
+                'errors': flatten_data(validated_data.get('errors')),
             }
             return render(request, 'form.html', context)
 
