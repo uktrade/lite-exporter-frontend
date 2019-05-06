@@ -3,7 +3,7 @@ from django.views.generic import TemplateView
 
 from libraries.forms.helpers import nest_data, flatten_data
 from sites import forms
-from sites.services import get_sites, get_site, post_sites
+from sites.services import get_sites, get_site, post_sites, put_site
 
 
 class Sites(TemplateView):
@@ -56,10 +56,16 @@ class EditSite(TemplateView):
         return render(request, 'form.html', context)
 
     def post(self, request, **kwargs):
-        # data, status_code = get_site(request, str(kwargs['pk']))
+        site, status_code = get_site(request, str(kwargs['pk']))
+        validated_data, status_code = put_site(request, str(kwargs['pk']), json=request.POST)
 
-        context = {
-            'title': 'Edit Site',
-            'page': forms.edit_site_form,
-        }
-        return render(request, 'form.html', context)
+        if 'errors' in validated_data:
+            context = {
+                'title': 'Edit Site',
+                'page': forms.edit_site_form,
+                'data': flatten_data(site.get('site')),
+                'errors': validated_data.get('errors'),
+            }
+            return render(request, 'form.html', context)
+
+        return redirect('/sites/')
