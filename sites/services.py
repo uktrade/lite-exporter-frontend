@@ -1,4 +1,4 @@
-from conf.client import get, post
+from conf.client import get, post, put
 from conf.constants import SITES_URL
 
 
@@ -9,6 +9,11 @@ def get_sites(request):
 
 def get_site(request, pk):
     data = get(request, SITES_URL + pk)
+    return data.json(), data.status_code
+
+
+def put_site(request, pk, json):
+    data = put(request, SITES_URL + pk, json=json)
     return data.json(), data.status_code
 
 

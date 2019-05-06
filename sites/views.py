@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
 
-from libraries.forms.helpers import nest_data
+from libraries.forms.helpers import nest_data, flatten_data
 from sites import forms
 from sites.services import get_sites, get_site, post_sites
 
@@ -46,11 +46,12 @@ class NewSite(TemplateView):
 
 class EditSite(TemplateView):
     def get(self, request, **kwargs):
-        # data, status_code = get_site(request, str(kwargs['pk']))
+        data, status_code = get_site(request, str(kwargs['pk']))
 
         context = {
             'title': 'Edit Site',
             'page': forms.edit_site_form,
+            'data': flatten_data(data.get('site')),
         }
         return render(request, 'form.html', context)
 
