@@ -45,7 +45,7 @@
 
 	{% if request.user.id|stringformat:"s" != data.user.id|stringformat:"s" %}
 		{% if data.user.status == 'active' %}
-			<a href="{% url 'users:change_status' data.user.id 'deactivate' %}" role="button" draggable="false" class="govuk-button govuk-button--destructive govuk-!-margin-right-2">Deactivate</a>
+			<a href="{% url 'users:change_status' data.user.id 'deactivate' %}" role="button" draggable="false" class="govuk-button govuk-button--warning govuk-!-margin-right-2">Deactivate</a>
 		{% elif data.user.status == 'deactivated' %}
 			<a href="{% url 'users:change_status' data.user.id 'reactivate' %}" role="button" draggable="false" class="govuk-button govuk-!-margin-right-2">Reactivate</a>
 		{% endif %}
