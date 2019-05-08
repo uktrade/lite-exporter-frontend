@@ -10,7 +10,7 @@ def keyvalue(dictionary, key):
 
 @register.filter(name='pluralise_unit')
 def pluralise_unit(unit, value):
-    is_singular = value == 1
+    is_singular = value == '1'
 
     if '(s)' in unit:
         if is_singular:
