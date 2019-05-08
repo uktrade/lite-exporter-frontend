@@ -84,7 +84,7 @@ def test_add_goods_to_application(driver, open_exporter_hub):
 
     log.info("verifying goods added")
     assert utils.is_element_present(driver, By.XPATH, "//*[text()='Good T1']")
-    assert utils.is_element_present(driver, By.XPATH, "//*[text()='1.0GRM']")
+    assert utils.is_element_present(driver, By.XPATH, "//*[text()='1.0 grams']")
     assert utils.is_element_present(driver, By.XPATH, "//*[text()='£500.00']")
 
     apply_for_licence.click_add_from_organisations_goods()
@@ -98,7 +98,7 @@ def test_add_goods_to_application(driver, open_exporter_hub):
     assert utils.is_element_present(driver, By.XPATH, "//*[text()='Good T2']")
     assert utils.is_element_present(driver, By.XPATH, "//*[text()='G2-23']")
     assert utils.is_element_present(driver, By.XPATH, "//*[text()='ML34a']")
-    assert utils.is_element_present(driver, By.XPATH, "//*[text()='1.0GRM']")
+    assert utils.is_element_present(driver, By.XPATH, "//*[text()='1.0 grams']")
     assert utils.is_element_present(driver, By.XPATH, "//*[text()='£1200.00']")
 
 
