@@ -45,7 +45,6 @@ class ViewUser(TemplateView):
     def get(self, request, **kwargs):
         data, status_code = get_user(request, str(kwargs['pk']))
         user = data.get('user')
-        print(request.user.id)
 
         context = {
             'data': data,
@@ -64,7 +63,7 @@ class EditUser(TemplateView):
     def get(self, request, **kwargs):
         data, status_code = get_user(request, str(kwargs['pk']))
         context = {
-            'data': data,
+            'data': data.get('user'),
             'title': 'Edit User',
             'page': forms.edit_form,
         }

@@ -10,39 +10,32 @@
 		</div>
 	{% endif %}
 
-	<div class="app-bar">
+	<div class="lite-app-bar">
 		<h1 class="govuk-heading-l">Users</h1>
-		<div class="app-bar--right">
-			<a href="{% url 'users:add' %}" class="govuk-button" draggable="false" role="button">
-				Add a user
-			</a>
-		</div>
 	</div>
 
 	{% if data.users|length %}
-		<table class="lite-table">
-			<thead class="lite-table__head">
-				<tr class="lite-table__row">
-					<th class="lite-table__header" scope="col">Name</th>
-					<th class="lite-table__header" scope="col">Email</th>
-					<th class="lite-table__header" scope="col">Status</th>
-                    <th class="lite-table__header" scope="col"></th>
-					<th class="lite-table__header" scope="col"></th>
-					<th class="lite-table__header" scope="col"></th>
+		<table class="govuk-table">
+			<thead class="govuk-table__head">
+				<tr class="govuk-table__row">
+					<th class="govuk-table__header" scope="col">Name</th>
+					<th class="govuk-table__header" scope="col">Email</th>
+					<th class="govuk-table__header" scope="col">Status</th>
+                    <th class="govuk-table__header" scope="col"></th>
 				</tr>
 			</thead>
-			<tbody class="lite-table__body">
+			<tbody class="govuk-table__body">
 				{% for user in data.users %}
-					<tr class="lite-table__row">
-						<td class="lite-table__cell">
+					<tr class="govuk-table__row">
+						<td class="govuk-table__cell">
 							<a href="{% url 'users:user' user.id %}" style="margin: 0;" class="govuk-link">
 								{{ user.first_name }} {{ user.last_name }}
 							</a>
 						</td>
-						<td class="lite-table__cell">{{ user.email }}</td>
-						<td class="lite-table__cell">{{ user.status }}</td>
-						<td class="lite-table__cell">
-							<a href="{% url 'users:user' user.id %}" style="margin: 0;" class="govuk-link">Edit</a>
+						<td class="govuk-table__cell">{{ user.email }}</td>
+						<td class="govuk-table__cell">{{ user.status }}</td>
+						<td class="govuk-table__cell">
+							<a href="{% url 'users:edit' user.id %}" style="margin: 0;" class="govuk-link">Edit</a>
 						</td>
 					</tr>
 				{% endfor %}
@@ -51,5 +44,11 @@
 	{% else %}
 		<p class="govuk-caption-l">You don't have any users at the moment.</p>
 	{% endif %}
+
+	<div class="app-bar">
+		<a href="{% url 'users:add' %}" class="govuk-button" draggable="false" role="button">
+			Add a user
+		</a>
+	</div>
 
 {% endblock %}
