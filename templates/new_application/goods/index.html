@@ -9,9 +9,9 @@
 {% block body %}
 
 	<span class="govuk-caption-m">{{ draft.draft.name }}</span>
-	<div class="app-bar">
+	<div class="lite-app-bar">
 		<h2 class="govuk-heading-l">{{ title }}</h2>
-		<div class="app-bar--right">
+		<div class="lite-app-bar--right">
 			<a href="{% url 'new_application:preexisting_good' %}?id={{ draft_id }}" role='button' draggable='false' class='govuk-button'>Add from organisations goods</a>
 		</div>
 	</div>
