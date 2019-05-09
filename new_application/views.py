@@ -3,8 +3,6 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
-from conf.client import get
-from conf.constants import UNITS_URL
 from core.builtins.custom_tags import get_string
 from drafts.services import get_draft, post_drafts, put_draft, delete_draft, submit_draft, get_draft_goods, \
     post_draft_preexisting_goods
@@ -23,7 +21,7 @@ def index(request):
 
 
 def start(request):
-    return redirect("/new-application/form/" + str(forms.section1.forms[0].pk))
+    return redirect(reverse_lazy('new_application:form', kwargs={'pk': forms.section1.forms[0].pk}))
 
 
 def form(request, pk):
