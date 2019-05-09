@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'new_application',
     'core.apps.CoreConfig',
+    'libraries.forms',
 ]
 
 MIDDLEWARE = [
@@ -61,7 +62,8 @@ AUTH_USER_MODEL = "core.User"
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')]
+        'DIRS': [os.path.join(BASE_DIR, 'templates'),
+                 os.path.join(BASE_DIR, 'libraries')]
         ,
         'APP_DIRS': True,
         'OPTIONS': {

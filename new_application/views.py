@@ -7,6 +7,7 @@ from core.builtins.custom_tags import get_string
 from drafts.services import get_draft, post_drafts, put_draft, delete_draft, submit_draft, get_draft_goods, \
     post_draft_preexisting_goods
 from goods.services import get_goods, get_good
+from libraries.forms.helpers import get_form_by_pk, get_next_form_after_pk
 from new_application import forms
 
 
@@ -18,25 +19,8 @@ def index(request):
     return render(request, 'new_application/index.html', context)
 
 
-def get_form_by_id(id):
-    for form in forms.section1.forms:
-        if form.id == id:
-            return form
-    return
-
-
-def get_next_form_after_id(id):
-    next_one = False
-    for form in forms.section1.forms:
-        if next_one:
-            return form
-        if form.id == id:
-            next_one = True
-    return
-
-
 def start(request):
-    return redirect("/new-application/form/" + str(forms.section1.forms[0].id))
+    return redirect("/new-application/form/" + str(forms.section1.forms[0].pk))
 
 
 def form(request, pk):
@@ -51,7 +35,7 @@ def form(request, pk):
 
         # If there are errors returned from LITE API, return and show them
         if 'errors' in response:
-            page = get_form_by_id(pk)
+            page = get_form_by_pk(pk, forms.section1)
             context = {
                 'title': page.title,
                 'page': page,
@@ -59,7 +43,7 @@ def form(request, pk):
                 'data': data,
                 'draft_id': request.GET.get('id'),
             }
-            return render(request, 'form/form.html', context)
+            return render(request, 'form.html', context)
 
         # If a return query param is set, go there instead of the next form
         return_to = request.GET.get('return')
@@ -68,15 +52,15 @@ def form(request, pk):
             return redirect(reverse_lazy('new_application:overview') + '?id=' + request.GET.get('id'))
 
         # Get the next form, if null go to overview
-        next_form = get_next_form_after_id(pk)
+        next_form = get_next_form_after_pk(pk, forms.section1)
         if next_form:
             return redirect(reverse_lazy('new_application:form',
-                                         kwargs={'pk': next_form.id}) + '?id=' + str(response['draft']['id']))
+                                         kwargs={'pk': next_form.pk}) + '?id=' + str(response['draft']['id']))
         else:
             return redirect(reverse_lazy('new_application:overview') + '?id=' + request.GET.get('id'))
 
     elif request.method == 'GET':
-        page = get_form_by_id(pk)
+        page = get_form_by_pk(pk, forms.section1)
         data = {}
 
         if request.GET.get('id'):
@@ -89,7 +73,7 @@ def form(request, pk):
             'data': data,
             'draft_id': request.GET.get('id'),
         }
-        return render(request, 'form/form.html', context)
+        return render(request, 'form.html', context)
 
 
 def overview(request):
@@ -178,7 +162,7 @@ class AddPreexistingGood(TemplateView):
                                                 good.get('control_code'),
                                                 good.get('part_number')),
         }
-        return render(request, 'form/form.html', context)
+        return render(request, 'form.html', context)
 
     def post(self, request, **kwargs):
         draft_id = request.GET.get('id')
@@ -197,7 +181,7 @@ class AddPreexistingGood(TemplateView):
                 'body': request.POST,
                 'errors': data.get('errors'),
             }
-            return render(request, 'form/form.html', context)
+            return render(request, 'form.html', context)
 
         return redirect(reverse_lazy('new_application:goods') + '?id=' + draft_id)
 
