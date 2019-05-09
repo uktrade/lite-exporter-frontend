@@ -1,3 +1,6 @@
+from selenium.webdriver.common.by import By
+
+
 class ApplyForALicencePage():
 
     # called e time you create an object for this class
@@ -11,7 +14,6 @@ class ApplyForALicencePage():
         self.destination_input_id = "destination"
         self.usage_input_id = "usage"
         self.activity_input_id = "activity"
-
 
     def enter_name_or_reference_for_application(self, name):
         self.driver.find_element_by_id(self.name_or_reference_input_id).clear()
@@ -56,8 +58,12 @@ class ApplyForALicencePage():
     def click_add_from_organisations_goods(self):
         self.driver.find_element_by_xpath("//*[text()[contains(.,'Add from organisations goods')]]").click()
 
-    def add_good_to_application(self, description):
-        self.driver.find_element_by_xpath("//*[text()[contains(.,'" + description + "')]]/following::td[last()]").click()
+    def add_good_to_application(self, des):
+        good = self.driver.find_element_by_xpath("//div[@class='lite-item']/h4[text()='" + des + "']")
+        # goods = self.driver.find_elements_by_xpath("//div[@class='lite-item']")
+        # for good in goods:
+        #     if good.find_element(By.TAG_NAME, "h4").text == des:
+        good.find_element(By.XPATH, "./following::div[1]/a[text()='Add to application']").click()
 
     def enter_quantity(self, qty):
         self.driver.find_element_by_id("quantity").clear()
@@ -70,3 +76,16 @@ class ApplyForALicencePage():
     def enter_unit_of_measurement(self, unit):
         self.driver.find_element_by_id("unit").clear()
         self.driver.find_element_by_id("unit").send_keys(unit)
+
+    def enter_description(self, description):
+        self.driver.find_element_by_id("description").clear()
+        self.driver.find_element_by_id("description").send_keys(description)
+
+    def enter_part_number(self, part_number):
+        self.driver.find_element_by_id("part_number").clear()
+        self.driver.find_element_by_id("part_number").send_keys(part_number)
+
+    def click_filter_btn(self):
+        self.driver.find_element_by_xpath("//button[text()[contains(.,'Filter')]]").click()
+
+
