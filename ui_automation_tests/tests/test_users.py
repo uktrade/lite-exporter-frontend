@@ -61,6 +61,52 @@ def test_add_users(driver, open_exporter_hub, url):
                                     "//td[text()='" + email + "']/following-sibling::td[text()='active']")
 
 
+def test_edit_users(driver, url):
+    exporter_hub = ExporterHubPage(driver)
+    exporter_hub.go_to(url)
+    if "login" in driver.current_url:
+        log.info("logging in as test@mail.com")
+        exporter_hub.login("test@mail.com", "password")
+
+    full_name = "Test user_2"
+    email = "testuser_2@mail.com"
+    password = "1234"
+
+    # Given I am a logged-in user # I want to deactivate users # When I choose the option to manage users
+    exporter_hub.click_users()
+
+    # I should have the option to deactivate an active user # edit link, and link from user name
+    exporter_hub.click_edit_for_user(email)
+    exporter_hub.enter_email("testuser_2_edited@mail.com")
+    exporter_hub.enter_first_name("Test_edited")
+    exporter_hub.enter_last_name("user_2_edited")
+
+    exporter_hub.click_submit()
+
+    assert utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'Test_edited user_2_edited')]]")
+    assert utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'Test_edited')]]")
+    assert utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'user_2_edited')]]")
+    assert utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'testuser_2_edited@mail.com')]]")
+
+    exporter_hub.go_to(url)
+    exporter_hub.click_users()
+
+    assert utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'Test_edited user_2_edited')]]")
+    assert utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'testuser_2_edited@mail.com')]]")
+
+    exporter_hub.logout()
+    exporter_hub.login("testuser_2_edited@mail.com", password)
+    assert driver.title == "Exporter Hub - LITE"
+
+    # cleanup
+    exporter_hub.click_users()
+    exporter_hub.click_edit_for_user("testuser_2_edited@mail.com")
+    exporter_hub.enter_email(email)
+    exporter_hub.enter_first_name("Test")
+    exporter_hub.enter_last_name("user_2")
+    exporter_hub.click_submit()
+
+
 def test_deactivate_users(driver, url):
     exporter_hub = ExporterHubPage(driver)
     exporter_hub.go_to(url)
@@ -76,7 +122,7 @@ def test_deactivate_users(driver, url):
     exporter_hub.click_users()
 
     # I should have the option to deactivate an active user # edit link, and link from user name
-    exporter_hub.click_edit_for_user(email)
+    exporter_hub.click_user_name_link(full_name)
 
     # When I choose to deactivate an active user # Then I return to "Manage users"
     exporter_hub.click_deactivate_btn()

@@ -4,6 +4,7 @@ import helpers.helpers as utils
 import pytest
 import logging
 from pages.exporter_hub_page import ExporterHubPage
+from pages.internal_hub_page import InternalHubPage
 
 log = logging.getLogger()
 console = logging.StreamHandler()
@@ -26,30 +27,46 @@ def open_exporter_hub(driver, url):
 
 def test_new_organisation_setup(driver, open_internal_hub):
     log.info("Setting up new organisation")
+    register_a_business_page = InternalHubPage(driver)
 
     manage_organisations_btn = driver.find_element_by_css_selector("a[href*='/organisations']")
     manage_organisations_btn.click()
 
-    exists = utils.is_element_present(driver, By.XPATH ,"//*[text()[contains(.,'Test Org')]]")
+    exists = utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'Test Org')]]")
     if not exists:
         # New Organisation
         new_organisation_btn = driver.find_element_by_css_selector("a[href*='/register']")
         new_organisation_btn.click()
 
-        driver.find_element_by_id("name").send_keys("Test Org")
-        driver.find_element_by_id("eori_number").send_keys("GB987654312000")
-        driver.find_element_by_id("sic_number").send_keys("73200")
-        driver.find_element_by_id("vat_number").send_keys("123456789")
-        driver.find_element_by_id("registration_number").send_keys("000000011")
-        driver.find_element_by_id("address").send_keys("123 Cobalt Street")
-        driver.find_element_by_id("admin_user_first_name").send_keys("Test")
-        driver.find_element_by_id("admin_user_last_name").send_keys("User1")
-        driver.find_element_by_id("admin_user_email").send_keys("test@mail.com")
+        register_a_business_page.enter_business_name("Test Org")
+        register_a_business_page.enter_eori_number("GB987654312000")
+        register_a_business_page.enter_sic_number("73200")
+        register_a_business_page.enter_vat_number("123456789")
+        register_a_business_page.enter_company_registration_number("000000011")
 
-        submit = driver.find_element_by_xpath("//*[@action='submit']")
-        submit.click()
-        # assert driver.find_element_by_tag_name("h1").text == "Organisations", \
-        #     "Failed to return to Organisations list page after submitting new organisation"
+        register_a_business_page.click_save_and_continue()
+
+        log.info("Create a default site for this organisation")
+
+        register_a_business_page.enter_site_name("Site 1")
+        register_a_business_page.enter_address_line_1("123 Cobalt Street")
+        register_a_business_page.enter_address_line_2("123 Cobalt Street")
+        register_a_business_page.enter_zip_code("N23 6YL")
+        register_a_business_page.enter_city("London")
+        register_a_business_page.enter_state("London")
+        register_a_business_page.enter_country("United Kingdom")
+
+        register_a_business_page.click_save_and_continue()
+
+        register_a_business_page.enter_email("test@mail.com")
+        register_a_business_page.enter_first_name("Test")
+        register_a_business_page.enter_last_name("User1")
+        register_a_business_page.enter_password("password")
+
+        register_a_business_page.click_submit()
+
+        assert "Organisation Registered" in driver.title, "Error in registering business"
+
         exists = utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'Test Org')]]")
         assert exists
 
@@ -98,7 +115,10 @@ def test_add_users_setup(driver, url):
     log.info("add test user")
     exporter_hub = ExporterHubPage(driver)
     exporter_hub.go_to(url)
-    exporter_hub.login("test@mail.com", "password")
+    if "login" in driver.current_url:
+        log.info("logging in as test@mail.com")
+        exporter_hub.login("test@mail.com", "password")
+
     exporter_hub.click_users()
     exists = utils.is_element_present(driver, By.XPATH, "//td[text()[contains(.,'testuser_1@mail.com')]]")
     if not exists:

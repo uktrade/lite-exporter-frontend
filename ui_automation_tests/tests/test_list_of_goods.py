@@ -49,6 +49,7 @@ def test_add_goods(driver, open_exporter_hub, url):
 def test_add_goods_to_application(driver, open_exporter_hub):
     exporter_hub = ExporterHubPage(driver)
     apply_for_licence = ApplyForALicencePage(driver)
+    goods = ApplyForALicencePage(driver)
 
     if "login" in driver.current_url:
         log.info("logging in as test@mail.com")
@@ -61,9 +62,20 @@ def test_add_goods_to_application(driver, open_exporter_hub):
     time_id = datetime.datetime.now().strftime("%m%d%H%M")
     apply_for_licence.enter_name_or_reference_for_application("Test Application " + time_id)
     apply_for_licence.click_save_and_continue()
-    apply_for_licence.enter_destination("Cuba")
-    apply_for_licence.click_save_and_continue()
-    apply_for_licence.click_go_to_overview()
+
+    goods.enter_destination("Cuba")
+    goods.click_save_and_continue()
+    logging.info("Entered Destination and clicked save and continue")
+
+    goods.enter_usage("communication")
+    goods.click_save_and_continue()
+    logging.info("Entered usage and clicked save and continue")
+
+    goods.enter_activity("Proliferation")
+    goods.click_save_and_continue()
+    logging.info("Entered Activity and clicked save and continue")
+
+    assert "Overview" in driver.title
 
     apply_for_licence.click_goods_link()
     apply_for_licence.click_add_from_organisations_goods()
@@ -117,9 +129,21 @@ def test_search_for_goods_by_description(driver, open_exporter_hub):
     time_id = datetime.datetime.now().strftime("%m%d%H%M")
     goods.enter_name_or_reference_for_application("Test Application " + time_id)
     goods.click_save_and_continue()
+
     goods.enter_destination("Cuba")
     goods.click_save_and_continue()
-    goods.click_go_to_overview()
+    logging.info("Entered Destination and clicked save and continue")
+
+    goods.enter_usage("communication")
+    goods.click_save_and_continue()
+    logging.info("Entered usage and clicked save and continue")
+
+    goods.enter_activity("Proliferation")
+    goods.click_save_and_continue()
+    logging.info("Entered Activity and clicked save and continue")
+
+    assert "Overview" in driver.title
+
     goods.click_goods_link()
     goods.click_add_from_organisations_goods()
 
@@ -147,9 +171,21 @@ def test_search_for_goods_by_part_number(driver, open_exporter_hub):
     time_id = datetime.datetime.now().strftime("%m%d%H%M")
     goods.enter_name_or_reference_for_application("Test Application " + time_id)
     goods.click_save_and_continue()
+
     goods.enter_destination("Cuba")
     goods.click_save_and_continue()
-    goods.click_go_to_overview()
+    logging.info("Entered Destination and clicked save and continue")
+
+    goods.enter_usage("communication")
+    goods.click_save_and_continue()
+    logging.info("Entered usage and clicked save and continue")
+
+    goods.enter_activity("Proliferation")
+    goods.click_save_and_continue()
+    logging.info("Entered Activity and clicked save and continue")
+
+    assert "Overview" in driver.title
+
     goods.click_goods_link()
     goods.click_add_from_organisations_goods()
 
@@ -179,7 +215,18 @@ def test_remove_filter(driver,open_exporter_hub):
     goods.click_save_and_continue()
     goods.enter_destination("Cuba")
     goods.click_save_and_continue()
-    goods.click_go_to_overview()
+    logging.info("Entered Destination and clicked save and continue")
+
+    goods.enter_usage("communication")
+    goods.click_save_and_continue()
+    logging.info("Entered usage and clicked save and continue")
+
+    goods.enter_activity("Proliferation")
+    goods.click_save_and_continue()
+    logging.info("Entered Activity and clicked save and continue")
+
+    assert "Overview" in driver.title
+
     goods.click_goods_link()
     goods.click_add_from_organisations_goods()
 
