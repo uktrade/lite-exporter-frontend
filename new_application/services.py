@@ -1,6 +1,6 @@
 from conf.client import get
 from conf.constants import UNITS_URL
-from core.form_components import Option
+from libraries.forms.components import Option
 
 
 def get_units(request):

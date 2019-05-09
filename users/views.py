@@ -24,7 +24,7 @@ class AddUser(TemplateView):
             'title': 'Add User',
             'page': forms.form,
         }
-        return render(request, 'form/form.html', context)
+        return render(request, 'form.html', context)
 
     def post(self, request, **kwargs):
         data, status_code = post_users(request, request.POST)
@@ -36,7 +36,7 @@ class AddUser(TemplateView):
                 'data': request.POST,
                 'errors': data.get('errors')
             }
-            return render(request, 'form/form.html', context)
+            return render(request, 'form.html', context)
 
         return redirect(reverse_lazy('users:users'))
 
@@ -67,7 +67,7 @@ class EditUser(TemplateView):
             'title': 'Edit User',
             'page': forms.edit_form,
         }
-        return render(request, 'form/form.html', context)
+        return render(request, 'form.html', context)
 
     def post(self, request, **kwargs):
         data, status_code = update_user(request, str(kwargs['pk']), request.POST)
@@ -78,7 +78,7 @@ class EditUser(TemplateView):
                 'data': request.POST,
                 'errors': data.get('errors')
             }
-            return render(request, 'form/form.html', context)
+            return render(request, 'form.html', context)
 
         return redirect(reverse_lazy('users:user', kwargs={'pk': str(kwargs['pk'])}))
 
