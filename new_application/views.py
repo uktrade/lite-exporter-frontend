@@ -3,12 +3,15 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
+from conf.client import get
+from conf.constants import UNITS_URL
 from core.builtins.custom_tags import get_string
 from drafts.services import get_draft, post_drafts, put_draft, delete_draft, submit_draft, get_draft_goods, \
     post_draft_preexisting_goods
 from goods.services import get_goods, get_good
 from libraries.forms.helpers import get_form_by_pk, get_next_form_after_pk
 from new_application import forms
+from new_application.services import get_units
 
 
 def index(request):
@@ -121,12 +124,14 @@ def cancel_confirm(request):
 
 def goods(request):
     draft_id = request.GET.get('id')
+    draft, status_code = get_draft(request, draft_id)
     data, status_code = get_draft_goods(request, draft_id)
 
     context = {
-        'title': 'Goods',
+        'title': 'Application Goods',
         'draft_id': draft_id,
         'data': data,
+        'draft': draft,
     }
     return render(request, 'new_application/goods/index.html', context)
 
@@ -160,7 +165,8 @@ class AddPreexistingGood(TemplateView):
             'page': forms.preexisting_good_form(good.get('id'),
                                                 good.get('description'),
                                                 good.get('control_code'),
-                                                good.get('part_number')),
+                                                good.get('part_number'),
+                                                get_units(request)),
         }
         return render(request, 'form.html', context)
 
@@ -177,11 +183,11 @@ class AddPreexistingGood(TemplateView):
                 'page': forms.preexisting_good_form(good.get('id'),
                                                     good.get('description'),
                                                     good.get('control_code'),
-                                                    good.get('part_number')),
+                                                    good.get('part_number'),
+                                                    get_units(request)),
                 'body': request.POST,
                 'errors': data.get('errors'),
             }
             return render(request, 'form.html', context)
 
         return redirect(reverse_lazy('new_application:goods') + '?id=' + draft_id)
-

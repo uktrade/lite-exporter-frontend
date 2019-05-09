@@ -5,3 +5,7 @@ APPLICATIONS_URL = '/applications/'
 DRAFTS_URL = '/drafts/'
 GOODS_URL = '/goods/'
 SITES_URL = '/organisations/sites/'
+
+# Static URLs
+STATIC_URL = '/static/'
+UNITS_URL = STATIC_URL + 'units/'
