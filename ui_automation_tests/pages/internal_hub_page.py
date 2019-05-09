@@ -1,5 +1,5 @@
 from selenium.webdriver.support.ui import Select
-
+import time
 
 class InternalHubPage():
 
@@ -92,4 +92,5 @@ class InternalHubPage():
 
     def click_manage_organisations_link(self):
         self.driver.find_element_by_id("lite-menu-button").click()
-        self.driver.find_element_by_css_selector(self.manage_organisations_link).click()
+        time.sleep(0.5)
+        self.driver.find_element_by_css_selector("a[href*='/organisations/']").click()
