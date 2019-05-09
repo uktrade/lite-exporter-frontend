@@ -83,6 +83,7 @@ def test_edit_site(driver, url):
 
     # Cleanup
     driver.find_element_by_xpath("//*[text()[contains(.,'Site 1')]]/following-sibling::td[last()]/a").click()
+    driver.find_element_by_id("name").clear()
     driver.find_element_by_id("name").send_keys("Site 1")
     driver.find_element_by_id("address.address_line_1").clear()
     driver.find_element_by_id("address.address_line_1").send_keys("123 Cobalt Street")
@@ -94,5 +95,7 @@ def test_edit_site(driver, url):
     driver.find_element_by_id("address.country").send_keys("United Kingdom")
     site_page.click_submit()
 
+
 def test_teardown(driver):
     driver.quit()
+
