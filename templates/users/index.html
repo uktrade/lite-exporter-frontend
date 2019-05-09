@@ -12,6 +12,11 @@
 
 	<div class="lite-app-bar">
 		<h1 class="govuk-heading-l">Users</h1>
+		<div class="lite-app-bar--right">
+			<a href="{% url 'users:add' %}" class="govuk-button" draggable="false" role="button">
+				Add a user
+			</a>
+		</div>
 	</div>
 
 	{% if data.users|length %}
@@ -44,11 +49,5 @@
 	{% else %}
 		<p class="govuk-caption-l">You don't have any users at the moment.</p>
 	{% endif %}
-
-	<div class="lite-app-bar">
-		<a href="{% url 'users:add' %}" class="govuk-button" draggable="false" role="button">
-			Add a user
-		</a>
-	</div>
 
 {% endblock %}
