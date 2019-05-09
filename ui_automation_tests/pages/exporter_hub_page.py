@@ -18,6 +18,7 @@ class ExporterHubPage():
         self.my_goods_btn = "a[href*='/goods/']"
         self.add_a_good_btn = "a[href*='/goods/add/']"
         self.users_btn = "a[href='/users/']"
+        self.sites_btn = "a[href='/sites/']"
 
     def go_to(self, url):
         self.driver.get(url)
@@ -134,3 +135,9 @@ class ExporterHubPage():
 
     def click_user_profile(self):
         self.driver.find_element_by_css_selector("a[href*='/users/profile/']").click()
+
+    def click_sites(self):
+        self.driver.find_element_by_css_selector(self.sites_btn).click()
+
+    def click_new_site(self):
+        self.driver.find_element_by_css_selector("a[href*='/sites/new/']").click()

@@ -28,7 +28,7 @@ def driver(request):
     browser = request.config.getoption("--driver")
     if browser == 'chrome':
         if str(os.environ.get('ENVIRONMENT')) == 'None':
-            browser = webdriver.Chrome(executable_path="chromedriver")
+            browser = webdriver.Chrome("chromedriver")
         else:
             browser = webdriver.Chrome()
         browser.get("about:blank")
