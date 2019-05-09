@@ -29,14 +29,12 @@ def test_new_organisation_setup(driver, open_internal_hub):
     log.info("Setting up new organisation")
     register_a_business_page = InternalHubPage(driver)
 
-    manage_organisations_btn = driver.find_element_by_css_selector("a[href*='/organisations']")
-    manage_organisations_btn.click()
+    register_a_business_page.click_manage_organisations_link()
 
     exists = utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'Test Org')]]")
     if not exists:
         # New Organisation
-        new_organisation_btn = driver.find_element_by_css_selector("a[href*='/register']")
-        new_organisation_btn.click()
+        register_a_business_page.click_manage_organisations_link()
 
         register_a_business_page.enter_business_name("Test Org")
         register_a_business_page.enter_eori_number("GB987654312000")
