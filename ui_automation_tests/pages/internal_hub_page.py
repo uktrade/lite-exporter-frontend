@@ -67,13 +67,13 @@ class InternalHubPage():
         self.driver.find_element_by_id("site.address.address_line_2").send_keys(address_line_2)
 
     def enter_zip_code(self, zip_code):
-        self.driver.find_element_by_id("site.address.zip_code").send_keys(zip_code)
+        self.driver.find_element_by_id("site.address.postcode").send_keys(zip_code)
 
     def enter_city(self, city):
         self.driver.find_element_by_id("site.address.city").send_keys(city)
 
     def enter_state(self, state):
-        self.driver.find_element_by_id("site.address.state").send_keys(state)
+        self.driver.find_element_by_id("site.address.region").send_keys(state)
 
     def enter_country(self, country):
         self.driver.find_element_by_id("site.address.country").send_keys(country)
