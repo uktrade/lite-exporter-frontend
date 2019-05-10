@@ -15,7 +15,7 @@ new_site_form = Form(title='New Site', description='', caption='', questions=[
              input_type=InputType.INPUT,
              name='address.address_line_2',
              optional=True),
-    Question(title='Zip code',
+    Question(title='Postal Code',
              description='',
              input_type=InputType.INPUT,
              name='address.postcode'),
