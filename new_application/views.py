@@ -7,9 +7,11 @@ from core.builtins.custom_tags import get_string
 from drafts.services import get_draft, post_drafts, put_draft, delete_draft, submit_draft, get_draft_goods, \
     post_draft_preexisting_goods
 from goods.services import get_goods, get_good
+from libraries.forms.components import Form, InputType, ArrayQuestion
 from libraries.forms.helpers import get_form_by_pk, get_next_form_after_pk
 from new_application import forms
 from new_application.services import get_units
+from sites.services import get_sites
 
 
 def index(request):
@@ -189,3 +191,25 @@ class AddPreexistingGood(TemplateView):
             return render(request, 'form.html', context)
 
         return redirect(reverse_lazy('new_application:goods') + '?id=' + draft_id)
+
+
+class Sites(TemplateView):
+    def get(self, request, **kwargs):
+        draft_id = request.GET.get('id')
+
+        # Create the form
+        sites_form = Form(title='Where are your goods located?',
+                          description='Select all sites that apply.',
+                          questions=[
+                              ArrayQuestion('', '', InputType.CHECKBOXES, 'site', get_sites(request, True))
+                          ])
+
+        context = {
+            'title': sites_form.title,
+            'draft_id': draft_id,
+            'page': sites_form,
+        }
+        return render(request, 'form.html', context)
+
+    def post(self, request, **kwargs):
+        draft_id = request.GET.get('id')

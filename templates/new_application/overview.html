@@ -78,6 +78,12 @@
 				<p class="govuk-caption-m">View the goods associated with this application</p>
 			</div>
 		</div>
+		<div class="section">
+			<div class="section-header">
+				<a href="sites?id={{ draft_id }}" class="govuk-heading-s govuk-link">Sites</a>
+				<p class="govuk-caption-m">Indicate where your goods are located</p>
+			</div>
+		</div>
 	</div>
 
 	<form action="{% url 'new_application:submit' %}?id={{ draft_id }}" method="post">
