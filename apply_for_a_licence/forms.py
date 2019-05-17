@@ -25,7 +25,7 @@ initial_questions = Section('', '', [
     ], buttons=[
         Button('Save and continue', 'submit')
     ]),
-    Form('Do you want to export temporarily or permanently', "This can make it easier to find in the future.", [
+    Form('Do you want to export temporarily or permanently', '', [
         ArrayQuestion(title='',
                       description='',
                       input_type=InputType.RADIOBUTTONS,
