@@ -36,7 +36,7 @@
 				{% for draft in data.drafts %}
 					<tr class="lite-table__row">
 						<td class="lite-table__cell">
-							<a class="govuk-link" href="{% url 'new_application:overview' %}?id={{ draft.id }}">
+							<a class="govuk-link" href="{% url 'apply_for_a_licence:overview' draft.id %}">
 								{{ draft.name }}
 							</a>
 						</td>
@@ -69,7 +69,7 @@
 							</a>
 						</td>-->
 						<td class="lite-table__cell">
-							<a href="{% url 'apply_for_a_licence:cancel' %}?id={{ draft.id }}&return=drafts" style="margin: 0;" class="cancel-link">Delete</a>
+							<a href="?id={{ draft.id }}&return=drafts" style="margin: 0;" class="cancel-link">Delete</a>
 						</td>
 					</tr>
 				{% endfor %}

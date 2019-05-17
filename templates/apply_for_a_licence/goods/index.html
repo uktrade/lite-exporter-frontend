@@ -3,7 +3,7 @@
 {% load humanize %}
 
 {% block back-button %}
-	<a href="{% url 'new_application:overview' %}?id={{ draft_id }}" class="govuk-back-link">Back to Overview</a>
+	<a href="{% url 'apply_for_a_licence:overview' %}?id={{ draft_id }}" class="govuk-back-link">Back to Overview</a>
 {% endblock%}
 
 {% block body %}
@@ -12,7 +12,7 @@
 	<div class="lite-app-bar">
 		<h2 class="govuk-heading-l">{{ title }}</h2>
 		<div class="lite-app-bar--right">
-			<a href="{% url 'new_application:preexisting_good' %}?id={{ draft_id }}" role='button' draggable='false' class='govuk-button'>Add from organisations goods</a>
+			<a href="{% url 'apply_for_a_licence:preexisting_good' %}?id={{ draft_id }}" role='button' draggable='false' class='govuk-button'>Add from organisations goods</a>
 		</div>
 	</div>
 

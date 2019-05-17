@@ -78,8 +78,7 @@ class Overview(TemplateView):
         data, status_code = get_draft(request, str(kwargs['pk']))
 
         context = {
-            'page': forms.initial_questions.forms[0],
-            'title': forms.initial_questions.forms[0].title,
+            'title': 'Draft Overview',
             'data': data,
         }
         return render(request, 'apply_for_a_licence/overview.html', context)
