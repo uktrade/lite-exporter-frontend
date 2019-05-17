@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'sass_processor',
     'django.contrib.humanize',
-    'new_application',
+    'apply_for_a_licence',
     'core.apps.CoreConfig',
     'libraries.forms',
 ]
