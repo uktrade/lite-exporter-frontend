@@ -1,5 +1,3 @@
-import json
-
 from django.http import Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
@@ -9,7 +7,7 @@ from core.builtins.custom_tags import get_string
 from drafts.services import get_draft, post_drafts, put_draft, delete_draft, submit_draft, get_draft_goods, \
     post_draft_preexisting_goods
 from goods.services import get_goods, get_good
-from libraries.forms.components import Form, InputType, ArrayQuestion, Button, ButtonStyle
+from libraries.forms.components import Form, InputType, ArrayQuestion, Button
 from libraries.forms.helpers import get_form_by_pk, get_next_form_after_pk
 from new_application import forms
 from new_application.services import get_units, post_sites_on_draft, get_sites_on_draft
@@ -199,8 +197,6 @@ class Sites(TemplateView):
     def get(self, request, **kwargs):
         draft_id = request.GET.get('id')
         response, status_code = get_sites_on_draft(request, draft_id)
-
-        print(response)
 
         # Create the form
         sites_form = Form(title='Where are your goods located?',
