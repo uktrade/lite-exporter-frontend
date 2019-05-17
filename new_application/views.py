@@ -210,7 +210,7 @@ class Sites(TemplateView):
                           ],
                           buttons=[
                               Button('Save and continue', 'submit'),
-                              Button('Go to Overview', 'submit', ButtonStyle.SECONDARY)
+                              # Button('Go to Overview', 'submit', ButtonStyle.SECONDARY)
                           ])
 
         context = {
@@ -230,7 +230,7 @@ class Sites(TemplateView):
 
         response, status_code = post_sites_on_draft(request, draft_id, data)
 
-        if len(data.get('sites')) is 0:
+        if status_code != 201:
             draft_id = request.GET.get('id')
 
             # Create the form
@@ -241,18 +241,14 @@ class Sites(TemplateView):
                               ],
                               buttons=[
                                   Button('Save and continue', 'submit'),
-                                  Button('Go to Overview', 'submit', ButtonStyle.SECONDARY)
+                                  # Button('Go to Overview', 'submit', ButtonStyle.SECONDARY)
                               ])
 
             context = {
                 'title': sites_form.title,
                 'draft_id': draft_id,
                 'page': sites_form,
-                'errors': {
-                    'sites': [
-                        'You have to pick at least one site.'
-                    ]
-                }
+                'errors': response.get('errors'),
             }
             return render(request, 'form.html', context)
 
