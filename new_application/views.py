@@ -1,3 +1,5 @@
+import json
+
 from django.http import Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
@@ -7,10 +9,10 @@ from core.builtins.custom_tags import get_string
 from drafts.services import get_draft, post_drafts, put_draft, delete_draft, submit_draft, get_draft_goods, \
     post_draft_preexisting_goods
 from goods.services import get_goods, get_good
-from libraries.forms.components import Form, InputType, ArrayQuestion
+from libraries.forms.components import Form, InputType, ArrayQuestion, Button, ButtonStyle
 from libraries.forms.helpers import get_form_by_pk, get_next_form_after_pk
 from new_application import forms
-from new_application.services import get_units
+from new_application.services import get_units, post_sites_on_draft, get_sites_on_draft
 from sites.services import get_sites
 
 
@@ -196,20 +198,62 @@ class AddPreexistingGood(TemplateView):
 class Sites(TemplateView):
     def get(self, request, **kwargs):
         draft_id = request.GET.get('id')
+        response, status_code = get_sites_on_draft(request, draft_id)
+
+        print(response)
 
         # Create the form
         sites_form = Form(title='Where are your goods located?',
                           description='Select all sites that apply.',
                           questions=[
-                              ArrayQuestion('', '', InputType.CHECKBOXES, 'site', get_sites(request, True))
+                              ArrayQuestion('', '', InputType.CHECKBOXES, 'sites', get_sites(request, True))
+                          ],
+                          buttons=[
+                              Button('Save and continue', 'submit'),
+                              Button('Go to Overview', 'submit', ButtonStyle.SECONDARY)
                           ])
 
         context = {
             'title': sites_form.title,
             'draft_id': draft_id,
             'page': sites_form,
+            'data': response,
         }
         return render(request, 'form.html', context)
 
     def post(self, request, **kwargs):
         draft_id = request.GET.get('id')
+
+        data = {
+            'sites': request.POST.getlist('sites')
+        }
+
+        response, status_code = post_sites_on_draft(request, draft_id, data)
+
+        if len(data.get('sites')) is 0:
+            draft_id = request.GET.get('id')
+
+            # Create the form
+            sites_form = Form(title='Where are your goods located?',
+                              description='Select all sites that apply.',
+                              questions=[
+                                  ArrayQuestion('', '', InputType.CHECKBOXES, 'sites', get_sites(request, True))
+                              ],
+                              buttons=[
+                                  Button('Save and continue', 'submit'),
+                                  Button('Go to Overview', 'submit', ButtonStyle.SECONDARY)
+                              ])
+
+            context = {
+                'title': sites_form.title,
+                'draft_id': draft_id,
+                'page': sites_form,
+                'errors': {
+                    'sites': [
+                        'You have to pick at least one site.'
+                    ]
+                }
+            }
+            return render(request, 'form.html', context)
+
+        return redirect(reverse_lazy('new_application:overview') + '?id=' + draft_id)
