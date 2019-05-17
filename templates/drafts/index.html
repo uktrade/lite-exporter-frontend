@@ -22,12 +22,18 @@
 					<th class="lite-table__header">
 						Created On
 					</th>
-					<!--<th class="lite-table__header">
+					<th class="lite-table__header">
 						Goods
 					</th>
-					<th class="lite-table__header">
+					<!--<th class="lite-table__header">
 						People
 					</th>-->
+					<th class="lite-table__header">
+						Application Type
+					</th>
+					<th class="lite-table__header">
+						Export Type
+					</th>
 					<th class="lite-table__header">
 					</th>
 				</tr>
@@ -48,7 +54,7 @@
 								{{ draft.last_modified_at|str_date|naturaltime }}
 							</a>
 						</td>
-						<!--<td class="lite-table__cell">
+						<td class="lite-table__cell">
 							<a class="hoverable-link tooltip">
 								<span class="tooltip-content" style="min-width: 150px;">
 									{% for good in application.goods %}
@@ -58,7 +64,7 @@
 								{{ application.goods|length }} Good{{ application.goods|length|pluralize }}
 							</a>
 						</td>
-						<td class="lite-table__cell">
+						<!--<td class="lite-table__cell">
 							<a class="hoverable-link tooltip">
 								<span class="tooltip-content" style="min-width: 150px;">
 									{% for destination in application.destinations %}
@@ -68,6 +74,12 @@
 								{{ application.destinations|length }} Destination{{ application.destinations|length|pluralize }}
 							</a>
 						</td>-->
+						<td class="lite-table__cell">
+							{{ draft.licence_type }}
+						</td>
+						<td class="lite-table__cell">
+							{{ draft.export_type }}
+						</td>
 						<td class="lite-table__cell">
 							<a href="?id={{ draft.id }}&return=drafts" style="margin: 0;" class="cancel-link">Delete</a>
 						</td>
