@@ -1,12 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
 from apply_for_a_licence import forms
 from core.builtins.custom_tags import get_string
-from drafts.services import post_drafts
+from drafts.services import post_drafts, get_draft
 from libraries.forms.components import HiddenField
-from libraries.forms.helpers import get_form_by_pk, get_next_form_after_pk, nest_data, flatten_data, \
-    remove_unused_errors
+from libraries.forms.helpers import get_form_by_pk, get_next_form_after_pk, nest_data, remove_unused_errors
 
 
 class StartApplication(TemplateView):
@@ -56,7 +56,8 @@ class InitialQuestions(TemplateView):
 
         # If there aren't any forms left to go through, submit all the data and go to the overview page
         if next_form is None:
-            return render(request, 'apply_for_a_licence/overview.html', {})
+            draft_pk = validated_data['draft']['id']
+            return redirect(reverse_lazy('apply_for_a_licence:overview', kwargs={'pk': draft_pk}))
 
         # Add existing post data to new form as hidden fields
         for key, value in data.items():
@@ -70,3 +71,15 @@ class InitialQuestions(TemplateView):
             'title': next_form.title,
         }
         return render(request, 'form.html', context)
+
+
+class Overview(TemplateView):
+    def get(self, request, **kwargs):
+        data, status_code = get_draft(request, str(kwargs['pk']))
+
+        context = {
+            'page': forms.initial_questions.forms[0],
+            'title': forms.initial_questions.forms[0].title,
+            'data': data,
+        }
+        return render(request, 'apply_for_a_licence/overview.html', context)

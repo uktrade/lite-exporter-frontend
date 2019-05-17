@@ -31,8 +31,8 @@ initial_questions = Section('', '', [
                       input_type=InputType.RADIOBUTTONS,
                       name='export_type',
                       data=[
-                        Option('temporarily', 'Temporarily'),
-                        Option('permanently', 'Permanently')
+                        Option('temporary', 'Temporarily'),
+                        Option('permanent', 'Permanently')
                       ]),
     ]),
     Form('Have you been officially informed that you need to apply for a licence?', '', [

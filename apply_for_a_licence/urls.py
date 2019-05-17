@@ -9,4 +9,6 @@ urlpatterns = [
     path('', views.StartApplication.as_view(), name='index'),
     # ex: /start/
     path('start/', views.InitialQuestions.as_view(), name='start'),
+    # ex: /pk/overview/
+    path('<uuid:pk>/overview/', views.Overview.as_view(), name='overview'),
 ]
