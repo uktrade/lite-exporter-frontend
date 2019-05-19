@@ -1,32 +1,90 @@
-{% extends 'layouts/base.html' %}
+{% extends 'layouts/two_pane.html' %}
 
 {% load humanize custom_tags %}
 
-{% block back-button %}
-	<a href="#" class="govuk-back-link">Back</a>
-	<a href="?id={{ data.draft.id }}&return=hub" class="cancel-link">Delete Application</a>
-{% endblock %}
+{% block back-button %}{% endblock %}
 
-{% block body %}
+{% block twoThirds %}
 
-	<span class="govuk-caption-l">{{ title }}</span>
+	<style media="screen">
+		.govuk-table__row {
+			line-height: 30px;
+		}
+		.govuk-table__head, .govuk-table__body {
+			border-top: 1px solid rgb(230, 230, 230);
+		}
+		.govuk-table__header, .govuk-table__cell {
+			border-bottom: 1px solid rgb(230, 230, 230);
+		}
+	</style>
+
 	<h2 class="govuk-heading-l">
-		{{ data.draft.name }}
+		Overview
 	</h2>
 
-	<span class="govuk-caption-m">The following sections can be completed in any order.</span>
-
-	<!-- Sections -->
-	<div class="section-container">
-
+	<div class="govuk-form-group">
+		<p class="govuk-caption-m">The following sections can be completed in any order.</p>
 	</div>
 
-	<form action="" method="post">
-        {% csrf_token %}
-		<button type="submit" class="govuk-button govuk-button--start" name="button" data-prevent-double-click="true">Submit Application</button>
+	<table class="govuk-table">
+		<tbody class="govuk-table__body">
+			<tr class="govuk-table__row">
+				<th class="govuk-table__header" scope="row">Licence Type</th>
+				<td class="govuk-table__cell">{{ draft.licence_type }}</td>
+			</tr>
+			<tr class="govuk-table__row">
+				<th class="govuk-table__header" scope="row">Export Type</th>
+				<td class="govuk-table__cell">{{ draft.export_type }}</td>
+			</tr>
+			<tr class="govuk-table__row">
+				<th class="govuk-table__header" scope="row">Created at</th>
+				<td class="govuk-table__cell">{{ draft.created_at|str_date }}</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<br/>
+	<br/>
+
+	<a href="{% url 'apply_for_a_licence:goods' draft.id %}" class="lite-overview-section-header govuk-link govuk-link--no-visited-state">Goods</a>
+	<!--<table class="govuk-table">
+		<thead class="govuk-table__head">
+			<tr class="govuk-table__row">
+				<th class="govuk-table__header" scope="col">Date</th>
+				<th class="govuk-table__header" scope="col">Amount</th>
+			</tr>
+		</thead>
+		<tbody class="govuk-table__body">
+			<tr class="govuk-table__row">
+				<td class="govuk-table__cell">£109.80 per week</td>
+				<td class="govuk-table__cell">£4,282.20</td>
+			</tr>
+		</tbody>
+	</table>-->
+
+	<br/>
+	<br/>
+	<br/>
+	<br/>
+	<br/>
+
+	<form method="post">
+		{% csrf_token %}
+		<button type="submit" class="govuk-button" name="button" data-prevent-double-click="true">Submit Application</button>
 	</form>
 
 	{% load static %}
 	<script src="{% static 'javascripts/modal.js' %}"></script>
 	<script src="{% static 'javascripts/specific/overview.js' %}"></script>
+
+{% endblock %}
+{% block oneThird %}
+	<aside role="complementary">
+		<h2 class="govuk-heading-m" id="subsection-title">
+			Need to go?
+		</h2>
+		<p class="govuk-body">
+			You can find this application in your <a class="govuk-link" href="/drafts/">drafts</a>.
+		</p>
+	</aside>
 {% endblock %}

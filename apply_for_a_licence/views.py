@@ -4,9 +4,19 @@ from django.views.generic import TemplateView
 
 from apply_for_a_licence import forms
 from core.builtins.custom_tags import get_string
-from drafts.services import post_drafts, get_draft
+from core.services import get_units
+from drafts.services import post_drafts, get_draft, get_draft_goods, post_draft_preexisting_goods
+from goods.services import get_goods, get_good
 from libraries.forms.components import HiddenField
 from libraries.forms.helpers import get_form_by_pk, get_next_form_after_pk, nest_data, remove_unused_errors
+
+
+def create_persistent_bar(draft):
+    return {
+        'caption': 'Currently viewing:',
+        'text': draft.get('id'),
+        'url': reverse_lazy('apply_for_a_licence:overview', kwargs={'pk': draft.get('id')}),
+    }
 
 
 class StartApplication(TemplateView):
@@ -79,6 +89,95 @@ class Overview(TemplateView):
 
         context = {
             'title': 'Draft Overview',
-            'data': data,
+            'draft': data.get('draft'),
+            'persistent_bar': create_persistent_bar(data.get('draft')),
         }
         return render(request, 'apply_for_a_licence/overview.html', context)
+
+
+# Goods
+
+
+class DraftGoodsList(TemplateView):
+    def get(self, request, **kwargs):
+        draft_id = str(kwargs['pk'])
+        draft, status_code = get_draft(request, draft_id)
+        data, status_code = get_draft_goods(request, draft_id)
+
+        context = {
+            'title': 'Application Goods',
+            'draft_id': draft_id,
+            'data': data,
+            'draft': draft,
+            'persistent_bar': create_persistent_bar(draft.get('draft')),
+        }
+        return render(request, 'apply_for_a_licence/goods/index.html', context)
+
+
+class GoodsList(TemplateView):
+    def get(self, request, **kwargs):
+        draft_id = str(kwargs['pk'])
+        draft, status_code = get_draft(request, draft_id)
+        description = request.GET.get('description', '')
+        part_number = request.GET.get('part_number', '')
+        data, status_code = get_goods(request, {'description': description,
+                                                'part_number': part_number})
+
+        context = {
+            'title': 'Goods',
+            'draft_id': draft_id,
+            'data': data,
+            'draft': draft,
+            'description': description,
+            'part_number': part_number,
+            'persistent_bar': create_persistent_bar(draft.get('draft')),
+        }
+        return render(request, 'apply_for_a_licence/goods/preexisting.html', context)
+
+
+class AddPreexistingGood(TemplateView):
+    def get(self, request, **kwargs):
+
+        print(kwargs)
+        print(str(kwargs['pk']))
+        print(str(kwargs['good_pk']))
+
+        draft_id = str(kwargs['pk'])
+        draft, status_code = get_draft(request, draft_id)
+        good, status_code = get_good(request, str(kwargs['good_pk']))
+        good = good.get('good')
+
+        context = {
+            'title': 'Add a pre-existing good to your application',
+            'page': forms.preexisting_good_form(good.get('id'),
+                                                good.get('description'),
+                                                good.get('control_code'),
+                                                good.get('part_number'),
+                                                get_units(request)),
+            'persistent_bar': create_persistent_bar(draft.get('draft')),
+        }
+        return render(request, 'form.html', context)
+
+    def post(self, request, **kwargs):
+        draft_id = str(kwargs['pk'])
+        draft, status_code = get_draft(request, draft_id)
+        data, status_code = post_draft_preexisting_goods(request, draft_id, request.POST)
+
+        if status_code != 201:
+            good, status_code = get_good(request, str(kwargs['good_pk']))
+            good = good.get('good')
+
+            context = {
+                'title': 'Add a pre-existing good to your application',
+                'page': forms.preexisting_good_form(good.get('id'),
+                                                    good.get('description'),
+                                                    good.get('control_code'),
+                                                    good.get('part_number'),
+                                                    get_units(request)),
+                'persistent_bar': create_persistent_bar(draft.get('draft')),
+                'body': request.POST,
+                'errors': data.get('errors'),
+            }
+            return render(request, 'form.html', context)
+
+        return redirect(reverse_lazy('apply_for_a_licence:goods', kwargs={'pk': draft_id}))
