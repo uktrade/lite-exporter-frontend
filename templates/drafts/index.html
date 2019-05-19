@@ -25,9 +25,6 @@
 					<th class="lite-table__header">
 						Goods
 					</th>
-					<!--<th class="lite-table__header">
-						People
-					</th>-->
 					<th class="lite-table__header">
 						Application Type
 					</th>
@@ -64,16 +61,6 @@
 								{{ application.goods|length }} Good{{ application.goods|length|pluralize }}
 							</a>
 						</td>
-						<!--<td class="lite-table__cell">
-							<a class="hoverable-link tooltip">
-								<span class="tooltip-content" style="min-width: 150px;">
-									{% for destination in application.destinations %}
-										{{ destination.name }}<br/>
-									{% endfor %}
-								</span>
-								{{ application.destinations|length }} Destination{{ application.destinations|length|pluralize }}
-							</a>
-						</td>-->
 						<td class="lite-table__cell">
 							{{ draft.licence_type }}
 						</td>
@@ -81,7 +68,7 @@
 							{{ draft.export_type }}
 						</td>
 						<td class="lite-table__cell">
-							<a href="?id={{ draft.id }}&return=drafts" style="margin: 0;" class="cancel-link">Delete</a>
+							<a href="{% url 'apply_for_a_licence:delete' draft.id %}" style="margin: 0;" class="cancel-link">Delete</a>
 						</td>
 					</tr>
 				{% endfor %}

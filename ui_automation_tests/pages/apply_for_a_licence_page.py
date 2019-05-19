@@ -8,7 +8,7 @@ class ApplyForALicencePage():
     def __init__(self, driver):
         self.driver = driver
 
-        self.apply_for_a_licence_btn = "a[href*='/new-application/']"
+        self.apply_for_a_licence_btn = "a[href*='/apply_for_a_licence/']"
         self.drafts_btn = "a[href*='/drafts/']"
         self.name_or_reference_input_id = "name"
         self.control_code_input_id = "control_code"

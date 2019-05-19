@@ -12,7 +12,7 @@ class ExporterHubPage():
     def __init__(self, driver):
         self.driver = driver
 
-        self.apply_for_a_licence_btn = "a[href*='/new-application/']"
+        self.apply_for_a_licence_btn = "a[href*='/apply_for_a_licence/']"
         self.drafts_btn = "a[href*='/drafts/']"
         self.applications_btn = "a[href*='/applications/']"
         self.my_goods_btn = "a[href*='/goods/']"

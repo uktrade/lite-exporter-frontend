@@ -17,5 +17,9 @@ urlpatterns = [
     # ex: /<uuid:pk>/goods/add_preexisting/
     path('<uuid:pk>/goods/add_preexisting/', views.GoodsList.as_view(), name='preexisting_good'),
     # ex: /<uuid:pk>/goods/add_preexisting/<uuid:pk>/add/
-    path('<uuid:pk>/goods/add_preexisting/<uuid:good_pk>/add/', views.AddPreexistingGood.as_view(), name='add_preexisting_good'),
+    path('<uuid:pk>/goods/add_preexisting/<uuid:good_pk>/add/', views.AddPreexistingGood.as_view(),
+         name='add_preexisting_good'),
+
+    # ex: /<uuid:pk>/delete/
+    path('<uuid:pk>/delete/', views.DeleteApplication.as_view(), name='delete'),
 ]

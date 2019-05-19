@@ -7,7 +7,7 @@
 	<div class="lite-app-bar">
 		<h1 class="govuk-heading-l">Applications</h1>
 		<div class="lite-app-bar--right">
-			<a href="/new-application" class="govuk-button govuk-button--secondary" draggable="false" role="button">
+			<a href="{% url 'apply_for_a_licence:index' %}" class="govuk-button govuk-button--secondary" draggable="false" role="button">
 				{% get_string 'licences.apply_for_a_licence' %}
 			</a>
 			<a href="." class="govuk-button govuk-button--secondary" draggable="false" role="button">

@@ -6,7 +6,8 @@ from django.views.generic import TemplateView
 from apply_for_a_licence import forms
 from core.builtins.custom_tags import get_string
 from core.services import get_units
-from drafts.services import post_drafts, get_draft, get_draft_goods, post_draft_preexisting_goods, submit_draft
+from drafts.services import post_drafts, get_draft, get_draft_goods, post_draft_preexisting_goods, submit_draft, \
+    delete_draft
 from goods.services import get_goods, get_good
 from libraries.forms.components import HiddenField
 from libraries.forms.helpers import get_form_by_pk, get_next_form_after_pk, nest_data, remove_unused_errors, \
@@ -153,11 +154,6 @@ class GoodsList(TemplateView):
 
 class AddPreexistingGood(TemplateView):
     def get(self, request, **kwargs):
-
-        print(kwargs)
-        print(str(kwargs['pk']))
-        print(str(kwargs['good_pk']))
-
         draft_id = str(kwargs['pk'])
         draft, status_code = get_draft(request, draft_id)
         good, status_code = get_good(request, str(kwargs['good_pk']))
@@ -197,3 +193,25 @@ class AddPreexistingGood(TemplateView):
             return render(request, 'form.html', context)
 
         return redirect(reverse_lazy('apply_for_a_licence:goods', kwargs={'pk': draft_id}))
+
+
+# Goods
+
+
+class DeleteApplication(TemplateView):
+    def get(self, request, **kwargs):
+        draft_id = str(kwargs['pk'])
+        context = {
+            'title': 'Are you sure you want to delete this application?',
+            'draft_id': draft_id,
+        }
+        return render(request, 'apply_for_a_licence/cancel_confirmation.html', context)
+
+    def post(self, request, **kwargs):
+        draft_id = str(kwargs['pk'])
+        delete_draft(request, draft_id)
+
+        if request.GET.get('return') == 'drafts':
+            return redirect(reverse_lazy('drafts:index') + '/?application_deleted=true')
+
+        return redirect('/?application_deleted=true')

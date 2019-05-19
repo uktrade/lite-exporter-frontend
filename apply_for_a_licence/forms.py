@@ -22,9 +22,7 @@ initial_questions = Section('', '', [
                                                         '<a class="govuk-link" '
                                                         'href="https://www.gov.uk/starting-to-export/licences">'
                                                         'exporting and doing business abroad</a>.', )
-    ], buttons=[
-        Button('Save and continue', 'submit')
-    ]),
+    ], default_button_name='Continue'),
     Form('Do you want to export temporarily or permanently', '', [
         ArrayQuestion(title='',
                       description='',
@@ -34,7 +32,7 @@ initial_questions = Section('', '', [
                         Option('temporary', 'Temporarily'),
                         Option('permanent', 'Permanently')
                       ]),
-    ]),
+    ], default_button_name='Continue'),
     Form('Have you been officially informed that you need to apply for a licence?', '', [
         ArrayQuestion(title='',
                       description='',
@@ -50,7 +48,7 @@ initial_questions = Section('', '', [
                  input_type=InputType.INPUT,
                  name='reference_number_on_information_form',
                  optional=True),
-    ]),
+    ], default_button_name='Continue'),
 ])
 
 

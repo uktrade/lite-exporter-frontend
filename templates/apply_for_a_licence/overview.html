@@ -36,6 +36,12 @@
 				<th class="govuk-table__header" scope="row">Export Type</th>
 				<td class="govuk-table__cell">{{ draft.export_type }}</td>
 			</tr>
+			{% if draft.reference_number_on_information_form %}
+				<tr class="govuk-table__row">
+					<th class="govuk-table__header" scope="row">Reference Number</th>
+					<td class="govuk-table__cell">{{ draft.reference_number_on_information_form }}</td>
+				</tr>
+			{% endif %}
 			<tr class="govuk-table__row">
 				<th class="govuk-table__header" scope="row">Created at</th>
 				<td class="govuk-table__cell">{{ draft.created_at|str_date }}</td>
@@ -86,5 +92,13 @@
 		<p class="govuk-body">
 			You can find this application in your <a class="govuk-link" href="/drafts/">drafts</a>.
 		</p>
+	</aside>
+	<aside role="complementary">
+		<h2 class="govuk-heading-m" id="subsection-title">
+			Don't want to continue this application?
+		</h2>
+		<a href="{% url 'apply_for_a_licence:delete' draft.id %}" class="govuk-body govuk-link">
+			Delete Draft Application
+		</a>
 	</aside>
 {% endblock %}
