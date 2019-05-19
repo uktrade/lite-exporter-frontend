@@ -1,3 +1,4 @@
+from django.http import Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
@@ -5,10 +6,11 @@ from django.views.generic import TemplateView
 from apply_for_a_licence import forms
 from core.builtins.custom_tags import get_string
 from core.services import get_units
-from drafts.services import post_drafts, get_draft, get_draft_goods, post_draft_preexisting_goods
+from drafts.services import post_drafts, get_draft, get_draft_goods, post_draft_preexisting_goods, submit_draft
 from goods.services import get_goods, get_good
 from libraries.forms.components import HiddenField
-from libraries.forms.helpers import get_form_by_pk, get_next_form_after_pk, nest_data, remove_unused_errors
+from libraries.forms.helpers import get_form_by_pk, get_next_form_after_pk, nest_data, remove_unused_errors, \
+    success_page
 
 
 def create_persistent_bar(draft):
@@ -94,9 +96,23 @@ class Overview(TemplateView):
         }
         return render(request, 'apply_for_a_licence/overview.html', context)
 
+    def post(self, request, **kwargs):
+        data, status_code = submit_draft(request, str(kwargs['pk']))
+
+        if status_code is not 201:
+            raise Http404
+
+        return success_page(request,
+                            title='Application submitted',
+                            secondary_title='',
+                            description='',
+                            what_happens_next=[],
+                            links={
+                                'Go to applications': reverse_lazy('applications:applications')
+                            })
+
 
 # Goods
-
 
 class DraftGoodsList(TemplateView):
     def get(self, request, **kwargs):
