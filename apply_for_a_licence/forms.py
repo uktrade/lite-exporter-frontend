@@ -1,7 +1,14 @@
-from libraries.forms.components import Form, ArrayQuestion, InputType, Button, DetailComponent, Question, Option, \
+from libraries.forms.components import Form, ArrayQuestion, InputType, DetailComponent, Question, Option, \
     Section, HTMLBlock, HiddenField, SideBySideSection
 
 initial_questions = Section('', '', [
+    Form('Enter a reference name for this application',
+         'This can make it easier for you or your organisation to find in the future.', [
+             Question(title='',
+                      description='',
+                      input_type=InputType.INPUT,
+                      name='name'),
+         ], default_button_name='Continue'),
     Form('Which export licence do you want to apply for?', 'Select one of the options.', [
         ArrayQuestion(title='',
                       description='',
@@ -18,7 +25,7 @@ initial_questions = Section('', '', [
                                              'You will receive compliance audits under this type of licence.'),
                       ]),
         DetailComponent('Help with choosing a licence', 'If you\'re unsure about which licence to select, '
-                                                        'then please read the guidance on GOV.UK about licences for '
+                                                        'then read the guidance on GOV.UK about licences for '
                                                         '<a class="govuk-link" '
                                                         'href="https://www.gov.uk/starting-to-export/licences">'
                                                         'exporting and doing business abroad</a>.', )
@@ -29,26 +36,27 @@ initial_questions = Section('', '', [
                       input_type=InputType.RADIOBUTTONS,
                       name='export_type',
                       data=[
-                        Option('temporary', 'Temporarily'),
-                        Option('permanent', 'Permanently')
+                          Option('temporary', 'Temporarily'),
+                          Option('permanent', 'Permanently')
                       ]),
     ], default_button_name='Continue'),
-    Form('Have you been officially informed that you need to apply for a licence?', '', [
-        ArrayQuestion(title='',
-                      description='',
-                      input_type=InputType.RADIOBUTTONS,
-                      name='have_you_been_informed',
-                      data=[
-                        Option('yes', 'Yes', show_pane='pane_reference_number_on_information_form'),
-                        Option('no', 'No')
-                      ],
-                      same_row=True),
-        Question(title='What was the reference number if you were provided one?',
-                 description='',
-                 input_type=InputType.INPUT,
-                 name='reference_number_on_information_form',
-                 optional=True),
-    ], default_button_name='Continue'),
+    Form('Have you been told that you need an export licence by an official?',
+         'This could be a letter or email from HMRC or another government department.', [
+             ArrayQuestion(title='',
+                           description='',
+                           input_type=InputType.RADIOBUTTONS,
+                           name='have_you_been_informed',
+                           data=[
+                               Option('yes', 'Yes', show_pane='pane_reference_number_on_information_form'),
+                               Option('no', 'No')
+                           ],
+                           same_row=True),
+             Question(title='What was the reference number if you were provided one?',
+                      description='This is the reference found on the letter or email to tell you to apply for an export licence.',
+                      input_type=InputType.INPUT,
+                      name='reference_number_on_information_form',
+                      optional=True),
+         ], default_button_name='Save and continue'),
 ])
 
 
@@ -56,9 +64,9 @@ def preexisting_good_form(id, description, control_code, part_number, units):
     return Form('Add a pre-existing good to your application', '', [
         HTMLBlock('<div class="govuk-inset-text">'
                   '<p><span style="opacity: 0.6;">Description:</span> ' + description + '</p>'
-                  '<p><span style="opacity: 0.6;">Control Code:</span> ' + control_code + '</p>'
-                  '<p><span style="opacity: 0.6;">Part Number:</span> ' + part_number + '</p>'
-                  '</div>'),
+                                                                                        '<p><span style="opacity: 0.6;">Control Code:</span> ' + control_code + '</p>'
+                                                                                                                                                                '<p><span style="opacity: 0.6;">Part Number:</span> ' + part_number + '</p>'
+                                                                                                                                                                                                                                      '</div>'),
         HiddenField(name='good_id',
                     value=id),
         Question(title='What\'s the value of your goods?',

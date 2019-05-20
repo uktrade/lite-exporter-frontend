@@ -17,7 +17,7 @@ from libraries.forms.helpers import get_form_by_pk, get_next_form_after_pk, nest
 def create_persistent_bar(draft):
     return {
         'caption': 'Currently viewing:',
-        'text': draft.get('id'),
+        'text': draft.get('name'),
         'url': reverse_lazy('apply_for_a_licence:overview', kwargs={'pk': draft.get('id')}),
     }
 
