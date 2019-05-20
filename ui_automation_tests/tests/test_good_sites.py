@@ -68,7 +68,9 @@ def test_site_goods_empty(driver, open_exporter_hub, url):
     apply_for_licence = ApplyForALicencePage(driver)
 
     log.info("logging in as test@mail.com")
-    exporter_hub.login("test@mail.com", "password")
+    if "login" in driver.current_url:
+        log.info("logging in as test@mail.com")
+        exporter_hub.login("test@mail.com", "password")
 
     exporter_hub.click_apply_for_a_licence()
 
@@ -103,7 +105,9 @@ def test_change_goods_sites(driver, open_exporter_hub, url):
     apply_for_licence = ApplyForALicencePage(driver)
 
     log.info("logging in as test@mail.com")
-    exporter_hub.login("test@mail.com", "password")
+    if "login" in driver.current_url:
+        log.info("logging in as test@mail.com")
+        exporter_hub.login("test@mail.com", "password")
 
     exporter_hub.click_apply_for_a_licence()
 
@@ -149,7 +153,9 @@ def test_add_site(driver, open_exporter_hub, url):
     site_page = InternalHubPage(driver)
 
     log.info("logging in as test@mail.com")
-    exporter_hub.login("test@mail.com", "password")
+    if "login" in driver.current_url:
+        log.info("logging in as test@mail.com")
+        exporter_hub.login("test@mail.com", "password")
 
     # I want to add a user # I should have an option to manage users
     exporter_hub.click_sites()
