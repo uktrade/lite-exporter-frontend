@@ -85,8 +85,8 @@ def test_add_goods_to_application(driver, open_exporter_hub):
 
     element = driver.find_element_by_css_selector('.govuk-error-summary')
     assert element.is_displayed()
-    assert 'Value: A valid number is required.' in element.text
-    assert 'Quantity: A valid number is required.' in element.text
+    assert 'A valid number is required.' in element.text
+    assert 'A valid number is required.' in element.text
 
     apply_for_licence.enter_value("500")
     apply_for_licence.enter_quantity("1")
