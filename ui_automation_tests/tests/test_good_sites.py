@@ -34,28 +34,12 @@ def test_site_goods(driver, open_exporter_hub, url):
     log.info("logging in as test@mail.com")
     exporter_hub.login("test@mail.com", "password")
 
-    exporter_hub.click_apply_for_a_licence()
-
     log.info("Starting draft application")
-    apply_for_licence.click_start_now_btn()
-    logging.info("Clicked start button")
-
-    app_time_id = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    apply_for_licence.enter_name_or_reference_for_application("Test Application " + app_time_id)
-    apply_for_licence.click_save_and_continue()
-    logging.info("Entered name of application and clicked save and continue")
-
-    apply_for_licence.enter_destination("Cuba")
-    apply_for_licence.click_save_and_continue()
-    logging.info("Entered Destination and clicked save and continue")
-
-    apply_for_licence.enter_usage("communication")
-    apply_for_licence.click_save_and_continue()
-    logging.info("Entered usage and clicked save and continue")
-
-    apply_for_licence.enter_activity("Proliferation")
-    apply_for_licence.click_save_and_continue()
-    logging.info("Entered Activity and clicked save and continue")
+    app_time_id = datetime.datetime.now().strftime("m%d%H%M%S")
+    app_name = "Test Application " + app_time_id
+    exporter_hub.create_application(name=str(app_name), destination="Cuba", usage="Test usage", activity="Testing")
+    app_id = driver.current_url[-36:]
+    log.info("Application submitted")
 
     exporter_hub.click_sites_link()
     exporter_hub.click_sites_checkbox(0)
@@ -72,28 +56,12 @@ def test_site_goods_empty(driver, open_exporter_hub, url):
         log.info("logging in as test@mail.com")
         exporter_hub.login("test@mail.com", "password")
 
-    exporter_hub.click_apply_for_a_licence()
-
     log.info("Starting draft application")
-    apply_for_licence.click_start_now_btn()
-    logging.info("Clicked start button")
-
-    app_time_id = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    apply_for_licence.enter_name_or_reference_for_application("Test Application " + app_time_id)
-    apply_for_licence.click_save_and_continue()
-    logging.info("Entered name of application and clicked save and continue")
-
-    apply_for_licence.enter_destination("Cuba")
-    apply_for_licence.click_save_and_continue()
-    logging.info("Entered Destination and clicked save and continue")
-
-    apply_for_licence.enter_usage("communication")
-    apply_for_licence.click_save_and_continue()
-    logging.info("Entered usage and clicked save and continue")
-
-    apply_for_licence.enter_activity("Proliferation")
-    apply_for_licence.click_save_and_continue()
-    logging.info("Entered Activity and clicked save and continue")
+    app_time_id = datetime.datetime.now().strftime("m%d%H%M%S")
+    app_name = "Test Application " + app_time_id
+    exporter_hub.create_application(name=str(app_name), destination="Cuba", usage="Test usage", activity="Testing")
+    app_id = driver.current_url[-36:]
+    log.info("Application submitted")
 
     exporter_hub.click_sites_link()
     apply_for_licence.click_save_and_continue()
@@ -109,28 +77,12 @@ def test_change_goods_sites(driver, open_exporter_hub, url):
         log.info("logging in as test@mail.com")
         exporter_hub.login("test@mail.com", "password")
 
-    exporter_hub.click_apply_for_a_licence()
-
     log.info("Starting draft application")
-    apply_for_licence.click_start_now_btn()
-    logging.info("Clicked start button")
-
-    app_time_id = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    apply_for_licence.enter_name_or_reference_for_application("Test Application " + app_time_id)
-    apply_for_licence.click_save_and_continue()
-    logging.info("Entered name of application and clicked save and continue")
-
-    apply_for_licence.enter_destination("Cuba")
-    apply_for_licence.click_save_and_continue()
-    logging.info("Entered Destination and clicked save and continue")
-
-    apply_for_licence.enter_usage("communication")
-    apply_for_licence.click_save_and_continue()
-    logging.info("Entered usage and clicked save and continue")
-
-    apply_for_licence.enter_activity("Proliferation")
-    apply_for_licence.click_save_and_continue()
-    logging.info("Entered Activity and clicked save and continue")
+    app_time_id = datetime.datetime.now().strftime("m%d%H%M%S")
+    app_name = "Test Application " + app_time_id
+    exporter_hub.create_application(name=str(app_name), destination="Cuba", usage="Test usage", activity="Testing")
+    app_id = driver.current_url[-36:]
+    log.info("Application submitted")
 
     exporter_hub.click_sites_link()
     exporter_hub.click_sites_checkbox(0)
@@ -176,32 +128,18 @@ def test_add_site(driver, open_exporter_hub, url):
     exporter_hub = ExporterHubPage(driver)
     apply_for_licence = ApplyForALicencePage(driver)
     exporter_hub.go_to(url)
-    exporter_hub.click_apply_for_a_licence()
 
     log.info("Starting draft application")
-    apply_for_licence.click_start_now_btn()
-    logging.info("Clicked start button")
-
-    app_time_id = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    apply_for_licence.enter_name_or_reference_for_application("Test Application " + app_time_id)
-    apply_for_licence.click_save_and_continue()
-    logging.info("Entered name of application and clicked save and continue")
-
-    apply_for_licence.enter_destination("Cuba")
-    apply_for_licence.click_save_and_continue()
-    logging.info("Entered Destination and clicked save and continue")
-
-    apply_for_licence.enter_usage("communication")
-    apply_for_licence.click_save_and_continue()
-    logging.info("Entered usage and clicked save and continue")
-
-    apply_for_licence.enter_activity("Proliferation")
-    apply_for_licence.click_save_and_continue()
-    logging.info("Entered Activity and clicked save and continue")
+    app_time_id = datetime.datetime.now().strftime("m%d%H%M%S")
+    app_name = "Test Application " + app_time_id
+    exporter_hub.create_application(name=str(app_name), destination="Cuba", usage="Test usage", activity="Testing")
+    app_id = driver.current_url[-36:]
+    log.info("Application submitted")
 
     exporter_hub.click_sites_link()
 
     assert exporter_hub.get_text_of_site(len(driver.find_elements_by_css_selector(".govuk-checkboxes__label"))-1) == new_site_name
+
 
 def test_teardown(driver):
     driver.quit()
