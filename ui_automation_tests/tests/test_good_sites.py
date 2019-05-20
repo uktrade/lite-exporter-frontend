@@ -57,7 +57,7 @@ def test_site_goods_empty(driver, open_exporter_hub, url):
         exporter_hub.login("test@mail.com", "password")
 
     log.info("Starting draft application")
-    app_time_id = datetime.datetime.now().strftime("m%d%H%M%S")
+    app_time_id = datetime.datetime.now().strftime("%m%d%H%M%S")
     app_name = "Test Application " + app_time_id
     exporter_hub.create_application(name=str(app_name), destination="Cuba", usage="Test usage", activity="Testing")
     app_id = driver.current_url[-36:]
@@ -78,7 +78,7 @@ def test_change_goods_sites(driver, open_exporter_hub, url):
         exporter_hub.login("test@mail.com", "password")
 
     log.info("Starting draft application")
-    app_time_id = datetime.datetime.now().strftime("m%d%H%M%S")
+    app_time_id = datetime.datetime.now().strftime("%m%d%H%M%S")
     app_name = "Test Application " + app_time_id
     exporter_hub.create_application(name=str(app_name), destination="Cuba", usage="Test usage", activity="Testing")
     app_id = driver.current_url[-36:]
@@ -130,7 +130,7 @@ def test_add_site(driver, open_exporter_hub, url):
     exporter_hub.go_to(url)
 
     log.info("Starting draft application")
-    app_time_id = datetime.datetime.now().strftime("m%d%H%M%S")
+    app_time_id = datetime.datetime.now().strftime("%m%d%H%M%S")
     app_name = "Test Application " + app_time_id
     exporter_hub.create_application(name=str(app_name), destination="Cuba", usage="Test usage", activity="Testing")
     app_id = driver.current_url[-36:]
