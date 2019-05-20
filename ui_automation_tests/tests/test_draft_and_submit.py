@@ -87,6 +87,9 @@ def test_submit_application(driver, open_exporter_hub, url):
     logging.info("Test Started")
     exporter_hub = ExporterHubPage(driver)
     apply_for_licence = ApplyForALicencePage(driver)
+    if "login" in driver.current_url:
+        log.info("logging in as test@mail.com")
+        exporter_hub.login("test@mail.com", "password")
 
     exporter_hub.click_apply_for_a_licence()
     logging.info("Clicked apply for a licence")
@@ -143,6 +146,9 @@ def test_must_enter_fields_for_application(driver, open_exporter_hub):
     logging.info("Test Started")
     exporter_hub = ExporterHubPage(driver)
     apply_for_licence = ApplyForALicencePage(driver)
+    if "login" in driver.current_url:
+        log.info("logging in as test@mail.com")
+        exporter_hub.login("test@mail.com", "password")
 
     exporter_hub.click_apply_for_a_licence()
     logging.info("Clicked apply for a licence")
@@ -155,7 +161,7 @@ def test_must_enter_fields_for_application(driver, open_exporter_hub):
 
     element = driver.find_element_by_css_selector('.govuk-error-summary')
     assert element.is_displayed()
-    assert 'Name: This field may not be blank.' in element.text
+    assert 'This field may not be blank.' in element.text
     logging.info("Error displayed successfully")
 
     apply_for_licence.enter_name_or_reference_for_application("a")
@@ -167,7 +173,7 @@ def test_must_enter_fields_for_application(driver, open_exporter_hub):
 
     element = driver.find_element_by_css_selector('.govuk-error-summary')
     assert element.is_displayed()
-    assert 'Destination: This field may not be blank.' in element.text
+    assert 'This field may not be blank.' in element.text
     logging.info("Error displayed successfully")
 
     apply_for_licence.enter_destination("c")
@@ -179,7 +185,7 @@ def test_must_enter_fields_for_application(driver, open_exporter_hub):
 
     element = driver.find_element_by_css_selector('.govuk-error-summary')
     assert element.is_displayed()
-    assert 'Usage: This field may not be blank.' in element.text
+    assert 'This field may not be blank.' in element.text
     logging.info("Error displayed successfully")
 
     apply_for_licence.enter_usage("d")
@@ -191,7 +197,7 @@ def test_must_enter_fields_for_application(driver, open_exporter_hub):
 
     element = driver.find_element_by_css_selector('.govuk-error-summary')
     assert element.is_displayed()
-    assert 'Activity: This field may not be blank.' in element.text
+    assert 'This field may not be blank.' in element.text
     logging.info("Error displayed successfully")
 
     apply_for_licence.enter_activity("e")
@@ -207,6 +213,9 @@ def test_status_column_and_refresh_btn_on_applications(driver, open_exporter_hub
     logging.info("Test Started")
     exporter_hub = ExporterHubPage(driver)
     applications = ApplicationsPage(driver)
+    if "login" in driver.current_url:
+        log.info("logging in as test@mail.com")
+        exporter_hub.login("test@mail.com", "password")
 
     exporter_hub.click_applications()
     logging.info("navigated to applications page")
