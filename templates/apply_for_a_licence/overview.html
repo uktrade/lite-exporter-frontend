@@ -1,6 +1,6 @@
 {% extends 'layouts/two_pane.html' %}
 
-{% load humanize custom_tags %}
+{% load humanize custom_tags tz %}
 
 {% block back-button %}{% endblock %}
 
@@ -42,11 +42,13 @@
 					<td class="govuk-table__cell">{{ draft.reference_number_on_information_form }}</td>
 				</tr>
 			{% endif %}
-			<tr class="govuk-table__row">
+      <tr class="govuk-table__row">
 				<th class="govuk-table__header" scope="row">Created at</th>
-				<td class="govuk-table__cell">{{ draft.created_at|str_date }}</td>
+        {% timezone "Europe/London" %}
+        <td class="govuk-table__cell">{{ draft.created_at|str_date|localtime }}</td>
+        {% endtimezone %}
 			</tr>
-		</tbody>
+    </tbody>
 	</table>
 
 	<br/>
