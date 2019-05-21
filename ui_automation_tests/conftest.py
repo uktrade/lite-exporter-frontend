@@ -3,6 +3,7 @@ from selenium import webdriver
 import helpers.helpers as utils
 import os
 
+
 # Screenshot in case of any test failure
 def pytest_exception_interact(node, report):
     if node and report.failed:
@@ -20,6 +21,8 @@ def pytest_addoption(parser):
     parser.addoption("--driver", action="store", default="chrome", help="Type in browser type")
     parser.addoption("--url", action="store", default="https://lite-exporter-frontend-" + env + ".london.cloudapps.digital/", help="url")
     parser.addoption("--internal_url", action="store", default="https://lite-internal-frontend-" + env + ".london.cloudapps.digital/", help="url")
+    # parser.addoption("--url", action="store", default="http://localhost:9000", help="url")
+    # parser.addoption("--internal_url", action="store", default="http://localhost:7000", help="url")
 
 
 # Create driver fixture that initiates chrome
@@ -32,7 +35,7 @@ def driver(request):
         else:
             browser = webdriver.Chrome()
         browser.get("about:blank")
-        browser.implicitly_wait(10)
+        browser.implicitly_wait(3)
         return browser
     else:
         print('only chrome is supported at the moment')
