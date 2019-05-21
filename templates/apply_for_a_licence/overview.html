@@ -6,8 +6,8 @@
 
 {% block twoThirds %}
 
-	<style media="screen">
-		.govuk-table__row {
+<style media="screen">
+	.govuk-table__row {
 			line-height: 30px;
 		}
 		.govuk-table__head, .govuk-table__body {
@@ -18,43 +18,43 @@
 		}
 	</style>
 
-	<h2 class="govuk-heading-l">
-		Overview
-	</h2>
+<h2 class="govuk-heading-l">
+	Overview
+</h2>
 
-	<div class="govuk-form-group">
-		<p class="govuk-caption-m">The following sections can be completed in any order.</p>
-	</div>
+<div class="govuk-form-group">
+	<p class="govuk-caption-m">The following sections can be completed in any order.</p>
+</div>
 
-	<table class="govuk-table">
-		<tbody class="govuk-table__body">
-			<tr class="govuk-table__row">
-				<th class="govuk-table__header" scope="row">Licence Type</th>
-				<td class="govuk-table__cell">{{ draft.licence_type }}</td>
-			</tr>
-			<tr class="govuk-table__row">
-				<th class="govuk-table__header" scope="row">Export Type</th>
-				<td class="govuk-table__cell">{{ draft.export_type }}</td>
-			</tr>
-			{% if draft.reference_number_on_information_form %}
-				<tr class="govuk-table__row">
-					<th class="govuk-table__header" scope="row">Reference Number</th>
-					<td class="govuk-table__cell">{{ draft.reference_number_on_information_form }}</td>
-				</tr>
-			{% endif %}
-			<tr class="govuk-table__row">
-				<th class="govuk-table__header" scope="row">Created at</th>
-				<td class="govuk-table__cell">{{ draft.created_at|str_date }}</td>
-			</tr>
-		</tbody>
-	</table>
+<table class="govuk-table">
+	<tbody class="govuk-table__body">
+		<tr class="govuk-table__row">
+			<th class="govuk-table__header" scope="row">Licence Type</th>
+			<td class="govuk-table__cell">{{ draft.licence_type }}</td>
+		</tr>
+		<tr class="govuk-table__row">
+			<th class="govuk-table__header" scope="row">Export Type</th>
+			<td class="govuk-table__cell">{{ draft.export_type }}</td>
+		</tr>
+		{% if draft.reference_number_on_information_form %}
+		<tr class="govuk-table__row">
+			<th class="govuk-table__header" scope="row">Reference Number</th>
+			<td class="govuk-table__cell">{{ draft.reference_number_on_information_form }}</td>
+		</tr>
+		{% endif %}
+		<tr class="govuk-table__row">
+			<th class="govuk-table__header" scope="row">Created at</th>
+			<td class="govuk-table__cell">{{ draft.created_at|str_date }}</td>
+		</tr>
+	</tbody>
+</table>
 
-	<br/>
-	<br/>
+<br />
+<br />
 
-	<a href="{% url 'apply_for_a_licence:goods' draft.id %}" class="lite-overview-section-header govuk-link govuk-link--no-visited-state">Goods</a>
-	<p class="govuk-caption-m">Add a pre-existing good to your application</p>
-	<!--<table class="govuk-table">
+<a href="{% url 'apply_for_a_licence:goods' draft.id %}" class="lite-overview-section-header govuk-link govuk-link--no-visited-state">Goods</a>
+<p class="govuk-caption-m">Add a pre-existing good to your application</p>
+<!--<table class="govuk-table">
 		<thead class="govuk-table__head">
 			<tr class="govuk-table__row">
 				<th class="govuk-table__header" scope="col">Date</th>
@@ -69,39 +69,39 @@
 		</tbody>
 	</table>-->
 
-	<br/>
-	<br/>
-	<br/>
-	<br/>
-	<br/>
+<br />
+<br />
+<br />
+<br />
+<br />
 
-	<form method="post">
-		{% csrf_token %}
-		<button type="submit" class="govuk-button" name="button" data-prevent-double-click="true">Submit Application</button>
-	</form>
+<form method="post">
+	{% csrf_token %}
+	<button type="submit" class="govuk-button" name="button" data-prevent-double-click="true">Submit Application</button>
+</form>
 
-	{% load static %}
-	<script src="{% static 'javascripts/modal.js' %}"></script>
-	<script src="{% static 'javascripts/specific/overview.js' %}"></script>
+{% load static %}
+<script src="{% static 'javascripts/modal.js' %}"></script>
+<script src="{% static 'javascripts/specific/overview.js' %}"></script>
 
 {% endblock %}
 {% block oneThird %}
-	<aside role="complementary">
-		<h2 class="govuk-heading-m" id="subsection-title">
-			Need to go?
-		</h2>
-		<p class="govuk-body">
-			You can find this application in your <a class="govuk-link" href="/drafts/">drafts</a>.
-		</p>
-	</aside>
-	<br>
-	<br>
-	<aside role="complementary">
-		<h2 class="govuk-heading-m" id="subsection-title">
-			Don't want to continue this application?
-		</h2>
-		<a href="{% url 'apply_for_a_licence:delete' draft.id %}" class="govuk-body govuk-link">
-			Delete Draft Application
-		</a>
-	</aside>
+<aside role="complementary">
+	<h2 class="govuk-heading-m" id="subsection-title">
+		Need to go?
+	</h2>
+	<p class="govuk-body">
+		You can find this application in your <a class="govuk-link" href="/drafts/">drafts</a>.
+	</p>
+</aside>
+<br>
+<br>
+<aside role="complementary">
+	<h2 class="govuk-heading-m" id="subsection-title">
+		Don't want to continue this application?
+	</h2>
+	<a href="{% url 'apply_for_a_licence:delete' draft.id %}" class="govuk-body govuk-link">
+		Delete Draft Application
+	</a>
+</aside>
 {% endblock %}

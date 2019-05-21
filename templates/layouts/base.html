@@ -66,12 +66,15 @@
 			</div>
 
 			{% if user.is_authenticated %}
-				<div id="user-menu">
-					<a href="/logout">Log out</a>
-					<div class="divider"></div>
-					<a href="/users/profile/" class="user-menu-profile">
-						<p>{{ user.first_name }}</p>
-						{% svg 'user' %}
+				<div id="lite-user-menu">
+					<a href="{% url 'core:logout' %}" class="lite-user-menu-button">Log out</a>
+					<div class="lite-user-menu-divider"></div>
+
+					<a class="lite-user-menu-button" href="{% url 'users:profile' %}">
+						{{ user.first_name }}
+						<div class="lite-user-menu-button--user">
+							{% svg 'user' %}
+						</div>
 					</a>
 				</div>
 			{% endif %}
