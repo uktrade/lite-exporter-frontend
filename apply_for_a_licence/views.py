@@ -187,7 +187,7 @@ class AddPreexistingGood(TemplateView):
                                                     good.get('part_number'),
                                                     get_units(request)),
                 'persistent_bar': create_persistent_bar(draft.get('draft')),
-                'body': request.POST,
+                'data': request.POST,
                 'errors': data.get('errors'),
             }
             return render(request, 'form.html', context)
