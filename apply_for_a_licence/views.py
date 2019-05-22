@@ -4,6 +4,7 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
 from apply_for_a_licence import forms
+from apply_for_a_licence.forms.end_user import new_end_user_form
 from core.builtins.custom_tags import get_string
 from core.services import get_units, post_sites_on_draft, get_sites_on_draft
 from drafts.services import post_drafts, get_draft, get_draft_goods, post_draft_preexisting_goods, submit_draft, \
@@ -277,3 +278,22 @@ class Sites(TemplateView):
             return render(request, 'form.html', context)
 
         return redirect(reverse_lazy('apply_for_a_licence:overview', kwargs={'pk': draft_id}))
+
+
+# End Users
+
+
+class EndUsers(TemplateView):
+    def get(self, request, **kwargs):
+        draft_id = str(kwargs['pk'])
+        draft, status_code = get_draft(request, draft_id)
+
+        sites_form = new_end_user_form.forms[0]
+
+        context = {
+            'title': sites_form.title,
+            'draft_id': draft_id,
+            'page': sites_form,
+            'persistent_bar': create_persistent_bar(draft.get('draft')),
+        }
+        return render(request, 'form.html', context)
