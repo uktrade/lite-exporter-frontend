@@ -63,8 +63,6 @@ def test_new_organisation_setup(driver, open_internal_hub):
 
         internal_hub.click_submit()
 
-        assert "Organisation Registered" in driver.title, "Error in registering business"
-
         exists = utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'Test Org')]]")
         assert exists
 
