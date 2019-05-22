@@ -5,13 +5,14 @@ from django.views.generic import TemplateView
 
 from apply_for_a_licence import forms
 from core.builtins.custom_tags import get_string
-from core.services import get_units
+from core.services import get_units, post_sites_on_draft, get_sites_on_draft
 from drafts.services import post_drafts, get_draft, get_draft_goods, post_draft_preexisting_goods, submit_draft, \
     delete_draft
 from goods.services import get_goods, get_good
-from libraries.forms.components import HiddenField
+from libraries.forms.components import HiddenField, ArrayQuestion, Form, InputType
 from libraries.forms.helpers import get_form_by_pk, get_next_form_after_pk, nest_data, remove_unused_errors, \
     success_page
+from sites.services import get_sites
 
 
 def create_persistent_bar(draft):
@@ -215,3 +216,58 @@ class DeleteApplication(TemplateView):
             return redirect(reverse_lazy('drafts:index') + '/?application_deleted=true')
 
         return redirect('/?application_deleted=true')
+
+
+# Sites
+
+
+class Sites(TemplateView):
+    def get(self, request, **kwargs):
+        draft_id = str(kwargs['pk'])
+        response, status_code = get_sites_on_draft(request, draft_id)
+
+        # Create the form
+        sites_form = Form(title='Where are your goods located?',
+                          description='Select all sites that apply.',
+                          questions=[
+                              ArrayQuestion('', '', InputType.CHECKBOXES, 'sites', get_sites(request, True))
+                          ],
+                          default_button_name='Save and continue')
+
+        context = {
+            'title': sites_form.title,
+            'draft_id': draft_id,
+            'page': sites_form,
+            'data': response,
+        }
+        return render(request, 'form.html', context)
+
+    def post(self, request, **kwargs):
+        draft_id = str(kwargs['pk'])
+
+        data = {
+            'sites': request.POST.getlist('sites')
+        }
+
+        response, status_code = post_sites_on_draft(request, draft_id, data)
+
+        if status_code != 201:
+            draft_id = request.GET.get('id')
+
+            # Create the form
+            sites_form = Form(title='Where are your goods located?',
+                              description='Select all sites that apply.',
+                              questions=[
+                                  ArrayQuestion('', '', InputType.CHECKBOXES, 'sites', get_sites(request, True))
+                              ],
+                              default_button_name='Save and continue')
+
+            context = {
+                'title': sites_form.title,
+                'draft_id': draft_id,
+                'page': sites_form,
+                'errors': response.get('errors'),
+            }
+            return render(request, 'form.html', context)
+
+        return redirect(reverse_lazy('apply_for_a_licence:overview', kwargs={'pk': draft_id}))
