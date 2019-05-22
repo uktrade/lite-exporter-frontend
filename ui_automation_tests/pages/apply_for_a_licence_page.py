@@ -65,6 +65,7 @@ class ApplyForALicencePage():
         self.driver.find_element_by_css_selector("[href*='delete'].govuk-link").click()
         self.driver.implicitly_wait(10)
         self.driver.find_element_by_css_selector(".govuk-button--warning").click()
+        self.driver.find_element_by_css_selector("#modal-contents a.govuk-button.govuk-button--warning").click()
 
     def click_submit_application(self):
         self.driver.find_element_by_css_selector("button[type*='submit']").click()

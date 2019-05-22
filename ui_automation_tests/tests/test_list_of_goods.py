@@ -75,6 +75,18 @@ def test_add_goods_to_application(driver, open_exporter_hub):
     apply_for_licence.type_into_reference_number("123456")
     apply_for_licence.click_continue()
 
+    goods.enter_destination("Cuba")
+    goods.click_save_and_continue()
+    logging.info("Entered Destination and clicked save and continue")
+
+    goods.enter_usage("communication")
+    goods.click_save_and_continue()
+    logging.info("Entered usage and clicked save and continue")
+
+    goods.enter_activity("Proliferation")
+    goods.click_save_and_continue()
+    logging.info("Entered Activity and clicked save and continue")
+
     assert "Overview" in driver.title
 
     apply_for_licence.click_goods_link()
@@ -87,11 +99,25 @@ def test_add_goods_to_application(driver, open_exporter_hub):
     assert element.is_displayed()
     assert 'A valid number is required.' in element.text
     assert 'A valid number is required.' in element.text
+    assert 'Value: A valid number is required.' in element.text
+    assert 'Quantity: A valid number is required.' in element.text
 
     apply_for_licence.enter_value("500")
     apply_for_licence.enter_quantity("1")
     apply_for_licence.select_unit_of_measurement("Gram")
 
+    apply_for_licence.click_save_and_continue()
+
+    log.info("verifying goods added")
+    assert utils.is_element_present(driver, By.XPATH, "//*[text()='Good T1']")
+    assert utils.is_element_present(driver, By.XPATH, "//*[text()='1.0 grams']")
+    assert utils.is_element_present(driver, By.XPATH, "//*[text()='£500.00']")
+
+    apply_for_licence.click_add_from_organisations_goods()
+    apply_for_licence.add_good_to_application("Good T2")
+    apply_for_licence.enter_value("1200")
+    apply_for_licence.enter_quantity("12")
+    apply_for_licence.select_unit_of_measurement("Grams")
     apply_for_licence.click_save_and_continue()
 
     log.info("verifying goods added")
@@ -145,6 +171,25 @@ def test_search_for_goods_by_description(driver, open_exporter_hub):
     apply_for_licence.type_into_reference_number("123456")
     apply_for_licence.click_continue()
 
+    log.info("Starting application")
+    goods.click_start_now_btn()
+    logging.info("Clicked start button")
+    time_id = datetime.datetime.now().strftime("%m%d%H%M")
+    goods.enter_name_or_reference_for_application("Test Application " + time_id)
+    goods.click_save_and_continue()
+
+    goods.enter_destination("Cuba")
+    goods.click_save_and_continue()
+    logging.info("Entered Destination and clicked save and continue")
+
+    goods.enter_usage("communication")
+    goods.click_save_and_continue()
+    logging.info("Entered usage and clicked save and continue")
+
+    goods.enter_activity("Proliferation")
+    goods.click_save_and_continue()
+    logging.info("Entered Activity and clicked save and continue")
+
     assert "Overview" in driver.title
 
     goods.click_goods_link()
@@ -188,6 +233,25 @@ def test_search_for_goods_by_part_number(driver, open_exporter_hub):
     apply_for_licence.click_export_licence_yes_or_no("yes")
     apply_for_licence.type_into_reference_number("123456")
     apply_for_licence.click_continue()
+
+    log.info("Starting application")
+    goods.click_start_now_btn()
+    logging.info("Clicked start button")
+    time_id = datetime.datetime.now().strftime("%m%d%H%M")
+    goods.enter_name_or_reference_for_application("Test Application " + time_id)
+    goods.click_save_and_continue()
+
+    goods.enter_destination("Cuba")
+    goods.click_save_and_continue()
+    logging.info("Entered Destination and clicked save and continue")
+
+    goods.enter_usage("communication")
+    goods.click_save_and_continue()
+    logging.info("Entered usage and clicked save and continue")
+
+    goods.enter_activity("Proliferation")
+    goods.click_save_and_continue()
+    logging.info("Entered Activity and clicked save and continue")
 
     assert "Overview" in driver.title
 
@@ -233,6 +297,24 @@ def test_remove_filter(driver,open_exporter_hub):
     apply_for_licence.type_into_reference_number("123456")
     apply_for_licence.click_continue()
 
+    log.info("Starting application")
+    goods.click_start_now_btn()
+    logging.info("Clicked start button")
+    time_id = datetime.datetime.now().strftime("%m%d%H%M")
+    goods.enter_name_or_reference_for_application("Test Application " + time_id)
+    goods.click_save_and_continue()
+    goods.enter_destination("Cuba")
+    goods.click_save_and_continue()
+    logging.info("Entered Destination and clicked save and continue")
+
+    goods.enter_usage("communication")
+    goods.click_save_and_continue()
+    logging.info("Entered usage and clicked save and continue")
+
+    goods.enter_activity("Proliferation")
+    goods.click_save_and_continue()
+    logging.info("Entered Activity and clicked save and continue")
+
     assert "Overview" in driver.title
 
     goods.click_goods_link()
@@ -248,6 +330,9 @@ def test_remove_filter(driver,open_exporter_hub):
     filter_tags = driver.find_elements_by_css_selector(".lite-filter-bar-item")
     for tag in range(len(filter_tags)):
         driver.find_element_by_css_selector(".lite-filter-bar-item").click()
+    filter_tags = driver.find_elements_by_css_selector(".lite-filter-bar a")
+    for tag in range(len(filter_tags)):
+        driver.find_element_by_css_selector(".lite-filter-bar a").click()
 
     goods = driver.find_elements_by_xpath("//div[@class='lite-item']")
     assert len(goods) > 1

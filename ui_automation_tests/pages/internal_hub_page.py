@@ -1,6 +1,7 @@
 from selenium.webdriver.support.ui import Select
 import time
 
+
 class InternalHubPage():
 
     # called e time you create an object for this class
@@ -8,6 +9,7 @@ class InternalHubPage():
         self.driver = driver
 
         self.queue_drop_down = "a[href*='/apply_for_a_licence/']"
+        self.queue_drop_down = "a[href*='/new-application/']"
         self.go_to_queue_btn = "button.govuk-button"
 
     def select_from_queue_drop_down(self, value):

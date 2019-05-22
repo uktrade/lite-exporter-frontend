@@ -38,10 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'sass_processor',
     'django.contrib.humanize',
-    'apply_for_a_licence',
+    'new_application',
     'core.apps.CoreConfig',
     'libraries.forms',
-    'svg',
 ]
 
 MIDDLEWARE = [
@@ -73,7 +72,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'conf.context_processors.export_vars',
+				'conf.context_processors.export_vars',
             ],
             'builtins': ['core.builtins.custom_tags'],
         },
@@ -81,6 +80,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'conf.wsgi.application'
+
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
@@ -100,6 +100,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
@@ -113,14 +114,11 @@ USE_L10N = True
 
 USE_TZ = True
 
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 DATA_DIR = os.path.dirname(BASE_DIR)
-
-SVG_DIRS = [
-    os.path.join(BASE_DIR, 'assets/images')
-]
 
 STATIC_URL = '/assets/'
 STATIC_ROOT = os.path.join(DATA_DIR, 'assets')
