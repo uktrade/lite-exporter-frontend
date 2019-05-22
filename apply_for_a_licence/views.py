@@ -202,9 +202,11 @@ class AddPreexistingGood(TemplateView):
 class DeleteApplication(TemplateView):
     def get(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
+        draft, status_code = get_draft(request, draft_id)
         context = {
             'title': 'Are you sure you want to delete this application?',
             'draft_id': draft_id,
+            'persistent_bar': create_persistent_bar(draft.get('draft')),
         }
         return render(request, 'apply_for_a_licence/cancel_confirmation.html', context)
 
@@ -224,6 +226,7 @@ class DeleteApplication(TemplateView):
 class Sites(TemplateView):
     def get(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
+        draft, status_code = get_draft(request, draft_id)
         response, status_code = get_sites_on_draft(request, draft_id)
 
         # Create the form
@@ -239,11 +242,13 @@ class Sites(TemplateView):
             'draft_id': draft_id,
             'page': sites_form,
             'data': response,
+            'persistent_bar': create_persistent_bar(draft.get('draft')),
         }
         return render(request, 'form.html', context)
 
     def post(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
+        draft, status_code = get_draft(request, draft_id)
 
         data = {
             'sites': request.POST.getlist('sites')
@@ -267,6 +272,7 @@ class Sites(TemplateView):
                 'draft_id': draft_id,
                 'page': sites_form,
                 'errors': response.get('errors'),
+                'persistent_bar': create_persistent_bar(draft.get('draft')),
             }
             return render(request, 'form.html', context)
 
