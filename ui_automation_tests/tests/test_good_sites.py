@@ -19,35 +19,38 @@ log.addHandler(console)
 
 
 @pytest.fixture(scope="function")
-def open_exporter_hub(driver, url):
+def open_exporter_hub(driver, exporter_url):
     # navigate to the application home page
-    driver.get(url)
+    driver.get(exporter_url)
     # driver.maximize_window()
     # assert driver.title == "Exporter Hub - LITE"
     log.info(driver.current_url)
 
 
-def test_site_goods(driver, open_exporter_hub, url):
+def test_site_goods(driver, open_exporter_hub, exporter_url):
     exporter_hub = ExporterHubPage(driver)
     apply_for_licence = ApplyForALicencePage(driver)
 
     log.info("logging in as test@mail.com")
     exporter_hub.login("test@mail.com", "password")
 
-    log.info("Starting draft application")
+    log.info("Submitting application")
     app_time_id = datetime.datetime.now().strftime("m%d%H%M%S")
-    app_name = "Test Application " + app_time_id
-    exporter_hub.create_application(name=str(app_name), destination="Cuba", usage="Test usage", activity="Testing")
-    app_id = driver.current_url[-36:]
+    app_name = str("Test Application " + app_time_id)
+
+    exporter_hub.click_apply_for_a_licence()
+    apply_for_licence.click_start_now_btn()
+    apply_for_licence.enter_application_details_new(name=app_name, licence_type="standard", temp_or_perm="temporary", need_licence="yes", ref_number="123456")
+    apply_for_licence.click_save_and_continue()
+    app_id = driver.current_url[-46:].replace('/overview/', '')
     log.info("Application submitted")
 
     exporter_hub.click_sites_link()
     exporter_hub.click_sites_checkbox(0)
     apply_for_licence.click_save_and_continue()
-    assert "Trading" in driver.find_elements_by_css_selector(".govuk-summary-list__value")[3].text
 
 
-def test_site_goods_empty(driver, open_exporter_hub, url):
+def test_site_goods_empty(driver, open_exporter_hub, exporter_url):
     exporter_hub = ExporterHubPage(driver)
     apply_for_licence = ApplyForALicencePage(driver)
 
@@ -56,11 +59,14 @@ def test_site_goods_empty(driver, open_exporter_hub, url):
         log.info("logging in as test@mail.com")
         exporter_hub.login("test@mail.com", "password")
 
-    log.info("Starting draft application")
-    app_time_id = datetime.datetime.now().strftime("%m%d%H%M%S")
-    app_name = "Test Application " + app_time_id
-    exporter_hub.create_application(name=str(app_name), destination="Cuba", usage="Test usage", activity="Testing")
-    app_id = driver.current_url[-36:]
+    log.info("Submitting application")
+    app_time_id = datetime.datetime.now().strftime("m%d%H%M%S")
+    app_name = str("Test Application " + app_time_id)
+    exporter_hub.click_apply_for_a_licence()
+    apply_for_licence.click_start_now_btn()
+    apply_for_licence.enter_application_details_new(name=app_name, licence_type="standard", temp_or_perm="temporary", need_licence="yes", ref_number="123456")
+    apply_for_licence.click_save_and_continue()
+    app_id = driver.current_url[-46:].replace('/overview/', '')
     log.info("Application submitted")
 
     exporter_hub.click_sites_link()
@@ -68,7 +74,7 @@ def test_site_goods_empty(driver, open_exporter_hub, url):
     assert "You have to pick at least one site." in driver.find_element_by_css_selector(".govuk-error-message").text
 
 
-def test_change_goods_sites(driver, open_exporter_hub, url):
+def test_change_goods_sites(driver, open_exporter_hub, exporter_url):
     exporter_hub = ExporterHubPage(driver)
     apply_for_licence = ApplyForALicencePage(driver)
 
@@ -77,11 +83,14 @@ def test_change_goods_sites(driver, open_exporter_hub, url):
         log.info("logging in as test@mail.com")
         exporter_hub.login("test@mail.com", "password")
 
-    log.info("Starting draft application")
-    app_time_id = datetime.datetime.now().strftime("%m%d%H%M%S")
-    app_name = "Test Application " + app_time_id
-    exporter_hub.create_application(name=str(app_name), destination="Cuba", usage="Test usage", activity="Testing")
-    app_id = driver.current_url[-36:]
+    log.info("Submitting application")
+    app_time_id = datetime.datetime.now().strftime("m%d%H%M%S")
+    app_name = str("Test Application " + app_time_id)
+    exporter_hub.click_apply_for_a_licence()
+    apply_for_licence.click_start_now_btn()
+    apply_for_licence.enter_application_details_new(name=app_name, licence_type="standard", temp_or_perm="temporary", need_licence="yes", ref_number="123456")
+    apply_for_licence.click_save_and_continue()
+    app_id = driver.current_url[-46:].replace('/overview/', '')
     log.info("Application submitted")
 
     exporter_hub.click_sites_link()
@@ -97,7 +106,7 @@ def test_change_goods_sites(driver, open_exporter_hub, url):
     apply_for_licence.click_save_and_continue()
 
 
-def test_add_site(driver, open_exporter_hub, url):
+def test_add_site(driver, open_exporter_hub, exporter_url):
     time_id = datetime.datetime.now().strftime("%m%d%H%M")
 
     # logged in exporter hub as exporter
@@ -127,13 +136,16 @@ def test_add_site(driver, open_exporter_hub, url):
     assert utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'New Site "+time_id+"')]]")
     exporter_hub = ExporterHubPage(driver)
     apply_for_licence = ApplyForALicencePage(driver)
-    exporter_hub.go_to(url)
+    exporter_hub.go_to(exporter_url)
 
-    log.info("Starting draft application")
-    app_time_id = datetime.datetime.now().strftime("%m%d%H%M%S")
-    app_name = "Test Application " + app_time_id
-    exporter_hub.create_application(name=str(app_name), destination="Cuba", usage="Test usage", activity="Testing")
-    app_id = driver.current_url[-36:]
+    log.info("Submitting application")
+    app_time_id = datetime.datetime.now().strftime("m%d%H%M%S")
+    app_name = str("Test Application " + app_time_id)
+    exporter_hub.click_apply_for_a_licence()
+    apply_for_licence.click_start_now_btn()
+    apply_for_licence.enter_application_details_new(name=app_name, licence_type="standard", temp_or_perm="temporary", need_licence="yes", ref_number="123456")
+    apply_for_licence.click_save_and_continue()
+    app_id = driver.current_url[-46:].replace('/overview/', '')
     log.info("Application submitted")
 
     exporter_hub.click_sites_link()

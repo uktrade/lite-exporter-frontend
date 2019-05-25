@@ -12,7 +12,7 @@ class ExporterHubPage():
     def __init__(self, driver):
         self.driver = driver
 
-        self.apply_for_a_licence_btn = "a[href*='/apply_for_a_licence/']"
+        self.apply_for_a_licence_btn = "a[href*='/apply-for-a-licence/']"
         self.drafts_btn = "a[href*='/drafts/']"
         self.applications_btn = "a[href*='/applications/']"
         self.my_goods_btn = "a[href*='/goods/']"
@@ -160,7 +160,7 @@ class ExporterHubPage():
         self.driver.find_element_by_css_selector(".govuk-button").click()
 
     def click_apply_for_a_licence(self):
-        self.driver.find_element_by_css_selector("a[href*='/new-application/']").click()
+        self.driver.find_element_by_css_selector(self.apply_for_a_licence_btn).click()
 
     def click_start(self):
         self.driver.find_element_by_css_selector("a[href*='/start']").click()
@@ -184,6 +184,7 @@ class ExporterHubPage():
     def click_submit_application(self):
         self.driver.find_element_by_css_selector("button[type*='submit']").click()
 
+    # Old flow
     def create_application(self, name, destination, usage, activity):
         self.click_apply_for_a_licence()
         self.click_start()

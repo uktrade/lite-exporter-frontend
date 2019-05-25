@@ -18,6 +18,25 @@
 		}
 	</style>
 
+{% if errors %}
+	<div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="error-summary">
+		<h2 class="govuk-error-summary__title" id="error-summary-title">
+			There are errors on this page
+		</h2>
+		<div class="govuk-error-summary__body">
+			<ul class="govuk-list govuk-error-summary__list">
+				{% for key, value in errors.items %}
+					<li>
+						<a href="#{{ key }}">
+							{{ value }}
+						</a>
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+{% endif %}
+
 <h2 class="govuk-heading-l">
 	Overview
 </h2>
@@ -52,20 +71,39 @@
 <br />
 <br />
 
-<a href="{% url 'apply_for_a_licence:goods' draft.id %}" class="lite-overview-section-header govuk-link govuk-link--no-visited-state">Goods</a>
-<p class="govuk-caption-m">Add a pre-existing good to your application</p>
+<div {% if errors|key_value:'goods' %}class="govuk-form-group--error"{% endif %}>
+	<a id="goods" href="{% url 'apply_for_a_licence:goods' draft.id %}" class="lite-overview-section-header govuk-link govuk-link--no-visited-state">Goods</a>
+	{% if errors|key_value:'goods' %}
+		<span class="govuk-error-message">
+			{{ errors|key_value:'goods' }}
+		</span>
+	{% endif %}
+	<p class="govuk-caption-m">Add a pre-existing good to your application</p>
+</div>
 
 <br />
 <br />
 
-<a href="{% url 'apply_for_a_licence:sites' draft.id %}" class="lite-overview-section-header govuk-link govuk-link--no-visited-state">Sites</a>
-<p class="govuk-caption-m">Add sites to your application</p>
+<div {% if errors|key_value:'sites' %}class="govuk-form-group--error"{% endif %}>
+	<a id="sites" href="{% url 'apply_for_a_licence:sites' draft.id %}" class="lite-overview-section-header govuk-link govuk-link--no-visited-state">Sites</a>
+	{% if errors|key_value:'sites' %}
+		<span class="govuk-error-message">
+			{{ errors|key_value:'sites' }}
+		</span>
+	{% endif %}
+	<p class="govuk-caption-m">Add sites to your application</p>
+</div>
 
-<br />
-<br />
+<div {% if errors|key_value:'end_users' %}class="govuk-form-group--error"{% endif %}>
+	<a id="end_users" href="{% url 'apply_for_a_licence:end_users' draft.id %}" class="lite-overview-section-header govuk-link govuk-link--no-visited-state">End Users</a>
+	{% if errors|key_value:'end_users' %}
+		<span class="govuk-error-message">
+			{{ errors|key_value:'end_users' }}
+		</span>
+	{% endif %}
+	<p class="govuk-caption-m">Add end users to your application</p>
+</div>
 
-<a href="{% url 'apply_for_a_licence:end_users' draft.id %}" class="lite-overview-section-header govuk-link govuk-link--no-visited-state">End Users</a>
-<p class="govuk-caption-m">Add end users to your application</p>
 <!--<table class="govuk-table">
 		<thead class="govuk-table__head">
 			<tr class="govuk-table__row">

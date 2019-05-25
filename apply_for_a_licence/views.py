@@ -100,10 +100,19 @@ class Overview(TemplateView):
         return render(request, 'apply_for_a_licence/overview.html', context)
 
     def post(self, request, **kwargs):
-        data, status_code = submit_draft(request, str(kwargs['pk']))
+        draft_id = str(kwargs['pk'])
+        data, status_code = submit_draft(request, draft_id)
 
         if status_code is not 201:
-            raise Http404
+            draft, status_code = get_draft(request, draft_id)
+
+            context = {
+                'title': 'Draft Overview',
+                'draft': draft.get('draft'),
+                'persistent_bar': create_persistent_bar(draft.get('draft')),
+                'errors': data.get('errors'),
+            }
+            return render(request, 'apply_for_a_licence/overview.html', context)
 
         return success_page(request,
                             title='Application submitted',
@@ -197,7 +206,7 @@ class AddPreexistingGood(TemplateView):
         return redirect(reverse_lazy('apply_for_a_licence:goods', kwargs={'pk': draft_id}))
 
 
-# Goods
+# Delete Application
 
 
 class DeleteApplication(TemplateView):
