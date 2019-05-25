@@ -1,29 +1,37 @@
-from libraries.forms.components import Form, Question, InputType, Section
+from libraries.forms.components import Form, Question, InputType, Section, ArrayQuestion, Option
 
 new_end_user_form = Section('', '', [
-    Form(title='Add an end user',
-         description='Select all sites that apply.',
+    Form(title='Who will be the final recipient (end-user) of your goods?',
+         description='',
          questions=[
-             Question('Company Name', '', InputType.INPUT, 'name'),
+             ArrayQuestion('',
+                           '',
+                           InputType.RADIOBUTTONS,
+                           'type',
+                           data=[
+                               Option('government', 'A Government Organisation'),
+                               Option('commercial', 'A Commercial Organisation'),
+                               Option('other', 'Other', show_or=True),
+                           ]),
          ],
-         default_button_name='Save and continue'),
-    Form(title='Add an end user',
-         description='Select all sites that apply.',
+         default_button_name='Continue'),
+    Form(title='Enter the final recipient\'s organisation or company name',
+         description='',
          questions=[
-             Question('Government/commercial organisation/other', '', InputType.INPUT, 'name'),
+             Question('', '', InputType.INPUT, 'name'),
          ],
-         default_button_name='Save and continue'),
-    Form(title='Add an end user',
-         description='Select all sites that apply.',
+         default_button_name='Continue'),
+    Form(title='Enter an organisation or company web link (URL)',
+         description='',
          questions=[
-             Question('Organisation URL', '', InputType.INPUT, 'name'),
+             Question('', '', InputType.INPUT, 'website', optional=True),
          ],
-         default_button_name='Save and continue'),
-    Form(title='Add an end user',
-         description='Select all sites that apply.',
+         default_button_name='Continue'),
+    Form(title='Where\'s the company based?',
+         description='',
          questions=[
-             Question('Where\'s the company basd', '', InputType.TEXTAREA, ''),
-             Question('Country?', '', InputType.INPUT, 'name'),
+             Question('Address', '', InputType.TEXTAREA, 'address'),
+             Question('Country', '', InputType.INPUT, 'country'),
          ],
          default_button_name='Save and continue')
 ])

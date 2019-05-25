@@ -94,30 +94,18 @@
 	<p class="govuk-caption-m">Add sites to your application</p>
 </div>
 
-<div {% if errors|key_value:'end_users' %}class="govuk-form-group--error"{% endif %}>
-	<a id="end_users" href="{% url 'apply_for_a_licence:end_users' draft.id %}" class="lite-overview-section-header govuk-link govuk-link--no-visited-state">End Users</a>
-	{% if errors|key_value:'end_users' %}
+<br />
+<br />
+
+<div {% if errors|key_value:'end_user' %}class="govuk-form-group--error"{% endif %}>
+	<a id="end_users" href="{% url 'apply_for_a_licence:end_user' draft.id %}" class="lite-overview-section-header govuk-link govuk-link--no-visited-state">End User</a>
+	{% if errors|key_value:'end_user' %}
 		<span class="govuk-error-message">
-			{{ errors|key_value:'end_users' }}
+			{{ errors|key_value:'end_user' }}
 		</span>
 	{% endif %}
-	<p class="govuk-caption-m">Add end users to your application</p>
+	<p class="govuk-caption-m">Add an end user to your application</p>
 </div>
-
-<!--<table class="govuk-table">
-		<thead class="govuk-table__head">
-			<tr class="govuk-table__row">
-				<th class="govuk-table__header" scope="col">Date</th>
-				<th class="govuk-table__header" scope="col">Amount</th>
-			</tr>
-		</thead>
-		<tbody class="govuk-table__body">
-			<tr class="govuk-table__row">
-				<td class="govuk-table__cell">£109.80 per week</td>
-				<td class="govuk-table__cell">£4,282.20</td>
-			</tr>
-		</tbody>
-	</table>-->
 
 <br />
 <br />

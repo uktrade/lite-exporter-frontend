@@ -26,6 +26,6 @@ urlpatterns = [
     # ex: /<uuid:pk>/sites/
     path('<uuid:pk>/sites/', views.Sites.as_view(), name='sites'),
 
-    # ex: /<uuid:pk>/end-users/
-    path('<uuid:pk>/end-users/', views.EndUsers.as_view(), name='end_users'),
+    # ex: /<uuid:pk>/end-user/
+    path('<uuid:pk>/end-user/', views.EndUser.as_view(), name='end_user'),
 ]
