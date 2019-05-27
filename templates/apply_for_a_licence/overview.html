@@ -11,13 +11,22 @@
 		line-height: 35px;
 	}
 	.govuk-table__head, .govuk-table__body {
-		border-top: 2px solid rgb(230, 230, 230);
+		border-top: 1px solid rgb(230, 230, 230);
 	}
 	.govuk-table__header, .govuk-table__cell {
-		border-bottom: 2px solid rgb(230, 230, 230);
+		border-bottom: 1px solid rgb(230, 230, 230);
 	}
 	.govuk-table * {
 		vertical-align: top;
+	}
+	.lite-section {
+		border-top: 1px solid rgb(230, 230, 230);
+		border-bottom: 1px solid rgb(230, 230, 230);
+		border: none;
+		padding: 25px;
+		background-color: rgb(250, 250, 250);
+		border: 1px solid rgb(245, 245, 245);
+		box-sizing: border-box;
 	}
 	</style>
 
@@ -94,7 +103,7 @@
 			{{ errors|key_value:'goods' }}
 		</p>
 	{% endif %}
-	<p class="govuk-caption-m">Add a pre-existing good to your application</p>
+	<p class="govuk-caption-m">Add goods to your application</p>
 </div>
 
 <div class="lite-section {% if errors|key_value:'sites' %}govuk-form-group--error{% endif %}">
@@ -169,9 +178,12 @@
 	{% endif %}
 </div>
 
+<a href="{% url 'apply_for_a_licence:delete' draft.id %}" class="cancel-link" style="float: right;">
+	Delete Application
+</a>
 <form method="post">
 	{% csrf_token %}
-	<button type="submit" class="govuk-button" name="button" data-prevent-double-click="true">Submit Application</button>
+	<button type="submit" class="govuk-button" name="button" data-prevent-double-click="true" style="font-weight: bold;">Submit Application</button>
 </form>
 
 {% load static %}
@@ -179,7 +191,7 @@
 <script src="{% static 'javascripts/specific/overview.js' %}"></script>
 
 {% endblock %}
-{% block oneThird %}
+{% block oneTahird %}
 <aside role="complementary">
 	<h2 class="govuk-heading-m" id="subsection-title">
 		Need to go?
