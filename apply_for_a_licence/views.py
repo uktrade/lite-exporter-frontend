@@ -1,10 +1,8 @@
-from functools import partial
-
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
-from apply_for_a_licence.forms import initial
+from apply_for_a_licence.forms import initial, goods
 from apply_for_a_licence.forms.end_user import new_end_user_form
 from apply_for_a_licence.forms.sites import sites_form
 from core.builtins.custom_tags import get_string
@@ -50,12 +48,17 @@ class InitialQuestions(TemplateView):
 
 class Overview(TemplateView):
     def get(self, request, **kwargs):
-        data, status_code = get_draft(request, str(kwargs['pk']))
+        draft_id = str(kwargs['pk'])
+        data, status_code = get_draft(request, draft_id)
+        sites, status_code = get_sites_on_draft(request, draft_id)
+        goods, status_code = get_draft_goods(request, draft_id)
 
         context = {
             'title': 'Draft Overview',
             'draft': data.get('draft'),
             'persistent_bar': create_persistent_bar(data.get('draft')),
+            'sites': sites['sites'],
+            'goods': goods['goods'],
         }
         return render(request, 'apply_for_a_licence/overview.html', context)
 
@@ -132,7 +135,7 @@ class AddPreexistingGood(TemplateView):
 
         context = {
             'title': 'Add a pre-existing good to your application',
-            'page': forms.preexisting_good_form(good.get('id'),
+            'page': goods.preexisting_good_form(good.get('id'),
                                                 good.get('description'),
                                                 good.get('control_code'),
                                                 good.get('part_number'),
@@ -152,7 +155,7 @@ class AddPreexistingGood(TemplateView):
 
             context = {
                 'title': 'Add a pre-existing good to your application',
-                'page': forms.preexisting_good_form(good.get('id'),
+                'page': goods.preexisting_good_form(good.get('id'),
                                                     good.get('description'),
                                                     good.get('control_code'),
                                                     good.get('part_number'),

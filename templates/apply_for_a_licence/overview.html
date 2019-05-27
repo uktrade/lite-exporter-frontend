@@ -8,14 +8,17 @@
 
 <style media="screen">
 	.govuk-table__row {
-			line-height: 30px;
-		}
-		.govuk-table__head, .govuk-table__body {
-			border-top: 1px solid rgb(230, 230, 230);
-		}
-		.govuk-table__header, .govuk-table__cell {
-			border-bottom: 1px solid rgb(230, 230, 230);
-		}
+		line-height: 35px;
+	}
+	.govuk-table__head, .govuk-table__body {
+		border-top: 2px solid rgb(230, 230, 230);
+	}
+	.govuk-table__header, .govuk-table__cell {
+		border-bottom: 2px solid rgb(230, 230, 230);
+	}
+	.govuk-table * {
+		vertical-align: top;
+	}
 	</style>
 
 {% if errors %}
@@ -71,47 +74,100 @@
 <br />
 <br />
 
-<div {% if errors|key_value:'goods' %}class="govuk-form-group--error"{% endif %}>
-	<a id="goods" href="{% url 'apply_for_a_licence:goods' draft.id %}" class="lite-overview-section-header govuk-link govuk-link--no-visited-state">Goods</a>
+<div class="lite-section {% if errors|key_value:'goods' %}govuk-form-group--error{% endif %}">
+	<div class="lite-section-header">
+		<a id="goods" href="{% url 'apply_for_a_licence:goods' draft.id %}" class="lite-overview-section-header govuk-link govuk-link--no-visited-state">
+			Goods
+		</a>
+		{% if goods|length %}
+			<div class="lite-info-label lite-info-label--blue">
+				Done
+			</div>
+		{% else %}
+			<div class="lite-info-label lite-info-label--orange">
+				Need to do
+			</div>
+		{% endif %}
+	</div>
 	{% if errors|key_value:'goods' %}
-		<span class="govuk-error-message">
+		<p class="govuk-error-message">
 			{{ errors|key_value:'goods' }}
-		</span>
+		</p>
 	{% endif %}
 	<p class="govuk-caption-m">Add a pre-existing good to your application</p>
 </div>
 
-<br />
-<br />
-
-<div {% if errors|key_value:'sites' %}class="govuk-form-group--error"{% endif %}>
-	<a id="sites" href="{% url 'apply_for_a_licence:sites' draft.id %}" class="lite-overview-section-header govuk-link govuk-link--no-visited-state">Sites</a>
+<div class="lite-section {% if errors|key_value:'sites' %}govuk-form-group--error{% endif %}">
+	<div class="lite-section-header">
+		<a id="sites" href="{% url 'apply_for_a_licence:sites' draft.id %}" class="lite-overview-section-header govuk-link govuk-link--no-visited-state">
+			Sites
+		</a>
+		{% if sites|length %}
+			<div class="lite-info-label lite-info-label--blue">
+				Done
+			</div>
+		{% else %}
+			<div class="lite-info-label lite-info-label--orange">
+				Need to do
+			</div>
+		{% endif %}
+	</div>
 	{% if errors|key_value:'sites' %}
-		<span class="govuk-error-message">
+		<p class="govuk-error-message">
 			{{ errors|key_value:'sites' }}
-		</span>
+		</p>
 	{% endif %}
 	<p class="govuk-caption-m">Add sites to your application</p>
 </div>
 
-<br />
-<br />
+<div class="lite-section {% if errors|key_value:'end_user' %}govuk-form-group--error{% endif %}">
+	<div class="lite-section-header">
+		<a id="end_users" href="{% url 'apply_for_a_licence:end_user' draft.id %}" class="lite-overview-section-header govuk-link govuk-link--no-visited-state">
+			End User
+		</a>
 
-<div {% if errors|key_value:'end_user' %}class="govuk-form-group--error"{% endif %}>
-	<a id="end_users" href="{% url 'apply_for_a_licence:end_user' draft.id %}" class="lite-overview-section-header govuk-link govuk-link--no-visited-state">End User</a>
+		{% if draft.end_user %}
+			<div class="lite-info-label lite-info-label--blue">
+				Done
+			</div>
+		{% else %}
+			<div class="lite-info-label lite-info-label--orange">
+				Need to do
+			</div>
+		{% endif %}
+	</div>
 	{% if errors|key_value:'end_user' %}
-		<span class="govuk-error-message">
+		<p class="govuk-error-message">
 			{{ errors|key_value:'end_user' }}
-		</span>
+		</p>
 	{% endif %}
-	<p class="govuk-caption-m">Add an end user to your application</p>
+	{% if draft.end_user %}
+		<table class="govuk-table">
+			<tbody class="govuk-table__body">
+				<tr class="govuk-table__row">
+					<th class="govuk-table__header" scope="row">Type</th>
+					<td class="govuk-table__cell">{{ draft.end_user.type }}</td>
+				</tr>
+				<tr class="govuk-table__row">
+					<th class="govuk-table__header" scope="row">Name</th>
+					<td class="govuk-table__cell">{{ draft.end_user.name }}</td>
+				</tr>
+				{% if draft.end_user.website %}
+				<tr class="govuk-table__row">
+					<th class="govuk-table__header" scope="row">Website</th>
+					<td class="govuk-table__cell">{{ draft.end_user.website }}</td>
+				</tr>
+				{% endif %}
+				<tr class="govuk-table__row">
+					<th class="govuk-table__header" scope="row">Address</th>
+					<td class="govuk-table__cell">{{ draft.end_user.address }}<br/>{{ draft.end_user.country }}</td>
+				</tr>
+			</tbody>
+		</table>
+	{% else %}
+		<p class="govuk-caption-m">Add an end user to your application</p>
+	{% endif %}
 </div>
-
-<br />
-<br />
-<br />
-<br />
-<br />
 
 <form method="post">
 	{% csrf_token %}
