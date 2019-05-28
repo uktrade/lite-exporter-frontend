@@ -93,8 +93,8 @@
 				Done
 			</div>
 		{% else %}
-			<div class="lite-info-label lite-info-label--orange">
-				Need to do
+			<div class="lite-info-label">
+				Not Started
 			</div>
 		{% endif %}
 	</div>
@@ -116,8 +116,8 @@
 				Done
 			</div>
 		{% else %}
-			<div class="lite-info-label lite-info-label--orange">
-				Need to do
+			<div class="lite-info-label">
+				Not Started
 			</div>
 		{% endif %}
 	</div>
@@ -140,8 +140,8 @@
 				Done
 			</div>
 		{% else %}
-			<div class="lite-info-label lite-info-label--orange">
-				Need to do
+			<div class="lite-info-label">
+				Not Started
 			</div>
 		{% endif %}
 	</div>
@@ -178,13 +178,15 @@
 	{% endif %}
 </div>
 
+<div class="lite-submit-bar">
 <a href="{% url 'apply_for_a_licence:delete' draft.id %}" class="cancel-link" style="float: right;">
 	Delete Application
 </a>
 <form method="post">
 	{% csrf_token %}
-	<button type="submit" class="govuk-button" name="button" data-prevent-double-click="true" style="font-weight: bold;">Submit Application</button>
+	<button type="submit" class="govuk-button" name="button" data-prevent-double-click="true">Submit Application</button>
 </form>
+</div>
 
 {% load static %}
 <script src="{% static 'javascripts/modal.js' %}"></script>

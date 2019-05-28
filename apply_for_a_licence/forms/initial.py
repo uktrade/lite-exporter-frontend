@@ -28,8 +28,8 @@ initial_questions = Section('', '', [
                                                         'then read the guidance on GOV.UK about licences for '
                                                         '<a class="govuk-link" target="_blank"'
                                                         'href="https://www.gov.uk/starting-to-export/licences">'
-                                                        'exporting and doing business abroad <span '
-                                                        'class="govuk-visually-hidden">(Opens in a new window or '
+                                                        'exporting and doing business abroad<span '
+                                                        'class="govuk-visually-hidden"> (Opens in a new window or '
                                                         'tab)</span></a>.', )
     ], default_button_name='Continue'),
     Form('Do you want to export temporarily or permanently', '', [
