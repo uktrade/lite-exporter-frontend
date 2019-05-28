@@ -1,3 +1,4 @@
+from core.services import get_countries
 from libraries.forms.components import Form, Question, InputType, Section, ArrayQuestion, Option
 
 new_end_user_form = Section('', '', [
@@ -32,7 +33,11 @@ new_end_user_form = Section('', '', [
          description='',
          questions=[
              Question('Address', '', InputType.TEXTAREA, 'address'),
-             Question('Country', '', InputType.INPUT, 'country'),
+             ArrayQuestion(title='Country',
+                           description='',
+                           input_type=InputType.AUTOCOMPLETE,
+                           name='country',
+                           data=get_countries(None, True)),
          ],
          default_button_name='Save and continue')
 ])
