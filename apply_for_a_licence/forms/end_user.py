@@ -11,23 +11,24 @@ new_end_user_form = Section('', '', [
                            data=[
                                Option('government', 'A Government Organisation'),
                                Option('commercial', 'A Commercial Organisation'),
+                               Option('individual', 'An Individual'),
                                Option('other', 'Other', show_or=True),
                            ]),
          ],
          default_button_name='Continue'),
-    Form(title='Enter the final recipient\'s organisation or company name',
+    Form(title='Enter the final recipient\'s name',
          description='',
          questions=[
              Question('', '', InputType.INPUT, 'name'),
          ],
          default_button_name='Continue'),
-    Form(title='Enter an organisation or company web link (URL)',
+    Form(title='Enter the final recipient\'s web address (URL)',
          description='',
          questions=[
              Question('', '', InputType.INPUT, 'website', optional=True),
          ],
          default_button_name='Continue'),
-    Form(title='Where\'s the company based?',
+    Form(title='Where\'s the final recipient based?',
          description='',
          questions=[
              Question('Address', '', InputType.TEXTAREA, 'address'),
