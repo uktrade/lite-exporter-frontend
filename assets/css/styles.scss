@@ -12,9 +12,6 @@ main {
 }
 
 .lite-submit-bar {
-	position: -webkit-sticky;
-	position: sticky;
-	bottom: 0;
 	padding: govuk-spacing(6) 0;
 	background-color: white;
 
@@ -33,6 +30,17 @@ main {
 		border-bottom: 1px solid rgb(230, 230, 230);
 		mask-image: linear-gradient(90deg, rgba(0, 0, 0, 1.0), transparent);
 		-webkit-mask-image: -webkit-linear-gradient(left, transparent, black 5%, black 95%, transparent 100%);
+		transition: .2s ease;
+	}
+}
+
+.js-is-sticky {
+	bottom: 0;
+}
+
+.js-is-stuck {
+	&:before {
+		opacity: 0;
 	}
 }
 
