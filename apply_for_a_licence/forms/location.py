@@ -14,7 +14,7 @@ which_location_form = Form(title='Are your goods located at your organisation or
 new_location_form = Form(title='Add a new external location',
                          description='',
                          questions=[
-                             Question('Company name', '', InputType.INPUT, 'company'),
+                             Question('Company name', '', InputType.INPUT, 'name'),
                              Question('Address', '', InputType.TEXTAREA, 'address'),
                              ArrayQuestion(title='Country',
                                            description='',
