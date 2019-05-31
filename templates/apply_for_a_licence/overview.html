@@ -84,9 +84,11 @@
 
 <div class="lite-section {% if errors|key_value:'goods' %}govuk-form-group--error{% endif %}">
 	<div class="lite-section-header">
-		<a id="goods" href="{% url 'apply_for_a_licence:goods' draft.id %}" class="lite-overview-section-header govuk-link govuk-link--no-visited-state">
-			Goods
-		</a>
+		<div>
+			<a id="goods" href="{% url 'apply_for_a_licence:goods' draft.id %}" class="lite-overview-section-header govuk-link govuk-link--no-visited-state">
+				Goods
+			</a>
+		</div>
 		{% if goods|length %}
 			<div class="lite-info-label lite-info-label--blue">
 				Done
@@ -107,9 +109,11 @@
 
 <div class="lite-section {% if errors|key_value:'sites' %}govuk-form-group--error{% endif %}">
 	<div class="lite-section-header">
-		<a id="sites" href="{% url 'apply_for_a_licence:sites' draft.id %}" class="lite-overview-section-header govuk-link govuk-link--no-visited-state">
-			Sites
-		</a>
+		<div>
+			<a id="location" href="{% url 'apply_for_a_licence:location' draft.id %}" class="lite-overview-section-header govuk-link govuk-link--no-visited-state">
+				Location
+			</a>
+		</div>
 		{% if sites|length %}
 			<div class="lite-info-label lite-info-label--blue">
 				Done
@@ -120,19 +124,21 @@
 			</div>
 		{% endif %}
 	</div>
-	{% if errors|key_value:'sites' %}
+	{% if errors|key_value:'location' %}
 		<p class="govuk-error-message">
-			{{ errors|key_value:'sites' }}
+			{{ errors|key_value:'location' }}
 		</p>
 	{% endif %}
-	<p class="govuk-caption-m">Add sites to your application</p>
+	<p class="govuk-caption-m">Set where your goods are located</p>
 </div>
 
 <div class="lite-section {% if errors|key_value:'end_user' %}govuk-form-group--error{% endif %}">
 	<div class="lite-section-header">
-		<a id="end_users" href="{% url 'apply_for_a_licence:end_user' draft.id %}" class="lite-overview-section-header govuk-link govuk-link--no-visited-state">
-			End User
-		</a>
+		<div>
+			<a id="end_users" href="{% url 'apply_for_a_licence:end_user' draft.id %}" class="lite-overview-section-header govuk-link govuk-link--no-visited-state">
+				End User
+			</a>
+		</div>
 
 		{% if draft.end_user %}
 			<div class="lite-info-label lite-info-label--blue">

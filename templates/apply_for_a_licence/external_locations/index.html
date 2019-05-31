@@ -1,0 +1,25 @@
+{% extends 'layouts/two_pane.html' %}
+
+{% load humanize %}
+
+{% block body %}
+
+	<div class="lite-app-bar">
+		<h2 class="govuk-heading-l">{{ title }}</h2>
+		<div>
+			<a href="{% url 'apply_for_a_licence:add_external_location' draft_id %}" class="govuk-button">
+				Add external location
+			</a>
+			<a href="{% url 'apply_for_a_licence:add_preexisting_external_location' draft_id %}" class="govuk-button">
+				Add from existing external location
+			</a>
+		</div>
+	</div>
+
+	{% for good in data.goods %}
+		<div class="lite-item">
+			<h4 class="govuk-heading-s" style="margin-bottom: 0;">{{ good.good.description }}</h4>
+		</div>
+	{% endfor %}
+
+{% endblock %}
