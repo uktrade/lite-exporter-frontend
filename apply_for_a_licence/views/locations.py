@@ -108,11 +108,12 @@ class AddExternalLocation(TemplateView):
         if response:
             return response
         id = response_data['external_location']['id']
+
+        # Append the new external location to the list of external locations rather than clearing them
         data = {
             'external_locations': [id],
             'method': 'append_location'
         }
-
         post_external_locations_on_draft(request, draft_id, data)
 
         # If there is no response (no forms left to go through), go to the overview page
@@ -123,12 +124,11 @@ class AddExistingExternalLocation(TemplateView):
     def get(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
         draft, status_code = get_draft(request, draft_id)
-        response, status_code = get_external_locations(request)
+        data, status_code = get_external_locations_on_draft(request, draft_id)
 
-        return form_page(request, external_locations_form(request), data=response, extra_data={
+        return form_page(request, external_locations_form(request), data=data, extra_data={
             'persistent_bar': create_persistent_bar(draft.get('draft'))
         })
-        # return render(request, 'apply_for_a_licence/external_locations/preexisting.html', context)
 
     def post(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
