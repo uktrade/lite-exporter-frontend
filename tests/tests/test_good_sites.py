@@ -18,14 +18,6 @@ console = logging.StreamHandler()
 log.addHandler(console)
 
 
-@pytest.fixture(scope="function")
-def open_exporter_hub(driver, exporter_url):
-    # navigate to the application home page
-    driver.get(exporter_url)
-    # driver.maximize_window()
-    # assert driver.title == "Exporter Hub - LITE"
-    log.info(driver.current_url)
-
 
 def test_site_goods(driver, open_exporter_hub, exporter_url):
     exporter_hub = ExporterHubPage(driver)

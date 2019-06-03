@@ -18,7 +18,7 @@ log.addHandler(console)
 def test_submit_application(driver, open_exporter_hub, exporter_url):
 
     exporter_hub.go_to(exporter_url)
-    logging.info("On Exporter Hub Page")
+    logging.info("n Exporter Hub Page")
 
     exporter_hub.click_applications()
     logging.info("Clicked Applications")

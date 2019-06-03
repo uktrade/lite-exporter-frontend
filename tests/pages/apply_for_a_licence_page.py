@@ -29,6 +29,7 @@ class ApplyForALicencePage():
         self.success_message = ".govuk-panel__title"
         self.licence_application_values = ".govuk-table__cell"
         self.start_now_btn = "a[href*='/start']"
+        self.application_is_submitted = '.govuk-panel__title'
 
     def enter_name_or_reference_for_application(self, name):
         self.driver.find_element_by_id(self.name_or_reference_input_id).clear()
@@ -160,3 +161,6 @@ class ApplyForALicencePage():
         self.click_continue()
         self.click_export_licence_yes_or_no(need_licence)
         self.type_into_reference_number(ref_number)
+
+    def application_submitted_text(self):
+        return self.driver.find_element_by_css_selector(self.application_is_submitted).text

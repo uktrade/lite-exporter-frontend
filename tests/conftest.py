@@ -114,7 +114,6 @@ def click_start_button(driver):
     apply.click_start_now_btn()
 
 
-
 @when('I enter in name for application and continue')
 def enter_application_name(driver):
     apply = ApplyForALicencePage(driver)

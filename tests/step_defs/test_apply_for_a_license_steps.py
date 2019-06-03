@@ -1,12 +1,16 @@
 import datetime
 from pytest_bdd import scenarios, given, when, then, parsers, scenarios
 from pages.apply_for_a_licence_page import ApplyForALicencePage
+from pages.application_overview_page import ApplicationOverviewPage
+from pages.application_goods_list import ApplicationGoodsList
+import helpers.helpers as utils
 from pages.exporter_hub_page import ExporterHubPage
 from pages.sites_page import SitesPage
 from pages.shared import Shared
 from conftest import context
+from selenium.webdriver.common.by import By
 
-scenarios('../features/submit_application.feature')
+scenarios('../features/submit_application.feature', strict_gherkin=False)
 
 import logging
 log = logging.getLogger()
@@ -36,10 +40,12 @@ def i_see_the_application_overview(driver):
     app_id = driver.current_url[-36:]
     context.app_id = app_id
 
+
 @when('I click drafts')
 def i_click_drafts(driver):
     exporter = ExporterHubPage(driver)
     exporter.click_drafts()
+
 
 @when('I click the application')
 def i_click_the_application(driver):
@@ -49,12 +55,14 @@ def i_click_the_application(driver):
     appName = driver.find_element_by_css_selector(".lite-persistent-notice .govuk-link").text
     assert "Test Application" in appName
 
+
 @when('I delete the application')
 def i_delete_the_application(driver):
     apply = ApplyForALicencePage(driver)
     apply.click_delete_application()
     assert 'Exporter Hub - LITE' in driver.title,\
         "failed to go to Exporter Hub page after deleting application from application overview page"
+
 
 @when('I submit the application')
 def submit_the_application(driver):
@@ -66,6 +74,7 @@ def submit_the_application(driver):
 @then('I see no sites attached error message')
 def i_see_no_sites_attached_error(driver):
     shared = Shared(driver)
+    assert "Cannot create an application with no goods attached" in shared.get_text_of_error_message()
     assert "Cannot create an application with no sites attached" in shared.get_text_of_error_message_at_position_2()
 
 
@@ -76,3 +85,58 @@ def select_the_site_at_position(driver):
     sites.click_sites_checkbox()
     apply.click_save_and_continue()
 
+
+@when('I click the add from organisations goods button')
+def click_add_from_organisation_button(driver):
+    driver.find_element_by_css_selector('a.govuk-button[href*="add_preexisting"]').click()
+
+
+@when(parsers.parse('I click add to application for the good at position "{no}"'))
+def click_add_to_application_button(driver, no):
+
+    context.goods_name = driver.find_elements_by_css_selector('.lite-item .govuk-heading-s')[int(no)].text
+    context.part_number = driver.find_elements_by_css_selector('.lite-item .govuk-label')[int(no)].text
+    driver.find_elements_by_css_selector('a.govuk-button')[int(no)].click()
+
+
+@then('I see enter valid quantity and valid value error message')
+def valid_quantity_value_error_message(driver):
+    shared = Shared(driver)
+    assert "Error:\nEnter a valid value" in shared.get_text_of_error_message()
+    assert "Error:\nEnter a valid quantity" in shared.get_text_of_error_message_at_position_2()
+
+
+@when('I click on the goods link from overview')
+def click_goods_link_overview(driver):
+    overview_page = ApplicationOverviewPage(driver)
+    overview_page.click_goods_link()
+
+
+@when(parsers.parse('I add values to my good of "{value}" quantity "{quantity}" and unit of measurement "{unit}"'))
+def enter_values_for_good(driver, value, quantity, unit):
+    context.quantity = quantity
+    context.value = value
+    context.unit = unit
+    application_goods_list = ApplicationGoodsList(driver)
+    application_goods_list.add_values_to_good(str(value), str(quantity), unit)
+
+
+@then('good is added to application')
+def good_is_added(driver):
+    unit = str(context.unit)
+    unit = unit.lower()
+    assert utils.is_element_present(driver, By.XPATH, "//*[text()='" + str(context.goods_name) + "']")
+    assert utils.is_element_present(driver, By.XPATH, "//*[text()='" + str(context.quantity) + ".0 " + unit + "']")
+    assert utils.is_element_present(driver, By.XPATH, "//*[text()='£" + str(context.value) + ".00']")
+
+
+@when('I click overview')
+def click_overview(driver):
+    application_goods_list = ApplicationGoodsList(driver)
+    application_goods_list.click_on_overview()
+
+
+@then('application is submitted')
+def application_is_submitted(driver):
+    apply = ApplyForALicencePage(driver)
+    assert "Application submitted" in apply.application_submitted_text()
