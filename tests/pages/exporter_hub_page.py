@@ -19,6 +19,8 @@ class ExporterHubPage():
         self.add_a_good_btn = "a[href*='/goods/add/']"
         self.users_btn = "a[href='/users/']"
         self.sites_btn = "a[href='/sites/']"
+        self.sites_link = "a[href*='sites']"
+
 
 
     def go_to(self, url):
