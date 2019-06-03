@@ -19,7 +19,6 @@ class ExporterHubPage():
         self.add_a_good_btn = "a[href*='/goods/add/']"
         self.users_btn = "a[href='/users/']"
         self.sites_btn = "a[href='/sites/']"
-        self.sites_link = "a[href*='sites']"
 
 
     def go_to(self, url):
@@ -51,7 +50,7 @@ class ExporterHubPage():
         self.click_submit()
 
     def click_submit(self):
-        self.driver.find_element_by_css_selector(".govuk-button").click()
+        self.driver.find_element_by_class_name("govuk-button").click()
 
     def click_my_goods(self):
         self.driver.find_element_by_css_selector(self.my_goods_btn).click()
@@ -141,14 +140,10 @@ class ExporterHubPage():
     def click_sites(self):
         self.driver.find_element_by_css_selector(self.sites_btn).click()
 
-    def click_sites_link(self):
-        self.driver.find_element_by_css_selector(self.sites_link).click()
 
     def click_new_site(self):
         self.driver.find_element_by_css_selector("a[href*='/sites/new/']").click()
 
-    def click_sites_checkbox(self, int):
-        self.driver.find_elements_by_css_selector(".govuk-checkboxes__input")[int].click()
 
     def get_checked_attributes_of_sites_checkbox(self, int):
         return self.driver.find_elements_by_css_selector(".govuk-checkboxes__input")[int].get_attribute("checked")
@@ -158,9 +153,6 @@ class ExporterHubPage():
 
     def click_submit(self):
         self.driver.find_element_by_css_selector(".govuk-button").click()
-
-    def click_apply_for_a_licence(self):
-        self.driver.find_element_by_css_selector(self.apply_for_a_licence_btn).click()
 
     def click_start(self):
         self.driver.find_element_by_css_selector("a[href*='/start']").click()
@@ -181,8 +173,8 @@ class ExporterHubPage():
         self.driver.find_element_by_id("activity").clear()
         self.driver.find_element_by_id("activity").send_keys(activity)
 
-    def click_submit_application(self):
-        self.driver.find_element_by_css_selector("button[type*='submit']").click()
+    #def click_submit_application(self):
+     #   self.driver.find_element_by_css_selector("button[type*='submit']").click()
 
     # Old flow
     def create_application(self, name, destination, usage, activity):

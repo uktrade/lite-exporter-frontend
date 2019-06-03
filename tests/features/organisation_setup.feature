@@ -1,4 +1,4 @@
-@internal @set_up
+@internal @set_up  @all @organisation
 Feature: Set up a organisation
 As a...
 
