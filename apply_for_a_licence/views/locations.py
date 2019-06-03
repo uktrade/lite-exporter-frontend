@@ -2,11 +2,11 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
-from apply_for_a_licence.forms.location import which_location_form, new_location_form
+from apply_for_a_licence.forms.location import which_location_form, new_location_form, external_locations_form
 from apply_for_a_licence.forms.sites import sites_form
 from apply_for_a_licence.helpers import create_persistent_bar
 from core.services import get_sites_on_draft, post_sites_on_draft, post_external_locations, \
-    get_external_locations_on_draft
+    get_external_locations_on_draft, get_external_locations, post_external_locations_on_draft
 from drafts.services import get_draft, get_draft_goods
 from libraries.forms.generators import form_page
 from libraries.forms.submitters import submit_single_form
@@ -79,7 +79,7 @@ class ExternalLocations(TemplateView):
     def get(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
         draft, status_code = get_draft(request, draft_id)
-        data, status_code = get_draft_goods(request, draft_id)
+        data, status_code = get_external_locations_on_draft(request, draft_id)
 
         context = {
             'title': 'External Locations',
@@ -103,42 +103,45 @@ class AddExternalLocation(TemplateView):
 
     def post(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
-        response, data = submit_single_form(request, new_location_form, post_external_locations)
-
+        response, response_data = submit_single_form(request, new_location_form, post_external_locations)
         # If there are more forms to go through, continue
         if response:
             return response
+        id = response_data['external_location']['id']
+        data = {
+            'external_locations': [id],
+            'method': 'append_location'
+        }
+
+        post_external_locations_on_draft(request, draft_id, data)
 
         # If there is no response (no forms left to go through), go to the overview page
-        return redirect(reverse_lazy('apply_for_a_licence:add_external_location', kwargs={'pk': draft_id}))
+        return redirect(reverse_lazy('apply_for_a_licence:external_locations', kwargs={'pk': draft_id}))
 
 
 class AddExistingExternalLocation(TemplateView):
     def get(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
         draft, status_code = get_draft(request, draft_id)
-        external_locations, status_code = get_external_locations_on_draft(request, draft_id)
+        response, status_code = get_external_locations(request)
 
-        context = {
-            'title': 'External Locations',
-            'draft_id': draft_id,
-            'data': external_locations,
-            'persistent_bar': create_persistent_bar(draft.get('draft')),
-        }
-        return render(request, 'apply_for_a_licence/external_locations/preexisting.html', context)
+        return form_page(request, external_locations_form(request), data=response, extra_data={
+            'persistent_bar': create_persistent_bar(draft.get('draft'))
+        })
+        # return render(request, 'apply_for_a_licence/external_locations/preexisting.html', context)
 
     def post(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
         draft, status_code = get_draft(request, draft_id)
 
         data = {
-            'sites': request.POST.getlist('sites')
+            'external_locations': request.POST.getlist('external_locations')
         }
 
-        response, status_code = post_sites_on_draft(request, draft_id, data)
+        response, status_code = post_external_locations_on_draft(request, draft_id, data)
 
         if status_code != 201:
-            return form_page(request, sites_form(request), errors=response.get('errors'), extra_data={
+            return form_page(request, external_locations_form(request), errors=response.get('errors'), extra_data={
                 'persistent_bar': create_persistent_bar(draft.get('draft'))
             })
 

@@ -1,10 +1,12 @@
 {% extends 'layouts/full_width.html' %}
 
 {% block back-button %}
-	<a href="{% url 'apply_for_a_licence:goods' draft_id %}" class="govuk-back-link lite-persistent-bar--back">Back to External Locations</a>
+	<a href="{% url 'apply_for_a_licence:external_locations' draft_id %}" class="govuk-back-link lite-persistent-bar--back">Back to External Locations</a>
 {% endblock%}
 
 {% block body %}
+
+{{ data }}
 
 <h2 class="govuk-heading-l">Add an external location from your organisation</h2>
 
@@ -15,7 +17,7 @@
 		<span style="display: block;">   </span>
 		<span class="govuk-caption-m" style="display: inline-block; margin-right: 10px;">Control Code: </span><p class="govuk-label" style="display: inline-block; {% if not good.control_code %}opacity: 0.4;{% endif %}">{{ good.control_code|default:"N/A" }}</p>
 		<div style="display: flex; justify-content: flex-end;">
-			<a href="{% url 'apply_for_a_licence:add_preexisting_good' draft_id good.id %}" class="govuk-button" role="button" draggable="false" style="margin-bottom: 0;">Add to application</a>
+			<a href="{% url 'apply_for_a_licence:add_preexisting_external_location' draft_id good.id %}" class="govuk-button" role="button" draggable="false" style="margin-bottom: 0;">Add to application</a>
 		</div>
 	</div>
 {% endfor %}

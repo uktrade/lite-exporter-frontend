@@ -16,9 +16,12 @@
 		</div>
 	</div>
 
-	{% for good in data.goods %}
+	{% for external_location in data.external_locations %}
 		<div class="lite-item">
-			<h4 class="govuk-heading-s" style="margin-bottom: 0;">{{ good.good.description }}</h4>
+			<h4 class="govuk-heading-s" style="margin-bottom: 0;">{{ external_location.name }}</h4>
+			<span class="govuk-caption-m" style="display: inline-block; margin-right: 10px;">Address: </span><p class="govuk-label" style="display: inline-block; {% if not good.good.part_number %}opacity: 0.4;{% endif %}">{{ external_location.address|default:"N/A" }}</p>
+			<br/>
+			<span class="govuk-caption-m" style="display: inline-block; margin-right: 10px;">Country: </span><p class="govuk-label" style="display: inline-block; {% if not good.good.control_code %}opacity: 0.4;{% endif %}">{{ external_location.country|default:"N/A" }}</p>
 		</div>
 	{% endfor %}
 
