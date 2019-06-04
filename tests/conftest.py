@@ -5,6 +5,8 @@ import os
 import datetime
 from pytest_bdd import scenarios, given, when, then, parsers, scenarios
 from pages.exporter_hub_page import ExporterHubPage
+from pages.shared import Shared
+from pages.sites_page import SitesPage
 
 from pages.apply_for_a_licence_page import ApplyForALicencePage
 strict_gherkin = False
@@ -54,13 +56,16 @@ def driver(request):
 def exporter_url(request):
     return request.config.getoption("--exporter_url")
 
+
 @pytest.fixture(scope="module")
 def internal_url(request):
     return request.config.getoption("--internal_url")
 
+
 @pytest.fixture(scope="module")
 def internal_login_url():
     return "https://sso.trade.uat.uktrade.io/login/"
+
 
 @given('I go to internal homepage')
 def go_to_internal_homepage(driver, internal_url, internal_login_url):
@@ -74,6 +79,12 @@ def go_to_internal_homepage(driver, internal_url, internal_login_url):
 @given('I go to exporter homepage')
 def go_to_exporter(driver, exporter_url):
     driver.get(exporter_url)
+
+
+@when('I go to exporter homepage')
+def go_to_exporter_when(driver, exporter_url):
+    driver.get(exporter_url)
+
 
 @when(parsers.parse('I login to exporter homepage with username "{username}" and "{password}"'))
 def login_to_exporter(driver, username, password):
@@ -118,6 +129,7 @@ def click_start_button(driver):
 def enter_application_name(driver):
     apply = ApplyForALicencePage(driver)
     app_time_id = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    context.app_time_id = app_time_id
     app_name = "Test Application " + app_time_id
     apply.enter_name_or_reference_for_application(app_name)
     context.app_id = app_name
@@ -141,6 +153,7 @@ def enter_permanent_or_temporary(driver, permanent_or_temporary):
     apply.click_permanent_or_temporary_button(permanent_or_temporary)
     apply.click_continue()
 
+
 @when(parsers.parse('I select "{yes_or_no}" for whether I have an export licence and "{reference}" if I have a reference and continue'))
 def enter_export_licence(driver, yes_or_no, reference):
     apply = ApplyForALicencePage(driver)
@@ -149,11 +162,27 @@ def enter_export_licence(driver, yes_or_no, reference):
     apply.type_into_reference_number(reference)
     apply.click_continue()
 
+
 @when('I click sites link')
 def i_click_sites_link(driver):
     app = ApplicationOverviewPage(driver)
     app.click_sites_link()
 
+
 @when('I click continue')
 def i_click_continue(driver):
     driver.find_element_by_css_selector("button[type*='submit']").click()
+
+
+@then(parsers.parse('error message is "{expected_error}"'))
+def error_message_is(driver, expected_error):
+    shared = Shared(driver)
+    assert shared.is_error_message_displayed()
+    assert expected_error in shared.get_text_of_error_message()
+
+
+@when(parsers.parse('I select the site at position "{no}"'))
+def select_the_site_at_position(driver, no):
+    sites = SitesPage(driver)
+    sites.click_sites_checkbox(int(no)-1)
+

@@ -5,7 +5,7 @@ from pages.application_overview_page import ApplicationOverviewPage
 from pages.application_goods_list import ApplicationGoodsList
 import helpers.helpers as utils
 from pages.exporter_hub_page import ExporterHubPage
-from pages.sites_page import SitesPage
+from pages.hub_page import Hub
 from pages.shared import Shared
 from conftest import context
 from selenium.webdriver.common.by import By
@@ -43,8 +43,21 @@ def i_see_the_application_overview(driver):
 
 @when('I click drafts')
 def i_click_drafts(driver):
-    exporter = ExporterHubPage(driver)
-    exporter.click_drafts()
+    hub_page = Hub(driver)
+    hub_page.click_drafts()
+
+
+@when('I click applications')
+def i_click_applications(driver):
+    hub_page = Hub(driver)
+    hub_page.click_applications()
+
+
+@when('I delete the application')
+def i_delete_the_application(driver):
+    apply = ApplyForALicencePage(driver)
+    apply.click_delete_application()
+    assert 'Exporter Hub - LITE' in driver.title, "failed to go to Exporter Hub page after deleting application from application overview page"
 
 
 @when('I click the application')
@@ -54,14 +67,6 @@ def i_click_the_application(driver):
     assert "Overview" in driver.title
     appName = driver.find_element_by_css_selector(".lite-persistent-notice .govuk-link").text
     assert "Test Application" in appName
-
-
-@when('I delete the application')
-def i_delete_the_application(driver):
-    apply = ApplyForALicencePage(driver)
-    apply.click_delete_application()
-    assert 'Exporter Hub - LITE' in driver.title,\
-        "failed to go to Exporter Hub page after deleting application from application overview page"
 
 
 @when('I submit the application')
@@ -76,14 +81,6 @@ def i_see_no_sites_attached_error(driver):
     shared = Shared(driver)
     assert "Cannot create an application with no goods attached" in shared.get_text_of_error_message()
     assert "Cannot create an application with no sites attached" in shared.get_text_of_error_message_at_position_2()
-
-
-@when('I select the site at position')
-def select_the_site_at_position(driver):
-    sites = SitesPage(driver)
-    apply = ApplyForALicencePage(driver)
-    sites.click_sites_checkbox()
-    apply.click_save_and_continue()
 
 
 @when('I click the add from organisations goods button')
@@ -140,3 +137,31 @@ def click_overview(driver):
 def application_is_submitted(driver):
     apply = ApplyForALicencePage(driver)
     assert "Application submitted" in apply.application_submitted_text()
+
+
+@then('I see submitted application')
+def application_is_submitted(driver):
+    assert utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'" + context.app_time_id + "')]]")
+    log.info("application found in submitted applications list")
+
+    # Check application status is Submitted
+    log.info("verifying application status is Submitted")
+    status = driver.find_element_by_xpath("//*[text()[contains(.,'" + context.app_time_id + "')]]/following-sibling::td[last()]")
+    last_updated = driver.find_element_by_xpath("//*[text()[contains(.,'" + context.app_time_id + "')]]/following-sibling::td[last()-1]")
+    goods = driver.find_element_by_xpath("//*[text()[contains(.,'" + context.app_time_id + "')]]/following-sibling::td[last()-2]")
+    assert status.is_displayed()
+    assert last_updated.is_displayed()
+    assert goods.is_displayed()
+    assert status.text == "Application status submitted", "Expected Status of application is to be 'Submitted' but is not"
+    assert "Good" in goods.text
+    assert driver.find_element_by_xpath("// th[text()[contains(., 'Status')]]").is_displayed()
+    assert driver.find_element_by_xpath("// th[text()[contains(., 'Last Updated')]]").is_displayed()
+    assert driver.find_element_by_xpath("// th[text()[contains(., 'Goods')]]").is_displayed()
+    assert driver.find_element_by_xpath("// th[text()[contains(., 'Reference')]]").is_displayed()
+
+    logging.info("Test Complete")
+
+
+@then('I see the homepage')
+def i_see_the_homepage(driver):
+    assert 'Exporter Hub - LITE' in driver.title, "Delete Application link on overview page failed to go to Exporter Hub page"

@@ -117,10 +117,6 @@ class ExporterHubPage():
     def click_new_site(self):
         self.driver.find_element_by_css_selector("a[href*='/sites/new/']").click()
 
-
-    def get_checked_attributes_of_sites_checkbox(self, int):
-        return self.driver.find_elements_by_css_selector(".govuk-checkboxes__input")[int].get_attribute("checked")
-
     def get_text_of_site(self, int):
         return self.driver.find_elements_by_css_selector(".govuk-checkboxes__label")[int].text
 

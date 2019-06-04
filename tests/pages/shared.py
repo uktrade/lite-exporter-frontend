@@ -11,6 +11,9 @@ class Shared():
     def get_text_of_error_message(self):
         return self.driver.find_element_by_css_selector(".govuk-error-message").text
 
+    def is_error_message_displayed(self):
+        return self.driver.find_element_by_css_selector(".govuk-error-message").is_displayed()
+
     def get_text_of_error_message_at_position_2(self):
         return self.driver.find_elements_by_css_selector(".govuk-error-message")[1].text
 

@@ -1,5 +1,5 @@
 class ApplicationsPage():
-
+    # /applications
     def __init__(self, driver):
         self.driver = driver
 

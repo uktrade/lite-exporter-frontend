@@ -1,6 +1,7 @@
 from pytest_bdd import scenarios, given, when, then, parsers
 from pages.site_list_overview_page import SitesListOverview
 from pages.new_site_page import NewSite
+from pages.sites_page import SitesPage
 from pages.shared import Shared
 import datetime
 import helpers.helpers as utils
@@ -12,7 +13,7 @@ log = logging.getLogger()
 console = logging.StreamHandler()
 log.addHandler(console)
 
-scenarios('../features/sites.feature', strict_gherkin = False)
+scenarios('../features/sites.feature', strict_gherkin=False)
 
 
 @when('I click new site')
@@ -56,7 +57,22 @@ def select_a_site_error(driver):
     assert "You have to pick at least one site." in shared.get_text_of_error_message()
 
 
+@then('I see my new site at first position')
+def assert_site_is_added_to_list(driver):
+    sites_page = SitesPage(driver)
+    assert sites_page.get_text_of_site(sites_page.get_size_of_sites()-1) == context.new_site_name
+
+
 @then('I see last site name as edited')
 def last_site_name_edited(driver):
     site_list_overview_page = SitesListOverview(driver)
     assert "edited" in site_list_overview_page.get_text_of_last_site_name()
+
+
+@then(parsers.parse('the checkbox I have selected at position "{no}" is "{checked}"'))
+def assert_checkbox_at_position(driver, no, checked):
+    sites_page = SitesPage(driver)
+    if checked== "checked":
+        assert sites_page.get_checked_attribute_of_sites_checkbox(int(no)-1) == "true"
+    elif checked== "unchecked":
+        assert sites_page.get_checked_attribute_of_sites_checkbox(int(no)-1) is not "true"
