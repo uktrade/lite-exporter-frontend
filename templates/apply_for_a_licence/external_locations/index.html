@@ -5,13 +5,13 @@
 {% block body %}
 
 	<div class="lite-app-bar">
-		<h2 class="govuk-heading-l">{{ title }}</h2>
+		<h2 class="govuk-heading-l">{% get_string 'goods.location_lists.title' %}</h2>
 		<div>
 			<a href="{% url 'apply_for_a_licence:add_external_location' draft_id %}" class="govuk-button">
-				Add external location
+				{% get_string 'goods.location_lists.find_address_button' %}
 			</a>
 			<a href="{% url 'apply_for_a_licence:add_preexisting_external_location' draft_id %}" class="govuk-button">
-				Add from existing external location
+				{% get_string 'goods.location_lists.add_address_button' %}
 			</a>
 		</div>
 	</div>
