@@ -42,8 +42,6 @@ Application for handling exporter related activity in LITE.
   * `git submodule update`
 * Setup Pipenv environment:
   * `pipenv sync`
-* Install chromedriver
-  * `brew cask install chromedriver`
 * Run the application: `pipenv run ./manage.py migrate && pipenv run ./manage.py runserver 9000`
 * Go to the index page (e.g. `http://localhost:9000`)
 
@@ -53,10 +51,13 @@ Application for handling exporter related activity in LITE.
 * Setup chromedriver
   * Download chromedriver from http://chromedriver.chromium.org/ and install it  
   * make sure it has execute permissions and is in PATH
-  
+* or
+  * `brew cask install chromedriver`
+
 * Setup dev pipenv environment:
   * `pipenv sync -d`
 * Run `pipenv run python -m pytest`
+* You may need to make sure in pycharm, within Preferences -> Tools -> Python Integrated Tools -> Default Test Runner is pytest
 
 ## LITE Repositories
 
