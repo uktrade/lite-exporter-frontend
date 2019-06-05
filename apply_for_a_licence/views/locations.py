@@ -79,10 +79,12 @@ class ExternalLocations(TemplateView):
     def get(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
         draft, status_code = get_draft(request, draft_id)
+        org_external_locations = get_external_locations(request)
         data, status_code = get_external_locations_on_draft(request, draft_id)
 
         context = {
             'title': 'External Locations',
+            'org_external_locations': org_external_locations,
             'draft_id': draft_id,
             'data': data,
             'draft': draft,
@@ -104,6 +106,7 @@ class AddExternalLocation(TemplateView):
     def post(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
         response, response_data = submit_single_form(request, new_location_form, post_external_locations)
+
         # If there are more forms to go through, continue
         if response:
             return response
