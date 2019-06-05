@@ -223,7 +223,15 @@ def click_my_goods_link(driver):
 def click_my_registered_sites(driver):
     which_location = WhichLocationFormPage(driver)
     shared = Shared(driver)
-    which_location.click_application_locations_link()
+    which_location.click_on_my_sites_radio_button()
+    shared.click_continue()
+
+
+@when('I click on external locations')
+def click_external_locations(driver):
+    which_location = WhichLocationFormPage(driver)
+    shared = Shared(driver)
+    which_location.click_on_external_location_radio_button()
     shared.click_continue()
 
 

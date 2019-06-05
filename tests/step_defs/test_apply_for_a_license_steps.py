@@ -40,6 +40,9 @@ def i_see_the_application_overview(driver):
     app_id = driver.current_url[-36:]
     context.app_id = app_id
 
+@when('I do not see add preexisting location button')
+def i_do_not_see_add_preexisting_button(driver):
+    assert driver.find_elements_by_css_selector('govuk-button').count() == 1
 
 @when('I click drafts')
 def i_click_drafts(driver):

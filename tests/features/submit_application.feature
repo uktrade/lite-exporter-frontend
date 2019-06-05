@@ -17,7 +17,7 @@ Feature: Licence
     When I click the application
     When I delete the application
 
-  Scenario: Submit application
+  Scenario: Submit application with organisation sites
     Given I go to exporter homepage
     When I login to exporter homepage with username "test@mail.com" and "password"
     When I click on apply for a license button
@@ -44,6 +44,20 @@ Feature: Licence
     When I go to exporter homepage
     When I click applications
     Then I see submitted application
+
+
+  Scenario: Submit application with external locations
+    Given I go to exporter homepage
+    When I login to exporter homepage with username "test@mail.com" and "password"
+    When I click on apply for a license button
+    When I click on start button
+    When I enter in name for application and continue
+    When I select "standard" application and continue
+    When I select "permanent" option and continue
+    When I select "yes" for whether I have an export licence and "123456" if I have a reference and continue
+    When I click on application locations link
+    When I click on external locations
+    Then I do not see add preexisting location button
 
   Scenario: Error message when there is no site selected
     Given I go to exporter homepage
