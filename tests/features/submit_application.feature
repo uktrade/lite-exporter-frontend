@@ -56,8 +56,30 @@ Feature: Licence
     When I select "permanent" option and continue
     When I select "yes" for whether I have an export licence and "123456" if I have a reference and continue
     When I click on application locations link
-    When I click on external locations
+    When I select "external" for where my goods are located
     Then I do not see add preexisting location button
+    When I click on add new address
+    When I fill in new external location form with name: "location 1", address: "London" and country: "Ukraine" and continue
+    When I click on add new address
+    When I fill in new external location form with name: "place", address: "Paris" and country: "Ukraine" and continue
+    Then I see "2" locations
+    When I click on preexisting locations
+    When I select the location at position "2" in external locations list and continue
+    When I click on the goods link from overview
+    When I click the add from organisations goods button
+    When I click add to application for the good at position "1"
+    When I click continue
+    Then I see enter valid quantity and valid value error message
+    When I add values to my good of "1" quantity "123" and unit of measurement "Metres"
+    When I click continue
+    Then good is added to application
+    When I click overview
+    When I submit the application
+    Then application is submitted
+    When I go to exporter homepage
+    When I click applications
+    Then I see submitted application
+
 
   Scenario: Error message when there is no site selected
     Given I go to exporter homepage

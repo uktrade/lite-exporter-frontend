@@ -12,6 +12,11 @@ from pages.shared import Shared
 from pages.sites_page import SitesPage
 
 from pages.apply_for_a_licence_page import ApplyForALicencePage
+
+from tests.pages.add_new_external_location_form_page import AddNewExternalLocationFormPage
+from tests.pages.external_locations_page import ExternalLocationsPage
+from tests.pages.preexisting_locations_page import PreexistingLocationsPage
+
 strict_gherkin = False
 
 # Screenshot in case of any test failure
@@ -193,6 +198,46 @@ def enter_export_licence(driver, yes_or_no, reference):
 def i_click_application_locations_link(driver):
     app = ApplicationOverviewPage(driver)
     app.click_application_locations_link()
+
+
+@when(parsers.parse('I select "{organisation_or_external}" for where my goods are located'))
+def choose_location_type(driver, organisation_or_external):
+    which_location_form = WhichLocationFormPage(driver)
+    which_location_form.click_on_organisation_or_external_radio_button(organisation_or_external)
+    which_location_form.click_continue()
+
+
+@when(parsers.parse('I fill in new external location form with name: "{name}", address: "{address}" and country: "{country}" and continue'))
+def add_new_external_location(driver, name, address, country):
+    add_new_external_location_form_page = AddNewExternalLocationFormPage(driver)
+    add_new_external_location_form_page.enter_external_location_name(name)
+    add_new_external_location_form_page.enter_external_location_address(address)
+    add_new_external_location_form_page.enter_external_location_country(country)
+    add_new_external_location_form_page.click_continue()
+
+
+@when(parsers.parse('I select the location at position "{position_number}" in external locations list and continue'))
+def assert_checkbox_at_position(driver, position_number):
+    preexisting_locations_page = PreexistingLocationsPage(driver)
+    preexisting_locations_page.click_external_locations_checkbox(int(position_number)-1)
+    preexisting_locations_page.click_continue()
+
+
+@then(parsers.parse('I see "{number_of_locations}" locations'))
+def i_see_a_number_of_locations(driver, number_of_locations):
+    assert len(driver.find_elements_by_css_selector('.lite-item')) == int(number_of_locations)
+
+
+@when('I click on add new address')
+def i_click_on_add_new_address(driver):
+    external_locations_page = ExternalLocationsPage(driver)
+    external_locations_page.click_add_new_address()
+
+
+@when('I click on preexisting locations')
+def i_click_add_preexisting_locations(driver):
+    external_locations_page = ExternalLocationsPage(driver)
+    external_locations_page.click_preexisting_locations()
 
 
 @when('I click continue')

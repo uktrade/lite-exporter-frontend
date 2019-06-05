@@ -23,6 +23,7 @@ psycopg2-binary = "==2.7.7"
 django-inline-svg = "*"
 pages = "*"
 pytest-bdd = "*"
+pyautogui = "*"
 
 [requires]
 python_version = "3.7"

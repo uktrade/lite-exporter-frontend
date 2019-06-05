@@ -1,12 +1,17 @@
+from selenium import webdriver
+
+
 class ApplicationOverviewPage():
 
     def __init__(self, driver):
         self.driver = driver
         self.sites_link = "location" #id
-        self.goods_link = "goods"
+        self.goods_link = "goods" #id
 
     def click_application_locations_link(self):
-        self.driver.find_element_by_css_selector(self.sites_link).click()
+        element = self.driver.find_element_by_id(self.sites_link)
+        self.driver.execute_script("arguments[0].click();", element)
 
     def click_goods_link(self):
-        self.driver.find_element_by_id(self.goods_link).click()
+        element = self.driver.find_element_by_id(self.goods_link)
+        self.driver.execute_script("arguments[0].click();", element)

@@ -79,8 +79,9 @@ class ExternalLocations(TemplateView):
     def get(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
         draft, status_code = get_draft(request, draft_id)
-        org_external_locations = get_external_locations(request)
+        org_external_locations, status_code = get_external_locations(request)
         data, status_code = get_external_locations_on_draft(request, draft_id)
+
 
         context = {
             'title': 'External Locations',
