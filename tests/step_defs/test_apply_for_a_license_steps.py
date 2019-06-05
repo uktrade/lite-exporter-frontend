@@ -83,11 +83,6 @@ def i_see_no_sites_attached_error(driver):
     assert "Cannot create an application with no sites attached" in shared.get_text_of_error_message_at_position_2()
 
 
-@when('I click the add from organisations goods button')
-def click_add_from_organisation_button(driver):
-    driver.find_element_by_css_selector('a.govuk-button[href*="add_preexisting"]').click()
-
-
 @when(parsers.parse('I click add to application for the good at position "{no}"'))
 def click_add_to_application_button(driver, no):
 

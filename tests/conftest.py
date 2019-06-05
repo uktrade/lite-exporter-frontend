@@ -1,10 +1,12 @@
 import pytest
 from selenium import webdriver
-from pages.application_overview_page import ApplicationOverviewPage
 import os
+import random
 import datetime
+from pages.application_overview_page import ApplicationOverviewPage
 from pytest_bdd import scenarios, given, when, then, parsers, scenarios
 from pages.exporter_hub_page import ExporterHubPage
+from pages.add_goods_page import AddGoodPage
 from pages.shared import Shared
 from pages.sites_page import SitesPage
 
@@ -30,7 +32,10 @@ def pytest_addoption(parser):
     parser.addoption("--exporter_url", action="store", default="localhost:9000/", help="url")
     #parser.addoption("--internal_url", action="store", default="https://lite-internal-frontend-" + env + ".london.cloudapps.digital/", help="url")
     parser.addoption("--internal_url", action="store", default="localhost:8080/", help="url")
-
+    parser.addoption("--email", action="store", default= "test@mail.com")
+    parser.addoption("--password", action="store", default= "password")
+    parser.addoption("--first_name", action="store", default= "Test")
+    parser.addoption("--last_name", action="store", default= "User")
 
 # Create driver fixture that initiates chrome
 @pytest.fixture(scope="session", autouse=True)
@@ -65,6 +70,26 @@ def internal_url(request):
 @pytest.fixture(scope="module")
 def internal_login_url():
     return "https://sso.trade.uat.uktrade.io/login/"
+
+
+@pytest.fixture(scope="module")
+def email(request):
+    return request.config.getoption("--email")
+
+
+@pytest.fixture(scope="module")
+def password(request):
+    return request.config.getoption("--password")
+
+
+@pytest.fixture(scope="module")
+def first_name(request):
+    return request.config.getoption("--first_name")
+
+
+@pytest.fixture(scope="module")
+def last_name(request):
+    return request.config.getoption("--last_name")
 
 
 @given('I go to internal homepage')
@@ -185,4 +210,33 @@ def error_message_is(driver, expected_error):
 def select_the_site_at_position(driver, no):
     sites = SitesPage(driver)
     sites.click_sites_checkbox(int(no)-1)
+
+
+@when('I click on goods link')
+def click_my_goods_link(driver):
+    exporter_hub = ExporterHubPage(driver)
+    exporter_hub.click_my_goods()
+
+
+@when('I click the add from organisations goods button')
+def click_add_from_organisation_button(driver):
+    driver.find_element_by_css_selector('a.govuk-button[href*="add_preexisting"]').click()
+
+
+@when(parsers.parse('I add a good with description "{description}" controlled "{controlled}" control code "{controlcode}" incorporated "{incorporated}" and part number "{part}"'))
+def add_new_good(driver, description, controlled,  controlcode, incorporated, part):
+    exporter_hub = ExporterHubPage(driver)
+    add_goods_page = AddGoodPage(driver)
+    good_description = description + str(random.randint(1, 1000))
+    good_part = part + str(random.randint(1, 1000))
+    context.good_description = good_description
+    context.part = good_part
+    context.controlcode = controlcode
+    add_goods_page.click_add_a_good()
+    add_goods_page.enter_description_of_goods(good_description)
+    add_goods_page.select_is_your_good_controlled(controlled)
+    add_goods_page.enter_control_code(controlcode)
+    add_goods_page.select_is_your_good_intended_to_be_incorporated_into_an_end_product(incorporated)
+    add_goods_page.enter_part_number(good_part)
+    exporter_hub.click_save_and_continue()
 

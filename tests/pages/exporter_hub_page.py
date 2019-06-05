@@ -1,5 +1,4 @@
 from selenium import webdriver
-from selenium.webdriver.common.by import By
 import helpers.helpers as utils
 import pytest
 from selenium.webdriver.common.action_chains import ActionChains
@@ -49,7 +48,8 @@ class ExporterHubPage():
             self.driver.find_element_by_xpath("//a[text()[contains(.,'Log In')]]").click()
         self.enter_email(email)
         self.enter_password(password)
-        self.click_submit()
+        self.driver.find_element_by_class_name("govuk-button").click()
+        time.sleep(1)
 
     def click_submit(self):
         self.driver.find_element_by_class_name("govuk-button").click()
@@ -59,7 +59,7 @@ class ExporterHubPage():
 
 
     def click_save_and_continue(self):
-        self.driver.find_element_by_css_selector("button[action*='submit']").click()
+        self.driver.find_element_by_css_selector("button[type*='submit']").click()
 
     def verify_good_is_in_goods_list(self, description, part_number, control_code):
         goods_row = self.driver.find_element_by_xpath("//*[text()[contains(.,'" + description + "')]]")
