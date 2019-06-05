@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
+from libraries.forms.generators import form_page
 
 from goods import forms
 from goods.services import get_goods, post_goods, get_good, update_good, delete_good
@@ -40,6 +41,8 @@ class AddGood(TemplateView):
         return redirect('/goods/')
 
 
+
+
 class EditGood(TemplateView):
 
     def get(self, request, **kwargs):
@@ -49,7 +52,7 @@ class EditGood(TemplateView):
             'page': forms.edit_form,
             'data': data['good'],
         }
-        return render(request, 'form.html', context)
+        return form_page(request, edit_form, data['good'])
 
     def post(self, request, **kwargs):
         data, status_code = update_good(request, str(kwargs['pk']),
@@ -70,7 +73,7 @@ class DeleteGood(TemplateView):
 
     def get(self, request, **kwargs):
         data, status_code = get_good(request, str(kwargs['pk']))
-
+        print('get')
         if data['good']['status'] != 'draft':
             context = {
                 'title': 'Cannot Delete Good',
@@ -86,18 +89,7 @@ class DeleteGood(TemplateView):
             }
         return render(request, 'goods/confirm_delete.html', context)
 
-
-class ConfirmDeleteGood(TemplateView):
-
-    def get(self, request, **kwargs):
-        print('im here')
-        data, status_code = get_good(request, str(kwargs['pk']))
-        if data['good']['status'] != 'draft':
-            good_id = str(kwargs['pk'])
-            print(good_id)
-            delete_good(request, good_id)
-            context = {
-                'title': 'wayhay',
-            }
-           # return redirect('/goods/')
-            return render(request, 'goods/index.html', context)
+    def post(self, request, **kwargs):
+        print('post')
+        delete_good(request, str(kwargs['pk']))
+        return redirect('/goods/')

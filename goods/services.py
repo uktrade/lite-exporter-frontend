@@ -30,9 +30,5 @@ def update_good(request, pk, json):
 
 
 def delete_good(request, pk):
-    data = delete(request, GOODS_URL + pk + '/delete')
-    return data.json(), data.status_code
-
-def confirm_delete_good(request, pk):
-    data = delete(request, GOODS_URL + pk + '/confirm_delete')
+    data = delete(request, GOODS_URL + pk)
     return data.json(), data.status_code
