@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
+
+from goods.forms import edit_form
 from libraries.forms.generators import form_page
 
 from goods import forms
