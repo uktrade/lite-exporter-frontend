@@ -2,7 +2,7 @@
 Feature: Licence
   As a...
 
-  Scenario: Apply for a licence to draft
+  Scenario: Apply for a licence to draft and delete application
     Given I go to exporter homepage
     When I login to exporter homepage with username "test@mail.com" and "password"
     When I click on apply for a license button
@@ -12,9 +12,7 @@ Feature: Licence
     When I select "permanent" option and continue
     When I select "yes" for whether I have an export licence and "123456" if I have a reference and continue
     Then I see the application overview
-
-  Scenario: Delete application from draft
-    Given I go to exporter homepage
+    When I go to exporter homepage
     When I click drafts
     When I click the application
     When I delete the application
@@ -28,7 +26,8 @@ Feature: Licence
     When I select "standard" application and continue
     When I select "permanent" option and continue
     When I select "yes" for whether I have an export licence and "123456" if I have a reference and continue
-    When I click sites link
+    When I click on application locations link
+    When I click on my registered sites
     When I select the site at position "1"
     When I click continue
     When I click on the goods link from overview

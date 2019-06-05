@@ -6,6 +6,7 @@ import datetime
 from pages.application_overview_page import ApplicationOverviewPage
 from pytest_bdd import scenarios, given, when, then, parsers, scenarios
 from pages.exporter_hub_page import ExporterHubPage
+from pages.which_location_form_page import WhichLocationFormPage
 from pages.add_goods_page import AddGoodPage
 from pages.shared import Shared
 from pages.sites_page import SitesPage
@@ -188,10 +189,10 @@ def enter_export_licence(driver, yes_or_no, reference):
     apply.click_continue()
 
 
-@when('I click sites link')
-def i_click_sites_link(driver):
+@when('I click on application locations link')
+def i_click_application_locations_link(driver):
     app = ApplicationOverviewPage(driver)
-    app.click_sites_link()
+    app.click_application_locations_link()
 
 
 @when('I click continue')
@@ -216,6 +217,14 @@ def select_the_site_at_position(driver, no):
 def click_my_goods_link(driver):
     exporter_hub = ExporterHubPage(driver)
     exporter_hub.click_my_goods()
+
+
+@when('I click on my registered sites')
+def click_my_registered_sites(driver):
+    which_location = WhichLocationFormPage(driver)
+    shared = Shared(driver)
+    which_location.click_application_locations_link()
+    shared.click_continue()
 
 
 @when('I click the add from organisations goods button')

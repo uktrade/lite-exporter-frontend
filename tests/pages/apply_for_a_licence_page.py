@@ -8,7 +8,6 @@ log.addHandler(console)
 
 class ApplyForALicencePage():
 
-    # called e time you create an object for this class
     def __init__(self, driver):
         self.driver = driver
 
@@ -30,6 +29,7 @@ class ApplyForALicencePage():
         self.licence_application_values = ".govuk-table__cell"
         self.start_now_btn = "a[href*='/start']"
         self.application_is_submitted = '.govuk-panel__title'
+        self.delete_application_button = '.cancel-link' #css
 
     def enter_name_or_reference_for_application(self, name):
         self.driver.find_element_by_id(self.name_or_reference_input_id).clear()
@@ -67,7 +67,7 @@ class ApplyForALicencePage():
         self.driver.find_element_by_xpath("//a[text()[contains(.,'Overview')]]").click()
 
     def click_delete_application(self):
-        self.driver.find_element_by_css_selector("[href*='delete'].govuk-link").click()
+        self.driver.find_element_by_css_selector(self.delete_application_button).click()
         self.driver.implicitly_wait(10)
         self.driver.find_element_by_css_selector(".govuk-button--warning").click()
 
