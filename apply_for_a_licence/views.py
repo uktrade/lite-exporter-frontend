@@ -10,8 +10,7 @@ from drafts.services import post_drafts, get_draft, get_draft_goods, post_draft_
     delete_draft
 from goods.services import get_goods, get_good
 from libraries.forms.components import HiddenField, ArrayQuestion, Form, InputType
-from libraries.forms.helpers import get_form_by_pk, get_next_form_after_pk, nest_data, remove_unused_errors, \
-    success_page
+from libraries.forms.helpers import get_form_by_pk, get_next_form_after_pk, nest_data, remove_unused_errors
 from sites.services import get_sites
 
 
