@@ -20,6 +20,9 @@ Feature: Licence
   Scenario: Submit application with organisation sites
     Given I go to exporter homepage
     When I login to exporter homepage with username "test@mail.com" and "password"
+    When I click on goods link
+    When I add a good with description "Good T1" controlled "Yes" control code "1234" incorporated "Yes" and part number "321"
+    When I go to exporter homepage
     When I click on apply for a license button
     When I click on start button
     When I enter in name for application and continue
@@ -49,6 +52,9 @@ Feature: Licence
   Scenario: Submit application with external locations
     Given I go to exporter homepage
     When I login to exporter homepage with username "test@mail.com" and "password"
+    When I click on goods link
+    When I add a good with description "Good T1" controlled "Yes" control code "1234" incorporated "Yes" and part number "321"
+    When I go to exporter homepage
     When I click on apply for a license button
     When I click on start button
     When I enter in name for application and continue
@@ -57,7 +63,6 @@ Feature: Licence
     When I select "yes" for whether I have an export licence and "123456" if I have a reference and continue
     When I click on application locations link
     When I select "external" for where my goods are located
-    Then I do not see add preexisting location button
     When I click on add new address
     When I fill in new external location form with name: "location 1", address: "London" and country: "Ukraine" and continue
     When I click on add new address

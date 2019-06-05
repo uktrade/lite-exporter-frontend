@@ -282,7 +282,7 @@ def click_external_locations(driver):
 
 @when('I click the add from organisations goods button')
 def click_add_from_organisation_button(driver):
-    driver.find_element_by_css_selector('a.govuk-button[href*="add_preexisting"]').click()
+    driver.find_element_by_css_selector('a[href*="add-preexisting"]').click()
 
 
 @when(parsers.parse('I add a good with description "{description}" controlled "{controlled}" control code "{controlcode}" incorporated "{incorporated}" and part number "{part}"'))
