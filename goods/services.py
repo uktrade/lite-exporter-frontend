@@ -1,6 +1,6 @@
 from urllib.parse import urlencode
 
-from conf.client import get, post
+from conf.client import get, post, put, delete
 from conf.constants import GOODS_URL
 
 
@@ -21,4 +21,18 @@ def get_good(request, pk):
 
 def post_goods(request, json):
     data = post(request, GOODS_URL, json)
+    return data.json(), data.status_code
+
+
+def update_good(request, pk, json):
+    data = put(request, GOODS_URL + pk + "/", json)
+    return data.json(), data.status_code
+
+
+def delete_good(request, pk):
+    data = delete(request, GOODS_URL + pk + '/delete')
+    return data.json(), data.status_code
+
+def confirm_delete_good(request, pk):
+    data = delete(request, GOODS_URL + pk + '/confirm_delete')
     return data.json(), data.status_code
