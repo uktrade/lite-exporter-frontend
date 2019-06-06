@@ -149,4 +149,4 @@ class AddExistingExternalLocation(TemplateView):
                 'persistent_bar': create_persistent_bar(draft.get('draft'))
             })
 
-        return redirect(reverse_lazy('apply_for_a_licence:overview', kwargs={'pk': draft_id}))
+        return redirect(reverse_lazy('apply_for_a_licence:external_locations', kwargs={'pk': draft_id}))
