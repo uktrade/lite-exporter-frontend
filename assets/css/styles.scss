@@ -66,6 +66,7 @@ main {
 }
 
 .lite-item-delete {
+	@include govuk-focusable-fill;
 	position: absolute;
 	top: govuk-spacing(4);
 	right: govuk-spacing(4);
