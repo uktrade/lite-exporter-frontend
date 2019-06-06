@@ -13,6 +13,7 @@ from pages.sites_page import SitesPage
 
 from pages.apply_for_a_licence_page import ApplyForALicencePage
 
+from tests.pages.add_end_user_pages import AddEndUserPages
 from tests.pages.add_new_external_location_form_page import AddNewExternalLocationFormPage
 from tests.pages.external_locations_page import ExternalLocationsPage
 from tests.pages.preexisting_locations_page import PreexistingLocationsPage
@@ -302,3 +303,20 @@ def add_new_good(driver, description, controlled,  controlcode, incorporated, pa
     add_goods_page.enter_part_number(good_part)
     exporter_hub.click_save_and_continue()
 
+@when(parsers.parse('I add an end user of type: "{type}", name: "{name}", website: "{website}", address: "{address}" and country "{country}"'))
+def add_new_end_user(driver, type, name, website, address, country):
+    add_end_user_pages = AddEndUserPages(driver)
+    add_end_user_pages.select_type(type)
+    add_end_user_pages.click_continue()
+    add_end_user_pages.enter_name(name)
+    add_end_user_pages.click_continue()
+    add_end_user_pages.enter_website(website)
+    add_end_user_pages.click_continue()
+    add_end_user_pages.enter_address(address)
+    add_end_user_pages.enter_country(country)
+    add_end_user_pages.click_continue()
+
+@when('I click on end user')
+def i_click_on_end_user(driver):
+    app = ApplicationOverviewPage(driver)
+    app.click_end_user_link()

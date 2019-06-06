@@ -154,7 +154,7 @@ def application_is_submitted(driver):
     assert status.is_displayed()
     assert last_updated.is_displayed()
     assert goods.is_displayed()
-    assert status.text == "Application status submitted", "Expected Status of application is to be 'Submitted' but is not"
+    assert status.text == "Submitted", "Expected Status of application is to be 'Submitted' but is not"
     assert "Good" in goods.text
     assert driver.find_element_by_xpath("// th[text()[contains(., 'Status')]]").is_displayed()
     assert driver.find_element_by_xpath("// th[text()[contains(., 'Last Updated')]]").is_displayed()
