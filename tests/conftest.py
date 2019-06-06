@@ -117,6 +117,12 @@ def login_to_exporter(driver, username, password):
     if "login" in driver.current_url:
         exporter_hub.login(username, password)
 
+@when(parsers.parse('I login to exporter homepage with context after edit'))
+def login_to_exporter(driver, password):
+    exporter_hub = ExporterHubPage(driver)
+    if "login" in driver.current_url:
+        exporter_hub.login(context.edited_email, password)
+
 # utils
 @then(parsers.parse('driver title equals "{expected_text}"'))
 def assert_title_text(driver, expected_text):
