@@ -40,6 +40,8 @@ Feature: Licence
     When I click continue
     Then good is added to application
     When I click overview
+    When I click on end user
+    When I add an end user of type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
     When I submit the application
     Then application is submitted
     When I go to exporter homepage

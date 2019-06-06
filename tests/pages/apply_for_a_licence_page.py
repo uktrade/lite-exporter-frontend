@@ -67,7 +67,7 @@ class ApplyForALicencePage():
         self.driver.find_element_by_xpath("//a[text()[contains(.,'Overview')]]").click()
 
     def click_delete_application(self):
-        self.driver.find_element_by_css_selector("[href*='delete'].govuk-link").click()
+        self.driver.find_element_by_css_selector(".cancel-link").click()
         self.driver.implicitly_wait(10)
         self.driver.find_element_by_css_selector(".govuk-button--warning").click()
 
