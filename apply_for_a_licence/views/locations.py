@@ -16,8 +16,13 @@ class Location(TemplateView):
     def get(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
         draft, status_code = get_draft(request, draft_id)
+        data, status_code = get_external_locations_on_draft(request, draft_id)
+        if data['external_locations']:
+            data = {'organisation_or_external': 'external'}
+        else:
+            data = {'organisation_or_external': 'organisation'}
 
-        return form_page(request, which_location_form, extra_data={
+        return form_page(request, which_location_form, data=data, extra_data={
             'persistent_bar': create_persistent_bar(draft.get('draft'))
         })
 
