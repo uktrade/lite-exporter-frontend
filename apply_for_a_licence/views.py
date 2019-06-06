@@ -1,4 +1,3 @@
-from django.http import Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
@@ -10,6 +9,7 @@ from drafts.services import post_drafts, get_draft, get_draft_goods, post_draft_
     delete_draft
 from goods.services import get_goods, get_good
 from libraries.forms.components import HiddenField, ArrayQuestion, Form, InputType
+from libraries.forms.generators import success_page
 from libraries.forms.helpers import get_form_by_pk, get_next_form_after_pk, nest_data, remove_unused_errors
 from sites.services import get_sites
 

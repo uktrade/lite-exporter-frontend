@@ -29,7 +29,7 @@ def pytest_addoption(parser):
     print("touched: " + env)
     parser.addoption("--driver", action="store", default="chrome", help="Type in browser type")
     #parser.addoption("--exporter_url", action="store", default="https://lite-exporter-frontend-" + env + ".london.cloudapps.digital/", help="url")
-    parser.addoption("--exporter_url", action="store", default="localhost:9000/", help="url")
+    parser.addoption("--exporter_url", action="store", default="localhost:8100/", help="url")
     #parser.addoption("--internal_url", action="store", default="https://lite-internal-frontend-" + env + ".london.cloudapps.digital/", help="url")
     parser.addoption("--internal_url", action="store", default="localhost:8080/", help="url")
     parser.addoption("--email", action="store", default= "test@mail.com")
