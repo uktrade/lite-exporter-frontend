@@ -10,8 +10,6 @@ from pages.shared import Shared
 from conftest import context
 from selenium.webdriver.common.by import By
 
-from tests.pages.external_locations_page import ExternalLocationsPage
-
 scenarios('../features/submit_application.feature', strict_gherkin=False)
 
 import logging
@@ -41,11 +39,6 @@ def i_see_the_application_overview(driver):
     assert time_date_submitted in apply.get_text_of_application_results(3), "Created date is incorrect on draft overview"
     app_id = driver.current_url[-36:]
     context.app_id = app_id
-
-
-@then('I do not see add preexisting location button')
-def i_do_not_see_add_preexisting_button(driver):
-    assert len(driver.find_elements_by_css_selector(".govuk-button")) == 1
 
 
 @when('I click drafts')
@@ -93,8 +86,8 @@ def i_see_no_sites_attached_error(driver):
 @when(parsers.parse('I click add to application for the good at position "{no}"'))
 def click_add_to_application_button(driver, no):
 
-    context.goods_name = driver.find_elements_by_css_selector('.lite-card .govuk-heading-s')[int(no)].text
-    context.part_number = driver.find_elements_by_css_selector('.lite-card .govuk-label')[int(no)].text
+    context.goods_name = driver.find_elements_by_css_selector('.lite-item .govuk-heading-s')[int(no)].text
+    context.part_number = driver.find_elements_by_css_selector('.lite-item .govuk-label')[int(no)].text
     driver.find_elements_by_css_selector('a.govuk-button')[int(no)].click()
 
 
