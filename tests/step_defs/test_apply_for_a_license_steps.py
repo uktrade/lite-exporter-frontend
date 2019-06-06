@@ -93,8 +93,8 @@ def i_see_no_sites_attached_error(driver):
 @when(parsers.parse('I click add to application for the good at position "{no}"'))
 def click_add_to_application_button(driver, no):
 
-    context.goods_name = driver.find_elements_by_css_selector('.lite-item .govuk-heading-s')[int(no)].text
-    context.part_number = driver.find_elements_by_css_selector('.lite-item .govuk-label')[int(no)].text
+    context.goods_name = driver.find_elements_by_css_selector('.lite-card .govuk-heading-s')[int(no)].text
+    context.part_number = driver.find_elements_by_css_selector('.lite-card .govuk-label')[int(no)].text
     driver.find_elements_by_css_selector('a.govuk-button')[int(no)].click()
 
 

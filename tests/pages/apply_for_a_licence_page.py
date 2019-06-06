@@ -81,8 +81,8 @@ class ApplyForALicencePage():
         self.driver.find_element_by_xpath("//*[text()[contains(.,'Add from organisations goods')]]").click()
 
     def add_good_to_application(self, des):
-        good = self.driver.find_element_by_xpath("//div[@class='lite-item']/h4[text()='" + des + "']")
-        # goods = self.driver.find_elements_by_xpath("//div[@class='lite-item']")
+        good = self.driver.find_element_by_xpath("//div[@class='lite-card']/h4[text()='" + des + "']")
+        # goods = self.driver.find_elements_by_xpath("//div[@class='lite-card']")
         # for good in goods:
         #     if good.find_element(By.TAG_NAME, "h4").text == des:
         good.find_element(By.XPATH, "./following::div[1]/a[text()='Add to application']").click()

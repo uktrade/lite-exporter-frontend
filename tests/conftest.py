@@ -226,7 +226,7 @@ def assert_checkbox_at_position(driver, position_number):
 
 @then(parsers.parse('I see "{number_of_locations}" locations'))
 def i_see_a_number_of_locations(driver, number_of_locations):
-    assert len(driver.find_elements_by_css_selector('.lite-item')) == int(number_of_locations)
+    assert len(driver.find_elements_by_css_selector('.lite-card')) == int(number_of_locations)
 
 
 @when('I click on add new address')
