@@ -14,7 +14,7 @@ if os.path.exists(ENV_FILE):
 env = Env(
     ALLOWED_HOSTS=(str, ''),
     DEBUG=(bool, False),
-    DEBUG_LEVEL=(str, 'INFO'),
+    LOG_LEVEL=(str, 'INFO'),
 )
 
 # Quick-start development settings - unsuitable for production
@@ -119,7 +119,8 @@ USE_TZ = True
 DATA_DIR = os.path.dirname(BASE_DIR)
 
 SVG_DIRS = [
-    os.path.join(BASE_DIR, 'assets/images')
+    os.path.join(BASE_DIR, 'assets/images'),
+    os.path.join(BASE_DIR, 'lite-shared-assets/lite-frontend/assets/images'),
 ]
 
 STATIC_URL = '/assets/'
@@ -183,7 +184,7 @@ LOGGING = {
     'loggers': {
         '': {
             'handlers': ['console'],
-            'level': env('DEBUG_LEVEL').upper(),
+            'level': env('LOG_LEVEL').upper(),
         },
     }
 }

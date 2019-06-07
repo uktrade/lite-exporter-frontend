@@ -1,12 +1,9 @@
 // Set default page width
 $govuk-page-width: 1000px !default;
-
 // GOV.UK Design System
 @import "../../lite-shared-assets/node_modules/govuk-frontend/all";
-
 // LITE Shared Assets
 @import "../../lite-shared-assets/lite-frontend/scss/all";
-
 // Local Assets
 @import "components/all";
 
@@ -14,33 +11,49 @@ main {
 	min-height: 60vh;
 }
 
+.lite-submit-bar {
+	padding: govuk-spacing(6) 0;
+	background-color: white;
+
+	* {
+		margin: 0!important;
+	}
+
+	&:before {
+		content: "";
+		position: absolute;
+		left: -50px;
+		right: -50px;
+		top: -20px;
+		height: 20px;
+		background: linear-gradient(transparent, rgba(0,0,0,0.025));
+		border-bottom: 1px solid rgb(230, 230, 230);
+		mask-image: linear-gradient(90deg, rgba(0, 0, 0, 1.0), transparent);
+		-webkit-mask-image: -webkit-linear-gradient(left, transparent, black 5%, black 95%, transparent 100%);
+		transition: .2s ease;
+	}
+}
+
+.js-is-sticky {
+	bottom: 0;
+}
+
+.js-is-stuck {
+	&:before {
+		opacity: 0;
+	}
+}
+
 .lite-overview-section-header {
 	display: inline-block;
 	@include govuk-font($size: 24, $weight: bold);
 	text-decoration: none;
 	margin-bottom: govuk-spacing(1);
-
-	&:after {
-		content: "_";
-		display: inline-block;
-		position: relative;
-		width: 10px;
-		background-image: url("/assets/images/overview_chevron.svg");
-		background-position: center;
-		background-size: contain;
-		background-repeat: no-repeat;
-		color: transparent;
-		margin-left: govuk-spacing(2);
-		transform: translateY(-2px);
+	&:hover {
+	    text-decoration: underline;
 	}
 }
 
-.lite-item {
-	background-color: govuk-colour("grey-4");
-	border: 1px solid darken(govuk-colour("grey-4"), 2%);
-	padding: govuk-spacing(4);
-	margin-bottom: govuk-spacing(6);
-}
 
 .no-borders {
 	margin: 0;

@@ -56,10 +56,10 @@ edit_form = Form(title='Edit Good', description='', caption='', questions=[
                   input_type=InputType.RADIOBUTTONS,
                   name='is_good_controlled',
                   data=[
-                      Option(key='yes',
+                      Option(key=True,
                              value='Yes',
                              show_pane='pane_control_code'),
-                      Option(key='no',
+                      Option(key=False,
                              value='No')
                   ],
                   same_row=True),
@@ -72,9 +72,9 @@ edit_form = Form(title='Edit Good', description='', caption='', questions=[
                   input_type=InputType.RADIOBUTTONS,
                   name='is_good_end_product',
                   data=[
-                      Option(key='yes',
+                      Option(key=True,
                              value='Yes'),
-                      Option(key='no',
+                      Option(key=False,
                              value='No')
                   ],
                   same_row=True),
