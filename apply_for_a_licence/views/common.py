@@ -49,7 +49,6 @@ class Overview(TemplateView):
         context = {
             'title': 'Draft Overview',
             'draft': data.get('draft'),
-            'persistent_bar': create_persistent_bar(data.get('draft')),
             'sites': sites['sites'],
             'goods': goods['goods'],
             'external_locations': external_locations['external_locations'],
@@ -66,7 +65,6 @@ class Overview(TemplateView):
             context = {
                 'title': 'Draft Overview',
                 'draft': draft.get('draft'),
-                'persistent_bar': create_persistent_bar(draft.get('draft')),
                 'errors': data.get('errors'),
             }
             return render(request, 'apply_for_a_licence/overview.html', context)
