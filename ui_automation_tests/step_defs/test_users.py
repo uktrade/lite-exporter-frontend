@@ -72,8 +72,8 @@ def test_edit_users(driver, exporter_url):
 
     full_name = "Test user_2"
     email = context.email_to_search
-    password = "1234"
-    email_edited = "testuser_2_edited@mail.com"
+    password = "password"
+    email_edited = "testuser_2_edited1@mail.com"
     # Given I am a logged-in user # I want to deactivate users # When I choose the option to manage users
     exporter_hub.click_users()
 
@@ -88,13 +88,13 @@ def test_edit_users(driver, exporter_url):
     assert utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'Test_edited user_2_edited')]]")
     assert utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'Test_edited')]]")
     assert utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'user_2_edited')]]")
-    assert utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'testuser_2_edited@mail.com')]]")
+    assert utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'" + email_edited + "')]]")
 
     exporter_hub.go_to(exporter_url)
     exporter_hub.click_users()
 
     assert utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'Test_edited user_2_edited')]]")
-    assert utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'testuser_2_edited1@mail.com')]]")
+    assert utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'" + email_edited + "')]]")
 
     exporter_hub.logout()
     exporter_hub.login(email_edited, password)
