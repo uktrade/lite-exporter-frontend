@@ -14,68 +14,42 @@ class Goods(TemplateView):
         data, status_code = get_goods(request)
 
         context = {
-          'data': data,
-          'title': 'Manage Goods',
+            'data': data,
+            'title': 'Manage Goods',
         }
         return render(request, 'goods/index.html', context)
 
 
 class AddGood(TemplateView):
     def get(self, request, **kwargs):
-        context = {
-            'title': 'Add Good',
-            'page': forms.form,
-        }
-        return render(request, 'form.html', context)
+        return form_page(request, forms.form)
 
     def post(self, request, **kwargs):
         data, status_code = post_goods(request, request.POST)
 
         if status_code == 400:
-            context = {
-                'title': 'Add Good',
-                'page': forms.form,
-                'data': request.POST,
-                'errors': data.get('errors')
-            }
-            return render(request, 'form.html', context)
+            return form_page(request, forms.form, request.POST, errors=data['errors'])
 
-        return redirect('/goods/')
-
-
+        return redirect(reverse_lazy('goods:goods'))
 
 
 class EditGood(TemplateView):
-
     def get(self, request, **kwargs):
         data, status_code = get_good(request, str(kwargs['pk']))
-        context = {
-            'title': 'Edit Good',
-            'page': forms.edit_form,
-            'data': data['good'],
-        }
         return form_page(request, edit_form, data['good'])
 
     def post(self, request, **kwargs):
-        data, status_code = update_good(request, str(kwargs['pk']),
-                                        request.POST)
+        data, status_code = update_good(request, str(kwargs['pk']), request.POST)
 
         if status_code == 400:
-            context = {
-                'title': 'Edit Good',
-                'page': forms.edit_form,
-                'data': request.POST,
-                'errors': data.get('errors')
-            }
-            return render(request, 'form.html', context)
-        return redirect('/goods/')
+            return form_page(request, edit_form, request.POST, errors=data['errors'])
+
+        return redirect(reverse_lazy('goods:goods'))
 
 
 class DeleteGood(TemplateView):
-
     def get(self, request, **kwargs):
         data, status_code = get_good(request, str(kwargs['pk']))
-        print('get')
         if data['good']['status'] != 'draft':
             context = {
                 'title': 'Cannot Delete Good',
@@ -86,12 +60,11 @@ class DeleteGood(TemplateView):
             context = {
                 'good': data['good'],
                 'title': 'Delete Good',
-                'description': 'Are you sure you want to delete this good',
+                'description': 'Are you sure you want to delete this good?',
                 'flag': 'can_delete',
             }
         return render(request, 'goods/confirm_delete.html', context)
 
     def post(self, request, **kwargs):
-        print('post')
         delete_good(request, str(kwargs['pk']))
-        return redirect('/goods/')
+        return redirect(reverse_lazy('goods:goods'))
