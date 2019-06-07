@@ -320,3 +320,7 @@ def add_new_end_user(driver, type, name, website, address, country):
 def i_click_on_end_user(driver):
     app = ApplicationOverviewPage(driver)
     app.click_end_user_link()
+
+@when('I click on application overview')
+def i_click_on_application_overview(driver):
+    driver.find_element_by_css_selector("a[href*='overview'").click()
