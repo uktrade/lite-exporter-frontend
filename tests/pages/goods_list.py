@@ -21,4 +21,3 @@ class GoodsList():
 
     def click_on_delete_good_button(self):
         self.driver.find_element_by_css_selector(self.goods_delete_button).click()
-

@@ -2,24 +2,16 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
-from apply_for_a_licence import forms
+from apply_for_a_licence.forms import initial, goods
+from apply_for_a_licence.forms.end_user import new_end_user_form
+from apply_for_a_licence.helpers import create_persistent_bar
 from core.builtins.custom_tags import get_string
-from core.services import get_units, post_sites_on_draft, get_sites_on_draft
+from core.services import get_units, get_sites_on_draft, get_external_locations_on_draft
 from drafts.services import post_drafts, get_draft, get_draft_goods, post_draft_preexisting_goods, submit_draft, \
-    delete_draft
+    delete_draft, post_end_user
 from goods.services import get_goods, get_good
-from libraries.forms.components import HiddenField, ArrayQuestion, Form, InputType
-from libraries.forms.generators import success_page
-from libraries.forms.helpers import get_form_by_pk, get_next_form_after_pk, nest_data, remove_unused_errors
-from sites.services import get_sites
-
-
-def create_persistent_bar(draft):
-    return {
-        'caption': 'Currently viewing:',
-        'text': draft.get('name'),
-        'url': reverse_lazy('apply_for_a_licence:overview', kwargs={'pk': draft.get('id')}),
-    }
+from libraries.forms.generators import form_page, success_page
+from libraries.forms.submitters import submit_paged_form
 
 
 class StartApplication(TemplateView):
@@ -33,65 +25,33 @@ class StartApplication(TemplateView):
 
 class InitialQuestions(TemplateView):
     def get(self, request, **kwargs):
-        context = {
-            'page': forms.initial_questions.forms[0],
-            'title': forms.initial_questions.forms[0].title,
-        }
-        return render(request, 'form.html', context)
+        return form_page(request, initial.initial_questions.forms[0])
 
     def post(self, request, **kwargs):
-        data = request.POST.copy()
+        response, data = submit_paged_form(request, initial.initial_questions, post_drafts)
 
-        # Get the next form based off form_pk
-        current_form = get_form_by_pk(data.get('form_pk'), forms.initial_questions)
-        next_form = get_next_form_after_pk(data.get('form_pk'), forms.initial_questions)
+        # If there are more forms to go through, continue
+        if response:
+            return response
 
-        # Remove form_pk and CSRF from POST data as the new form will replace them
-        del data['form_pk']
-        del data['csrfmiddlewaretoken']
-
-        # Post the data to the validator and check for errors
-        nested_data = nest_data(data)
-        validated_data, status_code = post_drafts(request, nested_data)
-
-        if 'errors' in validated_data:
-            validated_data['errors'] = remove_unused_errors(validated_data['errors'], current_form)
-
-            # If there are errors in the validated data, take the user back
-            if len(validated_data['errors']) is not 0:
-                context = {
-                    'page': current_form,
-                    'title': current_form.title,
-                    'errors': validated_data['errors'],
-                    'data': data,
-                }
-                return render(request, 'form.html', context)
-
-        # If there aren't any forms left to go through, submit all the data and go to the overview page
-        if next_form is None:
-            draft_pk = validated_data['draft']['id']
-            return redirect(reverse_lazy('apply_for_a_licence:overview', kwargs={'pk': draft_pk}))
-
-        # Add existing post data to new form as hidden fields
-        for key, value in data.items():
-            next_form.questions.append(HiddenField(key, value))
-
-        # Go to the next page
-        context = {
-            'page': next_form,
-            'title': next_form.title,
-        }
-        return render(request, 'form.html', context)
+        # If there is no response (no forms left to go through), go to the overview page
+        return redirect(reverse_lazy('apply_for_a_licence:overview', kwargs={'pk': data['draft']['id']}))
 
 
 class Overview(TemplateView):
     def get(self, request, **kwargs):
-        data, status_code = get_draft(request, str(kwargs['pk']))
+        draft_id = str(kwargs['pk'])
+        data, status_code = get_draft(request, draft_id)
+        sites, status_code = get_sites_on_draft(request, draft_id)
+        goods, status_code = get_draft_goods(request, draft_id)
+        external_locations, status_code = get_external_locations_on_draft(request, draft_id)
 
         context = {
             'title': 'Draft Overview',
             'draft': data.get('draft'),
-            'persistent_bar': create_persistent_bar(data.get('draft')),
+            'sites': sites['sites'],
+            'goods': goods['goods'],
+            'external_locations': external_locations['external_locations'],
         }
         return render(request, 'apply_for_a_licence/overview.html', context)
 
@@ -105,7 +65,6 @@ class Overview(TemplateView):
             context = {
                 'title': 'Draft Overview',
                 'draft': draft.get('draft'),
-                'persistent_bar': create_persistent_bar(draft.get('draft')),
                 'errors': data.get('errors'),
             }
             return render(request, 'apply_for_a_licence/overview.html', context)
@@ -164,7 +123,7 @@ class AddPreexistingGood(TemplateView):
 
         context = {
             'title': 'Add a pre-existing good to your application',
-            'page': forms.preexisting_good_form(good.get('id'),
+            'page': goods.preexisting_good_form(good.get('id'),
                                                 good.get('description'),
                                                 good.get('control_code'),
                                                 good.get('part_number'),
@@ -184,7 +143,7 @@ class AddPreexistingGood(TemplateView):
 
             context = {
                 'title': 'Add a pre-existing good to your application',
-                'page': forms.preexisting_good_form(good.get('id'),
+                'page': goods.preexisting_good_form(good.get('id'),
                                                     good.get('description'),
                                                     good.get('control_code'),
                                                     good.get('part_number'),
@@ -222,54 +181,25 @@ class DeleteApplication(TemplateView):
         return redirect('/?application_deleted=true')
 
 
-# Sites
+# End User
 
 
-class Sites(TemplateView):
+class EndUser(TemplateView):
     def get(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
         draft, status_code = get_draft(request, draft_id)
-        response, status_code = get_sites_on_draft(request, draft_id)
 
-        # Create the form
-        sites_form = Form(title='Where are your goods located?',
-                          description='Select all sites that apply.',
-                          questions=[ArrayQuestion('', '', InputType.CHECKBOXES, 'sites', get_sites(request, True))],
-                          default_button_name='Save and continue')
-
-        context = {
-            'title': sites_form.title,
-            'draft_id': draft_id,
-            'page': sites_form,
-            'data': response,
-            'persistent_bar': create_persistent_bar(draft.get('draft')),
-        }
-        return render(request, 'form.html', context)
+        return form_page(request, new_end_user_form.forms[0], extra_data={
+            'persistent_bar': create_persistent_bar(draft.get('draft'))
+        })
 
     def post(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
-        draft, status_code = get_draft(request, draft_id)
+        response, data = submit_paged_form(request, new_end_user_form, post_end_user, pk=draft_id)
 
-        data = {'sites': request.POST.getlist('sites')}
+        # If there are more forms to go through, continue
+        if response:
+            return response
 
-        response, status_code = post_sites_on_draft(request, draft_id, data)
-
-        if status_code != 201:
-            draft_id = request.GET.get('id')
-
-            # Create the form
-            sites_form = Form(title='Where are your goods located?',
-                              description='Select all sites that apply.',
-                              questions=[ArrayQuestion('', '', InputType.CHECKBOXES, 'sites', get_sites(request, True))],
-                              default_button_name='Save and continue')
-
-            context = {
-                'title': sites_form.title,
-                'draft_id': draft_id,
-                'page': sites_form,
-                'errors': response.get('errors'),
-                'persistent_bar': create_persistent_bar(draft.get('draft')),
-            }
-            return render(request, 'form.html', context)
-
+        # If there is no response (no forms left to go through), go to the overview page
         return redirect(reverse_lazy('apply_for_a_licence:overview', kwargs={'pk': draft_id}))

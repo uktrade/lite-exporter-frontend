@@ -47,5 +47,3 @@ def rollback_goods(driver):
         goods_list = GoodsList(driver)
         driver.find_element_by_css_selector("[href*='goods/delete/']").click()
         goods_list.click_on_delete_good_button()
-
-
