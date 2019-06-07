@@ -74,9 +74,7 @@ class InitialQuestions(TemplateView):
 
         # Add existing post data to new form as hidden fields
         for key, value in data.items():
-            next_form.questions.append(
-                HiddenField(key, value)
-            )
+            next_form.questions.append(HiddenField(key, value))
 
         # Go to the next page
         context = {
@@ -117,11 +115,7 @@ class Overview(TemplateView):
                             secondary_title='',
                             description='',
                             what_happens_next=[],
-                            links={
-                                'Go to applications': reverse_lazy('applications:applications')
-                            })
-
-
+                            links={'Go to applications': reverse_lazy('applications:applications')})
 # Goods
 
 class DraftGoodsList(TemplateView):
@@ -240,9 +234,7 @@ class Sites(TemplateView):
         # Create the form
         sites_form = Form(title='Where are your goods located?',
                           description='Select all sites that apply.',
-                          questions=[
-                              ArrayQuestion('', '', InputType.CHECKBOXES, 'sites', get_sites(request, True))
-                          ],
+                          questions=[ArrayQuestion('', '', InputType.CHECKBOXES, 'sites', get_sites(request, True))],
                           default_button_name='Save and continue')
 
         context = {
@@ -258,9 +250,7 @@ class Sites(TemplateView):
         draft_id = str(kwargs['pk'])
         draft, status_code = get_draft(request, draft_id)
 
-        data = {
-            'sites': request.POST.getlist('sites')
-        }
+        data = {'sites': request.POST.getlist('sites')}
 
         response, status_code = post_sites_on_draft(request, draft_id, data)
 
@@ -270,9 +260,7 @@ class Sites(TemplateView):
             # Create the form
             sites_form = Form(title='Where are your goods located?',
                               description='Select all sites that apply.',
-                              questions=[
-                                  ArrayQuestion('', '', InputType.CHECKBOXES, 'sites', get_sites(request, True))
-                              ],
+                              questions=[ArrayQuestion('', '', InputType.CHECKBOXES, 'sites', get_sites(request, True))],
                               default_button_name='Save and continue')
 
             context = {
