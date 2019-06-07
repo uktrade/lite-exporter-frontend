@@ -15,6 +15,7 @@ Feature: Licence
 
   Scenario: Delete application from draft
     Given I go to exporter homepage
+    When I login to exporter homepage with username "test@mail.com" and "password"
     When I click drafts
     When I click the application
     When I delete the application
