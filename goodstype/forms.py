@@ -10,7 +10,7 @@ form = Form(title='Add Goods Type', description='', caption='', questions=[
                  'max_length': 280,
              }),
     ArrayQuestion(title='Is your good controlled?',
-                  description='If you don\'t know you can use <a class="govuk-link" href="' + env('PERMISSIONS_FINDER_URL') + '">Permissions Finder</a>.',
+                  description='If you don\'t know you can use <a class="govuk-link" target="_blank" href="https://permissions-finder.service.trade.gov.uk/">Permissions Finder</a>.',
                   input_type=InputType.RADIOBUTTONS,
                   name='is_good_controlled',
                   data=[
