@@ -1,4 +1,5 @@
 from libraries.forms.components import Form, ArrayQuestion, InputType, DetailComponent, Question, Option, Section
+from conf.settings import env
 
 initial_questions = Section('', '', [
     Form('Enter a reference name for this application',
@@ -33,16 +34,17 @@ initial_questions = Section('', '', [
                                                         'class="govuk-visually-hidden"> (Opens in a new window or '
                                                         'tab)</span></a>.', )
     ], default_button_name='Continue'),
-    Form('Do you want to export temporarily or permanently', '', [
-        ArrayQuestion(title='',
-                      description='',
-                      input_type=InputType.RADIOBUTTONS,
-                      name='export_type',
-                      data=[
-                          Option('temporary', 'Temporarily'),
-                          Option('permanent', 'Permanently')
-                      ]),
-    ], default_button_name='Continue'),
+    Form('Do you want to export temporarily or permanently', '',
+         [
+            ArrayQuestion(title='',
+                          description='',
+                          input_type=InputType.RADIOBUTTONS,
+                          name='export_type',
+                          data=[
+                              Option('temporary', 'Temporarily'),
+                              Option('permanent', 'Permanently')
+                          ]),
+         ], default_button_name='Continue'),
     Form('Have you been told that you need an export licence by an official?',
          'This could be a letter or email from HMRC or another government department.',
          [
