@@ -44,6 +44,7 @@ class Overview(TemplateView):
         data, status_code = get_draft(request, draft_id)
         sites, status_code = get_sites_on_draft(request, draft_id)
         goods, status_code = get_draft_goods(request, draft_id)
+        goodstypes, status_code = get_draft_goodstype(request, draft_id)
         external_locations, status_code = get_external_locations_on_draft(request, draft_id)
 
         context = {
@@ -51,6 +52,7 @@ class Overview(TemplateView):
             'draft': data.get('draft'),
             'sites': sites['sites'],
             'goods': goods['goods'],
+            'goodstypes': goodstypes['goods'],
             'external_locations': external_locations['external_locations'],
         }
         return render(request, 'apply_for_a_licence/overview.html', context)

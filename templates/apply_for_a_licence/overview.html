@@ -103,7 +103,7 @@
                 </a>
             {% endif %}
 		</div>
-		{% if goods|length %}
+		{% if goods|length or goodstypes|length %}
 			<div class="lite-info-label lite-info-label--blue">
 				Done
 			</div>
@@ -118,7 +118,56 @@
 			{{ errors|key_value:'goods' }}
 		</p>
 	{% endif %}
-	<p class="govuk-caption-m">Add goods to your application</p>
+    {% if draft.licence_type == 'standard_licence' and goods %}
+		<table class="govuk-table">
+			<tbody class="govuk-table__body">
+				<tr class="govuk-table__row">
+					<th class="govuk-table__header" scope="row">Name</th>
+                    <th class="govuk-table__header" scope="row">Part Number</th>
+                    <th class="govuk-table__header" scope="row">Qty</th>
+					<th class="govuk-table__header" scope="row">Unit</th>
+                    <th class="govuk-table__header" scope="row">Value Per Good</th>
+				</tr>
+				{% for good in goods %}
+					<tr class="govuk-table__row">
+						<td class="govuk-table__cell" scope="row">{{ good.good.name }}</td>
+                        <td class="govuk-table__cell" scope="row">{{ good.good.part_number }}</td>
+                        <td class="govuk-table__cell" scope="row">{{ good.quantity }}</td>
+                        <td class="govuk-table__cell" scope="row">{{ good.unit }}</td>
+                        <td class="govuk-table__cell" scope="row">£{{ good.value }}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+    {% elif draft.licence_type == 'standard_licence' and not goods %}
+		<p class="govuk-caption-m">Add goods to your application</p>
+	{% endif %}
+
+	{% if draft.licence_type == 'open_licence' and goodstypes %}
+		<table class="govuk-table">
+			<tbody class="govuk-table__body">
+				<tr class="govuk-table__row">
+                    <th class="govuk-table__header" scope="row">Description</th>
+					<th class="govuk-table__header" scope="row">Control Code</th>
+				</tr>
+				{% for goodstype in goodstypes %}
+
+					<tr class="govuk-table__row">
+						<td class="govuk-table__cell" scope="row">{{ goodstype.description }}</td>
+                        {% if goodstype.control_code %}
+						    <td class="govuk-table__cell" scope="row">{{ goodstype.control_code }}</td>
+                        {% else %}
+                            <td class="govuk-table__cell" scope="row">N/A</td>
+                        {% endif %}
+                    </tr>
+				{% endfor %}
+			</tbody>
+		</table>
+    {% elif draft.licence_type == 'open_licence' and not goodstypes %}
+		<p class="govuk-caption-m">Add good types to your application</p>
+    {% endif %}
+
+
 </div>
 
 <div class="lite-section {% if errors|key_value:'sites' %}govuk-form-group--error{% endif %}">
