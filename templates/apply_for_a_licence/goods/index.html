@@ -11,7 +11,9 @@
 	<div class="lite-app-bar">
 		<h2 class="govuk-heading-l">{{ title }}</h2>
 		<div class="lite-app-bar--right">
-			{% block right_button %}<a href="{% url 'apply_for_a_licence:preexisting_good' draft_id %}" role='button' draggable='false' class='govuk-button'>Add from organisations goods</a>{% endblock %}
+			{% block right_button %}
+                <a href="{% url 'apply_for_a_licence:preexisting_good' draft_id %}" role='button' draggable='false' class='govuk-button'>Add from organisations goods</a>
+            {% endblock %}
 		</div>
 	</div>
 

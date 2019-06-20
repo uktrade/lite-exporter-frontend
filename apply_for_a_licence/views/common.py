@@ -8,7 +8,7 @@ from apply_for_a_licence.helpers import create_persistent_bar
 from core.builtins.custom_tags import get_string
 from core.services import get_units, get_sites_on_draft, get_external_locations_on_draft
 from drafts.services import post_drafts, get_draft, get_draft_goods, post_draft_preexisting_goods, submit_draft, \
-    delete_draft, post_end_user, get_draft_goodstype
+    delete_draft, post_end_user, get_draft_goods_type
 from goods.services import get_goods, get_good
 from libraries.forms.generators import form_page, success_page
 from libraries.forms.submitters import submit_paged_form
@@ -44,7 +44,7 @@ class Overview(TemplateView):
         data, status_code = get_draft(request, draft_id)
         sites, status_code = get_sites_on_draft(request, draft_id)
         goods, status_code = get_draft_goods(request, draft_id)
-        goodstypes, status_code = get_draft_goodstype(request, draft_id)
+        goodstypes, status_code = get_draft_goods_type(request, draft_id)
         external_locations, status_code = get_external_locations_on_draft(request, draft_id)
 
         context = {
@@ -135,7 +135,7 @@ class DraftOpenGoodsTypeList(TemplateView):
     def get(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
         draft, status_code = get_draft(request, draft_id)
-        data, status_code = get_draft_goodstype(request, draft_id)
+        data, status_code = get_draft_goods_type(request, draft_id)
 
         context = {
             'title': 'Application Goodstype',

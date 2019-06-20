@@ -5,11 +5,11 @@ from django.views.generic import TemplateView
 from libraries.forms.generators import form_page
 from conf.constants import DRAFT_CONTENT_TYPE_ID
 from goodstype import forms
-from goodstype.services import get_goodstypes, post_goodstype, get_goodstype
+from goodstype.services import get_goods_types, post_goods_type, get_goods_type
 
 class GoodsType(TemplateView):
     def get(self, request, pk):
-        data, status_code = get_goodstype(request, pk)
+        data, status_code = get_goods_type(request, pk)
 
         context = {
             'data': data,
@@ -26,7 +26,7 @@ class AddGoodsType(TemplateView):
         copied_post = request.POST.copy()
         copied_post['content_type'] = DRAFT_CONTENT_TYPE_ID
         copied_post['object_id'] = kwargs.get('pk')
-        data, status_code = post_goodstype(request, copied_post)
+        data, status_code = post_goods_type(request, copied_post)
 
         if status_code == 400:
             return form_page(request, forms.form, request.POST, errors=data['errors'])
@@ -42,7 +42,7 @@ class DraftAddGoodsType(TemplateView):
         copied_post = request.POST.copy()
         copied_post['content_type'] = DRAFT_CONTENT_TYPE_ID
         copied_post['object_id'] = str(kwargs.get('pk'))
-        data, status_code = post_goodstype(request, copied_post)
+        data, status_code = post_goods_type(request, copied_post)
 
         if status_code == 400:
             return form_page(request, forms.form, request.POST, errors=data['errors'])

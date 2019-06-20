@@ -1,5 +1,4 @@
 from libraries.forms.components import Form, ArrayQuestion, InputType, DetailComponent, Question, Option, Section
-from conf.settings import env
 
 initial_questions = Section('', '', [
     Form('Enter a reference name for this application',

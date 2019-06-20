@@ -1,7 +1,5 @@
 from django.urls import path
-
 from apply_for_a_licence.views import common, locations
-from goods import views
 from goodstype import views as goodstypeviews
 
 app_name = 'apply_for_a_licence'
