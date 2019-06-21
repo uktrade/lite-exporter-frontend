@@ -35,7 +35,7 @@ Feature: Licence
     When I click add to application for the good at position "1"
     When I click continue
     Then I see enter valid quantity and valid value error message
-    When I add values to my good of "1" quantity "123" and unit of measurement "Metres"
+    When I add values to my good of "1.23" quantity "123" and unit of measurement "Metres"
     When I click continue
     Then good is added to application
     When I click overview
