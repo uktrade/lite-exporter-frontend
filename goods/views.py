@@ -43,7 +43,6 @@ class DraftAddGood(TemplateView):
         if status_code == 400:
             return form_page(request, forms.form, request.POST, errors=data['errors'])
 
-        print(kwargs)
         return redirect(reverse_lazy('apply_for_a_licence:overview'), kwargs['pk'])
 
 
