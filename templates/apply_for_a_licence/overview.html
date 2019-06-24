@@ -144,7 +144,7 @@
 	{% endif %}
 
 	{% if draft.licence_type == 'open_licence' and goodstypes %}
-		<table class="govuk-table">
+		<table id="good_types_table_overview" class="govuk-table">
 			<tbody class="govuk-table__body">
 				<tr class="govuk-table__row">
                     <th class="govuk-table__header" scope="row">Description</th>
@@ -157,7 +157,7 @@
                         {% if goodstype.control_code %}
 						    <td class="govuk-table__cell" scope="row">{{ goodstype.control_code }}</td>
                         {% else %}
-                            <td class="govuk-table__cell" scope="row">N/A</td>
+                            <td  class="govuk-table__cell" scope="row">N/A</td>
                         {% endif %}
                     </tr>
 				{% endfor %}

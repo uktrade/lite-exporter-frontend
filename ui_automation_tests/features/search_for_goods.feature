@@ -6,7 +6,7 @@ Feature: Goods
     Given I go to exporter homepage
     When I login to exporter homepage with username "test@mail.com" and "password"
     When I click on goods link
-    When I add a good with description "Good to search" controlled "Yes" control code "1234" incorporated "Yes" and part number "321"
+    When I add a good or good type with description "Good to search" controlled "Yes" control code "1234" incorporated "Yes" and part number "321"
     When I go to exporter homepage
     When I click on apply for a license button
     When I click on start button
@@ -23,7 +23,7 @@ Feature: Goods
     Given I go to exporter homepage
     When I login to exporter homepage with username "test@mail.com" and "password"
     When I click on goods link
-    When I add a good with description "Good to search" controlled "Yes" control code "1234" incorporated "Yes" and part number "999"
+    When I add a good or good type with description "Good to search" controlled "Yes" control code "1234" incorporated "Yes" and part number "999"
     When I go to exporter homepage
     When I click on apply for a license button
     When I click on start button
@@ -40,7 +40,7 @@ Feature: Goods
     Given I go to exporter homepage
     When I login to exporter homepage with username "test@mail.com" and "password"
     When I click on goods link
-    When I add a good with description "Good to search" controlled "Yes" control code "1234" incorporated "Yes" and part number "999"
+    When I add a good or good type with description "Good to search" controlled "Yes" control code "1234" incorporated "Yes" and part number "999"
     When I go to exporter homepage
     When I click on apply for a license button
     When I click on start button

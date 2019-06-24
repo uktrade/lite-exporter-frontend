@@ -138,7 +138,7 @@ class DraftOpenGoodsTypeList(TemplateView):
         data, status_code = get_draft_goods_type(request, draft_id)
 
         context = {
-            'title': 'Application Goodstype',
+            'title': 'Application Goods Type',
             'draft_id': draft_id,
             'data': data,
             'draft': draft,

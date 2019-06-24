@@ -14,11 +14,11 @@ Feature: Licence
     Then I see the application overview
     When I delete the application
 
-  Scenario: Submit application
+  Scenario: Submit standard application
     Given I go to exporter homepage
     When I login to exporter homepage with username "test@mail.com" and "password"
     When I click on goods link
-    When I add a good with description "Good T1" controlled "Yes" control code "1234" incorporated "Yes" and part number "321"
+    When I add a good or good type with description "Good T1" controlled "Yes" control code "1234" incorporated "Yes" and part number "321"
     When I go to exporter homepage
     When I click on apply for a license button
     When I click on start button
@@ -47,11 +47,38 @@ Feature: Licence
     When I click applications
     Then I see submitted application
 
+  Scenario: Submit open application
+    Given I go to exporter homepage
+    When I login to exporter homepage with username "test@mail.com" and "password"
+    When I click on goods link
+    When I add a good or good type with description "Good T1" controlled "Yes" control code "1234" incorporated "Yes" and part number "321"
+    When I go to exporter homepage
+    When I click on apply for a license button
+    When I click on start button
+    When I enter in name for application and continue
+    When I select "open" application and continue
+    When I select "permanent" option and continue
+    When I select "yes" for whether I have an export licence and "123456" if I have a reference and continue
+    When I click on goods link
+    When I click Add goods type button
+    When I add a good or good type with description "Good Type T1" controlled "Yes" control code "1234" incorporated "Yes" and part number "empty"
+    Then I see my goods type added at position "1" with a description and a control code
+    When I click overview
+    Then I see my goods type added to the overview page with a description and a control code
+
+    When I click on end user
+    When I add an end user of type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
+    When I submit the application
+    Then application is submitted
+    When I go to exporter homepage
+    When I click applications
+    Then I see submitted application
+
 Scenario: Submit application with external locations
     Given I go to exporter homepage
     When I login to exporter homepage with username "test@mail.com" and "password"
     When I click on goods link
-    When I add a good with description "Good T1" controlled "Yes" control code "1234" incorporated "Yes" and part number "321"
+    When I add a good or good type with description "Good T1" controlled "Yes" control code "1234" incorporated "Yes" and part number "321"
     When I go to exporter homepage
     When I click on apply for a license button
     When I click on start button
@@ -114,3 +141,5 @@ Scenario: Submit application with external locations
     When I select "yes" for whether I have an export licence and "123456" if I have a reference and continue
     When I delete the application
     Then I see the homepage
+
+
