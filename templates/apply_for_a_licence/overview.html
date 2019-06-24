@@ -181,6 +181,42 @@
 	{% endif %}
 </div>
 
+<div class="lite-section {% if errors|key_value:'countries' %}govuk-form-group--error{% endif %}">
+	<div class="lite-section-header">
+		<div>
+			<a id="countries" href="{% url 'apply_for_a_licence:countries' draft.id %}" class="lite-overview-section-header govuk-link govuk-link--no-visited-state">
+				Where are your goods going?
+			</a>
+		</div>
+		{% if countries %}
+			<div class="lite-info-label lite-info-label--blue">
+				Done
+			</div>
+		{% else %}
+			<div class="lite-info-label">
+				Not Started
+			</div>
+		{% endif %}
+	</div>
+	{% if errors|key_value:'countries' %}
+		<p class="govuk-error-message">
+			{{ errors|key_value:'countries' }}
+		</p>
+	{% endif %}
+
+	<p class="govuk-caption-m">Select all the countries that your goods are going to</p>
+
+	<div style="display: none;">
+		<div id="countries-data">
+			{% for country in countries %}
+				<p class="govuk-label">{{ country.name }}</p>
+			{% endfor %}
+		</div>
+	</div>
+
+	<a href="#" class="govuk-link govuk-link--no-visited-state" onclick="return showCountries()">Preview</a>
+</div>
+
 <div class="lite-section {% if errors|key_value:'end_user' %}govuk-form-group--error{% endif %}">
 	<div class="lite-section-header">
 		<div>

@@ -13,3 +13,8 @@
 
 	return false;
 });*/
+
+function showCountries() {
+	LITECommon.Modal.showModal("Countries", $("#countries-data").html(), false);
+	return false;
+};

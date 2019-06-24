@@ -8,7 +8,7 @@ from apply_for_a_licence.helpers import create_persistent_bar
 from core.builtins.custom_tags import get_string
 from core.services import get_units, get_sites_on_draft, get_external_locations_on_draft
 from drafts.services import post_drafts, get_draft, get_draft_goods, post_draft_preexisting_goods, submit_draft, \
-    delete_draft, post_end_user
+    delete_draft, post_end_user, get_draft_countries
 from goods.services import get_goods, get_good
 from libraries.forms.generators import form_page, success_page
 from libraries.forms.submitters import submit_paged_form
@@ -44,6 +44,7 @@ class Overview(TemplateView):
         data, status_code = get_draft(request, draft_id)
         sites, status_code = get_sites_on_draft(request, draft_id)
         goods, status_code = get_draft_goods(request, draft_id)
+        countries, status_code = get_draft_countries(request, draft_id)
         external_locations, status_code = get_external_locations_on_draft(request, draft_id)
 
         context = {
@@ -51,6 +52,7 @@ class Overview(TemplateView):
             'draft': data.get('draft'),
             'sites': sites['sites'],
             'goods': goods['goods'],
+            'countries': countries['countries'],
             'external_locations': external_locations['external_locations'],
         }
         return render(request, 'apply_for_a_licence/overview.html', context)
@@ -75,7 +77,10 @@ class Overview(TemplateView):
                             description='',
                             what_happens_next=[],
                             links={'Go to applications': reverse_lazy('applications:applications')})
+
+
 # Goods
+
 
 class DraftGoodsList(TemplateView):
     def get(self, request, **kwargs):
