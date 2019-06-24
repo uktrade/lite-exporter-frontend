@@ -1,11 +1,10 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
-
 from libraries.forms.generators import form_page
-from conf.constants import DRAFT_CONTENT_TYPE_ID
 from goodstype import forms
-from goodstype.services import get_goods_types, post_goods_type, get_goods_type
+from goodstype.services import post_goods_type, get_goods_type
+
 
 class GoodsType(TemplateView):
     def get(self, request, pk):
@@ -24,7 +23,7 @@ class AddGoodsType(TemplateView):
 
     def post(self, request, **kwargs):
         copied_post = request.POST.copy()
-        copied_post['content_type'] = DRAFT_CONTENT_TYPE_ID
+        copied_post['content_type'] = 'draft'
         copied_post['object_id'] = kwargs.get('pk')
         data, status_code = post_goods_type(request, copied_post)
 
@@ -40,7 +39,7 @@ class DraftAddGoodsType(TemplateView):
 
     def post(self, request, **kwargs):
         copied_post = request.POST.copy()
-        copied_post['content_type'] = DRAFT_CONTENT_TYPE_ID
+        copied_post['content_type'] = 'draft'
         copied_post['object_id'] = str(kwargs.get('pk'))
         data, status_code = post_goods_type(request, copied_post)
 
