@@ -292,6 +292,11 @@ def click_external_locations(driver):
 def click_add_from_organisation_button(driver):
     driver.find_element_by_css_selector('a[href*="add-preexisting"]').click()
 
+@when('I click add a good button')
+def click_add_from_organisation_button(driver):
+    add_goods_page = AddGoodPage(driver)
+    add_goods_page.click_add_a_good()
+
 
 @when(parsers.parse('I add a good or good type with description "{description}" controlled "{controlled}" control code "{controlcode}" incorporated "{incorporated}" and part number "{part}"'))
 def add_new_good(driver, description, controlled,  controlcode, incorporated, part):
@@ -302,12 +307,11 @@ def add_new_good(driver, description, controlled,  controlcode, incorporated, pa
     context.good_description = good_description
     context.part = good_part
     context.controlcode = controlcode
-    add_goods_page.click_add_a_good()
     add_goods_page.enter_description_of_goods(good_description)
     add_goods_page.select_is_your_good_controlled(controlled)
     add_goods_page.enter_control_code(controlcode)
     add_goods_page.select_is_your_good_intended_to_be_incorporated_into_an_end_product(incorporated)
-    if part is not "empty":
+    if "empty" not in good_part:
         add_goods_page.enter_part_number(good_part)
     exporter_hub.click_save_and_continue()
 

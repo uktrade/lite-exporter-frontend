@@ -170,18 +170,20 @@ def click_goods_type_button(driver):
     goods_type_page = ApplicationGoodsTypeList(driver)
     goods_type_page.click_goods_type_button()
 
+
 @then(parsers.parse('I see my goods type added at position "{position}" with a description and a control code'))
 def i_see_the_goods_types_list(driver, position):
     goods_type_page = ApplicationGoodsTypeList(driver)
-    good_type = goods_type_page.get_text_of_goods_type_info(position)
+    good_type = goods_type_page.get_text_of_goods_type_info(int(position))
     assert context.good_description in good_type
-    assert "Control Code:" + context.controlcode in good_type
+    assert "Control Code: " + context.controlcode in good_type
+
 
 @then('I see my goods type added to the overview page with a description and a control code')
 def i_see_the_goods_types_list_overview(driver):
     goods_type_page = ApplicationGoodsTypeList(driver)
-    good_type_table_overview = goods_type_page.get_text_of_goods_type_info_overview
-    assert "Description:" in good_type_table_overview
-    assert "Control Code:" in good_type_table_overview
+    good_type_table_overview = goods_type_page.get_text_of_goods_type_info_overview()
+    assert "Description" in good_type_table_overview
+    assert "Control Code" in good_type_table_overview
     assert context.good_description in good_type_table_overview
-    assert "Control Code:" + context.controlcode in good_type_table_overview
+    assert context.controlcode in good_type_table_overview
