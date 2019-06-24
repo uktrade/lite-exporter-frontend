@@ -214,7 +214,7 @@
 		</div>
 	</div>
 
-	<a href="#" class="govuk-link govuk-link--no-visited-state" onclick="return showCountries()">Preview</a>
+	<a href="#" class="govuk-link govuk-link--no-visited-state" onclick="return showCountries()">{{ countries|length }} Countries Selected</a>
 </div>
 
 <div class="lite-section {% if errors|key_value:'end_user' %}govuk-form-group--error{% endif %}">
@@ -269,7 +269,7 @@
 </div>
 
 <div class="lite-submit-bar js-is-sticky">
-<a href="{% url 'apply_for_a_licence:delete' draft.id %}" class="cancel-link" style="float: right;">
+<a href="{% url 'apply_for_a_licence:delete' draft.id %}" onclick="return showCancelApplication()" class="cancel-link" style="float: right;">
 	Delete Application
 </a>
 <form method="post">
@@ -277,6 +277,12 @@
 	<button type="submit" class="govuk-button" name="button" data-prevent-double-click="true">Submit Application</button>
 </form>
 </div>
+
+<!-- Modals -->
+<div id="cancel-application" style="display: none;">
+	{% include "apply_for_a_licence/modals/cancel_application.html" %}
+</div>
+
 
 {% load static %}
 <script src="{% static 'javascripts/modal.js' %}"></script>

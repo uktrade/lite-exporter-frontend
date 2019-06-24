@@ -171,10 +171,11 @@ class DeleteApplication(TemplateView):
         draft, status_code = get_draft(request, draft_id)
         context = {
             'title': 'Are you sure you want to delete this application?',
-            'draft_id': draft_id,
+            'draft': draft.get('draft'),
             'persistent_bar': create_persistent_bar(draft.get('draft')),
+			'page': 'apply_for_a_licence/modals/cancel_application.html',
         }
-        return render(request, 'apply_for_a_licence/cancel_confirmation.html', context)
+        return render(request, 'core/static.html', context)
 
     def post(self, request, **kwargs):
         draft_id = str(kwargs['pk'])

@@ -163,9 +163,12 @@ class AddExistingExternalLocation(TemplateView):
 class Countries(TemplateView):
     def get(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
-        data, status_code = get_draft_countries(request, draft_id)
+        draft, status_code = get_draft(request, draft_id)
+        countries, status_code = get_draft_countries(request, draft_id)
 
-        return form_page(request, countries_form(draft_id), data=data)
+        return form_page(request, countries_form(draft_id), data=countries, extra_data={
+                'persistent_bar': create_persistent_bar(draft.get('draft'))
+            })
 
     def post(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
