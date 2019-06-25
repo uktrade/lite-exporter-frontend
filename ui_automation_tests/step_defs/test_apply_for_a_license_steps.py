@@ -85,12 +85,20 @@ def i_see_no_sites_attached_error(driver):
     assert "Cannot create an application with no sites or external sites attached" in shared.get_text_of_error_message_at_position_2()
 
 
+@then('I see good types error messages')
+def i_see_no_sites_attached_error(driver):
+    shared = Shared(driver)
+    assert "This field may not be blank." in shared.get_text_of_error_message()
+    assert "This field is required." in shared.get_text_of_error_message_at_position_2()
+    assert "This field is required." in shared.get_text_of_error_message_at_position_3()
+
+
 @when(parsers.parse('I click add to application for the good at position "{no}"'))
 def click_add_to_application_button(driver, no):
 
-    context.goods_name = driver.find_elements_by_css_selector('.lite-card .govuk-heading-s')[int(no)].text
-    context.part_number = driver.find_elements_by_css_selector('.lite-card .govuk-label')[int(no)].text
-    driver.find_elements_by_css_selector('a.govuk-button')[int(no)].click()
+    context.goods_name = driver.find_elements_by_css_selector('.lite-card .govuk-heading-s')[int(no)-1].text
+    context.part_number = driver.find_elements_by_css_selector('.lite-card .govuk-label')[int(no)-1].text
+    driver.find_elements_by_css_selector('a.govuk-button')[int(no)-1].click()
 
 
 @then('I see enter valid quantity and valid value error message')
@@ -122,7 +130,7 @@ def good_is_added(driver):
     unit = unit.lower()
     assert utils.is_element_present(driver, By.XPATH, "//*[text()='" + str(context.goods_name) + "']")
     assert utils.is_element_present(driver, By.XPATH, "//*[text()='" + str(context.quantity) + ".0 " + unit + "']")
-    assert utils.is_element_present(driver, By.XPATH, "//*[text()='£" + str(context.value) + ".00']")
+    assert utils.is_element_present(driver, By.XPATH, "//*[text()='£" + str(context.value) + "']")
 
 
 @when('I click overview')
