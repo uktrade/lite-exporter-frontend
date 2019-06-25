@@ -63,12 +63,12 @@ def get_external_locations(request, formatted=False):
 
 
 def get_external_locations_on_draft(request, pk):
-    data = get(request, DRAFTS_URL + pk + '/external_locations')
+    data = get(request, DRAFTS_URL + pk + '/external_locations/')
     return data.json(), data.status_code
 
 
 def post_external_locations_on_draft(request, pk, json):
-    data = post(request, DRAFTS_URL + pk + '/external_locations', json)
+    data = post(request, DRAFTS_URL + pk + '/external_locations/', json)
     return data.json(), data.status_code
 
 

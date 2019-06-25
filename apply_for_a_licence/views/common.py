@@ -48,7 +48,7 @@ class Overview(TemplateView):
         external_locations, status_code = get_external_locations_on_draft(request, draft_id)
 
         context = {
-            'title': 'Draft Overview',
+            'title': 'Application Overview',
             'draft': data.get('draft'),
             'sites': sites['sites'],
             'goods': goods['goods'],
@@ -65,7 +65,7 @@ class Overview(TemplateView):
             draft, status_code = get_draft(request, draft_id)
 
             context = {
-                'title': 'Draft Overview',
+                'title': 'Application Overview',
                 'draft': draft.get('draft'),
                 'errors': data.get('errors'),
             }
