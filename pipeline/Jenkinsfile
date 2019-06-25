@@ -56,7 +56,7 @@ pipeline
                             docker.build("exporter/selenium_base", "-f ui_automation_tests/selenium-base-image/Dockerfile --network host ui_automation_tests/selenium-base-image")
 
                             // building selenium image
-                            test = docker.build("exporter/selenium_image", "-f ui_automation_tests/selenium-automation-run/Dockerfile --network host ui_automation_tests/selenium-automation-run")
+                            test = docker.build("exporter/selenium_image", "-f ui_automation_tests/selenium-automation-run/Dockerfile --network host ui_automation_tests")
                         }
                     }
                 }
