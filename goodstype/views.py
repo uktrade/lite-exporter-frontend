@@ -50,4 +50,3 @@ class DraftAddGoodsType(TemplateView):
         if next:
             return redirect(next)
         return redirect(reverse_lazy('apply_for_a_licence:overview', args=[kwargs['pk']]))
-

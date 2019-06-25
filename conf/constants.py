@@ -5,7 +5,6 @@ APPLICATIONS_URL = '/applications/'
 DRAFTS_URL = '/drafts/'
 GOODS_URL = '/goods/'
 GOODSTYPE_URL = '/goodstype/'
-DRAFT_CONTENT_TYPE_ID = 18
 SITES_URL = '/organisations/sites/'
 USERS_URL = '/users/'
 EXTERNAL_LOCATIONS_URL = '/organisations/external_locations/'
