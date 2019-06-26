@@ -35,10 +35,10 @@ def pytest_addoption(parser):
         env = "dev"
     print("touched: " + env)
     parser.addoption("--driver", action="store", default="chrome", help="Type in browser type")
-    parser.addoption("--exporter_url", action="store", default="https://exporter.lite.service." + env + ".uktrade.io/", help="url")
-    #parser.addoption("--exporter_url", action="store", default="localhost:9000/", help="url")
-    parser.addoption("--internal_url", action="store", default="https://internal.lite.service." + env + ".uktrade.io/", help="url")
-    #parser.addoption("--internal_url", action="store", default="localhost:8080/", help="url")
+    #parser.addoption("--exporter_url", action="store", default="https://exporter.lite.service." + env + ".uktrade.io/", help="url")
+    parser.addoption("--exporter_url", action="store", default="localhost:9000/", help="url")
+    #parser.addoption("--internal_url", action="store", default="https://internal.lite.service." + env + ".uktrade.io/", help="url")
+    parser.addoption("--internal_url", action="store", default="localhost:8080/", help="url")
     parser.addoption("--email", action="store", default= "test@mail.com")
     parser.addoption("--password", action="store", default= "password")
     parser.addoption("--first_name", action="store", default= "Test")
@@ -293,6 +293,7 @@ def click_external_locations(driver):
 def click_add_from_organisation_button(driver):
     driver.find_element_by_css_selector('a[href*="add-preexisting"]').click()
 
+
 @when('I click add a good button')
 def click_add_from_organisation_button(driver):
     add_goods_page = AddGoodPage(driver)
@@ -300,7 +301,7 @@ def click_add_from_organisation_button(driver):
 
 
 @when(parsers.parse('I add a good or good type with description "{description}" controlled "{controlled}" control code "{controlcode}" incorporated "{incorporated}" and part number "{part}"'))
-def add_new_good(driver, description, controlled,  controlcode, incorporated, part):
+def add_new_good(driver, description, controlled, controlcode, incorporated, part):
     exporter_hub = ExporterHubPage(driver)
     add_goods_page = AddGoodPage(driver)
     good_description = description + str(random.randint(1, 1000))

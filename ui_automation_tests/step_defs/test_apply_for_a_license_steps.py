@@ -34,10 +34,11 @@ def i_see_the_application_overview(driver):
     assert apply.get_text_of_application_headers(2) == "Export Type"
     assert apply.get_text_of_application_headers(3) == "Reference Number"
     assert apply.get_text_of_application_headers(4) == "Created at"
-    assert apply.get_text_of_application_results(1) == context.type+"_licence"
+    assert apply.get_text_of_application_results(1) == context.type + "_licence"
     assert apply.get_text_of_application_results(2) == context.perm_or_temp
     assert apply.get_text_of_application_results(3) == context.ref
     # assert apply_for_licence.get_text_of_application_results(3) == datetime.datetime.now().strftime("%b %d %Y, %H:%M%p")
+    # TODO: This can break if the minute changes between the five lines of code
     assert time_date_submitted in apply.get_text_of_application_results(4), "Created date is incorrect on draft overview"
     app_id = driver.current_url[-36:]
     context.app_id = app_id
@@ -130,7 +131,10 @@ def good_is_added(driver):
     unit = unit.lower()
     assert utils.is_element_present(driver, By.XPATH, "//*[text()='" + str(context.goods_name) + "']")
     assert utils.is_element_present(driver, By.XPATH, "//*[text()='" + str(context.quantity) + ".0 " + unit + "']")
-    assert utils.is_element_present(driver, By.XPATH, "//*[text()='£" + str(context.value) + "']")
+    if "." not in context.value:
+        assert utils.is_element_present(driver, By.XPATH, "//*[text()='£" + str(context.value) + ".00']")
+    else:
+        assert utils.is_element_present(driver, By.XPATH, "//*[text()='£" + str(context.value) + "']")
 
 
 @when('I click overview')

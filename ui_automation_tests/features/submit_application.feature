@@ -18,7 +18,8 @@
     Given I go to exporter homepage
     When I login to exporter homepage with username "test@mail.com" and "password"
     And I click on goods link
-    And I add a good with description "Good T1" controlled "Yes" control code "1234" incorporated "Yes" and part number "321"
+    When I click add a good button
+    And I add a good or good type with description "Good T1" controlled "Yes" control code "1234" incorporated "Yes" and part number "321"
     And I go to exporter homepage
     And I click on apply for a license button
     And I click on start button
@@ -33,8 +34,8 @@
     And I click on the goods link from overview
     And I click the add from organisations goods button
     And I click add to application for the good at position "1"
-    And I click continue
-    Then I see enter valid quantity and valid value error message
+    # And I click continue
+    # Then I see enter valid quantity and valid value error message
     When I add values to my good of "1" quantity "123" and unit of measurement "Metres"
     And I click continue
     Then good is added to application
@@ -51,7 +52,8 @@ Scenario: Submit application with external locations
     Given I go to exporter homepage
     When I login to exporter homepage with username "test@mail.com" and "password"
     And I click on goods link
-    And I add a good with description "Good T1" controlled "Yes" control code "1234" incorporated "Yes" and part number "321"
+    When I click add a good button
+    And I add a good or good type with description "Good T1" controlled "Yes" control code "1234" incorporated "Yes" and part number "321"
     And I go to exporter homepage
     And I click on apply for a license button
     And I click on start button

@@ -6,7 +6,8 @@
     Given I go to exporter homepage
     When I login to exporter homepage with username "test@mail.com" and "password"
     And I click on goods link
-    And I add a good with description "Good to search" controlled "Yes" control code "1234" incorporated "Yes" and part number "321"
+    When I click add a good button
+    When I add a good or good type with description "Good to search" controlled "Yes" control code "1234" incorporated "Yes" and part number "321"
     And I go to exporter homepage
     And I click on apply for a license button
     And I click on start button
@@ -23,7 +24,8 @@
     Given I go to exporter homepage
     When I login to exporter homepage with username "test@mail.com" and "password"
     And I click on goods link
-    And I add a good with description "Good to search" controlled "Yes" control code "1234" incorporated "Yes" and part number "999"
+    When I click add a good button
+    When I add a good or good type with description "Good to search" controlled "Yes" control code "1234" incorporated "Yes" and part number "999"
     And I go to exporter homepage
     And I click on apply for a license button
     And I click on start button
@@ -40,7 +42,8 @@
     Given I go to exporter homepage
     When I login to exporter homepage with username "test@mail.com" and "password"
     And I click on goods link
-    And I add a good with description "Good to search" controlled "Yes" control code "1234" incorporated "Yes" and part number "999"
+    When I click add a good button
+    And I add a good or good type with description "Good to search" controlled "Yes" control code "1234" incorporated "Yes" and part number "999"
     And I go to exporter homepage
     And I click on apply for a license button
     And I click on start button
