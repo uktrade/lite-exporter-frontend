@@ -1,9 +1,9 @@
 from conf.settings import env
 from libraries.forms.components import Form, Question, ArrayQuestion, Option, InputType
 
-form = Form(title='Add Goods Type', description='', caption='', questions=[
-    Question(title='Description of goods type',
-             description='This is a high level description of the type of goods',
+form = Form(title='Add a description', description='', caption='', questions=[
+    Question(title='Give us a short description of your goods.',
+             description='',
              input_type=InputType.TEXTAREA,
              name='description',
              extras={
@@ -21,8 +21,8 @@ form = Form(title='Add Goods Type', description='', caption='', questions=[
                              value='No')
                   ],
                   same_row=True),
-    Question(title='What\'s your good\'s control code?',
-             description='<noscript>If your good is controlled, enter its control code. </noscript>For example, ML1a.',
+    Question(title='What\'s your good\'s control list classification?',
+             description='<noscript>If your good is controlled, enter its control list classification. </noscript>For example, ML1a.',
              input_type=InputType.INPUT,
              name='control_code'),
     ArrayQuestion(title='Is your good intended to be incorporated into an end product?',
