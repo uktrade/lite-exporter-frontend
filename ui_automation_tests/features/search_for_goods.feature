@@ -1,6 +1,6 @@
-@exporter @licence @all @goods @filter
-Feature: Goods
-  As a...
+  @exporter @licence @all @goods @filter
+  Feature: Goods
+    As a...
 
   Scenario: Search for goods by description
     Given I go to exporter homepage
