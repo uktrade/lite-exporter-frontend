@@ -68,8 +68,8 @@ def i_click_the_application(driver):
     drafts_table = driver.find_element_by_class_name("govuk-table")
     drafts_table.find_element_by_xpath(".//td/a[contains(@href,'" + context.app_id + "')]").click()
     assert "Overview" in driver.title
-    appName = driver.find_element_by_css_selector(".lite-persistent-notice .govuk-link").text
-    assert "Test Application" in appName
+    app_name = driver.find_element_by_css_selector(".lite-persistent-notice .govuk-link").text
+    assert "Test Application" in app_name
 
 
 @when('I submit the application')
@@ -96,7 +96,6 @@ def i_see_no_sites_attached_error(driver):
 
 @when(parsers.parse('I click add to application for the good at position "{no}"'))
 def click_add_to_application_button(driver, no):
-
     context.goods_name = driver.find_elements_by_css_selector('.lite-card .govuk-heading-s')[int(no)-1].text
     context.part_number = driver.find_elements_by_css_selector('.lite-card .govuk-label')[int(no)-1].text
     driver.find_elements_by_css_selector('a.govuk-button')[int(no)-1].click()
