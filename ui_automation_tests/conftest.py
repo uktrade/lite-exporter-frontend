@@ -18,6 +18,8 @@ from pages.add_new_external_location_form_page import AddNewExternalLocationForm
 from pages.external_locations_page import ExternalLocationsPage
 from pages.preexisting_locations_page import PreexistingLocationsPage
 
+from ui_automation_tests.pages.application_countries_list import ApplicationCountriesList
+
 strict_gherkin = False
 
 
@@ -236,6 +238,12 @@ def i_see_a_number_of_locations(driver, number_of_locations):
 def i_click_on_add_new_address(driver):
     external_locations_page = ExternalLocationsPage(driver)
     external_locations_page.click_add_new_address()
+
+
+@when('I click on countries')
+def i_click_add_countries(driver):
+    application_countries_page = ApplicationCountriesList(driver)
+    # TODO
 
 
 @when('I click on preexisting locations')
