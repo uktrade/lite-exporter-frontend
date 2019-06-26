@@ -1,4 +1,4 @@
-class SitesPage():
+class SitesPage:
 
     def __init__(self, driver):
         self.driver = driver

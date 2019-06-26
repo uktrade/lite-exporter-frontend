@@ -74,6 +74,9 @@ class ApplyForALicencePage():
     def click_goods_link(self):
         self.driver.find_element_by_xpath("//a[text()='Goods']").click()
 
+    def click_countries_link(self):
+        self.driver.find_element_by_id("#countries").click()
+
     def click_add_from_organisations_goods(self):
         self.driver.find_element_by_xpath("//*[text()[contains(.,'Add from organisations goods')]]").click()
 
