@@ -60,7 +60,7 @@ def i_click_applications(driver):
 def i_delete_the_application(driver):
     apply = ApplyForALicencePage(driver)
     apply.click_delete_application()
-    assert 'Exporter Hub - LITE' in driver.title, "failed to go to Exporter Hub page after deleting application from application overview page"
+    assert 'Exporter hub - LITE' in driver.title, "failed to go to Exporter Hub page after deleting application from application overview page"
 
 
 @when('I click the application')
