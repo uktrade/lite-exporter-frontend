@@ -104,7 +104,7 @@
     And I click on add new address
     And I fill in new external location form with name: "place", address: "Paris" and country: "Ukraine" and continue
     Then I see "2" locations
-    
+
     # Countries
     When I click on countries
     Then I should see a list of countries

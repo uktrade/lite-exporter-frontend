@@ -20,6 +20,7 @@ from pages.preexisting_locations_page import PreexistingLocationsPage
 
 strict_gherkin = False
 
+
 # Screenshot in case of any test failure
 def pytest_exception_interact(node, report):
     if node and report.failed:
@@ -57,7 +58,8 @@ def driver(request):
         browser.implicitly_wait(10)
         return browser
     else:
-        print('only chrome is supported at the moment')
+        print('Only Chrome is supported at the moment')
+
     def fin():
         driver.quit()
         request.addfinalizer(fin)
