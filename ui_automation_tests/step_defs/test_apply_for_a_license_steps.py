@@ -63,6 +63,12 @@ def i_delete_the_application(driver):
     assert 'Exporter hub - LITE' in driver.title, "failed to go to Exporter Hub page after deleting application from application overview page"
 
 
+@when('I click countries')
+def i_click_countries(driver):
+    apply = ApplyForALicencePage(driver)
+    apply.click_countries()
+
+
 @when('I click the application')
 def i_click_the_application(driver):
     drafts_table = driver.find_element_by_class_name("govuk-table")
