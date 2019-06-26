@@ -34,6 +34,7 @@
     And I click on the goods link from overview
     And I click the add from organisations goods button
     And I click add to application for the good at position "1"
+    #Commenting out following steps due to bug - LT-1287 - uncomment when this is fixed
     # And I click continue
     # Then I see enter valid quantity and valid value error message
     When I add values to my good of "1" quantity "123" and unit of measurement "Metres"

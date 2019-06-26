@@ -66,7 +66,7 @@ class ApplyForALicencePage():
     def click_delete_application(self):
         self.driver.find_element_by_css_selector(self.delete_application_button).click()
         self.driver.implicitly_wait(10)
-        self.driver.find_element_by_css_selector(".govuk-button--warning").click()
+        self.driver.execute_script("document.querySelectorAll('.govuk-button--warning')[0].click()")
 
     def click_submit_application(self):
         self.driver.find_element_by_css_selector("button[type*='submit']").click()

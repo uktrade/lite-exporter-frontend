@@ -164,7 +164,7 @@ def test_reactivate_users(driver, open_exporter_hub, exporter_url):
     # Given I am a reactivated I can log in
     exporter_hub.logout()
     exporter_hub.login(email, password)
-    assert driver.title == "Exporter Hub - LITE"
+    assert driver.title == "Exporter hub - LITE"
 
 
 def test_inability_to_deactivate_oneself(driver, exporter_url):
