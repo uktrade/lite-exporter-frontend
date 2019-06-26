@@ -1,12 +1,13 @@
 from django.urls import reverse
 
+from core.builtins.custom_tags import get_string
 from core.services import get_countries
 from libraries.forms.components import Form, Checkboxes, Filter, BackLink
 
 
 def countries_form(draft_id):
-    return Form(title='Where are your goods going?',
-                description='Select all countries that apply.',
+    return Form(title=get_string('licences.countries.title'),
+                description=get_string('licences.countries.description'),
                 questions=[
                     Filter(),
                     Checkboxes('countries', get_countries(None, True), classes=['govuk-checkboxes--small']),
