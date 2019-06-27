@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+touch test_ran.txt
 # run py.test ($@ to derive parameters from commandline)
 py.test --alluredir=allure-results $@ &
 pid="$!"
