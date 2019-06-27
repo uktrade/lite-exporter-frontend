@@ -6,7 +6,7 @@ log = logging.getLogger()
 console = logging.StreamHandler()
 log.addHandler(console)
 
-class ApplyForALicencePage():
+class ApplyForALicencePage:
 
     def __init__(self, driver):
         self.driver = driver
@@ -73,9 +73,6 @@ class ApplyForALicencePage():
 
     def click_goods_link(self):
         self.driver.find_element_by_xpath("//a[text()='Goods']").click()
-
-    def click_countries_link(self):
-        self.driver.find_element_by_id("#countries").click()
 
     def click_add_from_organisations_goods(self):
         self.driver.find_element_by_xpath("//*[text()[contains(.,'Add from organisations goods')]]").click()

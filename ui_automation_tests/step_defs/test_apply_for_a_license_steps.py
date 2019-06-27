@@ -11,6 +11,10 @@ from pages.shared import Shared
 from conftest import context
 from selenium.webdriver.common.by import By
 
+from core.builtins.custom_tags import get_string
+from core.services import get_countries
+from ui_automation_tests.pages.application_countries_list import ApplicationCountriesList
+
 scenarios('../features/submit_application.feature', strict_gherkin=False)
 
 import logging
@@ -204,3 +208,20 @@ def i_see_the_goods_types_list_overview(driver):
     assert "Control Code" in good_type_table_overview
     assert context.good_description in good_type_table_overview
     assert context.controlcode in good_type_table_overview
+
+
+@when('I click on countries')
+def i_click_on_countries(driver):
+    page = ApplicationOverviewPage(driver)
+    page.click_countries_link()
+
+
+@then('I should see a list of countries')
+def i_should_see_a_list_of_countries(driver):
+    application_countries_list = ApplicationCountriesList(driver)
+    page_countries = application_countries_list.get_countries_names()
+    api_data, status_code = get_countries(None)
+
+    assert len(page_countries) == len(api_data['countries'])
+    assert driver.find_element_by_tag_name("h1").text == get_string('licences.countries.title'), \
+        "Failed to go to countries list page"

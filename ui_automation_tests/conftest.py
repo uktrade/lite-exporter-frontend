@@ -1,24 +1,24 @@
-import pytest
-from selenium import webdriver
+import datetime
+import json
 import os
 import random
-import datetime
-from pages.application_overview_page import ApplicationOverviewPage
-from pytest_bdd import scenarios, given, when, then, parsers, scenarios
-from pages.exporter_hub_page import ExporterHubPage
-from pages.which_location_form_page import WhichLocationFormPage
-from pages.add_goods_page import AddGoodPage
-from pages.shared import Shared
-from pages.sites_page import SitesPage
 
-from pages.apply_for_a_licence_page import ApplyForALicencePage
-
+import pytest
 from pages.add_end_user_pages import AddEndUserPages
+from pages.add_goods_page import AddGoodPage
 from pages.add_new_external_location_form_page import AddNewExternalLocationFormPage
+from pages.application_overview_page import ApplicationOverviewPage
+from pages.apply_for_a_licence_page import ApplyForALicencePage
+from pages.exporter_hub_page import ExporterHubPage
 from pages.external_locations_page import ExternalLocationsPage
 from pages.preexisting_locations_page import PreexistingLocationsPage
+from pages.shared import Shared
+from pages.sites_page import SitesPage
+from pages.which_location_form_page import WhichLocationFormPage
+from pytest_bdd import given, when, then, parsers
+from selenium import webdriver
 
-from ui_automation_tests.pages.application_countries_list import ApplicationCountriesList
+from core import strings
 
 strict_gherkin = False
 
@@ -46,6 +46,11 @@ def pytest_addoption(parser):
     parser.addoption("--password", action="store", default= "password")
     parser.addoption("--first_name", action="store", default= "Test")
     parser.addoption("--last_name", action="store", default= "User")
+
+    # Load in content strings
+    with open('../../lite-content/lite-exporter-frontend/strings.json') as json_file:
+        strings.constants = json.load(json_file)
+
 
 # Create driver fixture that initiates chrome
 @pytest.fixture(scope="session", autouse=True)
@@ -238,12 +243,6 @@ def i_see_a_number_of_locations(driver, number_of_locations):
 def i_click_on_add_new_address(driver):
     external_locations_page = ExternalLocationsPage(driver)
     external_locations_page.click_add_new_address()
-
-
-@when('I click on countries')
-def i_click_add_countries(driver):
-    application_countries_page = ApplicationCountriesList(driver)
-    # TODO
 
 
 @when('I click on preexisting locations')
