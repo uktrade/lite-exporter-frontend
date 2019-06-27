@@ -15,6 +15,6 @@ class ApplicationCountriesList:
         for checkbox in self.driver.find_elements_by_css_selector(self.countries_checkboxes):
             checkbox.click()
 
-    def select_countries(self):
-        for checkbox in self.driver.find_elements_by_css_selector(self.countries_checkboxes):
-            checkbox.click()
+    def select_country(self, name):
+        checkbox = self.driver.find_element_by_id(name)
+        checkbox.click()

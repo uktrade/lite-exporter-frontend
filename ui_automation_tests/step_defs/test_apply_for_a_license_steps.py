@@ -13,6 +13,7 @@ from selenium.webdriver.common.by import By
 
 from core.builtins.custom_tags import get_string
 from core.services import get_countries
+from ui_automation_tests.helpers.helpers import find_element_by_href
 from ui_automation_tests.pages.application_countries_list import ApplicationCountriesList
 
 scenarios('../features/submit_application.feature', strict_gherkin=False)
@@ -225,3 +226,16 @@ def i_should_see_a_list_of_countries(driver):
     assert len(page_countries) == len(api_data['countries'])
     assert driver.find_element_by_tag_name("h1").text == get_string('licences.countries.title'), \
         "Failed to go to countries list page"
+
+
+@when(parsers.parse('I select "{country}" from the country list'))
+def i_select_country_from_the_country_list(driver, country):
+    application_countries_list = ApplicationCountriesList(driver)
+    application_countries_list.select_country(country)
+
+    assert find_element_by_href(driver, '#' + country).is_displayed()
+
+
+@then(parsers.parse('I can see "{country_count}" countries selected on the overview page'))
+def i_can_see_the_country_count_countries_selected_on_the_overview_page(driver, country_count):
+    assert driver.find_element_by_css_selector('[onclick*="showCountries"]').text == country_count + ' Countries Selected'

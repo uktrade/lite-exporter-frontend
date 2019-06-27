@@ -32,7 +32,7 @@ function addCheckedCheckboxesToList() {
 	$("#checkbox-list-title").text($("input[type='checkbox']:checked").length + " Selected");
 	$("input[type='checkbox']:checked").each(function(i, obj) {
 		var checkboxText = $(this).parent().find(".govuk-checkboxes__label").text();
-		$("#checkbox-list").append("<div><a class='govuk-link lite-checkbox-filter-link' href='#" + checkboxText + "'>" + checkboxText + "</a></div>");
+		$("#checkbox-list").append("<div><a class='govuk-link lite-checkbox-filter-link' href='#" + checkboxText.trim() + "'>" + checkboxText + "</a></div>");
 	});
 	if ($("input[type='checkbox']:checked").length == 0) {
 		$("#checkbox-counter").hide();
