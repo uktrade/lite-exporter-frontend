@@ -69,7 +69,7 @@ class ApplyForALicencePage:
         self.driver.execute_script("document.querySelectorAll('.govuk-button--warning')[0].click()")
 
     def click_submit_application(self):
-        self.driver.find_element_by_css_selector("button[type*='submit']").click()
+        self.driver.execute_script("document.querySelectorAll(\"button[type*='submit']\")[0].click()")
 
     def click_goods_link(self):
         self.driver.find_element_by_xpath("//a[text()='Goods']").click()
