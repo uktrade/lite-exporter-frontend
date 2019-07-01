@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 set -x
-set -e
 
 # run py.test ($@ to derive parameters from commandline)
 py.test --alluredir=allure-results $@ &
