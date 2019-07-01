@@ -105,8 +105,8 @@ Feature: Licence
     And I click on the goods link from overview
     And I click Add goods type button
     And I add a good or good type with description "Good Type T1" controlled "Yes" control code "1234" incorporated "Yes" and part number "empty"
-    And I see my goods type added at position "1" with a description and a control code
-    And I click overview
+    Then I see my goods type added at position "1" with a description and a control code
+    When I click overview
     Then I see my goods type added to the overview page with a description and a control code
     When I click on the goods link from overview
     And I click Add goods type button
@@ -195,7 +195,7 @@ Feature: Licence
     And I click on apply for a license button
     And I click on start button
     And I click continue
-    Then error message is "Enter a reference name for your application."
+    Then error message is "Error:\nEnter a reference name for your application"
     When I enter in name for application and continue
     And I click continue
     Then error message is "Select which type of licence you want to apply for."
