@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 
+# DEBUG
 set -x
 set -e
+echo $PWD
+touch $PWD/test_ran.txt
 
-touch test_ran.txt
 # run py.test ($@ to derive parameters from commandline)
 py.test --alluredir=allure-results $@ &
 pid="$!"
