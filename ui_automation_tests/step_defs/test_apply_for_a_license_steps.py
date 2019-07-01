@@ -103,7 +103,7 @@ def i_see_no_sites_attached_error(driver):
 @then('I see no sites good types or countries attached error message')
 def i_see_open_licence_error(driver):
     shared = Shared(driver)
-    assert "Cannot create an application with no good types attached" in shared.get_text_of_error_message()
+    assert "Cannot create an application with no good descriptions attached" in shared.get_text_of_error_message()
     assert "Cannot create an application with no sites or external sites attached" in shared.get_text_of_error_message_at_position_2()
     assert "Cannot create an application without countries being set" in shared.get_text_of_error_message_at_position_3()
 

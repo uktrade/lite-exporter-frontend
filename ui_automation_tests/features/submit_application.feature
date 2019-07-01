@@ -195,7 +195,7 @@ Feature: Licence
     And I click on apply for a license button
     And I click on start button
     And I click continue
-    Then error message is "Error:\nEnter a reference name for your application"
+    Then error message is "Enter a reference name for your application"
     When I enter in name for application and continue
     And I click continue
     Then error message is "Select which type of licence you want to apply for."
