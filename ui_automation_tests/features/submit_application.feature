@@ -198,7 +198,7 @@ Feature: Licence
     Then error message is "Enter a reference name for your application"
     When I enter in name for application and continue
     And I click continue
-    Then error message is "Select which type of licence you want to apply for."
+    Then error message is "Select which type of licence you want to apply for"
     When I select "standard" application and continue
     And I click continue
     Then error message is "Select if you want to apply for a temporary or permanent licence."
