@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env bash -xe
 
 touch test_ran.txt
 # run py.test ($@ to derive parameters from commandline)
