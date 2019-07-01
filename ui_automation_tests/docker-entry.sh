@@ -4,6 +4,7 @@
 set -x
 set -e
 echo $PWD
+ls -al $PWD
 touch $PWD/test_ran.txt
 
 # run py.test ($@ to derive parameters from commandline)
