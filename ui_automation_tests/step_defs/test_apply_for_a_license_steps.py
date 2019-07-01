@@ -37,8 +37,8 @@ def i_see_the_application_overview(driver):
     time_date_submitted = datetime.datetime.now().strftime("%I:%M%p").lstrip("0").replace(" 0", " ").lower() + datetime.datetime.now().strftime(" %d %B %Y")
     apply = ApplyForALicencePage(driver)
     assert apply.get_text_of_application_headers(0) == "Name"
-    assert apply.get_text_of_application_headers(1) == "Licence Type"
-    assert apply.get_text_of_application_headers(2) == "Export Type"
+    assert apply.get_text_of_application_headers(1) == "Licence type"
+    assert apply.get_text_of_application_headers(2) == "Export type"
     assert apply.get_text_of_application_headers(3) == "Reference Number"
     assert apply.get_text_of_application_headers(4) == "Created at"
     assert apply.get_text_of_application_results(1) == context.type + "_licence"
