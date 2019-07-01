@@ -104,7 +104,7 @@ def generateAllureReport()
                     jdk              : '',
                     properties       : [[key: 'allure.tests.management.pattern', value: 'http://tms.company.com/%s']],
                     reportBuildPolicy: 'ALWAYS',
-                    results          : [[path: 'ui_automation_tests/allure-results']]
+                    results          : [[path: 'allure-results']]
             ])
         }
         catch (error)
