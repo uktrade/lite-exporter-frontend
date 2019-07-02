@@ -237,7 +237,7 @@ def i_should_see_a_list_of_countries(driver):
  #   api_data, status_code = get_countries(None)
     assert len(page_countries) == 274
  #   assert len(page_countries) == len(api_data['countries'])
-    assert Shared(driver).get_text_of_h1() == get_string('licences.countries.title'), \
+    assert driver.find_element_by_tag_name("h1").text == get_string('licences.countries.title'), \
         "Failed to go to countries list page"
 
 
@@ -256,7 +256,7 @@ def i_can_see_the_country_count_countries_selected_on_the_overview_page(driver, 
 
 @when('I click on number of countries on the overview page')
 def click_on_number_of_countries_selected(driver):
-    utils(driver).scroll_down_page(0, 1080)
+    utils.scroll_down_page(driver, 0, 1080)
     ApplicationOverviewPage(driver).click_on_countries_selected()
 
 
@@ -267,12 +267,12 @@ def close_modal(driver):
 
 @when(parsers.parse('I search for country "{country}"'))
 def search_for_country(driver, country):
-    ApplicationOverviewPage(driver).search_for_country(country)
+    ApplicationCountriesList(driver).search_for_country(country)
 
 
 @then(parsers.parse('only "{country}" is displayed in country list'))
 def search_country_result(driver, country):
-    assert country == ApplicationOverviewPage(driver).get_text_of_countries_list(), \
+    assert country == ApplicationCountriesList(driver).get_text_of_countries_list(), \
         "Country not searched correctly"
 
 

@@ -79,4 +79,4 @@ def get_text(driver, by_type, locator):
 
 
 def scroll_down_page(driver, x, y):
-    driver.execute_script("window.scrollTo(" + x + ", " + y + ")")
+    driver.execute_script("window.scrollTo(" + str(x) + ", " + str(y) + ")")
