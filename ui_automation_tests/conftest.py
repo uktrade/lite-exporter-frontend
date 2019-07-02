@@ -48,7 +48,7 @@ def pytest_addoption(parser):
     parser.addoption("--last_name", action="store", default= "User")
 
     # Load in content strings
-    with open('../../lite-content/lite-exporter-frontend/strings.json') as json_file:
+    with open('../lite-content/lite-exporter-frontend/strings.json') as json_file:
         strings.constants = json.load(json_file)
 
 
