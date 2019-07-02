@@ -4,6 +4,8 @@ class ApplicationCountriesList:
         self.driver = driver
         self.countries_checkboxes = ".govuk-checkboxes__input"
         self.countries_labels = ".govuk-checkboxes__label"
+        self.countries_search_box = "filter-box" #id
+        self.countries_list = "pane_countries" #id
 
     def get_countries_names(self):
         countries_names = []
@@ -18,3 +20,9 @@ class ApplicationCountriesList:
     def select_country(self, name):
         checkbox = self.driver.find_element_by_id(name)
         checkbox.click()
+
+    def search_for_country(self, country):
+        self.driver.find_element_by_id(self.countries_search_box).send_keys(country)
+
+    def get_text_of_countries_list(self):
+        return self.driver.find_element_by_id(self.countries_list).text

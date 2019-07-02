@@ -76,3 +76,7 @@ def type_text(driver, text, by_type, locator):
 def get_text(driver, by_type, locator):
     el = find_element(driver, by_type, locator)
     return el.text
+
+
+def scroll_down_page(driver, x, y):
+    driver.execute_script("window.scrollTo(" + x + ", " + y + ")")

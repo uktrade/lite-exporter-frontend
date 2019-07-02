@@ -26,3 +26,7 @@ class Shared():
 
     def get_text_of_body(self):
         return self.driver.find_element_by_tag_name("body").text
+
+    def get_text_of_h1(self):
+        return self.driver.find_element_by_tag_name("h1").text
+

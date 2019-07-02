@@ -8,6 +8,7 @@ import helpers.helpers as utils
 from pages.exporter_hub_page import ExporterHubPage
 from pages.hub_page import Hub
 from pages.shared import Shared
+from pages.header import Header
 from conftest import context
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -81,7 +82,7 @@ def i_click_the_application(driver):
     drafts_table = driver.find_element_by_class_name("govuk-table")
     drafts_table.find_element_by_xpath(".//td/a[contains(@href,'" + context.app_id + "')]").click()
     assert "Overview" in driver.title
-    app_name = driver.find_element_by_css_selector(".lite-persistent-notice .govuk-link").text
+    app_name = Header(driver).get_text_of_app_name_in_header()
     assert "Test Application" in app_name
 
 
@@ -151,7 +152,7 @@ def good_is_added(driver):
     unit = str(context.unit)
     unit = unit.lower()
     assert utils.is_element_present(driver, By.XPATH, "//*[text()='" + str(context.goods_name) + "']")
-    # TODO put this back when bug is fixed
+    # TODO put this back when bug is fixed - showing mtr instead of metres
     #assert utils.is_element_present(driver, By.XPATH, "//*[text()='" + str(context.quantity) + ".0 " + unit + "']")
     if "." not in context.value:
         assert utils.is_element_present(driver, By.XPATH, "//*[text()='£" + str(context.value) + ".00']")
@@ -236,7 +237,7 @@ def i_should_see_a_list_of_countries(driver):
  #   api_data, status_code = get_countries(None)
     assert len(page_countries) == 274
  #   assert len(page_countries) == len(api_data['countries'])
-    assert driver.find_element_by_tag_name("h1").text == get_string('licences.countries.title'), \
+    assert Shared(driver).get_text_of_h1() == get_string('licences.countries.title'), \
         "Failed to go to countries list page"
 
 
@@ -250,32 +251,32 @@ def i_select_country_from_the_country_list(driver, country):
 
 @then(parsers.parse('I can see "{country_count}" countries selected on the overview page'))
 def i_can_see_the_country_count_countries_selected_on_the_overview_page(driver, country_count):
-    assert driver.find_element_by_css_selector('[onclick*="showCountries"]').text == country_count + ' Countries Selected'
+    assert ApplicationOverviewPage(driver).get_text_of_countries_selected() == country_count + ' Countries Selected'
 
 
 @when('I click on number of countries on the overview page')
 def click_on_number_of_countries_selected(driver):
-    driver.execute_script("window.scrollTo(0, 1080)")
-    driver.find_element_by_css_selector('.govuk-link--no-visited-state[href="#"]').click()
+    utils(driver).scroll_down_page(0, 1080)
+    ApplicationOverviewPage(driver).click_on_countries_selected()
 
 
 @when('I close the modal')
 def close_modal(driver):
-    driver.find_element_by_id('modal-close-button').click()
+    ApplicationOverviewPage(driver).click_on_modal_close()
 
 
 @when(parsers.parse('I search for country "{country}"'))
 def search_for_country(driver, country):
-    driver.find_element_by_id('filter-box').send_keys(country)
+    ApplicationOverviewPage(driver).search_for_country(country)
 
 
 @then(parsers.parse('only "{country}" is displayed in country list'))
 def search_country_result(driver, country):
-    assert country == driver.find_element_by_id("pane_countries").text, \
+    assert country == ApplicationOverviewPage(driver).get_text_of_countries_list(), \
         "Country not searched correctly"
 
 
 @then(parsers.parse('I see "{country}" in a modal'))
 def selected_countries_in_modal(driver, country):
-    assert country in driver.find_element_by_css_selector(".modal-content").text, \
+    assert country in ApplicationOverviewPage(driver).get_text_of_country_modal_content(), \
         "Country not added to modal"
