@@ -47,7 +47,9 @@ def i_see_the_application_overview(driver):
     assert apply.get_text_of_application_results(3) == context.ref
     # assert apply_for_licence.get_text_of_application_results(3) == datetime.datetime.now().strftime("%b %d %Y, %H:%M%p")
     # TODO: This can break if the minute changes between the five lines of code
-    assert time_date_submitted in apply.get_text_of_application_results(4), "Created date is incorrect on draft overview"
+    a = time_date_submitted.split(':')
+    b = apply.get_text_of_application_results(4).split(':')
+    assert a[1] in b[1], "Created date is incorrect on draft overview: " + a[1] + b[1]
     app_id = driver.current_url[-36:]
     context.app_id = app_id
 
