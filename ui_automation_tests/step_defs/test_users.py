@@ -131,7 +131,7 @@ def test_deactivate_users(driver, exporter_url):
 
     # And I can see that the user is now deactivated
     assert utils.is_element_present(driver, By.XPATH,
-                                    "//td[text()='" + context.email_to_search + "']/following-sibling::td[text()='deactivated']")
+                                    "//td[text()='" + context.email_to_search + "']/following-sibling::td[text()='Deactivated']")
     # Given I am a deactivated user # When I attempt to log in # And I cannot log in
     exporter_hub.logout()
     exporter_hub.login(context.email_to_search, password)
