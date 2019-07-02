@@ -201,11 +201,10 @@ Feature: Licence
     Then error message is "Select which type of licence you want to apply for"
     When I select "standard" application and continue
     And I click continue
-    Then error message is "Select if you want to apply for a temporary or permanent licence."
+    Then error message is "Select if you want to apply for a temporary or permanent licence"
     When I select "permanent" option and continue
     And I click continue
-    Then error message is "Expected validation error for Have you been told that you need an export licence by an official? "
-    And error message is "Have you been told that you need an export licence by an official? "
+    Then error message is "Select if you you been told that you need an export licence by an official"
     When I select "yes" for whether I have an export licence and "123456" if I have a reference and continue
     And I delete the application
     Then I see the homepage
