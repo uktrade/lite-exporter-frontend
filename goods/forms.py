@@ -1,5 +1,5 @@
 from conf.settings import env
-from libraries.forms.components import Form, Question, ArrayQuestion, Option, InputType
+from libraries.forms.components import Form, Question, ArrayQuestion, Option, InputType, Group
 
 form = Form(title='Add Good', description='', caption='', questions=[
     Question(title='Description of good',
@@ -18,13 +18,30 @@ form = Form(title='Add Good', description='', caption='', questions=[
                              value='Yes',
                              show_pane='pane_control_code'),
                       Option(key='no',
-                             value='No')
+                             value='No'),
+                      Option(key='unsure',
+                             value='I don\'t know',
+                             show_pane='pane_not_sure_details')
                   ],
                   same_row=True),
     Question(title='What\'s your good\'s control code?',
              description='<noscript>If your good is controlled, enter its control code. </noscript>For example, ML1a.',
              input_type=InputType.INPUT,
              name='control_code'),
+    Group('not_sure_details', [
+        Question(
+             title='What do you think your is good\'s control code?',
+             description='<noscript>If your good is controlled, enter its control code. </noscript>For example, ML1a.',
+             input_type=InputType.INPUT,
+             optional=True,
+             name='not_sure_details_control_code'),
+        Question(
+             title='Further details about your goods',
+             description='If you don\'t know whether your good is controlled you can raise a CLC query<br>'
+                         'Give us any extra details about the goods you want use to help rate',
+             input_type=InputType.TEXTAREA,
+             name='not_sure_details_details'),
+    ]),
     ArrayQuestion(title='Is your good intended to be incorporated into an end product?',
                   description='',
                   input_type=InputType.RADIOBUTTONS,
