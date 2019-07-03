@@ -4,7 +4,7 @@ Feature: I want not be able to login to LITE within invalid credentials
   I want to be able to login to LITE
   So that I can see my exporter dashboard
 
-  @1134-abc
+  @1134-abc_abc
   Scenario: Login with invalid credentials
     Given I go to exporter homepage
     When I login to exporter homepage with username "test@mail.com" and "invalid"
