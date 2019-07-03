@@ -5,4 +5,4 @@ Feature: Set up a organisation
   Scenario: Set up organisation
     Given I go to internal homepage
     When I register a new organisation
-    Then organisation is registere
+    Then organisation is registered
