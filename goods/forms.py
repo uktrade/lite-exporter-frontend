@@ -30,7 +30,7 @@ form = Form(title='Add Good', description='', caption='', questions=[
              name='control_code'),
     Group('not_sure_details', [
         Question(
-             title='What do you think your is good\'s control code?',
+             title='What do you think is your good\'s control code?',
              description='<noscript>If your good is controlled, enter its control code. </noscript>For example, ML1a.',
              input_type=InputType.INPUT,
              optional=True,
