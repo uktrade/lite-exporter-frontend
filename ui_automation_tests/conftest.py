@@ -4,7 +4,6 @@ import os
 import random
 
 import pytest
-from pages.add_end_user_pages import AddEndUserPages
 from pages.add_goods_page import AddGoodPage
 from pages.add_new_external_location_form_page import AddNewExternalLocationFormPage
 from pages.application_overview_page import ApplicationOverviewPage
@@ -327,26 +326,3 @@ def add_new_good(driver, description, controlled, controlcode, incorporated, par
     exporter_hub.click_save_and_continue()
 
 
-@when(parsers.parse('I add an end user of type: "{type}", name: "{name}", website: "{website}", address: "{address}" and country "{country}"'))
-def add_new_end_user(driver, type, name, website, address, country):
-    add_end_user_pages = AddEndUserPages(driver)
-    add_end_user_pages.select_type(type)
-    add_end_user_pages.click_continue()
-    add_end_user_pages.enter_name(name)
-    add_end_user_pages.click_continue()
-    add_end_user_pages.enter_website(website)
-    add_end_user_pages.click_continue()
-    add_end_user_pages.enter_address(address)
-    add_end_user_pages.enter_country(country)
-    add_end_user_pages.click_continue()
-
-
-@when('I click on end user')
-def i_click_on_end_user(driver):
-    app = ApplicationOverviewPage(driver)
-    app.click_end_user_link()
-
-
-@when('I click on application overview')
-def i_click_on_application_overview(driver):
-    driver.find_element_by_css_selector("a[href*='overview'").click()
