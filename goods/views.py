@@ -38,6 +38,9 @@ class AddGood(TemplateView):
         if 'clc_query_confirmation' in data:
             if data['is_good_controlled'] == 'unsure' and data['clc_query_confirmation'] == 'yes':
                 data['are_you_sure'] = True
+                print('==============================')
+                print(data)
+                data['control_code'] = data['not_sure_details_control_code']
                 data, status_code = post_goods(request, data)
                 if status_code == 400:
                     return form_page(request, self.main_form, request.POST, errors=data['errors'])
