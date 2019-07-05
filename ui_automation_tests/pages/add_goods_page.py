@@ -31,6 +31,10 @@ class AddGoodPage():
         unsure_details.clear()
         unsure_details.send_keys(details)
 
+    def select_control_unsure_confirmation(self, option):
+        # The only options accepted here are 'yes' and 'no
+        self.driver.find_element_by_id("clc_query_confirmation-" + option.lower()).click()
+
     def select_is_your_good_intended_to_be_incorporated_into_an_end_product(self, option):
         if option == "Yes":
             self.driver.find_element_by_id("is_good_end_product-yes").click()
