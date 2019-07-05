@@ -38,8 +38,7 @@ add_goods_questions = Form(title='Add Good', description='', caption='', questio
              name='not_sure_details_control_code'),
         Question(
              title='Further details about your goods',
-             description='If you don\'t know whether your good is controlled you can raise a CLC query<br>'
-                         'Give us any extra details about the goods you want use to help rate',
+             description='Please enter details of why you don\'t know if your good is controlled',
              input_type=InputType.TEXTAREA,
              name='not_sure_details_details'),
     ]),
