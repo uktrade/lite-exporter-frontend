@@ -4,7 +4,6 @@ class AddGoodPage():
         self.driver = driver
         self.add_a_good_btn = "a[href*='/goods/add/']"
 
-
     def click_add_a_good(self):
         self.driver.find_element_by_css_selector(self.add_a_good_btn).click()
 
@@ -14,15 +13,23 @@ class AddGoodPage():
         description_tb.send_keys(description)
 
     def select_is_your_good_controlled(self, option):
-        if option == "Yes":
-            self.driver.find_element_by_id("is_good_controlled-yes").click()
-        else:
-            self.driver.find_element_by_id("is_good_controlled-no").click()
+        # The only options accepted here are 'yes', 'no' and 'unsure'
+        self.driver.find_element_by_id("is_good_controlled-" + option.lower()).click()
 
     def enter_control_code(self, code):
         control_code_tb = self.driver.find_element_by_id("control_code")
         control_code_tb.clear()
         control_code_tb.send_keys(code)
+
+    def enter_control_code_unsure(self, code):
+        control_code_tb = self.driver.find_element_by_id("not_sure_details_control_code")
+        control_code_tb.clear()
+        control_code_tb.send_keys(code)
+
+    def enter_control_unsure_details(self, details):
+        unsure_details = self.driver.find_element_by_id("not_sure_details_details")
+        unsure_details.clear()
+        unsure_details.send_keys(details)
 
     def select_is_your_good_intended_to_be_incorporated_into_an_end_product(self, option):
         if option == "Yes":

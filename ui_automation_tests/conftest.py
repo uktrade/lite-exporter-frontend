@@ -35,10 +35,10 @@ def pytest_addoption(parser):
         env = "dev"
     print("touched: " + env)
     parser.addoption("--driver", action="store", default="chrome", help="Type in browser type")
-    parser.addoption("--exporter_url", action="store", default="https://exporter.lite.service." + env + ".uktrade.io/", help="url")
-    #parser.addoption("--exporter_url", action="store", default="localhost:9000/", help="url")
-    parser.addoption("--internal_url", action="store", default="https://internal.lite.service." + env + ".uktrade.io/", help="url")
-    #parser.addoption("--internal_url", action="store", default="localhost:8080/", help="url")
+    #parser.addoption("--exporter_url", action="store", default="https://exporter.lite.service." + env + ".uktrade.io/", help="url")
+    parser.addoption("--exporter_url", action="store", default="localhost:9000/", help="url")
+    #parser.addoption("--internal_url", action="store", default="https://internal.lite.service." + env + ".uktrade.io/", help="url")
+    parser.addoption("--internal_url", action="store", default="localhost:8080/", help="url")
     parser.addoption("--email", action="store", default= "test@mail.com")
     parser.addoption("--password", action="store", default= "password")
     parser.addoption("--first_name", action="store", default= "Test")
@@ -310,7 +310,11 @@ def add_new_good(driver, description, controlled,  controlcode, incorporated, pa
     context.controlcode = controlcode
     add_goods_page.enter_description_of_goods(good_description)
     add_goods_page.select_is_your_good_controlled(controlled)
-    add_goods_page.enter_control_code(controlcode)
+    if controlled.lower() == 'unsure':
+        add_goods_page.enter_control_code_unsure(controlcode)
+        add_goods_page.enter_control_unsure_details(description + ' unsure')
+    else:
+        add_goods_page.enter_control_code(controlcode)
     add_goods_page.select_is_your_good_intended_to_be_incorporated_into_an_end_product(incorporated)
     if "empty" not in good_part:
         add_goods_page.enter_part_number(good_part)
