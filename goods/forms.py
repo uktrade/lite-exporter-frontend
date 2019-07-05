@@ -1,7 +1,8 @@
 from conf.settings import env
-from libraries.forms.components import Form, Question, ArrayQuestion, Option, InputType, Group
+from libraries.forms.components import Form, Question, ArrayQuestion, Option, InputType, Group, Section
 
-form = Form(title='Add Good', description='', caption='', questions=[
+
+add_goods_questions = Form(title='Add Good', description='', caption='', questions=[
     Question(title='Description of good',
              description='This can make it easier to find your good later',
              input_type=InputType.TEXTAREA,
@@ -59,6 +60,23 @@ form = Form(title='Add Good', description='', caption='', questions=[
              name='part_number',
              optional=True),
 ])
+
+are_you_sure = Form(title='Are you sure?',
+                    description='By submitting you are creating a CLC query that cannot be altered',
+                    questions=[
+                        ArrayQuestion(title='CLC Confirmation',
+                            input_type=InputType.RADIOBUTTONS,
+                            name='clc_query_confirmation',
+                            description='',
+                            data=[
+                                    Option(key='yes',
+                                           value='Yes'),
+                                    Option(key='no',
+                                           value='No')
+                                ],
+                                same_row=True),
+                            ]
+                    )
 
 edit_form = Form(title='Edit Good', description='', caption='', questions=[
     Question(title='Description of good',
