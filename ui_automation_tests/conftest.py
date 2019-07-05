@@ -16,6 +16,7 @@ from pages.sites_page import SitesPage
 from pages.which_location_form_page import WhichLocationFormPage
 from pytest_bdd import given, when, then, parsers
 from selenium import webdriver
+from conf.settings import env
 
 #from core import strings
 
@@ -106,12 +107,14 @@ def first_name(request):
 def last_name(request):
     return request.config.getoption("--last_name")
 
+sso_email = env('TEST_SSO_EMAIL')
+sso_password = env('TEST_SSO_PASSWORD')
 
 @given('I go to internal homepage')
 def go_to_internal_homepage(driver, internal_url, internal_login_url):
     driver.get(internal_login_url)
-    driver.find_element_by_name("username").send_keys("test-uat-user@digital.trade.gov.uk")
-    driver.find_element_by_name("password").send_keys("5cCIlffSrqszgOuw23VEOECnM")
+    driver.find_element_by_name("username").send_keys(sso_email)
+    driver.find_element_by_name("password").send_keys(sso_password)
     driver.find_element_by_css_selector("[type='submit']").click()
     driver.get(internal_url)
 
