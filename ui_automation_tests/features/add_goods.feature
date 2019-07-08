@@ -31,7 +31,7 @@ Feature: I want to edit and remove goods on the goods list
         When I delete my good
         Then my good is no longer in the goods list
 
-    @testing
+    @LT-1006_add_clc_query_good
     Scenario: Add "I don't know" good
         Given I go to exporter homepage
         When I login to exporter homepage with username "test@mail.com" and "password"
