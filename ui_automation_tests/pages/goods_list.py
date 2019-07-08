@@ -1,6 +1,3 @@
-from selenium.common.exceptions import NoSuchElementException   
-
-
 class GoodsList():
 
     def __init__(self, driver):

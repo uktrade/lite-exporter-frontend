@@ -33,8 +33,8 @@
 						<td class="govuk-table__cell">{{ good.description }}</td>
 						<td class="govuk-table__cell" style="{% if not good.part_number %}opacity: 0.4;{% endif %}">{{ good.part_number|default:"N/A" }}</td>
 						<td class="govuk-table__cell" style="{% if not good.control_code %}opacity: 0.4;{% endif %}">{{ good.control_code|default:"N/A" }}</td>
-                        <td class="govuk-table__cell">
-                            {% if good.is_good_controlled == 'unsure' %}
+						<td data_good_clc_query_case_id="{{ good.clc_query_case_id }}" class="govuk-table__cell">
+                            {% if good.is_good_controlled == 'unsure' or good.clc_query_case_id != 'None' %}
                                 N/A: In CLC query
                             {% elif good.status == 'draft' %}
                                 <a class="govuk-link govuk-link--no-visited-state" href="{% url "goods:edit" pk=good.id %}">Edit</a> |
