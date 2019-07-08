@@ -29,6 +29,7 @@ def delete_draft(request, pk):
 
 def submit_draft(request, pk):
     data = post(request, APPLICATIONS_URL, {'id': pk})
+    print(data)
     return data.json(), data.status_code
 
 
