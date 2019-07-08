@@ -14,7 +14,7 @@ class AddGoodPage:
 
     def select_is_your_good_controlled(self, option):
         # The only options accepted here are 'yes', 'no' and 'unsure'
-        self.driver.find_element_by_id("is_good_controlled-" + option.lower()).click()
+        self.driver.find_element_by_id("is_good_controlled-%s" % option.lower()).click()
 
     def enter_control_code(self, code):
         control_code_tb = self.driver.find_element_by_id("control_code")
