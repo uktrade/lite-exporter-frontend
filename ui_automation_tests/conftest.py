@@ -1,23 +1,25 @@
-import pytest
-from selenium import webdriver
+import datetime
+import json
 import os
 import random
-import datetime
-from pages.application_overview_page import ApplicationOverviewPage
-from pytest_bdd import scenarios, given, when, then, parsers, scenarios
-from pages.exporter_hub_page import ExporterHubPage
-from pages.which_location_form_page import WhichLocationFormPage
+
+import pytest
 from pages.add_goods_page import AddGoodPage
-from pages.shared import Shared
-from pages.sites_page import SitesPage
-
-from pages.apply_for_a_licence_page import ApplyForALicencePage
-
-from pages.add_end_user_pages import AddEndUserPages
 from pages.add_new_external_location_form_page import AddNewExternalLocationFormPage
+from pages.application_overview_page import ApplicationOverviewPage
+from pages.apply_for_a_licence_page import ApplyForALicencePage
+from pages.exporter_hub_page import ExporterHubPage
 from pages.external_locations_page import ExternalLocationsPage
 from pages.preexisting_locations_page import PreexistingLocationsPage
+from pages.shared import Shared
+from pages.sites_page import SitesPage
+from pages.which_location_form_page import WhichLocationFormPage
+from pytest_bdd import given, when, then, parsers
+from selenium import webdriver
+from conf.settings import env
 import helpers.helpers as utils
+
+# from core import strings
 
 strict_gherkin = False
 
@@ -41,10 +43,15 @@ def pytest_addoption(parser):
     # parser.addoption("--internal_url", action="store", default="https://internal.lite.service." + env + ".uktrade.io/", help="url")
     parser.addoption("--exporter_url", action="store", default="localhost:9000/", help="url")
     parser.addoption("--internal_url", action="store", default="localhost:8080/", help="url")
-    parser.addoption("--email", action="store", default= "test@mail.com")
-    parser.addoption("--password", action="store", default= "password")
-    parser.addoption("--first_name", action="store", default= "Test")
-    parser.addoption("--last_name", action="store", default= "User")
+    parser.addoption("--email", action="store", default="test@mail.com")
+    parser.addoption("--password", action="store", default="password")
+    parser.addoption("--first_name", action="store", default="Test")
+    parser.addoption("--last_name", action="store", default="User")
+
+    # Load in content strings
+    # with open('../../lite-content/lite-exporter-frontend/strings.json') as json_file:
+     #   strings.constants = json.load(json_file)
+
 
 # Create driver fixture that initiates chrome
 @pytest.fixture(scope="session", autouse=True)
@@ -59,7 +66,8 @@ def driver(request):
         browser.implicitly_wait(10)
         return browser
     else:
-        print('only chrome is supported at the moment')
+        print('Only Chrome is supported at the moment')
+
     def fin():
         driver.quit()
         request.addfinalizer(fin)
@@ -100,12 +108,14 @@ def first_name(request):
 def last_name(request):
     return request.config.getoption("--last_name")
 
+sso_email = env('TEST_SSO_EMAIL')
+sso_password = env('TEST_SSO_PASSWORD')
 
 @given('I go to internal homepage')
 def go_to_internal_homepage(driver, internal_url, internal_login_url):
     driver.get(internal_login_url)
-    driver.find_element_by_name("username").send_keys("test-uat-user@digital.trade.gov.uk")
-    driver.find_element_by_name("password").send_keys("5cCIlffSrqszgOuw23VEOECnM")
+    driver.find_element_by_name("username").send_keys(sso_email)
+    driver.find_element_by_name("password").send_keys(sso_password)
     driver.find_element_by_css_selector("[type='submit']").click()
     driver.get(internal_url)
 
@@ -295,6 +305,7 @@ def click_external_locations(driver):
 def click_add_from_organisation_button(driver):
     driver.find_element_by_css_selector('a[href*="add-preexisting"]').click()
 
+
 @when('I click add a good button')
 def click_add_from_organisation_button(driver):
     add_goods_page = AddGoodPage(driver)
@@ -302,7 +313,7 @@ def click_add_from_organisation_button(driver):
 
 
 @when(parsers.parse('I add a good or good type with description "{description}" controlled "{controlled}" control code "{controlcode}" incorporated "{incorporated}" and part number "{part}"'))
-def add_new_good(driver, description, controlled,  controlcode, incorporated, part):
+def add_new_good(driver, description, controlled, controlcode, incorporated, part):
     exporter_hub = ExporterHubPage(driver)
     add_goods_page = AddGoodPage(driver)
     date_time = utils.get_current_date_time_string()
@@ -324,28 +335,3 @@ def add_new_good(driver, description, controlled,  controlcode, incorporated, pa
     else:
         add_goods_page.enter_control_code(controlcode)
     exporter_hub.click_save_and_continue()
-
-
-@when(parsers.parse('I add an end user of type: "{type}", name: "{name}", website: "{website}", address: "{address}" and country "{country}"'))
-def add_new_end_user(driver, type, name, website, address, country):
-    add_end_user_pages = AddEndUserPages(driver)
-    add_end_user_pages.select_type(type)
-    add_end_user_pages.click_continue()
-    add_end_user_pages.enter_name(name)
-    add_end_user_pages.click_continue()
-    add_end_user_pages.enter_website(website)
-    add_end_user_pages.click_continue()
-    add_end_user_pages.enter_address(address)
-    add_end_user_pages.enter_country(country)
-    add_end_user_pages.click_continue()
-
-
-@when('I click on end user')
-def i_click_on_end_user(driver):
-    app = ApplicationOverviewPage(driver)
-    app.click_end_user_link()
-
-
-@when('I click on application overview')
-def i_click_on_application_overview(driver):
-    driver.find_element_by_css_selector("a[href*='overview'").click()

@@ -1,7 +1,7 @@
-@internal @set_up  @all @organisation
+@internal @set_up @organisation @all
 Feature: Set up a organisation
-As a...
 
+  @set_up_org
   Scenario: Set up organisation
     Given I go to internal homepage
     When I register a new organisation

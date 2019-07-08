@@ -1,7 +1,10 @@
-@exporter @set_up  @all @goods
-Feature: Set up goods
-As a...
+@goods @all
+Feature: I want to edit and remove goods on the goods list
+    As a logged in exporter
+    I want to add edit and remove goods on my goods list
+    So that I can ensure the correct goods are listed on my goods list
 
+    @LT-928 @set_up
     Scenario: Set up goods
         Given I go to exporter homepage
         When I login to exporter homepage with username "test@mail.com" and "password"
@@ -16,6 +19,7 @@ As a...
         When I add a good or good type with description "Good T3" controlled "Yes" control code "535" incorporated "Yes" and part number "111"
         Then I see good in goods list
 
+    @LT-928_edit
     Scenario: Edit and delete good
         Given I go to exporter homepage
         When I login to exporter homepage with username "test@mail.com" and "password"
@@ -27,7 +31,7 @@ As a...
         When I delete my good
         Then my good is no longer in the goods list
 
-@testing
+    @testing
     Scenario: Add "I don't know" good
         Given I go to exporter homepage
         When I login to exporter homepage with username "test@mail.com" and "password"
@@ -36,6 +40,7 @@ As a...
         And I add a good or good type with description "aa" controlled "Unsure" control code "1234" incorporated "Yes" and part number "321"
         Then I see good in goods list
 
+    @after
     Scenario: Rollback
         Given I go to exporter homepage
         When I login to exporter homepage with username "test@mail.com" and "password"

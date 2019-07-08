@@ -41,12 +41,16 @@ def save_screenshot(driver, name):
 
 
 def find_element(driver, by_type, locator):
-    delay = 5  # seconds
+    delay = 2  # seconds
     try:
         return WebDriverWait(driver, delay).until(EC.presence_of_element_located((by_type, locator)))
 
     except TimeoutException:
         print("element {} was not found".format(locator))
+
+
+def find_element_by_href(driver, href):
+    return driver.find_element_by_css_selector('[href="' + href + '"]')
 
 
 def is_element_present(driver, how, what):
@@ -76,3 +80,7 @@ def type_text(driver, text, by_type, locator):
 def get_text(driver, by_type, locator):
     el = find_element(driver, by_type, locator)
     return el.text
+
+
+def scroll_down_page(driver, x, y):
+    driver.execute_script("window.scrollTo(" + str(x) + ", " + str(y) + ")")
