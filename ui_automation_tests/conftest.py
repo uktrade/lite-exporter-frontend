@@ -17,8 +17,10 @@ from pages.add_end_user_pages import AddEndUserPages
 from pages.add_new_external_location_form_page import AddNewExternalLocationFormPage
 from pages.external_locations_page import ExternalLocationsPage
 from pages.preexisting_locations_page import PreexistingLocationsPage
+import helpers.helpers as utils
 
 strict_gherkin = False
+
 
 # Screenshot in case of any test failure
 def pytest_exception_interact(node, report):
@@ -35,10 +37,10 @@ def pytest_addoption(parser):
         env = "dev"
     print("touched: " + env)
     parser.addoption("--driver", action="store", default="chrome", help="Type in browser type")
-    parser.addoption("--exporter_url", action="store", default="https://exporter.lite.service." + env + ".uktrade.io/", help="url")
-    # parser.addoption("--exporter_url", action="store", default="localhost:9000/", help="url")
-    parser.addoption("--internal_url", action="store", default="https://internal.lite.service." + env + ".uktrade.io/", help="url")
-    # parser.addoption("--internal_url", action="store", default="localhost:8080/", help="url")
+    # parser.addoption("--exporter_url", action="store", default="https://exporter.lite.service." + env + ".uktrade.io/", help="url")
+    # parser.addoption("--internal_url", action="store", default="https://internal.lite.service." + env + ".uktrade.io/", help="url")
+    parser.addoption("--exporter_url", action="store", default="localhost:9000/", help="url")
+    parser.addoption("--internal_url", action="store", default="localhost:8080/", help="url")
     parser.addoption("--email", action="store", default= "test@mail.com")
     parser.addoption("--password", action="store", default= "password")
     parser.addoption("--first_name", action="store", default= "Test")
@@ -303,8 +305,9 @@ def click_add_from_organisation_button(driver):
 def add_new_good(driver, description, controlled,  controlcode, incorporated, part):
     exporter_hub = ExporterHubPage(driver)
     add_goods_page = AddGoodPage(driver)
-    good_description = description + str(random.randint(1, 1000))
-    good_part = part + str(random.randint(1, 1000))
+    date_time = utils.get_current_date_time_string()
+    good_description = "%s %s" % (description, date_time)
+    good_part = "%s %s" % (part, date_time)
     context.good_description = good_description
     context.part = good_part
     context.controlcode = controlcode

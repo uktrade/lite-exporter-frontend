@@ -27,6 +27,7 @@ As a...
         When I delete my good
         Then my good is no longer in the goods list
 
+@testing
     Scenario: Add "I don't know" good
         Given I go to exporter homepage
         When I login to exporter homepage with username "test@mail.com" and "password"
