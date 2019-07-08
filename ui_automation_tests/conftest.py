@@ -50,7 +50,7 @@ def pytest_addoption(parser):
 
     # Load in content strings
     # with open('../../lite-content/lite-exporter-frontend/strings.json') as json_file:
-     #   strings.constants = json.load(json_file)
+    #     strings.constants = json.load(json_file)
 
 
 # Create driver fixture that initiates chrome
@@ -110,6 +110,7 @@ def last_name(request):
 
 sso_email = env('TEST_SSO_EMAIL')
 sso_password = env('TEST_SSO_PASSWORD')
+
 
 @given('I go to internal homepage')
 def go_to_internal_homepage(driver, internal_url, internal_login_url):

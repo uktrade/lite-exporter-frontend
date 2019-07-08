@@ -4,7 +4,7 @@ from pages.exporter_hub_page import ExporterHubPage
 from pages.add_goods_page import AddGoodPage
 from conftest import context
 
-scenarios('../features/add_goods.feature', strict_gherkin=False)
+scenarios('../features/goods/add_goods.feature', strict_gherkin=False)
 
 
 @then('I see good in goods list')
