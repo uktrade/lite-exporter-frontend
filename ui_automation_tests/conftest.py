@@ -16,7 +16,6 @@ from pages.sites_page import SitesPage
 from pages.which_location_form_page import WhichLocationFormPage
 from pytest_bdd import given, when, then, parsers
 from selenium import webdriver
-from conf.settings import env
 
 #from core import strings
 
