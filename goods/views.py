@@ -8,8 +8,6 @@ from libraries.forms.generators import form_page
 
 from goods import forms
 from goods.services import get_goods, post_goods, get_good, update_good, delete_good
-from libraries.forms.helpers import remove_unused_errors
-from libraries.forms.submitters import submit_paged_form
 
 
 class Goods(TemplateView):
@@ -32,14 +30,12 @@ class AddGood(TemplateView):
     def post(self, request):
         data = request.POST.copy()
 
-        # Logic for when we are the confirmation page
+        # Logic for when we are at the confirmation page
         data['validate_only'] = False
 
         if 'clc_query_confirmation' in data:
             if data['is_good_controlled'] == 'unsure' and data['clc_query_confirmation'] == 'yes':
                 data['are_you_sure'] = True
-                print('==============================')
-                print(data)
                 data['control_code'] = data['not_sure_details_control_code']
                 data, status_code = post_goods(request, data)
                 if status_code == 400:
