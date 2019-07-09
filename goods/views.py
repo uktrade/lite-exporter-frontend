@@ -30,7 +30,7 @@ class AddGood(TemplateView):
     def post(self, request):
         data = request.POST.copy()
 
-        # Logic for when we are the confirmation page
+        # Logic for when we are at the confirmation page
         data['validate_only'] = False
 
         if 'clc_query_confirmation' in data:
