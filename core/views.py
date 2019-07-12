@@ -8,10 +8,17 @@ from conf.settings import env
 from core.builtins.custom_tags import get_string
 from core.helpers import Section, Tile
 from core.models import User
+from core.services import get_notifications
 
 
 @login_required
 def hub(request):
+    response, _ = get_notifications(request, unviewed=True)
+    num_notifications = response['count']
+    application_notifications = ''
+    if num_notifications:
+        application_notifications = 'You have {number} new notifications'.format(number=num_notifications)
+
     context = {
         'title': get_string('hub.title'),
         'sections': [
@@ -22,7 +29,7 @@ def hub(request):
             Section("Manage", "", [
                 Tile(get_string('drafts.title'), "",
                      reverse_lazy('drafts:drafts')),
-                Tile(get_string('applications.title'), "",
+                Tile(get_string('applications.title'), application_notifications,
                      reverse_lazy('applications:applications')),
                 Tile('Goods', "", reverse_lazy('goods:goods')),
                 Tile('Sites', "", reverse_lazy('sites:sites')),
