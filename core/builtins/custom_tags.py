@@ -4,6 +4,7 @@ from django.templatetags.tz import do_timezone
 
 import datetime
 import stringcase
+from django.utils.safestring import mark_safe
 
 from conf.constants import ISO8601_FMT
 from core import strings
@@ -27,10 +28,19 @@ def get_string(value):
 @stringfilter
 def str_date(value):
     return_value = do_timezone(datetime.datetime.strptime(value, ISO8601_FMT), 'Europe/London')
-    return return_value.strftime('%-I:%M') + return_value.strftime('%p').lower() + ' ' + return_value.strftime('%d %B '
-                                                                                                               '%Y')
+    return return_value.strftime('%-I:%M') + return_value.strftime('%p').lower() + ' ' + return_value.strftime('%d %B %Y')
 
 
-@register.filter()
+@register.filter
 def sentence_case(value):
     return stringcase.sentencecase(value)
+
+
+@register.filter
+@stringfilter
+@mark_safe
+def highlight_text(value: str, term: str) -> str:
+    if not term.strip():
+        return value
+
+    return value.replace(term, f'<span class="lite-filter-highlight">{term}</span>')
