@@ -6,7 +6,7 @@ from django.urls import reverse_lazy
 
 from conf.settings import env
 from core.builtins.custom_tags import get_string
-from core.helpers import Section, Tile
+from core.helpers import Section, Tile, generate_notification_string
 from core.models import User
 from core.services import get_notifications, get_clc_notifications
 
@@ -15,17 +15,8 @@ from core.services import get_notifications, get_clc_notifications
 def hub(request):
     response, _ = get_notifications(request, unviewed=True)
     num_notifications = response['count']
-    application_notifications = ''
-
     response, _ = get_clc_notifications(request, unviewed=True)
     num_clc_notifications = response['count']
-    clc_notifications = ''
-
-    if num_notifications:
-        application_notifications = 'You have {number} new notifications'.format(number=num_notifications)
-
-    if num_clc_notifications:
-        clc_notifications = 'You have {number} new notifications'.format(number=num_clc_notifications)
 
     context = {
         'title': get_string('hub.title'),
@@ -37,9 +28,9 @@ def hub(request):
             Section("Manage", "", [
                 Tile(get_string('drafts.title'), "",
                      reverse_lazy('drafts:drafts')),
-                Tile(get_string('applications.title'), application_notifications,
+                Tile(get_string('applications.title'), generate_notification_string(num_notifications),
                      reverse_lazy('applications:applications')),
-                Tile('Goods', clc_notifications,
+                Tile('Goods', generate_notification_string(num_clc_notifications),
                      reverse_lazy('goods:goods')),
                 Tile('Sites', "", reverse_lazy('sites:sites')),
                 Tile('Users', "", reverse_lazy('users:users')),
