@@ -12,7 +12,7 @@
 		<h1 class="govuk-heading-l">{{ title }}</h1>
 		<div class="lite-app-bar--right">
 			<a href="{% url 'sites:new' %}" class="govuk-button" draggable="false" role="button">
-				New Site
+				Add a Site
 			</a>
 		</div>
 	</div>
@@ -25,7 +25,7 @@
 						Name
 					</th>
 					<th class="lite-table__header">
-						ID
+						Address
 					</th>
 					<th class="lite-table__header"></th>
 				</tr>
@@ -37,7 +37,7 @@
 							{{ site.name }}
 						</td>
 						<td class="lite-table__cell">
-							{{ site.id }}
+							{{ site.address }}
 						</td>
 						<td class="lite-table__cell">
 							<a href="{% url 'sites:edit' site.id %}" class="govuk-link">Edit</a>
