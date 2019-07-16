@@ -37,7 +37,13 @@
 							{{ site.name }}
 						</td>
 						<td class="lite-table__cell">
-							{{ site.address }}
+							{{ site.address.address_line_1 }}<br/>
+							{% if site.address.address_line_2 %}
+								{{ site.address.address_line_2 }}<br/>
+							{% endif %}
+							{{ site.address.city }}<br/>
+							{{ site.address.postcode }}<br/>
+							{{ site.address.country }}
 						</td>
 						<td class="lite-table__cell">
 							<a href="{% url 'sites:edit' site.id %}" class="govuk-link">Edit</a>
