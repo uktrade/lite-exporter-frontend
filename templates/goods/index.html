@@ -9,8 +9,10 @@
 {% block body %}
 
 	<div class="lite-app-bar">
-		<h1 class="govuk-heading-l">Goods</h1>
-		<div class="lite-app-bar--right">
+		<div class="lite-app-bar__content">
+			<h2 class="govuk-heading-l">Goods</h2>
+		</div>
+		<div class="lite-app-bar__controls">
 			<a href="{% url 'goods:add' %}" id="add-a-good" class="govuk-button" draggable="false" role="button">
 				Add a good
 			</a>
