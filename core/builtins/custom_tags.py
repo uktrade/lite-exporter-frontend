@@ -1,9 +1,10 @@
+import datetime
+import re
+
+import stringcase
 from django import template
 from django.template.defaultfilters import stringfilter
 from django.templatetags.tz import do_timezone
-
-import datetime
-import stringcase
 from django.utils.safestring import mark_safe
 
 from conf.constants import ISO8601_FMT
@@ -40,7 +41,20 @@ def sentence_case(value):
 @stringfilter
 @mark_safe
 def highlight_text(value: str, term: str) -> str:
+
+    def insert_str(string, str_to_insert, string_index):
+        return string[:string_index] + str_to_insert + string[string_index:]
+
     if not term.strip():
         return value
 
-    return value.replace(term, f'<span class="lite-filter-highlight">{term}</span>')
+    indexes = [m.start() for m in re.finditer(term, value, flags=re.IGNORECASE)]
+
+    span = '<span class="lite-filter-highlight">'
+    span_end = '</span>'
+
+    for index in indexes:
+        value = insert_str(value, span, index)
+        value = insert_str(value, span_end, index + len(span) + len(term))
+
+    return value
