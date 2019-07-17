@@ -3,5 +3,9 @@
 {% load humanize %}
 
 {% block body %}
-    {{ data }}
+    <h1>Messages</h1>
+    {% for note in data.good.notes %}
+        <p>{{ note.text }}</p>
+        <hr>
+    {% endfor %}
 {% endblock %}

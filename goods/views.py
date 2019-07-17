@@ -30,6 +30,7 @@ class GoodsDetail(TemplateView):
         }
         return render(request, 'goods/good.html', context)
 
+
 class AddGood(TemplateView):
     main_form = forms.add_goods_questions
 
