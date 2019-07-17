@@ -17,11 +17,12 @@ def index(request):
     return render(request, 'applications/index.html', context)
 
 
-def application(request, pk):
-    data, status_code = get_application(request, str(pk))
+def application(request, id):
+    data, status_code = get_application(request, str(id))
+    print(data)
 
     if status_code is not 200:
-        raise HttpResponse(status=status_code)
+        return HttpResponse(status=status_code)
 
     context = {
         'data': data,

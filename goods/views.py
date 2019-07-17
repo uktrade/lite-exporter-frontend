@@ -20,6 +20,16 @@ class Goods(TemplateView):
         return render(request, 'goods/index.html', context)
 
 
+class GoodsDetail(TemplateView):
+    def get(self, request, pk):
+        data, status_code = get_good(request, str(pk))
+
+        context = {
+            'data': data,
+            'title': 'Manage Goods',
+        }
+        return render(request, 'goods/good.html', context)
+
 class AddGood(TemplateView):
     main_form = forms.add_goods_questions
 
