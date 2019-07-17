@@ -4,21 +4,6 @@ Feature: I want to edit and remove goods on the goods list
     I want to add edit and remove goods on my goods list
     So that I can ensure the correct goods are listed on my goods list
 
-    @LT-928 @set_up
-    Scenario: Set up goods
-        Given I go to exporter homepage
-        When I login to exporter homepage with username "test@mail.com" and "password"
-        And I click on goods link
-        When I click add a good button
-        And I add a good or good type with description "CZ 75B" controlled "Yes" control code "1234" incorporated "Yes" and part number "321"
-        Then I see good in goods list
-        When I click add a good button
-        When I add a good or good type with description "Beretta" controlled "Yes" control code "2345" incorporated "Yes" and part number "3456"
-        Then I see good in goods list
-        When I click add a good button
-        When I add a good or good type with description "Colt 45" controlled "Yes" control code "535" incorporated "Yes" and part number "111"
-        Then I see good in goods list
-
     @LT-928_edit
     Scenario: Edit and delete good
         Given I go to exporter homepage
@@ -39,10 +24,3 @@ Feature: I want to edit and remove goods on the goods list
         When I click add a good button
         And I add a good or good type with description "Hand pistol" controlled "Unsure" control code "1234" incorporated "Yes" and part number "321"
         Then I see good in goods list
-
-    @after
-    Scenario: Rollback
-        Given I go to exporter homepage
-        When I login to exporter homepage with username "test@mail.com" and "password"
-        And I click on goods link
-        Then Rollback goods
