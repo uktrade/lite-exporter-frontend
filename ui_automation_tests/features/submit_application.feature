@@ -262,3 +262,43 @@ Feature: I want to indicate the kind of licence I want
     When I add end user of address: "123 Home Street" and country "Ukraine"
     # Todo following step commented out due to bug
     # Then I see end user on overview
+
+  @LT-1119_add_exporter_note
+  Scenario: Submit standard application
+    Given I go to exporter homepage
+    When I login to exporter homepage with username "test@mail.com" and "password"
+    And I click on goods link
+    When I click add a good button
+    And I add a good or good type with description "Colt 52" controlled "Yes" control code "1234" incorporated "Yes" and part number "321"
+    And I go to exporter homepage
+    And I click on apply for a license button
+    And I click on start button
+    And I enter in name for application and continue
+    And I select "standard" application and continue
+    And I select "permanent" option and continue
+    And I select "yes" for whether I have an export licence and "123456" if I have a reference and continue
+    And I click on application locations link
+    And I select "organisation" for where my goods are located
+    And I select the site at position "1"
+    And I click continue
+    And I click on the goods link from overview
+    And I click the add from organisations goods button
+    And I click add to application for the good at position "1"
+    #Commenting out following steps due to bug - LT-1287 - uncomment when this is fixed
+    # And I click continue
+    # Then I see enter valid quantity and valid value error message
+    And I add values to my good of "1" quantity "123" and unit of measurement "Metres"
+    And I click continue
+    Then good is added to application
+    When I click overview
+    And I click on end user
+    And I add an end user of type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
+    Then I see end user on overview
+    When I submit the application
+    Then application is submitted
+    When I go to exporter homepage
+    And I click applications
+    Then I see submitted application
+    When I click on submitted application
+    And I create a note with "This is a great note"
+    Then I see my note
