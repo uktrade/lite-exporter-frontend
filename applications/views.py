@@ -26,6 +26,6 @@ def application(request, id):
 
     context = {
         'data': data,
-        'title': data.get("application").get("name"),
+        'title': data.get('application').get('name'),
     }
     return render(request, 'applications/application.html', context)

@@ -1,9 +1,10 @@
 import requests
 from django.contrib.auth import login as django_login, logout as django_logout
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
+from django.utils.decorators import decorator_from_middleware
 
+from conf.middleware import ProtectAllViewsMiddleware
 from conf.settings import env
 from core.builtins.custom_tags import get_string
 from core.helpers import Section, Tile, generate_notification_string
@@ -11,7 +12,6 @@ from core.models import User
 from core.services import get_notifications, get_clc_notifications
 
 
-@login_required
 def hub(request):
     response, _ = get_notifications(request, unviewed=True)
     num_notifications = response['count']
