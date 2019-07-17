@@ -21,19 +21,19 @@ def hub(request):
     context = {
         'title': get_string('hub.title'),
         'sections': [
-            Section("", "", [
-                Tile(get_string('licences.apply_for_a_licence'), "",
+            Section('', '', [
+                Tile(get_string('licences.apply_for_a_licence'), '',
                      reverse_lazy('apply_for_a_licence:index')),
             ]),
-            Section("Manage", "", [
-                Tile(get_string('drafts.title'), "",
+            Section('Manage', '', [
+                Tile(get_string('drafts.title'), '',
                      reverse_lazy('drafts:drafts')),
                 Tile(get_string('applications.title'), generate_notification_string(num_notifications),
                      reverse_lazy('applications:applications')),
                 Tile('Goods', generate_notification_string(num_clc_notifications),
                      reverse_lazy('goods:goods')),
-                Tile('Sites', "", reverse_lazy('sites:sites')),
-                Tile('Users', "", reverse_lazy('users:users')),
+                Tile('Sites', '', reverse_lazy('sites:sites')),
+                Tile('Users', '', reverse_lazy('users:users')),
             ]),
         ],
         'applicationDeleted': request.GET.get('application_deleted'),
