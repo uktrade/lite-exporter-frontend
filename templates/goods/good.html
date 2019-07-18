@@ -4,8 +4,9 @@
 
 {% block body %}
     <h1>Messages</h1>
-    {% for note in data.good.notes %}
-        <p>{{ note.text }}</p>
+    {% for note in data.good.notes reversed %}
+        <p class="govuk-label">{{ note.text }}</p>
+        <p class="govuk-hint govuk-!-font-size-16">{{ note.created_at|str_date }}</p>
         <hr>
     {% endfor %}
 {% endblock %}
