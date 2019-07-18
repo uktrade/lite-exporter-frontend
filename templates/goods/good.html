@@ -3,10 +3,12 @@
 {% load humanize %}
 
 {% block body %}
-    <h1>Messages</h1>
+    <h1 class="govuk-heading-m">Messages</h1>
     {% for note in data.good.notes reversed %}
-        <p class="govuk-label">{{ note.text }}</p>
-        <p class="govuk-hint govuk-!-font-size-16">{{ note.created_at|str_date }}</p>
-        <hr>
+        {% if note.is_visible_for_exporter %}
+            <p class="govuk-label">{{ note.text }}</p>
+            <p class="govuk-hint govuk-!-font-size-16">{{ note.created_at|str_date }}</p>
+            <hr>
+        {% endif %}
     {% endfor %}
 {% endblock %}
