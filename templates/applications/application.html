@@ -1,6 +1,6 @@
 {% extends 'layouts/base.html' %}
 
-{% load humanize %}
+{% load humanize static %}
 
 {% block body %}
 
@@ -157,5 +157,8 @@
 {#		<p class="info-label">Not started</p>#}
 {#	</div>#}
 {#</div>#}
+
+<script src="{% static 'javascripts/pluralize.js' %}"></script>
+<script src="{% static 'javascripts/specific/case_notes.js' %}"></script>
 
 {% endblock %}
