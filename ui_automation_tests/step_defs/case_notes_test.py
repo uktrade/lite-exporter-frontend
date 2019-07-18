@@ -39,7 +39,7 @@ def note_is_displayed(driver):
 
 
 @when('I click cancel button')
-def I_click_cancel_button(driver):
+def i_click_cancel_button(driver):
     application_page = SubmittedApplicationsPages(driver)
     application_page.click_cancel_btn()
 

@@ -10,7 +10,7 @@ scenarios('../features/add_goods.feature', strict_gherkin=False)
 @then('I see good in goods list')
 def assert_good_is_in_list(driver):
     goods_list = GoodsList(driver)
-    goods_list.assert_goods_are_displayed_of_good_name(context.good_description, context.part, context.controlcode)
+    goods_list.assert_goods_are_displayed_of_good_name(context.good_description, context.part, context.control_code)
 
 
 @when(parsers.parse('I edit a good to description "{description}" controlled "{controlled}" control code "{controlcode}" incorporated "{incorporated}" and part number "{part}"'))

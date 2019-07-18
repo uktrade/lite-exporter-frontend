@@ -1,7 +1,7 @@
-@internal @case_notes
-Feature: I want to add an internal note to a case and view notes
-  As a logged in government user
-  I want to add an internal note to a case and view existing notes
+@case_notes @all
+Feature: I want to add a note to an application and view notes
+  As a logged in exporter
+  I want to add a note to an application and view existing notes
   So that I can record my findings and comments and others users can see these
 
   @LT-1119_add
