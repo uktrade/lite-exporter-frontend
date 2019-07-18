@@ -46,8 +46,15 @@ def pytest_addoption(parser):
         env = "dev"
     print("touched: " + env)
     parser.addoption("--driver", action="store", default="chrome", help="Type in browser type")
+<<<<<<< Updated upstream
     parser.addoption("--exporter_url", action="store", default=EXPORTER_URL, help="url")
     parser.addoption("--internal_url", action="store", default=INTERNAL_URL, help="url")
+=======
+    # parser.addoption("--exporter_url", action="store", default="https://exporter.lite.service." + env + ".uktrade.io/", help="url")
+    # parser.addoption("--internal_url", action="store", default="https://internal.lite.service." + env + ".uktrade.io/", help="url")
+    parser.addoption("--exporter_url", action="store", default="localhost:9000/", help="url")
+    parser.addoption("--internal_url", action="store", default="localhost:8080/", help="url")
+>>>>>>> Stashed changes
     parser.addoption("--sso-url", action="store", default="https://sso.trade.uat.uktrade.io/login/", help="url")
     parser.addoption("--email", action="store", default="test@mail.com")
     parser.addoption("--password", action="store", default="password")

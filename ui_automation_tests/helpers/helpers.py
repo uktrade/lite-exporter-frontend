@@ -102,7 +102,6 @@ def scroll_down_page(driver, x, y):
     driver.execute_script("window.scrollTo(" + str(x) + ", " + str(y) + ")")
 
 
-
 def highlight(element):
     """Highlights (blinks) a Selenium Webdriver element"""
     driver = element._parent

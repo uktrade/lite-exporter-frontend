@@ -33,3 +33,6 @@ class SubmittedApplicationsPages:
     def get_text_of_case_note_warning(self):
         time.sleep(1)
         return self.driver.find_element_by_id(self.case_note_character_warning).text
+
+    def get_disabled_attribute_of_post_note(self):
+        return self.driver.find_element_by_id(self.post_note_btn).get_attribute("disabled")
