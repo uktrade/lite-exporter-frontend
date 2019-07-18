@@ -5,7 +5,7 @@ import helpers.helpers as utils
 
 from pages.hub_page import Hub
 
-scenarios('../features/case_notes.feature', strict_gherkin=False)
+# scenarios('../features/case_notes.feature', strict_gherkin=False)
 
 import logging
 log = logging.getLogger()
