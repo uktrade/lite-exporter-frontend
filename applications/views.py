@@ -19,7 +19,6 @@ def index(request):
 
 def application(request, id):
     data, status_code = get_application(request, str(id))
-    print(data)
 
     if status_code is not 200:
         return HttpResponse(status=status_code)
