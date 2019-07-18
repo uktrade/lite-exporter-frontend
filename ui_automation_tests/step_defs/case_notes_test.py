@@ -1,9 +1,9 @@
 from pytest_bdd import scenarios, given, when, then, parsers, scenarios
-from pages.application_page import SubmittedApplicationsPages
+from pages.submitted_applications_page import SubmittedApplicationsPages
 from conftest import context
 import helpers.helpers as utils
 
-from ui_automation_tests.pages.hub_page import Hub
+from pages.hub_page import Hub
 
 scenarios('../features/case_notes.feature', strict_gherkin=False)
 
@@ -75,4 +75,4 @@ def entered_text_no_longer_in_case_field(driver):
 def click_on_an_application(driver):
     hub_page = Hub(driver)
     hub_page.click_applications()
-    driver.find_element_by_css_selector("[href*=/application/]")
+    driver.find_element_by_css_selector(".govuk-table__cell [href*='/applications/']").click()

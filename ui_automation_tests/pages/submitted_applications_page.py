@@ -1,5 +1,5 @@
 import time
-
+import helpers.helpers as utils
 
 class SubmittedApplicationsPages:
 
@@ -8,8 +8,8 @@ class SubmittedApplicationsPages:
         self.case_note_field = "case_note"  # id
         self.post_note_btn = "button-post-note"  # id
         self.cancel_note_btn = "case-note-cancel-button"  # id
-        self.case_notes_text = ".lite-case-note"  # css
-        self.case_note_date_time = ".lite-activity-item .govuk-hint"  # css
+        self.case_notes_text = ".lite-application-note--exporter"  # css
+        self.case_note_date_time = ".lite-case-notes .govuk-hint"  # css
         self.case_note_character_warning = "case_note-warning"  # id
 
     def enter_case_note(self, text):

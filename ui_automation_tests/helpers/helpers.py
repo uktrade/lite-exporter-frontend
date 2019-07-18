@@ -1,11 +1,10 @@
 import allure
 import os
-import string
+import time
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException
-from selenium.webdriver.common.by import By
 from datetime import date, datetime
 import logging
 
@@ -17,6 +16,23 @@ screen_dir = os.path.join(path, "screenshot", str(now))
 
 def get_current_date_time_string():
     return datetime.now().strftime("%Y/%m/%d %H:%M:%S:%f")
+
+def get_formatted_date_time_h_m_pm_d_m_y():
+    time = datetime.now().strftime("%I:%M%p %d %B %Y").replace("PM", "pm").replace(
+        "AM", "am")
+    if time[0] == "0":
+        time = time[1:]
+    return time
+
+def get_unformatted_date_time():
+    return datetime.now()
+
+
+def get_formatted_date_time_m_d_h_s():
+    return datetime.now().strftime("%m%d%H%M%S")
+
+def repeat_to_length(string_to_expand, length):
+    return (string_to_expand * (int(length/len(string_to_expand))+1))[:length]
 
 
 def screen_path():
@@ -84,3 +100,17 @@ def get_text(driver, by_type, locator):
 
 def scroll_down_page(driver, x, y):
     driver.execute_script("window.scrollTo(" + str(x) + ", " + str(y) + ")")
+
+
+
+def highlight(element):
+    """Highlights (blinks) a Selenium Webdriver element"""
+    driver = element._parent
+
+    def apply_style(s):
+        driver.execute_script("arguments[0].setAttribute('style', arguments[1]);",
+                              element, s)
+    original_style = element.get_attribute('style')
+    apply_style("background: yellow; border: 2px solid red;")
+    time.sleep(.7)
+    apply_style(original_style)
