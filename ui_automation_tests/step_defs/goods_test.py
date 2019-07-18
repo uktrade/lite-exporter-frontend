@@ -13,8 +13,8 @@ def assert_good_is_in_list(driver):
     goods_list.assert_goods_are_displayed_of_good_name(context.good_description, context.part, context.control_code)
 
 
-@when(parsers.parse('I edit a good to description "{description}" controlled "{controlled}" control code "{controlcode}" incorporated "{incorporated}" and part number "{part}"'))
-def edit_good(driver, description, controlled,  controlcode, incorporated, part):
+@when(parsers.parse('I edit a good to description "{description}" controlled "{controlled}" control code "{control_code}" incorporated "{incorporated}" and part number "{part}"'))
+def edit_good(driver, description, controlled,  control_code, incorporated, part):
     exporter_hub = ExporterHubPage(driver)
     add_goods_page = AddGoodPage(driver)
     goods_list = GoodsList(driver)
