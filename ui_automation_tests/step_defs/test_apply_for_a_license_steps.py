@@ -20,6 +20,8 @@ from selenium.webdriver.common.keys import Keys
 from helpers.helpers import find_element_by_href
 from pages.application_countries_list import ApplicationCountriesList
 
+from ui_automation_tests.pages.submitted_applications_page import SubmittedApplicationsPages
+
 scenarios('../features/submit_application.feature', strict_gherkin=False)
 
 import logging
@@ -196,16 +198,6 @@ def application_is_submitted(driver):
     assert driver.find_element_by_xpath("// th[text()[contains(., 'Reference')]]").is_displayed()
 
     logging.info("Test Complete")
-
-
-@when('I click on submitted application')
-def click_on_submitted_applicaiton(driver):
-    driver.find_element_by_xpath("//*[text()[contains(.,'" + context.app_time_id + "')]]").click()
-
-@when(parsers.parse('I create a note with "{case_note}"'))
-def create_case_note(driver, case_note):
-    application_page = ApplicationPage(driver)
-
 
 
 @then('I see the homepage')
