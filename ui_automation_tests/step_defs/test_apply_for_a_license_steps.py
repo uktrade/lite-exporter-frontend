@@ -100,29 +100,28 @@ def submit_the_application(driver):
     context.time_date_submitted = datetime.datetime.now().strftime("%I:%M%p").lstrip("0").replace(" 0", " ").lower() + datetime.datetime.now().strftime(" %d %B %Y")
 
 
-
 @then('I see no sites external sites or end user attached error message')
 def i_see_no_sites_attached_error(driver):
     shared = Shared(driver)
     assert "Cannot create an application with no goods attached" in shared.get_text_of_error_message()
-    assert "Cannot create an application with no sites or external sites attached" in shared.get_text_of_error_message_at_position_2()
-    assert "Cannot create an application without an end user" in shared.get_text_of_error_message_at_position_3()
+    assert "Cannot create an application with no sites or external sites attached" in shared.get_text_of_error_message(1)
+    assert "Cannot create an application without an end user" in shared.get_text_of_error_message(2)
 
 
 @then('I see no sites good types or countries attached error message')
 def i_see_open_licence_error(driver):
     shared = Shared(driver)
     assert "Cannot create an application with no good descriptions attached" in shared.get_text_of_error_message()
-    assert "Cannot create an application with no sites or external sites attached" in shared.get_text_of_error_message_at_position_2()
-    assert "Cannot create an application without countries being set" in shared.get_text_of_error_message_at_position_3()
+    assert "Cannot create an application with no sites or external sites attached" in shared.get_text_of_error_message(1)
+    assert "Cannot create an application without countries being set" in shared.get_text_of_error_message(2)
 
 
 @then('I see good types error messages')
 def goods_type_errors(driver):
     shared = Shared(driver)
     assert "This field may not be blank." in shared.get_text_of_error_message()
-    assert "This field is required." in shared.get_text_of_error_message_at_position_2()
-    assert "This field is required." in shared.get_text_of_error_message_at_position_3()
+    assert "This field is required." in shared.get_text_of_error_message(1)
+    assert "This field is required." in shared.get_text_of_error_message(2)
 
 
 @when(parsers.parse('I click add to application for the good at position "{no}"'))
@@ -136,7 +135,7 @@ def click_add_to_application_button(driver, no):
 def valid_quantity_value_error_message(driver):
     shared = Shared(driver)
     assert "Error:\nEnter a valid value" in shared.get_text_of_error_message()
-    assert "Error:\nEnter a valid quantity" in shared.get_text_of_error_message_at_position_2()
+    assert "Error:\nEnter a valid quantity" in shared.get_text_of_error_message(1)
 
 
 @when('I click on the goods link from overview')
