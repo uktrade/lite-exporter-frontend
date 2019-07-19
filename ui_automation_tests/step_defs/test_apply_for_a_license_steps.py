@@ -20,7 +20,7 @@ from selenium.webdriver.common.keys import Keys
 from helpers.helpers import find_element_by_href
 from pages.application_countries_list import ApplicationCountriesList
 
-from ui_automation_tests.pages.submitted_applications_page import SubmittedApplicationsPages
+from helpers.helpers import get_element_index_by_text
 
 scenarios('../features/submit_application.feature', strict_gherkin=False)
 
@@ -40,22 +40,23 @@ def click_apply_licence(driver):
 def i_see_the_application_overview(driver):
     time_date_submitted = datetime.datetime.now().strftime("%I:%M%p").lstrip("0").replace(" 0", " ").lower() + datetime.datetime.now().strftime(" %d %B %Y")
     apply = ApplyForALicencePage(driver)
-    assert apply.get_text_of_application_headers(0) == "Name"
-    assert apply.get_text_of_application_headers(1) == "Licence type"
-    assert apply.get_text_of_application_headers(2) == "Export type"
-    assert apply.get_text_of_application_headers(3) == "Reference Number"
-    assert apply.get_text_of_application_headers(4) == "Created at"
-    assert apply.get_text_of_application_results(1) == context.type + "_licence"
-    assert apply.get_text_of_application_results(2) == context.perm_or_temp
-    assert apply.get_text_of_application_results(3) == context.ref
-    # assert apply_for_licence.get_text_of_application_results(3) == datetime.datetime.now().strftime("%b %d %Y, %H:%M%p")
-    # TODO: This can break if the minute changes between the five lines of code
-    a = time_date_submitted.split(':')
-    b = apply.get_text_of_application_results(4).split(':')
-    assert a[1] in b[1], "Created date is incorrect on draft overview: " + a[1] + b[1]
+
+    element = driver.find_element_by_css_selector(".govuk-table").text
+
+    assert "Name" in element
+    assert "Licence type" in element
+    assert "Export type" in element
+    assert "Reference Number" in element
+    assert "Created at" in element
+    assert context.type + "_licence" in element
+    assert context.perm_or_temp in element
+    assert context.ref in element
+
+    # This can break if the minute changes between the five lines of code
+    assert datetime.datetime.now().strftime("%M%p %d %B %Y").lower() in element.lower()
+
     app_id = driver.current_url[-36:]
     context.app_id = app_id
-
 
 @when('I click drafts')
 def i_click_drafts(driver):
@@ -96,6 +97,8 @@ def submit_the_application(driver):
     apply = ApplyForALicencePage(driver)
     apply.click_submit_application()
     assert apply.get_text_of_success_message() == "Application submitted"
+    context.time_date_submitted = datetime.datetime.now().strftime("%I:%M%p").lstrip("0").replace(" 0", " ").lower() + datetime.datetime.now().strftime(" %d %B %Y")
+
 
 
 @then('I see no sites external sites or end user attached error message')
@@ -184,16 +187,15 @@ def application_is_submitted(driver):
 
     # Check application status is Submitted
     log.info("verifying application status is Submitted")
-    status = driver.find_element_by_xpath("//*[text()[contains(.,'" + context.app_time_id + "')]]/following-sibling::td[last()]")
-    last_updated = driver.find_element_by_xpath("//*[text()[contains(.,'" + context.app_time_id + "')]]/following-sibling::td[last()-1]")
-    goods = driver.find_element_by_xpath("//*[text()[contains(.,'" + context.app_time_id + "')]]/following-sibling::td[last()-2]")
-    assert status.is_displayed()
-    assert last_updated.is_displayed()
-    assert goods.is_displayed()
-    assert status.text == "Submitted", "Expected Status of application is to be 'Submitted' but is not"
-    assert "Good" in goods.text
+
+    elements = driver.find_elements_by_css_selector('tr')
+    element_number = get_element_index_by_text(elements, context.app_time_id)
+    element_row = elements[element_number].text
+    assert "Submitted" in element_row
+    assert context.time_date_submitted in element_row
+    assert "0 Goods" or "1 Good" or "2 Goods" in element_row
     assert driver.find_element_by_xpath("// th[text()[contains(., 'Status')]]").is_displayed()
-    assert driver.find_element_by_xpath("// th[text()[contains(., 'Last Updated')]]").is_displayed()
+    assert driver.find_element_by_xpath("// th[text()[contains(., 'Last updated')]]").is_displayed()
     assert driver.find_element_by_xpath("// th[text()[contains(., 'Goods')]]").is_displayed()
     assert driver.find_element_by_xpath("// th[text()[contains(., 'Reference')]]").is_displayed()
 
