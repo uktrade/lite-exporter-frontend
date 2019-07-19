@@ -97,6 +97,8 @@ def submit_the_application(driver):
     apply = ApplyForALicencePage(driver)
     apply.click_submit_application()
     assert apply.get_text_of_success_message() == "Application submitted"
+    context.time_date_submitted = datetime.datetime.now().strftime("%I:%M%p").lstrip("0").replace(" 0", " ").lower() + datetime.datetime.now().strftime(" %d %B %Y")
+
 
 
 @then('I see no sites external sites or end user attached error message')
@@ -190,7 +192,7 @@ def application_is_submitted(driver):
     element_number = get_element_index_by_text(elements, context.app_time_id)
     element_row = elements[element_number].text
     assert "Submitted" in element_row
-    assert context.last_updated in element_row
+    assert context.time_date_submitted in element_row
     assert "0 Goods" or "1 Good" or "2 Goods" in element_row
     assert driver.find_element_by_xpath("// th[text()[contains(., 'Status')]]").is_displayed()
     assert driver.find_element_by_xpath("// th[text()[contains(., 'Last updated')]]").is_displayed()
