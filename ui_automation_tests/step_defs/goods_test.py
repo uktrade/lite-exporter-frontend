@@ -33,7 +33,7 @@ def see_my_edited_good_in_list(driver):
 def delete_my_good_in_list(driver):
     #if "N/A: In application" not in driver.find_element_by_css_selector("govuk-table__cell"):
     goods_list = GoodsList(driver)
-    driver.find_element_by_css_selector("[href*='goods/delete/']").click()
+    driver.find_element_by_css_selector(".govuk-table-cell[text='" + context.edited_description + "'] + .govuk-table-cell + .govuk-table-cell a[href*='goods/delete/']").click()
     goods_list.click_on_delete_good_button()
 
 
