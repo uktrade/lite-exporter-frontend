@@ -320,6 +320,12 @@ def select_the_site_at_position(driver, no):
     sites.click_sites_checkbox(int(no)-1)
 
 
+@when('I click on applications')
+def click_my_application_link(driver):
+    exporter_hub = ExporterHubPage(driver)
+    exporter_hub.click_applications()
+
+
 @when('I click on goods link')
 def click_my_goods_link(driver):
     exporter_hub = ExporterHubPage(driver)

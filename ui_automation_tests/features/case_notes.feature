@@ -8,8 +8,10 @@ Feature: I want to add a note to an application and view notes
   Scenario: Add a new valid case note
     Given I go to exporter homepage
     When I login to exporter homepage with username "test@mail.com" and "password"
+    And I click on applications
+    # TODO: Create an application before this step!
     When I click on an application previously created
-    And I enter "This application is potentially risky." for case note
+    And I enter "This is a note on my application!" for case note
     And I click post note
     Then note is displayed
 
@@ -17,6 +19,7 @@ Feature: I want to add a note to an application and view notes
   Scenario: Add a case note filled to max with space characters
     Given I go to exporter homepage
     When I login to exporter homepage with username "test@mail.com" and "password"
+    And I click on applications
     When I click on an application previously created
     And I enter "the maximum limit with spaces" for case note
     And I click post note
@@ -26,6 +29,7 @@ Feature: I want to add a note to an application and view notes
   Scenario: Add a case note with too many characters
     Given I go to exporter homepage
     When I login to exporter homepage with username "test@mail.com" and "password"
+    And I click on applications
     When I click on an application previously created
     And I enter "the maximum limit" for case note
     Then case note warning is "You have 0 characters remaining"
@@ -37,6 +41,7 @@ Feature: I want to add a note to an application and view notes
   Scenario: Case note cancel button
     Given I go to exporter homepage
     When I login to exporter homepage with username "test@mail.com" and "password"
+    And I click on applications
     When I click on an application previously created
     And I enter "Case note to cancel" for case note
     And I click cancel button
