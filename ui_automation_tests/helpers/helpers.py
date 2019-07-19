@@ -88,7 +88,9 @@ def scroll_down_page(driver, x, y):
 
 
 def highlight(element):
-    """Highlights (blinks) a Selenium Webdriver element"""
+    """
+    Highlights (blinks) a Selenium Webdriver element
+    """
     driver = element._parent
 
     def apply_style(s):
@@ -98,3 +100,29 @@ def highlight(element):
     apply_style("background: yellow; border: 2px solid red;")
     time.sleep(.3)
     apply_style(original_style)
+
+
+def get_element_by_text(elements, text: str):
+    """
+    Loops through the list of elements, checks if the text is equal to
+    text and returns the element if so
+    """
+    for element in elements:
+        if element == text:
+            return element
+
+
+def get_element_index_by_text(elements, text: str):
+    """
+    Loops through the list of elements, checks if the text is equal to
+    text and returns the index of it if so
+    """
+    no = 0
+    element_number = -1
+    while no < len(elements):
+        if elements[no].text == text:
+            element_number = no
+            break
+        no += 1
+
+    return element_number

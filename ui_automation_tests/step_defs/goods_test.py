@@ -5,7 +5,7 @@ from pages.add_goods_page import AddGoodPage
 from conftest import context
 import helpers.helpers as utils
 
-from ui_automation_tests.helpers.helpers import highlight
+from ui_automation_tests.helpers.helpers import get_element_index_by_text
 
 scenarios('../features/add_goods.feature', strict_gherkin=False)
 
@@ -29,23 +29,17 @@ def edit_good(driver, description, controlled,  controlcode, incorporated, part)
 
 @then('I see my edited good in the goods list')
 def see_my_edited_good_in_list(driver):
-    assert context.edited_description in driver.find_element_by_tag_name("body").text
+    assert context.edited_description in driver.find_element_by_tag_name('body').text
 
 
 @when('I delete my good')
 def delete_my_good_in_list(driver):
-    elements = driver.find_elements_by_css_selector("td")
-    no = 0
-    while no < len(elements):
-        if elements[no].text == context.edited_description:
-            element_number = no
-            break
-        no += 1
-
+    elements = driver.find_elements_by_css_selector('td')
+    element_number = get_element_index_by_text(elements, context.edited_description)
     elements[element_number + 3].find_element_by_css_selector('[href*="goods/delete/"]').click()
 
 
 @then('my good is no longer in the goods list')
 def good_is_no_longer_in_list(driver):
-    assert context.edited_description not in driver.find_element_by_tag_name("body").text
+    assert context.edited_description not in driver.find_element_by_tag_name('body').text
 
