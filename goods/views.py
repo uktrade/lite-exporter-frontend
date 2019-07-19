@@ -27,7 +27,7 @@ class GoodsDetail(TemplateView):
 
         context = {
             'data': data,
-            'notes': [],
+            'notes': data['good']['notes'],
             'title': data['good']['description'],
         }
         return render(request, 'goods/good.html', context)
