@@ -69,9 +69,9 @@ def clear_site(driver):
 @then('I see select a site error message')
 def select_a_site_error(driver):
     shared = Shared(driver)
-    assert 'Cannot create an application without an end user' in shared.get_text_of_error_message_at_position_3()
+    assert 'Cannot create an application without an end user' in shared.get_text_of_error_message(2)
     assert 'Cannot create an application with no goods attached' in shared.get_text_of_error_message()
-    assert 'Cannot create an application with no sites or external sites attached' in shared.get_text_of_error_message_at_position_2()
+    assert 'Cannot create an application with no sites or external sites attached' in shared.get_text_of_error_message(1)
 
 
 @then('I see my new site at first position')
