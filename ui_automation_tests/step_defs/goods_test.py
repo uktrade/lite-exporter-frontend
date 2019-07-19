@@ -34,9 +34,12 @@ def see_my_edited_good_in_list(driver):
 
 @when('I delete my good')
 def delete_my_good_in_list(driver):
+    goods_list = GoodsList(driver)
+
     elements = driver.find_elements_by_css_selector('td')
     element_number = get_element_index_by_text(elements, context.edited_description)
-    elements[element_number + 3].find_element_by_css_selector('[href*="goods/delete/"]').click()
+    elements[element_number + 3].find_element_by_css_selector(goods_list.DELETE_LINK).click()
+    goods_list.click_on_delete_good_button()
 
 
 @then('my good is no longer in the goods list')
