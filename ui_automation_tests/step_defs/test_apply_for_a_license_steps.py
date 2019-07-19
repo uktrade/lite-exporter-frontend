@@ -216,7 +216,7 @@ def i_see_the_goods_types_list(driver, position):
     goods_type_page = ApplicationGoodsTypeList(driver)
     good_type = goods_type_page.get_text_of_goods_type_info(int(position))
     assert context.good_description in good_type
-    assert "Control list classification: " + context.controlcode in good_type
+    assert "Control list classification: " + context.control_code in good_type
 
 
 @then('I see my goods type added to the overview page with a description and a control code')
@@ -226,7 +226,7 @@ def i_see_the_goods_types_list_overview(driver):
     assert "Description" in good_type_table_overview
     assert "Control List Classification" in good_type_table_overview
     assert context.good_description in good_type_table_overview
-    assert context.controlcode in good_type_table_overview
+    assert context.control_code in good_type_table_overview
 
 
 @when('I click on countries')

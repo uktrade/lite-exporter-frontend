@@ -35,9 +35,9 @@ class ApplyForALicencePage:
         self.driver.find_element_by_id(self.name_or_reference_input_id).clear()
         self.driver.find_element_by_id(self.name_or_reference_input_id).send_keys(name)
 
-    def enter_control_code(self, controlCode):
+    def enter_control_code(self, control_code):
         self.driver.find_element_by_id(self.control_code_input_id).clear()
-        self.driver.find_element_by_id(self.control_code_input_id).send_keys(controlCode)
+        self.driver.find_element_by_id(self.control_code_input_id).send_keys(control_code)
 
     def enter_destination(self, destination):
         self.driver.find_element_by_id(self.destination_input_id).clear()
