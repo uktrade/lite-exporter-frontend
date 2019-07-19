@@ -5,6 +5,8 @@ from pages.add_goods_page import AddGoodPage
 from conftest import context
 import helpers.helpers as utils
 
+from ui_automation_tests.helpers.helpers import highlight
+
 scenarios('../features/add_goods.feature', strict_gherkin=False)
 
 
@@ -37,9 +39,10 @@ def delete_my_good_in_list(driver):
     while no < len(elements):
         if elements[no].text == context.edited_description:
             element_number = no
+            break
         no += 1
 
-    elements[element_number + 2].find_elements_by_css_selector('a[href*="delete"]').click()
+    elements[element_number + 3].find_element_by_css_selector('[href*="goods/delete/"]').click()
 
 
 @then('my good is no longer in the goods list')
