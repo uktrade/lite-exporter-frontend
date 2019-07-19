@@ -3,6 +3,7 @@ from pages.goods_list import GoodsList
 from pages.exporter_hub_page import ExporterHubPage
 from pages.add_goods_page import AddGoodPage
 from conftest import context
+import helpers.helpers as utils
 
 scenarios('../features/add_goods.feature', strict_gherkin=False)
 
@@ -31,10 +32,14 @@ def see_my_edited_good_in_list(driver):
 
 @when('I delete my good')
 def delete_my_good_in_list(driver):
-    #if "N/A: In application" not in driver.find_element_by_css_selector("govuk-table__cell"):
-    goods_list = GoodsList(driver)
-    driver.find_element_by_css_selector(".govuk-table-cell[text='" + context.edited_description + "'] + .govuk-table-cell + .govuk-table-cell a[href*='goods/delete/']").click()
-    goods_list.click_on_delete_good_button()
+    elements = driver.find_elements_by_css_selector("td")
+    no = 0
+    while no < len(elements):
+        if elements[no].text == context.edited_description:
+            element_number = no
+        no += 1
+
+    elements[element_number + 2].find_elements_by_css_selector('a[href*="delete"]').click()
 
 
 @then('my good is no longer in the goods list')
