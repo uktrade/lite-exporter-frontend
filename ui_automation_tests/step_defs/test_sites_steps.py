@@ -47,7 +47,7 @@ def new_sites_info(driver, edited, address, postcode, city, region, country):
 
 @then('I see sites list')
 def i_see_sites_list(driver):
-    assert driver.find_element_by_tag_name("h1").text == "Sites", \
+    assert driver.find_element_by_tag_name("h2").text == "Sites", \
         "Failed to return to Sites list page after Adding site"
 
     assert utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'"+context.new_site_name+"')]]")
