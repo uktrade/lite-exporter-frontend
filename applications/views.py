@@ -32,6 +32,7 @@ class ApplicationDetail(TemplateView):
         context = {
             'data': data,
             'title': data.get('application').get('name'),
+            'notes': data.get('application').get('case_notes'),
         }
         return render(request, 'applications/application.html', context)
 

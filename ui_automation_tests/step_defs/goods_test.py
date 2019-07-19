@@ -38,5 +38,4 @@ def delete_my_good_in_list(driver):
 
 @then('my good is no longer in the goods list')
 def good_is_no_longer_in_list(driver):
-    assert context.edited_description not in driver.find_element_by_tag_name("body").text
-
+    assert len(driver.find_elements_by_css_selector(f'a[text="{context.edited_description}"]')) is 0

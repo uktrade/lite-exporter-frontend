@@ -21,12 +21,14 @@ class Goods(TemplateView):
 
 
 class GoodsDetail(TemplateView):
-    def get(self, request, pk):
-        data, status_code = get_good(request, str(pk))
+    def get(self, request, **kwargs):
+        good_id = kwargs['pk']
+        data, status_code = get_good(request, str(good_id))
 
         context = {
             'data': data,
-            'title': 'Manage Goods',
+            'notes': [],
+            'title': data['good']['description'],
         }
         return render(request, 'goods/good.html', context)
 
