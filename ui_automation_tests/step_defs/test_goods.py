@@ -12,10 +12,13 @@ scenarios('../features/add_goods.feature', strict_gherkin=False)
 @then('I see good in goods list')
 def assert_good_is_in_list(driver):
     goods_list = GoodsList(driver)
-    goods_list.assert_goods_are_displayed_of_good_name(context.good_description, context.part, context.control_code)
+    goods_list.assert_goods_are_displayed_of_good_name(context.good_description,
+                                                       context.part,
+                                                       context.control_code)
 
 
-@when(parsers.parse('I edit a good to description "{description}" controlled "{controlled}" control code "{control_code}" incorporated "{incorporated}" and part number "{part}"'))
+@when(parsers.parse('I edit a good to description "{description}" controlled "{controlled}" '
+                    'control code "{control_code}" incorporated "{incorporated}" and part number "{part}"'))
 def edit_good(driver, description, controlled,  control_code, incorporated, part):
     exporter_hub = ExporterHubPage(driver)
     add_goods_page = AddGoodPage(driver)
@@ -33,6 +36,9 @@ def see_my_edited_good_in_list(driver):
 
 @when('I delete my good')
 def delete_my_good_in_list(driver):
+    """
+    Delete the recently edited good
+    """
     goods_list = GoodsList(driver)
 
     elements = driver.find_elements_by_css_selector('td')
@@ -43,4 +49,7 @@ def delete_my_good_in_list(driver):
 
 @then('my good is no longer in the goods list')
 def good_is_no_longer_in_list(driver):
+    """
+    Assert that the edited good is no longer in the goods list
+    """
     assert context.edited_description not in driver.find_element_by_tag_name('body').text
