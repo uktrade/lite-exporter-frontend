@@ -1,9 +1,8 @@
-from pytest_bdd import scenarios, given, when, then, parsers
+from pytest_bdd import scenarios, when, then, parsers
 from pages.goods_list import GoodsList
 from pages.exporter_hub_page import ExporterHubPage
 from pages.add_goods_page import AddGoodPage
 from conftest import context
-import helpers.helpers as utils
 
 from ui_automation_tests.helpers.helpers import get_element_index_by_text
 
