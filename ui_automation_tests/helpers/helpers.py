@@ -8,6 +8,7 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 from datetime import date, datetime
 import logging
+import time
 
 d = date.fromordinal(730920)
 now = d.strftime("%d-%m-%Y")
@@ -84,3 +85,44 @@ def get_text(driver, by_type, locator):
 
 def scroll_down_page(driver, x, y):
     driver.execute_script("window.scrollTo(" + str(x) + ", " + str(y) + ")")
+
+
+def highlight(element):
+    """
+    Highlights (blinks) a Selenium Webdriver element
+    """
+    driver = element._parent
+
+    def apply_style(s):
+        driver.execute_script("arguments[0].setAttribute('style', arguments[1]);",
+                              element, s)
+    original_style = element.get_attribute('style')
+    apply_style("background: yellow; border: 2px solid red;")
+    time.sleep(.3)
+    apply_style(original_style)
+
+
+def get_element_by_text(elements, text: str):
+    """
+    Loops through the list of elements, checks if the text is equal to
+    text and returns the element if so
+    """
+    for element in elements:
+        if element == text:
+            return element
+
+
+def get_element_index_by_text(elements, text: str):
+    """
+    Loops through the list of elements, checks if the text is equal to
+    text and returns the index of it if so
+    """
+    no = 0
+    element_number = -1
+    while no < len(elements):
+        if elements[no].text == text:
+            element_number = no
+            break
+        no += 1
+
+    return element_number
