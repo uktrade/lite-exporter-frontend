@@ -371,7 +371,7 @@ def add_new_good(driver, description, controlled, controlcode, incorporated, par
     good_part = "%s %s" % (part, date_time)
     context.good_description = good_description
     context.part = good_part
-    context.controlcode = controlcode
+    context.control_code = controlcode
     add_goods_page.enter_description_of_goods(good_description)
     add_goods_page.select_is_your_good_controlled(controlled)
     add_goods_page.select_is_your_good_intended_to_be_incorporated_into_an_end_product(incorporated)
