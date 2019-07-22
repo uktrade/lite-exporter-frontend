@@ -26,6 +26,11 @@ import helpers.helpers as utils
 strict_gherkin = False
 
 
+sso_email = env('TEST_SSO_EMAIL')
+sso_password = env('TEST_SSO_PASSWORD')
+EXPORTER_URL = env('EXPORTER_FRONTEND_URL')
+INTERNAL_URL = env('INTERNAL_FRONTEND_URL')
+
 # Screenshot in case of any test failure
 def pytest_exception_interact(node, report):
     if node and report.failed:
@@ -40,10 +45,8 @@ def pytest_addoption(parser):
     if env == 'None':
         env = "dev"
     parser.addoption("--driver", action="store", default="chrome", help="Type in browser type")
-    parser.addoption("--exporter_url", action="store", default="https://exporter.lite.service." + env + ".uktrade.io/", help="url")
-    parser.addoption("--internal_url", action="store", default="https://internal.lite.service." + env + ".uktrade.io/", help="url")
-    # parser.addoption("--exporter_url", action="store", default="localhost:9000/", help="url")
-    # parser.addoption("--internal_url", action="store", default="localhost:8080/", help="url")
+    parser.addoption("--exporter_url", action="store", default=EXPORTER_URL, help="url")
+    parser.addoption("--internal_url", action="store", default=INTERNAL_URL, help="url")
     parser.addoption("--sso-url", action="store", default="https://sso.trade.uat.uktrade.io/login/", help="url")
     parser.addoption("--email", action="store", default="test@mail.com")
     parser.addoption("--password", action="store", default="password")
@@ -74,7 +77,6 @@ def driver(request):
     def fin():
         driver.quit()
         request.addfinalizer(fin)
-
 
 
 # Create url fixture
@@ -111,10 +113,6 @@ def first_name(request):
 @pytest.fixture(scope="module")
 def last_name(request):
     return request.config.getoption("--last_name")
-
-
-sso_email = env('TEST_SSO_EMAIL')
-sso_password = env('TEST_SSO_PASSWORD')
 
 
 @pytest.fixture(scope="session")
@@ -322,6 +320,12 @@ def select_the_site_at_position(driver, no):
     sites.click_sites_checkbox(int(no)-1)
 
 
+@when('I click on applications')
+def click_my_application_link(driver):
+    exporter_hub = ExporterHubPage(driver)
+    exporter_hub.click_applications()
+
+
 @when('I click on goods link')
 def click_my_goods_link(driver):
     exporter_hub = ExporterHubPage(driver)
@@ -362,8 +366,8 @@ def click_add_from_organisation_button(driver):
     add_goods_page.click_add_a_good()
 
 
-@when(parsers.parse('I add a good or good type with description "{description}" controlled "{controlled}" control code "{controlcode}" incorporated "{incorporated}" and part number "{part}"'))
-def add_new_good(driver, description, controlled, controlcode, incorporated, part):
+@when(parsers.parse('I add a good or good type with description "{description}" controlled "{controlled}" control code "{control_code}" incorporated "{incorporated}" and part number "{part}"'))
+def add_new_good(driver, description, controlled, control_code, incorporated, part):
     exporter_hub = ExporterHubPage(driver)
     add_goods_page = AddGoodPage(driver)
     date_time = utils.get_current_date_time_string()
@@ -371,17 +375,17 @@ def add_new_good(driver, description, controlled, controlcode, incorporated, par
     good_part = "%s %s" % (part, date_time)
     context.good_description = good_description
     context.part = good_part
-    context.control_code = controlcode
+    context.control_code = control_code
     add_goods_page.enter_description_of_goods(good_description)
     add_goods_page.select_is_your_good_controlled(controlled)
     add_goods_page.select_is_your_good_intended_to_be_incorporated_into_an_end_product(incorporated)
     if "empty" not in good_part:
         add_goods_page.enter_part_number(good_part)
     if controlled.lower() == 'unsure':
-        add_goods_page.enter_control_code_unsure(controlcode)
+        add_goods_page.enter_control_code_unsure(control_code)
         add_goods_page.enter_control_unsure_details(description + " unsure")
         exporter_hub.click_save_and_continue()
         add_goods_page.select_control_unsure_confirmation("yes")
     else:
-        add_goods_page.enter_control_code(controlcode)
+        add_goods_page.enter_control_code(control_code)
     exporter_hub.click_save_and_continue()

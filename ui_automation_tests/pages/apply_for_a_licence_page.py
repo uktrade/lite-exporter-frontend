@@ -1,5 +1,6 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
+import helpers.helpers as utils
 
 import logging
 log = logging.getLogger()
@@ -124,6 +125,7 @@ class ApplyForALicencePage:
         return self.driver.find_elements_by_css_selector(self.licence_application_values)[no].text
 
     def get_text_of_application_headers(self, no):
+        utils.highlight(self.driver.find_elements_by_css_selector(self.licence_application_headers)[no])
         return self.driver.find_elements_by_css_selector(self.licence_application_headers)[no].text
 
     def get_text_of_success_message(self):

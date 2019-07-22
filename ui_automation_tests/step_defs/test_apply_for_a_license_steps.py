@@ -20,7 +20,7 @@ from selenium.webdriver.common.keys import Keys
 from helpers.helpers import find_element_by_href
 from pages.application_countries_list import ApplicationCountriesList
 
-from ui_automation_tests.helpers.helpers import get_element_index_by_text
+from helpers.helpers import get_element_index_by_text
 
 scenarios('../features/submit_application.feature', strict_gherkin=False)
 
