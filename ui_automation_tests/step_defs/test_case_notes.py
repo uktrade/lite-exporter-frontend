@@ -67,3 +67,5 @@ def post_note_is_disabled(driver):
 def entered_text_no_longer_in_case_field(driver):
     application_page = SubmittedApplicationsPages(driver)
     assert 'Case note to cancel' not in application_page.get_text_of_case_note_field()
+
+
