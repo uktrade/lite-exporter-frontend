@@ -1,5 +1,5 @@
 from django.shortcuts import redirect
-from django.urls import reverse
+from django.urls import resolve
 
 
 class ProtectAllViewsMiddleware:
@@ -7,8 +7,8 @@ class ProtectAllViewsMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        if not request.user.is_authenticated and request.path != '/login/':
-            return redirect(reverse('core:login'))
+        if resolve(request.path).app_name != 'authbroker_client' and not request.user.is_authenticated:
+            return redirect('authbroker_client:login')
 
         response = self.get_response(request)
 
