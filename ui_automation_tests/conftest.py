@@ -32,8 +32,6 @@ strict_gherkin = False
 
 sso_email = env('TEST_SSO_EMAIL')
 sso_password = env('TEST_SSO_PASSWORD')
-EXPORTER_URL = env('EXPORTER_FRONTEND_URL')
-INTERNAL_URL = env('INTERNAL_FRONTEND_URL')
 
 # Screenshot in case of any test failure
 def pytest_exception_interact(node, report):
@@ -49,8 +47,8 @@ def pytest_addoption(parser):
     if env == 'None':
         env = "dev"
     parser.addoption("--driver", action="store", default="chrome", help="Type in browser type")
-    parser.addoption("--exporter_url", action="store", default=EXPORTER_URL, help="url")
-    parser.addoption("--internal_url", action="store", default=INTERNAL_URL, help="url")
+    parser.addoption("--exporter_url", action="store", default="https://exporter.lite.service." + env + ".uktrade.io/", help="url")
+    parser.addoption("--internal_url", action="store", default="https://internal.lite.service." + env + ".uktrade.io/", help="url")
     parser.addoption("--sso-url", action="store", default="https://sso.trade.uat.uktrade.io/login/", help="url")
     parser.addoption("--email", action="store", default="test@mail.com")
     parser.addoption("--password", action="store", default="password")
