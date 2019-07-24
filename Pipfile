@@ -27,7 +27,6 @@ pytest-bdd = "*"
 pyautogui = "*"
 raven = "*"
 requests-oauthlib = "*"
-django-oauth-toolkit = "*"
 
 [requires]
 python_version = "3.7"
