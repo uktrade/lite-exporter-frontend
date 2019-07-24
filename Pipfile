@@ -27,7 +27,6 @@ pytest-bdd = "*"
 pyautogui = "*"
 raven = "*"
 requests-oauthlib = "*"
-authbroker-client = "*"
 django-oauth-toolkit = "*"
 
 [requires]
