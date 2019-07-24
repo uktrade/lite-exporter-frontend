@@ -28,6 +28,7 @@ pyautogui = "*"
 raven = "*"
 requests-oauthlib = "*"
 authbroker-client = "*"
+django-oauth-toolkit = "*"
 
 [requires]
 python_version = "3.7"

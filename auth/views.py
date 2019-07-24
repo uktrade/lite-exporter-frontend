@@ -7,7 +7,7 @@ from django.shortcuts import redirect
 from django.views.generic.base import RedirectView, View, TemplateView
 from raven.contrib.django.raven_compat.models import client
 
-from auth.services import authenticate_gov_user
+from auth.services import authenticate_exporter_user
 from conf.settings import env
 from core.builtins.custom_tags import get_string
 from core.models import User
@@ -28,7 +28,9 @@ class AuthView(RedirectView):
 
 class AuthCallbackView(View):
     def get(self, request, *args, **kwargs):
-
+        print(request)
+        print(request.body)
+        print(request.headers)
         auth_code = request.GET.get('code', None)
 
         if not auth_code:
@@ -59,7 +61,7 @@ class AuthCallbackView(View):
 
         profile = get_profile(get_client(self.request))
 
-        response, status_code = authenticate_gov_user(profile)
+        response, status_code = authenticate_exporter_user(profile)
         if status_code != 200:
             return error_page(None,
                               title=get_string('authentication.user_does_not_exist.title'),
