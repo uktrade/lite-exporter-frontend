@@ -26,7 +26,8 @@ django-inline-svg = "*"
 pytest-bdd = "*"
 pyautogui = "*"
 raven = "*"
-auth = "*"
+requests-oauthlib = "*"
+authbroker-client = "*"
 
 [requires]
 python_version = "3.7"
