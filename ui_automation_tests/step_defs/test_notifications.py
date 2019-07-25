@@ -8,8 +8,8 @@ from selenium.webdriver.common.by import By
 scenarios('../features/notifications.feature', strict_gherkin=False)
 
 
-@given('An application exists and a case note has been added via internal gov site')
-def application_exists_case_note_added(set_up_application_before_hook, create_note_visible_to_exporter):
+@when('An application exists and a case note has been added via internal gov site')
+def application_exists_case_note_added(add_an_application, internal_case_note):
 
     # all work done by fixtures
     assert True
