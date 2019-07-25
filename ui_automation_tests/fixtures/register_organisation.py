@@ -5,7 +5,7 @@ from selenium.webdriver.common.by import By
 
 
 @fixture(scope="session")
-def register_organisation(driver, request, sso_login_info, context):
+def register_organisation(driver, request, sso_login_info, exporter_sso_login_info, context):
     driver.get(request.config.getoption("--sso_sign_in_url"))
     driver.find_element_by_name("username").send_keys(sso_login_info['email'])
     driver.find_element_by_name("password").send_keys(sso_login_info['password'])
@@ -37,10 +37,9 @@ def register_organisation(driver, request, sso_login_info, context):
 
         internal_hub.click_save_and_continue()
 
-        internal_hub.enter_email("test@mail.com")
+        internal_hub.enter_email(exporter_sso_login_info['email'])
         internal_hub.enter_first_name("Test")
         internal_hub.enter_last_name("User1")
-        internal_hub.enter_password("password")
 
         internal_hub.click_submit()
         exists = utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'Test Org')]]")

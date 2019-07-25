@@ -3,8 +3,9 @@ import os
 
 import pytest
 from fixtures.core import context, driver, sso_login_info, invalid_username, exporter_sso_login_info
-from fixtures.urls import exporter_url, internal_url, sso_sign_in_url
 from fixtures.register_organisation import register_organisation
+from fixtures.sign_in_to_exporter import sign_in_to_exporter
+from fixtures.urls import exporter_url, internal_url, sso_sign_in_url
 
 from pages.add_end_user_pages import AddEndUserPages
 from pages.add_goods_page import AddGoodPage
@@ -45,11 +46,11 @@ def pytest_addoption(parser):
     if env == 'None':
         env = "dev"
     parser.addoption("--driver", action="store", default="chrome", help="Type in browser type")
-    parser.addoption("--exporter_url", action="store", default="https://exporter.lite.service." + env + ".uktrade.io/", help="url")
-    parser.addoption("--internal_url", action="store", default="https://internal.lite.service." + env + ".uktrade.io/", help="url")
+    #parser.addoption("--exporter_url", action="store", default="https://exporter.lite.service." + env + ".uktrade.io/", help="url")
+    #parser.addoption("--internal_url", action="store", default="https://internal.lite.service." + env + ".uktrade.io/", help="url")
     parser.addoption("--sso_sign_in_url", action="store", default="https://sso.trade.uat.uktrade.io/login/", help="url")
-    # parser.addoption("--exporter_url", action="store", default="http://localhost:9000", help="url")
-    # parser.addoption("--internal_url", action="store", default="http://localhost:8080", help="url")
+    parser.addoption("--exporter_url", action="store", default="http://localhost:9000", help="url")
+    parser.addoption("--internal_url", action="store", default="http://localhost:8080", help="url")
     parser.addoption("--sso-url", action="store", default="https://sso.trade.uat.uktrade.io/login/", help="url")
     parser.addoption("--email", action="store", default="test@mail.com")
     parser.addoption("--password", action="store", default="password")
@@ -103,27 +104,14 @@ def go_to_internal_homepage(driver, internal_url, internal_login_url):
 
 
 @given('I go to exporter homepage')
-def go_to_exporter(driver, exporter_url):
-    driver.get(exporter_url)
+def go_to_exporter(driver, exporter_url, sign_in_to_exporter):
+    print('ahah')
 
 
 @when('I go to exporter homepage')
 def go_to_exporter_when(driver, exporter_url):
     driver.get(exporter_url)
 
-
-@when('I login to exporter homepage')
-def login_to_exporter(driver, exporter_url, register_organisation):
-    exporter_hub = ExporterHubPage(driver)
-    driver.get(exporter_url)
-    exporter_hub.login(exporter_sso_login_info['email'], exporter_sso_login_info['password'])
-
-
-@when('I login to exporter homepage with invalid password')
-def login_to_exporter_invalid_pw(driver, exporter_url, register_organisation):
-    exporter_hub = ExporterHubPage(driver)
-    driver.get(exporter_url)
-    exporter_hub.login(exporter_sso_login_info['email'], "aasdfgadsfa")
 
 # utils
 @then(parsers.parse('driver title equals "{expected_text}"'))
