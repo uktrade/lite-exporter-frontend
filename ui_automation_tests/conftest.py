@@ -147,7 +147,7 @@ def click_start_button(driver):
 
 
 @when('I enter in name for application and continue')
-def enter_application_name(driver):
+def enter_application_name(driver, context):
     apply = ApplyForALicencePage(driver)
     app_time_id = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     context.app_time_id = app_time_id
@@ -158,7 +158,7 @@ def enter_application_name(driver):
 
 
 @when(parsers.parse('I select "{type}" application and continue'))
-def enter_type_of_application(driver, type):
+def enter_type_of_application(driver, type, context):
     context.type = type
     # type needs to be standard or open
     apply = ApplyForALicencePage(driver)
@@ -167,7 +167,7 @@ def enter_type_of_application(driver, type):
 
 
 @when(parsers.parse('I select "{permanent_or_temporary}" option and continue'))
-def enter_permanent_or_temporary(driver, permanent_or_temporary):
+def enter_permanent_or_temporary(driver, permanent_or_temporary, context):
     context.perm_or_temp = permanent_or_temporary
     # type needs to be permanent or temporary
     apply = ApplyForALicencePage(driver)
@@ -176,7 +176,7 @@ def enter_permanent_or_temporary(driver, permanent_or_temporary):
 
 
 @when(parsers.parse('I select "{yes_or_no}" for whether I have an export licence and "{reference}" if I have a reference and continue'))
-def enter_export_licence(driver, yes_or_no, reference):
+def enter_export_licence(driver, yes_or_no, reference, context):
     apply = ApplyForALicencePage(driver)
     apply.click_export_licence_yes_or_no(yes_or_no)
     context.ref = reference
@@ -295,7 +295,7 @@ def click_add_from_organisation_button(driver):
 
 
 @when(parsers.parse('I add a good or good type with description "{description}" controlled "{controlled}" control code "{control_code}" incorporated "{incorporated}" and part number "{part}"'))
-def add_new_good(driver, description, controlled, control_code, incorporated, part):
+def add_new_good(driver, description, controlled, control_code, incorporated, part, context):
     exporter_hub = ExporterHubPage(driver)
     add_goods_page = AddGoodPage(driver)
     date_time = utils.get_current_date_time_string()
@@ -320,7 +320,7 @@ def add_new_good(driver, description, controlled, control_code, incorporated, pa
 
 
 @pytest.fixture(scope="module")
-def create_note_visible_to_exporter(driver, request, internal_login_url, internal_url):
+def create_note_visible_to_exporter(driver, request, internal_login_url, internal_url, context):
     driver.get(internal_login_url)
     driver.find_element_by_name("username").send_keys(sso_email)
     driver.find_element_by_name("password").send_keys(sso_password)
@@ -339,7 +339,7 @@ def create_note_visible_to_exporter(driver, request, internal_login_url, interna
 
 
 @pytest.fixture(scope="module")
-def set_up_application_before_hook(driver, request, exporter_url, org_setup):
+def set_up_application_before_hook(driver, request, exporter_url, org_setup, context):
 
     apply = ApplyForALicencePage(driver)
     exporter_hub = ExporterHubPage(driver)
@@ -475,5 +475,3 @@ def set_up_application_before_hook(driver, request, exporter_url, org_setup):
     apply.click_submit_application()
     url = driver.current_url.replace('/overview/', '')
     context.app_id = url[-36:]
-
-

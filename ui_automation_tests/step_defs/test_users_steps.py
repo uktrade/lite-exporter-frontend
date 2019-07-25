@@ -34,7 +34,7 @@ def add_user(driver):
 
 
 @when('I add user')
-def add_user(driver):
+def add_user(driver, context):
     user_id = datetime.datetime.now().strftime("%m%d%H%M")
     first_name = "Test"
     last_name = "User" + user_id
@@ -63,7 +63,7 @@ def add_user(driver):
 
 
 @then('user is added')
-def user_is_added(driver):
+def user_is_added(driver, context):
     # Then I return to "Manage users" # And I can see the original list of users
     assert driver.find_element_by_tag_name("h1").text == "Users", \
         "Failed to return to Users list page after Adding user"
@@ -73,7 +73,7 @@ def user_is_added(driver):
 
 
 @when('I edit user then user is edited')
-def user_is_edited(driver, exporter_url):
+def user_is_edited(driver, exporter_url, context):
     user_id = datetime.datetime.now().strftime("%d%m%H%M")
     exporter_hub = ExporterHubPage(driver)
 
@@ -117,7 +117,7 @@ def user_is_edited(driver, exporter_url):
 
 
 @when('I deactivate user then user is deactivated')
-def user_is_edited(driver, exporter_url):
+def user_is_edited(driver, exporter_url, context):
     exporter_hub = ExporterHubPage(driver)
     context.full_name = "Test "+ context.last_name
     password = "1234"
@@ -141,7 +141,7 @@ def user_is_edited(driver, exporter_url):
 
 
 @when('I deactivate user then user is deactivated')
-def user_deactivate(driver, exporter_url):
+def user_deactivate(driver, exporter_url, context):
     exporter_hub = ExporterHubPage(driver)
     context.full_name = "Test "+ context.last_name
     password = "1234"
@@ -165,7 +165,7 @@ def user_deactivate(driver, exporter_url):
 
 
 @when('I reactivate user then user is reactivated')
-def user_reactivate(driver, exporter_url):
+def user_reactivate(driver, exporter_url, context):
     exporter_hub = ExporterHubPage(driver)
     email = "testuser_1@mail.com"
     password = "1234"
