@@ -21,15 +21,15 @@ Feature: I want to manage users
     Given I go to exporter homepage
     When I edit user then user is edited
 
-  @deactivate
-  Scenario: Deactivate user
-    Given I go to exporter homepage
-    When I deactivate user then user is deactivated
+#  @deactivate
+#  Scenario: Deactivate user
+#    Given I go to exporter homepage
+#    When I deactivate user then user is deactivated
 
-  @reactivate
-  Scenario: Reactivate user
-    Given I go to exporter homepage
-    When I reactivate user then user is reactivated
+#  @reactivate
+#  Scenario: Reactivate user
+#    Given I go to exporter homepage
+#    When I reactivate user then user is reactivated
 
   @reactivate_oneself
   Scenario: Reactivate oneself
