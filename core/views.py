@@ -8,9 +8,15 @@ from core.services import get_notifications, get_clc_notifications
 
 def hub(request):
     response, _ = get_notifications(request, unviewed=True)
-    num_notifications = response['count']
+    if response['count'] > 0:
+        num_notifications = response['count']
+    else:
+        num_notifications = ''
     response, _ = get_clc_notifications(request, unviewed=True)
-    num_clc_notifications = response['count']
+    if response['count'] > 0:
+        num_clc_notifications = response['count']
+    else:
+        num_clc_notifications = ''
 
     context = {
         'title': get_string('hub.title'),
@@ -22,9 +28,9 @@ def hub(request):
             Section('Manage', '', [
                 Tile(get_string('drafts.title'), '',
                      reverse_lazy('drafts:drafts')),
-                Tile(get_string('applications.title'), '',
+                Tile(get_string('applications.title'), num_notifications,
                      reverse_lazy('applications:applications')),
-                Tile('Goods', '',
+                Tile('Goods', num_clc_notifications,
                      reverse_lazy('goods:goods')),
                 Tile('Sites', '', reverse_lazy('sites:sites')),
                 Tile('Users', '', reverse_lazy('users:users')),
