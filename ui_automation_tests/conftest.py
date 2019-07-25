@@ -85,11 +85,9 @@ def last_name(request):
     return request.config.getoption("--last_name")
 
 
-
-
 @given('I go to internal homepage')
-def go_to_internal_homepage(driver, internal_url, internal_login_url):
-    driver.get(internal_login_url)
+def go_to_internal_homepage(driver, internal_url, sso_sign_in_url):
+    driver.get(sso_sign_in_url)
     driver.find_element_by_name("username").send_keys(sso_email)
     driver.find_element_by_name("password").send_keys(sso_password)
     driver.find_element_by_css_selector("[type='submit']").click()
@@ -97,8 +95,8 @@ def go_to_internal_homepage(driver, internal_url, internal_login_url):
 
 
 @when('I go to internal homepage')
-def go_to_internal_homepage(driver, internal_url, internal_login_url):
-    driver.get(internal_login_url)
+def go_to_internal_homepage(driver, internal_url, sso_sign_in_url):
+    driver.get(sso_sign_in_url)
     driver.find_element_by_name("username").send_keys(sso_email)
     driver.find_element_by_name("password").send_keys(sso_password)
     driver.find_element_by_css_selector("[type='submit']").click()
