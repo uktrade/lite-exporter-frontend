@@ -24,12 +24,10 @@ Feature: I want to manage users
 #  @deactivate
 #  Scenario: Deactivate user
 #    Given I go to exporter homepage
-#    When I deactivate user then user is deactivated
-
-#  @reactivate
-#  Scenario: Reactivate user
-#    Given I go to exporter homepage
-#    When I reactivate user then user is reactivated
+#    When I add the second test user
+#    And I deactivate user then user is deactivated
+#    And I go to exporter homepage
+#    And I reactivate user then user is reactivated
 
   @reactivate_oneself
   Scenario: Reactivate oneself

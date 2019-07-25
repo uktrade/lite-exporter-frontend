@@ -3,6 +3,8 @@ import logging
 
 from pytest_bdd import scenarios, given, when, then, parsers
 from selenium.webdriver.common.by import By
+
+from conf.settings import env
 from pages.exporter_hub_page import ExporterHubPage
 import helpers.helpers as utils
 
@@ -16,6 +18,19 @@ scenarios('../features/users.feature', strict_gherkin=False)
 def click_users_link(driver):
     exporter_hub = ExporterHubPage(driver)
     exporter_hub.click_users()
+
+
+@when('I add the second test user')
+def add_second_test_user(driver):
+    exporter_hub = ExporterHubPage(driver)
+    exporter_hub.click_users()
+    exists = 'Testy McTestFace' in driver.find_element_by_css_selector('.govuk-table').text
+    if not exists:
+        exporter_hub.click_add_a_user_btn()
+        exporter_hub.enter_first_name("Testy")
+        exporter_hub.enter_last_name("McTestFace")
+        exporter_hub.enter_add_user_email(env('TEST_EXPORTER_SSO_EMAIL2'))
+        exporter_hub.click_save_and_continue()
 
 
 @then('I add a user')
@@ -103,23 +118,40 @@ def user_is_edited(driver, exporter_url, context, exporter_sso_login_info):
 
 
 @when('I deactivate user then user is deactivated')
-def user_is_edited(driver, exporter_url, context):
+def user_is_deactivated(driver, exporter_url, context, request):
     exporter_hub = ExporterHubPage(driver)
 
 
     # Given I am a logged-in user # I want to deactivate users # When I choose the option to manage users
-    exporter_hub.click_users()
 
     # I should have the option to deactivate an active user # edit link, and link from user name
-    exporter_hub.click_user_name_link(context.added_user_name)
+    exporter_hub.click_user_name_link("Testy McTestFace")
 
     # When I choose to deactivate an active user # Then I return to "Manage users"
     exporter_hub.click_deactivate_btn()
 
     # And I can see that the user is now deactivated
-    assert utils.is_element_present(driver, By.XPATH,
-                                    "//td[text()='" + context.email_to_search + "']/following-sibling::td[text()='Deactivated']")
+    elements = driver.find_elements_by_css_selector(".govuk-table__row")
+    # When I choose the option to manage users # Then I should see the current user for my company
+    no = utils.get_element_index_by_text(elements, 'Testy McTestFace')
+    assert 'Deactivated' in elements[no].text, \
+        "user should status was expected to be Deactivated"
+
     # Given I am a deactivated user # When I attempt to log in # And I cannot log in
+    exporter_hub.logout()
+    driver.find_element_by_id('header-sign-in-link').click()
+    exporter_hub.login(env('TEST_EXPORTER_SSO_EMAIL2'), env('TEST_EXPORTER_SSO_PASSWORD2'))
+    driver.get(request.config.getoption("--exporter_url"))
+
+
+    assert driver.find_element_by_css_selector('.govuk-heading-xl').text == 'User not found'
+
+    driver.get("https://great.uat.uktrade.io/sso/accounts/")
+    driver.find_element_by_id("header-sign-out-link").click()
+    driver.find_element_by_css_selector('.button').click()
+
+    exporter_hub.login(env('TEST_EXPORTER_SSO_EMAIL'), env('TEST_EXPORTER_SSO_PASSWORD'))
+    driver.get(request.config.getoption("--exporter_url"))
 
 
 @when('I reactivate user then user is reactivated')
@@ -132,17 +164,13 @@ def user_reactivate(driver, exporter_url, context):
     exporter_hub.click_users()
 
     # When I choose to activate a deactivated user # Then I am asked "Are you sure you want to re-activate"
-    exporter_hub.click_user_name_link(context.full_name)
+    exporter_hub.click_user_name_link('Testy McTestFace')
     exporter_hub.click_reactivate_btn()
-
-    assert utils.is_element_present(driver, By.XPATH,
-                                    "//td[text()='" + email + "']/following-sibling::td[text()='Active']"),\
+    elements = driver.find_elements_by_css_selector(".govuk-table__row")
+    # When I choose the option to manage users # Then I should see the current user for my company
+    no = utils.get_element_index_by_text(elements, 'Testy McTestFace')
+    assert 'Active' in elements[no].text, \
         "user should status was expected to be Active"
-
-    # Given I am a reactivated I can log in
-    exporter_hub.logout()
-   # exporter_hub.login(email)
-    assert driver.title == "Exporter hub - LITE"
 
 
 @when('I try to deactivate myself I cannot')
