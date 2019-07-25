@@ -1,6 +1,6 @@
 from pytest_bdd import when, then, parsers, scenarios
 from pages.submitted_applications_page import SubmittedApplicationsPages
-from conftest import context
+
 import helpers.helpers as utils
 
 scenarios('../features/case_notes.feature', strict_gherkin=False)

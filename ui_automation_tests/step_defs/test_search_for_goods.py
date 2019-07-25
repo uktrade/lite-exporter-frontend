@@ -1,6 +1,6 @@
 from pytest_bdd import scenarios, given, when, then, parsers, scenarios
 from pages.application_goods_list import ApplicationGoodsList
-from conftest import context
+
 scenarios('../features/search_for_goods.feature', strict_gherkin=False)
 
 import logging

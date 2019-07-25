@@ -1,6 +1,6 @@
 import datetime
 import logging
-from conftest import context
+
 from pytest_bdd import scenarios, given, when, then, parsers
 from selenium.webdriver.common.by import By
 from pages.exporter_hub_page import ExporterHubPage
@@ -28,12 +28,12 @@ def add_user(driver):
             exporter_hub.click_add_a_user_btn()
             exporter_hub.enter_first_name("Test")
             exporter_hub.enter_last_name("user_" + i)
-            exporter_hub.enter_email("testuser_" + i + "@mail.com")
+            exporter_hub.enter_add_user_email("testuser_" + i + "@mail.com")
             exporter_hub.click_save_and_continue()
 
 
 @when('I add user')
-def add_user(driver, context):
+def add_user(driver, context, exporter_sso_login_info):
     user_id = datetime.datetime.now().strftime("%m%d%H%M")
     first_name = "Test"
     last_name = "User" + user_id
@@ -48,13 +48,13 @@ def add_user(driver, context):
 
     # When I choose the option to manage users # Then I should see the current user for my company
     assert utils.is_element_present(driver, By.XPATH,
-                                    "//td[text()='test@mail.com']/following-sibling::td[text()='Active']")
+                                    "//td[text()=" + exporter_sso_login_info['email'] + "]/following-sibling::td[text()='Active']")
 
     # And I should have the ability to add a new user # And I can insert an name, last name email and password for user
     exporter_hub.click_add_a_user_btn()
     exporter_hub.enter_first_name(first_name)
     exporter_hub.enter_last_name(last_name)
-    exporter_hub.enter_email(email)
+    exporter_hub.enter_add_user_email(email)
 
     # When I Save
     exporter_hub.click_save_and_continue()
@@ -84,7 +84,7 @@ def user_is_edited(driver, exporter_url, context, exporter_sso_login_info):
 
     # I should have the option to deactivate an active user # edit link, and link from user name
     exporter_hub.click_edit_for_user(email)
-    exporter_hub.enter_email(email_edited)
+    exporter_hub.enter_add_user_email(email_edited)
     exporter_hub.enter_first_name("Test_edited")
     exporter_hub.enter_last_name("user_2_edited")
 
@@ -107,7 +107,7 @@ def user_is_edited(driver, exporter_url, context, exporter_sso_login_info):
     # cleanup
     exporter_hub.click_users()
     exporter_hub.click_edit_for_user(email_edited)
-    exporter_hub.enter_email(email)
+    exporter_hub.enter_add_user_email(email)
     exporter_hub.enter_first_name("Test")
     context.last_name = "user_2"+user_id
     exporter_hub.enter_last_name(context.last_name)

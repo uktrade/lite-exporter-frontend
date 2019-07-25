@@ -35,6 +35,11 @@ class ExporterHubPage:
         email_tb.clear()
         email_tb.send_keys(email)
 
+    def enter_add_user_email(self, email):
+        email_tb = self.driver.find_element_by_name("email")
+        email_tb.clear()
+        email_tb.send_keys(email)
+
     def enter_password(self, password):
         password_tb = self.driver.find_element_by_name("password")
         password_tb.send_keys(password)

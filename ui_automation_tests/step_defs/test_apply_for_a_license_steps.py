@@ -10,7 +10,7 @@ from pages.exporter_hub_page import ExporterHubPage
 from pages.hub_page import Hub
 from pages.shared import Shared
 from pages.header import Header
-from conftest import context
+
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 

@@ -1,7 +1,7 @@
 from pytest_bdd import scenarios, given, when, then
 from ui_automation_tests.pages.exporter_hub_page import ExporterHubPage
 from ui_automation_tests.helpers import helpers
-from conftest import context
+
 import helpers.helpers as utils
 from selenium.webdriver.common.by import By
 

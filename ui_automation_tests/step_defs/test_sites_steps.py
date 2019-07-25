@@ -7,7 +7,7 @@ from pages.hub_page import Hub
 import datetime
 import helpers.helpers as utils
 from selenium.webdriver.common.by import By
-from conftest import context
+
 
 import logging
 log = logging.getLogger()
