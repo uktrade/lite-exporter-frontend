@@ -29,7 +29,6 @@ def add_user(driver):
             exporter_hub.enter_first_name("Test")
             exporter_hub.enter_last_name("user_" + i)
             exporter_hub.enter_email("testuser_" + i + "@mail.com")
-            exporter_hub.enter_password("1234")
             exporter_hub.click_save_and_continue()
 
 
@@ -56,7 +55,6 @@ def add_user(driver, context):
     exporter_hub.enter_first_name(first_name)
     exporter_hub.enter_last_name(last_name)
     exporter_hub.enter_email(email)
-    exporter_hub.enter_password("password")
 
     # When I Save
     exporter_hub.click_save_and_continue()
@@ -73,13 +71,13 @@ def user_is_added(driver, context):
 
 
 @when('I edit user then user is edited')
-def user_is_edited(driver, exporter_url, context):
+def user_is_edited(driver, exporter_url, context, exporter_sso_login_info):
     user_id = datetime.datetime.now().strftime("%d%m%H%M")
     exporter_hub = ExporterHubPage(driver)
 
     full_name = "Test user_2"
     email = context.email_to_search
-    password = "password"
+
     email_edited = "testuser_2_edited" + user_id+ "@mail.com"
     # Given I am a logged-in user # I want to deactivate users # When I choose the option to manage users
     exporter_hub.click_users()
@@ -104,7 +102,7 @@ def user_is_edited(driver, exporter_url, context):
     assert utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'" + email_edited + "')]]")
 
     exporter_hub.logout()
-    exporter_hub.login("test@mail.com", password)
+    exporter_hub.login(exporter_sso_login_info['email'], exporter_sso_login_info['password'])
 
     # cleanup
     exporter_hub.click_users()
@@ -168,7 +166,6 @@ def user_deactivate(driver, exporter_url, context):
 def user_reactivate(driver, exporter_url, context):
     exporter_hub = ExporterHubPage(driver)
     email = "testuser_1@mail.com"
-    password = "1234"
 
     # As a logged in user # I want to reactivate users who have previously been deactivated
     # So that returned users can perform actions in the system
@@ -184,7 +181,7 @@ def user_reactivate(driver, exporter_url, context):
 
     # Given I am a reactivated I can log in
     exporter_hub.logout()
-    exporter_hub.login(email, password)
+   # exporter_hub.login(email)
     assert driver.title == "Exporter hub - LITE"
 
 

@@ -148,18 +148,3 @@ class ExporterHubPage:
         assert apps_button.is_displayed()
         assert 'new notification' not in apps_button.text
 
-    # def click_submit_application(self):
-    #    self.driver.find_element_by_css_selector("button[type*='submit']").click()
-
-    # Old flow
-    # def create_application(self, name, destination, usage, activity):
-    #     self.click_apply_for_a_licence()
-    #     self.click_start()
-    #     self.enter_name_for_application(name)
-    #     self.click_save_and_continue()
-    #     self.enter_destination(destination)
-    #     self.click_save_and_continue()
-    #     self.enter_usage(usage)
-    #     self.click_save_and_continue()
-    #     self.enter_activity(activity)
-    #     self.click_submit()
