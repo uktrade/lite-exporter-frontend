@@ -5,6 +5,7 @@ import pytest
 from fixtures.core import context, driver, sso_login_info, invalid_username, exporter_sso_login_info
 from fixtures.register_organisation import register_organisation
 from fixtures.sign_in_to_exporter import sign_in_to_exporter
+from fixtures.add_a_good import add_a_good
 from fixtures.urls import exporter_url, internal_url, sso_sign_in_url
 
 from pages.add_end_user_pages import AddEndUserPages
@@ -104,7 +105,7 @@ def go_to_internal_homepage(driver, internal_url, internal_login_url):
 
 
 @given('I go to exporter homepage')
-def go_to_exporter(driver, exporter_url, sign_in_to_exporter):
+def go_to_exporter(driver, exporter_url, register_organisation, sign_in_to_exporter):
     print('ahah')
 
 

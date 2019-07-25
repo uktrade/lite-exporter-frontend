@@ -19,11 +19,7 @@ Feature: I want to indicate the kind of licence I want
   @LT-1091_standard @setup
   Scenario: Submit standard application
     Given I go to exporter homepage
-    When I click on goods link
-    And I click add a good button
-    And I add a good or good type with description "Colt 52" controlled "Yes" control code "1234" incorporated "Yes" and part number "321"
-    And I go to exporter homepage
-    And I click on apply for a license button
+    When I click on apply for a license button
     And I click on start button
     And I enter in name for application and continue
     And I select "standard" application and continue
@@ -55,11 +51,7 @@ Feature: I want to indicate the kind of licence I want
   @LT-1091_external
   Scenario: Submit application with external locations
     Given I go to exporter homepage
-    When I click on goods link
-    And I click add a good button
-    And I add a good or good type with description "Chinook" controlled "Yes" control code "1234" incorporated "Yes" and part number "321"
-    And I go to exporter homepage
-    And I click on apply for a license button
+    When I click on apply for a license button
     And I click on start button
     And I enter in name for application and continue
     And I select "standard" application and continue

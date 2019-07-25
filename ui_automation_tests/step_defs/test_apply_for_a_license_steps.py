@@ -31,7 +31,7 @@ log.addHandler(console)
 
 
 @when('I click on apply for a license button')
-def click_apply_licence(driver):
+def click_apply_licence(driver, add_a_good):
     exporter = ExporterHubPage(driver)
     exporter.click_apply_for_a_licence()
 
