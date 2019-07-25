@@ -28,9 +28,6 @@ class AuthView(RedirectView):
 
 class AuthCallbackView(View):
     def get(self, request, *args, **kwargs):
-        print(request)
-        print(request.body)
-        print(request.headers)
         auth_code = request.GET.get('code', None)
 
         if not auth_code:
@@ -70,7 +67,6 @@ class AuthCallbackView(View):
 
         # create the user
         user = authenticate(request)
-        print(response)
         user.user_token = response['token']
         user.first_name = response['first_name']
         user.last_name = response['last_name']
