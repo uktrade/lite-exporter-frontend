@@ -1,9 +1,10 @@
 import datetime
-import json
 import os
-import random
 
 import pytest
+from fixtures.core import context, driver, sso_login_info, invalid_username, exporter_sso_login_info
+from fixtures.urls import exporter_url, internal_url, sso_sign_in_url
+from fixtures.register_organisation import register_organisation
 
 from pages.add_end_user_pages import AddEndUserPages
 from pages.add_goods_page import AddGoodPage
@@ -12,7 +13,6 @@ from pages.application_goods_list import ApplicationGoodsList
 from pages.application_overview_page import ApplicationOverviewPage
 from pages.application_page import ApplicationPage
 from pages.apply_for_a_licence_page import ApplyForALicencePage
-from selenium.webdriver.common.by import By
 from pages.exporter_hub_page import ExporterHubPage
 from pages.external_locations_page import ExternalLocationsPage
 from pages.preexisting_locations_page import PreexistingLocationsPage
@@ -20,10 +20,8 @@ from pages.shared import Shared
 from pages.sites_page import SitesPage
 from pages.which_location_form_page import WhichLocationFormPage
 from pytest_bdd import given, when, then, parsers
-from selenium import webdriver
 from conf.settings import env
 import helpers.helpers as utils
-from pages.internal_hub_page import InternalHubPage
 
 # from core import strings
 
@@ -49,6 +47,7 @@ def pytest_addoption(parser):
     parser.addoption("--driver", action="store", default="chrome", help="Type in browser type")
     parser.addoption("--exporter_url", action="store", default="https://exporter.lite.service." + env + ".uktrade.io/", help="url")
     parser.addoption("--internal_url", action="store", default="https://internal.lite.service." + env + ".uktrade.io/", help="url")
+    parser.addoption("--sso_sign_in_url", action="store", default="https://sso.trade.uat.uktrade.io/login/", help="url")
     # parser.addoption("--exporter_url", action="store", default="http://localhost:9000", help="url")
     # parser.addoption("--internal_url", action="store", default="http://localhost:8080", help="url")
     parser.addoption("--sso-url", action="store", default="https://sso.trade.uat.uktrade.io/login/", help="url")
@@ -61,42 +60,6 @@ def pytest_addoption(parser):
     # with open('../../lite-content/lite-exporter-frontend/strings.json') as json_file:
     #     strings.constants = json.load(json_file)
 
-
-# Create driver fixture that initiates chrome
-@pytest.fixture(scope="session", autouse=True)
-@pytest.mark.order(1)
-def driver(request):
-    browser = request.config.getoption("--driver")
-    if browser == 'chrome':
-        if str(os.environ.get('ENVIRONMENT')) == 'None':
-            browser = webdriver.Chrome("chromedriver")
-        else:
-            browser = webdriver.Chrome()
-        browser.get("about:blank")
-        browser.implicitly_wait(10)
-        return browser
-    else:
-        print('Only Chrome is supported at the moment')
-
-    def fin():
-        driver.quit()
-        request.addfinalizer(fin)
-
-
-# Create url fixture
-@pytest.fixture(scope="module")
-def exporter_url(request):
-    return request.config.getoption("--exporter_url")
-
-
-@pytest.fixture(scope="module")
-def internal_url(request):
-    return request.config.getoption("--internal_url")
-
-
-@pytest.fixture(scope="module")
-def internal_login_url(request):
-    return request.config.getoption("--sso-url")
 
 
 @pytest.fixture(scope="module")
@@ -119,47 +82,6 @@ def last_name(request):
     return request.config.getoption("--last_name")
 
 
-@pytest.fixture(scope="session")
-def org_setup(driver, request):
-    driver.get(request.config.getoption("--sso-url"))
-    driver.find_element_by_name("username").send_keys(sso_email)
-    driver.find_element_by_name("password").send_keys(sso_password)
-    driver.find_element_by_css_selector("[type='submit']").click()
-    driver.get(request.config.getoption("--internal_url"))
-    internal_hub = InternalHubPage(driver)
-
-    internal_hub.click_manage_organisations_link()
-
-    exists = utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'Test Org')]]")
-    if not exists:
-        # New Organisation
-        internal_hub.click_new_organisation()
-
-        internal_hub.enter_business_name("Test Org")
-        internal_hub.enter_eori_number("GB987654312000")
-        internal_hub.enter_sic_number("73200")
-        internal_hub.enter_vat_number("123456789")
-        internal_hub.enter_company_registration_number("000000011")
-        internal_hub.click_save_and_continue()
-
-        internal_hub.enter_site_name("Site 1")
-        internal_hub.enter_address_line_1("123 Cobalt Street")
-        internal_hub.enter_address_line_2("123 Cobalt Street")
-        internal_hub.enter_zip_code("N23 6YL")
-        internal_hub.enter_city("London")
-        internal_hub.enter_state("London")
-        internal_hub.enter_country("Ukraine")
-
-        internal_hub.click_save_and_continue()
-
-        internal_hub.enter_email("test@mail.com")
-        internal_hub.enter_first_name("Test")
-        internal_hub.enter_last_name("User1")
-        internal_hub.enter_password("password")
-
-        internal_hub.click_submit()
-        exists = utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'Test Org')]]")
-        assert exists
 
 
 @given('I go to internal homepage')
@@ -190,30 +112,23 @@ def go_to_exporter_when(driver, exporter_url):
     driver.get(exporter_url)
 
 
-@when(parsers.parse('I login to exporter homepage with username "{username}" and "{password}"'))
-def login_to_exporter(driver, username, password, exporter_url, org_setup):
+@when('I login to exporter homepage')
+def login_to_exporter(driver, exporter_url, register_organisation):
     exporter_hub = ExporterHubPage(driver)
     driver.get(exporter_url)
-    if "login" in driver.current_url:
-        exporter_hub.login(username, password)
+    exporter_hub.login(exporter_sso_login_info['email'], exporter_sso_login_info['password'])
+
+
+@when('I login to exporter homepage with invalid password')
+def login_to_exporter_invalid_pw(driver, exporter_url, register_organisation):
+    exporter_hub = ExporterHubPage(driver)
+    driver.get(exporter_url)
+    exporter_hub.login(exporter_sso_login_info['email'], "aasdfgadsfa")
 
 # utils
 @then(parsers.parse('driver title equals "{expected_text}"'))
 def assert_title_text(driver, expected_text):
     assert driver.title == expected_text
-
-
-@pytest.fixture
-def context():
-    class Context(object):
-        pass
-
-    return Context()
-
-
-@pytest.fixture
-def test_teardown(driver):
-    driver.quit()
 
 
 # applying for licence

@@ -7,7 +7,7 @@ Feature: I want to indicate the kind of licence I want
   @LT-1091_draft
   Scenario: Apply for a licence to draft and delete
     Given I go to exporter homepage
-    When I login to exporter homepage with username "test@mail.com" and "password"
+    When I login to exporter homepage
     And I click on apply for a license button
     And I click on start button
     And I enter in name for application and continue
@@ -20,7 +20,7 @@ Feature: I want to indicate the kind of licence I want
   @LT-1091_standard @setup
   Scenario: Submit standard application
     Given I go to exporter homepage
-    When I login to exporter homepage with username "test@mail.com" and "password"
+    When I login to exporter homepage
     And I click on goods link
     When I click add a good button
     And I add a good or good type with description "Colt 52" controlled "Yes" control code "1234" incorporated "Yes" and part number "321"
@@ -57,7 +57,7 @@ Feature: I want to indicate the kind of licence I want
   @LT-1091_external
   Scenario: Submit application with external locations
     Given I go to exporter homepage
-    When I login to exporter homepage with username "test@mail.com" and "password"
+    When I login to exporter homepage
     And I click on goods link
     And I click add a good button
     And I add a good or good type with description "Chinook" controlled "Yes" control code "1234" incorporated "Yes" and part number "321"
@@ -94,7 +94,7 @@ Feature: I want to indicate the kind of licence I want
   @LT-1114
   Scenario: Submit open application
     Given I go to exporter homepage
-    When I login to exporter homepage with username "test@mail.com" and "password"
+    When I login to exporter homepage
     And I click on goods link
     And I click add a good button
     And I add a good or good type with description "Bazooka" controlled "Yes" control code "1234" incorporated "Yes" and part number "321"
@@ -144,7 +144,7 @@ Feature: I want to indicate the kind of licence I want
   @LT-1092_search
   Scenario: Search for countries
     Given I go to exporter homepage
-    When I login to exporter homepage with username "test@mail.com" and "password"
+    When I login to exporter homepage
     And I go to exporter homepage
     And I click on apply for a license button
     And I click on start button
@@ -159,7 +159,7 @@ Feature: I want to indicate the kind of licence I want
   @LT-1092_error
   Scenario: Error message when not adding countries
     Given I go to exporter homepage
-    When I login to exporter homepage with username "test@mail.com" and "password"
+    When I login to exporter homepage
     And I click on goods link
     And I click add a good button
     And I add a good or good type with description "AK47" controlled "Yes" control code "1234" incorporated "Yes" and part number "321"
@@ -177,7 +177,7 @@ Feature: I want to indicate the kind of licence I want
   @LT-1091_no_site_selected
   Scenario: Error message when not adding goods and sites information for standard application
     Given I go to exporter homepage
-    When I login to exporter homepage with username "test@mail.com" and "password"
+    When I login to exporter homepage
     And I click on apply for a license button
     And I click on start button
     And I enter in name for application and continue
@@ -190,7 +190,7 @@ Feature: I want to indicate the kind of licence I want
   @LT-1114_error
   Scenario: Error message when not adding goods and sites information for open application
     Given I go to exporter homepage
-    When I login to exporter homepage with username "test@mail.com" and "password"
+    When I login to exporter homepage
     And I click on apply for a license button
     And I click on start button
     And I enter in name for application and continue
@@ -203,7 +203,7 @@ Feature: I want to indicate the kind of licence I want
   @LT-1091_no_fields
   Scenario: Error messages when not adding fields to applications
     Given I go to exporter homepage
-    When I login to exporter homepage with username "test@mail.com" and "password"
+    When I login to exporter homepage
     And I click on apply for a license button
     And I click on start button
     And I click continue
@@ -224,7 +224,7 @@ Feature: I want to indicate the kind of licence I want
   @LT-1091_external_validation
   Scenario: Error messages with external empty validation
     Given I go to exporter homepage
-    When I login to exporter homepage with username "test@mail.com" and "password"
+    When I login to exporter homepage
     And I click on apply for a license button
     And I click on start button
     And I enter in name for application and continue
@@ -240,7 +240,7 @@ Feature: I want to indicate the kind of licence I want
   @LT-1091_end_user_validation
   Scenario: Error messages with end user empty validation
     Given I go to exporter homepage
-    When I login to exporter homepage with username "test@mail.com" and "password"
+    When I login to exporter homepage
     And I click on apply for a license button
     And I click on start button
     And I enter in name for application and continue

@@ -7,37 +7,37 @@ Feature: I want to manage users
   @LT-937_setup
   Scenario: Set up user
     Given I go to exporter homepage
-    When I login to exporter homepage with username "test@mail.com" and "password"
+    When I login to exporter homepage
     And I click on the users link
     Then I add a user
 
   @add_user
   Scenario: Add user
     Given I go to exporter homepage
-    When I login to exporter homepage with username "test@mail.com" and "password"
+    When I login to exporter homepage
     When I add user
     Then user is added
 
   @edit_user
   Scenario: Edit user
     Given I go to exporter homepage
-    When I login to exporter homepage with username "test@mail.com" and "password"
+    When I login to exporter homepage
     When I edit user then user is edited
 
   @deactivate
   Scenario: Deactivate user
     Given I go to exporter homepage
-    When I login to exporter homepage with username "test@mail.com" and "password"
+    When I login to exporter homepage
     When I deactivate user then user is deactivated
 
   @reactivate
   Scenario: Reactivate user
     Given I go to exporter homepage
-    When I login to exporter homepage with username "test@mail.com" and "password"
+    When I login to exporter homepage
     When I reactivate user then user is reactivated
 
   @reactivate_oneself
   Scenario: Reactivate oneself
     Given I go to exporter homepage
-    When I login to exporter homepage with username "test@mail.com" and "password"
+    When I login to exporter homepage
     When I try to deactivate myself I cannot
