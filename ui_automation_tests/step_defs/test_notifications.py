@@ -22,7 +22,7 @@ def notification_exists(driver):
 
 
 @when('I click on my application')
-def click_on_application(driver):
+def click_on_application(driver, context):
     exporter_hub_page = ExporterHubPage(driver)
     exporter_hub_page.click_applications()
     elements = driver.find_elements_by_css_selector(".govuk-table__cell a")
@@ -31,7 +31,7 @@ def click_on_application(driver):
 
 
 @then('I can see the internally added note')
-def internal_note_visible(driver):
+def internal_note_visible(driver, context):
     assert utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'" + context.text + "')]]")
 
 
