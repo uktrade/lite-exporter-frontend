@@ -99,15 +99,15 @@ class ExporterHubPage:
         self.driver.find_element_by_xpath("//*[text()[contains(.,'Reactivate User')]]").click()
 
     def logout(self):
-        self.driver.find_element_by_css_selector("a[href*='/logout']").click()
-        assert "logout" in self.driver.current_url
+        self.driver.get("https://great.uat.uktrade.io/sso/accounts/")
+        self.driver.find_element_by_id("header-sign-out-link").click()
+        self.driver.find_element_by_css_selector('class="button').click()
 
     def click_user_profile(self):
         self.driver.find_element_by_css_selector("a[href*='/users/profile/']").click()
 
     def click_sites(self):
         self.driver.find_element_by_css_selector(self.sites_btn).click()
-
 
     def click_new_site(self):
         self.driver.find_element_by_css_selector("a[href*='/sites/new/']").click()
