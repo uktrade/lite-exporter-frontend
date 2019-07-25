@@ -2,21 +2,16 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 
 from core.builtins.custom_tags import get_string
-from core.helpers import Section, Tile
+from core.helpers import Section, Tile, generate_notification_string
 from core.services import get_notifications, get_clc_notifications
 
 
 def hub(request):
     response, _ = get_notifications(request, unviewed=True)
-    if response['count'] > 0:
-        num_notifications = response['count']
-    else:
-        num_notifications = ''
+    num_notifications = response['count']
     response, _ = get_clc_notifications(request, unviewed=True)
-    if response['count'] > 0:
-        num_clc_notifications = response['count']
-    else:
-        num_clc_notifications = ''
+    num_clc_notifications = response['count']
+
 
     context = {
         'title': get_string('hub.title'),
@@ -28,9 +23,9 @@ def hub(request):
             Section('Manage', '', [
                 Tile(get_string('drafts.title'), '',
                      reverse_lazy('drafts:drafts')),
-                Tile(get_string('applications.title'), num_notifications,
+                Tile(get_string('applications.title'), generate_notification_string(num_notifications),
                      reverse_lazy('applications:applications')),
-                Tile('Goods', num_clc_notifications,
+                Tile('Goods', generate_notification_string(num_clc_notifications),
                      reverse_lazy('goods:goods')),
                 Tile('Sites', '', reverse_lazy('sites:sites')),
                 Tile('Users', '', reverse_lazy('users:users')),
