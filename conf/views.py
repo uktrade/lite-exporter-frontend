@@ -13,7 +13,6 @@ class AuthView(RedirectView):
     permanent = False
 
     def get_redirect_url(self, *args, **kwargs):
-
         authorization_url, state = get_client(self.request).authorization_url(AUTHORISATION_URL)
 
         self.request.session[TOKEN_SESSION_KEY + '_oauth_state'] = state
