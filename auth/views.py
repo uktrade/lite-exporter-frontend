@@ -70,7 +70,7 @@ class AuthCallbackView(View):
         user.user_token = response['token']
         user.first_name = response['first_name']
         user.last_name = response['last_name']
-        user.backend_id = response['backend_id']
+        user.lite_api_user_id = response['lite_api_user_id']
         user.save()
         if user is not None:
             login(request, user)
