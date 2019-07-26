@@ -15,6 +15,9 @@ from libraries.forms.generators import error_page
 
 
 class AuthView(RedirectView):
+    """
+    Auth wrapper which connects to api
+    """
     permanent = False
 
     def get_redirect_url(self, *args, **kwargs):
@@ -27,6 +30,9 @@ class AuthView(RedirectView):
 
 
 class AuthCallbackView(View):
+    """
+    Auth process for exporter, only called by 'great sso'
+    """
     def get(self, request, *args, **kwargs):
         auth_code = request.GET.get('code', None)
 
