@@ -326,6 +326,60 @@
 </div>
 {% endif %}
 
+{% if draft.licence_type == 'standard_licence' %}
+<div class="lite-section {% if errors|key_value:'ultimate_end_users' %}govuk-form-group--error{% endif %}">
+	<div class="lite-section-header">
+		<div>
+			<a id="end_users" href="{% url 'apply_for_a_licence:ultimate_end_users' draft.id %}" class="lite-overview-section-header govuk-link govuk-link--no-visited-state">
+				Ultimate End Users
+			</a>
+		</div>
+
+		{% if draft.ultimate_end_users %}
+			<div class="lite-info-label lite-info-label--blue">
+				Done
+			</div>
+		{% else %}
+			<div class="lite-info-label">
+				Not Started
+			</div>
+		{% endif %}
+	</div>
+	{% if errors|key_value:'ultimate_end_users' %}
+		<p class="govuk-error-message">
+			{{ errors|key_value:'ultimate_end_users' }}
+		</p>
+	{% endif %}
+	{% if draft.ultimate_end_users %}
+        {{ draft.ultimate_end_users }}
+		<table class="govuk-table">
+			<tbody class="govuk-table__body">
+				<tr class="govuk-table__row">
+					<th class="govuk-table__header" scope="row">Type</th>
+					<td class="govuk-table__cell">{{ draft.end_user.type }}</td>
+				</tr>
+				<tr class="govuk-table__row">
+					<th class="govuk-table__header" scope="row">Name</th>
+					<td class="govuk-table__cell">{{ draft.end_user.name }}</td>
+				</tr>
+				{% if draft.end_user.website %}
+				<tr class="govuk-table__row">
+					<th class="govuk-table__header" scope="row">Website</th>
+					<td class="govuk-table__cell">{{ draft.end_user.website }}</td>
+				</tr>
+				{% endif %}
+				<tr class="govuk-table__row">
+					<th class="govuk-table__header" scope="row">Address</th>
+					<td class="govuk-table__cell">{{ draft.end_user.address }}<br/>{{ draft.end_user.country }}</td>
+				</tr>
+			</tbody>
+		</table>
+	{% else %}
+		<p class="govuk-caption-m">Add an end user to your application</p>
+	{% endif %}
+</div>
+{% endif %}
+
 <div class="lite-submit-bar js-is-sticky">
 <a href="{% url 'apply_for_a_licence:delete' draft.id %}" class="cancel-link" style="float: right;" onclick="return showCancelApplication()">
 	Delete

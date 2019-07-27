@@ -8,7 +8,7 @@ from apply_for_a_licence.helpers import create_persistent_bar
 from core.builtins.custom_tags import get_string
 from core.services import get_units, get_sites_on_draft, get_external_locations_on_draft
 from drafts.services import post_drafts, get_draft, get_draft_goods, post_draft_preexisting_goods, submit_draft, \
-    delete_draft, post_end_user, get_draft_countries, get_draft_goods_type
+    delete_draft, post_end_user, get_draft_countries, get_draft_goods_type, get_ultimate_end_users, post_ultimate_end_user, delete_ultimate_end_user
 from goods.services import get_goods, get_good
 from libraries.forms.generators import form_page, success_page
 from libraries.forms.submitters import submit_paged_form
@@ -221,7 +221,7 @@ class DeleteApplication(TemplateView):
             'title': 'Are you sure you want to delete this application?',
             'draft': draft.get('draft'),
             'persistent_bar': create_persistent_bar(draft.get('draft')),
-			'page': 'apply_for_a_licence/modals/cancel_application.html',
+            'page': 'apply_for_a_licence/modals/cancel_application.html',
         }
         return render(request, 'core/static.html', context)
 
@@ -255,3 +255,54 @@ class EndUser(TemplateView):
 
         # If there is no response (no forms left to go through), go to the overview page
         return redirect(reverse_lazy('apply_for_a_licence:overview', kwargs={'pk': draft_id}))
+
+
+class UltimateEndUsers(TemplateView):
+    def get(self, request, **kwargs):
+        draft_id = str(kwargs['pk'])
+        data, status_code = get_ultimate_end_users(request, draft_id)
+
+        context = {
+            'ultimate_end_users': data['ultimate_end_users'],
+            'draft_id': draft_id
+        }
+
+        return render(request, 'apply_for_a_licence/ultimate_end_users/index.html', context)
+
+
+class AddUltimateEndUser(TemplateView):
+    def get(self, request, **kwargs):
+        draft_id = str(kwargs['pk'])
+        draft, status_code = get_draft(request, draft_id)
+
+        return form_page(request, new_end_user_form().forms[0], extra_data={
+            'persistent_bar': create_persistent_bar(draft.get('draft'))
+        })
+
+    def post(self, request, **kwargs):
+        draft_id = str(kwargs['pk'])
+        response, data = submit_paged_form(request, new_end_user_form(), post_ultimate_end_user, pk=draft_id)
+
+        # If there are more forms to go through, continue
+        if response:
+            return response
+
+        # If there is no response (no forms left to go through), go to the overview page
+        return redirect(reverse_lazy('apply_for_a_licence:overview', kwargs={'pk': draft_id}))
+
+
+class RemoveUltimateEndUser(TemplateView):
+    def get(self, request, **kwargs):
+        draft_id = str(kwargs['pk'])
+        data = {
+            'id': str(kwargs['id'])
+        }
+        delete_ultimate_end_user(request, draft_id, data)
+        data, status_code = get_ultimate_end_users(request, draft_id)
+
+        context = {
+            'ultimate_end_users': data['ultimate_end_users'],
+            'draft_id': draft_id
+        }
+
+        return render(request, 'apply_for_a_licence/ultimate_end_users/index.html', context)
