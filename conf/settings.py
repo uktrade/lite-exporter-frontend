@@ -141,6 +141,7 @@ SVG_DIRS = [
 
 STATIC_URL = '/assets/'
 STATIC_ROOT = os.path.join(DATA_DIR, 'assets')
+
 SASS_ROOT = os.path.join(BASE_DIR, 'assets')
 SASS_PROCESSOR_ROOT = SASS_ROOT
 
@@ -150,6 +151,9 @@ COMPRESS_PRECOMPILERS = (
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'assets'),
+    os.path.join(BASE_DIR, 'assets/shared/node_modules/govuk-frontend/'),
+    os.path.join(BASE_DIR, 'assets/shared/node_modules/govuk-frontend/assets/'),
+    os.path.join(BASE_DIR, 'assets/shared/lite-frontend/'),
 )
 
 SASS_PROCESSOR_INCLUDE_DIRS = (
