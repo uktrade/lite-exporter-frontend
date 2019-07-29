@@ -151,8 +151,8 @@ COMPRESS_PRECOMPILERS = (
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'assets'),
-    os.path.join(BASE_DIR, 'assets/shared/node_modules/govuk-frontend/'),
-    os.path.join(BASE_DIR, 'assets/shared/node_modules/govuk-frontend/assets/'),
+    os.path.join(BASE_DIR, 'assets/shared/node_modules/govuk-frontend/govuk/'),
+    os.path.join(BASE_DIR, 'assets/shared/node_modules/govuk-frontend/govuk/assets/'),
     os.path.join(BASE_DIR, 'assets/shared/lite-frontend/'),
 )
 
