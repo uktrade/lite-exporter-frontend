@@ -272,7 +272,8 @@ class UltimateEndUsers(TemplateView):
 
         context = {
             'ultimate_end_users': data['ultimate_end_users'],
-            'draft_id': draft_id
+            'draft_id': draft_id,
+			'title': 'Ultimate End Users'
         }
 
         return render(request, 'apply_for_a_licence/ultimate_end_users/index.html', context)
@@ -291,12 +292,10 @@ class AddUltimateEndUser(TemplateView):
         draft_id = str(kwargs['pk'])
         response, data = submit_paged_form(request, new_end_user_form(), post_ultimate_end_user, pk=draft_id)
 
-        # If there are more forms to go through, continue
         if response:
             return response
 
-        # If there is no response (no forms left to go through), go to the overview page
-        return redirect(reverse_lazy('apply_for_a_licence:overview', kwargs={'pk': draft_id}))
+        return redirect(reverse_lazy('apply_for_a_licence:ultimate_end_users', kwargs={'pk': draft_id}))
 
 
 class RemoveUltimateEndUser(TemplateView):

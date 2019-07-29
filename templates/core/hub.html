@@ -23,14 +23,14 @@
 	<h1 class="govuk-heading-xl">
         {{ title }}
     </h1>
-
+	
 	{% for section in sections %}
 		<section class="lite-hub-section">
 			<h3 class="govuk-heading-m">{{ section.title }}</h3>
 			<span class="govuk-caption-m">{{ section.description }}</span>
 			<div class="lite-tiles">
 				{% for tile in section.tiles %}
-					<a href="{{ tile.url }}" class="lite-tile">
+					<a href="{{ tile.url }}" class="lite-tile" role="button" draggable="false">
 						<h4>{{ tile.title }}</h4>
 						<p>{{ tile.description }}</p>
 					</a>

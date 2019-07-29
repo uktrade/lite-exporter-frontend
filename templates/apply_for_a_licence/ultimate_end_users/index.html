@@ -47,7 +47,7 @@
 			<td class="govuk-table__cell">{{ ultimate_end_user.address }}</td>
 			<td class="govuk-table__cell">{{ ultimate_end_user.country }}</td>
 			<td class="govuk-table__cell">
-				<a href="{% url 'apply_for_a_licence:remove_ultimate_end_user' pk=draft_id id=ultimate_end_user.id %}" style="margin: 0;" class="govuk-link">Remove</a>
+				<a href="{% url 'apply_for_a_licence:remove_ultimate_end_user' draft_id ultimate_end_user.id %}" style="margin: 0;" class="govuk-link">Remove</a>
 			</td>
 		</tr>
 		{% endfor %}
