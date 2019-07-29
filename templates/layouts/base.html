@@ -68,10 +68,10 @@
 			{% if user.is_authenticated %}
 				<div id="lite-user-menu">
 
-					<div class="lite-user-menu-divider"></div>
+					<div class="lite-user-menu-divider" style="opacity: 0;"></div>
 
 					<a class="lite-user-menu-button" href="{% url 'users:profile' %}">
-						{{ user.first_name }} {{ user.last_name }}
+						{{ user.first_name }}
 						<div class="lite-user-menu-button--user">
 							{% svg 'user' %}
 						</div>
@@ -100,7 +100,7 @@
 				</p>
 			</div>
 		{% endif %}
-		{% block back-button %}
+		{% block back-link %}
 			<a href="#" class="govuk-back-link {% if persistent_bar.text %}lite-persistent-bar--back{% endif %}">Back</a>
 		{% endblock %}
 		<main class="govuk-main-wrapper " id="main-content" role="main">
@@ -131,7 +131,7 @@
 	{% endblock %}
 
 	<script src="{% static 'javascripts/all.js' %}"></script>
-	<script src="{% static 'javascripts/back-button.js' %}"></script>
+	<script src="{% static 'javascripts/back-link.js' %}"></script>
 
 	<script>
 		window.GOVUKFrontend.initAll()
