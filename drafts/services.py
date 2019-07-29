@@ -75,8 +75,8 @@ def post_ultimate_end_user(request, pk, json):
     return data.json(), data.status_code
 
 
-def delete_ultimate_end_user(request, pk, json):
-    data = delete(request, DRAFTS_URL + pk + '/ultimate-end-users/', json)
+def delete_ultimate_end_user(request, pk, ueu_pk):
+    data = delete(request, DRAFTS_URL + pk + '/ultimate-end-users/' + ueu_pk)
     return data.json(), data.status_code
 
 
