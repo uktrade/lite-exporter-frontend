@@ -357,7 +357,7 @@ def i_click_on_application_overview(driver):
 
 @when('I click on ultimate end users')
 def i_click_on_application_overview(driver, add_an_incorporated_good_to_application):
-    driver.find_element_by_id("end_users").click()
+    driver.find_element_by_id("ultimate_end_users").click()
 
 
 @when('I go to the the application overview')
@@ -374,8 +374,15 @@ def i_remove_an_ultimate_end_user(driver):
 
 
 @when('I click on ultimate end users add button')
-def i_click_on_application_overview(driver, add_an_incorporated_good_to_application):
+def i_click_on_ultimate_end_user(driver, add_an_incorporated_good_to_application):
     driver.find_element_by_css_selector(".govuk-button").click()
+
+
+@then('there is only one ultimate end user')
+def one_ultimate_end_user(driver):
+    elements = driver.find_element_by_css_selector(".lite-section")
+    no = utils.get_element_index_by_text(elements, "Ultimate End Users")
+    assert len(elements[no].find_element_by_css_selector(".govuk-table__row")) == 1
 
 
 @then('I see end user on overview')
