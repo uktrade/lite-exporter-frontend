@@ -142,7 +142,7 @@ def valid_quantity_value_error_message(driver):
     shared = Shared(driver)
     assert "A valid number is required." in shared.get_text_of_error_message()
     assert "Enter a valid quantity" in shared.get_text_of_error_message(1)
-    assert "Select a unit" in shared.get_text_of_error_message(1)
+    assert "Select a unit" in shared.get_text_of_error_message(2)
 
 
 @when('I click on the goods link from overview')

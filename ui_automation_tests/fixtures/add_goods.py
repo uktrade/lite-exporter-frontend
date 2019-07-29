@@ -21,7 +21,7 @@ def add_a_good(driver, request):
         add_goods_page.select_is_your_good_intended_to_be_incorporated_into_an_end_product("no")
         add_goods_page.enter_control_code("1234")
         exporter_hub.click_save_and_continue()
-        driver.get(request.config.getoption("--exporter_url"))
+    driver.get(request.config.getoption("--exporter_url"))
 
 
 @fixture(scope="session")
