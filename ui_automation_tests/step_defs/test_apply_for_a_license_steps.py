@@ -1,5 +1,5 @@
 import datetime
-from pytest_bdd import scenarios, given, when, then, parsers, scenarios
+from pytest_bdd import when, then, parsers, scenarios
 from pages.apply_for_a_licence_page import ApplyForALicencePage
 from pages.application_goods_type_list import ApplicationGoodsTypeList
 from pages.add_end_user_pages import AddEndUserPages
@@ -134,8 +134,9 @@ def click_add_to_application_button(driver, no, context):
 @then('I see enter valid quantity and valid value error message')
 def valid_quantity_value_error_message(driver):
     shared = Shared(driver)
-    assert "Error:\nEnter a valid value" in shared.get_text_of_error_message()
-    assert "Error:\nEnter a valid quantity" in shared.get_text_of_error_message(1)
+    assert "A valid number is required." in shared.get_text_of_error_message()
+    assert "Enter a valid quantity" in shared.get_text_of_error_message(1)
+    assert "Select a unit" in shared.get_text_of_error_message(1)
 
 
 @when('I click on the goods link from overview')
@@ -346,6 +347,16 @@ def i_click_on_end_user(driver):
 @when('I click on application overview')
 def i_click_on_application_overview(driver):
     driver.find_element_by_css_selector("a[href*='overview'").click()
+
+
+@when('I click on ultimate end users')
+def i_click_on_application_overview(driver, add_an_incorporated_good_to_application):
+    driver.find_element_by_id("end_users").click()
+
+
+@when('I click on ultimate end users add button')
+def i_click_on_application_overview(driver, add_an_incorporated_good_to_application):
+    driver.find_element_by_css_selector(".govuk-button").click()
 
 
 @then('I see end user on overview')

@@ -41,7 +41,7 @@ def add_an_application(driver, request, exporter_url, context):
     description = "Chinook"
     controlled = "Yes"
     control_code = "1234"
-    incorporated = "Yes"
+    incorporated = "no"
     part = "321"
 
     add_goods_page = AddGoodPage(driver)

@@ -4,7 +4,7 @@ import os
 import pytest
 from fixtures.core import context, driver, sso_login_info, invalid_username, exporter_sso_login_info
 from fixtures.register_organisation import register_organisation
-from fixtures.add_a_good import add_a_good
+from fixtures.add_goods import add_a_good, add_an_incorporated_good
 from fixtures.add_an_application import add_an_application
 from fixtures.internal_case_note import internal_case_note
 from fixtures.urls import exporter_url, internal_url, sso_sign_in_url
