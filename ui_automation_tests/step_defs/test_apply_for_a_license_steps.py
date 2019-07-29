@@ -354,6 +354,14 @@ def i_click_on_application_overview(driver, add_an_incorporated_good_to_applicat
     driver.find_element_by_id("end_users").click()
 
 
+@when('I remove an ultimate end user so there is one less and return to the overview')
+def i_remove_an_ultimate_end_user(driver):
+    no_of_ultimate_end_users = len(driver.find_element_by_css_selector('.govuk-table__row'))
+    driver.find_element_by_link_text('Remove').click()
+    assert no_of_ultimate_end_users - len(driver.find_element_by_css_selector('.govuk-table__row')) == 1
+    driver.find_element_by_link_text('Back to Overview').click()
+
+
 @when('I click on ultimate end users add button')
 def i_click_on_application_overview(driver, add_an_incorporated_good_to_application):
     driver.find_element_by_css_selector(".govuk-button").click()
