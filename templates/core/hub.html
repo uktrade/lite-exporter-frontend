@@ -20,13 +20,15 @@
 		</div>
 	{% endif %}
 
+    {% load sass_tags static svg %}
+
 	<h1 class="govuk-heading-xl" style="margin-bottom: 25px;">
         {{ title }}
     </h1>
 	<span class="govuk-caption-l" style="margin-bottom: 45px;">
         {% get_string 'hub.description' %}
     </span>
-
+    
 	{% for section in sections %}
 		<section class="lite-hub-section">
 			<h3 class="govuk-heading-m">{{ section.title }}</h3>
