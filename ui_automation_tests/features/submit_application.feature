@@ -272,7 +272,7 @@ Feature: I want to indicate the kind of licence I want
     And I select "permanent" option and continue
     And I select "yes" for whether I have an export licence and "123456" if I have a reference and continue
     And I click on ultimate end users
-    And I go to the the application overview
+    And I click on back to overview
     And I click continue
-    And I see no sites external sites or end user attached error message
-    Then I see no ultimate end user attached error message
+    Then I see no goods external sites or end user attached error message
+    And I see no ultimate end user attached error message
