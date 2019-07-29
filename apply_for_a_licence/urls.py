@@ -50,5 +50,5 @@ urlpatterns = [
     path('<uuid:pk>/ultimate-end-users/add', common.AddUltimateEndUser.as_view(), name='add_ultimate_end_user'),
 
     # ex: /<uuid:pk>/ultimate-end-users/remove
-    path('<uuid:pk>/ultimate-end-users/<uuid:id>/remove', common.RemoveUltimateEndUser.as_view(), name='remove_ultimate_end_user')
+    path('<uuid:pk>/ultimate-end-users/<uuid:ueu_pk>/remove', common.RemoveUltimateEndUser.as_view(), name='remove_ultimate_end_user')
 ]
