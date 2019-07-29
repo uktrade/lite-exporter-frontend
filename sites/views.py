@@ -21,7 +21,12 @@ class Sites(TemplateView):
 
 
 class NewSite(TemplateView):
-    form = new_site_form()
+    form = None
+
+    def dispatch(self, request, *args, **kwargs):
+        self.form = new_site_form()
+
+        return super(NewSite, self).dispatch(request, *args, **kwargs)
 
     def get(self, request, **kwargs):
         return form_page(request, self.form)
