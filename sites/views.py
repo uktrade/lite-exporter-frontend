@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
+from core.builtins.custom_tags import get_string
 from libraries.forms.generators import form_page
 from libraries.forms.helpers import nest_data, flatten_data
 from sites.forms import new_site_form, edit_site_form
@@ -13,7 +14,7 @@ class Sites(TemplateView):
         data, status_code = get_sites(request)
 
         context = {
-            'title': 'Sites',
+            'title': get_string('sites.title'),
             'data': data,
         }
         return render(request, 'sites/index.html', context)

@@ -1,11 +1,12 @@
 from django.urls import reverse_lazy
 
+from core.builtins.custom_tags import get_string
 from core.services import get_countries
 from libraries.forms.components import Form, InputType, Question, HeadingStyle, Heading, ArrayQuestion, BackLink
 
 
 def new_site_form():
-    return Form(title='New Site',
+    return Form(title=get_string('sites.create'),
                 description='',
                 questions=[
                     Question(title='Name of site',
