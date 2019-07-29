@@ -136,7 +136,7 @@ DATA_DIR = os.path.dirname(BASE_DIR)
 
 SVG_DIRS = [
     os.path.join(BASE_DIR, 'assets/images'),
-    os.path.join(BASE_DIR, 'lite-shared-assets/lite-frontend/assets/images'),
+    os.path.join(BASE_DIR, 'assets/shared/lite-frontend/assets/images'),
 ]
 
 STATIC_URL = '/assets/'
