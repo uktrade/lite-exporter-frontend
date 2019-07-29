@@ -9,7 +9,7 @@ from pages.application_goods_list import ApplicationGoodsList
 @fixture(scope="session")
 def add_a_good(driver, request):
     exporter_hub = ExporterHubPage(driver)
-    good_name = "Widget"
+    good_name = "1Widget"
     exporter_hub.click_my_goods()
     add_goods_page = AddGoodPage(driver)
     if good_name not in driver.find_element_by_css_selector('.govuk-table').text:
