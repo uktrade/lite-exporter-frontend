@@ -263,7 +263,7 @@ Feature: I want to indicate the kind of licence I want
     Then I see submitted application
 
 @LT-1042_unhappy_path @LT-1091_no_site_selected
-  Scenario: Apply for a licence with ultimate end users
+  Scenario: Apply for a licence with ultimate end users error message
     Given I go to exporter homepage
     When I click on apply for a license button
     And I click on start button

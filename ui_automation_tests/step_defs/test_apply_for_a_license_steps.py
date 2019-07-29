@@ -377,7 +377,7 @@ def i_remove_an_ultimate_end_user(driver):
 
 
 @when('I click on ultimate end users add button')
-def i_click_on_ultimate_end_user(driver, add_an_incorporated_good_to_application):
+def i_click_on_ultimate_end_user(driver):
     driver.find_element_by_css_selector(".govuk-button").click()
 
 
