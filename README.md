@@ -1,7 +1,9 @@
 # lite-exporter-frontend
 
-Application for handling exporter related activity in LITE.
+[![CircleCI](https://circleci.com/gh/uktrade/lite-exporter-frontend.svg?style=svg)](https://circleci.com/gh/uktrade/lite-exporter-frontend)
+[![Maintainability](https://api.codeclimate.com/v1/badges/07f341e7b8a40681c3c6/maintainability)](https://codeclimate.com/github/uktrade/lite-exporter-frontend/maintainability)
 
+Application for handling exporter related activity in LITE.
 
 ## Running the service with docker
 * Download the repository
