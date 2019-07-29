@@ -4,11 +4,13 @@ from django.views.generic import TemplateView
 
 from apply_for_a_licence.forms import initial, goods
 from apply_for_a_licence.forms.end_user import new_end_user_form
+from apply_for_a_licence.forms.ultimate_end_user import new_ultimate_end_user_form
 from apply_for_a_licence.helpers import create_persistent_bar
 from core.builtins.custom_tags import get_string
 from core.services import get_units, get_sites_on_draft, get_external_locations_on_draft
 from drafts.services import post_drafts, get_draft, get_draft_goods, post_draft_preexisting_goods, submit_draft, \
-    delete_draft, post_end_user, get_draft_countries, get_draft_goods_type, get_ultimate_end_users, post_ultimate_end_user, delete_ultimate_end_user
+    delete_draft, post_end_user, get_draft_countries, get_draft_goods_type, get_ultimate_end_users, \
+    post_ultimate_end_user, delete_ultimate_end_user
 from goods.services import get_goods, get_good
 from libraries.forms.generators import form_page, success_page
 from libraries.forms.submitters import submit_paged_form
@@ -273,29 +275,36 @@ class UltimateEndUsers(TemplateView):
         context = {
             'ultimate_end_users': data['ultimate_end_users'],
             'draft_id': draft_id,
-			'title': 'Ultimate End Users'
+            'title': 'Ultimate End Users'
         }
 
         return render(request, 'apply_for_a_licence/ultimate_end_users/index.html', context)
 
 
 class AddUltimateEndUser(TemplateView):
-    def get(self, request, **kwargs):
-        draft_id = str(kwargs['pk'])
-        draft, status_code = get_draft(request, draft_id)
+    draft_id = None
+    form = None
 
-        return form_page(request, new_end_user_form().forms[0], extra_data={
+    def dispatch(self, request, *args, **kwargs):
+        self.draft_id = str(kwargs['pk'])
+        self.form = new_ultimate_end_user_form()
+
+        return super(AddUltimateEndUser, self).dispatch(request, *args, **kwargs)
+
+    def get(self, request, **kwargs):
+        draft, status_code = get_draft(request, self.draft_id)
+
+        return form_page(request, self.form.forms[0], extra_data={
             'persistent_bar': create_persistent_bar(draft.get('draft'))
         })
 
     def post(self, request, **kwargs):
-        draft_id = str(kwargs['pk'])
-        response, data = submit_paged_form(request, new_end_user_form(), post_ultimate_end_user, pk=draft_id)
+        response, data = submit_paged_form(request, self.form, post_ultimate_end_user, pk=self.draft_id)
 
         if response:
             return response
 
-        return redirect(reverse_lazy('apply_for_a_licence:ultimate_end_users', kwargs={'pk': draft_id}))
+        return redirect(reverse_lazy('apply_for_a_licence:ultimate_end_users', kwargs={'pk': self.draft_id}))
 
 
 class RemoveUltimateEndUser(TemplateView):
