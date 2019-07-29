@@ -326,7 +326,7 @@
 </div>
 {% endif %}
 
-{% if draft.licence_type == 'standard_licence' %}
+{% if draft.licence_type == 'standard_licence' and ultimate_end_users_required %}
 <div class="lite-section {% if errors|key_value:'ultimate_end_users' %}govuk-form-group--error{% endif %}">
 	<div class="lite-section-header">
 		<div>
@@ -335,7 +335,7 @@
 			</a>
 		</div>
 
-		{% if draft.ultimate_end_users %}
+		{% if ultimate_end_users %}
 			<div class="lite-info-label lite-info-label--blue">
 				Done
 			</div>
@@ -350,28 +350,27 @@
 			{{ errors|key_value:'ultimate_end_users' }}
 		</p>
 	{% endif %}
-	{% if draft.ultimate_end_users %}
-        {{ draft.ultimate_end_users }}
+	{% if ultimate_end_users %}
 		<table class="govuk-table">
+			<thead class="govuk-table__head">
+				<tr class="govuk-table__row">
+					<th class="govuk-table__header" scope="col">Name</th>
+                    <th class="govuk-table__header" scope="col">Type</th>
+                    <th class="govuk-table__header" scope="col">Wedsite</th>
+					<th class="govuk-table__header" scope="col">Address</th>
+					<th class="govuk-table__header" scope="col">Country</th>
+				</tr>
+			</thead>
 			<tbody class="govuk-table__body">
-				<tr class="govuk-table__row">
-					<th class="govuk-table__header" scope="row">Type</th>
-					<td class="govuk-table__cell">{{ draft.end_user.type }}</td>
-				</tr>
-				<tr class="govuk-table__row">
-					<th class="govuk-table__header" scope="row">Name</th>
-					<td class="govuk-table__cell">{{ draft.end_user.name }}</td>
-				</tr>
-				{% if draft.end_user.website %}
-				<tr class="govuk-table__row">
-					<th class="govuk-table__header" scope="row">Website</th>
-					<td class="govuk-table__cell">{{ draft.end_user.website }}</td>
-				</tr>
-				{% endif %}
-				<tr class="govuk-table__row">
-					<th class="govuk-table__header" scope="row">Address</th>
-					<td class="govuk-table__cell">{{ draft.end_user.address }}<br/>{{ draft.end_user.country }}</td>
-				</tr>
+				{% for ultimate_end_user in ultimate_end_users %}
+					<tr class="govuk-table__row">
+						<td class="govuk-table__cell">{{ ultimate_end_user.name }}</td>
+                        <td class="govuk-table__cell">{{ ultimate_end_user.type }}</td>
+                        <td class="govuk-table__cell">{{ ultimate_end_user.website }}</td>
+						<td class="govuk-table__cell">{{ ultimate_end_user.address }}</td>
+						<td class="govuk-table__cell">{{ ultimate_end_user.country }}</td>
+					</tr>
+				{% endfor %}
 			</tbody>
 		</table>
 	{% else %}

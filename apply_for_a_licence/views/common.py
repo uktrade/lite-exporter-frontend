@@ -44,9 +44,15 @@ class Overview(TemplateView):
         data, status_code = get_draft(request, draft_id)
         sites, status_code = get_sites_on_draft(request, draft_id)
         goods, status_code = get_draft_goods(request, draft_id)
+        ultimate_end_users_required = False
         countries, status_code = get_draft_countries(request, draft_id)
         goodstypes, status_code = get_draft_goods_type(request, draft_id)
         external_locations, status_code = get_external_locations_on_draft(request, draft_id)
+        ultimate_end_users, status_code = get_ultimate_end_users(request, draft_id)
+
+        for good in goods['goods']:
+            if not good['good']['is_good_end_product']:
+                ultimate_end_users_required = True
 
         context = {
             'title': 'Application Overview',
@@ -56,6 +62,8 @@ class Overview(TemplateView):
             'countries': countries['countries'],
             'goodstypes': goodstypes['goods'],
             'external_locations': external_locations['external_locations'],
+            'ultimate_end_users': ultimate_end_users['ultimate_end_users'],
+            'ultimate_end_users_required': ultimate_end_users_required,
         }
         return render(request, 'apply_for_a_licence/overview.html', context)
 

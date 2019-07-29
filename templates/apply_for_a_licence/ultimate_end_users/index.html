@@ -3,7 +3,7 @@
 {% load humanize %}
 
 {% block back-button %}
-	<a href="/" class="govuk-back-link">Back to Hub</a>
+	<a href="{% url 'apply_for_a_licence:overview' draft_id %}" class="govuk-back-link lite-persistent-bar--back">Back to Overview</a>
 {% endblock %}
 
 {% block body %}
@@ -24,8 +24,6 @@
 			</a>
 		</div>
 	</div>
-
-    {{ ultimate_end_users }}
 
 	{% if ultimate_end_users|length %}
 		<table class="govuk-table">
