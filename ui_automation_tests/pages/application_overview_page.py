@@ -13,7 +13,7 @@ class ApplicationOverviewPage:
         self.modal_close = "modal-close-button" #id
         self.modal_content = ".modal-content" #css
         self.gov_tables = ".govuk-table__body" #css
-        self.back_to_overview_text = "Back to Overview" #link text
+        self.back_to_overview_text = "Back to Application" #link text
 
     def click_application_locations_link(self):
         self.driver.execute_script("document.getElementById('" + self.location_link + "').scrollIntoView(true);")
