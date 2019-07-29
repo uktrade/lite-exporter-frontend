@@ -108,6 +108,12 @@ def i_see_no_sites_attached_error(driver):
     assert "Cannot create an application without an end user" in shared.get_text_of_error_message(2)
 
 
+@then('I see no ultimate end user attached error message')
+def i_see_no_ultimate_end_user_attached_error(driver):
+    shared = Shared(driver)
+    assert "Cannot create an application with no ultimate end users set when there is a good which is to be incorporated into an end product" in shared.get_text_of_error_message(3)
+
+
 @then('I see no sites good types or countries attached error message')
 def i_see_open_licence_error(driver):
     shared = Shared(driver)
@@ -352,6 +358,11 @@ def i_click_on_application_overview(driver):
 @when('I click on ultimate end users')
 def i_click_on_application_overview(driver, add_an_incorporated_good_to_application):
     driver.find_element_by_id("end_users").click()
+
+
+@when('I go to the the application overview')
+def i_go_to_the_overview(driver):
+    driver.find_element_by_link_text('Back to Overview').click()
 
 
 @when('I remove an ultimate end user so there is one less and return to the overview')
