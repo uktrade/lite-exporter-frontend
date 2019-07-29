@@ -302,10 +302,8 @@ class AddUltimateEndUser(TemplateView):
 class RemoveUltimateEndUser(TemplateView):
     def get(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
-        data = {
-            'id': str(kwargs['id'])
-        }
-        delete_ultimate_end_user(request, draft_id, data)
+        ueu_pk = str(kwargs['ueu_pk'])
+        delete_ultimate_end_user(request, draft_id, ueu_pk)
         data, status_code = get_ultimate_end_users(request, draft_id)
 
         context = {

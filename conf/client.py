@@ -23,11 +23,6 @@ def put(request, appended_address, json):
                         headers={'EXPORTER-USER-TOKEN': str(request.user.user_token)})
 
 
-def delete(request, appended_address, json):
-    if json:
-        return requests.delete(env("LITE_API_URL") + appended_address,
-                               json=json,
-                               headers={'EXPORTER-USER-TOKEN': str(request.user.user_token)})
-
+def delete(request, appended_address):
     return requests.delete(env("LITE_API_URL") + appended_address,
                            headers={'EXPORTER-USER-TOKEN': str(request.user.user_token)})

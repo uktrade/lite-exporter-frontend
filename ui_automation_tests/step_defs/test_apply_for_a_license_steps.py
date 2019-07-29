@@ -100,7 +100,7 @@ def submit_the_application(driver, context):
     context.time_date_submitted = datetime.datetime.now().strftime("%I:%M%p").lstrip("0").replace(" 0", " ").lower() + datetime.datetime.now().strftime(" %d %B %Y")
 
 
-@then('I see no sites external sites or end user attached error message')
+@then('I see no goods external sites or end user attached error message')
 def i_see_no_sites_attached_error(driver):
     shared = Shared(driver)
     assert "Cannot create an application with no goods attached" in shared.get_text_of_error_message()
@@ -142,7 +142,7 @@ def valid_quantity_value_error_message(driver):
     shared = Shared(driver)
     assert "A valid number is required." in shared.get_text_of_error_message()
     assert "Enter a valid quantity" in shared.get_text_of_error_message(1)
-    assert "Select a unit" in shared.get_text_of_error_message(1)
+    assert "Select a unit" in shared.get_text_of_error_message(2)
 
 
 @when('I click on the goods link from overview')
@@ -357,20 +357,23 @@ def i_click_on_application_overview(driver):
 
 @when('I click on ultimate end users')
 def i_click_on_application_overview(driver, add_an_incorporated_good_to_application):
-    driver.find_element_by_id("ultimate_end_users").click()
+    app = ApplicationOverviewPage(driver)
+    app.click_ultimate_end_user_link()
 
 
-@when('I go to the the application overview')
+@when('I click on back to overview')
 def i_go_to_the_overview(driver):
-    driver.find_element_by_link_text('Back to Overview').click()
+    app = ApplicationOverviewPage(driver)
+    app.click_on_back_to_overview_text()
 
 
 @when('I remove an ultimate end user so there is one less and return to the overview')
 def i_remove_an_ultimate_end_user(driver):
-    no_of_ultimate_end_users = len(driver.find_element_by_css_selector('.govuk-table__row'))
+    no_of_ultimate_end_users = len(driver.find_elements_by_css_selector('.govuk-table__row'))
     driver.find_element_by_link_text('Remove').click()
-    assert no_of_ultimate_end_users - len(driver.find_element_by_css_selector('.govuk-table__row')) == 1
-    driver.find_element_by_link_text('Back to Overview').click()
+    assert no_of_ultimate_end_users - len(driver.find_elements_by_css_selector('.govuk-table__row')) == 1
+    app = ApplicationOverviewPage(driver)
+    app.click_on_back_to_overview_text()
 
 
 @when('I click on ultimate end users add button')
@@ -380,9 +383,9 @@ def i_click_on_ultimate_end_user(driver, add_an_incorporated_good_to_application
 
 @then('there is only one ultimate end user')
 def one_ultimate_end_user(driver):
-    elements = driver.find_element_by_css_selector(".lite-section")
+    elements = driver.find_elements_by_css_selector(".lite-section")
     no = utils.get_element_index_by_text(elements, "Ultimate End Users")
-    assert len(elements[no].find_element_by_css_selector(".govuk-table__row")) == 1
+    assert len(elements[no].find_elements_by_css_selector(".govuk-table__row")) == 1
 
 
 @then('I see end user on overview')
