@@ -4,7 +4,6 @@ from django.views.generic import TemplateView
 
 from libraries.forms.generators import form_page
 from libraries.forms.helpers import nest_data, flatten_data
-from sites import forms
 from sites.forms import new_site_form, edit_site_form
 from sites.services import get_sites, get_site, post_sites, put_site
 
@@ -37,11 +36,17 @@ class NewSite(TemplateView):
 
 
 class EditSite(TemplateView):
-    form = edit_site_form()
+    site = None
+    form = None
+
+    def dispatch(self, request, *args, **kwargs):
+        self.site, status_code = get_site(request, str(kwargs['pk']))
+        self.form = edit_site_form('Edit ' + self.site['site']['name'])
+
+        return super(EditSite, self).dispatch(request, *args, **kwargs)
 
     def get(self, request, **kwargs):
-        site, status_code = get_site(request, str(kwargs['pk']))
-        return form_page(request, self.form, data=flatten_data(site.get('site')))
+        return form_page(request, self.form, data=flatten_data(self.site.get('site')))
 
     def post(self, request, **kwargs):
         validated_data, status_code = put_site(request, str(kwargs['pk']), json=nest_data(request.POST))

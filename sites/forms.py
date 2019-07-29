@@ -42,8 +42,8 @@ def new_site_form():
                 back_link=BackLink('Back to Sites', reverse_lazy('sites:sites')))
 
 
-def edit_site_form():
-    return Form(title='Edit Site',
+def edit_site_form(title):
+    return Form(title=title,
                 description='',
                 questions=[
                     Question(title='Name of site',
