@@ -272,7 +272,8 @@ class UltimateEndUsers(TemplateView):
 
         context = {
             'ultimate_end_users': data['ultimate_end_users'],
-            'draft_id': draft_id
+            'draft_id': draft_id,
+			'title': 'Ultimate End Users'
         }
 
         return render(request, 'apply_for_a_licence/ultimate_end_users/index.html', context)
