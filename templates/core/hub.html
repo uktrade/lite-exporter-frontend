@@ -20,10 +20,13 @@
 		</div>
 	{% endif %}
 
+	<span class="govuk-caption-xl">
+		{{ user.organisation.name }}
+	</span>
 	<h1 class="govuk-heading-xl">
         {{ title }}
     </h1>
-	
+
 	{% for section in sections %}
 		<section class="lite-hub-section">
 			<h3 class="govuk-heading-m">{{ section.title }}</h3>

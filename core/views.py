@@ -4,14 +4,15 @@ from django.urls import reverse_lazy
 from core.builtins.custom_tags import get_string
 from core.helpers import Section, Tile, generate_notification_string
 from core.services import get_notifications, get_clc_notifications
+from users.services import get_user
 
 
 def hub(request):
+    user, _status_code = get_user(request)
     response, _ = get_notifications(request, unviewed=True)
     num_notifications = response['count']
     response, _ = get_clc_notifications(request, unviewed=True)
     num_clc_notifications = response['count']
-
 
     context = {
         'title': get_string('hub.title'),
@@ -32,5 +33,6 @@ def hub(request):
             ]),
         ],
         'applicationDeleted': request.GET.get('application_deleted'),
+        'user': user['user'],
     }
     return render(request, 'core/hub.html', context)
