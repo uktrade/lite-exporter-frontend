@@ -27,7 +27,7 @@ def add_a_good(driver, request):
 @fixture(scope="function")
 def add_an_incorporated_good_to_application(driver, request, context):
     url = driver.current_url
-    good_name = "Incorporated Ejector Seat"
+    good_name = "Incorporated Seat"
     context.goods_name = good_name
     exporter_hub = ExporterHubPage(driver)
     driver.get(request.config.getoption("--exporter_url"))
@@ -61,14 +61,14 @@ def add_an_incorporated_good_to_application(driver, request, context):
 @fixture(scope="function")
 def add_a_non_incorporated_good_to_application(driver, request, context):
     url = driver.current_url
-    good_name = "Non Standard Jet"
+    good_name = "Jet Fuel"
     context.goods_name = good_name
     exporter_hub = ExporterHubPage(driver)
     driver.get(request.config.getoption("--exporter_url"))
     exporter_hub.click_my_goods()
     add_goods_page = AddGoodPage(driver)
     overview_page = ApplicationOverviewPage(driver)
-    if good_name not in driver.find_element_by_css_selector('.govuk-table').text:
+    if good_name not in driver.find_element_by_css_selector('table').text:
         add_goods_page.click_add_a_good()
         exporter_hub = ExporterHubPage(driver)
         add_goods_page = AddGoodPage(driver)
