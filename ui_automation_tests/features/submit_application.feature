@@ -30,16 +30,9 @@ Feature: I want to indicate the kind of licence I want
     And I select "organisation" for where my goods are located
     And I select the site at position "1"
     And I click continue
-    And I click on the goods link from overview
-    And I click the add from organisations goods button
-    And I click add to application for the good at position "1"
-    And I click continue
-    Then I see enter valid quantity and valid value error message
-    When I add values to my good of "1" quantity "123" and unit of measurement "Metres"
-    And I click continue
+    And I add a non incorporated good to application
     Then good is added to application
-    When I click overview
-    And I click on end user
+    When I click on end user
     And I add an end user of type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
     Then I see end user on overview
     When I submit the application
@@ -48,8 +41,24 @@ Feature: I want to indicate the kind of licence I want
     And I click applications
     Then I see submitted application
 
+  @LT-928_error_message
+  Scenario: Error message for empty quantities.
+    Given I go to exporter homepage
+    When I click on apply for a license button
+    And I click on start button
+    And I enter in name for application and continue
+    And I select "standard" application and continue
+    And I select "permanent" option and continue
+    And I select "yes" for whether I have an export licence and "123456" if I have a reference and continue
+    And I click on the goods link from overview
+    And I click the add from organisations goods button
+    And I click add to application for the good at position "1"
+    And I click continue
+    Then I see enter valid quantity and valid value error message
+
+
   @LT-1091_external
-  Scenario: Submit application with external locations
+  Scenario: Submit standard application with external locations
     Given I go to exporter homepage
     When I click on apply for a license button
     And I click on start button
@@ -67,14 +76,9 @@ Feature: I want to indicate the kind of licence I want
     When I click on preexisting locations
     And I select the location at position "2" in external locations list and continue
     And I click on application overview
-    And I click on the goods link from overview
-    And I click the add from organisations goods button
-    And I click add to application for the good at position "1"
-    And I add values to my good of "1" quantity "123" and unit of measurement "Metres"
-    And I click continue
+    And I add a non incorporated good to application
     Then good is added to application
-    When I click overview
-    And I click on end user
+    When I click on end user
     And I add an end user of type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
     And I submit the application
     And I click applications

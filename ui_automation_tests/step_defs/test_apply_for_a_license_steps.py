@@ -250,7 +250,7 @@ def i_should_see_a_list_of_countries(driver):
  #   api_data, status_code = get_countries(None)
     assert len(page_countries) == 274
  #   assert len(page_countries) == len(api_data['countries'])
-    assert driver.find_element_by_tag_name("h1").text == "Where are your goods going?", \
+    assert driver.find_element_by_tag_name("h2").text == "Where are your goods going?", \
         "Failed to go to countries list page"
 
 
@@ -366,6 +366,9 @@ def i_go_to_the_overview(driver):
     app = ApplicationOverviewPage(driver)
     app.click_on_back_to_overview_text()
 
+@when('I add a non incorporated good to application')
+def add_a_non_incorporated_good(driver, add_a_non_incorporated_good_to_application):
+    pass
 
 @when('I remove an ultimate end user so there is one less and return to the overview')
 def i_remove_an_ultimate_end_user(driver):
