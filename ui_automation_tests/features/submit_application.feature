@@ -248,7 +248,7 @@ Feature: I want to indicate the kind of licence I want
     And I add an end user of type: "commercial", name: "Mr Jones", website: " ", address: "London" and country "Ukraine"
     And I remove an ultimate end user so there is one less and return to the overview
     Then there is only one ultimate end user
-    And I click on application locations link
+    When I click on application locations link
     And I select "organisation" for where my goods are located
     And I select the site at position "1"
     And I click continue

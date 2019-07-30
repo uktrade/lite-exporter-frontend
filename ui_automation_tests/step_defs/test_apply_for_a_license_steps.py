@@ -372,7 +372,7 @@ def i_remove_an_ultimate_end_user(driver):
     no_of_ultimate_end_users = len(driver.find_elements_by_css_selector('.govuk-table__row'))
     driver.find_element_by_link_text('Remove').click()
     total = no_of_ultimate_end_users-len(driver.find_elements_by_css_selector('.govuk-table__row'))
-    assert total == 1
+    assert total == 1, "total on the ultimate end users summary is incorrect after removing ultimate end user"
     app = ApplicationOverviewPage(driver)
     app.click_on_back_to_overview_text()
 
@@ -386,7 +386,7 @@ def i_click_on_ultimate_end_user(driver):
 def one_ultimate_end_user(driver):
     elements = driver.find_elements_by_css_selector(".lite-section")
     no = utils.get_element_index_by_partial_text(elements, "Ultimate End Users")
-    assert len(elements[no].find_elements_by_css_selector(".govuk-table__row")) == 1
+    assert len(elements[no].find_elements_by_css_selector(".govuk-table__row")) == 2, "total on the application overview is incorrect after removing ultimate end user"
 
 
 @then('I see end user on overview')
