@@ -232,7 +232,7 @@ Feature: I want to indicate the kind of licence I want
     # Todo following step commented out due to bug
     # Then I see end user on overview
 
-    @LT-1042_happy_path
+  @LT-1042_happy_path
   Scenario: Apply for a licence with ultimate end users
     Given I go to exporter homepage
     When I click on apply for a license button
@@ -244,10 +244,8 @@ Feature: I want to indicate the kind of licence I want
     And I click on ultimate end users
     And I click on ultimate end users add button
     And I add an end user of type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
-    And I click on ultimate end users
     And I click on ultimate end users add button
     And I add an end user of type: "commercial", name: "Mr Jones", website: " ", address: "London" and country "Ukraine"
-    And I click on ultimate end users
     And I remove an ultimate end user so there is one less and return to the overview
     Then there is only one ultimate end user
     And I click on application locations link
@@ -262,7 +260,7 @@ Feature: I want to indicate the kind of licence I want
     And I click applications
     Then I see submitted application
 
-@LT-1042_unhappy_path @LT-1091_no_site_selected
+  @LT-1042_unhappy_path @LT-1091_no_site_selected
   Scenario: Apply for a licence with ultimate end users error message
     Given I go to exporter homepage
     When I click on apply for a license button
@@ -274,5 +272,16 @@ Feature: I want to indicate the kind of licence I want
     And I click on ultimate end users
     And I click on back to overview
     And I click continue
+    Then I see no ultimate end user attached error message
+
+  @LT-1114_error_when_no_goods_or_sites
+  Scenario: Apply for a licence with goods and sites error message
+    Given I go to exporter homepage
+    When I click on apply for a license button
+    And I click on start button
+    And I enter in name for application and continue
+    And I select "standard" application and continue
+    And I select "permanent" option and continue
+    And I select "yes" for whether I have an export licence and "123456" if I have a reference and continue
+    And I click continue
     Then I see no goods external sites or end user attached error message
-    And I see no ultimate end user attached error message

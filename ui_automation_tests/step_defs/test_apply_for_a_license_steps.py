@@ -111,7 +111,7 @@ def i_see_no_sites_attached_error(driver):
 @then('I see no ultimate end user attached error message')
 def i_see_no_ultimate_end_user_attached_error(driver):
     shared = Shared(driver)
-    assert "Cannot create an application with no ultimate end users set when there is a good which is to be incorporated into an end product" in shared.get_text_of_error_message(3)
+    assert "Cannot create an application with no ultimate end users set when there is a good which is to be incorporated into an end product" in shared.get_text_of_error_message(2)
 
 
 @then('I see no sites good types or countries attached error message')
@@ -371,7 +371,8 @@ def i_go_to_the_overview(driver):
 def i_remove_an_ultimate_end_user(driver):
     no_of_ultimate_end_users = len(driver.find_elements_by_css_selector('.govuk-table__row'))
     driver.find_element_by_link_text('Remove').click()
-    assert no_of_ultimate_end_users - len(driver.find_elements_by_css_selector('.govuk-table__row')) == 1
+    total = no_of_ultimate_end_users-len(driver.find_elements_by_css_selector('.govuk-table__row'))
+    assert total == 1
     app = ApplicationOverviewPage(driver)
     app.click_on_back_to_overview_text()
 
@@ -384,7 +385,7 @@ def i_click_on_ultimate_end_user(driver):
 @then('there is only one ultimate end user')
 def one_ultimate_end_user(driver):
     elements = driver.find_elements_by_css_selector(".lite-section")
-    no = utils.get_element_index_by_text(elements, "Ultimate End Users")
+    no = utils.get_element_index_by_partial_text(elements, "Ultimate End Users")
     assert len(elements[no].find_elements_by_css_selector(".govuk-table__row")) == 1
 
 

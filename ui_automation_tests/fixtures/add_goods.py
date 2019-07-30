@@ -24,7 +24,7 @@ def add_a_good(driver, request):
     driver.get(request.config.getoption("--exporter_url"))
 
 
-@fixture(scope="session")
+@fixture(scope="function")
 def add_an_incorporated_good_to_application(driver, request):
     url = driver.current_url
     good_name = "Incorporated Ejector Seat"
