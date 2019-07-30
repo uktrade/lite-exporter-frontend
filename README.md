@@ -37,7 +37,7 @@ Application for handling exporter related activity in LITE.
   * `cd lite-exporter-frontend`
 * Start a local Postgres: `docker run --name lite-frontend -e POSTGRES_PASSWORD=password -p 5430:5432 -d postgres`
 * Set up your local config file:
-  * `cp sample.env .env`
+  * `cp local.env .env`
   * If you're not running Postgres with the default options, edit the `DATABASE_URL` sections of the `.env` file
 * Initialise submodules
   * `git submodule init`
@@ -61,7 +61,7 @@ Application for handling exporter related activity in LITE.
 * Run `pipenv run python -m pytest`
 * For a specific tag (dont use the @)  `py.test -k "tag name"`
 * You may need to make sure in pycharm, within Preferences -> Tools -> Python Integrated Tools -> Default Test Runner is pytest
-* You may need to change the run configuration for the tests too. Click on run, edit configurations and make sure the Python framework being used in the left hand pane is Python tests 
+* You may need to change the run configuration for the tests too. Click on run, edit configurations and make sure the Python framework being used in the left hand pane is Python tests
 
 ## LITE Repositories
 
