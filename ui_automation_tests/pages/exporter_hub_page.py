@@ -143,7 +143,7 @@ class ExporterHubPage:
         self.driver.find_element_by_id("activity").send_keys(activity)
 
     def return_number_of_notifications(self):
-        text_of_new_notifications = self.driver.find_element_by_css_selector('.lite-tiles[href*="applications"] p').text
+        text_of_new_notifications = self.driver.find_element_by_css_selector('.lite-tiles [href="/applications/"] p').text
         total_of_notifications = int((text_of_new_notifications.split('have '))[1].split(' new')[0])
         return total_of_notifications
 

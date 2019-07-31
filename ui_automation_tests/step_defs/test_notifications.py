@@ -19,7 +19,7 @@ def application_exists_case_note_added(add_an_application, internal_case_note):
 def notification_exists(driver, context):
     exporter_hub_page = ExporterHubPage(driver)
     context.number_of_notifications = exporter_hub_page.return_number_of_notifications()
-    assert "You have " in driver.find_element_by_css_selector('.lite-tiles[href*="applications"] p').text
+    assert "You have " in driver.find_element_by_css_selector('.lite-tiles [href="/applications/"] p').text
 
 
 @when('I click on my application')
