@@ -103,7 +103,7 @@ def add_an_application(driver, request, exporter_url, context):
     driver.find_elements_by_css_selector('.lite-card .govuk-button')[no].click()
     quantity = "11"
     value = "123"
-    unit = "Metres"
+    unit = "Metre(s)"
     application_goods_list = ApplicationGoodsList(driver)
     application_goods_list.add_values_to_good(str(value), str(quantity), unit)
     driver.find_element_by_css_selector("button[type*='submit']").click()
