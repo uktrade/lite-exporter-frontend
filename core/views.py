@@ -31,6 +31,5 @@ def hub(request):
             ]),
         ],
         'applicationDeleted': request.GET.get('application_deleted'),
-        'response': response,
     }
     return render(request, 'core/hub.html', context)
