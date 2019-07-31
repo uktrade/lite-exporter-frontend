@@ -13,10 +13,13 @@ class ApplicationsList(TemplateView):
     def get(self, request, **kwargs):
         data, status_code = get_applications(request)
         notifications, _ = get_notifications(request, unviewed=True)
+        print(notifications['results'])
+        notifications_ids_list = [x['application'] for x in notifications['results']]
+
         context = {
             'data': data,
             'title': 'Applications',
-            'notifications': notifications,
+            'notifications': notifications_ids_list,
         }
         return render(request, 'applications/index.html', context)
 

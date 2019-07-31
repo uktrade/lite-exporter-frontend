@@ -14,11 +14,12 @@ class Goods(TemplateView):
     def get(self, request, **kwargs):
         data, status_code = get_goods(request)
         notifications, _ = get_clc_notifications(request, unviewed=True)
+        notifications_ids_list = [x['clc_query'] for x in notifications['results']]
 
         context = {
             'data': data,
             'title': 'Manage Goods',
-            'notifications': notifications,
+            'notifications_ids_list': notifications_ids_list,
         }
         return render(request, 'goods/index.html', context)
 

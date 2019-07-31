@@ -53,11 +53,9 @@
                             {% endif %}
                         </td>
                         <td class="govuk-table__cell">
-                            {% for notification in notifications.results %}
-                                {% if notification.clc_query == good.clc_query %}
-                                    New notification
-                                {% endif %}
-                            {% endfor %}
+                            {% if notifications_ids_list|key_in_array:good.clc_query %}
+                                New notification
+                            {% endif %}
                         </td>
 					</tr>
 				{% endfor %}
