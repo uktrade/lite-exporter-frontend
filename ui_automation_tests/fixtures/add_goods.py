@@ -51,7 +51,7 @@ def add_an_incorporated_good_to_application(driver, request, context):
     no = utils.get_element_index_by_partial_text(elements, good_name)
     driver.find_elements_by_css_selector('.lite-card .govuk-button')[no].click()
     application_goods_list = ApplicationGoodsList(driver)
-    context.unit = "Metre(s)"
+    context.unit = "Number of articles"
     context.value ="11"
     application_goods_list.add_values_to_good(str(context.value), str(context.value), context.unit)
     driver.find_element_by_css_selector("button[type*='submit']").click()
@@ -85,7 +85,7 @@ def add_a_non_incorporated_good_to_application(driver, request, context):
     no = utils.get_element_index_by_partial_text(elements, good_name)
     driver.find_elements_by_css_selector('.lite-card .govuk-button')[no].click()
     application_goods_list = ApplicationGoodsList(driver)
-    context.unit = "Metre(s)"
+    context.unit = "Number of articles"
     context.value ="11"
     application_goods_list.add_values_to_good(str(context.value), str(context.value), context.unit)
     driver.find_element_by_css_selector("button[type*='submit']").click()
