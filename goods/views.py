@@ -1,14 +1,19 @@
+from django.http import StreamingHttpResponse
 from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
 from s3chunkuploader.file_handler import S3FileUploadHandler, s3_client
 
+from conf import settings
+from conf.settings import AWS_STORAGE_BUCKET_NAME
 from core.services import get_clc_notifications
 from goods import forms
-from goods.forms import edit_form
-from goods.services import get_goods, post_goods, get_good, update_good, delete_good, get_good_documents
+from goods.forms import edit_form, attach_documents_form
+from goods.services import get_goods, post_goods, get_good, update_good, delete_good, get_good_documents, get_good_document, delete_good_document, post_good_documents
 from libraries.forms.components import HiddenField
-from libraries.forms.generators import form_page
+from libraries.forms.generators import form_page, error_page
 
 
 class Goods(TemplateView):
@@ -150,18 +155,18 @@ class DeleteGood(TemplateView):
 @method_decorator(csrf_exempt, 'dispatch')
 class AttachDocuments(TemplateView):
     def get(self, request, **kwargs):
-        case_id = str(kwargs['pk'])
-        get_case(request, case_id)
+        good_id = str(kwargs['pk'])
+        get_good(request, good_id)
 
-        form = attach_documents_form(reverse('cases:documents', kwargs={'pk': case_id}))
+        form = attach_documents_form(reverse('goods:documents', kwargs={'pk': good_id}))
 
-        return form_page(request, form, extra_data={'case_id': case_id})
+        return form_page(request, form, extra_data={'good_id': good_id})
 
     @csrf_exempt
     def post(self, request, **kwargs):
         self.request.upload_handlers.insert(0, S3FileUploadHandler(request))
 
-        case_id = str(kwargs['pk'])
+        good_id = str(kwargs['pk'])
         data = []
 
         files = request.FILES.getlist("file")
@@ -176,21 +181,21 @@ class AttachDocuments(TemplateView):
         })
 
         # Send LITE API the file information
-        case_documents, status_code = post_case_documents(request, case_id, data)
+        good_documents, status_code = post_good_documents(request, good_id, data)
 
-        if 'errors' in case_documents:
+        if 'errors' in good_documents:
             return error_page(None, 'We had an issue uploading your files. Try again later.')
 
-        return redirect(reverse('cases:documents', kwargs={'pk': case_id}))
+        return redirect(reverse('goods:documents', kwargs={'pk': good_id}))
 
 
 class Document(TemplateView):
     def get(self, request, **kwargs):
-        case_id = str(kwargs['pk'])
+        good_id = str(kwargs['pk'])
         file_pk = str(kwargs['file_pk'])
 
-        get_case(request, case_id)
-        document, status_code = get_case_document(request, case_id, file_pk)
+        get_good(request, good_id)
+        document, status_code = get_good_document(request, good_id, file_pk)
         original_file_name = document['document']['name']
 
         # Stream file
@@ -210,36 +215,36 @@ class Document(TemplateView):
 
 class DeleteDocument(TemplateView):
     def get(self, request, **kwargs):
-        case_id = str(kwargs['pk'])
+        good_id = str(kwargs['pk'])
         file_pk = str(kwargs['file_pk'])
 
-        case, status_code = get_good(request, case_id)
-        document, status_code = get_good_document(request, case_id, file_pk)
+        good, status_code = get_good(request, good_id)
+        document, status_code = get_good_document(request, good_id, file_pk)
         original_file_name = document['document']['name']
 
         context = {
             'title': 'Are you sure you want to delete this file?',
             'description': original_file_name,
-            'case': case['case'],
+            'good': good['good'],
             'document': document['document'],
-            'page': 'cases/case/modals/delete_document.html',
+            'page': 'goods/good/modals/delete_document.html',
         }
         return render(request, 'core/static.html', context)
 
     def post(self, request, **kwargs):
-        case_id = str(kwargs['pk'])
+        good_id = str(kwargs['pk'])
         file_pk = str(kwargs['file_pk'])
 
-        case, status_code = get_good(request, case_id)
-
+        good, status_code = get_good(request, good_id)
+        document, status_code = get_good_document(request, good_id, file_pk)
         # Delete the file on the API
-        delete_good_document(request, case_id, file_pk)
+        delete_good_document(request, good_id, file_pk)
 
         context = {
             'title': 'Are you sure you want to delete this file?',
-            'description': original_file_name,
-            'case': case['case'],
+            'description': document['document']['name'],
+            'good': good['good'],
             'document': document['document'],
-            'page': 'cases/case/modals/delete_document.html',
+            'page': 'goods/good/modals/delete_document.html',
         }
         return render(request, 'core/static.html', context)
