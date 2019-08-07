@@ -8,6 +8,7 @@ from s3chunkuploader.file_handler import S3FileUploadHandler, s3_client
 
 from conf import settings
 from conf.settings import AWS_STORAGE_BUCKET_NAME
+from core.builtins.custom_tags import get_string
 from core.services import get_clc_notifications
 from goods import forms
 from goods.forms import edit_form, attach_documents_form
@@ -40,7 +41,7 @@ class GoodsDetail(TemplateView):
 
         context = {
             'data': data,
-            'documents': documents,
+            'documents': documents['documents'],
             # 'notes': visible_notes,
             'title': data['good']['description'],
         }
