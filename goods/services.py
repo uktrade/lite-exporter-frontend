@@ -32,3 +32,8 @@ def update_good(request, pk, json):
 def delete_good(request, pk):
     data = delete(request, GOODS_URL + pk)
     return data.json(), data.status_code
+
+
+def get_good_documents(request, pk):
+    data = get(request, GOODS_URL + pk + "/documents/")
+    return data.json(), data.status_code

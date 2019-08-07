@@ -5,7 +5,7 @@ from django.views.generic import TemplateView
 from core.services import get_clc_notifications
 from goods import forms
 from goods.forms import edit_form
-from goods.services import get_goods, post_goods, get_good, update_good, delete_good
+from goods.services import get_goods, post_goods, get_good, update_good, delete_good, get_good_documents
 from libraries.forms.components import HiddenField
 from libraries.forms.generators import form_page
 
@@ -27,12 +27,14 @@ class Goods(TemplateView):
 class GoodsDetail(TemplateView):
     def get(self, request, **kwargs):
         good_id = kwargs['pk']
-        data, status_code = get_good(request, str(good_id))
+        # data, status_code = get_good(request, str(good_id))
+        documents, status_code = get_good_documents(request, str(good_id))
 
         # visible_notes = filter(lambda note: note['is_visible_to_exporter'], data['good']['notes'])
 
         context = {
-            'data': data,
+            # 'data': data,
+            'documents': documents,
             # 'notes': visible_notes,
             # 'title': data['good']['description'],
         }
