@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
+from core.builtins.custom_tags import get_string
 from core.services import get_clc_notifications
 from goods import forms
 from goods.forms import edit_form
@@ -34,7 +35,7 @@ class GoodsDetail(TemplateView):
 
         context = {
             # 'data': data,
-            'documents': documents,
+            'documents': documents['documents'],
             # 'notes': visible_notes,
             # 'title': data['good']['description'],
         }
