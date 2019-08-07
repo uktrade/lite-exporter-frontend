@@ -159,7 +159,7 @@ class AttachDocuments(TemplateView):
         good_id = str(kwargs['pk'])
         get_good(request, good_id)
 
-        form = attach_documents_form(reverse('goods:documents', kwargs={'pk': good_id}))
+        form = attach_documents_form(reverse('goods:good', kwargs={'pk': good_id}))
 
         return form_page(request, form, extra_data={'good_id': good_id})
 
@@ -187,7 +187,7 @@ class AttachDocuments(TemplateView):
         if 'errors' in good_documents:
             return error_page(None, 'We had an issue uploading your files. Try again later.')
 
-        return redirect(reverse('goods:documents', kwargs={'pk': good_id}))
+        return redirect(reverse('goods:good', kwargs={'pk': good_id}))
 
 
 class Document(TemplateView):

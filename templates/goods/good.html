@@ -33,7 +33,14 @@
         </div>
     </div>
 
-    <h3 class="govuk-heading-l">Documents</h3>
+    <div class="lite-app-bar">
+        <h3 class="govuk-heading-l">Documents</h3>
+        <div class="lite-app-bar--right">
+            <a role="button" draggable="false" class="govuk-button {% if documents %}govuk-button--secondary{% endif %}" href="{% url 'goods:attach_documents' data.good.id %}">
+                {% get_string 'goods.documents.attach_documents.button' %}
+            </a>
+        </div>
+    </div>
 
 
     {% if documents %}
