@@ -13,5 +13,6 @@ urlpatterns = [
     path('edit/<uuid:pk>/', views.EditGood.as_view(), name='edit'),
     path('delete/<uuid:pk>/', views.DeleteGood.as_view(), name='delete'),
     path('<uuid:pk>/delete', views.DeleteGood.as_view(), name='confirm_delete'),
+    path('<uuid:pk>/documents/<str:file_pk>/', views.Document.as_view(), name='document'),
     path('<uuid:pk>/attach/', views.AttachDocuments.as_view(), name='attach_documents'),
 ]

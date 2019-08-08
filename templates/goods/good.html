@@ -5,7 +5,6 @@
 {% load humanize static %}
 
 {% block body %}
-    {{ data }}
 	<h2 class="govuk-heading-l">{{ title }}</h2>
 
     <div class="lite-information-board">
@@ -14,32 +13,30 @@
                 <p class="lite-heading-s">Description</p>
                 <p class="govuk-label">{{ data.good.description }}</p>
             </div>
-            {% if data.good.part_number %}
-                <div class="govuk-grid-column-one-third">
-                    <p class="lite-heading-s">Part Number</p>
-                    <p class="govuk-label">
-                        {{ data.good.part_number }}
-                    </p>
-                </div>
-            {% endif %}
-            {% if data.good.control_code %}
-                <div class="govuk-grid-column-one-third">
-                    <p class="lite-heading-s">Control Code</p>
-                    <p class="govuk-label">
-                        {{ data.good.control_code }}
-                    </p>
-                </div>
-            {% endif %}
+            <div class="govuk-grid-column-one-third">
+                <p class="lite-heading-s">Part Number</p>
+                <p class="govuk-label">
+                    {{ data.good.part_number|default:'N/A' }}
+                </p>
+            </div>
+            <div class="govuk-grid-column-one-third">
+                <p class="lite-heading-s">Control Code</p>
+                <p class="govuk-label">
+                    {{ data.good.control_code|default:'N/A' }}
+                </p>
+            </div>
         </div>
     </div>
 
     <div class="lite-app-bar">
         <h3 class="govuk-heading-l">Documents</h3>
-        <div class="lite-app-bar--right">
-            <a role="button" draggable="false" class="govuk-button {% if documents %}govuk-button--secondary{% endif %}" href="{% url 'goods:attach_documents' data.good.id %}">
-                {% get_string 'goods.documents.attach_documents.button' %}
-            </a>
-        </div>
+        {% if data.good.status != 'submitted' %}
+            <div class="lite-app-bar--right">
+                <a role="button" draggable="false" class="govuk-button {% if documents %}govuk-button--secondary{% endif %}" href="{% url 'goods:attach_documents' data.good.id %}">
+                    {% get_string 'goods.documents.attach_documents.button' %}
+                </a>
+            </div>
+        {% endif %}
     </div>
 
 
@@ -54,7 +51,7 @@
                 </div>
                 <div class="lite-vertical-align">
                     {% if document.safe == True %}
-                        <a class="govuk-link lite-link--icon govuk-link--no-visited-state" href="{% url 'goods:document' good.id document.s3_key %}">
+                        <a class="govuk-link lite-link--icon govuk-link--no-visited-state" href="{% url 'goods:document' pk=data.good.id file_pk=document.s3_key %}">
                             <span class="govuk-visually-hidden">{% get_string 'goods.documents.download_document' %}</span>
                             {% svg 'download' %}
                         </a>
