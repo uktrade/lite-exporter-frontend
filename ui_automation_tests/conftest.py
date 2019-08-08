@@ -84,7 +84,7 @@ def go_to_exporter(driver, sso_sign_in, exporter_url, register_organisation):
 
 
 @when('I go to exporter homepage')
-def go_to_exporter_when(driver, exporter_url, request):
+def go_to_exporter_when(driver, exporter_url):
     driver.get(exporter_url)
 
 # utils
