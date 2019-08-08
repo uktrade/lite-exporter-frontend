@@ -228,7 +228,7 @@ class DeleteDocument(TemplateView):
             'description': original_file_name,
             'good': good['good'],
             'document': document['document'],
-            'page': 'goods/good/modals/delete_document.html',
+            'page': 'goods/modals/delete_document.html',
         }
         return render(request, 'core/static.html', context)
 
@@ -246,6 +246,6 @@ class DeleteDocument(TemplateView):
             'description': document['document']['name'],
             'good': good['good'],
             'document': document['document'],
-            'page': 'goods/good/modals/delete_document.html',
+            'page': 'goods/modals/delete_document.html',
         }
-        return render(request, 'core/static.html', context)
+        return redirect(reverse('goods:good', kwargs={'pk': good_id}))
