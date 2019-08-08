@@ -17,7 +17,8 @@ form = Form(title='Add a description', description='', caption='', questions=[
                             show_pane='pane_control_code'),
                      Option(key='no',
                             value='No')
-                 ]),
+                 ],
+                 classes=['govuk-radios--inline']),
     Question(title='What\'s your good\'s control list classification?',
              description='<noscript>If your good is controlled, enter its control list classification. </noscript>For example, ML1a.',
              input_type=InputType.INPUT,
@@ -30,5 +31,6 @@ form = Form(title='Add a description', description='', caption='', questions=[
                             value='Yes'),
                      Option(key='no',
                             value='No')
-                 ])
+                 ],
+                 classes=['govuk-radios--inline'])
 ])
