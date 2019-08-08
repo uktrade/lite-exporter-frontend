@@ -12,7 +12,7 @@ from core.builtins.custom_tags import get_string
 from core.services import get_clc_notifications
 from goods import forms
 from goods.forms import edit_form, attach_documents_form
-from goods.services import get_goods, post_goods, get_good, update_good, delete_good, get_good_documents, get_good_document, delete_good_document, post_good_documents
+from goods.services import get_goods, post_goods, get_good, update_good, delete_good, get_good_documents, get_good_document, delete_good_document, post_good_documents, raise_clc_query
 from libraries.forms.components import HiddenField
 from libraries.forms.generators import form_page, error_page
 
@@ -59,39 +59,32 @@ class AddGood(TemplateView):
         data = request.POST.copy()
 
         # Logic for when we are at the confirmation page
-        data['validate_only'] = False
+        # data['validate_only'] = False
 
-        if 'clc_query_confirmation' in data:
-            if data['is_good_controlled'] == 'unsure' and data['clc_query_confirmation'] == 'yes':
-                data['are_you_sure'] = True
-                data['control_code'] = data['not_sure_details_control_code']
-                data, status_code = post_goods(request, data)
-                if status_code == 400:
-                    return form_page(request, self.main_form, request.POST, errors=data['errors'])
-
-                return redirect(reverse_lazy('goods:goods'))
-            elif data['is_good_controlled'] == 'unsure' and data['clc_query_confirmation'] == 'no':
-                # user answered no on confirmation page and return to goods list
-                return redirect(reverse_lazy('goods:goods'))
+        # if 'clc_query_confirmation' in data:
+        #     if data['is_good_controlled'] == 'unsure' and data['clc_query_confirmation'] == 'yes':
+        #         data['are_you_sure'] = True
+        #         data['control_code'] = data['not_sure_details_control_code']
+        #         data, status_code = post_goods(request, data)
+        #         if status_code == 400:
+        #             return form_page(request, self.main_form, request.POST, errors=data['errors'])
+        #
+        #         return redirect(reverse_lazy('goods:goods'))
+        #     elif data['is_good_controlled'] == 'unsure' and data['clc_query_confirmation'] == 'no':
+        #         # user answered no on confirmation page and return to goods list
+        #         return redirect(reverse_lazy('goods:goods'))
 
         # On first page - validate without saving to see if we should head for confirmation page
-        data['validate_only'] = True
-        validated_data, status_code = post_goods(request, data)
+        # data['validate_only'] = True
+        # validated_data, status_code = post_goods(request, data)
 
-        if 'errors' in validated_data and validated_data['errors']:
-            return form_page(request, self.main_form, data=data, errors=validated_data.get('errors'))
+        # if 'errors' in validated_data and validated_data['errors']:
+        #     return form_page(request, self.main_form, data=data, errors=validated_data.get('errors'))
 
         data['validate_only'] = False
 
         # on first page for unsure good and no errors - put all data from first form in hidden fields and direct to
         # confirmation page
-        if 'is_good_controlled' in data and data['is_good_controlled'] == 'unsure':
-            are_you_sure_form = forms.are_you_sure
-            for key, value in data.items():
-                are_you_sure_form.questions.append(
-                    HiddenField(key, value)
-                )
-            return form_page(request, are_you_sure_form)
 
         # User has clicked submit with controlled good being yes or no
         validated_data, status_code = post_goods(request, data)
@@ -100,7 +93,19 @@ class AddGood(TemplateView):
             if validated_data['errors']:
                 return form_page(request, self.main_form, data=data, errors=validated_data.get('errors'))
 
-        return redirect(reverse_lazy('goods:goods'))
+        return redirect(reverse_lazy('goods:attach_documents', kwargs={'pk': validated_data['good']['id']}))
+
+
+class RaiseCLCQuery(TemplateView):
+    def get(self, request, **kwargs):
+        return form_page(request, forms.are_you_sure)
+
+    def post(self, request, **kwargs):
+        good_id = str(kwargs['pk'])
+        data = request.POST.copy()
+        data['good_id'] = good_id
+
+        raise_clc_query(request, data)
 
 
 class DraftAddGood(TemplateView):
@@ -168,18 +173,12 @@ class AttachDocuments(TemplateView):
         self.request.upload_handlers.insert(0, S3FileUploadHandler(request))
 
         good_id = str(kwargs['pk'])
-        data = []
+        good, status_code = get_good(request, good_id)
 
-        files = request.FILES.getlist("file")
-        if len(files) is not 1:
+        data, error = self.add_document_data(request)
+
+        if error:
             return error_page(None, 'We had an issue uploading your files. Try again later.')
-        file = files[0]
-        data.append({
-            'name': file.original_name,
-            's3_key': file.name,
-            'size': int(file.size / 1024) if file.size else 0,  # in kilobytes
-            'description': request.POST['description'],
-        })
 
         # Send LITE API the file information
         good_documents, status_code = post_good_documents(request, good_id, data)
@@ -187,7 +186,34 @@ class AttachDocuments(TemplateView):
         if 'errors' in good_documents:
             return error_page(None, 'We had an issue uploading your files. Try again later.')
 
+        if good['good']['is_good_controlled'] == 'unsure':
+            return redirect(reverse('goods:raise_clc_query', kwargs={'pk': good_id}))
+
         return redirect(reverse('goods:good', kwargs={'pk': good_id}))
+
+    @staticmethod
+    def add_document_data(request):
+        data = []
+        print(request)
+        files = request.FILES.getlist("file")
+        if len(files) is not 1:
+            return None, True
+
+        file = files[0]
+        print(file.__dict__)
+        try:
+            original_name = file.original_name
+        except Exception:
+            original_name = file.name
+
+        data.append({
+            'name': original_name,
+            's3_key': file.name,
+            'size': int(file.size / 1024) if file.size else 0,  # in kilobytes
+            'description': request.POST['description'],
+        })
+
+        return data, None
 
 
 class Document(TemplateView):
