@@ -84,12 +84,8 @@ def go_to_exporter(driver, sso_sign_in, exporter_url, register_organisation):
 
 
 @when('I go to exporter homepage')
-def go_to_exporter_when(driver, request):
-    driver.get(request.config.getoption("--exporter_url"))
-    exporter_hub = ExporterHubPage(driver)
-    if "login" in driver.current_url:
-        exporter_hub.login(exporter_sso_login_info['email'], exporter_sso_login_info['password'])
-
+def go_to_exporter_when(driver, exporter_url, request):
+    driver.get(exporter_url)
 
 # utils
 @then(parsers.parse('driver title equals "{expected_text}"'))
