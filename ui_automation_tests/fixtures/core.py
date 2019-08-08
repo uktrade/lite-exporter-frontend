@@ -61,8 +61,3 @@ def exporter_sso_login_info(request):
 @fixture(scope="session")
 def invalid_username(request):
     return "invalid@mail.com"
-
-
-@fixture(scope="session")
-def invalid_username(request):
-    return "invalid@mail.com"
