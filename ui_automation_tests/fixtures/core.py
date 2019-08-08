@@ -1,7 +1,15 @@
 from conf.settings import env
 import os
+import types
 from selenium import webdriver
 from pytest import fixture
+
+def timeout_off(self):
+    self.implicitly_wait(0)
+
+
+def timeout_on(self):
+    self.implicitly_wait(10)
 
 
 # Create driver fixture that initiates chrome
@@ -11,6 +19,8 @@ def driver(request):
 
     chrome_options = webdriver.ChromeOptions()
     # remove this line to see it running in browser.
+    if str(os.environ.get('TEST_TYPE_HEADLESS')) == 'True':
+        chrome_options.add_argument('--headless')
     # chrome_options.add_argument('--headless')
     chrome_options.add_argument('--no-sandbox')
 
@@ -20,7 +30,8 @@ def driver(request):
         else:
             browser = webdriver.Chrome(chrome_options=chrome_options)
         browser.get("about:blank")
-        browser.implicitly_wait(10)
+        browser.timeout_off = types.MethodType(timeout_off, browser)
+        browser.timeout_on = types.MethodType(timeout_on, browser)
         return browser
     else:
         print('Only Chrome is supported at the moment')
@@ -39,14 +50,6 @@ def context(request):
 
 
 @fixture(scope="session")
-def sso_login_info(request):
-    sso_email = env('TEST_SSO_EMAIL')
-    sso_password = env('TEST_SSO_PASSWORD')
-
-    return {'email': sso_email, 'password': sso_password}
-
-
-@fixture(scope="session")
 def exporter_sso_login_info(request):
     exporter_sso_email = env('TEST_EXPORTER_SSO_EMAIL')
     exporter_sso_password = env('TEST_EXPORTER_SSO_PASSWORD')
@@ -54,6 +57,6 @@ def exporter_sso_login_info(request):
     return {'email': exporter_sso_email, 'password': exporter_sso_password}
 
 
-@fixture(scope="module")
+@fixture(scope="session")
 def invalid_username(request):
     return "invalid@mail.com"

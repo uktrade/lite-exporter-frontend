@@ -6,8 +6,6 @@ from conf.settings import env
 @fixture(scope="module")
 def internal_case_note(driver, request, internal_url, sso_sign_in_url, context):
     driver.get(sso_sign_in_url)
-    sso_email = env('TEST_SSO_EMAIL')
-    sso_password = env('TEST_SSO_PASSWORD')
     driver.find_element_by_name("username").send_keys(sso_email)
     driver.find_element_by_name("password").send_keys(sso_password)
     driver.find_element_by_css_selector("[type='submit']").click()
