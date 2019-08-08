@@ -205,7 +205,7 @@ class Document(TemplateView):
                 yield chunk
 
         s3 = s3_client()
-        s3_response = s3.get_object(Bucket=AWS_STORAGE_BUCKET_NAME, Key=file_pk)
+        s3_response = s3.get_object(Bucket=AWS_STORAGE_BUCKET_NAME, Key=document['document']['s3_key'])
         _kwargs = {}
         if s3_response.get('ContentType'):
             _kwargs['content_type'] = s3_response['ContentType']

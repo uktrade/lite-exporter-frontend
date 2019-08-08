@@ -51,8 +51,8 @@
                 </div>
                 <div class="lite-vertical-align">
                     {% if document.safe == True %}
-                        <a class="govuk-link" href="{% url 'goods:delete_document' pk=data.good.id file_pk=document.s3_key %}">Remove</a>
-                        <a class="govuk-link lite-link--icon govuk-link--no-visited-state" href="{% url 'goods:document' pk=data.good.id file_pk=document.s3_key %}">
+                        <a class="govuk-link" href="{% url 'goods:delete_document' pk=data.good.id file_pk=document.id %}">Remove</a>
+                        <a class="govuk-link lite-link--icon govuk-link--no-visited-state" href="{% url 'goods:document' pk=data.good.id file_pk=document.id %}">
                             <span class="govuk-visually-hidden">{% get_string 'goods.documents.download_document' %}</span>
                             {% svg 'download' %}
                         </a>

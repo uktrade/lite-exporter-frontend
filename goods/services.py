@@ -35,8 +35,8 @@ def delete_good(request, pk):
 
 
 # Documents
-def get_good_document(request, pk, s3_key):
-    data = get(request, GOODS_URL + pk + DOCUMENTS_URL + s3_key)
+def get_good_document(request, pk, doc_pk):
+    data = get(request, GOODS_URL + pk + DOCUMENTS_URL + doc_pk)
     return data.json(), data.status_code
 
 
@@ -50,6 +50,6 @@ def post_good_documents(request, pk, json):
     return data.json(), data.status_code
 
 
-def delete_good_document(request, pk, s3_key):
-    data = delete(request, GOODS_URL + pk + DOCUMENTS_URL + s3_key)
+def delete_good_document(request, pk, doc_pk):
+    data = delete(request, GOODS_URL + pk + DOCUMENTS_URL + doc_pk)
     return data.json(), data.status_code
