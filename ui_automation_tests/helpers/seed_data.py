@@ -12,6 +12,9 @@ class SeedData:
     context = {}
     org_name = "Test Org"
     logging = True
+    case_note_text = 'I Am Easy to Find'
+    first_name = "Trinity"
+    last_name = "Fishburne"
 
     request_data = {
         "organisation": {
@@ -21,8 +24,8 @@ class SeedData:
             "vat_number": "GB1234567",
             "registration_number": "09876543",
             "user": {
-                "first_name": "Trinity",
-                "last_name": "Fishburne",
+                "first_name": first_name,
+                "last_name": last_name,
                 "email": exporter_user_email,
                 "password": "password"
             },
@@ -88,6 +91,10 @@ class SeedData:
             "part_number": "1234",
             "validate_only": False,
             "not_sure_details_details": "Kebabs"
+        },
+        "case_note": {
+            'text': case_note_text,
+            'is_visible_to_exporter': True
         }
 
     }
@@ -126,6 +133,8 @@ class SeedData:
             organisation = self.add_org()
         org_id = organisation['id']
         self.add_to_context('org_id', org_id)
+        self.add_to_context('first_name', self.first_name)
+        self.add_to_context('last_name', self.last_name)
         self.add_to_context('primary_site_id', self.get_org_primary_site_id(org_id))
 
     def add_good(self):
@@ -141,6 +150,13 @@ class SeedData:
         response = self.make_request("POST", url='/organisations/', body=data)
         organisation = json.loads(response.text)['organisation']
         return organisation
+
+    def add_case_note(self, context):
+        self.log("Creating case note: ...")
+        data = self.request_data['case_note']
+        context.text = self.case_note_text
+        response = self.make_request("POST", url='/cases/' + context.case_id + '/case_notes/', headers=self.gov_headers, body=data)
+        print(response)
 
     def find_org_by_name(self):
         response = self.make_request("GET", url='/organisations/')

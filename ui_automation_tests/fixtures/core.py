@@ -4,11 +4,12 @@ import types
 from selenium import webdriver
 from pytest import fixture
 
-def timeout_off(self):
-    self.implicitly_wait(0)
+
+def set_timout_to(self, num=0):
+    self.implicitly_wait(num)
 
 
-def timeout_on(self):
+def set_timeout_to_10(self):
     self.implicitly_wait(10)
 
 
@@ -30,8 +31,8 @@ def driver(request):
         else:
             browser = webdriver.Chrome(chrome_options=chrome_options)
         browser.get("about:blank")
-        browser.timeout_off = types.MethodType(timeout_off, browser)
-        browser.timeout_on = types.MethodType(timeout_on, browser)
+        browser.set_timeout_to = types.MethodType(set_timout_to, browser)
+        browser.set_timeout_to_10 = types.MethodType(set_timeout_to_10, browser)
         return browser
     else:
         print('Only Chrome is supported at the moment')
@@ -55,6 +56,11 @@ def exporter_sso_login_info(request):
     exporter_sso_password = env('TEST_EXPORTER_SSO_PASSWORD')
 
     return {'email': exporter_sso_email, 'password': exporter_sso_password}
+
+
+@fixture(scope="session")
+def invalid_username(request):
+    return "invalid@mail.com"
 
 
 @fixture(scope="session")
