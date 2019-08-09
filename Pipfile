@@ -27,7 +27,6 @@ pytest-bdd = "*"
 pyautogui = "*"
 raven = ">=6.10.0"
 requests-oauthlib = ">=1.2.0"
-env = "*"
 
 [requires]
 python_version = "3.7"
