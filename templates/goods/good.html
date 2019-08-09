@@ -60,10 +60,12 @@
                             {% svg 'download' %}
                         </a>
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <a href="{% url 'goods:delete_document' data.good.id document.id %}" style="margin: 0;" class="lite-cancel-link">
-                            {% svg 'close' %}
-                            Delete
-                        </a>
+                        {% if data.good.status != 'submitted' %}
+                            <a href="{% url 'goods:delete_document' data.good.id document.id %}" style="margin: 0;" class="lite-cancel-link">
+                                {% svg 'close' %}
+                                Delete
+                            </a>
+                        {% endif %}
                     {% elif document.safe == False %}
                         <p class="govuk-label" style="margin: 0;color:red;">{% get_string 'goods.documents.virus_infected' %}</p>
                     {% else %}
