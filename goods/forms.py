@@ -1,3 +1,5 @@
+from django.urls import reverse
+
 from conf.settings import env
 from core.builtins.custom_tags import get_string
 from libraries.forms.components import Form, Question, Option, InputType, Group, RadioButtons, FileUpload, BackLink
@@ -45,22 +47,26 @@ add_goods_questions = Form(title='Add Good', description='', caption='', questio
              optional=True),
 ])
 
-are_you_sure = Form(title='Are you sure?',
-                    description='By submitting you are creating a CLC query that cannot be altered',
-                    questions=[
-                        Question(
-                            title='What do you think is your good\'s control code?',
-                            description='<noscript>If your good is controlled, enter its control code. </noscript>For example, ML1a.',
-                            input_type=InputType.INPUT,
-                            optional=True,
-                            name='not_sure_details_control_code'),
-                        Question(
-                            title='Further details about your goods',
-                            description='Please enter details of why you don\'t know if your good is controlled',
-                            input_type=InputType.TEXTAREA,
-                            name='not_sure_details_details'),
-                    ]
-                    )
+
+def are_you_sure(good_id):
+    return Form(title='Are you sure?',
+                        description='By submitting you are creating a CLC query that cannot be altered',
+                        questions=[
+                            Question(
+                                title='What do you think is your good\'s control code?',
+                                description='<noscript>If your good is controlled, enter its control code. </noscript>For example, ML1a.',
+                                input_type=InputType.INPUT,
+                                optional=True,
+                                name='not_sure_details_control_code'),
+                            Question(
+                                title='Further details about your goods',
+                                description='Please enter details of why you don\'t know if your good is controlled',
+                                input_type=InputType.TEXTAREA,
+                                name='not_sure_details_details'),
+                        ],
+                        back_link=BackLink('Back to good', reverse('apply_for_a_licence:overview',
+                                                                   kwargs={'pk': good_id}))
+                        )
 
 edit_form = Form(title='Edit Good', description='', caption='', questions=[
     Question(title='Description of good',

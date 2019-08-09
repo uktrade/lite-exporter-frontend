@@ -68,7 +68,7 @@ class AddGood(TemplateView):
 
 class RaiseCLCQuery(TemplateView):
     def get(self, request, **kwargs):
-        return form_page(request, forms.are_you_sure)
+        return form_page(request, forms.are_you_sure(str(kwargs['pk'])))
 
     def post(self, request, **kwargs):
         good_id = str(kwargs['pk'])
