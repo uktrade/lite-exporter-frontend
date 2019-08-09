@@ -79,7 +79,9 @@ edit_form = Form(title='Edit Good', description='', caption='', questions=[
                             value='Yes',
                             show_pane='pane_control_code'),
                      Option(key='no',
-                            value='No')
+                            value='No'),
+                     Option(key='unsure',
+                            value='I don\'t know')
                  ],
                  classes=['govuk-radios--inline']),
     Question(title='What\'s your good\'s control code?',

@@ -13,7 +13,6 @@ from core.services import get_clc_notifications
 from goods import forms
 from goods.forms import edit_form, attach_documents_form
 from goods.services import get_goods, post_goods, get_good, update_good, delete_good, get_good_documents, get_good_document, delete_good_document, post_good_documents, raise_clc_query
-from libraries.forms.components import HiddenField
 from libraries.forms.generators import form_page, error_page
 
 

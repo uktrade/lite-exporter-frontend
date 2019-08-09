@@ -4,6 +4,10 @@
 
 {% load humanize static %}
 
+{% block back_link %}
+	<a href="/goods/" class="govuk-back-link">Back to Goods</a>
+{% endblock %}
+
 {% block body %}
 	<h2 class="govuk-heading-l">{{ title }}</h2>
 
