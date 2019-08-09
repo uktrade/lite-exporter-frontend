@@ -64,7 +64,7 @@ def are_you_sure(good_id):
                                 input_type=InputType.TEXTAREA,
                                 name='not_sure_details_details'),
                         ],
-                        back_link=BackLink('Back to good', reverse('apply_for_a_licence:overview',
+                        back_link=BackLink('Back to good', reverse('goods:good',
                                                                    kwargs={'pk': good_id}))
                         )
 
