@@ -8,7 +8,6 @@ from s3chunkuploader.file_handler import S3FileUploadHandler, s3_client
 
 from conf import settings
 from conf.settings import AWS_STORAGE_BUCKET_NAME
-from core.builtins.custom_tags import get_string
 from core.services import get_clc_notifications
 from goods import forms
 from goods.forms import edit_form, attach_documents_form
@@ -56,36 +55,8 @@ class AddGood(TemplateView):
 
     def post(self, request):
         data = request.POST.copy()
-
-        # Logic for when we are at the confirmation page
-        # data['validate_only'] = False
-
-        # if 'clc_query_confirmation' in data:
-        #     if data['is_good_controlled'] == 'unsure' and data['clc_query_confirmation'] == 'yes':
-        #         data['are_you_sure'] = True
-        #         data['control_code'] = data['not_sure_details_control_code']
-        #         data, status_code = post_goods(request, data)
-        #         if status_code == 400:
-        #             return form_page(request, self.main_form, request.POST, errors=data['errors'])
-        #
-        #         return redirect(reverse_lazy('goods:goods'))
-        #     elif data['is_good_controlled'] == 'unsure' and data['clc_query_confirmation'] == 'no':
-        #         # user answered no on confirmation page and return to goods list
-        #         return redirect(reverse_lazy('goods:goods'))
-
-        # On first page - validate without saving to see if we should head for confirmation page
-        # data['validate_only'] = True
-        # validated_data, status_code = post_goods(request, data)
-
-        # if 'errors' in validated_data and validated_data['errors']:
-        #     return form_page(request, self.main_form, data=data, errors=validated_data.get('errors'))
-
         data['validate_only'] = False
 
-        # on first page for unsure good and no errors - put all data from first form in hidden fields and direct to
-        # confirmation page
-
-        # User has clicked submit with controlled good being yes or no
         validated_data, status_code = post_goods(request, data)
 
         if 'errors' in validated_data:

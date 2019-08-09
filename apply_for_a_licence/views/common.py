@@ -137,7 +137,7 @@ class GoodsList(TemplateView):
 
         filtered_data = []
         for good in data['goods']:
-            if good['documents'] and not good['clc_query_id']:
+            if good['documents'] and not good['clc_query_id'] and not good['is_good_controlled'] == 'unsure':
                 filtered_data.append(good)
 
         context = {
