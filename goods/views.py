@@ -106,6 +106,8 @@ class RaiseCLCQuery(TemplateView):
 
         raise_clc_query(request, data)
 
+        return redirect(reverse('goods:goods'))
+
 
 class DraftAddGood(TemplateView):
     def get(self, request, **kwargs):

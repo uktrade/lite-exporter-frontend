@@ -48,7 +48,7 @@
 						<td class="govuk-table__cell" style="{% if not good.control_code %}opacity: 0.4;{% endif %}">{{ good.control_code|default:"N/A" }}</td>
 						<td class="govuk-table__cell" style="{% if not good.documents %}opacity: 0.4;{% endif %}">
                             {% for document in good.documents %}
-                                {{ document }}
+                                {{ document.name }}<br>
                             {% endfor %}
                         </td>
 						<td data_good_clc_query_case_id="{{ good.clc_query_case_id }}" class="govuk-table__cell">
