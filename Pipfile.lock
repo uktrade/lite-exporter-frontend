@@ -175,7 +175,7 @@
                 "sha256:92b8c4b06dac4f0611c0729b2f2ede52b2e1bac1ab48f089c7ddc12e26bb60c4"
             ],
             "version": "==7.2.0"
-       },
+        },
         "mouseinfo": {
             "hashes": [
                 "sha256:4f7ae3b0d7dc244b8e8e5669de09a676aecbc02aa88c3df9929abf0b489d9795"
@@ -195,7 +195,7 @@
                 "sha256:c491ca87294da7cc01902edbe30a5bc6c4c28172b5138ab4e4aa1b9d7bfaeafe"
             ],
             "version": "==19.1"
-       },
+        },
         "parse": {
             "hashes": [
                 "sha256:1b68657434d371e5156048ca4a0c5aea5afc6ca59a2fea4dd1a575354f617142"
@@ -210,7 +210,7 @@
             "version": "==0.5.2"
         },
         "pillow": {
-           "hashes": [
+            "hashes": [
                 "sha256:0804f77cb1e9b6dbd37601cee11283bba39a8d44b9ddb053400c58e0c0d7d9de",
                 "sha256:0ab7c5b5d04691bcbd570658667dd1e21ca311c62dcfd315ad2255b1cd37f64f",
                 "sha256:0b3e6cf3ea1f8cecd625f1420b931c83ce74f00c29a0ff1ce4385f99900ac7c4",
@@ -341,7 +341,7 @@
         },
         "pymsgbox": {
             "hashes": [
-               "sha256:7df5ed66c8a80fd36b83b278ba164e7a1d135c8fb8bdf38b291e46bf31d28085"
+                "sha256:7df5ed66c8a80fd36b83b278ba164e7a1d135c8fb8bdf38b291e46bf31d28085"
             ],
             "version": "==1.0.7"
         },
