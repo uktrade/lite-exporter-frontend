@@ -35,21 +35,24 @@ class GoodsDetail(TemplateView):
         data, status_code = get_good(request, str(good_id))
         documents, status_code = get_good_documents(request, str(good_id))
 
-        if data['good']['notes'] is 'None':
-            visible_notes = filter(lambda note: note['is_visible_to_exporter'], data['good']['notes'])
+        if data['good'].get('clc_query_id') != 'None':
+            if data['good']['notes'] is not None:
+                visible_notes = filter(lambda note: note['is_visible_to_exporter'], data['good']['notes'])
 
-            context = {
-                'data': data,
-                'documents': documents['documents'],
-                'notes': visible_notes,
-                'title': data['good']['description'],
-            }
-        else:
-            context = {
-                'data': data,
-                'documents': documents['documents'],
-                'title': data['good']['description'],
-            }
+                context = {
+                    'data': data,
+                    'documents': documents['documents'],
+                    'notes': visible_notes,
+                    'title': data['good']['description'],
+                }
+
+                return render(request, 'goods/good.html', context)
+
+        context = {
+            'data': data,
+            'documents': documents['documents'],
+            'title': data['good']['description'],
+        }
         return render(request, 'goods/good.html', context)
 
 
