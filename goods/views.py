@@ -166,13 +166,11 @@ class AttachDocuments(TemplateView):
     @staticmethod
     def add_document_data(request):
         data = []
-        print(request)
         files = request.FILES.getlist("file")
         if len(files) is not 1:
             return None, True
 
         file = files[0]
-        print(file.__dict__)
         try:
             original_name = file.original_name
         except Exception:
