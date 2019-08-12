@@ -59,9 +59,8 @@
                             <span class="govuk-visually-hidden">{% get_string 'goods.documents.download_document' %}</span>
                             Download
                         </a>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         {% if data.good.status != 'submitted' %}
-                            <a href="{% url 'goods:delete_document' data.good.id document.id %}" style="margin: 0;" class="govuk-link">
+                            <a href="{% url 'goods:delete_document' data.good.id document.id %}" style="margin: 0; margin-left: 21px;" class="govuk-link">
                                 Delete
                             </a>
                         {% endif %}
