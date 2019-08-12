@@ -22,7 +22,7 @@ from pages.application_countries_list import ApplicationCountriesList
 
 from helpers.helpers import get_element_index_by_text
 
-#scenarios('../features/submit_application.feature', strict_gherkin=False)
+scenarios('../features/submit_application.feature', strict_gherkin=False)
 
 import logging
 log = logging.getLogger()

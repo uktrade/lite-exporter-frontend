@@ -1,7 +1,7 @@
 from pytest_bdd import scenarios, given, when, then, parsers, scenarios
 from pages.application_goods_list import ApplicationGoodsList
 
-#scenarios('../features/search_for_goods.feature', strict_gherkin=False)
+scenarios('../features/search_for_goods.feature', strict_gherkin=False)
 
 import logging
 log = logging.getLogger()

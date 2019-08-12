@@ -11,7 +11,7 @@ import helpers.helpers as utils
 log = logging.getLogger()
 console = logging.StreamHandler()
 log.addHandler(console)
-#scenarios('../features/users.feature', strict_gherkin=False)
+scenarios('../features/users.feature', strict_gherkin=False)
 
 
 @when('I click on the users link')
