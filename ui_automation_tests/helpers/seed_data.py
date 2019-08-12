@@ -1,4 +1,6 @@
 import json
+import os
+
 import requests
 from conf.settings import env
 
@@ -142,6 +144,17 @@ class SeedData:
         response = self.make_request("POST", url='/goods/', headers=self.export_headers, body=data)
         item = json.loads(response.text)['good']
         self.add_to_context('good_id', item['id'])
+        self.add_document(item['id'])
+
+    def add_document(self, good_id):
+        file_to_upload_abs_path = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, 'resources', 'file_for_doc_upload_test_1.txt'))
+        files = {'upload_file': open(file_to_upload_abs_path, 'rb')}
+        headers = self.export_headers
+        response = requests.request("POST",
+                         self.base_url + '/goods/' + str(good_id) + '/attach/',
+                         headers=headers,
+                         files=files)
+        print(response)
 
     def add_org(self):
         self.log("Creating org: ...")
@@ -199,13 +212,14 @@ class SeedData:
         self.add_to_context('application_id', item['id'])
         self.add_to_context('case_id', item['case_id'])
 
-    def make_request(self, method, url, headers=None, body=None):
+    def make_request(self, method, url, headers=None, body=None, files=None):
         if headers is None:
             headers = self.gov_headers
         if body:
             response = requests.request(method, self.base_url + url,
                                         data=json.dumps(body),
-                                        headers=headers)
+                                        headers=headers,
+                                        files=files)
         else:
             response = requests.request(method, self.base_url + url, headers=headers)
         if not response.ok:
