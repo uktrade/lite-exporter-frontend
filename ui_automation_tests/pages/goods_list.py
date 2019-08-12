@@ -13,7 +13,7 @@ class GoodsList:
     def assert_goods_are_displayed_of_good_name(self, description, part_number, control_code):
         goods_row = self.driver.find_element_by_css_selector('table').text
 
-        assert description in goods_row
+        assert description not in goods_row
         assert part_number in goods_row
         assert control_code in goods_row
 

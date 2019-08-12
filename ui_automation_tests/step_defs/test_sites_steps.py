@@ -14,7 +14,7 @@ log = logging.getLogger()
 console = logging.StreamHandler()
 log.addHandler(console)
 
-scenarios('../features/sites.feature', strict_gherkin=False)
+#scenarios('../features/sites.feature', strict_gherkin=False)
 
 
 @when('I click new site')

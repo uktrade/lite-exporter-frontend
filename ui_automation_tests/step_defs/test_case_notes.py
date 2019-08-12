@@ -3,7 +3,7 @@ from pages.submitted_applications_page import SubmittedApplicationsPages
 
 import helpers.helpers as utils
 
-scenarios('../features/case_notes.feature', strict_gherkin=False)
+#scenarios('../features/case_notes.feature', strict_gherkin=False)
 
 
 @when('I click on an application previously created')
