@@ -148,10 +148,10 @@ class SeedData:
 
     def add_document(self, good_id):
         file_to_upload_abs_path = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, 'resources', 'file_for_doc_upload_test_1.txt'))
-        files = {'upload_file': open(file_to_upload_abs_path, 'rb')}
+        files = {'documents': open(file_to_upload_abs_path, 'rb')}
         headers = self.export_headers
         response = requests.request("POST",
-                         self.base_url + '/goods/' + str(good_id) + '/attach/',
+                         "https://exporter.lite.service.dev.uktrade.io" + '/goods/' + str(good_id) + '/attach/',
                          headers=headers,
                          files=files)
         print(response)
