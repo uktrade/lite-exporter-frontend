@@ -46,7 +46,6 @@ class SeedData:
             "is_good_end_product": True,
             "part_number": "1234",
             "validate_only": False,
-            "not_sure_details_details": ""
         },
         "gov_user": {
             "email": "test-uat-user@digital.trade.gov.uk",
