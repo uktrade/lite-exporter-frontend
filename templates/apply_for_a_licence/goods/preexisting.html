@@ -8,7 +8,7 @@
 
 <h2 class="govuk-heading-l">{{ title }}</h2>
 
-{% if description or part_number or data|length %}
+{% if description or part_number or data %}
 	<div class="govuk-grid-row">
 		<div class="govuk-grid-column-one-third lite-filters">
 			<div class="lite-filter-box">
@@ -58,7 +58,7 @@
 					{% endif %}
 				</div>
 			{% endif %}
-			{% if data|length %}
+			{% if data %}
 				{% for good in data %}
 					<div class="lite-card">
 						<h4 class="govuk-heading-s" style="margin-bottom: 0;">{{ good.description|highlight_text:description }}</h4>
