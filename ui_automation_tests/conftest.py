@@ -30,6 +30,7 @@ import helpers.helpers as utils
 
 strict_gherkin = False
 
+
 def pytest_addoption(parser):
     env = str(os.environ.get('ENVIRONMENT'))
     if env == 'None':
