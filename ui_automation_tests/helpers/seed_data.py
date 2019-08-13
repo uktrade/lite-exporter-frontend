@@ -96,6 +96,12 @@ class SeedData:
         "case_note": {
             'text': case_note_text,
             'is_visible_to_exporter': True
+        },
+        "document": {
+            'name': 'document 1',
+            's3_key': env('TEST_S3_KEY'),
+            'size': 0,
+            'description': 'document for test setup'
         }
 
     }
@@ -147,13 +153,8 @@ class SeedData:
         self.add_document(item['id'])
 
     def add_document(self, good_id):
-        file_to_upload_abs_path = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, 'resources', 'file_for_doc_upload_test_1.txt'))
-        files = {'documents': open(file_to_upload_abs_path, 'rb')}
-        headers = self.export_headers
-        response = requests.request("POST",
-                         "https://exporter.lite.service.dev.uktrade.io" + '/goods/' + str(good_id) + '/attach/',
-                         headers=headers,
-                         files=files)
+        data = self.request_data['document']
+        response = self.make_request("POST", url='/goods/' + str(good_id) + '/documents/', headers=self.export_headers, body=data)
         print(response)
 
     def add_org(self):

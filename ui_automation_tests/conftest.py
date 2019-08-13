@@ -4,7 +4,7 @@ import allure
 from allure_commons.types import AttachmentType
 
 import pytest
-from fixtures.core import context, driver, invalid_username, exporter_sso_login_info
+from fixtures.core import context, driver, invalid_username, exporter_sso_login_info, s3_key
 from fixtures.register_organisation import register_organisation
 from fixtures.add_goods import add_a_good, add_an_incorporated_good_to_application, add_a_non_incorporated_good_to_application
 from fixtures.add_an_application import add_an_application
