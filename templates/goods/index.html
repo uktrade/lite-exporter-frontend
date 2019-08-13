@@ -55,8 +55,8 @@
                             {% if good.clc_query_id %}
                                 N/A: In CLC query
                             {% elif good.status == 'draft' %}
-                                <a class="govuk-link govuk-link--no-visited-state" href="{% url "goods:edit" pk=good.id %}">Edit</a> |
-                                <a class="govuk-link govuk-link--no-visited-state" href="{% url "goods:delete" pk=good.id %}">Delete</a>
+                                <a class="govuk-link govuk-link--no-visited-state" href="{% url "goods:edit" pk=good.id %}" id="edit-{{ good.id }}">Edit</a> |
+                                <a class="govuk-link govuk-link--no-visited-state" href="{% url "goods:delete" pk=good.id %}" id="delete-{{ good.id }}">Delete</a>
                             {% else %}
                                 N/A: In application
                             {% endif %}

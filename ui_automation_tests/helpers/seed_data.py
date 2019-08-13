@@ -97,12 +97,12 @@ class SeedData:
             'text': case_note_text,
             'is_visible_to_exporter': True
         },
-        "document": {
+        "document": [{
             'name': 'document 1',
             's3_key': env('TEST_S3_KEY'),
             'size': 0,
             'description': 'document for test setup'
-        }
+        }]
 
     }
 
@@ -154,7 +154,7 @@ class SeedData:
 
     def add_document(self, good_id):
         data = self.request_data['document']
-        response = self.make_request("POST", url='/goods/' + str(good_id) + '/documents/', headers=self.export_headers, body=data)
+        response = self.make_request("POST", url='/goods/' + good_id + '/documents/', headers=self.export_headers, body=data)
         print(response)
 
     def add_org(self):

@@ -10,11 +10,21 @@ scenarios('../features/add_goods.feature', strict_gherkin=False)
 
 
 @then('I see good in goods list')
-def assert_good_is_in_list(driver, context):
+def assert_good_is_in_list(driver, context, exporter_url):
+    driver.get(exporter_url.rstrip('/') + '/goods/')
     goods_list = GoodsList(driver)
     goods_list.assert_goods_are_displayed_of_good_name(context.good_description,
                                                        context.part,
                                                        context.control_code)
+
+
+@then('I see the clc query in goods list')
+def assert_clc_is_in_list(driver, context, exporter_url):
+    driver.get(exporter_url.rstrip('/') + '/goods/')
+    goods_list = GoodsList(driver)
+    goods_list.assert_clc_goods_are_displayed_of_good_name(context.good_description,
+                                                           context.part,
+                                                           context.control_code)
 
 
 @when(parsers.parse('I edit a good to description "{description}" controlled "{controlled}" '
@@ -41,9 +51,7 @@ def delete_my_good_in_list(driver, context):
     """
     goods_list = GoodsList(driver)
 
-    elements = driver.find_elements_by_css_selector('td')
-    element_number = get_element_index_by_text(elements, context.edited_description)
-    elements[element_number + 3].find_element_by_css_selector(goods_list.DELETE_LINK).click()
+    driver.find_element_by_id('delete-' + str(context.good_id_from_url)).click()
     goods_list.click_on_delete_good_button()
 
 

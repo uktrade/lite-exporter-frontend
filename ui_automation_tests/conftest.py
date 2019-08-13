@@ -16,6 +16,7 @@ from pages.add_goods_page import AddGoodPage
 from pages.add_new_external_location_form_page import AddNewExternalLocationFormPage
 from pages.application_overview_page import ApplicationOverviewPage
 from pages.apply_for_a_licence_page import ApplyForALicencePage
+from pages.attach_document_page import AttachDocumentPage
 from pages.exporter_hub_page import ExporterHubPage
 from pages.external_locations_page import ExternalLocationsPage
 from pages.preexisting_locations_page import PreexistingLocationsPage
@@ -273,12 +274,30 @@ def add_new_good(driver, description, controlled, control_code, incorporated, pa
     if "empty" not in good_part:
         add_goods_page.enter_part_number(good_part)
     if controlled.lower() == 'unsure':
-        add_goods_page.enter_control_code_unsure(control_code)
-        add_goods_page.enter_control_unsure_details(description + " unsure")
         exporter_hub.click_save_and_continue()
-        add_goods_page.select_control_unsure_confirmation("yes")
     else:
         add_goods_page.enter_control_code(control_code)
     exporter_hub.click_save_and_continue()
+    context.good_id_from_url = driver.current_url.split('/goods/')[1].split('/')[0]
 
 
+@when(parsers.parse('I upload file "{filename}" with description "{description}"'))
+def upload_a_file(driver, filename, description):
+    attach_document_page = AttachDocumentPage(driver)
+
+    # Path gymnastics to get the absolute path for $PWD/../resources/(file_to_upload_x) that works everywhere
+    file_to_upload_abs_path = \
+        os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, 'resources', filename))
+
+    attach_document_page.choose_file(file_to_upload_abs_path)
+    attach_document_page.enter_description(description)
+    attach_document_page.click_submit_btn()
+
+
+@when(parsers.parse('I raise a clc query control code "{control_code}" description "{description}"'))
+def raise_clc_query(driver, control_code, description):
+    raise_clc_query_page = AddGoodPage(driver)
+    raise_clc_query_page.enter_control_code_unsure(control_code)
+    raise_clc_query_page.enter_control_unsure_details(description)
+    exporter_hub = ExporterHubPage(driver)
+    exporter_hub.click_save_and_continue()
