@@ -277,7 +277,7 @@ def add_new_good(driver, description, controlled, control_code, incorporated, pa
         exporter_hub.click_save_and_continue()
     else:
         add_goods_page.enter_control_code(control_code)
-    exporter_hub.click_save_and_continue()
+        exporter_hub.click_save_and_continue()
     context.good_id_from_url = driver.current_url.split('/goods/')[1].split('/')[0]
 
 
@@ -288,6 +288,9 @@ def upload_a_file(driver, filename, description):
     # Path gymnastics to get the absolute path for $PWD/../resources/(file_to_upload_x) that works everywhere
     file_to_upload_abs_path = \
         os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, 'resources', filename))
+    if 'ui_automation_tests' not in file_to_upload_abs_path:
+        file_to_upload_abs_path = \
+            os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, 'ui_automation_tests/resources', filename))
 
     attach_document_page.choose_file(file_to_upload_abs_path)
     attach_document_page.enter_description(description)

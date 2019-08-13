@@ -60,7 +60,4 @@ def good_is_no_longer_in_list(driver, context):
     """
     Assert that the edited good is no longer in the goods list
     """
-    goods_table = driver.find_element_by_tag_name('tbody')
-    goods = goods_table.find_elements_by_tag_name('tr')
-    for good in goods:
-        assert context.edited_description != good.find_elements_by_tag_name('td')[0].text, "good was found in goods list"
+    assert len(driver.find_elements_by_id('delete-' + context.good_id_from_url)) == 0
