@@ -58,6 +58,7 @@ def i_see_the_application_overview(driver, context):
     app_id = driver.current_url[-36:]
     context.app_id = app_id
 
+
 @when('I click drafts')
 def i_click_drafts(driver):
     hub_page = Hub(driver)

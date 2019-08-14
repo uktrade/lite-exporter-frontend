@@ -261,6 +261,7 @@ def click_add_from_organisation_button(driver):
 
 @when(parsers.parse('I add a good or good type with description "{description}" controlled "{controlled}" control code "{control_code}" incorporated "{incorporated}" and part number "{part}"'))
 def add_new_good(driver, description, controlled, control_code, incorporated, part, context):
+    good_part_needed = True
     exporter_hub = ExporterHubPage(driver)
     add_goods_page = AddGoodPage(driver)
     date_time = utils.get_current_date_time_string()
@@ -272,14 +273,17 @@ def add_new_good(driver, description, controlled, control_code, incorporated, pa
     add_goods_page.enter_description_of_goods(good_description)
     add_goods_page.select_is_your_good_controlled(controlled)
     add_goods_page.select_is_your_good_intended_to_be_incorporated_into_an_end_product(incorporated)
-    if "empty" not in good_part:
+    if "not needed" in good_part:
+        good_part_needed = False
+    elif "empty" not in good_part:
         add_goods_page.enter_part_number(good_part)
     if controlled.lower() == 'unsure':
         exporter_hub.click_save_and_continue()
     else:
         add_goods_page.enter_control_code(control_code)
         exporter_hub.click_save_and_continue()
-    context.good_id_from_url = driver.current_url.split('/goods/')[1].split('/')[0]
+    if good_part_needed:
+        context.good_id_from_url = driver.current_url.split('/goods/')[1].split('/')[0]
 
 
 @when(parsers.parse('I upload file "{filename}" with description "{description}"'))
