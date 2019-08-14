@@ -2,15 +2,10 @@ from pytest_bdd import scenarios, when, then, parsers
 
 from pages.attach_document_page import AttachDocumentPage
 from pages.goods_list import GoodsList
-import helpers.helpers as utils
 from pages.exporter_hub_page import ExporterHubPage
 from pages.add_goods_page import AddGoodPage
 
-
-from helpers.helpers import get_element_index_by_text
-from pages.shared import Shared
-
-scenarios('../features/add_goods.feature', strict_gherkin=False)
+scenarios('../features/add_clc_good.feature', strict_gherkin=False)
 
 
 @then('I see good in goods list')
