@@ -7,6 +7,7 @@ from pages.exporter_hub_page import ExporterHubPage
 import helpers.helpers as utils
 from pages.application_overview_page import ApplicationOverviewPage
 from pages.application_goods_list import ApplicationGoodsList
+from pages.shared import Shared
 
 
 @fixture(scope="session")
@@ -57,7 +58,7 @@ def add_an_incorporated_good_to_application(driver, request, context):
 
         attach_document_page.choose_file(file_to_upload_abs_path)
         attach_document_page.enter_description('nothing')
-        attach_document_page.click_submit_btn()
+        Shared(driver).click_continue()
     driver.get(url)
     driver.execute_script("document.getElementById('goods').scrollIntoView(true);")
     overview_page.click_goods_link()
@@ -103,7 +104,7 @@ def add_a_non_incorporated_good_to_application(driver, request, context):
 
         attach_document_page.choose_file(file_to_upload_abs_path)
         attach_document_page.enter_description('nothing')
-        attach_document_page.click_submit_btn()
+        Shared(driver).click_continue()
     driver.get(url)
     driver.execute_script("document.getElementById('goods').scrollIntoView(true);")
     overview_page.click_goods_link()
@@ -147,5 +148,4 @@ def create_non_incorporated_good(driver, request, context):
     attach_document_page.choose_file(file_to_upload_abs_path)
     context.document_description = utils.get_formatted_date_time_m_d_h_s()
     attach_document_page.enter_description(context.document_description)
-    attach_document_page = AttachDocumentPage(driver)
-    attach_document_page.click_submit_btn()
+    Shared(driver).click_continue()

@@ -299,7 +299,7 @@ def upload_a_file(driver, filename, description):
 
     attach_document_page.choose_file(file_to_upload_abs_path)
     attach_document_page.enter_description(description)
-    attach_document_page.click_submit_btn()
+    Shared(driver).click_continue()
 
 
 @when(parsers.parse('I raise a clc query control code "{control_code}" description "{description}"'))

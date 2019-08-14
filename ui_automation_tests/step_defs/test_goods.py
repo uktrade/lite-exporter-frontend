@@ -67,12 +67,13 @@ def good_is_no_longer_in_list(driver, context):
     assert len(driver.find_elements_by_id('delete-' + context.good_id_from_url)) == 0
 
 
-@when('I add or select a preexisting good and attach a document')
+@when('I add a good and attach a document')
 def attach_document_to_modifiable_good(driver, context, create_non_incorporated_good):
     pass
 
 
 @then('I see the document has been attached')
 def i_see_the_attached_good(driver, context):
-    assert context.file_to_be_deleted_name in driver.find_element_by_css_selector('.lite-card--download').text
-    assert context.document_description in driver.find_element_by_css_selector('.lite-card--download').text
+    added_doc = AttachDocumentPage(driver).get_text_of_document_added_item()
+    assert context.file_to_be_deleted_name in added_doc, "file is not displayed"
+    assert context.document_description in added_doc, "file description is not displayed"
