@@ -70,6 +70,20 @@ def attach_document_to_modifiable_good(driver, context, create_non_incorporated_
     attach_document_page = AttachDocumentPage(driver)
     attach_document_page.click_submit_btn()
 
+
 @then('I see the document has been attached')
 def i_see_the_attached_good(driver, context):
-    assert 
+    assert context.file_to_be_deleted_name in driver.find_element_by_tag_name('body').text
+
+
+@when('I delete the document')
+def i_delete_the_document(driver, context):
+    for element in driver.find_elements_by_css_selector(".lite-card--download"):
+        if context.file_to_be_deleted_name in element.text:
+            element.find_elements_by_css_selector("a[href*='delete'").click()
+            break
+
+
+@then('I see the document has been deleted')
+def i_see_the_document_has_been_deleted(driver, context):
+    assert context.file_to_be_deleted_name not in driver.find_element_by_tag_name('body').text

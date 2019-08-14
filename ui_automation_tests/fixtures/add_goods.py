@@ -142,7 +142,7 @@ def create_non_incorporated_good(driver, request, context):
     context.file_to_be_deleted_name = 'file_for_doc_upload_test_2.txt'
     # Path gymnastics to get the absolute path for $PWD/../resources/(file_to_upload_x) that works everywhere
     file_to_upload_abs_path = \
-        os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, 'resources', 'file_for_doc_upload_test_1.txt'))
+        os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, 'resources', context.file_to_be_deleted_name))
     if 'ui_automation_tests' not in file_to_upload_abs_path:
         file_to_upload_abs_path = \
             os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, 'ui_automation_tests/resources', context.file_to_be_deleted_name))

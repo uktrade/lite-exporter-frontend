@@ -103,7 +103,6 @@ class SeedData:
             'size': 0,
             'description': 'document for test setup'
         }]
-
     }
 
     def __init__(self, api_url, logging=True):
