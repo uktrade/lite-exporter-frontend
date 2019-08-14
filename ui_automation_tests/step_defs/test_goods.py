@@ -2,11 +2,13 @@ from pytest_bdd import scenarios, when, then, parsers
 
 from pages.attach_document_page import AttachDocumentPage
 from pages.goods_list import GoodsList
+import helpers.helpers as utils
 from pages.exporter_hub_page import ExporterHubPage
 from pages.add_goods_page import AddGoodPage
 
 
 from helpers.helpers import get_element_index_by_text
+from pages.shared import Shared
 
 scenarios('../features/add_goods.feature', strict_gherkin=False)
 
@@ -67,23 +69,10 @@ def good_is_no_longer_in_list(driver, context):
 
 @when('I add or select a preexisting good and attach a document')
 def attach_document_to_modifiable_good(driver, context, create_non_incorporated_good):
-    attach_document_page = AttachDocumentPage(driver)
-    attach_document_page.click_submit_btn()
+    pass
 
 
 @then('I see the document has been attached')
 def i_see_the_attached_good(driver, context):
-    assert context.file_to_be_deleted_name in driver.find_element_by_tag_name('body').text
-
-
-@when('I delete the document')
-def i_delete_the_document(driver, context):
-    for element in driver.find_elements_by_css_selector(".lite-card--download"):
-        if context.file_to_be_deleted_name in element.text:
-            element.find_elements_by_css_selector("a[href*='delete'").click()
-            break
-
-
-@then('I see the document has been deleted')
-def i_see_the_document_has_been_deleted(driver, context):
-    assert context.file_to_be_deleted_name not in driver.find_element_by_tag_name('body').text
+    assert context.file_to_be_deleted_name in driver.find_element_by_css_selector('.lite-card--download').text
+    assert context.document_description in driver.find_element_by_css_selector('.lite-card--download').text

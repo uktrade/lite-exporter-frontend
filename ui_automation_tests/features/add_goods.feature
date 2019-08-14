@@ -32,5 +32,3 @@ Feature: I want to edit and remove goods on the goods list
         When I click on goods link
         And I add or select a preexisting good and attach a document
         Then I see the document has been attached
-        When I delete the document
-        Then I see the document has been deleted
