@@ -367,9 +367,11 @@ def i_go_to_the_overview(driver):
     app = ApplicationOverviewPage(driver)
     app.click_on_back_to_overview_text()
 
+
 @when('I add a non incorporated good to application')
 def add_a_non_incorporated_good(driver, add_a_non_incorporated_good_to_application):
     pass
+
 
 @when('I remove an ultimate end user so there is one less and return to the overview')
 def i_remove_an_ultimate_end_user(driver):

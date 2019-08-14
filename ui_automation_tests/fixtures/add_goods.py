@@ -13,7 +13,7 @@ from pages.shared import Shared
 @fixture(scope="session")
 def add_a_good(driver, request):
     exporter_hub = ExporterHubPage(driver)
-    good_name = "1Widget"
+    good_name = "What Widget"
     exporter_hub.click_my_goods()
     add_goods_page = AddGoodPage(driver)
     if good_name not in driver.find_element_by_css_selector('.govuk-table').text:
@@ -31,7 +31,7 @@ def add_a_good(driver, request):
 @fixture(scope="function")
 def add_an_incorporated_good_to_application(driver, request, context):
     url = driver.current_url
-    good_name = "Incorporated Seat"
+    good_name = "Incorporated Fuel"
     context.goods_name = good_name
     exporter_hub = ExporterHubPage(driver)
     driver.get(request.config.getoption("--exporter_url"))
@@ -77,7 +77,7 @@ def add_an_incorporated_good_to_application(driver, request, context):
 @fixture(scope="function")
 def add_a_non_incorporated_good_to_application(driver, request, context):
     url = driver.current_url
-    good_name = "Jet Fuel"
+    good_name = "More Fuel"
     context.goods_name = good_name
     exporter_hub = ExporterHubPage(driver)
     driver.get(request.config.getoption("--exporter_url"))
