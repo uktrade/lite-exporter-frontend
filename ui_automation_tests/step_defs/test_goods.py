@@ -1,4 +1,6 @@
 from pytest_bdd import scenarios, when, then, parsers
+
+from pages.attach_document_page import AttachDocumentPage
 from pages.goods_list import GoodsList
 from pages.exporter_hub_page import ExporterHubPage
 from pages.add_goods_page import AddGoodPage
@@ -61,3 +63,13 @@ def good_is_no_longer_in_list(driver, context):
     Assert that the edited good is no longer in the goods list
     """
     assert len(driver.find_elements_by_id('delete-' + context.good_id_from_url)) == 0
+
+
+@when('I add or select a preexisting good and attach a document')
+def attach_document_to_modifiable_good(driver, context, create_non_incorporated_good):
+    attach_document_page = AttachDocumentPage(driver)
+    attach_document_page.click_submit_btn()
+
+@then('I see the document has been attached')
+def i_see_the_attached_good(driver, context):
+    assert 
