@@ -1,4 +1,4 @@
-x@licence @goods @filter @all
+@licence @goods @filter @all
 Feature: I want to search for goods in my goods list to add to an in progress application
   As a logged in exporter creating a new application
   I want to search for goods in my goods list to add to an in progress application
