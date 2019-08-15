@@ -159,7 +159,7 @@ class AttachDocuments(TemplateView):
         data, error = self.add_document_data(request)
 
         if error:
-            return error_page(None, 'We had an issue uploading your files. Try again later.')
+            return error_page(None, error)
 
         # Send LITE API the file information
         good_documents, status_code = post_good_documents(request, good_id, data)
@@ -176,8 +176,11 @@ class AttachDocuments(TemplateView):
     def add_document_data(request):
         data = []
         files = request.FILES.getlist("file")
+        if len(files):
+            return None, 'No files attached'
+
         if len(files) is not 1:
-            return None, True
+            return None, 'Multiple files attached'
 
         file = files[0]
         try:
