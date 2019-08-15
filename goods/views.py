@@ -176,7 +176,7 @@ class AttachDocuments(TemplateView):
     def add_document_data(request):
         data = []
         files = request.FILES.getlist("file")
-        if len(files):
+        if len(files) is 0:
             return None, 'No files attached'
 
         if len(files) is not 1:
