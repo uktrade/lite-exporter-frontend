@@ -81,10 +81,12 @@ class RaiseCLCQuery(TemplateView):
 
     def post(self, request, **kwargs):
         good_id = str(kwargs['pk'])
-        data = request.POST.copy()
-        data['good_id'] = good_id
+        request_data = request.POST.copy()
+        request_data['good_id'] = good_id
 
-        raise_clc_query(request, data)
+        data, status_code = raise_clc_query(request, request_data)
+        if 'errors' in data:
+            return form_page(request, forms.are_you_sure(str(kwargs['pk'])), data=request_data, errors=data['errors'])
 
         return redirect(reverse('goods:goods'))
 
