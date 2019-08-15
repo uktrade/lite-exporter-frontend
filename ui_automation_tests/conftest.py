@@ -6,7 +6,7 @@ from allure_commons.types import AttachmentType
 import pytest
 from fixtures.core import context, driver, invalid_username, exporter_sso_login_info, s3_key
 from fixtures.register_organisation import register_organisation
-from fixtures.add_goods import add_a_good, add_an_incorporated_good_to_application, add_a_non_incorporated_good_to_application
+from fixtures.add_goods import add_a_good, add_an_incorporated_good_to_application, add_a_non_incorporated_good_to_application, create_non_incorporated_good
 from fixtures.add_an_application import add_an_application
 from fixtures.sso_sign_in import sso_sign_in
 from fixtures.internal_case_note import internal_case_note
@@ -261,6 +261,7 @@ def click_add_from_organisation_button(driver):
 
 @when(parsers.parse('I add a good or good type with description "{description}" controlled "{controlled}" control code "{control_code}" incorporated "{incorporated}" and part number "{part}"'))
 def add_new_good(driver, description, controlled, control_code, incorporated, part, context):
+    good_part_needed = True
     exporter_hub = ExporterHubPage(driver)
     add_goods_page = AddGoodPage(driver)
     date_time = utils.get_current_date_time_string()
@@ -272,14 +273,17 @@ def add_new_good(driver, description, controlled, control_code, incorporated, pa
     add_goods_page.enter_description_of_goods(good_description)
     add_goods_page.select_is_your_good_controlled(controlled)
     add_goods_page.select_is_your_good_intended_to_be_incorporated_into_an_end_product(incorporated)
-    if "empty" not in good_part:
+    if "not needed" in good_part:
+        good_part_needed = False
+    elif "empty" not in good_part:
         add_goods_page.enter_part_number(good_part)
     if controlled.lower() == 'unsure':
         exporter_hub.click_save_and_continue()
     else:
         add_goods_page.enter_control_code(control_code)
         exporter_hub.click_save_and_continue()
-    context.good_id_from_url = driver.current_url.split('/goods/')[1].split('/')[0]
+    if good_part_needed:
+        context.good_id_from_url = driver.current_url.split('/goods/')[1].split('/')[0]
 
 
 @when(parsers.parse('I upload file "{filename}" with description "{description}"'))
@@ -295,7 +299,7 @@ def upload_a_file(driver, filename, description):
 
     attach_document_page.choose_file(file_to_upload_abs_path)
     attach_document_page.enter_description(description)
-    attach_document_page.click_submit_btn()
+    Shared(driver).click_continue()
 
 
 @when(parsers.parse('I raise a clc query control code "{control_code}" description "{description}"'))

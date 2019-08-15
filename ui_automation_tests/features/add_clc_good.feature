@@ -25,3 +25,10 @@ Feature: I want to edit and remove goods on the goods list
         And I upload file "file_for_doc_upload_test_1.txt" with description "Doesnt matter really"
         And I raise a clc query control code "ML17" description "Unsure what this is"
         Then I see the clc query in goods list
+
+    @LT_1142_add_a_document
+    Scenario: Add a document
+        Given I go to exporter homepage
+        When I click on goods link
+        And I add a good and attach a document
+        Then I see the document has been attached
