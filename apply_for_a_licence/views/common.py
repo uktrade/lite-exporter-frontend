@@ -1,18 +1,23 @@
+from django.http import StreamingHttpResponse
 from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
+from s3chunkuploader.file_handler import S3FileUploadHandler, s3_client
 
 from apply_for_a_licence.forms import initial, goods
-from apply_for_a_licence.forms.end_user import new_end_user_form
+from apply_for_a_licence.forms.end_user import new_end_user_form, attach_document_form
 from apply_for_a_licence.forms.ultimate_end_user import new_ultimate_end_user_form
 from apply_for_a_licence.helpers import create_persistent_bar
+from conf.settings import STREAMING_CHUNK_SIZE, AWS_STORAGE_BUCKET_NAME
 from core.builtins.custom_tags import get_string
 from core.services import get_units, get_sites_on_draft, get_external_locations_on_draft
 from drafts.services import post_drafts, get_draft, get_draft_goods, post_draft_preexisting_goods, submit_draft, \
     delete_draft, post_end_user, get_draft_countries, get_draft_goods_type, get_ultimate_end_users, \
-    post_ultimate_end_user, delete_ultimate_end_user
+    post_ultimate_end_user, delete_ultimate_end_user, get_draft_end_user_documents, post_draft_end_user_document
 from goods.services import get_goods, get_good
-from libraries.forms.generators import form_page, success_page
+from libraries.forms.generators import form_page, success_page, error_page
 from libraries.forms.submitters import submit_paged_form
 
 
@@ -51,6 +56,7 @@ class Overview(TemplateView):
         goodstypes, status_code = get_draft_goods_type(request, draft_id)
         external_locations, status_code = get_external_locations_on_draft(request, draft_id)
         ultimate_end_users, status_code = get_ultimate_end_users(request, draft_id)
+        draft_end_user_documents, status_code = get_draft_end_user_documents(request, draft_id)
 
         for good in goods['goods']:
             if not good['good']['is_good_end_product']:
@@ -66,6 +72,7 @@ class Overview(TemplateView):
             'external_locations': external_locations['external_locations'],
             'ultimate_end_users': ultimate_end_users['ultimate_end_users'],
             'ultimate_end_users_required': ultimate_end_users_required,
+            'draft_end_user_documents': draft_end_user_documents['documents']
         }
         return render(request, 'apply_for_a_licence/overview.html', context)
 
@@ -343,3 +350,79 @@ class RemoveUltimateEndUser(TemplateView):
         }
 
         return render(request, 'apply_for_a_licence/ultimate_end_users/index.html', context)
+
+
+@method_decorator(csrf_exempt, 'dispatch')
+class AttachDocuments(TemplateView):
+    def get(self, request, **kwargs):
+        draft_id = str(kwargs['pk'])
+        # get_draft(request, draft_id)
+
+        form = attach_document_form(reverse('apply_for_a_licence:overview', kwargs={'pk': draft_id}))
+
+        return form_page(request, form, extra_data={'draft_id': draft_id})
+
+    @csrf_exempt
+    def post(self, request, **kwargs):
+        self.request.upload_handlers.insert(0, S3FileUploadHandler(request))
+
+        draft_id = str(kwargs['pk'])
+        data, error = self.add_document_data(request)
+
+        if error:
+            return error_page(None, 'We had an issue uploading your files. Try again later.')
+
+        # Send LITE API the file information
+        draft_end_user_documents, status_code = post_draft_end_user_document(request, draft_id, data)
+
+        if 'errors' in draft_end_user_documents:
+            return error_page(None, 'We had an issue uploading your files. Try again later.')
+
+        return redirect(reverse('apply_for_a_licence:overview', kwargs={'pk': draft_id}))
+
+    @staticmethod
+    def add_document_data(request):
+        data = []
+        files = request.FILES.getlist("file")
+        if len(files) is not 1:
+            return None, True
+
+        file = files[0]
+        try:
+            original_name = file.original_name
+        except Exception:
+            original_name = file.name
+
+        data.append({
+            'name': original_name,
+            's3_key': file.name,
+            'size': int(file.size / 1024) if file.size else 0,  # in kilobytes
+            'description': request.POST['description'],
+        })
+
+        return data, None
+
+
+class DownloadDocument(TemplateView):
+    def get(self, request, **kwargs):
+        draft_id = str(kwargs['pk'])
+
+        documents, status_code = get_draft_end_user_documents(request, draft_id)
+
+        document = documents['documents'][0]
+
+        original_file_name = document['name']
+
+        # Stream file
+        def generate_file(result):
+            for chunk in iter(lambda: result['Body'].read(STREAMING_CHUNK_SIZE), b''):
+                yield chunk
+
+        s3 = s3_client()
+        s3_response = s3.get_object(Bucket=AWS_STORAGE_BUCKET_NAME, Key=document['s3_key'])
+        _kwargs = {}
+        if s3_response.get('ContentType'):
+            _kwargs['content_type'] = s3_response['ContentType']
+        response = StreamingHttpResponse(generate_file(s3_response), **_kwargs)
+        response['Content-Disposition'] = f'attachment; filename="{original_file_name}"'
+        return response

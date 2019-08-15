@@ -1,5 +1,7 @@
+from core.builtins.custom_tags import get_string
 from core.services import get_countries
-from libraries.forms.components import Form, Question, InputType, Section, ArrayQuestion, Option, RadioButtons
+from libraries.forms.components import Form, Question, InputType, Section, ArrayQuestion, Option, RadioButtons, \
+    FileUpload, BackLink
 
 
 def new_end_user_form():
@@ -44,3 +46,19 @@ def new_end_user_form():
              pk='4',
              default_button_name='Save and continue')
     ])
+
+
+def attach_document_form(draft_url):
+    return Form(get_string('end_user.documents.attach_documents.title'),
+                get_string('end_user.documents.attach_documents.description'),
+                [
+                    FileUpload('documents'),
+                    Question(title=get_string('end_user.documents.attach_documents.description_field_title'),
+                             description=get_string('end_user.documents.attach_documents.description_field_details'),
+                             input_type=InputType.TEXTAREA,
+                             name='description',
+                             extras={
+                                 'max_length': 280,
+                             })
+                ],
+                back_link=BackLink(get_string('end_user.documents.attach_documents.back_to_application_overview'), draft_url))
