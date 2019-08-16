@@ -34,7 +34,7 @@ def new_ultimate_end_user_form():
         Form(title='Where\'s the recipient based?',
              description='',
              questions=[
-                 TextArea('Address', '', 'address'),
+                 TextArea('address', 'Address'),
                  ArrayQuestion(title='Country',
                                description='',
                                input_type=InputType.AUTOCOMPLETE,

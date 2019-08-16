@@ -19,7 +19,7 @@ def new_location_form():
                 description='',
                 questions=[
                  Question('Company name', '', InputType.INPUT, 'name'),
-                 TextArea('Address', '', 'address'),
+                 TextArea('address', 'Address'),
                  ArrayQuestion(title='Country',
                                description='',
                                input_type=InputType.AUTOCOMPLETE,
