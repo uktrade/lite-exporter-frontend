@@ -437,9 +437,9 @@ class DownloadDocument(TemplateView):
 class DeleteDocument(TemplateView):
     def get(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
-        response, status_code = delete_draft_end_user_documents(request, draft_id)
+        status_code = delete_draft_end_user_documents(request, draft_id)
 
-        if 'errors' in response:
+        if status_code is not 204:
             return error_page(None, 'We had an issue deleting your files. Try again later.')
 
         return redirect(reverse('apply_for_a_licence:overview', kwargs={'pk': draft_id}))

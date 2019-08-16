@@ -103,7 +103,7 @@ def post_draft_end_user_document(request, pk, json):
 
 def delete_draft_end_user_documents(request, pk):
     data = delete(request, DRAFTS_URL + pk + END_USER_DOCUMENTS_URL)
-    return data.json(), data.status_code
+    return data.status_code
 
 # def delete_good_document(request, pk, doc_pk):
 #     data = delete(request, GOODS_URL + pk + DOCUMENTS_URL + doc_pk)
