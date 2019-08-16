@@ -301,7 +301,7 @@ class EndUser(TemplateView):
             return response
 
         # If there is no response (no forms left to go through), go to the overview page
-        return redirect(reverse_lazy('apply_for_a_licence:overview', kwargs={'pk': draft_id}))
+        return redirect(reverse_lazy('apply_for_a_licence:end_user_attach_document', kwargs={'pk': draft_id}))
 
 
 class UltimateEndUsers(TemplateView):
