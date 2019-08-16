@@ -101,6 +101,10 @@ def post_draft_end_user_document(request, pk, json):
     data = post(request, DRAFTS_URL + pk + END_USER_DOCUMENTS_URL, json)
     return data.json(), data.status_code
 
+def delete_draft_end_user_documents(request, pk):
+    data = delete(request, DRAFTS_URL + pk + END_USER_DOCUMENTS_URL)
+    return data.json(), data.status_code
+
 # def delete_good_document(request, pk, doc_pk):
 #     data = delete(request, GOODS_URL + pk + DOCUMENTS_URL + doc_pk)
 #     return data.json(), data.status_code

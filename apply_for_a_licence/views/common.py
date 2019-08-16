@@ -15,7 +15,8 @@ from core.builtins.custom_tags import get_string
 from core.services import get_units, get_sites_on_draft, get_external_locations_on_draft
 from drafts.services import post_drafts, get_draft, get_draft_goods, post_draft_preexisting_goods, submit_draft, \
     delete_draft, post_end_user, get_draft_countries, get_draft_goods_type, get_ultimate_end_users, \
-    post_ultimate_end_user, delete_ultimate_end_user, get_draft_end_user_documents, post_draft_end_user_document
+    post_ultimate_end_user, delete_ultimate_end_user, get_draft_end_user_documents, post_draft_end_user_document, \
+    delete_draft_end_user_documents
 from goods.services import get_goods, get_good
 from libraries.forms.generators import form_page, success_page, error_page
 from libraries.forms.submitters import submit_paged_form
@@ -56,7 +57,9 @@ class Overview(TemplateView):
         goodstypes, status_code = get_draft_goods_type(request, draft_id)
         external_locations, status_code = get_external_locations_on_draft(request, draft_id)
         ultimate_end_users, status_code = get_ultimate_end_users(request, draft_id)
-        draft_end_user_documents, status_code = get_draft_end_user_documents(request, draft_id)
+        end_user = data.get('draft').get('end_user')
+        draft_end_user_documents, status_code = get_draft_end_user_documents(request, draft_id) if end_user else None
+        draft_end_user_documents = draft_end_user_documents.get('documents')
 
         for good in goods['goods']:
             if not good['good']['is_good_end_product']:
@@ -72,7 +75,7 @@ class Overview(TemplateView):
             'external_locations': external_locations['external_locations'],
             'ultimate_end_users': ultimate_end_users['ultimate_end_users'],
             'ultimate_end_users_required': ultimate_end_users_required,
-            'draft_end_user_documents': draft_end_user_documents['documents']
+            'draft_end_user_documents': draft_end_user_documents if draft_end_user_documents else None
         }
         return render(request, 'apply_for_a_licence/overview.html', context)
 
@@ -411,18 +414,32 @@ class DownloadDocument(TemplateView):
 
         document = documents['documents'][0]
 
-        original_file_name = document['name']
+        if document['safe']:
+            original_file_name = document['name']
 
-        # Stream file
-        def generate_file(result):
-            for chunk in iter(lambda: result['Body'].read(STREAMING_CHUNK_SIZE), b''):
-                yield chunk
+            # Stream file
+            def generate_file(result):
+                for chunk in iter(lambda: result['Body'].read(STREAMING_CHUNK_SIZE), b''):
+                    yield chunk
 
-        s3 = s3_client()
-        s3_response = s3.get_object(Bucket=AWS_STORAGE_BUCKET_NAME, Key=document['s3_key'])
-        _kwargs = {}
-        if s3_response.get('ContentType'):
-            _kwargs['content_type'] = s3_response['ContentType']
-        response = StreamingHttpResponse(generate_file(s3_response), **_kwargs)
-        response['Content-Disposition'] = f'attachment; filename="{original_file_name}"'
-        return response
+            s3 = s3_client()
+            s3_response = s3.get_object(Bucket=AWS_STORAGE_BUCKET_NAME, Key=document['s3_key'])
+            _kwargs = {}
+            if s3_response.get('ContentType'):
+                _kwargs['content_type'] = s3_response['ContentType']
+            response = StreamingHttpResponse(generate_file(s3_response), **_kwargs)
+            response['Content-Disposition'] = f'attachment; filename="{original_file_name}"'
+            return response
+        else:
+            return error_page(None, 'We had an issue downloading your file. Try again later.')
+
+
+class DeleteDocument(TemplateView):
+    def get(self, request, **kwargs):
+        draft_id = str(kwargs['pk'])
+        response, status_code = delete_draft_end_user_documents(request, draft_id)
+
+        if 'errors' in response:
+            return error_page(None, 'We had an issue deleting your files. Try again later.')
+
+        return redirect(reverse('apply_for_a_licence:overview', kwargs={'pk': draft_id}))
