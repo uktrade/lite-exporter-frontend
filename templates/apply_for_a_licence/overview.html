@@ -322,7 +322,6 @@
 					<tr class="govuk-table__row">
 						<th class="govuk-table__header" scope="row">Document</th>
                         {%  for document in  draft_end_user_documents %}
-                            <td class="govuk-table__cell">{{ document.name }}</td>
                             <td class="govuk-table__cell">
                                 {%  if document.safe == True %}
                                     <a class="govuk-link lite-link--icon govuk-link--no-visited-state" href="{% url 'apply_for_a_licence:download_document' pk=draft.id %}">

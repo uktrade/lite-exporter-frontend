@@ -62,3 +62,21 @@ def attach_document_form(draft_url):
                              })
                 ],
                 back_link=BackLink(get_string('end_user.documents.attach_documents.back_to_application_overview'), draft_url))
+
+
+def delete_document_confirmation_form(overview_url):
+    return Form(title='Are you sure you want to delete this document?',
+                description='',
+                questions=[
+                     RadioButtons(title='',
+                                  name='delete_document_confirmation',
+                                  description='',
+                                  options=[
+                                      Option(key='yes', value='Yes'),
+                                      Option(key='no', value='No')
+                                  ]),
+                ],
+                back_link=BackLink('Back to ' + get_string(
+                    'end_user.documents.attach_documents.back_to_application_overview'), overview_url),
+                default_button_name='Submit'
+                )

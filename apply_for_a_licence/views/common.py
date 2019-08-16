@@ -7,7 +7,8 @@ from django.views.generic import TemplateView
 from s3chunkuploader.file_handler import S3FileUploadHandler, s3_client
 
 from apply_for_a_licence.forms import initial, goods
-from apply_for_a_licence.forms.end_user import new_end_user_form, attach_document_form
+from apply_for_a_licence.forms.end_user import new_end_user_form, attach_document_form, \
+    delete_document_confirmation_form
 from apply_for_a_licence.forms.ultimate_end_user import new_ultimate_end_user_form
 from apply_for_a_licence.helpers import create_persistent_bar
 from conf.settings import STREAMING_CHUNK_SIZE, AWS_STORAGE_BUCKET_NAME
@@ -58,8 +59,11 @@ class Overview(TemplateView):
         external_locations, status_code = get_external_locations_on_draft(request, draft_id)
         ultimate_end_users, status_code = get_ultimate_end_users(request, draft_id)
         end_user = data.get('draft').get('end_user')
-        draft_end_user_documents, status_code = get_draft_end_user_documents(request, draft_id) if end_user else None
-        draft_end_user_documents = draft_end_user_documents.get('documents')
+        if end_user:
+            draft_end_user_documents, status_code = get_draft_end_user_documents(request, draft_id)
+            draft_end_user_documents = draft_end_user_documents.get('documents')
+        else:
+            draft_end_user_documents = None
 
         for good in goods['goods']:
             if not good['good']['is_good_end_product']:
@@ -437,9 +441,20 @@ class DownloadDocument(TemplateView):
 class DeleteDocument(TemplateView):
     def get(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
-        status_code = delete_draft_end_user_documents(request, draft_id)
+        form = delete_document_confirmation_form(
+            overview_url=reverse('apply_for_a_licence:overview', kwargs={'pk': draft_id})
+        )
 
-        if status_code is not 204:
-            return error_page(None, 'We had an issue deleting your files. Try again later.')
+        return form_page(request, form)
+
+    def post(self, request, **kwargs):
+        draft_id = str(kwargs['pk'])
+
+        if request.POST.get('delete_document_confirmation').lower() == 'yes':
+            status_code = delete_draft_end_user_documents(request, draft_id)
+
+            if status_code is not 204:
+                return error_page(None, 'We had an issue deleting your files. Try again later.')
 
         return redirect(reverse('apply_for_a_licence:overview', kwargs={'pk': draft_id}))
+
