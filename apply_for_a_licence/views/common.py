@@ -63,10 +63,13 @@ class Overview(TemplateView):
         if end_user:
             draft_end_user_documents, status_code = get_draft_end_user_documents(request, draft_id)
             draft_end_user_documents = draft_end_user_documents.get('documents')
-            for document in draft_end_user_documents:
-                if not document['safe']:
-                    can_submit = False
-                    break
+            if not draft_end_user_documents:
+                can_submit = False
+            else:
+                for document in draft_end_user_documents:
+                    if not document['safe']:
+                        can_submit = False
+                        break
         else:
             draft_end_user_documents = None
 
