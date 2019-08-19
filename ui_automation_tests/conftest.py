@@ -1,21 +1,22 @@
 import datetime
 import os
+import allure
+from allure_commons.types import AttachmentType
 
 import pytest
-from fixtures.core import context, driver, sso_login_info, invalid_username, exporter_sso_login_info
+from fixtures.core import context, driver, invalid_username, exporter_sso_login_info, s3_key
 from fixtures.register_organisation import register_organisation
-from fixtures.add_goods import add_a_good, add_an_incorporated_good_to_application, add_a_non_incorporated_good_to_application
+from fixtures.add_goods import add_a_good, add_an_incorporated_good_to_application, add_a_non_incorporated_good_to_application, create_non_incorporated_good
 from fixtures.add_an_application import add_an_application
+from fixtures.sso_sign_in import sso_sign_in
 from fixtures.internal_case_note import internal_case_note
-from fixtures.urls import exporter_url, internal_url, sso_sign_in_url
+from fixtures.urls import exporter_url, api_url
 
-from pages.add_end_user_pages import AddEndUserPages
 from pages.add_goods_page import AddGoodPage
 from pages.add_new_external_location_form_page import AddNewExternalLocationFormPage
-from pages.application_goods_list import ApplicationGoodsList
 from pages.application_overview_page import ApplicationOverviewPage
-from pages.application_page import ApplicationPage
 from pages.apply_for_a_licence_page import ApplyForALicencePage
+from pages.attach_document_page import AttachDocumentPage
 from pages.exporter_hub_page import ExporterHubPage
 from pages.external_locations_page import ExternalLocationsPage
 from pages.preexisting_locations_page import PreexistingLocationsPage
@@ -23,7 +24,6 @@ from pages.shared import Shared
 from pages.sites_page import SitesPage
 from pages.which_location_form_page import WhichLocationFormPage
 from pytest_bdd import given, when, then, parsers
-from conf.settings import env
 import helpers.helpers as utils
 
 # from core import strings
@@ -31,36 +31,34 @@ import helpers.helpers as utils
 strict_gherkin = False
 
 
-sso_email = env('TEST_SSO_EMAIL')
-sso_password = env('TEST_SSO_PASSWORD')
-
-# Screenshot in case of any test failure
-def pytest_exception_interact(node, report):
-    if node and report.failed:
-        class_name = node._nodeid.replace(".py::", "_class_")
-        name = "{0}_{1}".format(class_name, exporter_url)
-        # utils.save_screenshot(node.funcargs.get("driver"), name)
-
-
-# Create driver and url command line addoption
 def pytest_addoption(parser):
     env = str(os.environ.get('ENVIRONMENT'))
     if env == 'None':
         env = "dev"
     parser.addoption("--driver", action="store", default="chrome", help="Type in browser type")
-    parser.addoption("--exporter_url", action="store", default="https://exporter.lite.service." + env + ".uktrade.io/", help="url")
-    parser.addoption("--internal_url", action="store", default="https://internal.lite.service." + env + ".uktrade.io/", help="url")
+    if env == 'local':
+        parser.addoption("--exporter_url", action="store", default="http://localhost:8300", help="url")
+        parser.addoption("--lite_api_url", action="store", default="http://localhost:8100", help="url")
+    else:
+        parser.addoption("--exporter_url", action="store", default="https://exporter.lite.service." + env + ".uktrade.io/", help="url")
+        parser.addoption("--lite_api_url", action="store", default="https://lite-api-" + env + ".london.cloudapps.digital/", help="url")
     parser.addoption("--sso_sign_in_url", action="store", default="https://sso.trade.uat.uktrade.io/login/", help="url")
     parser.addoption("--sso-url", action="store", default="https://sso.trade.uat.uktrade.io/login/", help="url")
     parser.addoption("--email", action="store", default="test@mail.com")
     parser.addoption("--password", action="store", default="password")
     parser.addoption("--first_name", action="store", default="Test")
     parser.addoption("--last_name", action="store", default="User")
-
     # Load in content strings
     # with open('../../lite-content/lite-exporter-frontend/strings.json') as json_file:
     #     strings.constants = json.load(json_file)
 
+
+def pytest_exception_interact(node, report):
+    if node and report.failed:
+        class_name = node._nodeid.replace(".py::", "_class_")
+        name = "{0}_{1}".format(class_name, "error")
+        print(name)
+        utils.save_screenshot(node.funcargs.get("driver"), name)
 
 
 @pytest.fixture(scope="module")
@@ -83,39 +81,14 @@ def last_name(request):
     return request.config.getoption("--last_name")
 
 
-@given('I go to internal homepage')
-def go_to_internal_homepage(driver, internal_url, sso_sign_in_url):
-    driver.get(sso_sign_in_url)
-    driver.find_element_by_name("username").send_keys(sso_email)
-    driver.find_element_by_name("password").send_keys(sso_password)
-    driver.find_element_by_css_selector("[type='submit']").click()
-    driver.get(internal_url)
-
-
-@when('I go to internal homepage')
-def go_to_internal_homepage(driver, internal_url, sso_sign_in_url):
-    driver.get(sso_sign_in_url)
-    driver.find_element_by_name("username").send_keys(sso_email)
-    driver.find_element_by_name("password").send_keys(sso_password)
-    driver.find_element_by_css_selector("[type='submit']").click()
-    driver.get(internal_url)
-
-
 @given('I go to exporter homepage')
-def go_to_exporter(driver, request, exporter_sso_login_info, register_organisation):
-    driver.get(request.config.getoption("--exporter_url"))
-    exporter_hub = ExporterHubPage(driver)
-    if "login" in driver.current_url:
-        exporter_hub.login(exporter_sso_login_info['email'], exporter_sso_login_info['password'])
+def go_to_exporter(driver, sso_sign_in, exporter_url, register_organisation):
+    driver.get(exporter_url)
 
 
 @when('I go to exporter homepage')
-def go_to_exporter_when(driver, request):
-    driver.get(request.config.getoption("--exporter_url"))
-    exporter_hub = ExporterHubPage(driver)
-    if "login" in driver.current_url:
-        exporter_hub.login(exporter_sso_login_info['email'], exporter_sso_login_info['password'])
-
+def go_to_exporter_when(driver, exporter_url):
+    driver.get(exporter_url)
 
 # utils
 @then(parsers.parse('driver title equals "{expected_text}"'))
@@ -143,7 +116,7 @@ def enter_application_name(driver, context):
     apply = ApplyForALicencePage(driver)
     app_time_id = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     context.app_time_id = app_time_id
-    app_name = "Request for Nimbus 2000" + app_time_id
+    app_name = "Request for Nimbus 2000 " + app_time_id
     apply.enter_name_or_reference_for_application(app_name)
     context.app_id = app_name
     apply.click_save_and_continue()
@@ -288,6 +261,7 @@ def click_add_from_organisation_button(driver):
 
 @when(parsers.parse('I add a good or good type with description "{description}" controlled "{controlled}" control code "{control_code}" incorporated "{incorporated}" and part number "{part}"'))
 def add_new_good(driver, description, controlled, control_code, incorporated, part, context):
+    good_part_needed = True
     exporter_hub = ExporterHubPage(driver)
     add_goods_page = AddGoodPage(driver)
     date_time = utils.get_current_date_time_string()
@@ -299,15 +273,39 @@ def add_new_good(driver, description, controlled, control_code, incorporated, pa
     add_goods_page.enter_description_of_goods(good_description)
     add_goods_page.select_is_your_good_controlled(controlled)
     add_goods_page.select_is_your_good_intended_to_be_incorporated_into_an_end_product(incorporated)
-    if "empty" not in good_part:
+    if "not needed" in good_part:
+        good_part_needed = False
+    elif "empty" not in good_part:
         add_goods_page.enter_part_number(good_part)
     if controlled.lower() == 'unsure':
-        add_goods_page.enter_control_code_unsure(control_code)
-        add_goods_page.enter_control_unsure_details(description + " unsure")
         exporter_hub.click_save_and_continue()
-        add_goods_page.select_control_unsure_confirmation("yes")
     else:
         add_goods_page.enter_control_code(control_code)
+        exporter_hub.click_save_and_continue()
+    if good_part_needed:
+        context.good_id_from_url = driver.current_url.split('/goods/')[1].split('/')[0]
+
+
+@when(parsers.parse('I upload file "{filename}" with description "{description}"'))
+def upload_a_file(driver, filename, description):
+    attach_document_page = AttachDocumentPage(driver)
+
+    # Path gymnastics to get the absolute path for $PWD/../resources/(file_to_upload_x) that works everywhere
+    file_to_upload_abs_path = \
+        os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, 'resources', filename))
+    if 'ui_automation_tests' not in file_to_upload_abs_path:
+        file_to_upload_abs_path = \
+            os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, 'ui_automation_tests/resources', filename))
+
+    attach_document_page.choose_file(file_to_upload_abs_path)
+    attach_document_page.enter_description(description)
+    Shared(driver).click_continue()
+
+
+@when(parsers.parse('I raise a clc query control code "{control_code}" description "{description}"'))
+def raise_clc_query(driver, control_code, description):
+    raise_clc_query_page = AddGoodPage(driver)
+    raise_clc_query_page.enter_control_code_unsure(control_code)
+    raise_clc_query_page.enter_control_unsure_details(description)
+    exporter_hub = ExporterHubPage(driver)
     exporter_hub.click_save_and_continue()
-
-
