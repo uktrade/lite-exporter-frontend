@@ -15,6 +15,10 @@ class ApplicationOverviewPage:
         self.gov_tables = ".govuk-table__body"   # CSS
         self.back_to_overview_text = "Back to Application" #link text
         self.submit_application_button = "button[type*='submit']" # CSS
+        self.attach_end_user_document_link = "attach_doc" # ID
+        self.download_end_user_document = "end_user_document_download" # ID
+        self.delete_end_user_document = "end_user_document_delete" # ID
+
 
     def click_application_locations_link(self):
         self.driver.execute_script("document.getElementById('" + self.location_link + "').scrollIntoView(true);")
@@ -59,3 +63,9 @@ class ApplicationOverviewPage:
 
     def check_submit_is_enabled(self):
         return self.driver.find_element_by_css_selector(self.submit_application_button).is_enabled()
+
+    def click_on_add_end_user_document(self):
+        self.driver.find_element_by_id(self.attach_end_user_document_link).click()
+
+    def click_delete_end_user_document(self):
+        self.driver.find_element_by_id(self.delete_end_user_document).click()

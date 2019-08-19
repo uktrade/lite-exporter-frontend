@@ -309,3 +309,9 @@ def raise_clc_query(driver, control_code, description):
     raise_clc_query_page.enter_control_unsure_details(description)
     exporter_hub = ExporterHubPage(driver)
     exporter_hub.click_save_and_continue()
+
+
+@given("I click yes on the confirmation")
+def click_yes_on_confirm(driver):
+    shared = Shared(driver)
+    shared.click_confirm_yes()

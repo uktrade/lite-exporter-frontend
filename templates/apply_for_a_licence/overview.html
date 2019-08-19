@@ -324,11 +324,11 @@
                             <th class="govuk-table__header" scope="row">Document</th>
                             <td class="govuk-table__cell">
                                 {%  if draft_end_user_document.safe == True %}
-                                    <a class="govuk-link lite-link--icon govuk-link--no-visited-state" href="{% url 'apply_for_a_licence:download_document' pk=draft.id %}">
+                                    <a href="{% url 'apply_for_a_licence:download_document' pk=draft.id %}" id="end_user_document_download">
                                         {% get_string 'end_user.documents.download_document' %}
                                     </a>
-                                    |
-                                    <a class="govuk-link lite-link--icon govuk-link--no-visited-state" href="{% url 'apply_for_a_licence:delete_document' pk=draft.id %}">
+                                    <br/>
+                                    <a href="{% url 'apply_for_a_licence:delete_document' pk=draft.id %}" id="end_user_document_delete">
                                         {% get_string 'end_user.documents.delete_document' %}
                                     </a>
                                 {%  else %}

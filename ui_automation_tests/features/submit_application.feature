@@ -297,4 +297,13 @@ Feature: I want to indicate the kind of licence I want
     And I select "permanent" option and continue
     And I select "yes" for whether I have an export licence and "123456" if I have a reference and continue
     Then The submit cannot be selected
-
+    When I click on end user
+    And I add an end user of type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
+    And I upload file "file_for_doc_upload_test_1.txt" with description "Doesnt matter really"
+    Then I see end user on overview
+    When I delete the end user document
+    And I click yes on the confirmation
+    Then The submit cannot be selected
+    When I add an end user document
+    And I upload file "file_for_doc_upload_test_1.txt" with description "Doesnt matter really"
+    Then The submit can be selected

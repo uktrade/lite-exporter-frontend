@@ -345,6 +345,7 @@ def add_new_end_user(driver, type, name, website, address, country, context):
     add_end_user_pages.click_continue()
 
 
+
 @when('I click on end user')
 def i_click_on_end_user(driver):
     app = ApplicationOverviewPage(driver)
@@ -410,3 +411,22 @@ def end_user_on_overview(driver, context):
 def application_cannot_be_submitted(driver):
     app = ApplicationOverviewPage(driver)
     assert not app.check_submit_is_enabled()
+
+
+@then("The submit can be selected")
+def application_can_be_submitted(driver):
+    app = ApplicationOverviewPage(driver)
+    assert app.check_submit_is_enabled()
+
+
+@when("I add an end user document")
+def add_an_end_user_document(driver):
+    app = ApplicationOverviewPage(driver)
+    app.click_on_add_end_user_document()
+
+
+@when("I delete the end user document")
+def delete_the_end_user_document(driver):
+    app = ApplicationOverviewPage(driver)
+    driver.execute_script("window.scrollTo(0, document.body.scrollHeight)")
+    app.click_delete_end_user_document()
