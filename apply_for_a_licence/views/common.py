@@ -58,10 +58,15 @@ class Overview(TemplateView):
         goodstypes, status_code = get_draft_goods_type(request, draft_id)
         external_locations, status_code = get_external_locations_on_draft(request, draft_id)
         ultimate_end_users, status_code = get_ultimate_end_users(request, draft_id)
+        can_submit = True
         end_user = data.get('draft').get('end_user')
         if end_user:
             draft_end_user_documents, status_code = get_draft_end_user_documents(request, draft_id)
             draft_end_user_documents = draft_end_user_documents.get('documents')
+            for document in draft_end_user_documents:
+                if not document['safe']:
+                    can_submit = False
+                    break
         else:
             draft_end_user_documents = None
 
@@ -79,7 +84,8 @@ class Overview(TemplateView):
             'external_locations': external_locations['external_locations'],
             'ultimate_end_users': ultimate_end_users['ultimate_end_users'],
             'ultimate_end_users_required': ultimate_end_users_required,
-            'draft_end_user_documents': draft_end_user_documents if draft_end_user_documents else None
+            'draft_end_user_documents': draft_end_user_documents if draft_end_user_documents else None,
+            'can_submit': can_submit
         }
         return render(request, 'apply_for_a_licence/overview.html', context)
 
