@@ -115,7 +115,7 @@ def attach_documents_form(case_url):
                 [
                     FileUpload('documents'),
                     TextArea(title=get_string('goods.documents.attach_documents.description_field_title'),
-                             description=get_string('goods.documents.attach_documents.description_field_details'),
+                             optional=True,
                              name='description',
                              extras={
                                  'max_length': 280,
