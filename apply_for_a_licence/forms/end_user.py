@@ -53,9 +53,8 @@ def attach_document_form(draft_url):
                 get_string('end_user.documents.attach_documents.description'),
                 [
                     FileUpload('documents'),
-                    Question(title=get_string('end_user.documents.attach_documents.description_field_title'),
+                    TextArea(title=get_string('end_user.documents.attach_documents.description_field_title'),
                              description=get_string('end_user.documents.attach_documents.description_field_details'),
-                             input_type=InputType.TEXTAREA,
                              name='description',
                              extras={
                                  'max_length': 280,
