@@ -285,3 +285,16 @@ Feature: I want to indicate the kind of licence I want
     And I select "yes" for whether I have an export licence and "123456" if I have a reference and continue
     And I click continue
     Then I see no goods external sites or end user attached error message
+
+  @LT_1190_end_user_document
+  @AT
+  Scenario: Apply for a licence and ensure it cannot be submitted without a end user document
+    Given I go to exporter homepage
+    When I click on apply for a license button
+    And I click on start button
+    And I enter in name for application and continue
+    And I select "standard" application and continue
+    And I select "permanent" option and continue
+    And I select "yes" for whether I have an export licence and "123456" if I have a reference and continue
+    Then The submit cannot be selected
+

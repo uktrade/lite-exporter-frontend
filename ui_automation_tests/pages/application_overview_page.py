@@ -14,6 +14,7 @@ class ApplicationOverviewPage:
         self.modal_content = ".modal-content"   # CSS
         self.gov_tables = ".govuk-table__body"   # CSS
         self.back_to_overview_text = "Back to Application" #link text
+        self.submit_application_button = "button[type*='submit']" # CSS
 
     def click_application_locations_link(self):
         self.driver.execute_script("document.getElementById('" + self.location_link + "').scrollIntoView(true);")
@@ -55,3 +56,6 @@ class ApplicationOverviewPage:
 
     def get_text_of_end_user_table(self):
         return self.driver.find_elements_by_css_selector(self.gov_tables)[len(self.driver.find_elements_by_css_selector(self.gov_tables))-1].text
+
+    def check_submit_is_enabled(self):
+        return self.driver.find_element_by_css_selector(self.submit_application_button).is_enabled()

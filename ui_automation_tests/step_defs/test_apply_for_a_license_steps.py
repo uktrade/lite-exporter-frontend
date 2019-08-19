@@ -404,3 +404,9 @@ def end_user_on_overview(driver, context):
     assert context.type_end_user in app.get_text_of_end_user_table()
     assert context.name_end_user in app.get_text_of_end_user_table()
     assert context.address_end_user in app.get_text_of_end_user_table()
+
+
+@then("The submit cannot be selected")
+def application_cannot_be_submitted(driver):
+    app = ApplicationOverviewPage(driver)
+    assert not app.check_submit_is_enabled()

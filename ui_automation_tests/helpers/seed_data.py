@@ -203,6 +203,7 @@ class SeedData:
         self.make_request("POST", url='/drafts/' + draft_id + '/ultimate-end-users/', headers=self.export_headers,
                           body=data)
 
+
     def submit_application(self, draft_id=None):
         self.log("submitting application: ...")
         draft_id_to_submit = draft_id if None else self.context['draft_id']
