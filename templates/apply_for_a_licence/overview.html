@@ -318,32 +318,34 @@
 					<th class="govuk-table__header" scope="row">Address</th>
 					<td class="govuk-table__cell">{{ draft.end_user.address }}<br/>{{ draft.end_user.country }}</td>
 				</tr>
-				{% if draft_end_user_documents|length >= 1 %}
-					<tr class="govuk-table__row">
-						<th class="govuk-table__header" scope="row">Document</th>
-                        {%  for document in  draft_end_user_documents %}
-                            <td class="govuk-table__cell">
-                                {%  if document.safe == True %}
-                                    <a class="govuk-link lite-link--icon govuk-link--no-visited-state" href="{% url 'apply_for_a_licence:download_document' pk=draft.id %}">
-                                        {% get_string 'end_user.documents.download_document' %}
-                                    </a>
-                                    |
-                                    <a class="govuk-link lite-link--icon govuk-link--no-visited-state" href="{% url 'apply_for_a_licence:delete_document' pk=draft.id %}">
-                                        {% get_string 'end_user.documents.delete_document' %}
-                                    </a>
-                                {%  else %}
-                                    {% get_string 'end_user.documents.processing' %}
-                                {% endif %}
+                {% if draft.licence_type == "standard_licence" %}
+                    {% if draft_end_user_documents|length >= 1 %}
+                        <tr class="govuk-table__row">
+                            <th class="govuk-table__header" scope="row">Document</th>
+                            {%  for document in  draft_end_user_documents %}
+                                <td class="govuk-table__cell">
+                                    {%  if document.safe == True %}
+                                        <a class="govuk-link lite-link--icon govuk-link--no-visited-state" href="{% url 'apply_for_a_licence:download_document' pk=draft.id %}">
+                                            {% get_string 'end_user.documents.download_document' %}
+                                        </a>
+                                        |
+                                        <a class="govuk-link lite-link--icon govuk-link--no-visited-state" href="{% url 'apply_for_a_licence:delete_document' pk=draft.id %}">
+                                            {% get_string 'end_user.documents.delete_document' %}
+                                        </a>
+                                    {%  else %}
+                                        {% get_string 'end_user.documents.processing' %}
+                                    {% endif %}
 
-                            </td>
-                        {% endfor %}
-					</tr>
-			    {% else %}
-					<tr class="govuk-table__row">
-						<th class="govuk-table__header" scope="row">Document</th>
-						<td class="govuk-table__cell"><a id="attach_doc" href="{% url 'apply_for_a_licence:end_user_attach_document' draft.id %}">Attach</a></td>
-					</tr>
-				{% endif %}
+                                </td>
+                            {% endfor %}
+                        </tr>
+                    {% else %}
+                        <tr class="govuk-table__row">
+                            <th class="govuk-table__header" scope="row">Document</th>
+                            <td class="govuk-table__cell"><a id="attach_doc" href="{% url 'apply_for_a_licence:end_user_attach_document' draft.id %}">Attach</a></td>
+                        </tr>
+                    {% endif %}
+                {% endif %}
 			</tbody>
 		</table>
 	{% else %}

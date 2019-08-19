@@ -300,8 +300,12 @@ class EndUser(TemplateView):
         if response:
             return response
 
-        # If there is no response (no forms left to go through), go to the overview page
-        return redirect(reverse_lazy('apply_for_a_licence:end_user_attach_document', kwargs={'pk': draft_id}))
+        draft, status_code = get_draft(request, draft_id)
+
+        if draft.get('draft').get('licence_type') == 'standard_licence':
+            return redirect(reverse_lazy('apply_for_a_licence:end_user_attach_document', kwargs={'pk': draft_id}))
+        else:
+            return redirect(reverse_lazy('apply_for_a_licence:overview', kwargs={'pk': draft_id}))
 
 
 class UltimateEndUsers(TemplateView):
@@ -363,11 +367,14 @@ class RemoveUltimateEndUser(TemplateView):
 class AttachDocuments(TemplateView):
     def get(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
-        # get_draft(request, draft_id)
+        draft, status_code = get_draft(request, draft_id)
 
-        form = attach_document_form(reverse('apply_for_a_licence:overview', kwargs={'pk': draft_id}))
+        if draft.get('draft').get('licence_type') == 'standard_licence':
+            form = attach_document_form(reverse('apply_for_a_licence:overview', kwargs={'pk': draft_id}))
 
-        return form_page(request, form, extra_data={'draft_id': draft_id})
+            return form_page(request, form, extra_data={'draft_id': draft_id})
+        else:
+            return redirect(reverse_lazy('apply_for_a_licence:overview', kwargs={'pk': draft_id}))
 
     @csrf_exempt
     def post(self, request, **kwargs):
