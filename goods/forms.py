@@ -2,12 +2,11 @@ from django.urls import reverse
 
 from conf.settings import env
 from core.builtins.custom_tags import get_string
-from libraries.forms.components import Form, Question, Option, InputType, Group, RadioButtons, FileUpload, BackLink
+from libraries.forms.components import Form, Question, Option, InputType, Group, RadioButtons, FileUpload, BackLink, TextArea
 
 add_goods_questions = Form(title='Add Good', description='', caption='', questions=[
-    Question(title='Description of good',
+    TextArea(title='Description of good',
              description='This can make it easier to find your good later',
-             input_type=InputType.TEXTAREA,
              name='description',
              extras={
                  'max_length': 280,
@@ -49,29 +48,27 @@ add_goods_questions = Form(title='Add Good', description='', caption='', questio
 
 
 def are_you_sure(good_id):
-    return Form(title='Are you sure?',
-                        description='By submitting you are creating a CLC query that cannot be altered',
-                        questions=[
-                            Question(
-                                title='What do you think is your good\'s control code?',
-                                description='<noscript>If your good is controlled, enter its control code. </noscript>For example, ML1a.',
-                                input_type=InputType.INPUT,
-                                optional=True,
-                                name='not_sure_details_control_code'),
-                            Question(
-                                title='Further details about your goods',
-                                description='Please enter details of why you don\'t know if your good is controlled',
-                                input_type=InputType.TEXTAREA,
-                                name='not_sure_details_details'),
-                        ],
-                        back_link=BackLink('Back to good', reverse('goods:good',
-                                                                   kwargs={'pk': good_id}))
-                        )
+    return Form(title=get_string('clc.clc_form.title'),
+                description=get_string('clc.clc_form.description'),
+                questions=[
+                    Question(
+                        title='What do you think is your good\'s control code?',
+                        description='<noscript>If your good is controlled, enter its control code. </noscript>For example, ML1a.',
+                        input_type=InputType.INPUT,
+                        optional=True,
+                        name='not_sure_details_control_code'),
+                    TextArea(
+                        title='Further details about your goods',
+                        description='Please enter details of why you don\'t know if your good is controlled',
+                        name='not_sure_details_details'),
+                ],
+                back_link=BackLink('Back to good', reverse('goods:good',
+                                                           kwargs={'pk': good_id}))
+                )
 
 edit_form = Form(title='Edit Good', description='', caption='', questions=[
-    Question(title='Description of good',
+    TextArea(title='Description of good',
              description='This can make it easier to find your good later',
-             input_type=InputType.TEXTAREA,
              name='description',
              extras={
                  'max_length': 280,
@@ -117,9 +114,8 @@ def attach_documents_form(case_url):
                 get_string('goods.documents.attach_documents.description'),
                 [
                     FileUpload('documents'),
-                    Question(title=get_string('goods.documents.attach_documents.description_field_title'),
+                    TextArea(title=get_string('goods.documents.attach_documents.description_field_title'),
                              description=get_string('goods.documents.attach_documents.description_field_details'),
-                             input_type=InputType.TEXTAREA,
                              name='description',
                              extras={
                                  'max_length': 280,

@@ -52,7 +52,8 @@ class SeedData:
         "gov_user": {
             "email": "test-uat-user@digital.trade.gov.uk",
             "first_name": "ecju",
-            "last_name": "user"},
+            "last_name": "user"
+        },
         "export_user": {
             "email": exporter_user_email,
             "password": "password"
@@ -202,7 +203,6 @@ class SeedData:
         data = self.request_data['ultimate_end_user'] if ultimate_end_user is None else ultimate_end_user
         self.make_request("POST", url='/drafts/' + draft_id + '/ultimate-end-users/', headers=self.export_headers,
                           body=data)
-
 
     def submit_application(self, draft_id=None):
         self.log("submitting application: ...")

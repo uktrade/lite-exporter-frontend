@@ -1,7 +1,7 @@
 from core.builtins.custom_tags import get_string
 from core.services import get_countries
 from libraries.forms.components import Form, Question, InputType, Section, ArrayQuestion, Option, RadioButtons, \
-    FileUpload, BackLink
+    FileUpload, BackLink, TextArea
 
 
 def new_end_user_form():
@@ -36,7 +36,7 @@ def new_end_user_form():
         Form(title='Where\'s the final recipient based?',
              description='',
              questions=[
-                 Question('Address', '', InputType.TEXTAREA, 'address'),
+                 TextArea('address', 'Address'),
                  ArrayQuestion(title='Country',
                                description='',
                                input_type=InputType.AUTOCOMPLETE,
