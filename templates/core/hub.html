@@ -7,7 +7,7 @@
 				<a class="govuk-breadcrumbs__link" href="#">Home</a>
 			</li>
 			<li class="govuk-breadcrumbs__list-item">
-				{% get_string 'common.service_name' %}
+				Exporter Hub
 			</li>
 		</ol>
 	</div>
@@ -20,11 +20,11 @@
 		</div>
 	{% endif %}
 
-	<span class="govuk-caption-xl">
-		{{ organisation.name }}
+	<span class="govuk-caption-l">
+		{{ user.first_name }} {{ user.last_name }}
 	</span>
 	<h1 class="govuk-heading-xl">
-        {{ title }}
+        {{ organisation.name }}
     </h1>
 
 	{% for section in sections %}
