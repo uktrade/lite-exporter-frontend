@@ -14,12 +14,7 @@ class ProtectAllViewsMiddleware:
         if resolve(request.path).app_name != 'authbroker_client' and not request.user.is_authenticated:
             return redirect('authbroker:login')
 
-        print('i am easy to find')
-
-        # print(request.user.organisation)
-
         if not isinstance(request.user, AnonymousUser):
-            print('banana')
             if not request.user.organisation:
                 user = get_user(request)
 
@@ -28,8 +23,6 @@ class ProtectAllViewsMiddleware:
                 else:
                     request.user.organisation = user['organisations'][0]
                     request.user.save()
-
-        print('we shouldnt get here')
 
         response = self.get_response(request)
 
