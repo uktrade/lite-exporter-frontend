@@ -12,6 +12,7 @@ from conf.settings import env
 from core.builtins.custom_tags import get_string
 from core.models import User
 from libraries.forms.generators import error_page
+from users.services import get_user
 
 
 class AuthView(RedirectView):
@@ -71,15 +72,24 @@ class AuthCallbackView(View):
                               description=get_string('authentication.user_does_not_exist.description'),
                               show_back_link=False)
 
-        # create the user
+        # Create the user in the session
         user = authenticate(request)
         user.user_token = response['token']
         user.first_name = response['first_name']
         user.last_name = response['last_name']
         user.lite_api_user_id = response['lite_api_user_id']
         user.save()
+
         if user is not None:
             login(request, user)
+
+            user_dict, _ = get_user(request)
+
+            if len(user_dict['user']['organisations']) > 1:
+                return redirect('core:pick_organisation')
+            else:
+                user.organisation = user_dict['user']['organisations'][0]['id']
+                user.save()
 
         return redirect(getattr(settings, 'LOGIN_REDIRECT_URL', '/'))
 
@@ -88,6 +98,6 @@ class AuthLogoutView(TemplateView):
     def get(self, request, **kwargs):
         User.objects.get(id=request.user.id).delete()
         logout(request)
-        return redirect(env("AUTHBROKER_URL") + '/logout/')
+        return redirect(env('AUTHBROKER_URL') + '/logout/')
 
 
