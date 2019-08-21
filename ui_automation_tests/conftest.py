@@ -81,13 +81,13 @@ def last_name(request):
 
 
 @given('I go to exporter homepage and choose Test Org')
-def go_to_exporter(driver, sso_sign_in, exporter_url, register_organisation):
+def go_to_exporter(driver, sso_sign_in, exporter_url, register_organisation, context):
     if 'pick-organisation' in driver.current_url:
-        driver.find_elements_by_css_selector('.govuk-radios__input')[0].click()
+        Shared(driver).click_on_radio_buttons(0)
         Shared(driver).click_continue()
-    elif driver.find_element_by_css_selector('.govuk-heading-xl').text == 'Octopus Systems':
-        driver.find_element_by_id('switch-link').click()
-        driver.find_elements_by_css_selector('.govuk-radios__input')[0].click()
+    elif Shared(driver).get_text_of_heading() == context.org_name_for_switching_organisations:
+        Hub(driver).click_switch_link()
+        Shared(driver).click_on_radio_buttons(0)
         Shared(driver).click_continue()
 
 
@@ -98,14 +98,12 @@ def go_to_exporter_when(driver, exporter_url):
 
 @when('I click on apply for a license button')
 def click_apply_licence(driver):
-    exporter = ExporterHubPage(driver)
-    exporter.click_apply_for_a_licence()
+    ExporterHubPage(driver).click_apply_for_a_licence()
 
 
 @when('I click on start button')
 def click_start_button(driver):
-    apply = ApplyForALicencePage(driver)
-    apply.click_start_now_btn()
+    ApplyForALicencePage(driver).click_start_now_btn()
 
 
 @when('I enter in name for application and continue')

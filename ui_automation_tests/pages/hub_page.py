@@ -12,6 +12,7 @@ class Hub():
         self.last_name_field = "last_name"    # ID
         self.email_field = "email"    # ID
         self.password_field = "password"    # ID
+        self.switch_link = "switch-link"    # ID
 
     def click_drafts(self):
         self.driver.find_element_by_css_selector(self.drafts_btn).click()
@@ -43,3 +44,6 @@ class Hub():
 
     def click_sites_link(self):
         self.driver.find_element_by_css_selector(self.sites_btn).click()
+
+    def click_switch_link(self):
+        self.driver.find_element_by_id(self.switch_link).click()

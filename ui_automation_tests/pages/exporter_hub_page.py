@@ -112,9 +112,6 @@ class ExporterHubPage:
     def get_text_of_site(self, int):
         return self.driver.find_elements_by_css_selector(".govuk-checkboxes__label")[int].text
 
-    def click_submit(self):
-        self.driver.find_element_by_css_selector(".govuk-button").click()
-
     def click_start(self):
         self.driver.find_element_by_css_selector("a[href*='/start']").click()
 

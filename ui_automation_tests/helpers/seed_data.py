@@ -29,14 +29,14 @@ class SeedData:
             "user": {
                 "first_name": first_name,
                 "last_name": last_name,
-                "email": exporter_user_email,
-                "password": "password"
+                "email": exporter_user_email
             },
             "site": {
                 "name": "Headquarters",
                 "address": {
                     "address_line_1": "42 Question Road",
-                    "postcode": "Islington", "city": "London",
+                    "postcode": "Islington",
+                    "city": "London",
                     "region": "London",
                     "country": "GB"
                 }
@@ -51,14 +51,14 @@ class SeedData:
             "user": {
                 "first_name": first_name,
                 "last_name": last_name,
-                "email": exporter_user_email,
-                "password": "password"
+                "email": exporter_user_email
             },
             "site": {
                 "name": "Headquarters",
                 "address": {
                     "address_line_1": "42 Question Road",
-                    "postcode": "Islington", "city": "London",
+                    "postcode": "Islington",
+                    "city": "London",
                     "region": "London",
                     "country": "GB"
                 }
@@ -171,6 +171,7 @@ class SeedData:
         organisation = self.find_org_by_name(self.org_name_for_switching_organisations)
         if not organisation:
             self.add_org('organisation_for_switching_organisations')
+        self.add_to_context('org_name_for_switching_organisations', self.org_name_for_switching_organisations)
 
     def add_good(self):
         self.log("Adding good: ...")
@@ -185,9 +186,9 @@ class SeedData:
         response = self.make_request("POST", url='/goods/' + good_id + '/documents/', headers=self.export_headers, body=data)
         print(response)
 
-    def add_org(self, request):
+    def add_org(self, key):
         self.log("Creating org: ...")
-        data = self.request_data[request]
+        data = self.request_data[key]
         response = self.make_request("POST", url='/organisations/', body=data)
         organisation = json.loads(response.text)['organisation']
         return organisation

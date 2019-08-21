@@ -1,9 +1,7 @@
-from pytest_bdd import when, then, parsers, scenarios, given
+from pytest_bdd import when, then, scenarios, given
 
+from pages.hub_page import Hub
 from pages.shared import Shared
-from pages.submitted_applications_page import SubmittedApplicationsPages
-
-import helpers.helpers as utils
 
 scenarios('../features/switch_organisations.feature', strict_gherkin=False)
 
@@ -15,11 +13,11 @@ def set_up_second_organisation(register_organisation_for_switching_organisation)
 
 @when("I switch organisations to my second organisation")
 def switch_organisations_to_my_second_organisation(driver):
-    driver.find_element_by_id('switch-link').click()
-    driver.find_elements_by_css_selector('.govuk-radios__input')[1].click()
+    Hub(driver).click_switch_link()
+    Shared(driver).click_on_radio_buttons(1)
     Shared(driver).click_continue()
 
 
 @then("I am on my second organisation names homepage")
-def see_second_organisation_name(driver):
-    assert driver.find_element_by_css_selector('.govuk-heading-xl').text == org_name_for_switching_organisations
+def see_second_organisation_name(driver, context):
+    assert Shared(driver).get_text_of_heading() == context.org_name_for_switching_organisations
