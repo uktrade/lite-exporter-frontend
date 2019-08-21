@@ -270,7 +270,7 @@ def i_can_see_the_country_count_countries_selected_on_the_overview_page(driver, 
 
 @when('I click on number of countries on the overview page')
 def click_on_number_of_countries_selected(driver):
-    utils.scroll_down_page(driver, 0, 1080)
+    utils.scroll_to_bottom_of_page(driver)
     ApplicationOverviewPage(driver).click_on_countries_selected()
 
 
