@@ -5,7 +5,6 @@ from selenium.webdriver.common.by import By
 import helpers.helpers as utils
 from pages.add_end_user_pages import AddEndUserPages
 from pages.application_overview_page import ApplicationOverviewPage
-from pages.apply_for_a_licence_page import ApplyForALicencePage
 from pages.shared import Shared
 
 scenarios('../features/submit_standard_application.feature', strict_gherkin=False)
@@ -14,14 +13,6 @@ scenarios('../features/submit_standard_application.feature', strict_gherkin=Fals
 @when('I click on application overview')
 def i_click_on_application_overview(driver):
     driver.find_element_by_css_selector("a[href*='overview'").click()
-
-
-@when('I submit the application')
-def submit_the_application(driver, context):
-    apply = ApplyForALicencePage(driver)
-    apply.click_submit_application()
-    assert apply.get_text_of_success_message() == "Application submitted"
-    context.time_date_submitted = datetime.datetime.now().strftime("%I:%M%p").lstrip("0").replace(" 0", " ").lower() + datetime.datetime.now().strftime(" %d %B %Y")
 
 
 @then('good is added to application')

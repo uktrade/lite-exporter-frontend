@@ -357,3 +357,11 @@ def i_delete_the_application(driver):
     apply = ApplyForALicencePage(driver)
     apply.click_delete_application()
     assert 'Exporter hub - LITE' in driver.title, "failed to go to Exporter Hub page after deleting application from application overview page"
+
+
+@when('I submit the application')
+def submit_the_application(driver, context):
+    apply = ApplyForALicencePage(driver)
+    apply.click_submit_application()
+    assert apply.get_text_of_success_message() == "Application submitted"
+    context.time_date_submitted = datetime.datetime.now().strftime("%I:%M%p").lstrip("0").replace(" 0", " ").lower() + datetime.datetime.now().strftime(" %d %B %Y")
