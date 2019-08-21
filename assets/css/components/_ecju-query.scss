@@ -1,3 +1,5 @@
+$text-margin: govuk-spacing(3);
+
 .app-ecju-query {
     &__item {
         margin-bottom: govuk-spacing(6);
@@ -28,10 +30,10 @@
     }
 
     &__heading {
-        @include govuk-font($size: 19);
+        @include govuk-font($size: 16);
 
         margin-top: 0;
-        margin-bottom: govuk-spacing(2);
+        margin-bottom: $text-margin;
         max-width: 500px;
 
         a {
@@ -41,6 +43,13 @@
                 text-decoration: underline;
             }
         }
+    }
+
+    &__date {
+        @include govuk-font($size: 16);
+        
+        margin-top: $text-margin;
+        color: govuk-colour("dark-grey");
     }
 
     &__text {
