@@ -16,7 +16,7 @@ def add_an_application(driver, request, api_url, exporter_url, context):
     context.ueu_website = "https://www.anothergov.uk"
     context.ueu_address = "Bullring, Birmingham SW1A 0AA"
     context.ueu_country = ["GB", "United Kingdom"]
-    app_name = "Test Application " + app_time_id
+    app_name = "Test Application" + app_time_id
 
     api.add_draft(
         draft={
