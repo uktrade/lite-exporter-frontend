@@ -98,6 +98,6 @@ class AuthLogoutView(TemplateView):
     def get(self, request, **kwargs):
         User.objects.get(id=request.user.id).delete()
         logout(request)
-        return redirect(env('AUTHBROKER_URL') + '/logout/')
+        return '/'
 
 
