@@ -89,14 +89,6 @@ def go_to_exporter(driver, sso_sign_in, exporter_url, register_organisation):
 def go_to_exporter_when(driver, exporter_url):
     driver.get(exporter_url)
 
-# utils
-@then(parsers.parse('driver title equals "{expected_text}"'))
-def assert_title_text(driver, expected_text):
-    assert driver.title == expected_text
-
-
-# applying for licence
-
 
 @when('I click on apply for a license button')
 def click_apply_licence(driver):
