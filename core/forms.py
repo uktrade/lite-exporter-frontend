@@ -1,4 +1,4 @@
-from core.builtins.custom_tags import str_date
+from core.helpers import str_date_only
 from libraries.forms.components import Form, RadioButtons, Option
 
 
@@ -8,7 +8,7 @@ def select_your_organisation_form(organisations):
                 [
                     RadioButtons(name='organisation',
                                  options=[
-                                     Option(x['id'], x['name'], 'Member since ' + str_date(x['joined_at'])) for x in organisations
+                                     Option(x['id'], x['name'], 'Member since ' + str_date_only(x['joined_at'])) for x in organisations
                                  ])
                 ],
                 default_button_name='Save and continue',

@@ -46,11 +46,13 @@ class Hub(TemplateView):
 
 
 class PickOrganisation(TemplateView):
+    form = None
     organisations = None
 
     def dispatch(self, request, *args, **kwargs):
         user, _ = get_user(request)
         self.organisations = user['user']['organisations']
+        self.form = select_your_organisation_form(self.organisations)
 
         if len(self.organisations) == 1:
             raise Http404()
@@ -62,9 +64,13 @@ class PickOrganisation(TemplateView):
             'organisation': str(request.user.organisation)
         }
 
-        return form_page(request, select_your_organisation_form(self.organisations), data=data)
+        return form_page(request, self.form, data=data)
 
     def post(self, request, **kwargs):
+        # If no data is given, error
+        if not request.POST.get('organisation'):
+            return form_page(request, self.form, errors={'organisation': ['Select an organisation to use']})
+
         request.user.organisation = request.POST['organisation']
         request.user.save()
 

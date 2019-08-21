@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
-from core.builtins.custom_tags import get_string
 from core.services import get_organisation
 from libraries.forms.generators import form_page
 from libraries.forms.helpers import nest_data, flatten_data

@@ -42,8 +42,8 @@
 		<tbody class="govuk-table__body">
 			{% for user in users %}
 				<tr class="govuk-table__row">
-					<td class="govuk-table__cell">
-						<a href="{% url 'users:user' user.id %}" style="margin: 0;" class="govuk-link">
+					<td class="govuk-table__header">
+						<a href="{% url 'users:user' user.id %}" style="margin: 0;" class="govuk-link govuk-link--no-visited-state">
 							{{ user.first_name }} {{ user.last_name }}
 						</a>
 					</td>
