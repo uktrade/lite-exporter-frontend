@@ -6,24 +6,24 @@ Feature: I want to manage users
 
   @LT_937_setup
   Scenario: Set up user
-    Given I go to exporter homepage
+    Given I go to exporter homepage and choose Test Org
     When I click on the manage my organisation link
     Then I add a user
 
   @add_user
   Scenario: Add user
-    Given I go to exporter homepage
+    Given I go to exporter homepage and choose Test Org
     When I add user
     Then user is added
 
   @edit_user
   Scenario: Edit user
-    Given I go to exporter homepage
+    Given I go to exporter homepage and choose Test Org
     When I edit user then user is edited
 
 #  @deactivate
 #  Scenario: Deactivate user
-#    Given I go to exporter homepage
+#    Given I go to exporter homepage and choose Test Org
 #    When I add the second test user
 #    And I deactivate user then user is deactivated
 #    And I go to exporter homepage
@@ -31,5 +31,5 @@ Feature: I want to manage users
 
   @reactivate_oneself
   Scenario: Reactivate oneself
-    Given I go to exporter homepage
+    Given I go to exporter homepage and choose Test Org
     When I try to deactivate myself I cannot

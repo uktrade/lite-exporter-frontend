@@ -6,7 +6,7 @@ Feature: I  want to add and rename my sites
 
   @LT_933_add
   Scenario: Add a site
-    Given I go to exporter homepage
+    Given I go to exporter homepage and choose Test Org
     When I click on the manage my organisation link
     And I click sites link
     And I click new site
@@ -16,7 +16,7 @@ Feature: I  want to add and rename my sites
 
   @LT_933_edit
   Scenario: Edit a site
-    Given I go to exporter homepage
+    Given I go to exporter homepage and choose Test Org
     When I click on the manage my organisation link
     When I click sites link
     And I click last edit button
@@ -30,7 +30,7 @@ Feature: I  want to add and rename my sites
 
   @LT_933_error
   Scenario: Test clicking continue when not adding a site
-    Given I go to exporter homepage
+    Given I go to exporter homepage and choose Test Org
     When I click on apply for a license button
     And I click on start button
     And I enter in name for application and continue
@@ -42,7 +42,7 @@ Feature: I  want to add and rename my sites
 
   @LT_933_change
   Scenario: Test changing sites
-    Given I go to exporter homepage
+    Given I go to exporter homepage and choose Test Org
     When I click on the manage my organisation link
     And I click sites link
     And I click new site

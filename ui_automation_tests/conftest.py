@@ -5,7 +5,7 @@ from pytest_bdd import given, when, then, parsers
 from selenium.webdriver.common.by import By
 
 from fixtures.core import context, driver, invalid_username, exporter_sso_login_info, s3_key
-from fixtures.register_organisation import register_organisation
+from fixtures.register_organisation import register_organisation, register_organisation_for_switching_organisation
 from fixtures.add_goods import add_a_good, add_an_incorporated_good_to_application, add_a_non_incorporated_good_to_application, create_non_incorporated_good
 from fixtures.add_an_application import add_an_application
 from fixtures.sso_sign_in import sso_sign_in
@@ -80,9 +80,15 @@ def last_name(request):
     return request.config.getoption("--last_name")
 
 
-@given('I go to exporter homepage')
+@given('I go to exporter homepage and choose Test Org')
 def go_to_exporter(driver, sso_sign_in, exporter_url, register_organisation):
-    driver.get(exporter_url)
+    if 'pick-organisation' in driver.current_url:
+        driver.find_elements_by_css_selector('.govuk-radios__input')[0].click()
+        Shared(driver).click_continue()
+    elif driver.find_element_by_css_selector('.govuk-heading-xl').text == 'Octopus Systems':
+        driver.find_element_by_id('switch-link').click()
+        driver.find_elements_by_css_selector('.govuk-radios__input')[0].click()
+        Shared(driver).click_continue()
 
 
 @when('I go to exporter homepage')
