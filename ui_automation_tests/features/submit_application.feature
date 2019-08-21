@@ -34,6 +34,7 @@ Feature: I want to indicate the kind of licence I want
     Then good is added to application
     When I click on end user
     And I add an end user of type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
+    And I upload file "file_for_doc_upload_test_1.txt" with description "Doesnt matter really"
     Then I see end user on overview
     When I submit the application
     Then application is submitted
@@ -80,6 +81,7 @@ Feature: I want to indicate the kind of licence I want
     Then good is added to application
     When I click on end user
     And I add an end user of type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
+    And I upload file "file_for_doc_upload_test_1.txt" with description "Doesnt matter really"
     And I submit the application
     And I click applications
     Then I see submitted application
@@ -189,6 +191,9 @@ Feature: I want to indicate the kind of licence I want
     And I click continue
     Then error message is "Select if you you been told that you need an export licence by an official"
     When I select "yes" for whether I have an export licence and "123456" if I have a reference and continue
+    And I click on end user
+    And I add an end user of type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
+    And I upload file "file_for_doc_upload_test_1.txt" with description "Doesnt matter really"
     And I delete the application
     Then I see the homepage
 
@@ -233,6 +238,7 @@ Feature: I want to indicate the kind of licence I want
     # Then I see end user on overview
 
   @LT_1042_happy_path
+  @AT
   Scenario: Apply for a licence with ultimate end users
     Given I go to exporter homepage
     When I click on apply for a license button
@@ -254,6 +260,7 @@ Feature: I want to indicate the kind of licence I want
     And I click continue
     And I click on end user
     And I add an end user of type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
+    And I upload file "file_for_doc_upload_test_1.txt" with description "Doesnt matter really"
     And I submit the application
     Then application is submitted
     When I go to exporter homepage
@@ -269,12 +276,16 @@ Feature: I want to indicate the kind of licence I want
     And I select "standard" application and continue
     And I select "permanent" option and continue
     And I select "yes" for whether I have an export licence and "123456" if I have a reference and continue
+    And I click on end user
+    And I add an end user of type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
+    And I upload file "file_for_doc_upload_test_1.txt" with description "Doesnt matter really"
     And I click on ultimate end users
     And I click on back to overview
     And I click continue
     Then I see no ultimate end user attached error message
 
   @LT_1114_error_when_no_goods_or_sites
+  #@AT
   Scenario: Apply for a licence with goods and sites error message
     Given I go to exporter homepage
     When I click on apply for a license button
@@ -283,11 +294,14 @@ Feature: I want to indicate the kind of licence I want
     And I select "standard" application and continue
     And I select "permanent" option and continue
     And I select "yes" for whether I have an export licence and "123456" if I have a reference and continue
+    And I click on end user
+    And I add an end user of type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
+    And I upload file "file_for_doc_upload_test_1.txt" with description "Doesnt matter really"
     And I click continue
     Then I see no goods external sites or end user attached error message
 
   @LT_1190_end_user_document
-  @AT
+  #@AT
   Scenario: Apply for a licence and ensure it cannot be submitted without a end user document
     Given I go to exporter homepage
     When I click on apply for a license button
@@ -301,9 +315,8 @@ Feature: I want to indicate the kind of licence I want
     And I add an end user of type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
     And I upload file "file_for_doc_upload_test_1.txt" with description "Doesnt matter really"
     Then I see end user on overview
+    And The submit can be selected
     When I delete the end user document
     And I click yes on the confirmation
+    And I click continue
     Then The submit cannot be selected
-    When I add an end user document
-    And I upload file "file_for_doc_upload_test_1.txt" with description "Doesnt matter really"
-    Then The submit can be selected

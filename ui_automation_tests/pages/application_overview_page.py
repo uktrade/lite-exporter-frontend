@@ -47,6 +47,7 @@ class ApplicationOverviewPage:
         return self.driver.find_element_by_css_selector(self.show_countries_link).text
 
     def click_on_countries_selected(self):
+        self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight)")
         self.driver.find_element_by_css_selector(self.show_countries_link).click()
 
     def click_on_modal_close(self):
@@ -65,7 +66,9 @@ class ApplicationOverviewPage:
         return self.driver.find_element_by_css_selector(self.submit_application_button).is_enabled()
 
     def click_on_add_end_user_document(self):
+        self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight)")
         self.driver.find_element_by_id(self.attach_end_user_document_link).click()
 
     def click_delete_end_user_document(self):
+        self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight)")
         self.driver.find_element_by_id(self.delete_end_user_document).click()

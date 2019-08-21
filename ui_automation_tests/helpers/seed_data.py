@@ -195,6 +195,9 @@ class SeedData:
         data = self.request_data['end-user'] if enduser is None else enduser
         self.make_request("POST", url='/drafts/' + draft_id + '/end-user/', headers=self.export_headers,
                           body=data)
+        data = self.request_data['document']
+        self.make_request("POST", url='/drafts/' + draft_id + '/end-user/documents/', headers=self.export_headers,
+                          body=data)
         self.log("Adding good: ...")
         data = self.request_data['add_good'] if good is None else good
         data['good_id'] = self.context['good_id']

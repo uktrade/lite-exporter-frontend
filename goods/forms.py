@@ -66,6 +66,7 @@ def are_you_sure(good_id):
                                                            kwargs={'pk': good_id}))
                 )
 
+
 edit_form = Form(title='Edit Good', description='', caption='', questions=[
     TextArea(title='Description of good',
              description='This can make it easier to find your good later',

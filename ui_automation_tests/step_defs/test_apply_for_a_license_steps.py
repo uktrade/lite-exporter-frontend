@@ -106,13 +106,13 @@ def i_see_no_sites_attached_error(driver):
     shared = Shared(driver)
     assert "Cannot create an application with no goods attached" in shared.get_text_of_error_message()
     assert "Cannot create an application with no sites or external sites attached" in shared.get_text_of_error_message(1)
-    assert "Cannot create an application without an end user" in shared.get_text_of_error_message(2)
 
 
 @then('I see no ultimate end user attached error message')
 def i_see_no_ultimate_end_user_attached_error(driver):
     shared = Shared(driver)
-    assert "Cannot create an application with no ultimate end users set when there is a good which is to be incorporated into an end product" in shared.get_text_of_error_message(2)
+    assert "Cannot create an application with no ultimate end users set when there is a good which is to be " \
+           "incorporated into an end product" in shared.get_text_of_error_message(1)
 
 
 @then('I see no sites good types or countries attached error message')
@@ -428,5 +428,4 @@ def add_an_end_user_document(driver):
 @when("I delete the end user document")
 def delete_the_end_user_document(driver):
     app = ApplicationOverviewPage(driver)
-    driver.execute_script("window.scrollTo(0, document.body.scrollHeight)")
     app.click_delete_end_user_document()

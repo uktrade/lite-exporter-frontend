@@ -311,7 +311,7 @@ def raise_clc_query(driver, control_code, description):
     exporter_hub.click_save_and_continue()
 
 
-@given("I click yes on the confirmation")
+@when("I click yes on the confirmation")
 def click_yes_on_confirm(driver):
     shared = Shared(driver)
     shared.click_confirm_yes()

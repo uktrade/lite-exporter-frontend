@@ -59,14 +59,13 @@ class Overview(TemplateView):
         external_locations, status_code = get_external_locations_on_draft(request, draft_id)
         ultimate_end_users, status_code = get_ultimate_end_users(request, draft_id)
         end_user = data.get('draft').get('end_user')
-        can_submit = False
         if end_user:
             draft_end_user_document, status_code = get_draft_end_user_documents(request, draft_id)
             draft_end_user_document = draft_end_user_document.get('document')
-            if draft_end_user_document:
-                can_submit = draft_end_user_document['safe']
+            can_submit = True if draft_end_user_document and draft_end_user_document['safe'] else False
         else:
             draft_end_user_document = None
+            can_submit = data.get('draft').get('licence_type') == 'open_licence'
 
         for good in goods['goods']:
             if not good['good']['is_good_end_product']:
