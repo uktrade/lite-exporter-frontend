@@ -94,6 +94,12 @@ def get_clc_notifications(request, unviewed):
     return data.json(), data.status_code
 
 
+# Organisation
 def get_organisation(request, pk):
     data = get(request, ORGANISATIONS_URL + pk)
+    return data.json()['organisation'], data.status_code
+
+
+def get_organisation_users(request, pk):
+    data = get(request, ORGANISATIONS_URL + pk + '/users/')
     return data.json(), data.status_code

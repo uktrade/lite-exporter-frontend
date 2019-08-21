@@ -3,6 +3,7 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
 from core.builtins.custom_tags import get_string
+from core.services import get_organisation
 from libraries.forms.generators import form_page
 from libraries.forms.helpers import nest_data, flatten_data
 from sites.forms import new_site_form, edit_site_form
@@ -11,11 +12,13 @@ from sites.services import get_sites, get_site, post_sites, put_site
 
 class Sites(TemplateView):
     def get(self, request, **kwargs):
-        data, status_code = get_sites(request)
+        sites, _ = get_sites(request)
+        organisation, _ = get_organisation(request, str(request.user.organisation))
 
         context = {
-            'title': get_string('sites.title'),
-            'data': data,
+            'title': 'Sites - ' + organisation['name'],
+            'sites': sites['sites'],
+            'organisation': organisation,
         }
         return render(request, 'sites/index.html', context)
 

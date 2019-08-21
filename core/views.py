@@ -22,6 +22,7 @@ class Hub(TemplateView):
 
         context = {
             'title': get_string('hub.title'),
+            'organisation': organisation,
             'sections': [
                 Section('', '', [
                     Tile(get_string('licences.apply_for_a_licence'), '',
@@ -34,12 +35,10 @@ class Hub(TemplateView):
                          reverse_lazy('applications:applications')),
                     Tile('Goods', generate_notification_string(num_clc_notifications),
                          reverse_lazy('goods:goods')),
-                    Tile('Sites', '', reverse_lazy('sites:sites')),
-                    Tile('Users', '', reverse_lazy('users:users')),
+                    Tile('Manage my organisation', '', reverse_lazy('users:users')),
                 ]),
             ],
-            'applicationDeleted': request.GET.get('application_deleted'),
-            'organisation': organisation['organisation'],
+            'application_deleted': request.GET.get('application_deleted'),
             'user_data': user['user']
         }
 
