@@ -1,12 +1,7 @@
 from pytest_bdd import scenarios, given, when, then, parsers, scenarios
 from pages.application_goods_list import ApplicationGoodsList
 
-scenarios('../features/search_for_goods.feature', strict_gherkin=False)
-
-import logging
-log = logging.getLogger()
-console = logging.StreamHandler()
-log.addHandler(console)
+scenarios('../features/search_and_filter_goods.feature', strict_gherkin=False)
 
 
 @when('I filter by description and click filter')
