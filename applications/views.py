@@ -23,19 +23,30 @@ class ApplicationsList(TemplateView):
         return render(request, 'applications/index.html', context)
 
 
+class ApplicationDetailEmpty(TemplateView):
+    def get(self, request, **kwargs):
+        application_id = str(kwargs['pk'])
+        return redirect(reverse_lazy('applications:application-detail', kwargs={'pk': application_id, 'type': 'case-notes'}))
+
+
 class ApplicationDetail(TemplateView):
     def get(self, request, **kwargs):
         application_id = str(kwargs['pk'])
+        view_type = kwargs['type']
         data, status_code = get_application(request, application_id)
-
-        if status_code is not 200:
-            return HttpResponse(status=status_code)
 
         context = {
             'data': data,
             'title': data.get('application').get('name'),
-            'notes': data.get('application').get('case_notes'),
+            'type': view_type,
         }
+
+        if view_type == 'case-notes':
+            context['notes'] = data.get('application').get('case_notes')
+
+        if view_type == 'ecju-queries':
+            context['ecju_queries'] = data.get('application').get('case_notes')
+
         return render(request, 'applications/application.html', context)
 
 

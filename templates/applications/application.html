@@ -29,17 +29,21 @@
 
 <div class="lite-tabs--fade">
 	<div class="lite-tabs">
-		<!-- <a class="lite-tabs__tab selected">Goods</a> -->
-		<!-- <a class="lite-tabs__tab selected">Destinations</a> -->
 		<a class="lite-tabs__tab selected">Notes</a>
-		<!-- <a class="lite-tabs__tab selected">Notes</a> -->
-		<!-- <a class="lite-tabs__tab">Requests for Information</a>
+		<a class="lite-tabs__tab">ECJU Queries</a>
+		<!-- <a class="lite-tabs__tab selected">Goods</a>
+		<a class="lite-tabs__tab selected">Destinations</a>
+		<a class="lite-tabs__tab selected">Notes</a>
 		<a class="lite-tabs__tab">Messages</a>
 		<a class="lite-tabs__tab">Ammend/Withdraw</a>
 		<a class="lite-tabs__tab">Outcome Documents</a> -->
 	</div>
 </div>
 
-{% include "applications/tabs/notes.html" %}
+{% if type == 'case-notes' %}
+	{% include "applications/tabs/case-notes.html" %}
+{% elif type == 'ecju-queries'%}
+	{% include "applications/tabs/ecju-queries.html" %}
+{% endif %}
 
 {% endblock %}
