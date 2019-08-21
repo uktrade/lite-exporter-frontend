@@ -7,7 +7,7 @@ Feature: I want to manage users
   @LT_937_setup
   Scenario: Set up user
     Given I go to exporter homepage
-    When I click on the users link
+    When I click on the manage my organisation link
     Then I add a user
 
   @add_user

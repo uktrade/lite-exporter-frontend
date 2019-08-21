@@ -7,7 +7,8 @@ Feature: I  want to add and rename my sites
   @LT_933_add
   Scenario: Add a site
     Given I go to exporter homepage
-    When I click sites link
+    When I click on the manage my organisation link
+    And I click sites link
     And I click new site
     And I enter in text for new site " " "4 Privet Drive" "SU1 1BB" "Surrey" "Surrey" and "Ukraine"
     And I click continue
@@ -16,6 +17,7 @@ Feature: I  want to add and rename my sites
   @LT_933_edit
   Scenario: Edit a site
     Given I go to exporter homepage
+    When I click on the manage my organisation link
     When I click sites link
     And I click last edit button
     And I clear the fields for the site
@@ -41,7 +43,8 @@ Feature: I  want to add and rename my sites
   @LT_933_change
   Scenario: Test changing sites
     Given I go to exporter homepage
-    When I click sites link
+    When I click on the manage my organisation link
+    And I click sites link
     And I click new site
     And I enter in text for new site "changed" "4 Privet Drive" "SU1 1BB" "Surrey" "Surrey" and "Ukraine"
     And I click continue

@@ -357,3 +357,9 @@ def submit_the_application(driver, context):
     apply.click_submit_application()
     assert apply.get_text_of_success_message() == "Application submitted"
     context.time_date_submitted = datetime.datetime.now().strftime("%I:%M%p").lstrip("0").replace(" 0", " ").lower() + datetime.datetime.now().strftime(" %d %B %Y")
+
+
+@when('I click on the manage my organisation link')
+def click_users_link(driver):
+    exporter_hub = ExporterHubPage(driver)
+    exporter_hub.click_users()
