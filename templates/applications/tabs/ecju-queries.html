@@ -1,1 +1,30 @@
-ECJU Queries :)
+{% for ecju_query in ecju_queries %}
+
+    <div class="app-ecju-query">
+        <div class="app-ecju-query__item">
+            <p class="app-ecju-query__heading">Posted by ECJU at {{ ecju_query.created_at|str_date }}</p>
+            <div class="app-ecju-query__text">
+                {{ ecju_query.question }}
+            </div>
+        </div>
+        <div class="app-ecju-query__item app-ecju-query__item--right">
+            <p class="app-ecju-query__heading">
+                Posted by <a href="#" class="govuk-link govuk-link--no-visited-state">Matt Berninger</a> at {{ ecju_query.created_at|str_date }}
+            </p>
+            <div class="app-ecju-query__text">
+                {{ ecju_query.question }}
+            </div>
+        </div>
+    </div>
+
+    <hr class="lite-horizontal-separator">
+
+    {% empty %}
+    <div class="lite-information-text">
+        <span class="lite-information-text__icon" aria-hidden="true">!</span>
+        <p class="lite-information-text__text">
+            <span class="govuk-visually-hidden">Information</span>
+            There haven't been any queries on this application.
+        </p>
+    </div>
+{% endfor %}

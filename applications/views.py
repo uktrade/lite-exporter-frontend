@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
-from applications.services import get_applications, get_application
+from applications.services import get_applications, get_application, get_application_case_notes, \
+    get_application_ecju_queries
 from core.services import get_notifications
 
 
@@ -30,9 +31,10 @@ class ApplicationDetailEmpty(TemplateView):
 class ApplicationDetail(TemplateView):
     def get(self, request, **kwargs):
         application_id = str(kwargs['pk'])
-        view_type = kwargs['type']
         application, status_code = get_application(request, application_id)
         application = application['application']
+        case_id = application['case']
+        view_type = kwargs['type']
 
         context = {
             'application': application,
@@ -41,10 +43,10 @@ class ApplicationDetail(TemplateView):
         }
 
         if view_type == 'case-notes':
-            context['notes'] = application.get('case_notes')
+            context['notes'] = get_application_case_notes(request, case_id)['case_notes']
 
         if view_type == 'ecju-queries':
-            context['ecju_queries'] = application.get('case_notes')
+            context['ecju_queries'] = get_application_ecju_queries(request, case_id)['ecju_queries']
 
         return render(request, 'applications/application.html', context)
 

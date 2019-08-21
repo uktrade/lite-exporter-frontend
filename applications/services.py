@@ -15,7 +15,7 @@ def get_applications(request):
 # Case related
 def get_application_case_notes(request, pk):
     data = get(request, CASES_URL + pk + CASE_NOTES_URL)
-    return data.json(), data.status_code
+    return data.json()
 
 
 def post_application_case_notes(request, pk, json):
@@ -25,4 +25,4 @@ def post_application_case_notes(request, pk, json):
 
 def get_application_ecju_queries(request, pk):
     data = get(request, CASES_URL + pk + ECJU_QUERIES_URL)
-    return data.json(), data.status_code
+    return data.json()
