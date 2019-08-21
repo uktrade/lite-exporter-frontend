@@ -136,6 +136,7 @@ def click_add_to_application_button(driver, no, context):
     context.part_number = driver.find_elements_by_css_selector('.lite-card .govuk-label')[int(no)-1].text
     driver.find_elements_by_css_selector('a.govuk-button')[int(no)-1].click()
 
+
 @when(parsers.parse(
     'I add an end user of type: "{type}", name: "{name}", website: "{website}", address: "{address}" and country "{country}"'))
 def add_new_end_user(driver, type, name, website, address, country, context):

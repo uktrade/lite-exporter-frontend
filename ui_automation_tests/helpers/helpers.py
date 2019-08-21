@@ -102,7 +102,7 @@ def scroll_down_page(driver, x, y):
 
 
 def scroll_to_bottom_of_page(driver):
-    driver.execute_script("window.scrollTo(0,document.body.scrollHeight)")
+    driver.execute_script("window.scrollTo(0, document.body.scrollHeight)")
 
 
 def highlight(element):
