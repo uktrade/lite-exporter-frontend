@@ -1,24 +1,12 @@
-from pytest_bdd import scenarios, given, when, then, parsers
+from pytest_bdd import scenarios, when, then, parsers
 
-from pages.add_end_user_pages import AddEndUserPages
+import helpers.helpers as utils
 from pages.application_countries_list import ApplicationCountriesList
 from pages.application_goods_list import ApplicationGoodsList
 from pages.application_goods_type_list import ApplicationGoodsTypeList
 from pages.application_overview_page import ApplicationOverviewPage
-from pages.site_list_overview_page import SitesListOverview
-from pages.new_site_page import NewSite
-from pages.sites_page import SitesPage
 from pages.shared import Shared
-from pages.hub_page import Hub
-import datetime
-import helpers.helpers as utils
-from selenium.webdriver.common.by import By
 
-
-import logging
-log = logging.getLogger()
-console = logging.StreamHandler()
-log.addHandler(console)
 
 scenarios('../features/submit_open_application.feature', strict_gherkin=False)
 
@@ -92,6 +80,7 @@ def i_select_country_from_the_country_list(driver, country):
     application_countries_list.select_country(country)
 
     assert utils.find_element_by_href(driver, '#' + country).is_displayed()
+
 
 @then(parsers.parse('I can see "{country_count}" countries selected on the overview page'))
 def i_can_see_the_country_count_countries_selected_on_the_overview_page(driver, country_count):

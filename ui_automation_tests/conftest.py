@@ -1,9 +1,9 @@
 import datetime
 import os
-import allure
-from allure_commons.types import AttachmentType
-
 import pytest
+from pytest_bdd import given, when, then, parsers
+from selenium.webdriver.common.by import By
+
 from fixtures.core import context, driver, invalid_username, exporter_sso_login_info, s3_key
 from fixtures.register_organisation import register_organisation
 from fixtures.add_goods import add_a_good, add_an_incorporated_good_to_application, add_a_non_incorporated_good_to_application, create_non_incorporated_good
@@ -12,6 +12,7 @@ from fixtures.sso_sign_in import sso_sign_in
 from fixtures.internal_case_note import internal_case_note
 from fixtures.urls import exporter_url, api_url
 
+import helpers.helpers as utils
 from pages.add_goods_page import AddGoodPage
 from pages.add_new_external_location_form_page import AddNewExternalLocationFormPage
 from pages.application_overview_page import ApplicationOverviewPage
@@ -24,8 +25,6 @@ from pages.preexisting_locations_page import PreexistingLocationsPage
 from pages.shared import Shared
 from pages.sites_page import SitesPage
 from pages.which_location_form_page import WhichLocationFormPage
-from pytest_bdd import given, when, then, parsers
-import helpers.helpers as utils
 
 # from core import strings
 

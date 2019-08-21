@@ -1,19 +1,19 @@
-from pytest_bdd import scenarios, given, when, then, parsers, scenarios
+from pytest_bdd import when, then, parsers, scenarios
 from pages.application_goods_list import ApplicationGoodsList
 
 scenarios('../features/search_and_filter_goods.feature', strict_gherkin=False)
-
-
-@when('I filter by description and click filter')
-def filter_by_description(driver, context):
-    application_goods_list = ApplicationGoodsList(driver)
-    application_goods_list.type_into_filter_description_search_box_and_filter(context.good_description)
 
 
 @when('I filter by part number and click filter')
 def filter_by_part_no(driver, context):
     application_goods_list = ApplicationGoodsList(driver)
     application_goods_list.type_into_filter_part_number_search_box_and_filter(context.part)
+
+
+@when('I filter by description and click filter')
+def filter_by_description(driver, context):
+    application_goods_list = ApplicationGoodsList(driver)
+    application_goods_list.type_into_filter_description_search_box_and_filter(context.good_description)
 
 
 @when('I remove the filters')
