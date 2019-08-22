@@ -1,6 +1,6 @@
 {% load humanize static %}
 
-{% url 'applications:case_notes' application.id as post_url %}
+{% url 'applications:application-detail' application.id 'case-notes' as post_url %}
 
 {% if post_url %}
 

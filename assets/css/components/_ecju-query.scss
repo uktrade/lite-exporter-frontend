@@ -34,24 +34,16 @@ $text-margin: govuk-spacing(3);
     }
 
     &__heading {
-        @include govuk-font($size: 16);
+        @include govuk-font($size: 19, $weight: bold);
 
         margin-top: 0;
         margin-bottom: $text-margin;
         max-width: 500px;
-
-        a {
-            text-decoration: none;
-
-            &:hover {
-                text-decoration: underline;
-            }
-        }
     }
 
     &__date {
         @include govuk-font($size: 16);
-        
+
         margin-top: $text-margin;
         color: govuk-colour("dark-grey");
     }
@@ -64,5 +56,6 @@ $text-margin: govuk-spacing(3);
         border: 2px solid darken(govuk-colour("light-grey"), 2%);
         padding: govuk-spacing(4);
         max-width: 500px;
+        word-break: break-all;
     }
 }
