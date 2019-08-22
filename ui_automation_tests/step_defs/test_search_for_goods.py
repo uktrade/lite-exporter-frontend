@@ -13,7 +13,13 @@ def filter_by_part_no(driver, context):
 @when('I filter by description and click filter')
 def filter_by_description(driver, context):
     application_goods_list = ApplicationGoodsList(driver)
-    application_goods_list.type_into_filter_description_search_box_and_filter(context.good_description)
+    application_goods_list.type_into_filter_description_search_box_and_filter(context.good_description)\
+
+
+@when('I filter by control rating and click filter')
+def filter_by_description(driver, context):
+    application_goods_list = ApplicationGoodsList(driver)
+    application_goods_list.type_into_filter_control_rating_search_box_and_filter(context.control_code)
 
 
 @when('I remove the filters')
@@ -30,6 +36,8 @@ def see_added_good(driver, type, context):
         assert application_goods_list.get_tag_name_of_good(0) == context.good_description
     elif type == 'part number':
         assert context.part in application_goods_list.get_text_of_good(0)
+    elif type == 'control rating':
+        assert context.control_code in application_goods_list.get_text_of_good(0)
 
 
 @then('I see all goods')
