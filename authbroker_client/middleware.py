@@ -2,6 +2,7 @@ from django.contrib.auth.models import AnonymousUser
 from django.shortcuts import redirect
 from django.urls import resolve
 
+from libraries.forms.generators import error_page
 from users.services import get_user
 
 
@@ -16,13 +17,16 @@ class ProtectAllViewsMiddleware:
 
         if not isinstance(request.user, AnonymousUser):
             if not request.user.organisation:
-                user = get_user(request)
+                user_dict = get_user(request)
 
-                if len(user['organisations']) > 1:
+                if len(user_dict['user']['organisations']) == 0:
+                    return error_page(request, 'You don\'t belong to any organisations', show_back_link=False)
+                elif len(user_dict['user']['organisations']) > 1:
                     return redirect('core:pick_organisation')
                 else:
-                    request.user.organisation = user['organisations'][0]
-                    request.user.save()
+                    user = request.user
+                    user.organisation = user_dict['user']['organisations'][0]['id']
+                    user.save()
 
         response = self.get_response(request)
 

@@ -85,7 +85,9 @@ class AuthCallbackView(View):
 
             user_dict, _ = get_user(request)
 
-            if len(user_dict['user']['organisations']) > 1:
+            if len(user_dict['user']['organisations']) == 0:
+                return error_page(request, 'You don\'t belong to any organisations', show_back_link=False)
+            elif len(user_dict['user']['organisations']) > 1:
                 return redirect('core:pick_organisation')
             else:
                 user.organisation = user_dict['user']['organisations'][0]['id']

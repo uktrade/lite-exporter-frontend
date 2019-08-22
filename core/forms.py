@@ -3,7 +3,7 @@ from libraries.forms.components import Form, RadioButtons, Option
 
 
 def select_your_organisation_form(organisations):
-    return Form('Which organisation do you want to sign in to?',
+    return Form('Which organisation do you want to sign into?',
                 'You can change this later from the home screen.',
                 [
                     RadioButtons(name='organisation',

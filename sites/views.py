@@ -62,8 +62,6 @@ class EditSite(TemplateView):
         return form_page(request, self.form, data=flatten_data(self.site.get('site')))
 
     def post(self, request, **kwargs):
-        print(request.POST)
-
         validated_data, status_code = put_site(request,
                                                self.organisation_id,
                                                str(kwargs['pk']),
