@@ -10,6 +10,7 @@ def register_organisation(driver, request, api_url, exporter_sso_login_info, con
     context.org_registered_status = True
     context.first_name = api.context['first_name']
     context.last_name = api.context['last_name']
+    context.org_name = api.context['org_name']
     timer.print_time('register_organisation')
 
 

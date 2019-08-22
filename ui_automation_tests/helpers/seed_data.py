@@ -166,6 +166,7 @@ class SeedData:
         self.add_to_context('first_name', self.first_name)
         self.add_to_context('last_name', self.last_name)
         self.add_to_context('primary_site_id', self.get_org_primary_site_id(org_id))
+        self.add_to_context('org_name', self.org_name)
 
     def setup_org_for_switching_organisations(self):
         organisation = self.find_org_by_name(self.org_name_for_switching_organisations)

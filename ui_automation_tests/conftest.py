@@ -85,7 +85,7 @@ def go_to_exporter(driver, sso_sign_in, exporter_url, register_organisation, con
     if 'pick-organisation' in driver.current_url:
         Shared(driver).click_on_radio_buttons(0)
         Shared(driver).click_continue()
-    elif Shared(driver).get_text_of_heading() == context.org_name_for_switching_organisations:
+    elif Shared(driver).get_text_of_heading() != context.org_name:
         Hub(driver).click_switch_link()
         Shared(driver).click_on_radio_buttons(0)
         Shared(driver).click_continue()
