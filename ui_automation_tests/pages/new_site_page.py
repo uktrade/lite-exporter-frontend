@@ -20,6 +20,7 @@ class NewSite:
         self.region.send_keys(region)
         self.country.send_keys(country)
         self.country.send_keys(Keys.RETURN)
+        self.region.click()
 
     def clear_info_for_site(self):
         self.name.clear()
