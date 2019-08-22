@@ -188,7 +188,6 @@ def i_click_add_preexisting_locations(driver):
 
 @when('I click continue')
 def i_click_continue(driver):
-    utils.save_screenshot(driver, "name")
     driver.find_element_by_css_selector("button[type*='submit']").click()
 
 
@@ -196,7 +195,7 @@ def i_click_continue(driver):
 def error_message_is(driver, expected_error):
     shared = Shared(driver)
     assert shared.is_error_message_displayed()
-    assert expected_error in shared.get_text_of_error_message()
+    assert expected_error in shared.get_text_of_error_messages()
 
 
 @when(parsers.parse('I select the site at position "{no}"'))

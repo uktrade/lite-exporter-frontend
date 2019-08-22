@@ -97,20 +97,18 @@ def one_ultimate_end_user(driver):
     assert len(elements[no].find_elements_by_css_selector(".govuk-table__row")) == 2, "total on the application overview is incorrect after removing ultimate end user"
 
 
-@then('I see no goods external sites or end user attached error message')
+@then("I see no goods and external sites error message")
 def i_see_no_sites_attached_error(driver):
     shared = Shared(driver)
-    assert "Cannot create an application with no goods attached" in shared.get_text_of_error_message()
-    assert "Cannot create an application with no sites or external sites attached" in \
-           shared.get_text_of_error_message(1)
-    # TODO Investigate?
-    #assert "Cannot create an application without an end user" in shared.get_text_of_error_message(1)
+    assert "Cannot create an application with no goods attached" in shared.get_text_of_error_messages()
+    assert "Cannot create an application with no sites or external sites attached" in shared.get_text_of_error_messages()
 
 
 @then('I see no ultimate end user attached error message')
 def i_see_no_ultimate_end_user_attached_error(driver):
     shared = Shared(driver)
-    assert "Cannot create an application with no ultimate end users set when there is a good which is to be incorporated into an end product" in shared.get_text_of_error_message(1)
+    assert "Cannot create an application with no ultimate end users set when " \
+           "there is a good which is to be incorporated into an end product" in shared.get_text_of_error_messages()
 
 
 @then('I see end user on overview')
@@ -127,9 +125,9 @@ def end_user_on_overview(driver, context):
 @then('I see enter valid quantity and valid value error message')
 def valid_quantity_value_error_message(driver):
     shared = Shared(driver)
-    assert "A valid number is required." in shared.get_text_of_error_message()
-    assert "Enter a valid quantity" in shared.get_text_of_error_message(1)
-    assert "Select a unit" in shared.get_text_of_error_message(2)
+    assert "A valid number is required." in shared.get_text_of_error_messages()
+    assert "Enter a valid quantity" in shared.get_text_of_error_messages()
+    assert "Select a unit" in shared.get_text_of_error_messages()
 
 
 @when(parsers.parse('I click add to application for the good at position "{no}"'))

@@ -189,7 +189,7 @@ Feature: I want to indicate the standard licence I want
     And I add an end user of type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
     And I upload file "file_for_doc_upload_test_1.txt" with description "Doesnt matter really"
     And I click continue
-    Then I see no goods external sites or end user attached error message
+    Then I see no goods and external sites error message
 
   @LT_928_error_message
   Scenario: Error message for empty quantities.
