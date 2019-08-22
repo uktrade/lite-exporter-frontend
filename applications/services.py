@@ -23,6 +23,15 @@ def post_application_case_notes(request, pk, json):
     return data.json(), data.status_code
 
 
+def get_application_ecju_query(request, pk, ecju_query_pk):
+    data = get(request, CASES_URL + pk + ECJU_QUERIES_URL + ecju_query_pk).json()['ecju_query']
+    return data
+
+
 def get_application_ecju_queries(request, pk):
-    data = get(request, CASES_URL + pk + ECJU_QUERIES_URL)
-    return data.json()
+    data = get(request, CASES_URL + pk + ECJU_QUERIES_URL).json()['ecju_queries']
+
+    open_queries = [x for x in data if not x['response']]
+    closed_queries = [x for x in data if x['response']]
+
+    return open_queries, closed_queries

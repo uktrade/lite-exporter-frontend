@@ -2,9 +2,11 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
+from applications.forms import respond_to_query_form
 from applications.services import get_applications, get_application, get_application_case_notes, \
-    get_application_ecju_queries
+    get_application_ecju_queries, get_application_ecju_query
 from core.services import get_notifications
+from libraries.forms.generators import form_page
 
 
 class ApplicationsList(TemplateView):
@@ -46,9 +48,17 @@ class ApplicationDetail(TemplateView):
             context['notes'] = get_application_case_notes(request, case_id)['case_notes']
 
         if view_type == 'ecju-queries':
-            context['ecju_queries'] = get_application_ecju_queries(request, case_id)['ecju_queries']
+            open_queries, closed_queries = get_application_ecju_queries(request, case_id)
+            context['open_queries'] = open_queries
+            context['closed_queries'] = closed_queries
 
         return render(request, 'applications/application.html', context)
+
+
+class RespondToQuery(TemplateView):
+    def get(self, request, **kwargs):
+        ecju_query = get_application_ecju_query(request, kwargs['pk'], kwargs['ecju_pk'])
+        return form_page(request, respond_to_query_form())
 
 
 class CaseNotes(TemplateView):

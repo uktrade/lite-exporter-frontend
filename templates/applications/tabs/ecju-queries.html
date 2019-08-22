@@ -1,31 +1,53 @@
-{% for ecju_query in ecju_queries %}
-
-    <div class="app-ecju-query">
-        <div class="app-ecju-query__item">
-            <p class="app-ecju-query__heading">{{ ecju_query.team.name }}</p>
-            <div class="app-ecju-query__text">
-                {{ ecju_query.question }}
+{% if open_queries %}
+    <h3 class="govuk-heading-m">Open queries</h3>
+    {% for ecju_query in open_queries %}
+        <div class="app-ecju-query">
+            <div class="app-ecju-query__item">
+                <p class="app-ecju-query__heading">{{ ecju_query.team.name }}</p>
+                <div class="app-ecju-query__text">
+                    {{ ecju_query.question }}
+                </div>
+                <p class="app-ecju-query__date">
+                    <span class="govuk-visually-hidden">Created at </span>{{ ecju_query.created_at|str_date }}
+                </p>
             </div>
-            <p class="app-ecju-query__date">
-                <span class="govuk-visually-hidden">Created at </span>{{ ecju_query.created_at|str_date }}
-            </p>
+            <a href="{% url 'applications:respond_to_query' application.id ecju_query.id %}">Respond to query</a>
         </div>
-        <div class="app-ecju-query__item app-ecju-query__item--right">
-            <p class="app-ecju-query__heading">
-                <a href="#" class="govuk-link govuk-link--no-visited-state">Matt Berninger</a>
-            </p>
-            <div class="app-ecju-query__text">
-                {{ ecju_query.question }}
+        <hr class="lite-horizontal-separator">
+    {% endfor %}
+{% endif %}
+
+{% if closed_queries %}
+    <h3 class="govuk-heading-m">Closed queries</h3>
+    <p class="govuk-caption-m">Queries are automatically closed when you respond to them.</p>
+    {% for ecju_query in closed_queries %}
+        <div class="app-ecju-query">
+            <div class="app-ecju-query__item">
+                <p class="app-ecju-query__heading">{{ ecju_query.team.name }}</p>
+                <div class="app-ecju-query__text">
+                    {{ ecju_query.question }}
+                </div>
+                <p class="app-ecju-query__date">
+                    <span class="govuk-visually-hidden">Created at </span>{{ ecju_query.created_at|str_date }}
+                </p>
             </div>
-            <p class="app-ecju-query__date">
-                <span class="govuk-visually-hidden">Created at </span>{{ ecju_query.created_at|str_date }}
-            </p>
+            <div class="app-ecju-query__item app-ecju-query__item--right">
+                <p class="app-ecju-query__heading">
+                    <a href="#" class="govuk-link govuk-link--no-visited-state">Matt Berninger</a>
+                </p>
+                <div class="app-ecju-query__text">
+                    {{ ecju_query.question }}
+                </div>
+                <p class="app-ecju-query__date">
+                    <span class="govuk-visually-hidden">Created at </span>{{ ecju_query.created_at|str_date }}
+                </p>
+            </div>
         </div>
-    </div>
+        <hr class="lite-horizontal-separator">
+    {% endfor %}
+{% endif %}
 
-    <hr class="lite-horizontal-separator">
-
-    {% empty %}
+{% if not open_queries and not closed_queries %}
     <div class="lite-information-text">
         <span class="lite-information-text__icon" aria-hidden="true">!</span>
         <p class="lite-information-text__text">
@@ -33,4 +55,4 @@
             There haven't been any queries on this application.
         </p>
     </div>
-{% endfor %}
+{% endif %}
