@@ -46,12 +46,14 @@ class NewSite(TemplateView):
 
 
 class EditSite(TemplateView):
+    organisation_id = None
     site = None
     form = None
 
     def dispatch(self, request, *args, **kwargs):
-        organisation_id = str(request.user.organisation)
-        self.site, status_code = get_site(request, organisation_id, str(kwargs['pk']))
+        self.organisation_id = str(request.user.organisation)
+        self.site, status_code = get_site(request, self.organisation_id, str(kwargs['pk']))
+        self.site['site']['address']['country'] = self.site['site']['address']['country']['id']
         self.form = edit_site_form('Edit ' + self.site['site']['name'])
 
         return super(EditSite, self).dispatch(request, *args, **kwargs)
@@ -60,7 +62,12 @@ class EditSite(TemplateView):
         return form_page(request, self.form, data=flatten_data(self.site.get('site')))
 
     def post(self, request, **kwargs):
-        validated_data, status_code = put_site(request, str(kwargs['pk']), json=nest_data(request.POST))
+        print(request.POST)
+
+        validated_data, status_code = put_site(request,
+                                               self.organisation_id,
+                                               str(kwargs['pk']),
+                                               json=nest_data(request.POST))
 
         if 'errors' in validated_data:
             validated_data['errors'] = flatten_data(validated_data['errors'])
