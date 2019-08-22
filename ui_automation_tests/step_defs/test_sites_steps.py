@@ -35,7 +35,7 @@ def click_new_site(driver):
     hub.click_sites_link()
 
 
-@when(parsers.parse('I enter in text for new site "{edited}" {address}" "{postcode}" "{city}" '
+@when(parsers.parse('I enter in text for new site "{edited}" "{address}" "{postcode}" "{city}" '
                     '"{region}" and "{country}"'))
 def new_sites_info(driver, edited, address, postcode, city, region, country, context):
     new_site = NewSite(driver)
