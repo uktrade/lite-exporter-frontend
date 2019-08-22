@@ -29,10 +29,6 @@
 	{% if data.external_locations|length %}
 		{% for external_location in data.external_locations %}
 			<div class="lite-card">
-				<!--<a href="#" class="lite-card-delete">
-					{% svg 'close' %}
-					<span class="govuk-visually-hidden">Remove location</span>
-				</a>-->
 				<h4 class="govuk-heading-s" style="margin-bottom: 0;">{{ external_location.name }}</h4>
 				<p class="govuk-label">{{ external_location.address|linebreaksbr }}<br>{{ external_location.country }}</p>
 			</div>
