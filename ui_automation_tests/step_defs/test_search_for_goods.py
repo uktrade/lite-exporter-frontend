@@ -31,7 +31,8 @@ def remove_filters(driver, context):
 @then(parsers.parse('I see my added good by "{type}"'))
 def see_added_good(driver, type, context):
     application_goods_list = ApplicationGoodsList(driver)
-    assert application_goods_list.get_size_of_goods() == 1
+    if not type == 'control rating':
+        assert application_goods_list.get_size_of_goods() == 1
     if type == 'description':
         assert application_goods_list.get_tag_name_of_good(0) == context.good_description
     elif type == 'part number':
