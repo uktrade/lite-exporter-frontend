@@ -96,7 +96,7 @@ class RespondToQuery(TemplateView):
         application_id = str(kwargs['pk'])
         ecju_query = get_application_ecju_query(request, str(kwargs['pk']), str(kwargs['query_pk']))
 
-        if not ecju_query['response']:
+        if ecju_query['response']:
             raise Http404
 
         return form_page(request, respond_to_query_form(application_id, ecju_query))
