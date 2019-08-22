@@ -167,7 +167,7 @@ class SeedData:
         self.log("Creating case note: ...")
         data = self.request_data['case_note']
         context.text = self.case_note_text
-        response = self.make_request("POST", url='/cases/' + context.case_id + '/case_notes/', headers=self.gov_headers, body=data)
+        response = self.make_request("POST", url='/cases/' + context.case_id + '/case-notes/', headers=self.gov_headers, body=data)
         print(response)
 
     def find_org_by_name(self):

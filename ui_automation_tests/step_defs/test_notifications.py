@@ -43,4 +43,4 @@ def notification_does_not_exist(driver, context):
     exporter_hub_page = ExporterHubPage(driver)
     if context.number_of_notifications != 1:
         number_of_notifications_after_acknowledgment = exporter_hub_page.return_number_of_notifications()
-        assert number_of_notifications_after_acknowledgment+1 == context.number_of_notifications
+        assert number_of_notifications_after_acknowledgment + 1 == context.number_of_notifications
