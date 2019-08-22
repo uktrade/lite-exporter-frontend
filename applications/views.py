@@ -4,7 +4,7 @@ from django.views.generic import TemplateView
 
 from applications.forms import respond_to_query_form
 from applications.services import get_applications, get_application, get_application_case_notes, \
-    get_application_ecju_queries, get_application_ecju_query
+    get_application_ecju_queries, get_application_ecju_query, put_application_ecju_query
 from core.services import get_notifications
 from libraries.forms.generators import form_page
 
@@ -57,8 +57,25 @@ class ApplicationDetail(TemplateView):
 
 class RespondToQuery(TemplateView):
     def get(self, request, **kwargs):
-        ecju_query = get_application_ecju_query(request, kwargs['pk'], kwargs['ecju_pk'])
-        return form_page(request, respond_to_query_form())
+        application_id = str(kwargs['pk'])
+        ecju_query = get_application_ecju_query(request, str(kwargs['pk']), str(kwargs['query_pk']))
+
+        return form_page(request, respond_to_query_form(application_id, ecju_query))
+
+    def post(self, request, **kwargs):
+        application_id = str(kwargs['pk'])
+        ecju_query_id = str(kwargs['query_pk'])
+        ecju_query = get_application_ecju_query(request, application_id, ecju_query_id)
+
+        data, status_code = put_application_ecju_query(request, str(kwargs['pk']), str(kwargs['query_pk']),
+                                                       request.POST)
+
+        if 'errors' in data:
+            return form_page(request, respond_to_query_form(application_id, ecju_query), data=request.POST,
+                             errors=data['errors'])
+
+        return redirect(reverse_lazy('applications:application-detail', kwargs={'pk': application_id,
+                                                                                'type': 'ecju-query'}))
 
 
 class CaseNotes(TemplateView):

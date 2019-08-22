@@ -33,10 +33,12 @@
             </div>
             <div class="app-ecju-query__item app-ecju-query__item--right">
                 <p class="app-ecju-query__heading">
-                    <a href="#" class="govuk-link govuk-link--no-visited-state">Matt Berninger</a>
+                    <a href="{% url 'users:user' ecju_query.responded_by_user.id %}" class="govuk-link govuk-link--no-visited-state">
+                        {{ ecju_query.responded_by_user.first_name }} {{ ecju_query.responded_by_user.last_name }}
+                    </a>
                 </p>
                 <div class="app-ecju-query__text">
-                    {{ ecju_query.question }}
+                    {{ ecju_query.response }}
                 </div>
                 <p class="app-ecju-query__date">
                     <span class="govuk-visually-hidden">Created at </span>{{ ecju_query.created_at|str_date }}

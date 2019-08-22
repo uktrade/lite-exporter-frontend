@@ -1,6 +1,10 @@
 $text-margin: govuk-spacing(3);
 
 .app-ecju-query {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: govuk-spacing(6);
+
     &__item {
         margin-bottom: govuk-spacing(6);
 
