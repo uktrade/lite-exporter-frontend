@@ -79,7 +79,9 @@ Feature: I want to search for goods in my goods list to add to an in progress ap
     And I click the add from organisations goods button
     And I filter by description and click filter
     And I filter by part number and click filter
+    And I filter by control rating and click filter
     Then I see my added Good by "part number"
     And I see my added Good by "description"
+    And I see my added Good by "control rating"
     When I remove the filters
     Then I see all goods

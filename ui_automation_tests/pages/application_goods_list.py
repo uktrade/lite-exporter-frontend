@@ -57,4 +57,4 @@ class ApplicationGoodsList:
 
     def remove_filters(self):
         for tag in range(len(self.driver.find_elements_by_css_selector(self.filter_tags))):
-            self.driver.find_elements_by_css_selector(self.filter_tags)[tag-1].click()
+            self.driver.find_elements_by_css_selector(self.filter_tags)[0].click()
