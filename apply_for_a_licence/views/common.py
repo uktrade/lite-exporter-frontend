@@ -458,10 +458,11 @@ class DeleteDocument(TemplateView):
 
     def post(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
-
-        if request.POST.get('delete_document_confirmation').lower() == 'yes':
+        option = request.POST.get('delete_document_confirmation')
+        if option is None:
+            return redirect(reverse('apply_for_a_licence:delete_document', kwargs={'pk': draft_id}))
+        elif option == 'yes':
             status_code = delete_draft_end_user_documents(request, draft_id)
-
             if status_code is not 204:
                 return error_page(None, 'We had an issue deleting your files. Try again later.')
 
