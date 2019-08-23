@@ -53,13 +53,7 @@ def attach_document_form(draft_url):
     return Form(get_string('end_user.documents.attach_documents.title'),
                 get_string('end_user.documents.attach_documents.description'),
                 [
-                    FileUpload('documents'),
-                    TextArea(title=get_string('end_user.documents.attach_documents.description_field_title'),
-                             description=get_string('end_user.documents.attach_documents.description_field_details'),
-                             name='description',
-                             extras={
-                                 'max_length': 280,
-                             })
+                    FileUpload('documents')
                 ],
                 back_link=BackLink(get_string('end_user.documents.attach_documents.back_to_application_overview'), draft_url))
 

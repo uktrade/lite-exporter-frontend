@@ -13,6 +13,7 @@ from goods import forms
 from goods.forms import edit_form, attach_documents_form
 from goods.services import get_goods, post_goods, get_good, update_good, delete_good, get_good_documents, get_good_document, delete_good_document, post_good_documents, raise_clc_query
 from libraries.forms.generators import form_page, error_page
+from apply_for_a_licence.services import add_document_data
 
 
 class Goods(TemplateView):
@@ -158,7 +159,10 @@ class AttachDocuments(TemplateView):
         good_id = str(kwargs['pk'])
         good, status_code = get_good(request, good_id)
 
-        data, error = self.add_document_data(request)
+        data, error = add_document_data(request)
+        if 'description' not in data:
+            data['description'] = ''
+        data = [data]
 
         if error:
             return error_page(None, error)
@@ -173,30 +177,6 @@ class AttachDocuments(TemplateView):
             return redirect(reverse('goods:raise_clc_query', kwargs={'pk': good_id}))
 
         return redirect(reverse('goods:good', kwargs={'pk': good_id}))
-
-    @staticmethod
-    def add_document_data(request):
-        data = []
-        files = request.FILES.getlist("file")
-        if len(files) is 0:
-            return None, 'No files attached'
-
-        if len(files) is not 1:
-            return None, 'Multiple files attached'
-        file = files[0]
-        try:
-            original_name = file.original_name
-        except Exception:
-            original_name = file.name
-
-        data.append({
-            'name': original_name,
-            's3_key': file.name,
-            'size': int(file.size / 1024) if file.size else 0,  # in kilobytes
-            'description': request.POST['description'],
-        })
-
-        return data, None
 
 
 class Document(TemplateView):

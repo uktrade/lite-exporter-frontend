@@ -21,6 +21,7 @@ from drafts.services import post_drafts, get_draft, get_draft_goods, post_draft_
 from goods.services import get_goods, get_good
 from libraries.forms.generators import form_page, success_page, error_page
 from libraries.forms.submitters import submit_paged_form
+from apply_for_a_licence.services import add_document_data
 
 
 class StartApplication(TemplateView):
@@ -384,7 +385,7 @@ class AttachDocuments(TemplateView):
         self.request.upload_handlers.insert(0, S3FileUploadHandler(request))
 
         draft_id = str(kwargs['pk'])
-        data, error = self.add_document_data(request)
+        data, error = add_document_data(request)
 
         if error:
             return error_page(None, 'We had an issue uploading your files. Try again later.')
@@ -396,28 +397,6 @@ class AttachDocuments(TemplateView):
             return error_page(None, 'We had an issue uploading your files. Try again later.')
 
         return redirect(reverse('apply_for_a_licence:overview', kwargs={'pk': draft_id}))
-
-    @staticmethod
-    def add_document_data(request):
-        files = request.FILES.getlist("file")
-        if len(files) is not 1:
-            return None, True
-
-        file = files[0]
-        try:
-            original_name = file.original_name
-        except Exception:
-            original_name = file.name
-
-        data = {
-            'name': original_name,
-            's3_key': file.name,
-            'size': int(file.size / 1024) if file.size else 0,  # in kilobytes
-            'description': request.POST['description'],
-        }
-
-        return data, None
-
 
 class DownloadDocument(TemplateView):
     def get(self, request, **kwargs):
