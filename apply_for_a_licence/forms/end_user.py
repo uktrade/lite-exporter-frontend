@@ -2,6 +2,7 @@ from core.builtins.custom_tags import get_string
 from core.services import get_countries
 from libraries.forms.components import Form, Question, InputType, Section, ArrayQuestion, Option, RadioButtons, \
     FileUpload, BackLink, TextArea
+from libraries.forms.generators import confirm_form
 
 
 def new_end_user_form():
@@ -64,18 +65,8 @@ def attach_document_form(draft_url):
 
 
 def delete_document_confirmation_form(overview_url):
-    return Form(title='Are you sure you want to delete this document?',
-                description='',
-                questions=[
-                     RadioButtons(title='',
-                                  name='delete_document_confirmation',
-                                  description='',
-                                  options=[
-                                      Option(key='yes', value='Yes'),
-                                      Option(key='no', value='No')
-                                  ]),
-                ],
-                back_link=BackLink('Back to ' + get_string(
-                    'end_user.documents.attach_documents.back_to_application_overview'), overview_url),
-                default_button_name='Submit'
-                )
+    return confirm_form(title='Are you sure you want to delete this document?',
+                        confirmation_name='delete_document_confirmation',
+                        back_link_text=get_string('end_user.documents.attach_documents.back_to_application_overview'),
+                        back_url=overview_url
+                        )
