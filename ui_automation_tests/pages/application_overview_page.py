@@ -1,3 +1,6 @@
+from ui_automation_tests.helpers.helpers import scroll_to_bottom_of_page
+
+
 class ApplicationOverviewPage:
 
     def __init__(self, driver):
@@ -47,7 +50,7 @@ class ApplicationOverviewPage:
         return self.driver.find_element_by_css_selector(self.show_countries_link).text
 
     def click_on_countries_selected(self):
-        self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight)")
+        scroll_to_bottom_of_page(self.driver)
         self.driver.find_element_by_css_selector(self.show_countries_link).click()
 
     def click_on_modal_close(self):
@@ -66,9 +69,9 @@ class ApplicationOverviewPage:
         return self.driver.find_element_by_css_selector(self.submit_application_button).is_enabled()
 
     def click_on_add_end_user_document(self):
-        self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight)")
+        scroll_to_bottom_of_page(self.driver)
         self.driver.find_element_by_id(self.attach_end_user_document_link).click()
 
     def click_delete_end_user_document(self):
-        self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight)")
+        scroll_to_bottom_of_page(self.driver)
         self.driver.find_element_by_id(self.delete_end_user_document).click()
