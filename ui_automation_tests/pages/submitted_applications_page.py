@@ -20,6 +20,7 @@ class SubmittedApplicationsPages:
         return self.driver.find_element_by_id(self.case_note_field).text
 
     def click_post_note_btn(self):
+        time.sleep(.5)
         self.driver.find_element_by_id(self.post_note_btn).click()
 
     def click_cancel_btn(self):
