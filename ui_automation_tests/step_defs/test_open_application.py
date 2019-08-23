@@ -24,7 +24,6 @@ def goods_type_errors(driver):
     shared = Shared(driver)
     assert "This field may not be blank." in shared.get_text_of_error_messages()
     assert "This field is required." in shared.get_text_of_error_messages()
-    assert "This field is required." in shared.get_text_of_error_messages()
 
 
 @when('I click overview')

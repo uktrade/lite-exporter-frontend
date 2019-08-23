@@ -286,11 +286,6 @@ def raise_clc_query(driver, control_code, description):
     exporter_hub.click_save_and_continue()
 
 
-@when("I click yes on the confirmation")
-def click_yes_on_confirm(driver):
-    Shared(driver).click_confirm_yes()
-
-
 @when('I click on the goods link from overview')
 def click_goods_link_overview(driver):
     overview_page = ApplicationOverviewPage(driver)
