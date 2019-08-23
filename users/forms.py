@@ -1,6 +1,8 @@
-from libraries.forms.components import Question, Form, InputType
+from django.urls import reverse_lazy
 
-form = Form(title='Add User', description='', caption='', questions=[
+from libraries.forms.components import Question, Form, InputType, BackLink
+
+_questions = [
     Question(title='First name',
              description='',
              input_type=InputType.INPUT,
@@ -13,19 +15,16 @@ form = Form(title='Add User', description='', caption='', questions=[
              description='',
              input_type=InputType.INPUT,
              name='email'),
-])
+]
 
-edit_form = Form(title='Edit User', description='', caption='', questions=[
-    Question(title='Email',
-             description='',
-             input_type=InputType.INPUT,
-             name='email'),
-    Question(title='First name',
-             description='',
-             input_type=InputType.INPUT,
-             name='first_name'),
-    Question(title='Last name',
-             description='',
-             input_type=InputType.INPUT,
-             name='last_name'),
-])
+_back_link = BackLink('Back to Users', reverse_lazy('users:users'))
+
+form = Form(title='Add a member to your organisation',
+            description='',
+            questions=_questions,
+            back_link=_back_link)
+
+edit_form = Form(title='Edit member',
+                 description='',
+                 questions=_questions,
+                 back_link=_back_link)
