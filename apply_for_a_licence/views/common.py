@@ -399,7 +399,6 @@ class AttachDocuments(TemplateView):
 
     @staticmethod
     def add_document_data(request):
-        data = []
         files = request.FILES.getlist("file")
         if len(files) is not 1:
             return None, True
@@ -410,12 +409,12 @@ class AttachDocuments(TemplateView):
         except Exception:
             original_name = file.name
 
-        data.append({
+        data = {
             'name': original_name,
             's3_key': file.name,
             'size': int(file.size / 1024) if file.size else 0,  # in kilobytes
             'description': request.POST['description'],
-        })
+        }
 
         return data, None
 

@@ -14,7 +14,6 @@ Feature: I  want to add and rename my sites
     Then I see sites list
 
   @LT_933_edit
-  @BAA
   Scenario: Edit a site
     Given I go to exporter homepage
     When I click sites link

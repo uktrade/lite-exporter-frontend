@@ -98,12 +98,12 @@ class SeedData:
             'text': case_note_text,
             'is_visible_to_exporter': True
         },
-        "document": [{
+        "document": {
             'name': 'document 1',
             's3_key': env('TEST_S3_KEY'),
             'size': 0,
             'description': 'document for test setup'
-        }]
+        }
     }
 
     def __init__(self, api_url, logging=True):
@@ -153,7 +153,7 @@ class SeedData:
         self.add_document(item['id'])
 
     def add_document(self, good_id):
-        data = self.request_data['document']
+        data = [self.request_data['document']]
         response = self.make_request("POST", url='/goods/' + good_id + '/documents/', headers=self.export_headers, body=data)
         print(response)
 
@@ -196,7 +196,7 @@ class SeedData:
         self.make_request("POST", url='/drafts/' + draft_id + '/end-user/', headers=self.export_headers,
                           body=data)
         data = self.request_data['document']
-        self.make_request("POST", url='/drafts/' + draft_id + '/end-user/documents/', headers=self.export_headers,
+        self.make_request("POST", url='/drafts/' + draft_id + '/end-user/document/', headers=self.export_headers,
                           body=data)
         self.log("Adding good: ...")
         data = self.request_data['add_good'] if good is None else good
