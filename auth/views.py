@@ -98,8 +98,8 @@ class AuthCallbackView(View):
 
 class AuthLogoutView(TemplateView):
     def get(self, request, **kwargs):
-        User.objects.get(id=request.user.id).delete()
+        request.user.delete()
         logout(request)
-        return '/'
+        return redirect('/')
 
 
