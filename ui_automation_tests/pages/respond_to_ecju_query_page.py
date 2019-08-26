@@ -8,10 +8,10 @@ class RespondToEcjuQueryPage:
         self.response_form = 'response'  # id
         self.submit_button = "button[type*='submit']"
 
-    def enter_form_response(self, value):
-        address_tb = self.driver.find_element_by_id(self.response_form)
-        address_tb.clear()
-        address_tb.send_keys(value)
+    def enter_form_response(self, value, ):
+        response_tb = self.driver.find_element_by_id(self.response_form)
+        response_tb.clear()
+        response_tb.send_keys(value)
 
     def click_submit(self):
         self.driver.find_element_by_css_selector(self.submit_button).click()
