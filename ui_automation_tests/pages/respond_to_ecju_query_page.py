@@ -14,4 +14,5 @@ class RespondToEcjuQueryPage:
         response_tb.send_keys(value)
 
     def click_submit(self):
-        self.driver.find_element_by_css_selector(self.submit_button).click()
+        pass
+        # self.driver.find_element_by_css_selector(self.submit_button).click()

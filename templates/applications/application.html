@@ -31,9 +31,11 @@
 	<div class="lite-tabs">
 		<a href="{% url 'applications:application-detail' application.id 'case-notes' %}" class="lite-tabs__tab {% if type == 'case-notes' %}selected{% endif %}" id="case-notes-tab">
 			Notes
-			<div class="lite-notification-bubble">
-				1
-			</div>
+            {% if notifications %}
+                <div class="lite-notification-bubble">
+                    {{ notifications }}
+                </div>
+            {% endif %}
 		</a>
 		<a href="{% url 'applications:application-detail' application.id 'ecju-queries' %}" class="lite-tabs__tab {% if type == 'ecju-queries' %}selected{% endif %}" id="ecju-queries-tab">
 			ECJU Queries
@@ -51,7 +53,6 @@
 		<a class="lite-tabs__tab">Outcome Documents</a> -->
 	</div>
 </div>
-
 {% if type == 'case-notes' %}
 	{% include "applications/tabs/case-notes.html" %}
 {% elif type == 'ecju-queries'%}

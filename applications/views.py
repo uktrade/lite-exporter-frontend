@@ -52,6 +52,10 @@ class ApplicationDetail(TemplateView):
 
     def get(self, request, **kwargs):
         open_queries, closed_queries = get_application_ecju_queries(request, self.case_id)
+        data, status_code = get_application(request, pk=self.application_id)
+        # add application number to next query
+        notifications, _ = get_notifications(request, unviewed=True)
+        notifications = len([x for x in notifications['results'] if x['application'] == self.case_id])
 
         context = {
             'application': self.application,
@@ -59,6 +63,9 @@ class ApplicationDetail(TemplateView):
             'type': self.view_type,
             'open_queries': open_queries,
         }
+
+        if notifications > 0:
+            context['notifications'] = notifications
 
         if self.view_type == 'case-notes':
             context['notes'] = get_application_case_notes(request, self.case_id)['case_notes']
