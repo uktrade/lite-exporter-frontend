@@ -16,7 +16,7 @@ register = template.Library()
 
 
 @register.simple_tag
-def get_string(value):
+def get_string(value, *args, **kwargs):
     """
     Given a string, such as 'cases.manage.attach_documents' it will return the relevant value
     from the strings.json file
@@ -34,7 +34,7 @@ def get_string(value):
         else:
             return d[keys]
 
-    return get(strings.constants, value)
+    return get(strings.constants, value).format(*args, **kwargs)
 
 
 @register.filter
