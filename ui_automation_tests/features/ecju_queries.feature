@@ -4,7 +4,6 @@ I want to see when there are ECJU queries (RFIs) relating to my applications, qu
 So that I can quickly identify where action is required by me and respond to any queries
 
   @LT_996
-  @MSTG
   Scenario: view and respond to a ecju_query
     Given I go to exporter homepage
     When I click on applications
