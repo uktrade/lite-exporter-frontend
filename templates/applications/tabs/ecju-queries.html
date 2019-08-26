@@ -1,7 +1,7 @@
 {% if open_queries %}
     <h3 class="govuk-heading-m">Open queries</h3>
     {% for ecju_query in open_queries %}
-        <div class="app-ecju-query">
+        <div class="app-ecju-query" id="open-ecju-query">
             <div class="app-ecju-query__item">
                 <p class="app-ecju-query__heading">{{ ecju_query.team.name }}</p>
                 <div class="app-ecju-query__text">
@@ -22,7 +22,7 @@
     <p class="govuk-caption-m">Queries are automatically closed when you respond to them.</p>
     <br><br>
     {% for ecju_query in closed_queries %}
-        <div class="app-ecju-query">
+        <div class="app-ecju-query" id="closed-ecju-query">
             <div class="app-ecju-query__item">
                 <p class="app-ecju-query__heading">{{ ecju_query.team.name }}</p>
                 <div class="app-ecju-query__text">

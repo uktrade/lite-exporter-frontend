@@ -10,6 +10,7 @@ from fixtures.add_goods import add_a_good, add_an_incorporated_good_to_applicati
 from fixtures.add_an_application import add_an_application
 from fixtures.sso_sign_in import sso_sign_in
 from fixtures.internal_case_note import internal_case_note
+from fixtures.internal_ecju_query import internal_ecju_query
 from fixtures.urls import exporter_url, api_url
 
 import helpers.helpers as utils

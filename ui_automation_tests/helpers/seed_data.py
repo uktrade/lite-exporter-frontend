@@ -15,6 +15,7 @@ class SeedData:
     org_name = "Test Org"
     logging = True
     case_note_text = 'I Am Easy to Find'
+    ecju_query_text = 'This is a question, please answer'
     first_name = "Trinity"
     last_name = "Fishburne"
 
@@ -97,6 +98,9 @@ class SeedData:
             'text': case_note_text,
             'is_visible_to_exporter': True
         },
+        "ecju_query": {
+            'question': ecju_query_text
+        },
         "document": [{
             'name': 'document 1',
             's3_key': env('TEST_S3_KEY'),
@@ -168,6 +172,13 @@ class SeedData:
         data = self.request_data['case_note']
         context.text = self.case_note_text
         response = self.make_request("POST", url='/cases/' + context.case_id + '/case-notes/', headers=self.gov_headers, body=data)
+        print(response)
+
+    def add_ecju_query(self, context):
+        self.log("Creating ecju query: ...")
+        data = self.request_data['ecju_query']
+        context.text = self.ecju_query_text
+        response = self.make_request("POST", url='/cases/' + context.case_id + '/ecju-queries/', headers=self.gov_headers, body=data)
         print(response)
 
     def find_org_by_name(self):

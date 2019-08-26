@@ -1,3 +1,4 @@
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.ui import Select
 import time
 
@@ -19,6 +20,12 @@ class ApplicationPage():
         self.activity_dates = ".lite-activity-item .govuk-hint"
         self.activity_user = ".user"
         self.is_visible_to_exporter_checkbox_id = 'is_visible_to_exporter'
+        self.case_note_tab = "case-notes-tab"  # ID
+        self.ecju_query_tab = "ecju-queries-tab"  # ID
+        self.ecju_queries_open = "open-ecju-query"
+        self.ecju_query_response_text = 'Respond to query'
+        self.ecju_queries_closed = "closed-ecju-query"
+        self.respond = "govuk-link govuk-link--no-visited-state"  # css
 
     def click_visible_to_exporter_checkbox(self):
         self.driver.find_element_by_id(self.is_visible_to_exporter_checkbox_id).click()
@@ -70,3 +77,26 @@ class ApplicationPage():
 
     def get_text_of_activity_users(self, no):
         return self.driver.find_elements_by_css_selector(self.activity_user)[no].text
+
+    def click_case_note_tab(self):
+        self.driver.find_element_by_id(self.case_note_tab).click()
+
+    def click_ecju_query_tab(self):
+        self.driver.find_element_by_id(self.ecju_query_tab).click()
+
+    def get_count_of_open_ecju_queries(self):
+        return len(self.driver.find_elements_by_id(self.ecju_queries_open))
+
+    def get_count_of_closed_ecju_queries(self):
+        return len(self.driver.find_elements_by_id(self.ecju_queries_closed))
+
+    def respond_to_ecju_query(self, no):
+        response = '//a[contains(text(), "' + self.ecju_query_response_text + '")]'
+        self.driver.find_elements_by_xpath(response)[no].click()
+
+    def get_bubble_value(self, text):
+        bubble = '//a[contains(text(), "' + text + '")]//div'
+        try:
+            return int(self.driver.find_element_by_xpath(bubble).text)
+        except NoSuchElementException:
+            return 0

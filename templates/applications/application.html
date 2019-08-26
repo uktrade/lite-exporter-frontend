@@ -29,13 +29,13 @@
 
 <div class="lite-tabs--fade">
 	<div class="lite-tabs">
-		<a href="{% url 'applications:application-detail' application.id 'case-notes' %}" class="lite-tabs__tab {% if type == 'case-notes' %}selected{% endif %}">
+		<a href="{% url 'applications:application-detail' application.id 'case-notes' %}" class="lite-tabs__tab {% if type == 'case-notes' %}selected{% endif %}" id="case-notes-tab">
 			Notes
 			<div class="lite-notification-bubble">
 				1
 			</div>
 		</a>
-		<a href="{% url 'applications:application-detail' application.id 'ecju-queries' %}" class="lite-tabs__tab {% if type == 'ecju-queries' %}selected{% endif %}">
+		<a href="{% url 'applications:application-detail' application.id 'ecju-queries' %}" class="lite-tabs__tab {% if type == 'ecju-queries' %}selected{% endif %}" id="ecju-queries-tab">
 			ECJU Queries
 			{% if open_queries %}
 				<div class="lite-notification-bubble">
@@ -47,7 +47,7 @@
 		<a class="lite-tabs__tab selected">Destinations</a>
 		<a class="lite-tabs__tab selected">Notes</a>
 		<a class="lite-tabs__tab">Messages</a>
-		<a class="lite-tabs__tab">Ammend/Withdraw</a>
+		<a class="lite-tabs__tab">Amend/Withdraw</a>
 		<a class="lite-tabs__tab">Outcome Documents</a> -->
 	</div>
 </div>
