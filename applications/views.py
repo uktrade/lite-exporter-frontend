@@ -51,25 +51,30 @@ class ApplicationDetail(TemplateView):
         return super(ApplicationDetail, self).dispatch(request, *args, **kwargs)
 
     def get(self, request, **kwargs):
-        open_queries, closed_queries = get_application_ecju_queries(request, self.case_id)
         # add application number to next query
         notifications, _ = get_notifications(request, unviewed=True)
-        notifications = len([x for x in notifications['results'] if x['application'] == self.application_id])
+        case_note_notifications = len([x for x in notifications['results'] if x['application'] == self.application_id
+                                                                           and x['case_note']])
+        ecju_query_notifications = len([x for x in notifications['results'] if x['application'] == self.application_id
+                                                                           and x['ecju_query']])
+
         context = {
             'application': self.application,
             'title': self.application['name'],
             'type': self.view_type,
-            'open_queries': open_queries,
         }
 
-        if notifications > 0:
-            context['notifications'] = notifications
+        if case_note_notifications > 0:
+            context['case_note_notifications'] = case_note_notifications
+
+        if ecju_query_notifications > 0:
+            context['ecju_query_notifications'] = ecju_query_notifications
 
         if self.view_type == 'case-notes':
             context['notes'] = get_application_case_notes(request, self.case_id)['case_notes']
 
         if self.view_type == 'ecju-queries':
-            context['closed_queries'] = closed_queries
+            context['open_queries'], context['closed_queries'] = get_application_ecju_queries(request, self.case_id)
 
         return render(request, 'applications/application.html', context)
 

@@ -1,4 +1,4 @@
-from django.http import StreamingHttpResponse
+from django.http import StreamingHttpResponse, Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.utils.decorators import method_decorator
@@ -6,6 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
 from s3chunkuploader.file_handler import S3FileUploadHandler, s3_client
 
+from applications.services import get_application_ecju_queries, get_application_case_notes
 from conf import settings
 from conf.settings import AWS_STORAGE_BUCKET_NAME
 from core.services import get_clc_notifications
@@ -29,7 +30,31 @@ class Goods(TemplateView):
         return render(request, 'goods/index.html', context)
 
 
+class GoodsDetailEmpty(TemplateView):
+    def get(self, request, **kwargs):
+        good_id = str(kwargs['pk'])
+        return redirect(reverse_lazy('goods:good-detail', kwargs={'pk': good_id,
+                                                           'type': 'case-notes'}))
+
+
 class GoodsDetail(TemplateView):
+
+    good_id = None
+    good = None
+    view_type = None
+
+    def dispatch(self, request, *args, **kwargs):
+        self.good_id = str(kwargs['pk'])
+        good, status_code = get_good(request, self.good_id)
+        self.good = good['good']
+        self.view_type = kwargs['type']
+
+        if self.view_type != 'case-notes' and self.view_type != 'ecju-queries':
+            return Http404
+
+        return super(GoodsDetail, self).dispatch(request, *args, **kwargs)
+
+
     def get(self, request, **kwargs):
         good_id = kwargs['pk']
         data, status_code = get_good(request, str(good_id))
@@ -46,6 +71,13 @@ class GoodsDetail(TemplateView):
                     'title': data['good']['description'],
                 }
 
+                if self.view_type == 'case-notes':
+                    context['notes'] = get_application_case_notes(request, self.case_id)['case_notes']
+
+                if self.view_type == 'ecju-queries':
+                    context['open_queries'], context['closed_queries'] = get_application_ecju_queries(request,
+                                                                                                      self.case_id)
+
                 return render(request, 'goods/good.html', context)
 
         context = {
@@ -53,6 +85,7 @@ class GoodsDetail(TemplateView):
             'documents': documents['documents'],
             'title': data['good']['description'],
         }
+
         return render(request, 'goods/good.html', context)
 
 

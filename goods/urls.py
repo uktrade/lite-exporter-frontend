@@ -7,7 +7,9 @@ urlpatterns = [
     # ex: /goods/
     path('', views.Goods.as_view(), name='goods'),
     # ex: /goods/43a88949-5db9-4334-b0cc-044e91827451
-    path('<uuid:pk>', views.GoodsDetail.as_view(), name='good'),
+    path('<uuid:pk>', views.GoodsDetailEmpty.as_view(), name='good'),
+    # ex: /goods/43a88949-5db9-4334-b0cc-044e91827451/case-notes/
+    path('<uuid:pk>/<str:type>/', views.GoodsDetail.as_view(), name='good-detail'),
     # ex: /goods/add/
     path('add/', views.AddGood.as_view(), name='add'),
     # ex: /goods/edit/<uuid:pk>/ - Edit a specific good
