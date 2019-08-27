@@ -1,10 +1,10 @@
-from lite_forms.components import Form, RadioButtons, Option, TextArea, Select, TextInput
+from lite_forms.components import Form, RadioButtons, Option, TextArea, Select, TextInput, FormGroup
 
 from core.services import get_countries
 
 
 def new_ultimate_end_user_form():
-    return [
+    return FormGroup([
         Form(title='How would you describe this recipient of your goods?',
              questions=[
                  RadioButtons('type',
@@ -35,4 +35,4 @@ def new_ultimate_end_user_form():
                         options=get_countries(None, True)),
              ],
              default_button_name='Save and continue')
-    ]
+    ])

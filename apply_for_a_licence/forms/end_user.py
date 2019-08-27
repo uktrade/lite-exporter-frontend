@@ -1,10 +1,10 @@
-from lite_forms.components import RadioButtons, Form, Option, TextArea, Select, TextInput
+from lite_forms.components import RadioButtons, Form, Option, TextArea, Select, TextInput, FormGroup
 
 from core.services import get_countries
 
 
 def new_end_user_forms():
-    return [
+    return FormGroup([
         Form(title='Who will be the final recipient (end-user) of your goods?',
              questions=[
                  RadioButtons('type',
@@ -15,19 +15,16 @@ def new_end_user_forms():
                                   Option('other', 'Other', show_or=True),
                               ]),
              ],
-             pk='1',
              default_button_name='Continue'),
         Form(title='Enter the final recipient\'s name',
              questions=[
                  TextInput('name'),
              ],
-             pk='2',
              default_button_name='Continue'),
         Form(title='Enter the final recipient\'s web address (URL)',
              questions=[
                  TextInput('website', optional=True),
              ],
-             pk='3',
              default_button_name='Continue'),
         Form(title='Where\'s the final recipient based?',
              questions=[
@@ -36,6 +33,5 @@ def new_end_user_forms():
                         name='country',
                         options=get_countries(None, True)),
              ],
-             pk='4',
              default_button_name='Save and continue')
-    ]
+    ])

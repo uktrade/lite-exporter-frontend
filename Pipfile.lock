@@ -171,7 +171,7 @@
         },
         "lite-forms": {
             "git": "https://github.com/uktrade/lite-forms.git",
-            "ref": "50da398b77c36b1c178bb886a70720d661bc9e16"
+            "ref": "889d296efbcd592c3da9b9940d88db182eea06f1"
         },
         "mako": {
             "hashes": [

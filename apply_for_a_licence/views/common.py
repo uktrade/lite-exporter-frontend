@@ -277,7 +277,7 @@ class EndUser(TemplateView):
         draft_id = str(kwargs['pk'])
         draft, status_code = get_draft(request, draft_id)
 
-        return form_page(request, new_end_user_forms()[0], extra_data={
+        return form_page(request, new_end_user_forms().forms[0], extra_data={
             'persistent_bar': create_persistent_bar(draft.get('draft'))
         })
 
