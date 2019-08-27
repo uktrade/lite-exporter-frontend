@@ -67,11 +67,11 @@
 			</tr>
 			<tr class="govuk-table__row">
 				<th class="govuk-table__header" scope="row">Licence type</th>
-				<td class="govuk-table__cell">{{ draft.licence_type }}</td>
+				<td class="govuk-table__cell">{{ draft.licence_type.value }}</td>
 			</tr>
 			<tr class="govuk-table__row">
 				<th class="govuk-table__header" scope="row">Export type</th>
-				<td class="govuk-table__cell">{{ draft.export_type }}</td>
+				<td class="govuk-table__cell">{{ draft.export_type.value }}</td>
 			</tr>
 			{% if draft.reference_number_on_information_form %}
 			<tr class="govuk-table__row">

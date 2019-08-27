@@ -2,7 +2,6 @@ import datetime
 import json
 import re
 
-import stringcase
 from django import template
 from django.template.defaultfilters import stringfilter
 from django.templatetags.tz import do_timezone
@@ -51,8 +50,17 @@ def str_date(value):
 
 @register.filter
 @stringfilter
-def units_pluralise(unit, quantity):
-    return 'test'
+def units_pluralise(unit: str, quantity: str):
+    """
+    Pluralise goods measurements units
+    """
+    if unit.endswith('(s)'):
+        unit = unit[:-3]
+
+        if not quantity == '1':
+            unit = unit + 's'
+
+    return unit
 
 
 @register.filter
