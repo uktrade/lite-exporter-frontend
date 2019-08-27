@@ -42,7 +42,7 @@ def edit_good(driver, description, controlled,  control_code, incorporated, part
 
 @then('I see my edited good in the goods list')
 def see_my_edited_good_in_list(driver, context):
-    assert context.edited_description in Shared(driver).get_text_of_gov_body()
+    assert context.edited_description in Shared(driver).get_text_of_gov_table()
 
 
 @when('I delete my good')
