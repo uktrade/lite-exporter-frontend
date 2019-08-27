@@ -6,7 +6,6 @@ from core.services import get_countries
 def new_ultimate_end_user_form():
     return [
         Form(title='How would you describe this recipient of your goods?',
-             description='',
              questions=[
                  RadioButtons('type',
                               options=[
@@ -18,19 +17,16 @@ def new_ultimate_end_user_form():
              ],
              default_button_name='Continue'),
         Form(title='Enter the recipient\'s name',
-             description='',
              questions=[
                  TextInput('name'),
              ],
              default_button_name='Continue'),
         Form(title='Enter the recipient\'s web address (URL)',
-             description='',
              questions=[
                  TextInput('website', optional=True),
              ],
              default_button_name='Continue'),
         Form(title='Where\'s the recipient based?',
-             description='',
              questions=[
                  TextArea('address', 'Address'),
                  Select(title='Country',
