@@ -29,6 +29,7 @@ s3chunkuploader = "*"
 boto3 = ">=1.9"
 jmespath = ">=0.9.4"
 lite-forms = {git = "https://github.com/uktrade/lite-forms.git",ref = "v0.2"}
+setuptools = "*"
 
 [requires]
 python_version = "3.7"
