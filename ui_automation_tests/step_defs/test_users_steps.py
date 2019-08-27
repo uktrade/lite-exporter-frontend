@@ -69,11 +69,24 @@ def add_user(driver, context, exporter_sso_login_info):
     exporter_hub.click_save_and_continue()
 
 
+@when('I add self')
+def add_self(driver, exporter_sso_login_info):
+    exporter_hub = ExporterHubPage(driver)
+
+    # I want to add a user # I should have an option to manage users
+    exporter_hub.click_users()
+    exporter_hub.click_add_a_user_btn()
+    exporter_hub.enter_first_name('first_name')
+    exporter_hub.enter_last_name('last_name')
+    exporter_hub.enter_add_user_email(exporter_sso_login_info["email"])
+
+    # When I Save
+    exporter_hub.click_save_and_continue()
+
+
 @then('user is added')
 def user_is_added(driver, context):
     # Then I return to "Manage users" # And I can see the original list of users
-    assert driver.find_element_by_tag_name("h1").text == "Users", \
-        "Failed to return to Users list page after Adding user"
     elements = driver.find_elements_by_css_selector(".govuk-table__row")
     no = utils.get_element_index_by_text(elements, context.email_to_search)
     assert 'Active' in elements[no].text
