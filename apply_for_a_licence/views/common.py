@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
-from lite_forms.generators import form_page
+from lite_forms.generators import form_page, success_page
 from lite_forms.submitters import submit_paged_form
 
 from apply_for_a_licence.forms import initial, goods
