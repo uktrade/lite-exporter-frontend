@@ -5,7 +5,7 @@ from conf.constants import SITES_URL, ORGANISATIONS_URL
 
 
 def get_sites(request, organisation_id, formatted=False):
-    data = get(request, ORGANISATIONS_URL + organisation_id + SITES_URL)
+    data = get(request, ORGANISATIONS_URL + str(organisation_id) + SITES_URL)
 
     if formatted:
         sites_options = []
