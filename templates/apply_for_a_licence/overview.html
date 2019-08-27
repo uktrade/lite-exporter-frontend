@@ -233,7 +233,7 @@
 	{% endif %}
 </div>
 
-{% if draft.licence_type == 'open_licence' %}
+{% if draft.licence_type.key == 'open_licence' %}
 <div class="lite-section {% if errors|key_value:'countries' %}govuk-form-group--error{% endif %}">
 	<div class="lite-section-header">
 		<div>
@@ -273,7 +273,7 @@
 </div>
 {% endif %}
 
-{% if draft.licence_type == 'standard_licence' %}
+{% if draft.licence_type.key == 'standard_licence' %}
 <div class="lite-section {% if errors|key_value:'end_user' %}govuk-form-group--error{% endif %}">
 	<div class="lite-section-header">
 		<div>
