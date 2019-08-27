@@ -12,6 +12,7 @@ scenarios('../features/clc_queries_and_goods.feature', strict_gherkin=False)
 @then('I see good in goods list')
 def assert_good_is_in_list(driver, context, exporter_url):
     goods_list = GoodsList(driver)
+    driver.get(exporter_url.rstrip('/') + '/goods/')
     goods_list.assert_goods_are_displayed_of_good_name(driver,
                                                        context.good_description,
                                                        context.part,
