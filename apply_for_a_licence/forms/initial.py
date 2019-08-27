@@ -1,6 +1,6 @@
-from lite_forms.components import RadioButtons, Form, DetailComponent, TextInput, Option
+from lite_forms.components import RadioButtons, Form, DetailComponent, TextInput, Option, FormGroup
 
-initial_questions = [
+initial_questions = FormGroup([
     Form('Enter a reference name for this application',
          'This can make it easier for you or your organisation to find in the '
          'future.',
@@ -51,4 +51,4 @@ initial_questions = [
                  name='reference_number_on_information_form',
                  optional=True),
          ], default_button_name='Save and continue'),
-]
+])

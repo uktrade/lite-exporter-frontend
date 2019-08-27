@@ -27,7 +27,7 @@ class StartApplication(TemplateView):
 
 class InitialQuestions(TemplateView):
     def get(self, request, **kwargs):
-        return form_page(request, initial.initial_questions[0])
+        return form_page(request, initial.initial_questions.forms[0])
 
     def post(self, request, **kwargs):
         response, data = submit_paged_form(request, initial.initial_questions, post_drafts)
