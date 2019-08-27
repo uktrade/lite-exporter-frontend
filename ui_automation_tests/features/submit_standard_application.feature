@@ -115,7 +115,7 @@ Feature: I want to indicate the standard licence I want
     And I delete the application
     Then I see the homepage
 
-  @LT-_1091_external_validation
+  @LT_1091_external_validation
   Scenario: Error messages with external empty validation
     Given I go to exporter homepage and choose Test Org
     When I click on apply for a license button

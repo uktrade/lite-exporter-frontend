@@ -82,7 +82,7 @@ def last_name(request):
 
 
 @given('I go to exporter homepage and choose Test Org')
-def go_to_exporter(driver, sso_sign_in, exporter_url, register_organisation, context):
+def go_to_exporter(driver, register_organisation, sso_sign_in, exporter_url, context):
     if 'pick-organisation' in driver.current_url:
         Shared(driver).click_on_radio_buttons(0)
         Shared(driver).click_continue()
