@@ -50,8 +50,9 @@ def str_date(value):
 
 
 @register.filter
-def sentence_case(value):
-    return stringcase.sentencecase(value)
+@stringfilter
+def units_pluralise(unit, quantity):
+    return 'test'
 
 
 @register.filter

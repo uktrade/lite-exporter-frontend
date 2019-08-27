@@ -29,7 +29,7 @@
 				<br/>
 				<span class="govuk-caption-m" style="display: inline-block; margin-right: 10px;">Control Code: </span><p class="govuk-label" style="display: inline-block; {% if not good.good.control_code %}opacity: 0.4;{% endif %}">{{ good.good.control_code|default:"N/A" }}</p>
 				<br/>
-				<span class="govuk-caption-m" style="display: inline-block; margin-right: 10px;">Quantity: </span><p class="govuk-label" style="display: inline-block;">{{ good.quantity }} {{ good.unit.value }}</p>
+				<span class="govuk-caption-m" style="display: inline-block; margin-right: 10px;">Quantity: </span><p class="govuk-label" style="display: inline-block;">{{ good.quantity }} {{ good.unit.value|units_pluralise:good.quantity }}</p>
 				<br/>
 				<span class="govuk-caption-m" style="display: inline-block; margin-right: 10px;">Monetary Value: </span><p class="govuk-label" style="display: inline-block;">£{{ good.value }}</p>
 			</div>
