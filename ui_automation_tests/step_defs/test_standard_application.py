@@ -134,9 +134,10 @@ def valid_quantity_value_error_message(driver):
 
 @when(parsers.parse('I click add to application for the good at position "{no}"'))
 def click_add_to_application_button(driver, no, context):
-    context.goods_name = ApplicationGoodsList(driver).get_text_of_gov_heading_within_card(no-1)
-    context.part_number = ApplicationGoodsList(driver).get_text_of_part_number(no-1)
-    driver.find_elements_by_css_selector('a.govuk-button')[int(no)-1].click()
+    num = int(no) - 1
+    context.goods_name = ApplicationGoodsList(driver).get_text_of_gov_heading_within_card(num)
+    context.part_number = ApplicationGoodsList(driver).get_text_of_part_number(num)
+    driver.find_elements_by_css_selector('a.govuk-button')[num].click()
 
 
 @when(parsers.parse(

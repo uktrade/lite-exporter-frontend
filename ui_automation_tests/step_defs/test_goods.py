@@ -12,7 +12,8 @@ scenarios('../features/clc_queries_and_goods.feature', strict_gherkin=False)
 @then('I see good in goods list')
 def assert_good_is_in_list(driver, context, exporter_url):
     goods_list = GoodsList(driver)
-    goods_list.assert_goods_are_displayed_of_good_name(context.good_description,
+    goods_list.assert_goods_are_displayed_of_good_name(driver,
+                                                       context.good_description,
                                                        context.part,
                                                        context.control_code)
 
@@ -20,7 +21,8 @@ def assert_good_is_in_list(driver, context, exporter_url):
 @then('I see the clc query in goods list')
 def assert_clc_is_in_list(driver, context, exporter_url):
     goods_list = GoodsList(driver)
-    goods_list.assert_clc_goods_are_displayed_of_good_name(context.good_description,
+    goods_list.assert_clc_goods_are_displayed_of_good_name(driver,
+                                                           context.good_description,
                                                            context.part,
                                                            context.control_code)
 
