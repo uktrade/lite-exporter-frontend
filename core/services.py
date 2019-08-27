@@ -1,7 +1,8 @@
+from lite_forms.components import Option
+
 from conf.client import get, post
 from conf.constants import UNITS_URL, DRAFTS_URL, COUNTRIES_URL, EXTERNAL_LOCATIONS_URL, NOTIFICATIONS_URL, \
     CLC_NOTIFICATIONS_URL, ORGANISATIONS_URL
-from libraries.forms.components import Option
 
 
 def get_units(request):
@@ -42,8 +43,8 @@ def post_sites_on_draft(request, pk, json):
     return data.json(), data.status_code
 
 
-def get_external_locations(request, formatted=False):
-    data = get(request, EXTERNAL_LOCATIONS_URL)
+def get_external_locations(request, pk, formatted=False):
+    data = get(request, ORGANISATIONS_URL + str(pk) + EXTERNAL_LOCATIONS_URL)
 
     if formatted:
         external_locations_options = []
@@ -73,8 +74,8 @@ def post_external_locations_on_draft(request, pk, json):
     return data.json(), data.status_code
 
 
-def post_external_locations(request, json):
-    data = post(request, EXTERNAL_LOCATIONS_URL, json)
+def post_external_locations(request, pk, json):
+    data = post(request, ORGANISATIONS_URL + pk + EXTERNAL_LOCATIONS_URL, json)
     return data.json(), data.status_code
 
 

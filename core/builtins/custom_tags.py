@@ -34,6 +34,11 @@ def get_string(value, *args, **kwargs):
         else:
             return d[keys]
 
+    return_value = get(strings.constants, value)
+
+    if isinstance(return_value, list):
+        return return_value
+
     return get(strings.constants, value).format(*args, **kwargs)
 
 

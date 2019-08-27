@@ -1,8 +1,8 @@
 from django.contrib.auth.models import AnonymousUser
 from django.shortcuts import redirect
 from django.urls import resolve
+from lite_forms.generators import error_page
 
-from libraries.forms.generators import error_page
 from users.services import get_user
 
 

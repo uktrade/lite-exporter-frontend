@@ -1,8 +1,7 @@
-from libraries.forms.components import Form, Question, Option, InputType, RadioButtons, TextArea
+from lite_forms.components import TextArea, RadioButtons, Option, Form, TextInput
 
-form = Form(title='Add a description', description='', caption='', questions=[
+form = Form(title='Add a description', questions=[
     TextArea(title='Give a short description of your goods.',
-             description='',
              name='description',
              extras={
                  'max_length': 280,
@@ -18,10 +17,9 @@ form = Form(title='Add a description', description='', caption='', questions=[
                             value='No')
                  ],
                  classes=['govuk-radios--inline']),
-    Question(title='What\'s your good\'s control list classification?',
-             description='<noscript>If your good is controlled, enter its control list classification. </noscript>For example, ML1a.',
-             input_type=InputType.INPUT,
-             name='control_code'),
+    TextInput(title='What\'s your good\'s control list classification?',
+              description='<noscript>If your good is controlled, enter its control list classification. </noscript>For example, ML1a.',
+              name='control_code'),
     RadioButtons(title='Is your good intended to be incorporated into an end product?',
                  description='',
                  name='is_good_end_product',

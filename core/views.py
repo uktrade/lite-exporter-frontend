@@ -2,12 +2,12 @@ from django.http import Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
+from lite_forms.generators import form_page
 
 from core.builtins.custom_tags import get_string
 from core.forms import select_your_organisation_form
 from core.helpers import Section, Tile, generate_notification_string
 from core.services import get_notifications, get_clc_notifications, get_organisation
-from libraries.forms.generators import form_page
 from users.services import get_user
 
 

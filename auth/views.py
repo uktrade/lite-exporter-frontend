@@ -1,17 +1,15 @@
-from authbroker_client.utils import get_client, AUTHORISATION_URL, TOKEN_URL, \
-    TOKEN_SESSION_KEY, get_profile
 from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseBadRequest, HttpResponseServerError
 from django.shortcuts import redirect
 from django.views.generic.base import RedirectView, View, TemplateView
+from lite_forms.generators import error_page
 from raven.contrib.django.raven_compat.models import client
 
 from auth.services import authenticate_exporter_user
-from conf.settings import env
+from authbroker_client.utils import get_client, AUTHORISATION_URL, TOKEN_URL, \
+    TOKEN_SESSION_KEY, get_profile
 from core.builtins.custom_tags import get_string
-from core.models import User
-from libraries.forms.generators import error_page
 from users.services import get_user
 
 

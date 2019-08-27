@@ -1,5 +1,4 @@
-from libraries.forms.components import Form, HTMLBlock, HiddenField, Question, SideBySideSection, InputType, \
-    Select
+from lite_forms.components import HTMLBlock, Form, HiddenField, SideBySideSection, Select, TextInput
 
 
 def preexisting_good_form(id, description, control_code, part_number, units):
@@ -11,15 +10,11 @@ def preexisting_good_form(id, description, control_code, part_number, units):
                                                                                                                                                                                                                                       '</div>'),
         HiddenField(name='good_id',
                     value=id),
-        Question(title='What\'s the value of your goods?',
-                 description='',
-                 input_type=InputType.CURRENCY,
-                 name='value'),
+        TextInput(title='What\'s the value of your goods?',
+                  name='value'),
         SideBySideSection(questions=[
-            Question(title='Quantity',
-                     description='',
-                     input_type=InputType.QUANTITY,
-                     name='quantity'),
+            TextInput(title='Quantity',
+                      name='quantity'),
             Select(title='Unit of Measurement',
                    name='unit',
                    options=units)
