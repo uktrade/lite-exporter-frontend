@@ -16,6 +16,12 @@ Feature: I want to manage users
     When I add user
     Then user is added
 
+  @cant_add_self
+  Scenario: Cant add own user
+    Given I go to exporter homepage and choose Test Org
+    When I add self
+    Then error message is "is already a member of this organisation"
+
   @edit_user
   Scenario: Edit user
     Given I go to exporter homepage and choose Test Org
