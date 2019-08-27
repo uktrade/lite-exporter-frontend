@@ -52,9 +52,7 @@ def new_end_user_form():
 def attach_document_form(draft_url):
     return Form(get_string('end_user.documents.attach_documents.title'),
                 get_string('end_user.documents.attach_documents.description'),
-                [
-                    FileUpload('documents')
-                ],
+                [FileUpload('documents')],
                 back_link=BackLink(get_string('end_user.documents.attach_documents.back_to_application_overview'), draft_url))
 
 
