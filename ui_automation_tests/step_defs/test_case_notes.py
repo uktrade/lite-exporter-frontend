@@ -53,9 +53,10 @@ def i_click_cancel_button(driver):
 
 @then('maximum case error is displayed')
 def maximum_error_message_is_displayed(driver):
-    assert Shared(driver).get_text_of_error_message(1) == 'An error occurred', 'should not be able to post an empty case note with space characters'
-    assert 'Case note may not be blank.' in Shared(driver).get_text_of_gov_body(), 'should not be able to post an empty case note with space characters'
-    assert 'You can go back by clicking the back button at the top of the page.' in Shared(driver).get_text_of_gov_body(),  'should not be able to post an empty case note with space characters'
+    body = Shared(driver).get_text_of_gov_grid_row()
+    assert Shared(driver).get_text_of_h1() == 'An error occurred', 'should not be able to post an empty case note with space characters'
+    assert 'Case note may not be blank.' in body, 'should not be able to post an empty case note with space characters'
+    assert 'You can go back by clicking the back button at the top of the page.' in body,  'should not be able to post an empty case note with space characters'
 
 
 @then(parsers.parse('case note warning is "{text}"'))

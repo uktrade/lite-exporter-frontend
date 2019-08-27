@@ -6,6 +6,7 @@ from pages.add_end_user_pages import AddEndUserPages
 from pages.application_overview_page import ApplicationOverviewPage
 from pages.shared import Shared
 from pages.application_goods_list import ApplicationGoodsList
+from pages.ultimate_end_users_list_page import UltimateEndUsersListPage
 
 scenarios('../features/submit_standard_application.feature', strict_gherkin=False)
 
@@ -17,7 +18,7 @@ def i_click_on_application_overview(driver):
 
 @then('good is added to application')
 def good_is_added(driver, context):
-    good = ApplicationGoodsList(driver).get_text_of_good(0)
+    good = ApplicationOverviewPage(driver).get_text_of_good(1)
     assert context.goods_name in good
     # TODO put this back when bug is fixed - showing mtr instead of metres
     # assert str(context.quantity) + ".0 " + context.unit in good
@@ -46,7 +47,7 @@ def i_go_to_the_overview(driver):
 
 @when('I click on ultimate end users add button')
 def i_click_on_ultimate_end_user(driver):
-    Shared(driver).click_continue()
+    UltimateEndUsersListPage(driver).click_on_add_ultimate_end_user()
 
 
 @when(parsers.parse('I add end user of type: "{type}"'))
