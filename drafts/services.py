@@ -92,16 +92,16 @@ def post_draft_countries(request, pk, json):
 
 
 # Documents
-def get_draft_end_user_documents(request, pk):
+def get_end_user_document(request, pk):
     data = get(request, DRAFTS_URL + pk + END_USER_DOCUMENT_URL)
     return data.json(), data.status_code
 
 
-def post_draft_end_user_document(request, pk, json):
+def post_end_user_document(request, pk, json):
     data = post(request, DRAFTS_URL + pk + END_USER_DOCUMENT_URL, json)
     return data.json(), data.status_code
 
 
-def delete_draft_end_user_documents(request, pk):
+def delete_end_user_document(request, pk):
     data = delete(request, DRAFTS_URL + pk + END_USER_DOCUMENT_URL)
     return data.status_code

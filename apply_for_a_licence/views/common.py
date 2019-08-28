@@ -14,8 +14,8 @@ from core.builtins.custom_tags import get_string
 from core.services import get_units, get_sites_on_draft, get_external_locations_on_draft
 from drafts.services import post_drafts, get_draft, get_draft_goods, post_draft_preexisting_goods, submit_draft, \
     delete_draft, post_end_user, get_draft_countries, get_draft_goods_type, get_ultimate_end_users, \
-    post_ultimate_end_user, delete_ultimate_end_user, get_draft_end_user_documents, post_draft_end_user_document, \
-    delete_draft_end_user_documents
+    post_ultimate_end_user, delete_ultimate_end_user, get_end_user_document, post_end_user_document, \
+    delete_end_user_document
 from goods.services import get_goods, get_good
 from libraries.forms.generators import form_page, success_page, error_page
 from libraries.forms.submitters import submit_paged_form
@@ -61,11 +61,11 @@ class Overview(TemplateView):
         ultimate_end_users, status_code = get_ultimate_end_users(request, draft_id)
         end_user = data.get('draft').get('end_user')
         if end_user:
-            draft_end_user_document, status_code = get_draft_end_user_documents(request, draft_id)
-            draft_end_user_document = draft_end_user_document.get('document')
-            can_submit = True if draft_end_user_document and draft_end_user_document['safe'] else False
+            end_user_document, status_code = get_end_user_document(request, draft_id)
+            end_user_document = end_user_document.get('document')
+            can_submit = True if end_user_document and end_user_document['safe'] else False
         else:
-            draft_end_user_document = None
+            end_user_document = None
             can_submit = data.get('draft').get('licence_type') == OPEN_LICENCE
 
         for good in goods['goods']:
@@ -82,7 +82,7 @@ class Overview(TemplateView):
             'external_locations': external_locations['external_locations'],
             'ultimate_end_users': ultimate_end_users['ultimate_end_users'],
             'ultimate_end_users_required': ultimate_end_users_required,
-            'draft_end_user_document': draft_end_user_document,
+            'end_user_document': end_user_document,
             'can_submit': can_submit
         }
         return render(request, 'apply_for_a_licence/overview.html', context)
@@ -396,7 +396,7 @@ class AttachDocuments(TemplateView):
             return error_page(None, 'We had an issue uploading your files. Try again later.')
 
         # Send LITE API the file information
-        draft_end_user_documents, status_code = post_draft_end_user_document(request, draft_id, data)
+        end_user_document, status_code = post_end_user_document(request, draft_id, data)
 
         if status_code != 201:
             return error_page(None, 'We had an issue uploading your files. Try again later.')
@@ -408,7 +408,7 @@ class DownloadDocument(TemplateView):
     def get(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
 
-        documents, status_code = get_draft_end_user_documents(request, draft_id)
+        documents, status_code = get_end_user_document(request, draft_id)
 
         document = documents['document']
 
@@ -433,7 +433,7 @@ class DeleteDocument(TemplateView):
         if option is None:
             return redirect(reverse('apply_for_a_licence:delete_document', kwargs={'pk': draft_id}))
         elif option == 'yes':
-            status_code = delete_draft_end_user_documents(request, draft_id)
+            status_code = delete_end_user_document(request, draft_id)
             if status_code is not 204:
                 return error_page(None, 'We had an issue deleting your files. Try again later.')
 
