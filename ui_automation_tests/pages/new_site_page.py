@@ -27,5 +27,4 @@ class NewSite:
         self.postcode.clear()
         self.city.clear()
         self.region.clear()
-        self.country.clear()
 
