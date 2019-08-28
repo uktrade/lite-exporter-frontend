@@ -334,7 +334,7 @@ def i_see_the_application_overview(driver, context):
     assert context.ref in element
 
     # This can break if the minute changes between the five lines of code
-    assert utils.split_and_replace_date_time(datetime.datetime.now().strftime("%M%p %d %B %Y").lower()) in utils.split_and_replace_date_time(element.lower())
+    assert utils.replace_pm_am_datetime(datetime.datetime.now().strftime("%M%p %d %B %Y").lower()) in utils.replace_pm_am_datetime(element.lower())
 
     app_id = driver.current_url[-36:]
     context.app_id = app_id
