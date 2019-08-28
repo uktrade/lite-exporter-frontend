@@ -90,7 +90,7 @@
 <div class="lite-section {% if errors|key_value:'goods' %}govuk-form-group--error{% endif %}">
 	<div class="lite-section-header">
 		<div>
-            {% if draft.licence_type == 'open_licence' %}
+            {% if draft.licence_type.key == 'open_licence' %}
                 <a id="goods" href="{% url 'apply_for_a_licence:open_goods' draft.id %}" class="lite-overview-section-header govuk-link govuk-link--no-visited-state">
                 {% get_string 'good_types.overview.title' %}
                 </a>
@@ -115,7 +115,7 @@
 			{{ errors|key_value:'goods' }}
 		</p>
 	{% endif %}
-    {% if draft.licence_type == 'standard_licence' and goods %}
+    {% if draft.licence_type.key == 'standard_licence' and goods %}
 		<table class="govuk-table">
 			<tbody class="govuk-table__body">
 				<tr class="govuk-table__row">
@@ -136,11 +136,11 @@
 				{% endfor %}
 			</tbody>
 		</table>
-    {% elif draft.licence_type == 'standard_licence' and not goods %}
+    {% elif draft.licence_type.key == 'standard_licence' and not goods %}
 		<p class="govuk-caption-m">Add goods to your application</p>
 	{% endif %}
 
-	{% if draft.licence_type == 'open_licence' and goodstypes %}
+	{% if draft.licence_type.key == 'open_licence' and goodstypes %}
 		<table id="good_types_table_overview" class="govuk-table">
 			<tbody class="govuk-table__body">
 				<tr class="govuk-table__row">
@@ -160,7 +160,7 @@
 				{% endfor %}
 			</tbody>
 		</table>
-    {% elif draft.licence_type == 'open_licence' and not goodstypes %}
+    {% elif draft.licence_type.key == 'open_licence' and not goodstypes %}
 		<p class="govuk-caption-m">{% get_string 'good_types.overview.no_good_types' %}</p>
     {% endif %}
 
@@ -326,7 +326,7 @@
 </div>
 {% endif %}
 
-{% if draft.licence_type == 'standard_licence' and ultimate_end_users_required %}
+{% if draft.licence_type.key == 'standard_licence' and ultimate_end_users_required %}
 <div class="lite-section {% if errors|key_value:'ultimate_end_users' %}govuk-form-group--error{% endif %}">
 	<div class="lite-section-header">
 		<div>
