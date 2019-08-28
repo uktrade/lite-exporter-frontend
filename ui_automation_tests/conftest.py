@@ -313,7 +313,7 @@ def application_is_submitted(driver, context):
     element_number = utils.get_element_index_by_text(elements, context.app_time_id)
     element_row = elements[element_number].text
     assert "Submitted" in element_row
-    assert utils.split_and_replace_date_time(context.time_date_submitted) in element_row
+    assert utils.split_and_replace_date_time(context.time_date_submitted) in utils.split_and_replace_date_time(element_row)
     assert "0 Goods" or "1 Good" or "2 Goods" in element_row
     assert driver.find_element_by_xpath("// th[text()[contains(., 'Status')]]").is_displayed()
     assert driver.find_element_by_xpath("// th[text()[contains(., 'Last updated')]]").is_displayed()
