@@ -333,7 +333,7 @@ def i_see_the_application_overview(driver, context):
     assert "Reference Number" in element
     assert "Created at" in element
     assert context.type.capitalize() + " Licence" in element
-    assert context.perm_or_temp in element
+    assert context.perm_or_temp.capitalize() in element
     assert context.ref in element
 
     # This can break if the minute changes between the five lines of code
