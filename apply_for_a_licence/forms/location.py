@@ -35,7 +35,7 @@ def external_locations_form(request):
                 description='Select all external locations that apply.',
                 questions=[
                     Filter(),
-                    Checkboxes('external_locations', get_external_locations(request, True))
+                    Checkboxes('external_locations', get_external_locations(request, str(request.user.organisation), True))
                 ],
                 javascript_imports=['/assets/javascripts/filter-checkbox-list.js'],
                 default_button_name='Save and continue')

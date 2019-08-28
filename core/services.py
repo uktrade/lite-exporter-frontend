@@ -54,7 +54,6 @@ def get_external_locations(request, pk, formatted=False):
             external_location_name = external_location.get('name')
             external_location_address = external_location.get('address')
 
-
             external_locations_options.append(
                 Option(external_location_id, external_location_name, description=external_location_address)
             )
