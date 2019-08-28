@@ -4,11 +4,9 @@ from pages.new_site_page import NewSite
 from pages.sites_page import SitesPage
 from pages.hub_page import Hub
 import datetime
-import helpers.helpers as utils
-from selenium.webdriver.common.by import By
-
-
 import logging
+from ui_automation_tests.pages.shared import Shared
+
 log = logging.getLogger()
 console = logging.StreamHandler()
 log.addHandler(console)

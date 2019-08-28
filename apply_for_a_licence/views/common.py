@@ -375,13 +375,15 @@ class AttachDocuments(TemplateView):
     def get(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
         draft, status_code = get_draft(request, draft_id)
+        if status_code == 200:
+            if draft.get('draft').get('licence_type') == STANDARD_LICENCE:
+                form = attach_document_form(reverse('apply_for_a_licence:overview', kwargs={'pk': draft_id}))
 
-        if draft.get('draft').get('licence_type') == STANDARD_LICENCE:
-            form = attach_document_form(reverse('apply_for_a_licence:overview', kwargs={'pk': draft_id}))
-
-            return form_page(request, form, extra_data={'draft_id': draft_id})
+                return form_page(request, form, extra_data={'draft_id': draft_id})
+            else:
+                return redirect(reverse_lazy('apply_for_a_licence:overview', kwargs={'pk': draft_id}))
         else:
-            return redirect(reverse_lazy('apply_for_a_licence:overview', kwargs={'pk': draft_id}))
+            return error_page(None, 'Cannot find draft')
 
     @csrf_exempt
     def post(self, request, **kwargs):
@@ -396,7 +398,7 @@ class AttachDocuments(TemplateView):
         # Send LITE API the file information
         draft_end_user_documents, status_code = post_draft_end_user_document(request, draft_id, data)
 
-        if 'errors' in draft_end_user_documents:
+        if status_code != 201:
             return error_page(None, 'We had an issue uploading your files. Try again later.')
 
         return redirect(reverse('apply_for_a_licence:overview', kwargs={'pk': draft_id}))
