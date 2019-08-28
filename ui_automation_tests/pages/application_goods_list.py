@@ -59,4 +59,4 @@ class ApplicationGoodsList:
         return self.driver.find_elements_by_css_selector(self.card_heading)[num].text
 
     def get_text_of_part_number(self, num):
-        return self.driver.find_elements_by_css_selector(self.card_label)[int(num)].text
+        return self.driver.find_elements_by_css_selector(self.card_label)[num].text
