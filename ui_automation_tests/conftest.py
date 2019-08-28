@@ -332,7 +332,7 @@ def i_see_the_application_overview(driver, context):
     assert "Export type" in element
     assert "Reference Number" in element
     assert "Created at" in element
-    assert context.type + "_licence" in element
+    assert context.type.capitalize() + "Licence" in element
     assert context.perm_or_temp in element
     assert context.ref in element
 
