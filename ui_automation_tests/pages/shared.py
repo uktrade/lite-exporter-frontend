@@ -29,10 +29,10 @@ class Shared:
         return self.driver.find_element_by_tag_name("body").text
 
     def get_text_of_gov_table(self):
-        return self.driver.find_element_by_css_selector(self.gov_uk_table).text
+        return self.driver.find_element_by_css_selector(self.gov_table).text
 
     def get_table_rows(self):
-        return self.driver.find_elements_by_css_selector(self.gov_uk_table_row)
+        return self.driver.find_elements_by_css_selector(self.gov_table_row)
 
     def get_text_of_heading(self):
         return self.driver.find_element_by_css_selector(self.heading).text
