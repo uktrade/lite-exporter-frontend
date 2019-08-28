@@ -111,7 +111,8 @@ class AddExternalLocation(TemplateView):
 
     def post(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
-        response, response_data = submit_single_form(request, new_location_form(), post_external_locations)
+        response, response_data = submit_single_form(request, new_location_form(), post_external_locations,
+                                                     pk=str(request.user.organisation))
 
         # If there are more forms to go through, continue
         if response:
