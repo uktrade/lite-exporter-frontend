@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "bee3db1cec58620f6bc51842f66e73637fdeeab912dbe9d4acda61a1edbc5803"
+            "sha256": "a4c8f40e199cf66429dc131c612e79a2bfbc6c0895d959ede9b7c9b2b8e45bb3"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -169,6 +169,7 @@
             "version": "==0.19.1"
         },
         "lite-forms": {
+            "editable": true,
             "git": "https://github.com/uktrade/lite-forms.git",
             "ref": "cb118398b26305025dae99f11288acd9c38be56f"
         },

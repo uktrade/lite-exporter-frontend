@@ -26,7 +26,7 @@ raven = ">=6.10.0"
 requests-oauthlib = ">=1.2.0"
 s3chunkuploader = "*"
 boto3 = ">=1.9"
-lite-forms = {git = "https://github.com/uktrade/lite-forms.git",ref = "v0.2"}
+lite-forms = {git = "https://github.com/uktrade/lite-forms.git",ref = "v0.2", editable = true}
 
 [requires]
 python_version = "3.7"
