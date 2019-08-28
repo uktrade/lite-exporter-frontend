@@ -1,7 +1,7 @@
-from lite_forms.components import HTMLBlock, Form, HiddenField, SideBySideSection, Select, TextInput
+from lite_forms.components import HTMLBlock, Form, HiddenField, SideBySideSection, Select, TextInput, QuantityInput
 
 
-def preexisting_good_form(id, description, control_code, part_number, units):
+def preexisting_good_form(good_id, description, control_code, part_number, units):
     return Form('Add a pre-existing good to your application', '', [
         HTMLBlock('<div class="govuk-inset-text">'
                   '<p><span style="opacity: 0.6;">Description:</span> ' + description + '</p>'
@@ -9,12 +9,12 @@ def preexisting_good_form(id, description, control_code, part_number, units):
                                                                                                                                                                 '<p><span style="opacity: 0.6;">Part Number:</span> ' + part_number + '</p>'
                                                                                                                                                                                                                                       '</div>'),
         HiddenField(name='good_id',
-                    value=id),
+                    value=good_id),
         TextInput(title='What\'s the value of your goods?',
                   name='value'),
         SideBySideSection(questions=[
-            TextInput(title='Quantity',
-                      name='quantity'),
+            QuantityInput(title='Quantity',
+                          name='quantity'),
             Select(title='Unit of Measurement',
                    name='unit',
                    options=units)

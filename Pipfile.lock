@@ -170,10 +170,10 @@
         },
         "lite-forms": {
             "hashes": [
-                "sha256:a5c7c029346fd6572ac6844cbe58f85b56fb46ea12d605208d687b2ad567a67a"
+                "sha256:c2e3f4ff3dd645c0a8451a8df9fee0c2b659e4f83897453d9eba4b60e4627209"
             ],
             "index": "pypi",
-            "version": "==0.1"
+            "version": "==1.0"
         },
         "mako": {
             "hashes": [
