@@ -130,7 +130,7 @@
 						<td class="govuk-table__cell" scope="row">{{ good.good.description }}</td>
                         <td class="govuk-table__cell" scope="row">{{ good.good.part_number }}</td>
                         <td class="govuk-table__cell" scope="row">{{ good.quantity }}</td>
-                        <td class="govuk-table__cell" scope="row">{{ good.unit }}</td>
+                        <td class="govuk-table__cell" scope="row">{{ good.unit.value }}</td>
                         <td class="govuk-table__cell" scope="row">£{{ good.value }}</td>
 					</tr>
 				{% endfor %}
@@ -336,11 +336,11 @@
 		</div>
 
 		{% if ultimate_end_users %}
-			<div class="lite-info-label lite-info-label--blue">
+			<div class="lite-tag lite-tag--small lite-tag--blue">
 				Done
 			</div>
 		{% else %}
-			<div class="lite-info-label">
+			<div class="lite-tag lite-tag--small">
 				Not Started
 			</div>
 		{% endif %}

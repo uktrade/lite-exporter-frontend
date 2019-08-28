@@ -320,7 +320,7 @@ class AddUltimateEndUser(TemplateView):
     def get(self, request, **kwargs):
         draft, status_code = get_draft(request, self.draft_id)
 
-        return form_page(request, self.form[0], extra_data={
+        return form_page(request, self.form.forms[0], extra_data={
             'persistent_bar': create_persistent_bar(draft.get('draft'))
         })
 
