@@ -6,4 +6,3 @@ class UltimateEndUsersListPage:
 
     def click_on_add_ultimate_end_user(self):
         self.driver.find_element_by_css_selector(self.govuk_button).click()
-        
