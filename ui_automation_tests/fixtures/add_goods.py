@@ -77,7 +77,7 @@ def add_an_incorporated_good_to_application(driver, request, context):
 @fixture(scope="function")
 def add_a_non_incorporated_good_to_application(driver, request, context):
     url = driver.current_url
-    good_name = "More Fuel"
+    good_name = "Even More Fuel"
     context.goods_name = good_name
     exporter_hub = ExporterHubPage(driver)
     driver.get(request.config.getoption("--exporter_url"))

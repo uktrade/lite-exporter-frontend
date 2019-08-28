@@ -61,7 +61,7 @@ class GoodsDetail(TemplateView):
         data, status_code = get_good(request, str(good_id))
         documents, status_code = get_good_documents(request, str(good_id))
 
-        if data['good'].get('clc_query_id') != 'None':
+        if data['good']['clc_query_id'] != None:
             clc_query_id = data['good']['clc_query_id']
             case_id = data['good']['clc_query_case_id']
             case_note_notifications = len([x for x in self.notifications['results']
@@ -216,7 +216,7 @@ class DeleteGood(TemplateView):
 class AttachDocuments(TemplateView):
     def get(self, request, **kwargs):
         good_id = str(kwargs['pk'])
-        get_good(request, good_id)
+        # get_good(request, good_id)
 
         form = attach_documents_form(reverse('goods:good', kwargs={'pk': good_id}))
 

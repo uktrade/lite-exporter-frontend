@@ -156,6 +156,7 @@ Feature: I want to indicate the standard licence I want
     # Then I see end user on overview
 
   @LT_1042_unhappy_path
+#  @MSTG
   Scenario: Apply for a licence with ultimate end users error message
     Given I go to exporter homepage
     When I click on apply for a license button
