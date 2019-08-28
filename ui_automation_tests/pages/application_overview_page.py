@@ -15,6 +15,7 @@ class ApplicationOverviewPage:
         self.show_countries_link = "[onclick*='showCountries']"
         self.modal_close = "modal-close-button"   # ID
         self.modal_content = ".modal-content"   # CSS
+        self.lite_section = ".lite-section"   # CSS
         self.gov_tables = ".govuk-table__body"   # CSS
         self.back_to_overview_text = "Back to Application" #link text
         self.submit_application_button = "button[type*='submit']" # CSS
@@ -65,13 +66,5 @@ class ApplicationOverviewPage:
     def get_text_of_end_user_table(self):
         return self.driver.find_elements_by_css_selector(self.gov_tables)[len(self.driver.find_elements_by_css_selector(self.gov_tables))-1].text
 
-    def check_submit_is_enabled(self):
-        return self.driver.find_element_by_css_selector(self.submit_application_button).is_enabled()
-
-    def click_on_add_end_user_document(self):
-        scroll_to_bottom_of_page(self.driver)
-        self.driver.find_element_by_id(self.attach_end_user_document_link).click()
-
-    def click_delete_end_user_document(self):
-        scroll_to_bottom_of_page(self.driver)
-        self.driver.find_element_by_id(self.delete_end_user_document).click()
+    def get_text_of_good(self, no):
+        return self.driver.find_elements_by_css_selector(self.lite_section)[no].text
