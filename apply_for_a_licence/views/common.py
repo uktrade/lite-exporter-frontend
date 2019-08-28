@@ -1,17 +1,15 @@
-from django.http import StreamingHttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
-from s3chunkuploader.file_handler import S3FileUploadHandler, s3_client
+from s3chunkuploader.file_handler import S3FileUploadHandler
 
 from apply_for_a_licence.forms import initial, goods
 from apply_for_a_licence.forms.end_user import new_end_user_form, attach_document_form, \
     delete_document_confirmation_form
 from apply_for_a_licence.forms.ultimate_end_user import new_ultimate_end_user_form
 from apply_for_a_licence.helpers import create_persistent_bar
-from conf.settings import STREAMING_CHUNK_SIZE, AWS_STORAGE_BUCKET_NAME
 from core.builtins.custom_tags import get_string
 from core.services import get_units, get_sites_on_draft, get_external_locations_on_draft
 from drafts.services import post_drafts, get_draft, get_draft_goods, post_draft_preexisting_goods, submit_draft, \
@@ -22,6 +20,8 @@ from goods.services import get_goods, get_good
 from libraries.forms.generators import form_page, success_page, error_page
 from libraries.forms.submitters import submit_paged_form
 from apply_for_a_licence.services import add_document_data
+from conf.constants import STANDARD_LICENCE, OPEN_LICENCE
+from apply_for_a_licence.services import download_document_from_s3
 
 
 class StartApplication(TemplateView):
@@ -66,7 +66,7 @@ class Overview(TemplateView):
             can_submit = True if draft_end_user_document and draft_end_user_document['safe'] else False
         else:
             draft_end_user_document = None
-            can_submit = data.get('draft').get('licence_type') == 'open_licence'
+            can_submit = data.get('draft').get('licence_type') == OPEN_LICENCE
 
         for good in goods['goods']:
             if not good['good']['is_good_end_product']:
@@ -309,7 +309,7 @@ class EndUser(TemplateView):
 
         draft, status_code = get_draft(request, draft_id)
 
-        if draft.get('draft').get('licence_type') == 'standard_licence':
+        if draft.get('draft').get('licence_type') == STANDARD_LICENCE:
             return redirect(reverse_lazy('apply_for_a_licence:end_user_attach_document', kwargs={'pk': draft_id}))
         else:
             return redirect(reverse_lazy('apply_for_a_licence:overview', kwargs={'pk': draft_id}))
@@ -376,7 +376,7 @@ class AttachDocuments(TemplateView):
         draft_id = str(kwargs['pk'])
         draft, status_code = get_draft(request, draft_id)
 
-        if draft.get('draft').get('licence_type') == 'standard_licence':
+        if draft.get('draft').get('licence_type') == STANDARD_LICENCE:
             form = attach_document_form(reverse('apply_for_a_licence:overview', kwargs={'pk': draft_id}))
 
             return form_page(request, form, extra_data={'draft_id': draft_id})
@@ -401,30 +401,17 @@ class AttachDocuments(TemplateView):
 
         return redirect(reverse('apply_for_a_licence:overview', kwargs={'pk': draft_id}))
 
+
 class DownloadDocument(TemplateView):
     def get(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
 
         documents, status_code = get_draft_end_user_documents(request, draft_id)
 
-        document = documents['documents'][0]
+        document = documents['document']
 
         if document['safe']:
-            original_file_name = document['name']
-
-            # Stream file
-            def generate_file(result):
-                for chunk in iter(lambda: result['Body'].read(STREAMING_CHUNK_SIZE), b''):
-                    yield chunk
-
-            s3 = s3_client()
-            s3_response = s3.get_object(Bucket=AWS_STORAGE_BUCKET_NAME, Key=document['s3_key'])
-            _kwargs = {}
-            if s3_response.get('ContentType'):
-                _kwargs['content_type'] = s3_response['ContentType']
-            response = StreamingHttpResponse(generate_file(s3_response), **_kwargs)
-            response['Content-Disposition'] = f'attachment; filename="{original_file_name}"'
-            return response
+            return download_document_from_s3(document['s3_key'], document['name'])
         else:
             return error_page(None, 'We had an issue downloading your file. Try again later.')
 

@@ -21,3 +21,8 @@ AUTHENTICATION_URL = USERS_URL + 'authenticate/'
 STATIC_URL = '/static/'
 UNITS_URL = STATIC_URL + 'units/'
 COUNTRIES_URL = STATIC_URL + 'countries/'
+
+
+# Applications constants
+STANDARD_LICENCE = 'standard_licence'
+OPEN_LICENCE = 'open_licence'
