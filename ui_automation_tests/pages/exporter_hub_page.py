@@ -2,7 +2,6 @@ import time
 
 from selenium.webdriver.common.action_chains import ActionChains
 
-
 class ExporterHubPage:
 
     def __init__(self, driver):
@@ -81,13 +80,6 @@ class ExporterHubPage:
         self.driver.find_element_by_id("last_name").clear()
         self.driver.find_element_by_id("last_name").send_keys(last_name)
 
-    def click_edit_for_user(self, user_name):
-        element = self.driver.find_element_by_xpath("//*[text()[contains(.,'" + user_name + "')]]/following-sibling::td[last()]/a")
-        actions = ActionChains(self.driver)
-        actions.move_to_element(element).perform()
-        time.sleep(1)
-        element.click()
-
     def click_user_name_link(self, user_name):
         element = self.driver.find_element_by_xpath("//*[text()[contains(.,'" + user_name + "')]]")
         actions = ActionChains(self.driver)
@@ -120,30 +112,10 @@ class ExporterHubPage:
     def get_text_of_site(self, int):
         return self.driver.find_elements_by_css_selector(".govuk-checkboxes__label")[int].text
 
-    def click_submit(self):
-        self.driver.find_element_by_css_selector(".govuk-button").click()
-
     def click_start(self):
         self.driver.find_element_by_css_selector("a[href*='/start']").click()
 
     def enter_name_for_application(self, name):
         self.driver.find_element_by_id("name").clear()
         self.driver.find_element_by_id("name").send_keys(name)
-
-    def enter_destination(self, destination):
-        self.driver.find_element_by_id("destination").clear()
-        self.driver.find_element_by_id("destination").send_keys(destination)
-
-    def enter_usage(self, usage):
-        self.driver.find_element_by_id("usage").clear()
-        self.driver.find_element_by_id("usage").send_keys(usage)
-
-    def enter_activity(self, activity):
-        self.driver.find_element_by_id("activity").clear()
-        self.driver.find_element_by_id("activity").send_keys(activity)
-
-    def return_number_of_notifications(self):
-        text_of_new_notifications = self.driver.find_element_by_css_selector('.lite-tiles [href="/applications/"] p').text
-        total_of_notifications = int((text_of_new_notifications.split('have '))[1].split(' new')[0])
-        return total_of_notifications
 
