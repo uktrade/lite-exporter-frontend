@@ -323,11 +323,7 @@ def application_is_submitted(driver, context):
 
 @then('I see the application overview')
 def i_see_the_application_overview(driver, context):
-    time_date_submitted = datetime.datetime.now().strftime("%I:%M%p").lstrip("0").replace(" 0", " ").lower() + datetime.datetime.now().strftime(" %d %B %Y")
-    apply = ApplyForALicencePage(driver)
-
     element = driver.find_element_by_css_selector(".govuk-table").text
-
     assert "Name" in element
     assert "Licence type" in element
     assert "Export type" in element
@@ -338,7 +334,7 @@ def i_see_the_application_overview(driver, context):
     assert context.ref in element
 
     # This can break if the minute changes between the five lines of code
-    assert datetime.datetime.now().strftime("%M%p %d %B %Y").lower() in element.lower()
+    assert utils.split_and_replace_date_time(datetime.datetime.now().strftime("%M%p %d %B %Y").lower()) in utils.split_and_replace_date_time(element.lower())
 
     app_id = driver.current_url[-36:]
     context.app_id = app_id
