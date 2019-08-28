@@ -85,6 +85,7 @@ def get_notifications(request, unviewed):
     data = get(request, url)
     return data.json(), data.status_code
 
+
 def get_clc_notifications(request, unviewed):
     url = CLC_NOTIFICATIONS_URL
     if unviewed:

@@ -6,10 +6,10 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
 from s3chunkuploader.file_handler import S3FileUploadHandler, s3_client
 
-from applications.services import get_application_ecju_queries, get_application_case_notes
+from applications.services import get_application_ecju_queries, get_application_case_notes, post_application_case_notes
 from conf import settings
 from conf.settings import AWS_STORAGE_BUCKET_NAME
-from core.services import get_clc_notifications
+from core.services import get_clc_notifications, get_notifications
 from goods import forms
 from goods.forms import edit_form, attach_documents_form
 from goods.services import get_goods, post_goods, get_good, update_good, delete_good, get_good_documents, get_good_document, delete_good_document, post_good_documents, raise_clc_query
@@ -42,9 +42,11 @@ class GoodsDetail(TemplateView):
     good_id = None
     good = None
     view_type = None
+    notifications = None
 
     def dispatch(self, request, *args, **kwargs):
         self.good_id = str(kwargs['pk'])
+        self.notifications, _ = get_clc_notifications(request, unviewed=True)
         good, status_code = get_good(request, self.good_id)
         self.good = good['good']
         self.view_type = kwargs['type']
@@ -54,31 +56,40 @@ class GoodsDetail(TemplateView):
 
         return super(GoodsDetail, self).dispatch(request, *args, **kwargs)
 
-
     def get(self, request, **kwargs):
         good_id = kwargs['pk']
         data, status_code = get_good(request, str(good_id))
         documents, status_code = get_good_documents(request, str(good_id))
 
         if data['good'].get('clc_query_id') != 'None':
-            if data['good']['notes'] is not None:
-                visible_notes = filter(lambda note: note['is_visible_to_exporter'], data['good']['notes'])
+            clc_query_id = data['good']['clc_query_id']
+            case_id = data['good']['clc_query_case_id']
+            case_note_notifications = len([x for x in self.notifications['results']
+                                           if x['clc_query'] == clc_query_id and x['case_note']])
+            ecju_query_notifications = len([x for x in self.notifications['results']
+                                            if x['clc_query'] == clc_query_id and x['ecju_query']])
 
-                context = {
-                    'data': data,
-                    'documents': documents['documents'],
-                    'notes': visible_notes,
-                    'title': data['good']['description'],
-                }
+            context = {
+                'data': data,
+                'documents': documents['documents'],
+                'title': data['good']['description'],
+                'type': self.view_type,
+            }
 
-                if self.view_type == 'case-notes':
-                    context['notes'] = get_application_case_notes(request, self.case_id)['case_notes']
+            if case_note_notifications > 0:
+                context['case_note_notifications'] = case_note_notifications
 
-                if self.view_type == 'ecju-queries':
-                    context['open_queries'], context['closed_queries'] = get_application_ecju_queries(request,
-                                                                                                      self.case_id)
+            if ecju_query_notifications > 0:
+                context['ecju_query_notifications'] = ecju_query_notifications
 
-                return render(request, 'goods/good.html', context)
+            if self.view_type == 'case-notes':
+                case_notes = get_application_case_notes(request, case_id)['case_notes']
+                context['notes'] = filter(lambda note: note['is_visible_to_exporter'], case_notes)
+
+            if self.view_type == 'ecju-queries':
+                context['open_queries'], context['closed_queries'] = get_application_ecju_queries(request, case_id)
+
+            return render(request, 'goods/good.html', context)
 
         context = {
             'data': data,
@@ -87,6 +98,33 @@ class GoodsDetail(TemplateView):
         }
 
         return render(request, 'goods/good.html', context)
+
+    def post(self, request, **kwargs):
+        if self.view_type != 'case-notes':
+            return Http404
+
+
+        good_id = kwargs['pk']
+        data, status_code = get_good(request, str(good_id))
+
+        response, status_code = post_application_case_notes(request, data['good']['clc_query_case_id'], request.POST)
+
+        if 'errors' in response:
+            errors = response.get('errors')
+            if errors.get('text'):
+                error = errors.get('text')[0]
+                error = error.replace('This field', 'Case note')
+                error = error.replace('this field', 'the case note')  # TODO: Move to API
+
+            else:
+                error_list = []
+                for key in errors:
+                    error_list.append("{field}: {error}".format(field=key, error=errors[key][0]))
+                error = "\n".join(error_list)
+            return error_page(request, error)
+
+        return redirect(reverse_lazy('goods:good-detail', kwargs={'pk': good_id,
+                                                           'type': 'case-notes'}))
 
 
 class AddGood(TemplateView):

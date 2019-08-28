@@ -25,12 +25,12 @@ def click_ecju_query_tab(driver, add_an_application):
     application_page.click_ecju_query_tab()
 
 
-@then('I see the correct amount of ecju notifications')
-def compare_open_ecju_queries_with_bubble(driver):
-    application_page = ApplicationPage(driver)
-    open_queries = application_page.get_count_of_open_ecju_queries()
-    bubble_value = application_page.get_bubble_value('ECJU Queries')
-    assert open_queries == bubble_value
+# @then('I see the correct amount of ecju notifications')
+# def compare_open_ecju_queries_with_bubble(driver):
+#     application_page = ApplicationPage(driver)
+#     open_queries = application_page.get_count_of_open_ecju_queries()
+#     bubble_value = application_page.get_bubble_value('ECJU Queries')
+#     assert open_queries == bubble_value
 
 
 @when('I click to respond to the ecju query')
