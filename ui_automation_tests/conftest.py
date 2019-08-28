@@ -61,6 +61,7 @@ def pytest_exception_interact(node, report):
         except Exception:
             pass
 
+
 @pytest.fixture(scope="module")
 def email(request):
     return request.config.getoption("--email")
