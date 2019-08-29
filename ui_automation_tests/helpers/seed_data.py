@@ -66,6 +66,14 @@ class SeedData:
                 }
             }
         },
+        "good": {
+            "description": "Lentils",
+            "is_good_controlled": "yes",
+            "control_code": "1234",
+            "is_good_end_product": True,
+            "part_number": "1234",
+            "validate_only": False,
+        },
         "good_end_product_true": {
             "description": good_end_product_true,
             "is_good_controlled": "yes",
@@ -186,7 +194,7 @@ class SeedData:
 
     def add_good(self):
         self.log("Adding good: ...")
-        data = self.request_data['good_end_product_true']
+        data = self.request_data['good']
         response = self.make_request("POST", url='/goods/', headers=self.export_headers, body=data)
         item = json.loads(response.text)['good']
         self.add_to_context('good_id', item['id'])
