@@ -27,9 +27,7 @@ class AddEndUserPages:
 
     def enter_country(self, country):
         country_tb = self.driver.find_element_by_id("country")
-        country_tb.clear()
         country_tb.send_keys(country)
-        self.driver.find_element_by_id("country").send_keys(Keys.RETURN)
 
     def select_type(self, string):
         self.driver.find_element_by_id(self.type_choices + string).click()

@@ -1,18 +1,16 @@
-from django.http import StreamingHttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
-from s3chunkuploader.file_handler import S3FileUploadHandler, s3_client
+from lite_forms.generators import error_page, form_page
+from s3chunkuploader.file_handler import S3FileUploadHandler
 
-from conf import settings
-from conf.settings import AWS_STORAGE_BUCKET_NAME
 from core.services import get_clc_notifications
 from goods import forms
 from goods.forms import edit_form, attach_documents_form
-from goods.services import get_goods, post_goods, get_good, update_good, delete_good, get_good_documents, get_good_document, delete_good_document, post_good_documents, raise_clc_query
-from libraries.forms.generators import form_page, error_page
+from goods.services import get_goods, post_goods, get_good, update_good, delete_good, get_good_documents, \
+    get_good_document, delete_good_document, post_good_documents, raise_clc_query
 from apply_for_a_licence.services import add_document_data
 from apply_for_a_licence.services import download_document_from_s3
 
