@@ -99,6 +99,6 @@ class AuthLogoutView(TemplateView):
     def get(self, request, **kwargs):
         request.user.delete()
         logout(request)
-        return redirect(LOGOUT_URL)
+        return redirect(LOGOUT_URL + 'https://' + request.get_host())
 
 
