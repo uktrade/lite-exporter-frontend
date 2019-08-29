@@ -1,10 +1,11 @@
 from django.http import Http404
 from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic import TemplateView
+from lite_forms.components import HiddenField
 from lite_forms.generators import error_page
 
-from applications.forms import respond_to_query_form
+from applications.forms import respond_to_query_form, ecju_query_respond_confirmation_form
 from applications.services import get_applications, get_application, get_application_case_notes, \
     get_application_ecju_queries, get_application_ecju_query, put_application_ecju_query, post_application_case_notes
 from core.services import get_notifications
@@ -113,16 +114,42 @@ class RespondToQuery(TemplateView):
         return form_page(request, respond_to_query_form(application_id, ecju_query))
 
     def post(self, request, **kwargs):
+        form_name = request.POST.get('form_name')
         application_id = str(kwargs['pk'])
         ecju_query_id = str(kwargs['query_pk'])
+
         ecju_query = get_application_ecju_query(request, application_id, ecju_query_id)
 
-        data, status_code = put_application_ecju_query(request, str(kwargs['pk']), str(kwargs['query_pk']),
-                                                       request.POST)
+        if form_name == 'respond_to_query':
+            # Post the form data to API for validation only
+            data = {'response': request.POST.get('response'), 'validate_only': True}
+            response, status_code = put_application_ecju_query(request, application_id, ecju_query_id, data)
 
-        if 'errors' in data:
-            return form_page(request, respond_to_query_form(application_id, ecju_query), data=request.POST,
-                             errors=data['errors'])
+            if status_code != 200:
+                errors = response.get('errors')
+                errors = {error: message for error, message in errors.items()}
+                form = respond_to_query_form(application_id, ecju_query)
+                data = {'response': request.POST.get('response')}
+                return form_page(request, form, data=data, errors=errors)
+            else:
+                form = ecju_query_respond_confirmation_form(reverse_lazy('applications:respond_to_query',
+                                                                         kwargs={'pk': application_id, 'query_pk': ecju_query_id}))
+                form.questions.append(HiddenField('response', request.POST.get('response')))
+                return form_page(request, form)
+        elif form_name == 'ecju_query_response_confirmation':
 
-        return redirect(reverse_lazy('applications:application-detail', kwargs={'pk': application_id,
-                                                                                'type': 'ecju-queries'}))
+            if request.POST.get('confirm_response') == 'yes':
+                data, status_code = put_application_ecju_query(request, application_id, ecju_query_id,
+                                                               request.POST)
+
+                if 'errors' in data:
+                    return form_page(request, respond_to_query_form(application_id, ecju_query), data=request.POST,
+                                     errors=data['errors'])
+
+                return redirect(reverse_lazy('applications:application-detail', kwargs={'pk': application_id,
+                                                                                        'type': 'ecju-queries'}))
+            else:
+                return form_page(request, respond_to_query_form(application_id, ecju_query), data=request.POST)
+        else:
+            # Submitted data does not contain an expected form field - return an error
+            return error_page(None, 'We had an issue creating your response. Try again later.')
