@@ -12,6 +12,11 @@ class ProtectAllViewsMiddleware:
 
     def __call__(self, request):
 
+        response = self.get_response(request)
+
+        if resolve(request.path).url_name == 'logout' and request.user.is_authenticated:
+            return response
+
         if resolve(request.path).app_name != 'authbroker_client' and not request.user.is_authenticated:
             return redirect('authbroker:login')
 
@@ -27,7 +32,5 @@ class ProtectAllViewsMiddleware:
                     user.save()
                 elif len(user_dict['user']['organisations']) > 1:
                     return redirect('core:pick_organisation')
-
-        response = self.get_response(request)
 
         return response
