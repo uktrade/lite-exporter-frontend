@@ -2,6 +2,7 @@ from django.http import Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
+from lite_forms.generators import error_page
 
 from applications.forms import respond_to_query_form
 from applications.services import get_applications, get_application, get_application_case_notes, \
@@ -94,8 +95,8 @@ class ApplicationDetail(TemplateView):
             else:
                 error_list = []
                 for key in errors:
-                    error_list.append("{field}: {error}".format(field=key, error=errors[key][0]))
-                error = "\n".join(error_list)
+                    error_list.append('{field}: {error}'.format(field=key, error=errors[key][0]))
+                error = '\n'.join(error_list)
             return error_page(request, error)
 
         return redirect(reverse_lazy('applications:application', kwargs={'pk': self.application_id}))
