@@ -18,6 +18,8 @@ class SeedData:
     case_note_text = 'I Am Easy to Find'
     first_name = "Trinity"
     last_name = "Fishburne"
+    good_end_product_true = "Hot Cross Buns"
+    good_end_product_false = "Falafels"
 
     request_data = {
         "organisation": {
@@ -64,11 +66,19 @@ class SeedData:
                 }
             }
         },
-        "good": {
-            "description": "MPG 2.",
+        "good_end_product_true": {
+            "description": good_end_product_true,
             "is_good_controlled": "yes",
             "control_code": "1234",
             "is_good_end_product": True,
+            "part_number": "1234",
+            "validate_only": False,
+        },
+        "good_end_product_false": {
+            "description": good_end_product_false,
+            "is_good_controlled": "yes",
+            "control_code": "1234",
+            "is_good_end_product": False,
             "part_number": "1234",
             "validate_only": False,
         },
@@ -176,11 +186,37 @@ class SeedData:
 
     def add_good(self):
         self.log("Adding good: ...")
-        data = self.request_data['good']
+        data = self.request_data['good_end_product_true']
         response = self.make_request("POST", url='/goods/', headers=self.export_headers, body=data)
         item = json.loads(response.text)['good']
         self.add_to_context('good_id', item['id'])
         self.add_document(item['id'])
+
+    def find_good_by_name(self, good_name):
+        response = self.make_request("GET", url='/goods/', headers=self.export_headers)
+        goods = json.loads(response.text)['goods']
+        good = next((item for item in goods if item["description"] == good_name), None)
+        return good
+
+    def add_good_end_product_false(self):
+        self.log("Adding good: ...")
+        good = self.find_good_by_name(self.good_end_product_false)
+        if not good:
+            data = self.request_data['good_end_product_false']
+            response = self.make_request("POST", url='/goods/', headers=self.export_headers, body=data)
+            item = json.loads(response.text)['good']
+            self.add_document(item['id'])
+        self.add_to_context('goods_name', self.good_end_product_false)
+
+    def add_good_end_product_true(self):
+        self.log("Adding good: ...")
+        good = self.find_good_by_name(self.good_end_product_true)
+        if not good:
+            data = self.request_data['good_end_product_true']
+            response = self.make_request("POST", url='/goods/', headers=self.export_headers, body=data)
+            item = json.loads(response.text)['good']
+            self.add_document(item['id'])
+        self.add_to_context('goods_name', self.good_end_product_true)
 
     def add_document(self, good_id):
         data = self.request_data['document']
