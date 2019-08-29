@@ -22,7 +22,7 @@ class ApplicationOverviewPage:
         self.attach_end_user_document_link = "attach_doc" # ID
         self.download_end_user_document = "end_user_document_download" # ID
         self.delete_end_user_document = "end_user_document_delete" # ID
-
+        self.end_user_document_state = "end_user_document_state" # ID
 
     def click_application_locations_link(self):
         self.driver.execute_script("document.getElementById('" + self.location_link + "').scrollIntoView(true);")
@@ -68,3 +68,6 @@ class ApplicationOverviewPage:
 
     def get_text_of_good(self, no):
         return self.driver.find_elements_by_css_selector(self.lite_section)[no].text
+
+    def get_end_user_document_state_text(self):
+        return self.driver.find_element_by_id(self.end_user_document_state).text

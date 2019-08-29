@@ -65,10 +65,8 @@ class Overview(TemplateView):
         if end_user:
             end_user_document, status_code = get_end_user_document(request, draft_id)
             end_user_document = end_user_document.get('document')
-            can_submit = True if end_user_document and end_user_document['safe'] else False
         else:
             end_user_document = None
-            can_submit = data.get('draft').get('licence_type').get('key') == OPEN_LICENCE
 
         for good in goods['goods']:
             if not good['good']['is_good_end_product']:
@@ -85,7 +83,6 @@ class Overview(TemplateView):
             'ultimate_end_users': ultimate_end_users['ultimate_end_users'],
             'ultimate_end_users_required': ultimate_end_users_required,
             'end_user_document': end_user_document,
-            'can_submit': can_submit
         }
         return render(request, 'apply_for_a_licence/overview.html', context)
 

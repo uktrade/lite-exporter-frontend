@@ -34,6 +34,7 @@ Feature: I want to indicate the standard licence I want
     When I click on end user
     And I add an end user of type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
     And I upload a file "file_for_doc_upload_test_1.txt"
+    And I wait for the end user document to be processed
     Then I see end user on overview
     When I submit the application
     Then application is submitted
@@ -66,6 +67,7 @@ Feature: I want to indicate the standard licence I want
     When I click on end user
     And I add an end user of type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
     And I upload a file "file_for_doc_upload_test_1.txt"
+    And I wait for the end user document to be processed
     And I submit the application
     And I click applications
     Then I see submitted application
@@ -93,6 +95,7 @@ Feature: I want to indicate the standard licence I want
     And I click on end user
     And I add an end user of type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
     And I upload a file "file_for_doc_upload_test_1.txt"
+    And I wait for the end user document to be processed
     And I submit the application
     Then application is submitted
     When I go to exporter homepage
