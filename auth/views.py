@@ -9,6 +9,7 @@ from raven.contrib.django.raven_compat.models import client
 from auth.services import authenticate_exporter_user
 from authbroker_client.utils import get_client, AUTHORISATION_URL, TOKEN_URL, \
     TOKEN_SESSION_KEY, get_profile
+from conf.settings import LOGOUT_URL
 from core.builtins.custom_tags import get_string
 from users.services import get_user
 
@@ -98,6 +99,6 @@ class AuthLogoutView(TemplateView):
     def get(self, request, **kwargs):
         request.user.delete()
         logout(request)
-        return redirect('/')
+        return redirect(LOGOUT_URL)
 
 
