@@ -42,10 +42,5 @@ def internal_note_visible(driver, context):
 @then('I cannot see a notification')
 def notification_does_not_exist(driver, context):
     if context.number_of_notifications != 1:
-<<<<<<< HEAD
-        number_of_notifications_after_acknowledgment = exporter_hub_page.return_number_of_notifications()
-        assert number_of_notifications_after_acknowledgment + 1 == context.number_of_notifications
-=======
         number_of_notifications_after_acknowledgment = Hub(driver).return_number_of_notifications()
         assert number_of_notifications_after_acknowledgment+1 == context.number_of_notifications
->>>>>>> 8bb0378bc26443fcec462b8871071a865de4a6e8
