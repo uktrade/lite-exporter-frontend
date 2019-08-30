@@ -7,7 +7,7 @@ from s3chunkuploader.file_handler import S3FileUploadHandler
 
 from apply_for_a_licence.forms.end_user import attach_document_form, \
     delete_document_confirmation_form
-from lite_forms.generators import form_page, success_page
+from lite_forms.generators import form_page, success_page, error_page
 from lite_forms.submitters import submit_paged_form
 
 from apply_for_a_licence.forms import initial, goods
