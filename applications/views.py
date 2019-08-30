@@ -7,7 +7,7 @@ from lite_forms.generators import error_page
 
 from applications.forms import respond_to_query_form, ecju_query_respond_confirmation_form
 from applications.services import get_applications, get_application, get_application_case_notes, \
-    get_application_ecju_queries, get_application_ecju_query, put_application_ecju_query, post_application_case_notes
+    get_application_ecju_queries, get_ecju_query, put_ecju_query, post_application_case_notes
 from core.services import get_notifications
 from libraries.forms.generators import form_page, error_page
 
@@ -106,7 +106,7 @@ class ApplicationDetail(TemplateView):
 class RespondToQuery(TemplateView):
     def get(self, request, **kwargs):
         application_id = str(kwargs['pk'])
-        ecju_query = get_application_ecju_query(request, str(kwargs['pk']), str(kwargs['query_pk']))
+        ecju_query = get_ecju_query(request, str(kwargs['pk']), str(kwargs['query_pk']))
 
         if ecju_query['response']:
             raise Http404
@@ -118,12 +118,12 @@ class RespondToQuery(TemplateView):
         application_id = str(kwargs['pk'])
         ecju_query_id = str(kwargs['query_pk'])
 
-        ecju_query = get_application_ecju_query(request, application_id, ecju_query_id)
+        ecju_query = get_ecju_query(request, application_id, ecju_query_id)
 
         if form_name == 'respond_to_query':
             # Post the form data to API for validation only
             data = {'response': request.POST.get('response'), 'validate_only': True}
-            response, status_code = put_application_ecju_query(request, application_id, ecju_query_id, data)
+            response, status_code = put_ecju_query(request, application_id, ecju_query_id, data)
 
             if status_code != 200:
                 errors = response.get('errors')
@@ -139,8 +139,8 @@ class RespondToQuery(TemplateView):
         elif form_name == 'ecju_query_response_confirmation':
 
             if request.POST.get('confirm_response') == 'yes':
-                data, status_code = put_application_ecju_query(request, application_id, ecju_query_id,
-                                                               request.POST)
+                data, status_code = put_ecju_query(request, application_id, ecju_query_id,
+                                                   request.POST)
 
                 if 'errors' in data:
                     return form_page(request, respond_to_query_form(application_id, ecju_query), data=request.POST,

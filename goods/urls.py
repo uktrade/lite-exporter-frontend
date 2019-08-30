@@ -26,4 +26,6 @@ urlpatterns = [
     path('<uuid:pk>', views.GoodsDetailEmpty.as_view(), name='good'),
     # ex: /goods/43a88949-5db9-4334-b0cc-044e91827451/case-notes/
     path('<uuid:pk>/<str:type>/', views.GoodsDetail.as_view(), name='good-detail'),
+    # ex: /goods/43a88949-5db9-4334-b0cc-044e91827451/ecju-queries/43a88949-5db9-4334-b0cc-044e91827451
+    path('<uuid:pk>/ecju-queries/<uuid:query_pk>/', views.RespondToQuery.as_view(), name='respond_to_query'),
 ]

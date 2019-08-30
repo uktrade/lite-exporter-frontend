@@ -133,7 +133,7 @@ class SeedData:
             'is_good_end_product': True,
             'part_number': '1234',
             'validate_only': False,
-            'not_sure_details_details': 'Kebabs'
+            'details': 'Kebabs'
         },
         'case_note': {
             'text': case_note_text,
@@ -156,6 +156,7 @@ class SeedData:
         self.setup_org()
         self.auth_export_user()
         self.add_good()
+        self.add_clc_good()
         self.logging = logging
 
     def log(self, text):
@@ -204,6 +205,20 @@ class SeedData:
         self.add_to_context('good_id', item['id'])
         self.add_document(item['id'])
 
+    def add_clc_good(self):
+        self.log('Adding clc good: ...')
+        data = self.request_data['clc_good']
+        response = self.make_request('POST', url='/goods/', headers=self.export_headers, body=data)
+        item = json.loads(response.text)['good']
+        self.add_to_context('good_id', item['id'])
+        self.add_document(item['id'])
+        data = {'good_id': self.context['good_id'],
+                'not_sure_details_control_code': 'a',
+                'not_sure_details_details': 'b'}
+        response = self.make_request('POST', url='/applications/clcs/', headers=self.export_headers, body=data)
+        response_data = json.loads(response.text)
+        self.add_ecju_query(response_data['case_id'])
+
     def find_good_by_name(self, good_name):
         response = self.make_request('GET', url='/goods/', headers=self.export_headers)
         goods = json.loads(response.text)['goods']
@@ -249,11 +264,10 @@ class SeedData:
         response = self.make_request("POST", url='/cases/' + context.case_id + '/case-notes/', headers=self.gov_headers, body=data)
         print(response)
 
-    def add_ecju_query(self, context):
+    def add_ecju_query(self, case_id):
         self.log("Creating ecju query: ...")
         data = self.request_data['ecju_query']
-        context.text = self.ecju_query_text
-        response = self.make_request("POST", url='/cases/' + context.case_id + '/ecju-queries/', headers=self.gov_headers, body=data)
+        response = self.make_request("POST", url='/cases/' + case_id + '/ecju-queries/', headers=self.gov_headers, body=data)
         print(response)
 
     def find_org_by_name(self, org_name):

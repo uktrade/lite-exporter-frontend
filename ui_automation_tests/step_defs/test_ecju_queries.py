@@ -1,40 +1,46 @@
 from pytest_bdd import when, then, given, parsers, scenarios
-from pages.application_page import ApplicationPage
-from pages.respond_to_ecju_query_page import RespondToEcjuQueryPage
 
-import helpers.helpers as utils
+from pages.application_page import ApplicationPage
+from pages.exporter_hub_page import ExporterHubPage
+from pages.goods_list import GoodsList
+from pages.respond_to_ecju_query_page import RespondToEcjuQueryPage
+from pages.shared import Shared
 
 scenarios('../features/ecju_queries.feature', strict_gherkin=False)
 
 
 @given('An application exists and a ecju query has been added via internal gov site')
-def application_exists_ecju_query_added(add_an_application, internal_ecju_query):
+def application_exists_ecju_query_added(add_an_application):
     pass
 
 
 @when('I click on an application previously created')
-def click_on_an_application(driver, add_an_application):
+def click_on_an_application(driver):
     driver.refresh()
     elements = driver.find_elements_by_css_selector('a[href*="/applications/"]')
     elements[len(elements)-1].click()
 
 
 @when('I select to view ecju queries')
-def click_ecju_query_tab(driver, add_an_application):
+def click_ecju_query_tab(driver):
     application_page = ApplicationPage(driver)
     application_page.click_ecju_query_tab()
 
 
-# @then('I see the correct amount of ecju notifications')
-# def compare_open_ecju_queries_with_bubble(driver):
-#     application_page = ApplicationPage(driver)
-#     open_queries = application_page.get_count_of_open_ecju_queries()
-#     bubble_value = application_page.get_bubble_value('ECJU Queries')
-#     assert open_queries == bubble_value
+@when('I click to view goods page')
+def click_on_goods_page(driver):
+    exporter_hub = ExporterHubPage(driver)
+    exporter_hub.click_my_goods()
+
+
+@when('I click on an CLC query previously created')
+def click_on_clc_query(driver):
+    goods_list = GoodsList(driver)
+    goods_list.click_on_clc_good_with_notification()
 
 
 @when('I click to respond to the ecju query')
-def click_ecju_query_tab(driver, add_an_application):
+def click_ecju_query_tab(driver):
     application_page = ApplicationPage(driver)
     application_page.respond_to_ecju_query(0)
 
@@ -46,8 +52,20 @@ def respond_to_query(driver, response):
     response_page.click_submit()
 
 
+@when(parsers.parse('I select "{value}" for submitting response and click submit'))
+def submit_response_confirmation(driver, value):
+    driver.find_element_by_xpath('//input[@value="' + value + '"]').click()
+    driver.find_element_by_xpath('//button[@type="submit"]').click()
+
+
 @then('I see my ecju query is closed')
-def compare_open_ecju_queries_with_bubble(driver):
+def determine_that_there_is_a_closed_query(driver):
     application_page = ApplicationPage(driver)
     closed_queries = application_page.get_count_of_closed_ecju_queries()
     assert closed_queries > 0
+
+
+@then('I see an error message on the page')
+def error_message_pop_up(driver):
+    shared = Shared(driver)
+    assert "This field may not be blank." in shared.get_text_of_error_message()

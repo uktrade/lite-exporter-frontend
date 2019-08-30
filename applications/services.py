@@ -23,12 +23,12 @@ def post_application_case_notes(request, pk, json):
     return data.json(), data.status_code
 
 
-def get_application_ecju_query(request, pk, query_pk):
+def get_ecju_query(request, pk, query_pk):
     data = get(request, CASES_URL + pk + ECJU_QUERIES_URL + query_pk).json()['ecju_query']
     return data
 
 
-def put_application_ecju_query(request, pk, query_pk, json):
+def put_ecju_query(request, pk, query_pk, json):
     data = put(request, CASES_URL + pk + ECJU_QUERIES_URL + query_pk + '/', json)
     return data.json(), data.status_code
 
