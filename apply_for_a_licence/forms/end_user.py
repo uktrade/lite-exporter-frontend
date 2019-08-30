@@ -50,8 +50,8 @@ def attach_document_form(draft_url):
                 footer_label=Label('Or <a href="'
                                    + draft_url
                                    + '" class="govuk-link govuk-link--no-visited-state">'
-                                   + 'Save your application and return to the overview page</a>'
-                                   + ' (You can upload a document later)'))
+                                   + get_string('end_user.documents.save_end_user')
+                                   + '</a> ' + get_string('end_user.documents.attach_later')))
 
 
 def delete_document_confirmation_form(overview_url):
