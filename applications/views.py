@@ -3,13 +3,12 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import TemplateView
 from lite_forms.components import HiddenField
-from lite_forms.generators import error_page
+from lite_forms.generators import error_page, form_page
 
 from applications.forms import respond_to_query_form, ecju_query_respond_confirmation_form
 from applications.services import get_applications, get_application, get_application_case_notes, \
     get_application_ecju_queries, get_ecju_query, put_ecju_query, post_application_case_notes
 from core.services import get_notifications
-from libraries.forms.generators import form_page, error_page
 
 
 class ApplicationsList(TemplateView):
