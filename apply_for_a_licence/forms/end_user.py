@@ -1,6 +1,7 @@
 from core.builtins.custom_tags import get_string
 from lite_forms.components import RadioButtons, Form, Option, TextArea, Select, TextInput, FormGroup, FileUpload,\
     BackLink
+from lite_forms.generators import confirm_form
 from core.services import get_countries
 
 
