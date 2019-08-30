@@ -1,6 +1,8 @@
+from django.urls import reverse_lazy
+
 from core.builtins.custom_tags import get_string
-from lite_forms.components import RadioButtons, Form, Option, TextArea, Select, TextInput, FormGroup, FileUpload,\
-    BackLink
+from lite_forms.components import RadioButtons, Form, Option, TextArea, Select, TextInput, FormGroup, FileUpload, \
+    BackLink, Label
 from lite_forms.generators import confirm_form
 from core.services import get_countries
 
@@ -44,7 +46,10 @@ def attach_document_form(draft_url):
                 get_string('end_user.documents.attach_documents.description'),
                 [FileUpload('documents')],
                 back_link=BackLink(get_string('end_user.documents.attach_documents.back_to_application_overview'),
-                                   draft_url))
+                                   draft_url),
+                footer_label=Label('Or <a href="' +
+                                   reverse_lazy('apply_for_a_licence:overview', kwargs={'pk': draft_url})
+                                   + '" class="govuk-link govuk-link--no-visited-state">Save your application and return to the overview page</a> (You can upload a document later)'))
 
 
 def delete_document_confirmation_form(overview_url):
