@@ -62,6 +62,7 @@ def create_non_incorporated_good(driver, request, context):
     context.goods_name = good_name
     exporter_hub = ExporterHubPage(driver)
     driver.get(request.config.getoption("--exporter_url"))
+    exporter_hub.click_my_goods()
     add_goods_page = AddGoodPage(driver)
     add_goods_page.click_add_a_good()
     exporter_hub = ExporterHubPage(driver)
