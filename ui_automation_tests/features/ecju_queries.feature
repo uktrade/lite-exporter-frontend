@@ -19,7 +19,6 @@ So that I can quickly identify where action is required by me and respond to any
     Then I see my ecju query is closed
 
   @LT_996
-  @MSTG
    Scenario: view and respond to a ecju_query in an goods
     Given I go to exporter homepage and choose Test Org
     When I click to view goods page
