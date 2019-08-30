@@ -174,7 +174,7 @@ def add_a_non_incorporated_good(driver, add_a_non_incorporated_good_to_applicati
 def i_wait_for_end_user_document_to_be_processed(driver):
     app = ApplicationOverviewPage(driver)
     # Constants for total time to retry function and intervals between attempts
-    timeout_limit = 60
+    timeout_limit = 20
     function_retry_interval = 1
 
     time_no = 0

@@ -392,13 +392,13 @@ class AttachDocuments(TemplateView):
         data, error = add_document_data(request)
 
         if error:
-            return error_page(None, 'We had an issue uploading your files. Try again later.')
+            return error_page(None, get_string('end_user.documents.attach_documents.upload_error'))
 
         # Send LITE API the file information
         end_user_document, status_code = post_end_user_document(request, draft_id, data)
 
         if status_code != 201:
-            return error_page(None, 'We had an issue uploading your files. Try again later.')
+            return error_page(None, get_string('end_user.documents.attach_documents.upload_error'))
 
         return redirect(reverse('apply_for_a_licence:overview', kwargs={'pk': draft_id}))
 
@@ -414,7 +414,7 @@ class DownloadDocument(TemplateView):
         if document['safe']:
             return download_document_from_s3(document['s3_key'], document['name'])
         else:
-            return error_page(None, 'We had an issue downloading your file. Try again later.')
+            return error_page(None, get_string('end_user.documents.attach_documents.download_error'))
 
 
 class DeleteDocument(TemplateView):
@@ -434,7 +434,7 @@ class DeleteDocument(TemplateView):
         elif option == 'yes':
             status_code = delete_end_user_document(request, draft_id)
             if status_code is not 204:
-                return error_page(None, 'We had an issue deleting your files. Try again later.')
+                return error_page(None, get_string('end_user.documents.attach_documents.delete_error'))
 
         return redirect(reverse('apply_for_a_licence:overview', kwargs={'pk': draft_id}))
 
