@@ -1,7 +1,6 @@
 from conf.client import get, post, put, delete
 from conf.constants import APPLICATIONS_URL, DRAFTS_URL, END_USER_DOCUMENT_URL, ULTIMATE_END_USER_URL, DOCUMENT_URL
 
-
 def get_drafts(request):
     data = get(request, DRAFTS_URL)
     return data.json(), data.status_code
