@@ -61,6 +61,7 @@ class Overview(TemplateView):
         goodstypes, status_code = get_draft_goods_type(request, draft_id)
         external_locations, status_code = get_external_locations_on_draft(request, draft_id)
         ultimate_end_users, status_code = get_ultimate_end_users(request, draft_id)
+        # TODO: Discuss with Andy why this isn't another endpoint call
         end_user = data.get('draft').get('end_user')
         if end_user:
             end_user_document, status_code = get_end_user_document(request, draft_id)
@@ -352,7 +353,7 @@ class AddUltimateEndUser(TemplateView):
         if response:
             return response
 
-        return redirect(reverse_lazy('apply_for_a_licence:ultimate_end_user_attach_document', kwargs={'pk': self.draft_id}))
+        return redirect(reverse_lazy('apply_for_a_licence:ultimate_end_user_attach_document', kwargs={'pk': self.draft_id, 'ueu_pk': data['end_user']['id']}))
 
 
 class RemoveUltimateEndUser(TemplateView):
@@ -403,7 +404,7 @@ class AttachDocuments(TemplateView):
 
         # Send LITE API the file information
         if 'ultimate-end-user' in request.path:
-            end_user_document, status_code = post_ultimate_end_user_document(request, draft_id, data)
+            end_user_document, status_code = post_ultimate_end_user_document(request, draft_id, str(kwargs['ueu_pk']), data)
         else:
             end_user_document, status_code = post_end_user_document(request, draft_id, data)
 

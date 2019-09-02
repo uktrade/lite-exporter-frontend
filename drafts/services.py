@@ -1,5 +1,5 @@
 from conf.client import get, post, put, delete
-from conf.constants import APPLICATIONS_URL, DRAFTS_URL, END_USER_DOCUMENT_URL, ULTIMATE_END_USER_DOCUMENT_URL
+from conf.constants import APPLICATIONS_URL, DRAFTS_URL, END_USER_DOCUMENT_URL, ULTIMATE_END_USER_URL, DOCUMENT_URL
 
 
 def get_drafts(request):
@@ -96,8 +96,8 @@ def post_end_user_document(request, pk, json):
     return data.json(), data.status_code
 
 
-def post_ultimate_end_user_document(request, pk, json):
-    data = post(request, DRAFTS_URL + pk + ULTIMATE_END_USER_DOCUMENT_URL, json)
+def post_ultimate_end_user_document(request, pk, ueu_pk, json):
+    data = post(request, DRAFTS_URL + pk + ULTIMATE_END_USER_URL + ueu_pk + DOCUMENT_URL, json)
     return data.json(), data.status_code
 
 
