@@ -6,10 +6,9 @@ So that I can quickly identify where action is required by me and respond to any
   @LT_996_application
   Scenario: view and respond to a ecju_query in an application
     Given I go to exporter homepage and choose Test Org
-    When I click on applications
-    And I click on the latest application created
+    When I go to the recently created application
     And I select to view ecju queries
-    When I click to respond to the ecju query
+    And I click to respond to the ecju query
     And I enter " " for ecju query and click submit
     Then I see an error message on the page
     When I enter "This is my response" for ecju query and click submit
@@ -21,10 +20,9 @@ So that I can quickly identify where action is required by me and respond to any
   @LT_996_clc
    Scenario: view and respond to a ecju_query in an goods
     Given I go to exporter homepage and choose Test Org
-    When I click to view goods page
-    And I click on an CLC query previously created
+    When I click on an CLC query previously created
     And I select to view ecju queries
-    When I click to respond to the ecju query
+    And I click to respond to the ecju query
     And I enter " " for ecju query and click submit
     Then I see an error message on the page
     When I enter "This is my response" for ecju query and click submit

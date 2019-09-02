@@ -156,7 +156,6 @@ class SeedData:
         self.setup_org()
         self.auth_export_user()
         self.add_good()
-        self.add_clc_good()
         self.logging = logging
 
     def log(self, text):
@@ -210,9 +209,9 @@ class SeedData:
         data = self.request_data['clc_good']
         response = self.make_request('POST', url='/goods/', headers=self.export_headers, body=data)
         item = json.loads(response.text)['good']
-        self.add_to_context('good_id', item['id'])
+        self.add_to_context('clc_good_id', item['id'])
         self.add_document(item['id'])
-        data = {'good_id': self.context['good_id'],
+        data = {'good_id': self.context['clc_good_id'],
                 'not_sure_details_control_code': 'a',
                 'not_sure_details_details': 'b'}
         response = self.make_request('POST', url='/applications/clcs/', headers=self.export_headers, body=data)
