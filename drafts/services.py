@@ -1,5 +1,5 @@
 from conf.client import get, post, put, delete
-from conf.constants import APPLICATIONS_URL, DRAFTS_URL, END_USER_DOCUMENT_URL
+from conf.constants import APPLICATIONS_URL, DRAFTS_URL, END_USER_DOCUMENT_URL, ULTIMATE_END_USER_DOCUMENT_URL
 
 
 def get_drafts(request):
@@ -53,12 +53,6 @@ def post_draft_preexisting_goods(request, pk, json):
     return data.json(), data.status_code
 
 
-# End Users
-def get_end_user(request, pk):
-    data = get(request, DRAFTS_URL + pk + '/end-user/')
-    return data.json(), data.status_code
-
-
 def post_end_user(request, pk, json):
     data = post(request, DRAFTS_URL + pk + '/end-user/', json)
     return data.json(), data.status_code
@@ -99,6 +93,11 @@ def get_end_user_document(request, pk):
 
 def post_end_user_document(request, pk, json):
     data = post(request, DRAFTS_URL + pk + END_USER_DOCUMENT_URL, json)
+    return data.json(), data.status_code
+
+
+def post_ultimate_end_user_document(request, pk, json):
+    data = post(request, DRAFTS_URL + pk + ULTIMATE_END_USER_DOCUMENT_URL, json)
     return data.json(), data.status_code
 
 

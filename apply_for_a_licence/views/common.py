@@ -19,7 +19,7 @@ from core.services import get_units, get_sites_on_draft, get_external_locations_
 from drafts.services import post_drafts, get_draft, get_draft_goods, post_draft_preexisting_goods, submit_draft, \
     delete_draft, post_end_user, get_draft_countries, get_draft_goods_type, get_ultimate_end_users, \
     post_ultimate_end_user, delete_ultimate_end_user, get_end_user_document, post_end_user_document, \
-    delete_end_user_document
+    delete_end_user_document, post_ultimate_end_user_document
 from goods.services import get_goods, get_good
 from apply_for_a_licence.services import add_document_data
 from conf.constants import STANDARD_LICENCE, OPEN_LICENCE
@@ -322,7 +322,8 @@ class UltimateEndUsers(TemplateView):
         context = {
             'ultimate_end_users': data['ultimate_end_users'],
             'draft_id': draft_id,
-            'title': 'Ultimate End Users'
+            'title': 'Ultimate End Users',
+            'description': get_string('ultimate_end_user.overview_description')
         }
 
         return render(request, 'apply_for_a_licence/ultimate_end_users/index.html', context)
@@ -351,7 +352,7 @@ class AddUltimateEndUser(TemplateView):
         if response:
             return response
 
-        return redirect(reverse_lazy('apply_for_a_licence:ultimate_end_users', kwargs={'pk': self.draft_id}))
+        return redirect(reverse_lazy('apply_for_a_licence:ultimate_end_user_attach_document', kwargs={'pk': self.draft_id}))
 
 
 class RemoveUltimateEndUser(TemplateView):
@@ -376,8 +377,14 @@ class AttachDocuments(TemplateView):
         draft, status_code = get_draft(request, draft_id)
         if status_code == 200:
             if draft.get('draft').get('licence_type').get('key') == STANDARD_LICENCE:
-                form = attach_document_form(reverse('apply_for_a_licence:overview', kwargs={'pk': draft_id}))
+                if 'ultimate-end-user' in request.path:
+                    draft_url = reverse('apply_for_a_licence:ultimate_end_users', kwargs={'pk': draft_id})
+                    title = get_string('ultimate_end_user.documents.attach_documents.title')
+                else:
+                    draft_url = reverse('apply_for_a_licence:overview', kwargs={'pk': draft_id})
+                    title = get_string('end_user.documents.attach_documents.title')
 
+                form = attach_document_form(draft_url=draft_url, title=title)
                 return form_page(request, form, extra_data={'draft_id': draft_id})
             else:
                 return redirect(reverse_lazy('apply_for_a_licence:overview', kwargs={'pk': draft_id}))
@@ -395,7 +402,10 @@ class AttachDocuments(TemplateView):
             return error_page(None, get_string('end_user.documents.attach_documents.upload_error'))
 
         # Send LITE API the file information
-        end_user_document, status_code = post_end_user_document(request, draft_id, data)
+        if 'ultimate-end-user' in request.path:
+            end_user_document, status_code = post_ultimate_end_user_document(request, draft_id, data)
+        else:
+            end_user_document, status_code = post_end_user_document(request, draft_id, data)
 
         if status_code != 201:
             return error_page(None, get_string('end_user.documents.attach_documents.upload_error'))
