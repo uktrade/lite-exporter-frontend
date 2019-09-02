@@ -248,7 +248,6 @@ class SeedData:
     def add_document(self, good_id):
         data = self.request_data['document']
         response = self.make_request('POST', url='/goods/' + good_id + '/documents/', headers=self.export_headers, body=data)
-        print(response)
 
     def add_org(self, key):
         self.log('Creating org: ...')
@@ -262,13 +261,11 @@ class SeedData:
         data = self.request_data['case_note']
         context.text = self.case_note_text
         response = self.make_request("POST", url='/cases/' + context.case_id + '/case-notes/', headers=self.gov_headers, body=data)
-        print(response)
 
     def add_ecju_query(self, case_id):
         self.log("Creating ecju query: ...")
         data = self.request_data['ecju_query']
         response = self.make_request("POST", url='/cases/' + case_id + '/ecju-queries/', headers=self.gov_headers, body=data)
-        print(response)
 
     def find_org_by_name(self, org_name):
         response = self.make_request('GET', url='/organisations/')
