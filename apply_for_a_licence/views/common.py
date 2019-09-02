@@ -19,7 +19,7 @@ from core.services import get_units, get_sites_on_draft, get_external_locations_
 from drafts.services import post_drafts, get_draft, get_draft_goods, post_draft_preexisting_goods, submit_draft, \
     delete_draft, post_end_user, get_draft_countries, get_draft_goods_type, get_ultimate_end_users, \
     post_ultimate_end_user, delete_ultimate_end_user, get_end_user_document, \
-    delete_end_user_document
+    delete_end_user_document, post_ultimate_end_user_document
 from goods.services import get_goods, get_good
 from apply_for_a_licence.services import add_document_data
 from conf.constants import STANDARD_LICENCE
@@ -404,7 +404,8 @@ class AttachDocuments(TemplateView):
 
         # Send LITE API the file information
         if 'ultimate-end-user' in request.path:
-            end_user_document, status_code = post_ultimate_end_user_document(request, draft_id, str(kwargs['ueu_pk']), data)
+            end_user_document, status_code = post_ultimate_end_user_document(request, draft_id,
+                                                                             str(kwargs['ueu_pk']), data)
         else:
             end_user_document, status_code = post_end_user_document(request, draft_id, data)
 
