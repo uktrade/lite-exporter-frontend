@@ -85,5 +85,3 @@ def create_non_incorporated_good(driver, request, context):
     context.document_description = utils.get_formatted_date_time_m_d_h_s()
     attach_document_page.enter_description(context.document_description)
     Shared(driver).click_continue()
-
-

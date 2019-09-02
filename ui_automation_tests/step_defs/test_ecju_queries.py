@@ -62,7 +62,7 @@ def determine_that_there_is_a_closed_query(driver):
     assert closed_queries > 0
 
 
-@then('I see an error message on the page')
+@then('I see This field may not be blank error message on the page')
 def error_message_pop_up(driver):
     shared = Shared(driver)
     assert "This field may not be blank." in shared.get_text_of_error_message()

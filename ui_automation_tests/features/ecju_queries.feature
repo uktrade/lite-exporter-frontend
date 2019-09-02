@@ -10,7 +10,7 @@ So that I can quickly identify where action is required by me and respond to any
     And I select to view ecju queries
     And I click to respond to the ecju query
     And I enter " " for ecju query and click submit
-    Then I see an error message on the page
+    Then I see This field may not be blank error message on the page
     When I enter "This is my response" for ecju query and click submit
     And I select "no" for submitting response and click submit
     And I enter "This is my edited response" for ecju query and click submit
@@ -24,7 +24,7 @@ So that I can quickly identify where action is required by me and respond to any
     And I select to view ecju queries
     And I click to respond to the ecju query
     And I enter " " for ecju query and click submit
-    Then I see an error message on the page
+    Then I see This field may not be blank error message on the page
     When I enter "This is my response" for ecju query and click submit
     And I select "no" for submitting response and click submit
     And I enter "This is my edited response" for ecju query and click submit
