@@ -336,6 +336,9 @@ class DeleteDocument(TemplateView):
 
 class RespondToQuery(TemplateView):
     def get(self, request, **kwargs):
+        '''
+        Will get a text area form for the user to respond to the ecju_query
+        '''
         good_id = str(kwargs['pk'])
         good, _ = get_good(request, good_id)
         clc_query_case_id = good['good']['clc_query_case_id']
@@ -348,6 +351,11 @@ class RespondToQuery(TemplateView):
         return form_page(request, respond_to_query_form(good_id, ecju_query))
 
     def post(self, request, **kwargs):
+        '''
+        will determine what form the user is on:
+        if the user is on the input form will then will determine if data is valid, and move user to confirmation form
+        else will allow the user to confirm they wish to respond and post data if accepted.
+        '''
         good_id = str(kwargs['pk'])
         form_name = request.POST.get('form_name')
         good, _ = get_good(request, good_id)
