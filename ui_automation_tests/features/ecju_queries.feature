@@ -7,7 +7,7 @@ So that I can quickly identify where action is required by me and respond to any
   Scenario: view and respond to a ecju_query in an application
     Given I go to exporter homepage and choose Test Org
     When I click on applications
-    And I click on an application previously created
+    And I click on the latest application created
     And I select to view ecju queries
     When I click to respond to the ecju query
     And I enter " " for ecju query and click submit

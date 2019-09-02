@@ -14,7 +14,7 @@ def application_exists_ecju_query_added(add_an_application):
     pass
 
 
-@when('I click on an application previously created')
+@when('I click on the latest application created')
 def click_on_an_application(driver):
     driver.refresh()
     elements = driver.find_elements_by_css_selector('a[href*="/applications/"]')
