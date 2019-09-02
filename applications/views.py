@@ -157,10 +157,11 @@ class RespondToQuery(TemplateView):
             elif request.POST.get('confirm_response') == 'no':
                 return form_page(request, respond_to_query_form(application_id, ecju_query), data=request.POST)
             else:
+                error = {'required': ['This field is required']}
                 form = ecju_query_respond_confirmation_form(reverse_lazy('applications:respond_to_query',
                                                                          kwargs={'pk': application_id, 'query_pk': ecju_query_id}))
                 form.questions.append(HiddenField('response', request.POST.get('response')))
-                return form_page(request, form)
+                return form_page(request, form, errors=error)
         else:
             # Submitted data does not contain an expected form field - return an error
             return error_page(None, 'We had an issue creating your response. Try again later.')
