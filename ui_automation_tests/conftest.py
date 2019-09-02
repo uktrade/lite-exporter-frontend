@@ -8,6 +8,7 @@ from fixtures.core import context, driver, invalid_username, exporter_sso_login_
 from fixtures.register_organisation import register_organisation, register_organisation_for_switching_organisation
 from fixtures.add_goods import add_an_incorporated_good_to_application, add_a_non_incorporated_good_to_application, create_non_incorporated_good
 from fixtures.add_an_application import add_an_application
+from fixtures.add_clc_query import add_clc_query
 from fixtures.sso_sign_in import sso_sign_in
 from fixtures.internal_case_note import internal_case_note
 from fixtures.urls import exporter_url, api_url
@@ -39,6 +40,9 @@ def pytest_addoption(parser):
     if env == 'local':
         parser.addoption("--exporter_url", action="store", default="http://localhost:9000", help="url")
         parser.addoption("--lite_api_url", action="store", default="http://localhost:8100", help="url")
+    elif env == 'dev2':
+        parser.addoption("--exporter_url", action="store", default="https://exporter2.lite.service.dev.uktrade.io/", help="url")
+        parser.addoption("--lite_api_url", action="store", default="https://lite-api2-dev.london.cloudapps.digital/", help="url")
     else:
         parser.addoption("--exporter_url", action="store", default="https://exporter.lite.service." + env + ".uktrade.io/", help="url")
         parser.addoption("--lite_api_url", action="store", default="https://lite-api-" + env + ".london.cloudapps.digital/", help="url")
