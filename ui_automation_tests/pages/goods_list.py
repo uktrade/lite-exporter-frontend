@@ -33,11 +33,3 @@ class GoodsList:
 
     def click_on_delete_good_button(self):
         self.driver.find_element_by_css_selector(self.DELETE_BUTTON).click()
-
-    def click_on_clc_good(self):
-        self.driver.find_elements_by_xpath('//td[contains(text(), "N/A: In CLC query")]//..//a')[0].click()
-
-    def click_on_clc_good_with_notification(self):
-        self.driver.find_elements_by_xpath(
-            '//td[contains(text(), "N/A: In CLC query")]//..//td[contains(text(), "New notification")]//..//a')[-1].\
-            click()
