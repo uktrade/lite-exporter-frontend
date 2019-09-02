@@ -373,19 +373,23 @@ class RespondToQuery(TemplateView):
                 form.questions.append(HiddenField('response', request.POST.get('response')))
                 return form_page(request, form)
         elif form_name == 'ecju_query_response_confirmation':
-
             if request.POST.get('confirm_response') == 'yes':
                 data, status_code = put_ecju_query(request, clc_query_case_id, ecju_query_id,
                                                    request.POST)
-
                 if 'errors' in data:
                     return form_page(request, respond_to_query_form(good_id, ecju_query), data=request.POST,
                                      errors=data['errors'])
 
                 return redirect(reverse_lazy('goods:good-detail', kwargs={'pk': good_id,
                                                                           'type': 'ecju-queries'}))
-            else:
+
+            elif request.POST.get('confirm_response') == 'no':
                 return form_page(request, respond_to_query_form(clc_query_case_id, ecju_query), data=request.POST)
+            else:
+                form = ecju_query_respond_confirmation_form(reverse_lazy('goods:respond_to_query',
+                                                                         kwargs={'pk': good_id, 'query_pk': ecju_query_id}))
+                form.questions.append(HiddenField('response', request.POST.get('response')))
+                return form_page(request, form)
         else:
             # Submitted data does not contain an expected form field - return an error
             return error_page(None, 'We had an issue creating your response. Try again later.')
