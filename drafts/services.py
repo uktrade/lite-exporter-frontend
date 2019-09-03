@@ -1,3 +1,5 @@
+import logging
+
 from conf.client import get, post, put, delete
 from conf.constants import APPLICATIONS_URL, DRAFTS_URL, END_USER_DOCUMENT_URL, ULTIMATE_END_USER_URL, DOCUMENT_URL
 
@@ -96,9 +98,10 @@ def get_ultimate_end_user_document(request, pk, ueu_pk):
 
 
 def post_end_user_document(request, pk, json):
-    data = post(request, DRAFTS_URL + pk + END_USER_DOCUMENT_URL, json)
-    return data.json(), data.status_code
-
+   data = post(request, DRAFTS_URL + pk + END_USER_DOCUMENT_URL, json)
+   if data.status_code != 201:
+       logging.error(data.json())
+   return data.json(), data.status_code
 
 def post_ultimate_end_user_document(request, pk, ueu_pk, json):
     data = post(request, DRAFTS_URL + pk + ULTIMATE_END_USER_URL + ueu_pk + DOCUMENT_URL, json)
