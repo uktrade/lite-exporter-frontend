@@ -54,9 +54,9 @@ def attach_document_form(draft_url, title):
                                    + '</a> ' + get_string('end_user.documents.attach_later')))
 
 
-def delete_document_confirmation_form(overview_url):
+def delete_document_confirmation_form(overview_url, back_link_text):
     return confirm_form(title='Are you sure you want to delete this document?',
                         confirmation_name='delete_document_confirmation',
-                        back_link_text=get_string('end_user.documents.attach_documents.back_to_application_overview'),
+                        back_link_text=back_link_text,
                         back_url=overview_url
                         )

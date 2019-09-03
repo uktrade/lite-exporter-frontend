@@ -53,8 +53,10 @@ urlpatterns = [
     path('<uuid:pk>/ultimate-end-users/', common.UltimateEndUsers.as_view(), name='ultimate_end_users'),
     # ex: /apply_for_a_licence/<uuid:pk>/ultimate-end-user/attach-document
     path('<uuid:pk>/ultimate-end-user/<uuid:ueu_pk>/documents/attach', common.AttachDocuments.as_view(), name='ultimate_end_user_attach_document'),
-    # ex: /apply_for_a_licence//<uuid:pk>/end-user/download-document/ - Get documents
+    # ex: /apply_for_a_licence//<uuid:pk>/ultimate-end-user/download-document/ - Get documents
     path('<uuid:pk>/ultimate-end-user/<uuid:ueu_pk>/documents/download', common.DownloadDocument.as_view(), name='ultimate_end_user_download_document'),
+    # ex: /apply_for_a_licence/<uuid:pk>/ultimate-end-user/download-document/ - Delete a document
+    path('<uuid:pk>/ultimate-end-user/<uuid:ueu_pk>/documents/delete', common.DeleteDocument.as_view(), name="ultimate_end_user_delete_document"),
 
     # ex: /<uuid:pk>/ultimate-end-users/add
     path('<uuid:pk>/ultimate-end-users/add', common.AddUltimateEndUser.as_view(), name='add_ultimate_end_user'),

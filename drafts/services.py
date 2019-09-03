@@ -108,3 +108,8 @@ def post_ultimate_end_user_document(request, pk, ueu_pk, json):
 def delete_end_user_document(request, pk):
     data = delete(request, DRAFTS_URL + pk + END_USER_DOCUMENT_URL)
     return data.status_code
+
+
+def delete_ultimate_end_user_document(request, pk, ueu_pk):
+    data = delete(request, DRAFTS_URL + pk + ULTIMATE_END_USER_URL + ueu_pk + DOCUMENT_URL)
+    return data.status_code

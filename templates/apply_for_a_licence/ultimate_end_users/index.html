@@ -47,13 +47,23 @@
 			<td class="govuk-table__cell">{{ ultimate_end_user.website }}</td>
 			<td class="govuk-table__cell">{{ ultimate_end_user.address }}</td>
 			<td class="govuk-table__cell">{{ ultimate_end_user.country }}</td>
+            <td class="govuk-table__cell">
             {% if ultimate_end_user.document %}
-                <td class="govuk-table__cell">
+                {%  if ultimate_end_user.document.safe == True %}
                     <a href="{% url 'apply_for_a_licence:ultimate_end_user_download_document' draft_id ultimate_end_user.id %}" id="end_user_document_download">
-                    {% get_string 'end_user.documents.download_document' %}
+                        {% get_string 'ultimate_end_user.documents.download_document' %}
                     </a>
-                </td>
+                    <br/>
+                    <a href="{% url 'apply_for_a_licence:ultimate_end_user_delete_document' draft_id ultimate_end_user.id %}" id="end_user_document_download">
+                        {% get_string 'ultimate_end_user.documents.delete_document' %}
+                    </a>
+                {% else %}
+                    {% get_string 'ultimate_end_user.documents.processing' %}
+                {% endif %}
+            {% else %}
+                <a href="{% url 'apply_for_a_licence:ultimate_end_user_attach_document' draft_id ultimate_end_user.id %}" id="attach_end_user_doc">Attach</a>
             {% endif %}
+            </td>
 			<td class="govuk-table__cell">
 				<a href="{% url 'apply_for_a_licence:remove_ultimate_end_user' draft_id ultimate_end_user.id %}" style="margin: 0;" class="govuk-link">Remove</a>
 			</td>
