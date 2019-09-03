@@ -1,7 +1,8 @@
 import json
-import os
+import time
 
 import requests
+
 from conf.settings import env
 
 
@@ -16,6 +17,7 @@ class SeedData:
     org_name_for_switching_organisations = 'Octopus Systems'
     logging = True
     case_note_text = 'I Am Easy to Find'
+    ecju_query_text = 'This is a question, please answer'
     first_name = 'Trinity'
     last_name = 'Fishburne'
     good_end_product_true = 'Hot Cross Buns'
@@ -74,13 +76,22 @@ class SeedData:
             'part_number': '1234',
             'validate_only': False,
         },
+        "gov_user": {
+            "email": "test-uat-user@digital.trade.gov.uk",
+            "first_name": "ecju",
+            "last_name": "user"
+        },
+        "export_user": {
+            "email": exporter_user_email,
+            "password": "password"
+        },
         'good_end_product_true': {
             'description': good_end_product_true,
             'is_good_controlled': 'yes',
             'control_code': '1234',
             'is_good_end_product': True,
             'part_number': '1234',
-            'validate_only': False,
+            'validate_only': False
         },
         'good_end_product_false': {
             'description': good_end_product_false,
@@ -132,18 +143,21 @@ class SeedData:
             'is_good_end_product': True,
             'part_number': '1234',
             'validate_only': False,
-            'not_sure_details_details': 'Kebabs'
+            'details': 'Kebabs'
         },
         'case_note': {
             'text': case_note_text,
             'is_visible_to_exporter': True
         },
-        'document': [{
+        "ecju_query": {
+            'question': ecju_query_text
+        },
+        "document": {
             'name': 'document 1',
             's3_key': env('TEST_S3_KEY'),
             'size': 0,
             'description': 'document for test setup'
-        }]
+        }
     }
 
     def __init__(self, api_url, logging=True):
@@ -200,6 +214,20 @@ class SeedData:
         self.add_to_context('good_id', item['id'])
         self.add_document(item['id'])
 
+    def add_clc_good(self):
+        self.log('Adding clc good: ...')
+        data = self.request_data['clc_good']
+        response = self.make_request('POST', url='/goods/', headers=self.export_headers, body=data)
+        item = json.loads(response.text)['good']
+        self.add_to_context('clc_good_id', item['id'])
+        self.add_document(item['id'])
+        data = {'good_id': self.context['clc_good_id'],
+                'not_sure_details_control_code': 'a',
+                'not_sure_details_details': 'b'}
+        response = self.make_request('POST', url='/applications/clcs/', headers=self.export_headers, body=data)
+        response_data = json.loads(response.text)
+        self.add_ecju_query(response_data['case_id'])
+
     def find_good_by_name(self, good_name):
         response = self.make_request('GET', url='/goods/', headers=self.export_headers)
         goods = json.loads(response.text)['goods']
@@ -227,9 +255,8 @@ class SeedData:
         self.add_to_context('goods_name', self.good_end_product_true)
 
     def add_document(self, good_id):
-        data = self.request_data['document']
-        response = self.make_request('POST', url='/goods/' + good_id + '/documents/', headers=self.export_headers, body=data)
-        print(response)
+        data = [self.request_data['document']]
+        response = self.make_request("POST", url='/goods/' + good_id + '/documents/', headers=self.export_headers, body=data)
 
     def add_org(self, key):
         self.log('Creating org: ...')
@@ -242,8 +269,12 @@ class SeedData:
         self.log('Creating case note: ...')
         data = self.request_data['case_note']
         context.text = self.case_note_text
-        response = self.make_request('POST', url='/cases/' + context.case_id + '/case_notes/', headers=self.gov_headers, body=data)
-        print(response)
+        response = self.make_request("POST", url='/cases/' + context.case_id + '/case-notes/', headers=self.gov_headers, body=data)
+
+    def add_ecju_query(self, case_id):
+        self.log("Creating ecju query: ...")
+        data = self.request_data['ecju_query']
+        response = self.make_request("POST", url='/cases/' + case_id + '/ecju-queries/', headers=self.gov_headers, body=data)
 
     def find_org_by_name(self, org_name):
         response = self.make_request('GET', url='/organisations/')
@@ -269,7 +300,10 @@ class SeedData:
         data = self.request_data['end-user'] if enduser is None else enduser
         self.make_request('POST', url='/drafts/' + draft_id + '/end-user/', headers=self.export_headers,
                           body=data)
-        self.log('Adding good: ...')
+        data = self.request_data['document']
+        self.make_request("POST", url='/drafts/' + draft_id + '/end-user/document/', headers=self.export_headers,
+                          body=data)
+        self.log("Adding good: ...")
         data = self.request_data['add_good'] if good is None else good
         data['good_id'] = self.context['good_id']
         self.make_request('POST', url='/drafts/' + draft_id + '/goods/', headers=self.export_headers, body=data)
@@ -277,6 +311,7 @@ class SeedData:
         data = self.request_data['ultimate_end_user'] if ultimate_end_user is None else ultimate_end_user
         self.make_request('POST', url='/drafts/' + draft_id + '/ultimate-end-users/', headers=self.export_headers,
                           body=data)
+        return draft_id
 
     def submit_application(self, draft_id=None):
         self.log('submitting application: ...')
@@ -286,6 +321,23 @@ class SeedData:
         item = json.loads(response.text)['application']
         self.add_to_context('application_id', item['id'])
         self.add_to_context('case_id', item['case_id'])
+
+    def check_end_user_document_is_processed(self, draft_id):
+        data = self.make_request("GET", url='/drafts/' + draft_id + '/end-user/document/', headers=self.export_headers)
+        return json.loads(data.text)['document']['safe']
+
+    def ensure_end_user_document_is_processed(self, draft_id):
+        # Constants for total time to retry function and intervals between attempts
+        timeout_limit = 20
+        function_retry_interval = 1
+
+        time_no = 0
+        while time_no < timeout_limit:
+            if self.check_end_user_document_is_processed(draft_id):
+                return True
+            time.sleep(function_retry_interval)
+            time_no += function_retry_interval
+        return False
 
     def make_request(self, method, url, headers=None, body=None, files=None):
         if headers is None:
