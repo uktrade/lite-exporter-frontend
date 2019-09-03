@@ -90,6 +90,11 @@ def get_end_user_document(request, pk):
     return data.json(), data.status_code
 
 
+def get_ultimate_end_user_document(request, pk, ueu_pk):
+    data = get(request, DRAFTS_URL + pk + ULTIMATE_END_USER_URL + ueu_pk + DOCUMENT_URL)
+    return data.json(), data.status_code
+
+
 def post_end_user_document(request, pk, json):
     data = post(request, DRAFTS_URL + pk + END_USER_DOCUMENT_URL, json)
     return data.json(), data.status_code

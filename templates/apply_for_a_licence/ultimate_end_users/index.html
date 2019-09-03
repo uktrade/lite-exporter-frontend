@@ -48,7 +48,11 @@
 			<td class="govuk-table__cell">{{ ultimate_end_user.address }}</td>
 			<td class="govuk-table__cell">{{ ultimate_end_user.country }}</td>
             {% if ultimate_end_user.document %}
-                <td class="govuk-table__cell">{{ ultimate_end_user.document.name }}</td>
+                <td class="govuk-table__cell">
+                    <a href="{% url 'apply_for_a_licence:ultimate_end_user_download_document' draft_id ultimate_end_user.id %}" id="end_user_document_download">
+                    {% get_string 'end_user.documents.download_document' %}
+                    </a>
+                </td>
             {% endif %}
 			<td class="govuk-table__cell">
 				<a href="{% url 'apply_for_a_licence:remove_ultimate_end_user' draft_id ultimate_end_user.id %}" style="margin: 0;" class="govuk-link">Remove</a>
