@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from django.views.generic import TemplateView
-from lite_forms.generators import form_page
+from lite_forms.generators import form_page, success_page
 from lite_forms.submitters import submit_paged_form
 
 from end_users.forms import apply_for_an_end_user_advisory_form
@@ -33,8 +34,16 @@ class ApplyForAnAdvisory(TemplateView):
     def post(self, request, **kwargs):
         response, data = submit_paged_form(request, self.forms, post_end_user_advisories)
 
-        # If there are more forms to go through, continue
         if response:
             return response
 
-        return redirect('end_users:end_users')
+        return success_page(request,
+                            title='Query sent successfully',
+                            secondary_title='Your reference code: ' + data['end_user_advisory']['id'],
+                            description='The Department for International Trade usually takes two working days to check an importer.',
+                            what_happens_next=['You\'ll receive an email from DIT when your check is finished.'],
+                            links={
+                                'View your list of end user advisories': reverse_lazy('end_users:end_users'),
+                                'Apply for another advisory': reverse_lazy('end_users:apply'),
+                                'Return to Exporter Hub': reverse_lazy('core:hub'),
+                            })
