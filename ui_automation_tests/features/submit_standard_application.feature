@@ -84,8 +84,10 @@ Feature: I want to indicate the standard licence I want
     And I click on ultimate end users
     And I click on ultimate end users add button
     And I add an end user of type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
+    And I upload a file "file_for_doc_upload_test_1.txt"
     And I click on ultimate end users add button
     And I add an end user of type: "commercial", name: "Mr Jones", website: " ", address: "London" and country "Ukraine"
+    And I upload a file "file_for_doc_upload_test_1.txt"
     And I remove an ultimate end user so there is one less and return to the overview
     Then there is only one ultimate end user
     When I click on application locations link

@@ -409,13 +409,14 @@ class AttachDocuments(TemplateView):
         if 'ultimate-end-user' in request.path:
             end_user_document, status_code = post_ultimate_end_user_document(request, draft_id,
                                                                              str(kwargs['ueu_pk']), data)
+            next_page = 'apply_for_a_licence:ultimate_end_users'
         else:
             end_user_document, status_code = post_end_user_document(request, draft_id, data)
+            next_page = 'apply_for_a_licence:overview'
 
         if status_code != 201:
             return error_page(None, get_string('end_user.documents.attach_documents.upload_error'))
-
-        return redirect(reverse('apply_for_a_licence:overview', kwargs={'pk': draft_id}))
+        return redirect(reverse(next_page, kwargs={'pk': draft_id}))
 
 
 class DownloadDocument(TemplateView):
