@@ -63,7 +63,6 @@ Feature: I want to indicate the standard licence I want
     Then I see submitted application
 
   @LT_1042_happy_path
-  @BAA
   Scenario: Apply for a licence with ultimate end users
     Given I go to exporter homepage and choose Test Org
     When I create a standard application
@@ -171,3 +170,19 @@ Feature: I want to indicate the standard licence I want
     And I click add to application for the good at position "1"
     And I click continue
     Then I see enter valid quantity and valid value error message
+
+  @LT_1445_ultimate_end_user_upload_download_delete
+  Scenario: Add an Ultimate end user document and can download and delete
+    Given I go to exporter homepage and choose Test Org
+    When I create a standard application
+    And I click on ultimate end users
+    And I click on ultimate end users add button
+    And I add an end user of type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
+    And I click back link
+    Then "Attach" link is present
+    When I click on attach a document
+    And I upload a file "file_for_doc_upload_test_1.txt"
+    Then "Download" link is present
+    And "Delete" link is present
+    When I delete the ultimate end user document
+    Then "Attach" link is present

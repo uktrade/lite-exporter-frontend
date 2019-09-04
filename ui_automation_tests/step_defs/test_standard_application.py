@@ -185,3 +185,29 @@ def i_wait_for_end_user_document_to_be_processed(driver):
         time_no += function_retry_interval
         driver.refresh()
     return False
+
+
+@then(parsers.parse('"{button}" link is present'))
+def download_and_delete_is_links_are_present(driver, button):
+    shared = Shared(driver)
+    latest_ueu_links = [link.text for link in shared.get_links_of_table_row(-1)]
+    assert button in latest_ueu_links
+
+
+@when("I click on attach a document")
+def click_attach_a_document(driver):
+    UltimateEndUsersListPage(driver).click_on_attach_ultimate_end_user_document(-1)
+
+
+@when("I click back link")
+def click_back_link(driver):
+    Shared(driver).click_back_link()
+
+
+@when('I delete the ultimate end user document')
+def delete_ultimate_end_user_document(driver):
+    ultimate_end_user = UltimateEndUsersListPage(driver)
+    ultimate_end_user.click_on_delete_ultimate_end_user_document(-1)
+    ultimate_end_user.accept_delete_ultimate_end_user_document_confirm()
+    shared = Shared(driver)
+    shared.click_continue()

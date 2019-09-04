@@ -50,11 +50,11 @@
             <td class="govuk-table__cell">
             {% if ultimate_end_user.document %}
                 {%  if ultimate_end_user.document.safe == True %}
-                    <a href="{% url 'apply_for_a_licence:ultimate_end_user_download_document' draft_id ultimate_end_user.id %}" id="end_user_document_download">
+                    <a href="{% url 'apply_for_a_licence:ultimate_end_user_download_document' draft_id ultimate_end_user.id %}" id="ultimate_end_user_document_download">
                         {% get_string 'ultimate_end_user.documents.download_document' %}
                     </a>
                     <br/>
-                    <a href="{% url 'apply_for_a_licence:ultimate_end_user_delete_document' draft_id ultimate_end_user.id %}" id="end_user_document_download">
+                    <a href="{% url 'apply_for_a_licence:ultimate_end_user_delete_document' draft_id ultimate_end_user.id %}" id="ultimate_end_user_document_delete">
                         {% get_string 'ultimate_end_user.documents.delete_document' %}
                     </a>
                 {% else %}
