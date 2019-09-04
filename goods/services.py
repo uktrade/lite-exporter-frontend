@@ -1,7 +1,7 @@
 from urllib.parse import urlencode
 
 from conf.client import get, post, put, delete
-from conf.constants import GOODS_URL, DOCUMENTS_URL, CLCS_URL
+from conf.constants import GOODS_URL, DOCUMENTS_URL, CONTROL_LIST_CLASSIFICATIONS_URL
 
 
 def get_goods(request, params=None):
@@ -35,7 +35,7 @@ def delete_good(request, pk):
 
 
 def raise_clc_query(request, json):
-    data = post(request, CLCS_URL, json)
+    data = post(request, CONTROL_LIST_CLASSIFICATIONS_URL, json)
     return data.json(), data.status_code
 
 

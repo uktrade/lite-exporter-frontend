@@ -1,0 +1,63 @@
+{% extends 'layouts/full_width.html' %}
+
+{% block back_link %}
+	<a href="/" class="govuk-back-link">Back to Hub</a>
+{% endblock %}
+
+{% block body %}
+	<div class="lite-app-bar">
+		<div class="lite-app-bar__content">
+			<h1 class="govuk-heading-l">{{ title }}</h1>
+		</div>
+		<div class="lite-app-bar__controls">
+			<a href="{% url 'end_users:apply' %}" class="govuk-button" draggable="false" role="button">
+				Apply for an end user advisory
+			</a>
+		</div>
+	</div>
+
+	{% if end_users|length %}
+		<table class="govuk-table">
+			<thead class="govuk-table__head">
+				<tr class="govuk-table__row">
+					<th class="govuk-table__header" scope="col">Reference</th>
+					<th class="govuk-table__header" scope="col">Goods</th>
+					<th class="govuk-table__header" scope="col">Last updated</th>
+					<th class="govuk-table__header" scope="col">Status</th>
+					<th class="govuk-table__header" scope="col"></th>
+				</tr>
+			</thead>
+			<tbody class="govuk-table__body">
+				{% for end_user in end_users %}
+					<tr class="govuk-table__row">
+						<td class="govuk-table__cell">
+							Banana
+						</td>
+						<td class="govuk-table__cell">
+							Banana
+						</td>
+						<td class="govuk-table__cell">
+							Banana
+						</td>
+						<td class="govuk-table__cell">
+							Banana
+						</td>
+						<td class="govuk-table__cell">
+                            Banana
+                        </td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+	{% else %}
+		<div class="lite-information-text">
+			<span class="lite-information-text__icon" aria-hidden="true">!</span>
+			<p class="lite-information-text__text">
+				<span class="govuk-visually-hidden">Information</span>
+				There are no end users to show.
+			</p>
+		</div>
+	{% endif %}
+
+{% endblock %}
