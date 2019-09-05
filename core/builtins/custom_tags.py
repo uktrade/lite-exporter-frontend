@@ -84,3 +84,9 @@ def highlight_text(value: str, term: str) -> str:
         value = insert_str(value, span_end, index + len(span) + len(term))
 
     return value
+
+
+@register.filter()
+def reference_code(value):
+    value = str(value)
+    return value[:5] + '-' + value[5:]
