@@ -253,6 +253,7 @@ class SeedData:
             item = json.loads(response.text)['good']
             self.add_document(item['id'])
         self.add_to_context('goods_name', self.good_end_product_true)
+        self.add_to_context('part_number', self.request_data['good_end_product_true']['part_number'])
 
     def add_document(self, good_id):
         data = [self.request_data['document']]

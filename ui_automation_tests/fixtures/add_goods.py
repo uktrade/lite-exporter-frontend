@@ -41,6 +41,7 @@ def add_a_non_incorporated_good_to_application(driver, context, request, exporte
     api = get_or_create_attr(context, 'api', lambda: SeedData(api_url=api_url, logging=False))
     api.add_good_end_product_true()
     context.goods_name = api.context['goods_name']
+    context.part_number = api.context['part_number']
     driver.get(url)
     driver.execute_script("document.getElementById('goods').scrollIntoView(true);")
     ApplicationOverviewPage(driver).click_goods_link()
@@ -50,8 +51,9 @@ def add_a_non_incorporated_good_to_application(driver, context, request, exporte
     driver.find_elements_by_css_selector('.lite-card .govuk-button')[no].click()
     application_goods_list = ApplicationGoodsList(driver)
     context.unit = "Number of articles"
-    context.value ="11"
-    application_goods_list.add_values_to_good(str(context.value), str(context.value), context.unit)
+    context.value = "11"
+    context.quantity = "12"
+    application_goods_list.add_values_to_good(str(context.value), str(context.quantity), context.unit)
     driver.find_element_by_css_selector("button[type*='submit']").click()
     driver.get(url)
 

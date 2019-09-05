@@ -21,8 +21,10 @@ def i_click_on_application_overview(driver):
 def good_is_added(driver, context):
     good = ApplicationOverviewPage(driver).get_text_of_good(1)
     assert context.goods_name in good
+    assert context.part_number in good
     # TODO put this back when bug is fixed - showing mtr instead of metres
-    # assert str(context.quantity) + ".0 " + context.unit in good
+    assert str(context.quantity) + ".0" in good
+    assert context.unit in good
     if "." not in context.value:
         assert '£' + str(context.value) + '.00' in good
     else:
