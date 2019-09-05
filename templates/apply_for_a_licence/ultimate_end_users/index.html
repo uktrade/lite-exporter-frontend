@@ -36,7 +36,7 @@
 			<th class="govuk-table__header" scope="col">Address</th>
 			<th class="govuk-table__header" scope="col">Country</th>
             <th class="govuk-table__header" scope="col">Document</th>
-			<th class="govuk-table__header" scope="col"></th>
+			<th class="govuk-table__header" scope="col">End user</th>
 		</tr>
 	</thead>
 	<tbody class="govuk-table__body">
@@ -65,7 +65,7 @@
             {% endif %}
             </td>
 			<td class="govuk-table__cell">
-				<a href="{% url 'apply_for_a_licence:remove_ultimate_end_user' draft_id ultimate_end_user.id %}" style="margin: 0;" class="govuk-link">Remove</a>
+				<a href="{% url 'apply_for_a_licence:remove_ultimate_end_user' draft_id ultimate_end_user.id %}" style="margin: 0;" class="govuk-link">Delete end user</a>
 			</td>
 		</tr>
 		{% endfor %}
