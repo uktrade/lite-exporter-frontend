@@ -1,4 +1,4 @@
-from shared import Shared
+from pages.shared import Shared
 
 
 class UltimateEndUsersListPage:
