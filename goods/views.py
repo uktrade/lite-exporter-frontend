@@ -18,7 +18,6 @@ from goods.forms import edit_form, attach_documents_form, respond_to_query_form,
 from goods.services import get_goods, post_goods, get_good, update_good, delete_good, get_good_documents, get_good_document, delete_good_document, post_good_documents, raise_clc_query
 
 
-
 class Goods(TemplateView):
     def get(self, request, **kwargs):
         data, status_code = get_goods(request)
