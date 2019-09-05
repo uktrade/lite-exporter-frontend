@@ -36,7 +36,7 @@ class Hub(TemplateView):
                          reverse_lazy('applications:applications')),
                     Tile('Goods', generate_notification_string(num_clc_notifications),
                          reverse_lazy('goods:goods')),
-                    Tile('End Users Advisories', '',
+                    Tile('End User Advisories', '',
                          reverse_lazy('end_users:end_users')),
                     Tile('Manage my organisation', '', reverse_lazy('users:users')),
                 ]),
