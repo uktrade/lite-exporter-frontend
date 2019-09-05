@@ -66,7 +66,7 @@ Application for handling exporter related activity in LITE.
 `TEST_EXPORTER_SSO_EMAIL="email here"`
 `TEST_EXPORTER_SSO_PASSWORD="pw here"`
 
-Ask someone on the team for valid credentials here.
+Ask someone on the team for valid credentials or check for them in Vault.
 
 ## LITE Repositories
 
