@@ -86,31 +86,31 @@ def post_draft_countries(request, pk, json):
     return data.json(), data.status_code
 
 
-# Documents
+# End user Documents
 def get_end_user_document(request, pk):
     data = get(request, DRAFTS_URL + pk + END_USER_DOCUMENT_URL)
     return data.json(), data.status_code
 
 
-def get_ultimate_end_user_document(request, pk, ueu_pk):
-    data = get(request, DRAFTS_URL + pk + ULTIMATE_END_USER_URL + ueu_pk + DOCUMENT_URL)
-    return data.json(), data.status_code
-
-
 def post_end_user_document(request, pk, json):
-   data = post(request, DRAFTS_URL + pk + END_USER_DOCUMENT_URL, json)
-   if data.status_code != 201:
-       logging.error(data.json())
-   return data.json(), data.status_code
-
-def post_ultimate_end_user_document(request, pk, ueu_pk, json):
-    data = post(request, DRAFTS_URL + pk + ULTIMATE_END_USER_URL + ueu_pk + DOCUMENT_URL, json)
+    data = post(request, DRAFTS_URL + pk + END_USER_DOCUMENT_URL, json)
     return data.json(), data.status_code
 
 
 def delete_end_user_document(request, pk):
     data = delete(request, DRAFTS_URL + pk + END_USER_DOCUMENT_URL)
     return data.status_code
+
+
+# Ultimate end user Documents
+def get_ultimate_end_user_document(request, pk, ueu_pk):
+    data = get(request, DRAFTS_URL + pk + ULTIMATE_END_USER_URL + ueu_pk + DOCUMENT_URL)
+    return data.json(), data.status_code
+
+
+def post_ultimate_end_user_document(request, pk, ueu_pk, json):
+    data = post(request, DRAFTS_URL + pk + ULTIMATE_END_USER_URL + ueu_pk + DOCUMENT_URL, json)
+    return data.json(), data.status_code
 
 
 def delete_ultimate_end_user_document(request, pk, ueu_pk):
