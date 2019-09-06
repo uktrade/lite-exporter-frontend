@@ -158,6 +158,7 @@ class RaiseCLCQuery(TemplateView):
         request_data['good_id'] = good_id
 
         data, status_code = raise_clc_query(request, request_data)
+
         if 'errors' in data:
             return form_page(request, forms.are_you_sure(str(kwargs['pk'])), data=request_data, errors=data['errors'])
 
