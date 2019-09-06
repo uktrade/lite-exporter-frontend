@@ -26,6 +26,8 @@ def apply_for_an_end_user_advisory_form():
                            name='end_user.website',
                            optional=True),
                  TextArea(title='What\'s the end user\'s address?',
+                          description='This is usually the delivery address or registered office for the person '
+                                      'receiving the goods',
                           name='end_user.address'),
                  country_question(countries=get_countries(None, True),
                                   prefix='end_user.'),
