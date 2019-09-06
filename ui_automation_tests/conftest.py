@@ -233,6 +233,12 @@ def click_my_goods_link(driver):
     exporter_hub.click_my_goods()
 
 
+@when('I click on end user advisories')
+def click_my_end_user_advisory_link(driver):
+    exporter_hub = ExporterHubPage(driver)
+    exporter_hub.click_end_user_advisories()
+
+
 @when('I click the add from organisations goods button')
 def click_add_from_organisation_button(driver):
     driver.find_element_by_css_selector('a[href*="add-preexisting"]').click()
