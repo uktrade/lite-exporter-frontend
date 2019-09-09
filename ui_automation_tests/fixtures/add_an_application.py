@@ -34,14 +34,14 @@ def add_an_application(driver, request, api_url, exporter_url, context):
             "name": "Mr Smith",
             "address": "London",
             "country": "UA",
-            "type": "government",
+            "sub_type": "government",
             "website": "https://www.smith.com"
         },
         ultimate_end_user={
             "name": context.ueu_name,
             "address": context.ueu_address,
             "country": context.ueu_country[0],
-            "type": context.ueu_type,
+            "sub_type": context.ueu_type,
             "website": context.ueu_website
         }
     )

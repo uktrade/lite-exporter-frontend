@@ -11,7 +11,7 @@ def new_end_user_forms():
     return FormGroup([
         Form(title='Who will be the final recipient (end-user) of your goods?',
              questions=[
-                 RadioButtons('type',
+                 RadioButtons('sub_type',
                               options=[
                                   Option('government', 'A Government Organisation'),
                                   Option('commercial', 'A Commercial Organisation'),
