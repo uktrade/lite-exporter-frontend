@@ -1,4 +1,4 @@
-FROM exporter/selenium_base:latest
+FROM registry.ci.uktrade.io/lite/selenium_base:latest
 
 # pip
 COPY ./e2e.txt /tmp/e2e.txt
