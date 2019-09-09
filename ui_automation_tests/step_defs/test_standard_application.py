@@ -48,7 +48,8 @@ def i_go_to_the_overview(driver):
 
 @when('I click on ultimate end users add button')
 def i_click_on_ultimate_end_user(driver):
-    UltimateEndUsersListPage(driver).click_on_add_ultimate_end_user()
+    ueu_page = UltimateEndUsersListPage(driver)
+    ueu_page.click_on_add_ultimate_end_user()
 
 
 @when(parsers.parse('I add end user of type: "{type}"'))
@@ -142,7 +143,8 @@ def click_add_to_application_button(driver, no, context):
 
 
 @when(parsers.parse(
-    'I add an end user of type: "{type}", name: "{name}", website: "{website}", address: "{address}" and country "{country}"'))
+    'I add an end user of sub_type: "{type}", name: "{name}", website: "{website}", address: "{address}" and country "{'
+    'country}"'))
 def add_new_end_user(driver, type, name, website, address, country, context):
     add_end_user_pages = AddEndUserPages(driver)
     add_end_user_pages.select_type(type)

@@ -23,7 +23,7 @@ from drafts.services import post_drafts, get_draft, get_draft_goods, post_draft_
     delete_end_user_document
 from goods.services import get_goods, get_good
 from apply_for_a_licence.services import add_document_data
-from conf.constants import STANDARD_LICENCE, OPEN_LICENCE
+from conf.constants import STANDARD_LICENCE
 from apply_for_a_licence.services import download_document_from_s3
 
 
