@@ -82,18 +82,6 @@ spec:
     {
       steps
       {
-        // building selenium base
-        container(name: 'builder', shell: '/busybox/sh') {
-          timestamps {
-            withEnv(['PATH+EXTRA=/busybox:/kaniko']) {
-              sh """
-                #!/busybox/sh
-                /kaniko/executor --dockerfile ${env.WORKSPACE}/ui_automation_tests/selenium-base-image/Dockerfile -c ${env.WORKSPACE}/ui_automation_tests/selenium-base-image --destination=registry.ci.uktrade.io/lite/selenium_base
-              """
-            }
-          }
-        }
-
         // building selenium image
         container(name: 'builder', shell: '/busybox/sh') {
           timestamps {
