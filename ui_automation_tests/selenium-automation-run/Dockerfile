@@ -1,7 +1,7 @@
-FROM python:3.7-stretch AS exporter/selenium_base
+FROM python:3.7-stretch AS selenium_base
 
 RUN apt-get update && apt-get install -yq \
-    firefox-esr=60.6.1esr-1~deb9u1 \
+    firefox-esr \
     chromium=70.0.3538.110-1~deb9u1 \
     git-core=1:2.11.0-3+deb9u4 \
     xvfb=2:1.19.2-1+deb9u5 \
@@ -22,7 +22,7 @@ RUN wget -q "https://github.com/mozilla/geckodriver/releases/download/v0.19.1/ge
 
 # chromeDriver v2.35
 RUN wget -q "https://chromedriver.storage.googleapis.com/2.35/chromedriver_linux64.zip" -O /tmp/chromedriver.zip \
-    && unzip /tmp/chromedriver.zip -d /usr/bin/ \
+    && unzip -o /tmp/chromedriver.zip -d /usr/bin/ \
     && rm /tmp/chromedriver.zip
 
 # xvfb - X server display
@@ -36,7 +36,7 @@ RUN ln -s /usr/bin/geckodriver /usr/bin/chromium-browser \
     && chmod 777 /usr/bin/chromium-browser
 
 
-FROM exporter/selenium_base:latest
+FROM selenium_base
 
 # pip
 COPY ./e2e.txt /tmp/e2e.txt
@@ -45,7 +45,7 @@ RUN easy_install -U setuptools
 RUN pip install pytest-dependency
 
 # Docker entry
-COPY ./docker-entry.sh .
+COPY ./docker-entry.sh /
 ENTRYPOINT ["/docker-entry.sh"]
 
 CMD ["/bin/true"]
