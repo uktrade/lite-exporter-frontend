@@ -1,7 +1,6 @@
-from pytest_bdd import when, then, given, parsers, scenarios
+from pytest_bdd import when, then, parsers, scenarios
 
 from pages.add_end_user_advisory_pages import AddEndUserAdvisoryPages
-from pages.exporter_hub_page import ExporterHubPage
 from pages.end_user_advisory_page import EndUserAdvisoryPage
 
 scenarios('../features/end_user_advisory_queries.feature', strict_gherkin=False)
