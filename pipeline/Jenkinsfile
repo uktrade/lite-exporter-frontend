@@ -73,16 +73,16 @@ pipeline
         ])
 
         // building selenium image
-        // container(name: 'builder', shell: '/busybox/sh') {
-        //   withEnv(['PATH+EXTRA=/busybox:/kaniko']) {
-        //     timestamps {
-        //       sh """
-        //         #!/busybox/sh
-        //         /kaniko/executor --dockerfile ${env.WORKSPACE}/ui_automation_tests/selenium-automation-run/Dockerfile -c ${env.WORKSPACE}/ui_automation_tests --destination=registry.ci.uktrade.io/lite/selenium_export_frontend
-        //       """
-        //     }
-        //   }
-        // }
+        container(name: 'builder', shell: '/busybox/sh') {
+          withEnv(['PATH+EXTRA=/busybox:/kaniko']) {
+            timestamps {
+              sh """
+                #!/busybox/sh
+                /kaniko/executor --dockerfile ${env.WORKSPACE}/ui_automation_tests/selenium-automation-run/Dockerfile -c ${env.WORKSPACE}/ui_automation_tests --destination=registry.ci.uktrade.io/lite/selenium_export_frontend
+              """
+            }
+          }
+        }
       }
     }
     stage('Run test')
@@ -171,8 +171,8 @@ pipeline
                 userRemoteConfigs: [[url: 'https://github.com/uktrade/lite-exporter-frontend.git']]
               ])
               sh "cd ${env.WORKSPACE} && /docker-entry.sh ${params.TESTS_TO_RUN}"
-              stash name: report, allowEmpty: true, includes: "${env.WORKSPACE}/ui_automation_tests/allure-results/*"
             }
+            archiveArtifacts artifacts: "ui_automation_tests/allure-results/**.*"
           }
         }
       }
@@ -182,7 +182,9 @@ pipeline
   {
     always
     {
-      unstash name: report
+      script {
+        unarchive mapping: ['ui_automation_tests/allure-results/**.*': '.']
+      }
       // Generate Allure Report
       generateAllureReport()
       // Send Slack notification
