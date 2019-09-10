@@ -5,33 +5,33 @@ pipeline
     kubernetes {
       defaultContainer 'jnlp'
       yaml """
-apiVersion: v1
-kind: Pod
-metadata:
-  labels:
-    job: ${env.JOB_NAME}
-    job_id: ${env.BUILD_NUMBER}
-spec:
-  nodeSelector:
-    role: worker
-  containers:
-  - name: builder
-    image: gcr.io/kaniko-project/executor:debug
-    imagePullPolicy: Always
-    command:
-    - cat
-    tty: true
-    volumeMounts:
-    - name: jenkins-docker-cfg
-      mountPath: /kaniko/.docker
-  volumes:
-  - name: jenkins-docker-cfg
-    configMap:
-      name: docker-config
-      items:
-      - key: config.json
-        path: config.json
-"""
+        apiVersion: v1
+        kind: Pod
+        metadata:
+          labels:
+            job: ${env.JOB_NAME}
+            job_id: ${env.BUILD_NUMBER}
+        spec:
+          nodeSelector:
+            role: worker
+          containers:
+          - name: builder
+            image: gcr.io/kaniko-project/executor:debug
+            imagePullPolicy: Always
+            command:
+            - cat
+            tty: true
+            volumeMounts:
+            - name: jenkins-docker-cfg
+              mountPath: /kaniko/.docker
+          volumes:
+          - name: jenkins-docker-cfg
+            configMap:
+              name: docker-config
+              items:
+              - key: config.json
+                path: config.json
+      """
     }
   }
 
@@ -84,8 +84,8 @@ spec:
       {
         // building selenium image
         container(name: 'builder', shell: '/busybox/sh') {
-          timestamps {
-            withEnv(['PATH+EXTRA=/busybox:/kaniko']) {
+          withEnv(['PATH+EXTRA=/busybox:/kaniko']) {
+            timestamps {
               sh """
                 #!/busybox/sh
                 /kaniko/executor --dockerfile ${env.WORKSPACE}/ui_automation_tests/selenium-automation-run/Dockerfile -c ${env.WORKSPACE}/ui_automation_tests --destination=registry.ci.uktrade.io/lite/selenium_export_frontend
@@ -104,17 +104,72 @@ spec:
           // creating timestamp
           def now = new Date()
           tstamp = now.format("yyyyMMdd-HH:mm:ss.SSSS", TimeZone.getTimeZone('GMT'))
+        }
 
-
-          // running selenium tests using pytest via docker
-          kubernetes.pod('test').withImage('registry.ci.uktrade.io/lite/selenium_export_frontend').inside {
-            sh """
-              export PYTHONPATH=${env.WORKSPACE}
-              export ENVIRONMENT=${params.ENVIRONMENT}
-              . ${env.WORKSPACE}/docker.env
-              cd ${env.WORKSPACE}/ui_automation_test
-              /docker-entry.sh ${params.TESTS_TO_RUN}
-            """
+        // running selenium tests using pytest via docker
+        podTemplate(yaml:"""
+          apiVersion: v1
+          kind: Pod
+          metadata:
+            labels:
+              job: ${env.JOB_NAME}
+              job_id: ${env.BUILD_NUMBER}
+          spec:
+            nodeSelector:
+              role: worker
+            containers:
+            - name: selenium-export-frontend
+              image: registry.ci.uktrade.io/lite/selenium_export_frontend
+              imagePullPolicy: Always
+              command:
+              - cat
+              tty: true
+              env:
+              - name: PYTHONPATH
+                value: "${env.WORKSPACE}"
+              - name: ENVIRONMENT
+                value: "${params.ENVIRONMENT}"
+              - name: DEBUG
+                value: "True"
+              - name: PORT
+                value: "8300"
+              - name: ALLOWED_HOSTS
+                value: "['*']"
+              - name: LITE_API_URL
+                value: "http://api:8100"
+              - name: DATABASE_URL
+                value: "postgres://postgres:password@exfedb:5432/postgres"
+              - name: PERMISSIONS_FINDER_URL
+                value: ""
+              - name: GOOGLE_ANALYTICS_KEY
+                value: ""
+              - name: PYTHONUNBUFFERED
+                value: "1"
+              - name: TEST_EXPORTER_SSO_EMAIL
+                value: "${params.TEST_EXPORTER_SSO_EMAIL}"
+              - name: TEST_EXPORTER_SSO_EMAIL2
+                value: "${params.TEST_EXPORTER_SSO_EMAIL2}"
+              - name: TEST_EXPORTER_SSO_PASSWORD
+                value: "${params.TEST_EXPORTER_SSO_PASSWORD}"
+              - name: TEST_EXPORTER_SSO_PASSWORD2
+                value: "${params.TEST_EXPORTER_SSO_PASSWORD2}"
+              - name: AUTHBROKER_CLIENT_ID
+                value: ""
+              - name: AUTHBROKER_CLIENT_SECRET
+                value: ""
+              - name: AUTHBROKER_URL
+                value: ""
+              - name: TEST_TYPE_HEADLESS
+                value: "${params.TEST_TYPE_HEADLESS}"
+              - name: TEST_S3_KEY
+                value: "${params.TEST_S3_KEY}"
+        """) {
+          node(POD_LABEL) {
+            container(name: 'selenium-export-frontend', shell: '/bin/bash') {
+              sh """
+                /docker-entry.sh ${params.TESTS_TO_RUN}
+              """
+            }
           }
         }
       }
@@ -128,7 +183,7 @@ spec:
       generateAllureReport()
 
       // Send Slack notification
-      // sendSlackNotification()
+      sendSlackNotification()
 
     }
   }
