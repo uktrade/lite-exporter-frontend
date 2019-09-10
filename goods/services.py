@@ -16,7 +16,7 @@ def get_goods(request, params=None):
 
 def get_good(request, pk):
     data = get(request, GOODS_URL + pk)
-    return data.json(), data.status_code
+    return data.json()['good']
 
 
 def post_goods(request, json):

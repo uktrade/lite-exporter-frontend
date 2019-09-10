@@ -49,8 +49,7 @@ class GoodsDetail(TemplateView):
     def dispatch(self, request, *args, **kwargs):
         self.good_id = str(kwargs['pk'])
         self.notifications, _ = get_clc_notifications(request, unviewed=True)
-        good, status_code = get_good(request, self.good_id)
-        self.good = good['good']
+        self.good = get_good(request, self.good_id)
         self.view_type = kwargs['type']
 
         if self.view_type != 'case-notes' and self.view_type != 'ecju-queries':
@@ -59,55 +58,20 @@ class GoodsDetail(TemplateView):
         return super(GoodsDetail, self).dispatch(request, *args, **kwargs)
 
     def get(self, request, **kwargs):
-        good_id = kwargs['pk']
-        data, status_code = get_good(request, str(good_id))
-        documents, status_code = get_good_documents(request, str(good_id))
-
-        if data['good']['clc_query_id'] != None:
-            clc_query_id = data['good']['clc_query_id']
-            case_id = data['good']['clc_query_case_id']
-            case_note_notifications = len([x for x in self.notifications['results']
-                                           if x['clc_query'] == clc_query_id and x['case_note']])
-            ecju_query_notifications = len([x for x in self.notifications['results']
-                                            if x['clc_query'] == clc_query_id and x['ecju_query']])
-
-            context = {
-                'data': data,
-                'documents': documents['documents'],
-                'title': data['good']['description'],
-                'type': self.view_type,
-            }
-
-            if case_note_notifications > 0:
-                context['case_note_notifications'] = case_note_notifications
-
-            if ecju_query_notifications > 0:
-                context['ecju_query_notifications'] = ecju_query_notifications
-
-            if self.view_type == 'case-notes':
-                case_notes = get_application_case_notes(request, case_id)['case_notes']
-                context['notes'] = filter(lambda note: note['is_visible_to_exporter'], case_notes)
-
-            if self.view_type == 'ecju-queries':
-                context['open_queries'], context['closed_queries'] = get_application_ecju_queries(request, case_id)
-
-            return render(request, 'goods/good.html', context)
+        # documents, status_code = get_good_documents(request, str(good_id))
 
         context = {
-            'data': data,
-            'documents': documents['documents'],
-            'title': data['good']['description'],
+            'good': self.good,
+            'title': 'Good',
         }
-
         return render(request, 'goods/good.html', context)
 
     def post(self, request, **kwargs):
         if self.view_type != 'case-notes':
             return Http404
 
-
         good_id = kwargs['pk']
-        data, status_code = get_good(request, str(good_id))
+        data = get_good(request, str(good_id))
 
         response, status_code = post_application_case_notes(request, data['good']['clc_query_case_id'], request.POST)
 
@@ -180,7 +144,7 @@ class DraftAddGood(TemplateView):
 
 class EditGood(TemplateView):
     def get(self, request, **kwargs):
-        data, status_code = get_good(request, str(kwargs['pk']))
+        data = get_good(request, str(kwargs['pk']))
         return form_page(request, edit_form, data['good'])
 
     def post(self, request, **kwargs):
@@ -194,7 +158,7 @@ class EditGood(TemplateView):
 
 class DeleteGood(TemplateView):
     def get(self, request, **kwargs):
-        data, status_code = get_good(request, str(kwargs['pk']))
+        data = get_good(request, str(kwargs['pk']))
         if data['good']['status'] != 'draft':
             context = {
                 'title': 'Cannot Delete Good',
@@ -230,7 +194,7 @@ class AttachDocuments(TemplateView):
         self.request.upload_handlers.insert(0, S3FileUploadHandler(request))
 
         good_id = str(kwargs['pk'])
-        good, status_code = get_good(request, good_id)
+        good = get_good(request, good_id)
 
         data, error = add_document_data(request)
         if 'description' not in data:
@@ -267,7 +231,7 @@ class DeleteDocument(TemplateView):
         good_id = str(kwargs['pk'])
         file_pk = str(kwargs['file_pk'])
 
-        good, status_code = get_good(request, good_id)
+        good = get_good(request, good_id)
         document, status_code = get_good_document(request, good_id, file_pk)
         original_file_name = document['document']['name']
 
@@ -284,7 +248,7 @@ class DeleteDocument(TemplateView):
         good_id = str(kwargs['pk'])
         file_pk = str(kwargs['file_pk'])
 
-        good, status_code = get_good(request, good_id)
+        good = get_good(request, good_id)
         document, status_code = get_good_document(request, good_id, file_pk)
         # Delete the file on the API
         delete_good_document(request, good_id, file_pk)

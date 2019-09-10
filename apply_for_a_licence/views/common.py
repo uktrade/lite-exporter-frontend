@@ -228,7 +228,7 @@ class AddPreexistingGood(TemplateView):
     def get(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
         draft, status_code = get_draft(request, draft_id)
-        good, status_code = get_good(request, str(kwargs['good_pk']))
+        good = get_good(request, str(kwargs['good_pk']))
         good = good.get('good')
 
         context = {
@@ -248,7 +248,7 @@ class AddPreexistingGood(TemplateView):
         data, status_code = post_draft_preexisting_goods(request, draft_id, request.POST)
 
         if status_code != 201:
-            good, status_code = get_good(request, str(kwargs['good_pk']))
+            good = get_good(request, str(kwargs['good_pk']))
             good = good.get('good')
 
             context = {

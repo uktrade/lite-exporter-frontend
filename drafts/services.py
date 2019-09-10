@@ -101,8 +101,7 @@ def get_end_user_document(request, pk):
 
 def post_end_user_document(request, pk, json):
    data = post(request, DRAFTS_URL + pk + END_USER_DOCUMENT_URL, json)
-   if data.status_code != 201:
-       logging.error(data.json())
+   print(data.json())
    return data.json(), data.status_code
 
 def delete_end_user_document(request, pk):
