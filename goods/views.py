@@ -12,10 +12,11 @@ from apply_for_a_licence.services import add_document_data
 from apply_for_a_licence.services import download_document_from_s3
 from applications.services import get_application_ecju_queries, get_application_case_notes, post_application_case_notes, \
     get_ecju_query, put_ecju_query
-from core.services import get_clc_notifications
+from core.services import get_clc_notifications, get_case
 from goods import forms
 from goods.forms import edit_form, attach_documents_form, respond_to_query_form, ecju_query_respond_confirmation_form
-from goods.services import get_goods, post_goods, get_good, update_good, delete_good, get_good_documents, get_good_document, delete_good_document, post_good_documents, raise_clc_query
+from goods.services import get_goods, post_goods, get_good, update_good, delete_good, get_good_documents, \
+    get_good_document, delete_good_document, post_good_documents, raise_clc_query, get_clc_query
 
 
 class Goods(TemplateView):
@@ -29,18 +30,17 @@ class Goods(TemplateView):
             'title': 'Manage Goods',
             'notifications_ids_list': notifications_ids_list,
         }
-        return render(request, 'goods/index.html', context)
+        return render(request, 'goods/goods.html', context)
 
 
 class GoodsDetailEmpty(TemplateView):
     def get(self, request, **kwargs):
         good_id = str(kwargs['pk'])
         return redirect(reverse_lazy('goods:good-detail', kwargs={'pk': good_id,
-                                                           'type': 'case-notes'}))
+                                                                  'type': 'case-notes'}))
 
 
 class GoodsDetail(TemplateView):
-
     good_id = None
     good = None
     view_type = None
@@ -58,11 +58,13 @@ class GoodsDetail(TemplateView):
         return super(GoodsDetail, self).dispatch(request, *args, **kwargs)
 
     def get(self, request, **kwargs):
-        # documents, status_code = get_good_documents(request, str(good_id))
+        documents = get_good_documents(request, str(self.good_id))
 
         context = {
-            'good': self.good,
             'title': 'Good',
+            'good': self.good,
+            'documents': documents,
+            'type': self.view_type
         }
         return render(request, 'goods/good.html', context)
 
@@ -73,7 +75,7 @@ class GoodsDetail(TemplateView):
         good_id = kwargs['pk']
         data = get_good(request, str(good_id))
 
-        response, status_code = post_application_case_notes(request, data['good']['clc_query_case_id'], request.POST)
+        response, status_code = post_application_case_notes(request, data['case_id'], request.POST)
 
         if 'errors' in response:
             errors = response.get('errors')
@@ -90,7 +92,7 @@ class GoodsDetail(TemplateView):
             return error_page(request, error)
 
         return redirect(reverse_lazy('goods:good-detail', kwargs={'pk': good_id,
-                                                           'type': 'case-notes'}))
+                                                                  'type': 'case-notes'}))
 
 
 class AddGood(TemplateView):
@@ -145,7 +147,7 @@ class DraftAddGood(TemplateView):
 class EditGood(TemplateView):
     def get(self, request, **kwargs):
         data = get_good(request, str(kwargs['pk']))
-        return form_page(request, edit_form, data['good'])
+        return form_page(request, edit_form, data)
 
     def post(self, request, **kwargs):
         data, status_code = update_good(request, str(kwargs['pk']), request.POST)
@@ -210,7 +212,7 @@ class AttachDocuments(TemplateView):
         if 'errors' in good_documents:
             return error_page(None, 'We had an issue uploading your files. Try again later.')
 
-        if good['good']['is_good_controlled'] == 'unsure':
+        if good['is_good_controlled'] == 'unsure':
             return redirect(reverse('goods:raise_clc_query', kwargs={'pk': good_id}))
 
         return redirect(reverse('goods:good', kwargs={'pk': good_id}))
@@ -222,8 +224,8 @@ class Document(TemplateView):
         file_pk = str(kwargs['file_pk'])
 
         get_good(request, good_id)
-        document, status_code = get_good_document(request, good_id, file_pk)
-        return download_document_from_s3(document['document']['s3_key'], document['document']['name'])
+        document = get_good_document(request, good_id, file_pk)
+        return download_document_from_s3(document['s3_key'], document['name'])
 
 
 class DeleteDocument(TemplateView):
@@ -232,14 +234,14 @@ class DeleteDocument(TemplateView):
         file_pk = str(kwargs['file_pk'])
 
         good = get_good(request, good_id)
-        document, status_code = get_good_document(request, good_id, file_pk)
-        original_file_name = document['document']['name']
+        document = get_good_document(request, good_id, file_pk)
+        original_file_name = document['name']
 
         context = {
             'title': 'Are you sure you want to delete this file?',
             'description': original_file_name,
             'good': good['good'],
-            'document': document['document'],
+            'document': document,
             'page': 'goods/modals/delete_document.html',
         }
         return render(request, 'core/static.html', context)
@@ -249,15 +251,15 @@ class DeleteDocument(TemplateView):
         file_pk = str(kwargs['file_pk'])
 
         good = get_good(request, good_id)
-        document, status_code = get_good_document(request, good_id, file_pk)
+        document = get_good_document(request, good_id, file_pk)
         # Delete the file on the API
         delete_good_document(request, good_id, file_pk)
 
         context = {
             'title': 'Are you sure you want to delete this file?',
-            'description': document['document']['name'],
+            'description': document['name'],
             'good': good['good'],
-            'document': document['document'],
+            'document': document,
             'page': 'goods/modals/delete_document.html',
         }
         return redirect(reverse('goods:good', kwargs={'pk': good_id}))
@@ -306,7 +308,8 @@ class RespondToQuery(TemplateView):
                 return form_page(request, form, data=data, errors=errors)
             else:
                 form = ecju_query_respond_confirmation_form(reverse_lazy('goods:respond_to_query',
-                                                                         kwargs={'pk': good_id, 'query_pk': ecju_query_id}))
+                                                                         kwargs={'pk': good_id,
+                                                                                 'query_pk': ecju_query_id}))
                 form.questions.append(HiddenField('response', request.POST.get('response')))
                 return form_page(request, form)
         elif form_name == 'ecju_query_response_confirmation':
@@ -325,7 +328,8 @@ class RespondToQuery(TemplateView):
             else:
                 error = {'required': ['This field is required']}
                 form = ecju_query_respond_confirmation_form(reverse_lazy('goods:respond_to_query',
-                                                                         kwargs={'pk': good_id, 'query_pk': ecju_query_id}))
+                                                                         kwargs={'pk': good_id,
+                                                                                 'query_pk': ecju_query_id}))
                 form.questions.append(HiddenField('response', request.POST.get('response')))
                 return form_page(request, form, errors=error)
         else:

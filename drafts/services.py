@@ -100,9 +100,9 @@ def get_end_user_document(request, pk):
 
 
 def post_end_user_document(request, pk, json):
-   data = post(request, DRAFTS_URL + pk + END_USER_DOCUMENT_URL, json)
-   print(data.json())
-   return data.json(), data.status_code
+    data = post(request, DRAFTS_URL + pk + END_USER_DOCUMENT_URL, json)
+    return data.json(), data.status_code
+
 
 def delete_end_user_document(request, pk):
     data = delete(request, DRAFTS_URL + pk + END_USER_DOCUMENT_URL)
