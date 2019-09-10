@@ -170,11 +170,13 @@ pipeline
                 $class: 'GitSCM', branches: [[name: "${params.BRANCH}"]],
                 userRemoteConfigs: [[url: 'https://github.com/uktrade/lite-exporter-frontend.git']]
               ])
-              try {
-                sh "cd ${env.WORKSPACE} && /docker-entry.sh ${params.TESTS_TO_RUN}"
-              } catch (error) {
-                archiveArtifacts artifacts: "ui_automation_tests/allure-results/**.*"
-                error error.message
+              script {
+                try {
+                  sh "cd ${env.WORKSPACE} && /docker-entry.sh ${params.TESTS_TO_RUN}"
+                } catch (error) {
+                  archiveArtifacts artifacts: "ui_automation_tests/allure-results/**.*"
+                  error error.message
+                }
               }
             }
             archiveArtifacts artifacts: "ui_automation_tests/allure-results/**.*"
