@@ -1,6 +1,6 @@
 {% load humanize static %}
 
-{% url 'goods:good-detail' data.good.id 'case-notes' as post_url %}
+{% url 'goods:good_detail' good.id 'case-notes' as post_url %}
 
 {% if post_url %}
 

@@ -28,8 +28,6 @@
 					<th class="govuk-table__header" scope="col">
 						Reference
 					</th>
-					<th class="govuk-table__header" scope="col">Goods</th>
-					<!--<th class="govuk-table__header" scope="col">Destinations</th>-->
 					<th class="govuk-table__header" scope="col">Last updated</th>
 					<th class="govuk-table__header" scope="col">Status</th>
 					<th class="govuk-table__header" scope="col"></th>
@@ -41,19 +39,6 @@
 						<td class="govuk-table__cell">
 							<a class="govuk-link" href="{% url 'applications:application' application.id %}">{{ application.name|default:"Untitled" }}</a>
 						</td>
-						<td class="govuk-table__cell">
-							{{ application.goods|length }} Good{{ application.goods|length|pluralize }}
-						</td>
-						<!--<td class="govuk-table__cell">
-							<a class="hoverable-link tooltip">
-								<span class="tooltip-content" style="min-width: 150px;">
-									{% for destination in application.destinations %}
-										{{ destination.name }}<br/>
-									{% endfor %}
-								</span>
-								{{ application.destinations|length }} Destination{{ application.destinations|length|pluralize }}
-							</a>
-						</td>-->
 						<td class="govuk-table__cell">
 							{{ application.last_modified_at|str_date }}
 						</td>
@@ -67,22 +52,6 @@
 				{% endfor %}
 			</tbody>
 		</table>
-
-		<!--<div class="lite-pagination">
-			<a href="#" class="lite-pagination--item lite-pagination--selected-item">
-				1
-			</a>
-			<a href="#" class="lite-pagination--item">
-				2
-			</a>
-			<a href="#" class="lite-pagination--item">
-				3
-			</a>
-			<a href="#" class="lite-pagination--item">
-				4
-			</a>
-		</div>-->
-
 	{% else %}
 		<p class="govuk-caption-l">{% get_string 'applications.no_applications' %}</p>
 	{% endif %}
