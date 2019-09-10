@@ -5,7 +5,7 @@ class EndUserAdvisoryPage:
     def __init__(self, driver):
         self.driver = driver
 
-        self.apply_for_advisory = "a[href*='/end-users/apply-for-an-advisory']"
+        self.apply_for_advisory = "apply"  # id
 
     def click_apply_for_advisories(self):
-        self.driver.find_element_by_css_selector(self.apply_for_advisory).click()
+        self.driver.find_element_by_id(self.apply_for_advisory).click()
