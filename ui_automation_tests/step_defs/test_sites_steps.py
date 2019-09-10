@@ -51,9 +51,10 @@ def i_see_sites_list(driver, context):
 @then('I see select a site error message')
 def select_a_site_error(driver):
     shared = Shared(driver)
-    assert 'Cannot create an application without countries being set' in shared.get_text_of_error_messages()
-    assert 'Cannot create an application with no good descriptions attached' in shared.get_text_of_error_messages()
+    assert 'Cannot create an application without an end user' in shared.get_text_of_error_messages()
+    assert 'Cannot create an application without an end user document' in shared.get_text_of_error_messages()
     assert 'Cannot create an application with no sites or external sites attached' in shared.get_text_of_error_messages()
+    assert 'Cannot create an application with no goods attached' in shared.get_text_of_error_messages()
 
 
 @when('I click last edit button')
