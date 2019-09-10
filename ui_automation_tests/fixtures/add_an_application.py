@@ -1,5 +1,7 @@
 from pytest import fixture
 import datetime
+
+from wait import wait_for_ultimate_end_user_document
 from helpers.seed_data import SeedData
 from helpers.utils import Timer, get_or_create_attr
 
@@ -45,7 +47,7 @@ def add_an_application(driver, request, api_url, exporter_url, context):
             "website": context.ueu_website
         }
     )
-    document_is_processed = api.ensure_end_user_document_is_processed(draft_id)
+    document_is_processed = wait_for_ultimate_end_user_document(api=api, draft_id=draft_id)
     assert document_is_processed, "Document wasn't successfully processed"
     api.submit_application()
     context.app_id = api.context['application_id']
