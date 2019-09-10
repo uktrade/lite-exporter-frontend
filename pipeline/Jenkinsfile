@@ -78,7 +78,7 @@ pipeline
             timestamps {
               sh """
                 #!/busybox/sh
-                /kaniko/executor --dockerfile ${env.WORKSPACE}/ui_automation_tests/selenium-automation-run/Dockerfile -c ${env.WORKSPACE}/ui_automation_tests --destination=registry.ci.uktrade.io/lite/selenium_export_frontend
+                /kaniko/executor --cache=true --dockerfile ${env.WORKSPACE}/ui_automation_tests/selenium-automation-run/Dockerfile -c ${env.WORKSPACE}/ui_automation_tests --destination=registry.ci.uktrade.io/lite/selenium_export_frontend
               """
             }
           }
@@ -171,11 +171,13 @@ pipeline
                 userRemoteConfigs: [[url: 'https://github.com/uktrade/lite-exporter-frontend.git']]
               ])
               script {
-                try {
-                  sh "cd ${env.WORKSPACE} && /docker-entry.sh ${params.TESTS_TO_RUN}"
-                } catch (error) {
-                  archiveArtifacts artifacts: "ui_automation_tests/allure-results/**.*"
-                  error error.message
+                timestamps {
+                  try {
+                    sh "cd ${env.WORKSPACE} && /docker-entry.sh ${params.TESTS_TO_RUN}"
+                  } catch (error) {
+                    archiveArtifacts artifacts: "ui_automation_tests/allure-results/**.*"
+                    error error.message
+                  }
                 }
               }
             }
