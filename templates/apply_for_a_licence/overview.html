@@ -293,9 +293,9 @@
 		{% endif %}
 	</div>
 	{% if errors|key_value:'end_user' %}
-		<p class="govuk-error-message">
-			{{ errors|key_value:'end_user' }}
-		</p>
+		<p class="govuk-error-message">{{ errors|key_value:'end_user' }}</p>
+    {% elif errors|key_value:'end_user_document'%}
+        <p class="govuk-error-message">{{ errors|key_value:'end_user_document' }}</p>
 	{% endif %}
 	{% if draft.end_user %}
 		<table class="govuk-table">
@@ -372,9 +372,9 @@
 		{% endif %}
 	</div>
 	{% if errors|key_value:'ultimate_end_users' %}
-		<p class="govuk-error-message">
-			{{ errors|key_value:'ultimate_end_users' }}
-		</p>
+		<p class="govuk-error-message">{{ errors|key_value:'ultimate_end_users' }}</p>
+    {% elif errors|key_value:'ultimate_end_user_documents'%}
+        <p class="govuk-error-message">{{ errors|key_value:'ultimate_end_user_documents' }}</p>
 	{% endif %}
 	{% if ultimate_end_users %}
 		<table class="govuk-table">
