@@ -68,7 +68,7 @@ pipeline
       steps
       {
         checkout([
-          $class: 'GitSCM', branches: [[name: "${params.BRANCH}"]],
+          $class: 'GitSCM', branches: [[name: "${env.GIT_BRANCH}"]],
           userRemoteConfigs: [[url: 'https://github.com/uktrade/lite-exporter-frontend.git']]
         ])
 
@@ -170,12 +170,8 @@ pipeline
                 $class: 'GitSCM', branches: [[name: "${params.BRANCH}"]],
                 userRemoteConfigs: [[url: 'https://github.com/uktrade/lite-exporter-frontend.git']]
               ])
-              sh """
-                cd ${env.WORKSPACE}/ui_automation_tests
-                mkdir -p ${env.WORKSPACE}/ui_automation_tests/allure-results
-                /docker-entry.sh ${params.TESTS_TO_RUN}
-              """
-              generateAllureReport()
+              sh "cd ${env.WORKSPACE} && /docker-entry.sh ${params.TESTS_TO_RUN}"
+              stash name: report, allowEmpty: true, includes: "${env.WORKSPACE}/ui_automation_tests/allure-results/*"
             }
           }
         }
@@ -186,17 +182,11 @@ pipeline
   {
     always
     {
-      // Send Slack notification
-      sendSlackNotification()
-
-    }
-
-    failure {
-      script {
-        sh "mkdir -p ${env.WORKSPACE}/ui_automation_tests/allure-results"
-      }
+      unstash name: report
       // Generate Allure Report
       generateAllureReport()
+      // Send Slack notification
+      sendSlackNotification()
     }
   }
 }
