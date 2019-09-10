@@ -318,8 +318,9 @@ class SeedData:
         data = self.request_data['ultimate_end_user'] if ultimate_end_user is None else ultimate_end_user
         ultimate_end_user_post = self.make_request('POST', url='/drafts/' + draft_id + '/ultimate-end-users/',
                                               headers=self.export_headers, body=data)
-        self.add_ultimate_end_user_document(draft_id, json.loads(ultimate_end_user_post.text)['end_user']['id'])
-        return draft_id
+        ultimate_end_user_id = json.loads(ultimate_end_user_post.text)['end_user']['id']
+        self.add_ultimate_end_user_document(draft_id, ultimate_end_user_id)
+        return draft_id, ultimate_end_user_id
 
     def submit_application(self, draft_id=None):
         self.log('submitting application: ...')
@@ -332,6 +333,11 @@ class SeedData:
 
     def check_end_user_document_is_processed(self, draft_id):
         data = self.make_request("GET", url='/drafts/' + draft_id + '/end-user/document/', headers=self.export_headers)
+        return json.loads(data.text)['document']['safe']
+
+    def check_ultimate_end_user_document_is_processed(self, draft_id, ultimate_end_user_id):
+        data = self.make_request("GET", url='/drafts/' + draft_id + '/ultimate-end-user/'
+                                            + ultimate_end_user_id + '/document/', headers=self.export_headers)
         return json.loads(data.text)['document']['safe']
 
     def make_request(self, method, url, headers=None, body=None, files=None):
