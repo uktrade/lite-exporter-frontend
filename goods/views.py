@@ -59,6 +59,10 @@ class GoodsDetail(TemplateView):
 
     def get(self, request, **kwargs):
         documents = get_good_documents(request, str(self.good_id))
+        case_note_notifications = len([x for x in self.notifications['results']
+                                       if x['clc_query'] == self.good['query_id'] and x['case_note']])
+        ecju_query_notifications = len([x for x in self.notifications['results']
+                                        if x['clc_query'] == self.good['query_id'] and x['ecju_query']])
 
         context = {
             'title': 'Good',
@@ -66,6 +70,20 @@ class GoodsDetail(TemplateView):
             'documents': documents,
             'type': self.view_type
         }
+
+        if case_note_notifications > 0:
+            context['case_note_notifications'] = case_note_notifications
+
+        if ecju_query_notifications > 0:
+            context['ecju_query_notifications'] = ecju_query_notifications
+
+        if self.view_type == 'case-notes':
+            case_notes = get_application_case_notes(request, self.good['case_id'])['case_notes']
+            context['notes'] = filter(lambda note: note['is_visible_to_exporter'], case_notes)
+
+        if self.view_type == 'ecju-queries':
+            context['open_queries'], context['closed_queries'] = get_application_ecju_queries(request, self.good['case_id'])
+
         return render(request, 'goods/good.html', context)
 
     def post(self, request, **kwargs):
