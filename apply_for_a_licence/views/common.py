@@ -382,13 +382,18 @@ class AttachDocuments(TemplateView):
         if status_code == 200:
             if draft.get('draft').get('licence_type').get('key') == STANDARD_LICENCE:
                 if 'ultimate-end-user' in request.path:
+                    back_text = get_string('ultimate_end_user.documents.attach_documents.back_to_application_overview')
                     draft_url = reverse('apply_for_a_licence:ultimate_end_users', kwargs={'pk': draft_id})
                     title = get_string('ultimate_end_user.documents.attach_documents.title')
+                    return_later_text = get_string('ultimate_end_user.documents.save_end_user')
                 else:
+                    back_text = get_string('end_user.documents.attach_documents.back_to_application_overview')
                     draft_url = reverse('apply_for_a_licence:overview', kwargs={'pk': draft_id})
                     title = get_string('end_user.documents.attach_documents.title')
+                    return_later_text = get_string('end_user.documents.save_end_user')
 
-                form = attach_document_form(draft_url=draft_url, title=title)
+                form = attach_document_form(draft_url=draft_url, title=title,
+                                            back_text=back_text, return_later_text=return_later_text)
                 return form_page(request, form, extra_data={'draft_id': draft_id})
             else:
                 return redirect(reverse_lazy('apply_for_a_licence:overview', kwargs={'pk': draft_id}))

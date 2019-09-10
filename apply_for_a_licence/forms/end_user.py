@@ -41,16 +41,16 @@ def new_end_user_forms():
     ])
 
 
-def attach_document_form(draft_url, title):
+def attach_document_form(draft_url, title, back_text, return_later_text):
     return Form(title,
                 get_string('end_user.documents.attach_documents.description'),
                 [FileUpload('documents')],
-                back_link=BackLink(get_string('end_user.documents.attach_documents.back_to_application_overview'),
+                back_link=BackLink(back_text,
                                    draft_url),
                 footer_label=Label('Or <a href="'
                                    + draft_url
                                    + '" class="govuk-link govuk-link--no-visited-state">'
-                                   + get_string('end_user.documents.save_end_user')
+                                   + return_later_text
                                    + '</a> ' + get_string('end_user.documents.attach_later')))
 
 
