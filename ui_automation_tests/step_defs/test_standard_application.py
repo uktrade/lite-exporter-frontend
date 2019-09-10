@@ -8,7 +8,7 @@ from pages.application_overview_page import ApplicationOverviewPage
 from pages.shared import Shared
 from pages.application_goods_list import ApplicationGoodsList
 from pages.ultimate_end_users_list_page import UltimateEndUsersListPage
-from wait import wait_for_download_button
+from helpers.wait import wait_for_download_button
 
 scenarios('../features/submit_standard_application.feature', strict_gherkin=False)
 
