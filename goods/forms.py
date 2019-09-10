@@ -135,7 +135,7 @@ def respond_to_query_form(good_id, ecju_query):
                              }),
                     HiddenField(name='form_name', value='respond_to_query')
                 ],
-                back_link=BackLink('Back to good', reverse_lazy('goods:good-detail',
+                back_link=BackLink('Back to good', reverse_lazy('goods:good_detail',
                                                                        kwargs={'pk': good_id,
                                                                                'type': 'ecju-queries'})),
                 default_button_name='Submit response')

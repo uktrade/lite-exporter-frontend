@@ -36,7 +36,7 @@ class Goods(TemplateView):
 class GoodsDetailEmpty(TemplateView):
     def get(self, request, **kwargs):
         good_id = str(kwargs['pk'])
-        return redirect(reverse_lazy('goods:good-detail', kwargs={'pk': good_id,
+        return redirect(reverse_lazy('goods:good_detail', kwargs={'pk': good_id,
                                                                   'type': 'case-notes'}))
 
 
@@ -91,7 +91,7 @@ class GoodsDetail(TemplateView):
                 error = "\n".join(error_list)
             return error_page(request, error)
 
-        return redirect(reverse_lazy('goods:good-detail', kwargs={'pk': good_id,
+        return redirect(reverse_lazy('goods:good_detail', kwargs={'pk': good_id,
                                                                   'type': 'case-notes'}))
 
 
@@ -320,7 +320,7 @@ class RespondToQuery(TemplateView):
                     return form_page(request, respond_to_query_form(good_id, ecju_query), data=request.POST,
                                      errors=data['errors'])
 
-                return redirect(reverse_lazy('goods:good-detail', kwargs={'pk': good_id,
+                return redirect(reverse_lazy('goods:good_detail', kwargs={'pk': good_id,
                                                                           'type': 'ecju-queries'}))
 
             elif request.POST.get('confirm_response') == 'no':
