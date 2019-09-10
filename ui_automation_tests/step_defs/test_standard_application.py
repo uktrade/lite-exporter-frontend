@@ -120,7 +120,7 @@ def end_user_on_overview(driver, context):
     assert "Type" in app.get_text_of_end_user_table()
     assert "Name" in app.get_text_of_end_user_table()
     assert "Address" in app.get_text_of_end_user_table()
-    assert context.type_end_user in app.get_text_of_end_user_table()
+    assert context.type_end_user.capitalize() in app.get_text_of_end_user_table()
     assert context.name_end_user in app.get_text_of_end_user_table()
     assert context.address_end_user in app.get_text_of_end_user_table()
 
