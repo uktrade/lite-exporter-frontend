@@ -2,7 +2,6 @@
 Feature:
 
   @LT_1007
-    @MSTG
   Scenario: create and see listed an end user advisory
     Given I go to exporter homepage and choose Test Org
     When I click on end user advisories

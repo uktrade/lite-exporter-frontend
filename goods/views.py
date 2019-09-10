@@ -210,7 +210,7 @@ class AttachDocuments(TemplateView):
         if 'errors' in good_documents:
             return error_page(None, 'We had an issue uploading your files. Try again later.')
 
-        if good['good']['is_good_controlled'] == 'unsure':
+        if good['is_good_controlled'] == 'unsure':
             return redirect(reverse('goods:raise_clc_query', kwargs={'pk': good_id}))
 
         return redirect(reverse('goods:good', kwargs={'pk': good_id}))
