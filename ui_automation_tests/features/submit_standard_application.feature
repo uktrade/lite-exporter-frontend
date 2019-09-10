@@ -1,4 +1,5 @@
 @licence @submit @all @standard
+  @MSTG
 Feature: I want to indicate the standard licence I want
   As a logged in exporter
   I want to indicate the kind of licence I want
