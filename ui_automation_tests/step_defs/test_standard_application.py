@@ -8,6 +8,7 @@ from pages.application_overview_page import ApplicationOverviewPage
 from pages.shared import Shared
 from pages.application_goods_list import ApplicationGoodsList
 from pages.ultimate_end_users_list_page import UltimateEndUsersListPage
+from wait import wait_for_download_button
 
 scenarios('../features/submit_standard_application.feature', strict_gherkin=False)
 
@@ -211,3 +212,9 @@ def delete_ultimate_end_user_document(driver):
     ultimate_end_user.accept_delete_ultimate_end_user_document_confirm()
     shared = Shared(driver)
     shared.click_continue()
+
+
+@then("Wait for download link")
+def wait_for_download_link(driver):
+    shared = Shared(driver)
+    assert wait_for_download_button(shared)

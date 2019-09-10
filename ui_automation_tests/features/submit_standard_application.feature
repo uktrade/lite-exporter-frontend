@@ -182,7 +182,7 @@ Feature: I want to indicate the standard licence I want
     Then "Attach" link is present
     When I click on attach a document
     And I upload a file "file_for_doc_upload_test_1.txt"
-    Then "Download" link is present
+    Then Wait for download link
     And "Delete" link is present
     When I delete the ultimate end user document
     Then "Attach" link is present
