@@ -1,7 +1,7 @@
 from pytest import fixture
 import datetime
 
-from wait import wait_for_end_user_document, wait_for_ultimate_end_user_document
+from helpers.wait import wait_for_end_user_document, wait_for_ultimate_end_user_document
 from helpers.seed_data import SeedData
 from helpers.utils import Timer, get_or_create_attr
 
