@@ -154,12 +154,12 @@ class GoodsList(TemplateView):
         description = request.GET.get('description', '').strip()
         part_number = request.GET.get('part_number', '').strip()
         control_rating = request.GET.get('control_rating', '').strip()
-        data = get_goods(request, {'description': description,
-                                                'part_number': part_number,
-                                                'control_rating': control_rating})
+        goods = get_goods(request, {'description': description,
+                                    'part_number': part_number,
+                                    'control_rating': control_rating})
 
         filtered_data = []
-        for good in data['goods']:
+        for good in goods:
             if good['documents'] and not good['is_good_controlled'] == 'unsure':
                 filtered_data.append(good)
 
@@ -231,6 +231,8 @@ class AddPreexistingGood(TemplateView):
         draft_id = str(kwargs['pk'])
         draft, status_code = get_draft(request, draft_id)
         good = get_good(request, str(kwargs['good_pk']))
+
+        print(good)
 
         context = {
             'title': 'Add a pre-existing good to your application',
@@ -439,4 +441,3 @@ class DeleteDocument(TemplateView):
                 return error_page(None, get_string('end_user.documents.attach_documents.delete_error'))
 
         return redirect(reverse('apply_for_a_licence:overview', kwargs={'pk': draft_id}))
-
