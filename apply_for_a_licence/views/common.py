@@ -355,14 +355,14 @@ class AddUltimateEndUser(TemplateView):
             return response
 
         return redirect(reverse_lazy('apply_for_a_licence:ultimate_end_user_attach_document',
-                                     kwargs={'pk': self.draft_id, 'eu_pk': data['end_user']['id']}))
+                                     kwargs={'pk': self.draft_id, 'ueu_pk': data['end_user']['id']}))
 
 
 class RemoveUltimateEndUser(TemplateView):
     def get(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
-        eu_pk = str(kwargs['eu_pk'])
-        delete_ultimate_end_user(request, draft_id, eu_pk)
+        ueu_pk = str(kwargs['ueu_pk'])
+        delete_ultimate_end_user(request, draft_id, ueu_pk)
         data, status_code = get_ultimate_end_users(request, draft_id)
 
         context = {
@@ -412,7 +412,7 @@ class AttachDocuments(TemplateView):
         # Send LITE API the file information
         if 'ultimate-end-user' in request.path:
             end_user_document, status_code = post_ultimate_end_user_document(request, draft_id,
-                                                                             str(kwargs['eu_pk']), data)
+                                                                             str(kwargs['ueu_pk']), data)
             next_page = 'apply_for_a_licence:ultimate_end_users'
         else:
             end_user_document, status_code = post_end_user_document(request, draft_id, data)
@@ -428,7 +428,7 @@ class DownloadDocument(TemplateView):
         draft_id = str(kwargs['pk'])
 
         if 'ultimate-end-user' in request.path:
-            document, status_code = get_ultimate_end_user_document(request, draft_id, str(kwargs['eu_pk']))
+            document, status_code = get_ultimate_end_user_document(request, draft_id, str(kwargs['ueu_pk']))
         else:
             document, status_code = get_end_user_document(request, draft_id)
 
@@ -462,7 +462,7 @@ class DeleteDocument(TemplateView):
             return redirect(request.path_info, kwargs={'pk': draft_id})
         elif option == 'yes':
             if 'ultimate-end-user' in request.path:
-                status_code = delete_ultimate_end_user_document(request, draft_id, str(kwargs['eu_pk']))
+                status_code = delete_ultimate_end_user_document(request, draft_id, str(kwargs['ueu_pk']))
             else:
                 status_code = delete_end_user_document(request, draft_id)
             if status_code is not 204:
