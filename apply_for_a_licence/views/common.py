@@ -399,7 +399,7 @@ class AttachDocuments(TemplateView):
             return error_page(None, get_string('end_user.documents.attach_documents.upload_error'))
 
         # Send LITE API the file information
-        end_user_document = post_end_user_document(request, draft_id, data)
+        end_user_document, status_code = post_end_user_document(request, draft_id, data)
 
         if status_code != 201:
             return error_page(None, get_string('end_user.documents.attach_documents.upload_error'))
