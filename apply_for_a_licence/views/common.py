@@ -13,6 +13,7 @@ from apply_for_a_licence.forms import initial, goods
 from apply_for_a_licence.forms.end_user import attach_document_form, \
     delete_document_confirmation_form
 from apply_for_a_licence.forms.end_user import new_end_user_forms
+from apply_for_a_licence.forms.initial import initial_questions
 from apply_for_a_licence.forms.ultimate_end_user import new_ultimate_end_user_form
 from apply_for_a_licence.helpers import create_persistent_bar
 from apply_for_a_licence.services import add_document_data
@@ -37,11 +38,13 @@ class StartApplication(TemplateView):
 
 
 class InitialQuestions(TemplateView):
+    forms = initial_questions()
+
     def get(self, request, **kwargs):
-        return form_page(request, initial.initial_questions.forms[0])
+        return form_page(request, self.forms.forms[0])
 
     def post(self, request, **kwargs):
-        response, data = submit_paged_form(request, initial.initial_questions, post_drafts)
+        response, data = submit_paged_form(request, self.forms, post_drafts)
 
         # If there are more forms to go through, continue
         if response:
