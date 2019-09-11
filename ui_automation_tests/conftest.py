@@ -228,9 +228,9 @@ def click_my_goods_link(driver):
 
 @when('I click on goods tile')
 def click_my_goods_link(driver):
-    exporter_hub = ExporterHubPage(driver)
+    exporter_hub = ApplicationOverviewPage(driver)
     driver.execute_script("document.getElementById('goods').scrollIntoView(true);")
-    exporter_hub.click_my_goods()
+    exporter_hub.click_goods_link()
 
 
 @when('I click on end user advisories')
