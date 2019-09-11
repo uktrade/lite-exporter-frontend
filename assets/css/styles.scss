@@ -8,25 +8,53 @@ main {
 	min-height: 60vh;
 }
 
-.lite-link--underline-on-hover {
+.app-icon-label {
 	text-decoration: none;
-
-	&:hover {
-		text-decoration: underline;
-	}
-}
-
-.app-verified__container {
 	display: flex;
 	align-items: center;
 	justify-content: flex-start;
+
+	&__notification {
+		@include govuk-font($size: 14, $weight: bold);
+		display: inline-block;
+		margin-left: govuk-spacing(1);
+		margin-top: 1px;
+		min-width: 16px;
+		height: 16px;
+		background-color: govuk-colour("red");
+		line-height: 16px!important;
+		color: govuk-colour("white");
+		border-radius: 8px;
+		text-align: center;
+		margin-bottom: 2px;
+		text-decoration: none!important;
+	}
+
+	&:hover {
+		p {
+			text-decoration: underline;
+		}
+		.app-icon-label__notification {
+			background-color: darken(govuk-colour("red"), 7.5%);
+		}
+	}
+
+	&:active {
+		.app-icon-label__notification {
+			background-color: darken(govuk-colour("red"), 15%);
+		}
+	}
+
+	p {
+		margin: 0;
+		padding: 0;
+	}
 }
 
 .app-verified__symbol {
 	display: inline-block;
 	margin-left: govuk-spacing(1);
-	line-height: inherit;
-	margin-top: 2px;
+	margin-top: 1px;
 
 	svg {
 		width: 16px;
@@ -46,6 +74,7 @@ main {
 		left: govuk-spacing(4);
 		width: 30px;
 		height: 30px;
+
 		* {
 			fill: govuk-colour("white");
 		}
@@ -58,7 +87,6 @@ main {
 
 .app-test-bar {
 	@extend .govuk-inset-text;
-
 	display: grid;
 	grid-template-columns: 1fr auto;
 	grid-gap: govuk-spacing(6);

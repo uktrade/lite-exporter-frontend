@@ -1,4 +1,4 @@
-from django.http import StreamingHttpResponse, Http404
+from django.http import Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.utils.decorators import method_decorator
@@ -8,27 +8,27 @@ from lite_forms.components import HiddenField
 from lite_forms.generators import error_page, form_page
 from s3chunkuploader.file_handler import S3FileUploadHandler
 
-from apply_for_a_licence.services import add_document_data
-from apply_for_a_licence.services import download_document_from_s3
 from applications.services import get_application_ecju_queries, get_case_notes, post_application_case_notes, \
     get_ecju_query, put_ecju_query
-from core.services import get_clc_notifications, get_case
+from apply_for_a_licence.services import add_document_data
+from apply_for_a_licence.services import download_document_from_s3
+from core.helpers import group_notifications
+from core.services import get_clc_notifications
 from goods import forms
 from goods.forms import edit_form, attach_documents_form, respond_to_query_form, ecju_query_respond_confirmation_form
 from goods.services import get_goods, post_goods, get_good, update_good, delete_good, get_good_documents, \
-    get_good_document, delete_good_document, post_good_documents, raise_clc_query, get_clc_query
+    get_good_document, delete_good_document, post_good_documents, raise_clc_query
 
 
 class Goods(TemplateView):
     def get(self, request, **kwargs):
         goods = get_goods(request)
         notifications, _ = get_clc_notifications(request, unviewed=True)
-        notifications_ids_list = [x['clc_query'] for x in notifications['results']]
 
         context = {
             'goods': goods,
             'title': 'Manage Goods',
-            'notifications_ids_list': notifications_ids_list,
+            'notifications': group_notifications(notifications['results']),
         }
         return render(request, 'goods/goods.html', context)
 
