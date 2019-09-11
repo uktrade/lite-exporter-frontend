@@ -5,7 +5,6 @@ Feature: I want to search for goods in my goods list to add to an in progress ap
   So that I can quickly and easily complete my application for types of goods I have exported before
 
   @LT_1159_desc
-    @MSTG
   Scenario: Search for goods by description
     Given I go to exporter homepage and choose Test Org
     When I click on goods link
