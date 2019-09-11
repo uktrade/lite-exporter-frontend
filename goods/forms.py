@@ -28,8 +28,8 @@ add_goods_questions = Form(title='Add Good', description='', caption='', questio
                             value='I don\'t know')
                  ],
                  classes=['govuk-radios--inline']),
-    TextInput(title='What\'s your good\'s control rating?',
-              description='<noscript>If your good is controlled, enter its control rating. </noscript>For example, ML1a.',
+    TextInput(title='What\'s your good\'s control list entry?',
+              description='<noscript>If your good is controlled, enter its control list entry. </noscript>For example, ML1a.',
               name='control_code'),
     RadioButtons(title='Is your good intended to be incorporated into an end product?',
                  description='',
@@ -52,8 +52,8 @@ def are_you_sure(good_id):
                 description=get_string('clc.clc_form.description'),
                 questions=[
                     TextInput(
-                        title='What do you think is your good\'s control rating?',
-                        description='<noscript>If your good is controlled, enter its control rating. </noscript>For example, ML1a.',
+                        title='What do you think is your good\'s control list entry?',
+                        description='<noscript>If your good is controlled, enter its control list entry. </noscript>For example, ML1a.',
                         optional=True,
                         name='not_sure_details_control_code'),
                     TextArea(
@@ -88,8 +88,8 @@ def edit_form(good_id):
                                 value='I don\'t know')
                      ],
                      classes=['govuk-radios--inline']),
-        TextInput(title='What\'s your good\'s control rating?',
-                  description='<noscript>If your good is controlled, enter its control rating. </noscript>For example, ML1a.',
+        TextInput(title='What\'s your good\'s control list entry?',
+                  description='<noscript>If your good is controlled, enter its control list entry. </noscript>For example, ML1a.',
                   name='control_code'),
         RadioButtons(title='Is your good intended to be incorporated into an end product?',
                      description='',
