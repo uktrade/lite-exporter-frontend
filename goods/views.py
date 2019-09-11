@@ -35,8 +35,7 @@ class Goods(TemplateView):
 
 class GoodsDetailEmpty(TemplateView):
     def get(self, request, **kwargs):
-        good_id = str(kwargs['pk'])
-        return redirect(reverse_lazy('goods:good_detail', kwargs={'pk': good_id,
+        return redirect(reverse_lazy('goods:good_detail', kwargs={'pk': kwargs['pk'],
                                                                   'type': 'case-notes'}))
 
 
