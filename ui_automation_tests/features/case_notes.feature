@@ -1,4 +1,5 @@
 @case_notes @all
+  @MSTG
 Feature: I want to add a note to an application and view notes
   As a logged in exporter
   I want to add a note to an application and view existing notes
