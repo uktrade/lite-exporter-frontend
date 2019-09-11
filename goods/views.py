@@ -163,17 +163,23 @@ class DraftAddGood(TemplateView):
 
 
 class EditGood(TemplateView):
+
+    good_id = None
+
+    def dispatch(self, request, *args, **kwargs):
+        self.good_id = str(kwargs['pk'])
+
     def get(self, request, **kwargs):
-        data = get_good(request, str(kwargs['pk']))
+        data = get_good(request, self.good_id)
         return form_page(request, edit_form, data)
 
     def post(self, request, **kwargs):
-        data, status_code = update_good(request, str(kwargs['pk']), request.POST)
+        data, status_code = update_good(request, self.good_id, request.POST)
 
         if status_code == 400:
             return form_page(request, edit_form, request.POST, errors=data['errors'])
 
-        return redirect(reverse_lazy('goods:goods'))
+        return redirect(reverse_lazy('goods:good', kwargs={'pk': self.good_id}))
 
 
 class DeleteGood(TemplateView):
