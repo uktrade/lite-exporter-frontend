@@ -10,7 +10,7 @@ from s3chunkuploader.file_handler import S3FileUploadHandler
 
 from apply_for_a_licence.services import add_document_data
 from apply_for_a_licence.services import download_document_from_s3
-from applications.services import get_application_ecju_queries, get_application_case_notes, post_application_case_notes, \
+from applications.services import get_application_ecju_queries, get_case_notes, post_application_case_notes, \
     get_ecju_query, put_ecju_query
 from core.services import get_clc_notifications, get_case
 from goods import forms
@@ -78,8 +78,9 @@ class GoodsDetail(TemplateView):
             context['ecju_query_notifications'] = ecju_query_notifications
 
         if self.view_type == 'case-notes':
-            case_notes = get_application_case_notes(request, self.good['case_id'])['case_notes']
-            context['notes'] = filter(lambda note: note['is_visible_to_exporter'], case_notes)
+            if self.good.get('case_id'):
+                case_notes = get_case_notes(request, self.good['case_id'])['case_notes']
+                context['notes'] = filter(lambda note: note['is_visible_to_exporter'], case_notes)
 
         if self.view_type == 'ecju-queries':
             context['open_queries'], context['closed_queries'] = get_application_ecju_queries(request, self.good['case_id'])
