@@ -5,17 +5,19 @@ from django.urls import reverse_lazy, reverse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
-from s3chunkuploader.file_handler import S3FileUploadHandler
-
-from apply_for_a_licence.forms.end_user import attach_document_form, \
-    delete_document_confirmation_form
 from lite_forms.generators import form_page, success_page, error_page
 from lite_forms.submitters import submit_paged_form
+from s3chunkuploader.file_handler import S3FileUploadHandler
 
 from apply_for_a_licence.forms import initial, goods
+from apply_for_a_licence.forms.end_user import attach_document_form, \
+    delete_document_confirmation_form
 from apply_for_a_licence.forms.end_user import new_end_user_forms
 from apply_for_a_licence.forms.ultimate_end_user import new_ultimate_end_user_form
 from apply_for_a_licence.helpers import create_persistent_bar
+from apply_for_a_licence.services import add_document_data
+from apply_for_a_licence.services import download_document_from_s3
+from conf.constants import STANDARD_LICENCE
 from core.builtins.custom_tags import get_string
 from core.services import get_units, get_sites_on_draft, get_external_locations_on_draft
 from drafts.services import post_drafts, get_draft, get_draft_goods, post_draft_preexisting_goods, submit_draft, \
@@ -23,9 +25,6 @@ from drafts.services import post_drafts, get_draft, get_draft_goods, post_draft_
     post_ultimate_end_user, delete_ultimate_end_user, get_end_user_document, post_end_user_document, \
     delete_end_user_document
 from goods.services import get_goods, get_good
-from apply_for_a_licence.services import add_document_data
-from conf.constants import STANDARD_LICENCE, OPEN_LICENCE
-from apply_for_a_licence.services import download_document_from_s3
 
 
 class StartApplication(TemplateView):
@@ -152,7 +151,7 @@ class GoodsList(TemplateView):
         description = request.GET.get('description', '').strip()
         part_number = request.GET.get('part_number', '').strip()
         control_rating = request.GET.get('control_rating', '').strip()
-        data, status_code = get_goods(request, {'description': description,
+        data = get_goods(request, {'description': description,
                                                 'part_number': part_number,
                                                 'control_rating': control_rating})
 
@@ -211,7 +210,7 @@ class OpenGoodsList(TemplateView):
         draft_id = str(kwargs['pk'])
         draft, status_code = get_draft(request, draft_id)
         description = request.GET.get('description', '')
-        data, status_code = get_goods(request, {'description': description})
+        data = get_goods(request, {'description': description})
 
         context = {
             'title': 'Goods',

@@ -21,12 +21,12 @@ from goods.services import get_goods, post_goods, get_good, update_good, delete_
 
 class Goods(TemplateView):
     def get(self, request, **kwargs):
-        data, status_code = get_goods(request)
+        goods = get_goods(request)
         notifications, _ = get_clc_notifications(request, unviewed=True)
         notifications_ids_list = [x['clc_query'] for x in notifications['results']]
 
         context = {
-            'data': data,
+            'goods': goods,
             'title': 'Manage Goods',
             'notifications_ids_list': notifications_ids_list,
         }
