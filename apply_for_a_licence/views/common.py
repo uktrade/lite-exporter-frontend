@@ -67,7 +67,7 @@ class Overview(TemplateView):
         ultimate_end_users, status_code = get_ultimate_end_users(request, draft_id)
         end_user = data.get('draft').get('end_user')
         if end_user:
-            end_user_document = get_end_user_document(request, draft_id)
+            end_user_document, status_code = get_end_user_document(request, draft_id)
             end_user_document = end_user_document.get('document')
         else:
             end_user_document = None
