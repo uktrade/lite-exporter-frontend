@@ -53,12 +53,12 @@ def are_you_sure(good_id):
                 questions=[
                     TextInput(
                         title='What do you think is your good\'s control list entry?',
-                        description='<noscript>If your good is controlled, enter its control list entry. </noscript>For example, ML1a.',
-                        optional=True,
+                        description='For example, ML1a.',
                         name='not_sure_details_control_code'),
                     TextArea(
                         title='Further details about your goods',
                         description='Please enter details of why you don\'t know if your good is controlled',
+                        optional=True,
                         name='not_sure_details_details'),
                 ],
                 back_link=BackLink('Back to good', reverse('goods:good',
