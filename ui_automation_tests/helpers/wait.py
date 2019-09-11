@@ -1,6 +1,8 @@
 import time
 
 # How many attempts to wait for the function to return True
+from shared import Shared
+
 timeout_limit = 20
 # How frequently in seconds the function should be checked
 function_retry_interval = 1
@@ -25,10 +27,14 @@ def wait_for_ultimate_end_user_document(api, draft_id, ultimate_end_user_id):
                              ultimate_end_user_id=ultimate_end_user_id)
 
 
-def download_link_is_present(shared):
+def download_link_is_present(driver):
+    shared = Shared(driver)
     latest_ueu_links = [link.text for link in shared.get_links_of_table_row(-1)]
-    return "Download" in latest_ueu_links
+    if "Download" in latest_ueu_links:
+        return True
+    driver.refresh()
+    return False
 
 
-def wait_for_download_button(shared):
-    return wait_for_function(download_link_is_present, shared=shared)
+def wait_for_download_button(driver):
+    return wait_for_function(download_link_is_present, driver=driver)

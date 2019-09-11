@@ -216,5 +216,4 @@ def delete_ultimate_end_user_document(driver):
 
 @then("Wait for download link")
 def wait_for_download_link(driver):
-    shared = Shared(driver)
-    assert wait_for_download_button(shared)
+    assert wait_for_download_button(driver)
