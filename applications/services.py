@@ -13,7 +13,7 @@ def get_applications(request):
 
 
 # Case related
-def get_application_case_notes(request, pk):
+def get_case_notes(request, pk):
     data = get(request, CASES_URL + pk + CASE_NOTES_URL)
     return data.json()
 

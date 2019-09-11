@@ -1,4 +1,5 @@
 import datetime
+from collections import defaultdict
 
 from django.templatetags.tz import do_timezone
 
@@ -31,3 +32,15 @@ def generate_notification_string(notifications_count: int):
 def str_date_only(value):
     return_value = do_timezone(datetime.datetime.strptime(value, ISO8601_FMT), 'Europe/London')
     return return_value.strftime('%d %B %Y')
+
+
+def group_notifications(notifications: list):
+    """
+    Groups and counts notifications by ID
+    """
+    notifications_filtered = defaultdict(int)
+
+    for notification in notifications:
+        notifications_filtered[notification['clc_query']] += 1
+
+    return notifications_filtered
