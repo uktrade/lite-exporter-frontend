@@ -298,8 +298,8 @@ class RespondToQuery(TemplateView):
         Will get a text area form for the user to respond to the ecju_query
         '''
         good_id = str(kwargs['pk'])
-        good, _ = get_good(request, good_id)
-        clc_query_case_id = good['good']['clc_query_case_id']
+        good = get_good(request, good_id)
+        clc_query_case_id = good['case_id']
         ecju_query = get_ecju_query(request, clc_query_case_id, str(kwargs['query_pk']))
 
         # If an ecju query is already responded to, prevent a second response
@@ -316,8 +316,8 @@ class RespondToQuery(TemplateView):
         '''
         good_id = str(kwargs['pk'])
         form_name = request.POST.get('form_name')
-        good, _ = get_good(request, good_id)
-        clc_query_case_id = good['good']['clc_query_case_id']
+        good = get_good(request, good_id)
+        clc_query_case_id = good['case_id']
         ecju_query_id = str(kwargs['query_pk'])
 
         ecju_query = get_ecju_query(request, clc_query_case_id, ecju_query_id)

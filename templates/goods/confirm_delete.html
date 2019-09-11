@@ -7,12 +7,12 @@
         <form method="post" style="display: inline;">
             {% csrf_token %}
             {% if flag == 'can_delete' %}
-                <button type="submit"
+                <button type="submit" id="delete"
                         class="govuk-button govuk-button--warning govuk-!-margin-right-2">Delete
                 </button>
             {% endif %}
         </form>
-        <a href="{% url 'goods:goods' %}" role="button" draggable="false" class="govuk-button
+        <a href="{% url 'goods:goods' %}" id="cancel" role="button" draggable="false" class="govuk-button
 			govuk-button--secondary">Cancel</a>
     </div>
 {% endblock %}
