@@ -165,19 +165,22 @@ class DraftAddGood(TemplateView):
 class EditGood(TemplateView):
 
     good_id = None
+    form = None
 
     def dispatch(self, request, *args, **kwargs):
         self.good_id = str(kwargs['pk'])
+        self.form = edit_form(self.good_id)
+        return super(EditGood, self).dispatch(request, *args, **kwargs)
 
     def get(self, request, **kwargs):
         data = get_good(request, self.good_id)
-        return form_page(request, edit_form, data)
+        return form_page(request, self.form, data)
 
     def post(self, request, **kwargs):
         data, status_code = update_good(request, self.good_id, request.POST)
 
         if status_code == 400:
-            return form_page(request, edit_form, request.POST, errors=data['errors'])
+            return form_page(request, self.form, request.POST, errors=data['errors'])
 
         return redirect(reverse_lazy('goods:good', kwargs={'pk': self.good_id}))
 
@@ -185,7 +188,7 @@ class EditGood(TemplateView):
 class DeleteGood(TemplateView):
     def get(self, request, **kwargs):
         data = get_good(request, str(kwargs['pk']))
-        if data['good']['status'] != 'draft':
+        if data['status']['key'] != 'draft':
             context = {
                 'title': 'Cannot Delete Good',
                 'description': 'This good is already inside a application',
@@ -193,7 +196,7 @@ class DeleteGood(TemplateView):
             }
         else:
             context = {
-                'good': data['good'],
+                'good': data,
                 'title': 'Delete Good',
                 'description': 'Are you sure you want to delete this good?',
                 'flag': 'can_delete',
