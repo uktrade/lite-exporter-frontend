@@ -72,7 +72,7 @@ class Overview(TemplateView):
             'ultimate_end_users': ultimate_end_users['ultimate_end_users'],
             'ultimate_end_users_required': ultimate_end_users_required,
             'end_user_document': end_user_document,
-            'third_parties': third_parties
+            'third_parties': third_parties['third_parties']
         }
         return render(request, 'apply_for_a_licence/overview.html', context)
 
