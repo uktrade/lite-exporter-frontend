@@ -117,3 +117,9 @@ def post_ultimate_end_user_document(request, pk, ueu_pk, json):
 def delete_ultimate_end_user_document(request, pk, ueu_pk):
     data = delete(request, DRAFTS_URL + pk + ULTIMATE_END_USER_URL + ueu_pk + DOCUMENT_URL)
     return data.status_code
+
+
+# Third parties
+def post_third_party(request, pk, json):
+    data = post(request, DRAFTS_URL + pk + '/third-parties/', json)
+    return data.json(), data.status_code

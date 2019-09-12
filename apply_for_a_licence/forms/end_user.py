@@ -7,8 +7,8 @@ from lite_forms.generators import confirm_form
 from core.services import get_countries
 
 
-def new_end_user_forms():
-    return FormGroup([
+def third_parties_standard_form():
+    return [
         Form(title='Who will be the final recipient (end-user) of your goods?',
              questions=[
                  RadioButtons('sub_type',
@@ -39,7 +39,11 @@ def new_end_user_forms():
                         options=get_countries(None, True)),
              ],
              default_button_name='Save and continue')
-    ])
+    ]
+
+
+def new_end_user_forms():
+    return FormGroup(third_parties_standard_form())
 
 
 def attach_document_form(draft_url, title, back_text, return_later_text):
