@@ -1,6 +1,6 @@
 from django.urls import path
 
-from apply_for_a_licence.views import common, locations
+from apply_for_a_licence.views import common, locations, end_users
 from goodstype import views as goodstypeviews
 
 app_name = 'apply_for_a_licence'
@@ -41,7 +41,7 @@ urlpatterns = [
     path('<uuid:pk>/location/countries/', locations.Countries.as_view(), name='countries'),
 
     # ex: /<uuid:pk>/end-user/
-    path('<uuid:pk>/end-user/', common.EndUser.as_view(), name='end_user'),
+    path('<uuid:pk>/end-user/', end_users.EndUser.as_view(), name='end_user'),
     # ex: /apply_for_a_licence/<uuid:pk>/end-user/attach-document
     path('<uuid:pk>/end-user/documents/attach', common.AttachDocuments.as_view(), name='end_user_attach_document'),
     # ex: /apply_for_a_licence//<uuid:pk>/end-user/download-document/ - Get documents
@@ -50,7 +50,7 @@ urlpatterns = [
     path('<uuid:pk>/end-user/documents/delete', common.DeleteDocument.as_view(), name="delete_document"),
 
     # ex: /<uuid:pk>/ultimate-end-users/
-    path('<uuid:pk>/ultimate-end-users/', common.UltimateEndUsers.as_view(), name='ultimate_end_users'),
+    path('<uuid:pk>/ultimate-end-users/', end_users.UltimateEndUsers.as_view(), name='ultimate_end_users'),
     # ex: /apply_for_a_licence/<uuid:pk>/ultimate-end-user/attach-document
     path('<uuid:pk>/ultimate-end-user/<uuid:ueu_pk>/documents/attach', common.AttachDocuments.as_view(), name='ultimate_end_user_attach_document'),
     # ex: /apply_for_a_licence//<uuid:pk>/ultimate-end-user/download-document/ - Get documents
