@@ -4,9 +4,10 @@ from django.views.generic import TemplateView
 from lite_forms.generators import form_page
 from lite_forms.submitters import submit_paged_form
 
+from apply_for_a_licence.forms.end_user import new_end_user_forms
 from apply_for_a_licence.forms.third_party import third_party_forms
 from apply_for_a_licence.helpers import create_persistent_bar
-from drafts.services import get_draft, post_third_party, get_third_parties, delete_third_party
+from drafts.services import get_draft, post_third_party, get_third_parties, delete_third_party, post_consignee
 
 
 class AddThirdParty(TemplateView):
@@ -58,3 +59,23 @@ class RemoveThirdParty(TemplateView):
         ueu_pk = str(kwargs['ueu_pk'])
         delete_third_party(request, draft_id, ueu_pk)
         return redirect(reverse_lazy('apply_for_a_licence:third_parties', kwargs={'pk': draft_id}))
+
+
+class Consignee(TemplateView):
+    def get(self, request, **kwargs):
+        draft_id = str(kwargs['pk'])
+        draft, status_code = get_draft(request, draft_id)
+
+        return form_page(request, new_end_user_forms().forms[0], extra_data={
+            'persistent_bar': create_persistent_bar(draft.get('draft'))
+        })
+
+    def post(self, request, **kwargs):
+        draft_id = str(kwargs['pk'])
+        response, data = submit_paged_form(request, new_end_user_forms(), post_consignee, pk=draft_id)
+
+        # If there are more forms to go through, continue
+        if response:
+            return response
+
+        return redirect(reverse_lazy('apply_for_a_licence:overview', kwargs={'pk': draft_id}))

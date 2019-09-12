@@ -50,7 +50,7 @@ urlpatterns = [
     path('<uuid:pk>/end-user/documents/delete', documents.DeleteDocument.as_view(), name="delete_document"),
 
     # ex: /<uuid:pk>/consignee/
-    path('<uuid:pk>/consignee/', end_users.EndUser.as_view(), name='consignee'),
+    path('<uuid:pk>/consignee/', third_parties.Consignee.as_view(), name='consignee'),
 
     # ex: /<uuid:pk>/ultimate-end-users/
     path('<uuid:pk>/ultimate-end-users/', end_users.UltimateEndUsers.as_view(), name='ultimate_end_users'),
