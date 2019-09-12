@@ -34,6 +34,7 @@ def new_end_user_forms():
              questions=[
                  TextArea('address', 'Address'),
                  Select(title='Country',
+                        description='',
                         name='country',
                         options=get_countries(None, True)),
              ],
