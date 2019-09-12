@@ -11,7 +11,7 @@ from core.builtins.custom_tags import get_string
 from core.services import get_sites_on_draft, get_external_locations_on_draft
 from drafts.services import post_drafts, get_draft, get_draft_goods, submit_draft, \
     delete_draft, get_draft_countries, get_draft_goods_type, get_ultimate_end_users, \
-    get_end_user_document
+    get_end_user_document, get_third_parties
 
 
 class StartApplication(TemplateView):
@@ -49,6 +49,7 @@ class Overview(TemplateView):
         goodstypes, status_code = get_draft_goods_type(request, draft_id)
         external_locations, status_code = get_external_locations_on_draft(request, draft_id)
         ultimate_end_users, status_code = get_ultimate_end_users(request, draft_id)
+        third_parties, status_code = get_third_parties(request, draft_id)
         end_user = data.get('draft').get('end_user')
         if end_user:
             end_user_document, status_code = get_end_user_document(request, draft_id)
@@ -71,7 +72,7 @@ class Overview(TemplateView):
             'ultimate_end_users': ultimate_end_users['ultimate_end_users'],
             'ultimate_end_users_required': ultimate_end_users_required,
             'end_user_document': end_user_document,
-            'third_parties': None
+            'third_parties': third_parties
         }
         return render(request, 'apply_for_a_licence/overview.html', context)
 

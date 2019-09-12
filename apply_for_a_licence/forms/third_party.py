@@ -18,5 +18,5 @@ def third_party_forms():
                                              ]),
                             ],
                             default_button_name='Continue')
-    third_party_form.insert(0, third_party_type)
+    third_party_form[0] = third_party_type
     return FormGroup(third_party_form)
