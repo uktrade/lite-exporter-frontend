@@ -318,7 +318,7 @@ class SeedData:
         data = self.request_data['ultimate_end_user'] if ultimate_end_user is None else ultimate_end_user
         ultimate_end_user_post = self.make_request('POST', url='/drafts/' + draft_id + '/ultimate-end-users/',
                                               headers=self.export_headers, body=data)
-        ultimate_end_user_id = json.loads(ultimate_end_user_post.text)['end_user']['id']
+        ultimate_end_user_id = json.loads(ultimate_end_user_post.text)['ultimate_end_user']['id']
         self.add_ultimate_end_user_document(draft_id, ultimate_end_user_id)
         return draft_id, ultimate_end_user_id
 
