@@ -1,6 +1,6 @@
 from django.urls import path
 
-from apply_for_a_licence.views import common, locations, end_users, third_parties, documents
+from apply_for_a_licence.views import common, locations, end_users, third_parties, documents, goods
 from goodstype import views as goodstypeviews
 
 app_name = 'apply_for_a_licence'
@@ -16,12 +16,12 @@ urlpatterns = [
     # ex: /<uuid:pk/open-goods/
     path('<uuid:pk>/add/open-goods', goodstypeviews.DraftAddGoodsType.as_view(), name='add_open_goods'),
     # ex: /<uuid:pk>/goods/
-    path('<uuid:pk>/open-goods/', common.DraftOpenGoodsTypeList.as_view(), name='open_goods'),
-    path('<uuid:pk>/goods/', common.DraftGoodsList.as_view(), name='goods'),
+    path('<uuid:pk>/open-goods/', goods.DraftOpenGoodsTypeList.as_view(), name='open_goods'),
+    path('<uuid:pk>/goods/', goods.DraftGoodsList.as_view(), name='goods'),
     # ex: /<uuid:pk>/goods/add-preexisting/
-    path('<uuid:pk>/goods/add-preexisting/', common.GoodsList.as_view(), name='preexisting_good'),
+    path('<uuid:pk>/goods/add-preexisting/', goods.GoodsList.as_view(), name='preexisting_good'),
     # ex: /<uuid:pk>/goods/add-preexisting/<uuid:pk>/add/
-    path('<uuid:pk>/goods/add-preexisting/<uuid:good_pk>/add/', common.AddPreexistingGood.as_view(),
+    path('<uuid:pk>/goods/add-preexisting/<uuid:good_pk>/add/', goods.AddPreexistingGood.as_view(),
          name='add_preexisting_good'),
 
     # ex: /<uuid:pk>/delete/
