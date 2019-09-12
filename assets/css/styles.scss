@@ -8,6 +8,15 @@ main {
 	min-height: 60vh;
 }
 
+.govuk-table a {
+	@extend .govuk-link--no-visited-state;
+	font-weight: bold;
+	text-decoration: none;
+	&:hover {
+		text-decoration: underline;
+	}
+}
+
 .app-icon-label {
 	text-decoration: none;
 	display: flex;

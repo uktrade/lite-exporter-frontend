@@ -3,12 +3,12 @@
 {% load svg %}
 
 {% block back_link %}
-	<a href="{% url 'apply_for_a_licence:goods' draft_id %}" class="govuk-back-link lite-persistent-bar--back">Back to Goods</a>
+	<a href="{% url 'apply_for_a_licence:goods' draft_id %}" class="govuk-back-link">Back to Goods</a>
 {% endblock%}
 
 {% block body %}
 
-<h2 class="govuk-heading-l">{{ title }}</h2>
+	<h2 class="govuk-heading-l">{{ title }}</h2>
 
 {% if description or part_number or control_code or data %}
 	<div class="govuk-grid-row">
@@ -101,9 +101,15 @@
 		</div>
 	</div>
 {% else %}
-	<p class="govuk-caption-l">Your organisation doesn't have any goods which are available to be used on an application.</p>
-    <br>
-    <a href="{% url 'goods:add' %}" class="govuk-link">Add a good to my organisation</a>
+	<div class="lite-information-text">
+		<span class="lite-information-text__icon" aria-hidden="true">!</span>
+		<p class="lite-information-text__text">
+			<span class="govuk-visually-hidden">Information</span>
+			Your organisation doesn't have any goods which are available to be used on an application.
+		</p>
+	</div>
+	<br><br>
+    <a href="{% url 'goods:add' %}" class="govuk-body-m govuk-link govuk-link--no-visited-state">Add a good to my organisation's goods list</a>
 {% endif %}
 
 {% endblock %}
