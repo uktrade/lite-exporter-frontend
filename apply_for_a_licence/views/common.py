@@ -85,6 +85,7 @@ class Overview(TemplateView):
             'ultimate_end_users': ultimate_end_users['ultimate_end_users'],
             'ultimate_end_users_required': ultimate_end_users_required,
             'end_user_document': end_user_document,
+            'third_parties': None
         }
         return render(request, 'apply_for_a_licence/overview.html', context)
 
@@ -322,13 +323,40 @@ class UltimateEndUsers(TemplateView):
         data, status_code = get_ultimate_end_users(request, draft_id)
 
         context = {
-            'ultimate_end_users': data['ultimate_end_users'],
+            'third_parties': data['ultimate_end_users'],
             'draft_id': draft_id,
             'title': 'Ultimate End Users',
-            'description': get_string('ultimate_end_user.overview_description')
+            'description': get_string('ultimate_end_user.overview_description'),
+            'entity_name': 'ultimate end user',
+            'add_link': 'apply_for_a_licence:add_ultimate_end_user',
+            'download_document_link': 'apply_for_a_licence:ultimate_end_user_download_document',
+            'delete_document_link': 'apply_for_a_licence:ultimate_end_user_delete_document',
+            'attach_document_link': 'apply_for_a_licence:ultimate_end_user_attach_document',
+            'delete_link': 'apply_for_a_licence:remove_ultimate_end_user'
         }
 
-        return render(request, 'apply_for_a_licence/ultimate_end_users/index.html', context)
+        return render(request, 'apply_for_a_licence/parties/index.html', context)
+
+
+class ThirdParties(TemplateView):
+    def get(self, request, **kwargs):
+        draft_id = str(kwargs['pk'])
+        data, status_code = get_ultimate_end_users(request, draft_id)
+
+        context = {
+            'third_parties': data['ultimate_end_users'],
+            'draft_id': draft_id,
+            'title': 'Third parties',
+            'description': 'add third parties ... TODO',
+            'entity_name': 'third party',
+            'add_link': 'apply_for_a_licence:add_ultimate_end_user',
+            'download_document_link': 'apply_for_a_licence:ultimate_end_user_download_document',
+            'delete_document_link': 'apply_for_a_licence:ultimate_end_user_delete_document',
+            'attach_document_link': 'apply_for_a_licence:ultimate_end_user_attach_document',
+            'delete_link': 'apply_for_a_licence:remove_ultimate_end_user'
+        }
+
+        return render(request, 'apply_for_a_licence/parties/index.html', context)
 
 
 class AddUltimateEndUser(TemplateView):
@@ -363,14 +391,7 @@ class RemoveUltimateEndUser(TemplateView):
         draft_id = str(kwargs['pk'])
         ueu_pk = str(kwargs['ueu_pk'])
         delete_ultimate_end_user(request, draft_id, ueu_pk)
-        data, status_code = get_ultimate_end_users(request, draft_id)
-
-        context = {
-            'ultimate_end_users': data['ultimate_end_users'],
-            'draft_id': draft_id
-        }
-
-        return render(request, 'apply_for_a_licence/ultimate_end_users/index.html', context)
+        return redirect(reverse_lazy('apply_for_a_licence:ultimate_end_users', kwargs={'pk': draft_id}))
 
 
 @method_decorator(csrf_exempt, 'dispatch')

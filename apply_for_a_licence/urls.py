@@ -62,5 +62,20 @@ urlpatterns = [
     path('<uuid:pk>/ultimate-end-users/add', common.AddUltimateEndUser.as_view(), name='add_ultimate_end_user'),
 
     # ex: /<uuid:pk>/ultimate-end-users/remove
-    path('<uuid:pk>/ultimate-end-users/<uuid:ueu_pk>/remove', common.RemoveUltimateEndUser.as_view(), name='remove_ultimate_end_user')
+    path('<uuid:pk>/ultimate-end-users/<uuid:ueu_pk>/remove', common.RemoveUltimateEndUser.as_view(), name='remove_ultimate_end_user'),
+
+    # ex: /<uuid:pk>/third-party/
+    path('<uuid:pk>/third-parties/', common.ThirdParties.as_view(), name='third_parties'),
+    # ex: /apply_for_a_licence/<uuid:pk>/third-party/attach-document
+    path('<uuid:pk>/third-party/<uuid:ueu_pk>/documents/attach', common.AttachDocuments.as_view(), name='third_party_attach_document'),
+    # ex: /apply_for_a_licence//<uuid:pk>/third-party/download-document/ - Get documents
+    path('<uuid:pk>/third-party/<uuid:ueu_pk>/documents/download', common.DownloadDocument.as_view(), name='third_party_download_document'),
+    # ex: /apply_for_a_licence/<uuid:pk>/third-party/download-document/ - Delete a document
+    path('<uuid:pk>/third-party/<uuid:ueu_pk>/documents/delete', common.DeleteDocument.as_view(), name="third_party_delete_document"),
+
+    # ex: /<uuid:pk>/third-parties/add
+    path('<uuid:pk>/third-parties/add', common.AddUltimateEndUser.as_view(), name='add_third_party'),
+
+    # ex: /<uuid:pk>/third-parties/remove
+    path('<uuid:pk>/third-parties/<uuid:ueu_pk>/remove', common.RemoveUltimateEndUser.as_view(), name='remove_third_party')
 ]
