@@ -128,3 +128,8 @@ def get_third_parties(request, pk):
 def post_third_party(request, pk, json):
     data = post(request, DRAFTS_URL + pk + '/third-parties/', json)
     return data.json(), data.status_code
+
+
+def delete_third_party(request, pk, tp_pk):
+    data = delete(request, DRAFTS_URL + pk + '/third-parties/' + tp_pk)
+    return data.status_code

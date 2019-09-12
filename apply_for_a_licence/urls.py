@@ -68,7 +68,6 @@ urlpatterns = [
     path('<uuid:pk>/third-parties/', third_parties.ThirdParties.as_view(), name='third_parties'),
     # ex: /<uuid:pk>/third-parties/add
     path('<uuid:pk>/third-parties/add', third_parties.AddThirdParty.as_view(), name='add_third_party'),
-
     # ex: /<uuid:pk>/third-parties/remove
-    path('<uuid:pk>/third-parties/<uuid:ueu_pk>/remove', end_users.RemoveUltimateEndUser.as_view(), name='remove_third_party')
+    path('<uuid:pk>/third-parties/<uuid:ueu_pk>/remove', third_parties.RemoveThirdParty.as_view(), name='remove_third_party')
 ]

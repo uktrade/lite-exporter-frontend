@@ -6,7 +6,7 @@ from lite_forms.submitters import submit_paged_form
 
 from apply_for_a_licence.forms.third_party import third_party_forms
 from apply_for_a_licence.helpers import create_persistent_bar
-from drafts.services import get_draft, post_third_party, get_third_parties
+from drafts.services import get_draft, post_third_party, get_third_parties, delete_third_party
 
 
 class AddThirdParty(TemplateView):
@@ -46,7 +46,15 @@ class ThirdParties(TemplateView):
             'draft_id': draft_id,
             'description': 'add third parties ... TODO',
             'add_link': 'apply_for_a_licence:add_third_party',
-            'delete_link': 'apply_for_a_licence:remove_ultimate_end_user'
+            'delete_link': 'apply_for_a_licence:remove_third_party'
         }
 
         return render(request, 'apply_for_a_licence/parties/third_parties.html', context)
+
+
+class RemoveThirdParty(TemplateView):
+    def get(self, request, **kwargs):
+        draft_id = str(kwargs['pk'])
+        ueu_pk = str(kwargs['ueu_pk'])
+        delete_third_party(request, draft_id, ueu_pk)
+        return redirect(reverse_lazy('apply_for_a_licence:third_parties', kwargs={'pk': draft_id}))
