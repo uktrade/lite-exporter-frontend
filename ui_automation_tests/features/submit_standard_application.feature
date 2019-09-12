@@ -177,7 +177,7 @@ Feature: I want to indicate the standard licence I want
     When I create a standard application
     And I click on ultimate end users
     And I click on ultimate end users add button
-    And I add an end user of sub_type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
+    And I add an end user of type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
     And I click back link
     Then "Attach" link is present
     When I click on attach a document
