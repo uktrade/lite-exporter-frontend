@@ -8,7 +8,7 @@ from apply_for_a_licence.forms.end_user import new_end_user_forms
 from apply_for_a_licence.helpers import create_persistent_bar
 from conf.constants import STANDARD_LICENCE
 from core.builtins.custom_tags import get_string
-from drafts.services import get_draft, post_end_user, get_ultimate_end_users
+from drafts.services import get_draft, post_end_user, get_ultimate_end_users, post_ultimate_end_user
 
 
 class EndUser(TemplateView):
@@ -55,3 +55,30 @@ class UltimateEndUsers(TemplateView):
         }
 
         return render(request, 'apply_for_a_licence/parties/index.html', context)
+
+
+class AddUltimateEndUser(TemplateView):
+    draft_id = None
+    form = None
+
+    def dispatch(self, request, *args, **kwargs):
+        self.draft_id = str(kwargs['pk'])
+        self.form = new_end_user_forms()
+
+        return super(AddUltimateEndUser, self).dispatch(request, *args, **kwargs)
+
+    def get(self, request, **kwargs):
+        draft, status_code = get_draft(request, self.draft_id)
+
+        return form_page(request, self.form.forms[0], extra_data={
+            'persistent_bar': create_persistent_bar(draft.get('draft'))
+        })
+
+    def post(self, request, **kwargs):
+        response, data = submit_paged_form(request, self.form, post_ultimate_end_user, pk=self.draft_id)
+
+        if response:
+            return response
+
+        return redirect(reverse_lazy('apply_for_a_licence:ultimate_end_user_attach_document',
+                                     kwargs={'pk': self.draft_id, 'ueu_pk': data['end_user']['id']}))

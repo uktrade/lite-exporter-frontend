@@ -12,13 +12,12 @@ from lite_forms.generators import form_page, success_page, error_page
 from lite_forms.submitters import submit_paged_form
 
 from apply_for_a_licence.forms import initial, goods
-from apply_for_a_licence.forms.ultimate_end_user import new_ultimate_end_user_form
 from apply_for_a_licence.helpers import create_persistent_bar
 from core.builtins.custom_tags import get_string
 from core.services import get_units, get_sites_on_draft, get_external_locations_on_draft
 from drafts.services import post_drafts, get_draft, get_draft_goods, post_draft_preexisting_goods, submit_draft, \
     delete_draft, get_draft_countries, get_draft_goods_type, get_ultimate_end_users, \
-    post_ultimate_end_user, delete_ultimate_end_user, get_end_user_document, \
+    delete_ultimate_end_user, get_end_user_document, \
     delete_end_user_document, post_ultimate_end_user_document, post_end_user_document, get_ultimate_end_user_document, \
     delete_ultimate_end_user_document
 from goods.services import get_goods, get_good
@@ -309,33 +308,6 @@ class ThirdParties(TemplateView):
         }
 
         return render(request, 'apply_for_a_licence/parties/index.html', context)
-
-
-class AddUltimateEndUser(TemplateView):
-    draft_id = None
-    form = None
-
-    def dispatch(self, request, *args, **kwargs):
-        self.draft_id = str(kwargs['pk'])
-        self.form = new_ultimate_end_user_form()
-
-        return super(AddUltimateEndUser, self).dispatch(request, *args, **kwargs)
-
-    def get(self, request, **kwargs):
-        draft, status_code = get_draft(request, self.draft_id)
-
-        return form_page(request, self.form.forms[0], extra_data={
-            'persistent_bar': create_persistent_bar(draft.get('draft'))
-        })
-
-    def post(self, request, **kwargs):
-        response, data = submit_paged_form(request, self.form, post_ultimate_end_user, pk=self.draft_id)
-
-        if response:
-            return response
-
-        return redirect(reverse_lazy('apply_for_a_licence:ultimate_end_user_attach_document',
-                                     kwargs={'pk': self.draft_id, 'ueu_pk': data['end_user']['id']}))
 
 
 class RemoveUltimateEndUser(TemplateView):
