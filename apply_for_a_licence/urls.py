@@ -49,6 +49,9 @@ urlpatterns = [
     # ex: /apply_for_a_licence/<uuid:pk>/end-user/download-document/ - Delete a document
     path('<uuid:pk>/end-user/documents/delete', documents.DeleteDocument.as_view(), name="delete_document"),
 
+    # ex: /<uuid:pk>/consignee/
+    path('<uuid:pk>/consignee/', end_users.EndUser.as_view(), name='consignee'),
+
     # ex: /<uuid:pk>/ultimate-end-users/
     path('<uuid:pk>/ultimate-end-users/', end_users.UltimateEndUsers.as_view(), name='ultimate_end_users'),
     # ex: /apply_for_a_licence/<uuid:pk>/ultimate-end-user/attach-document
