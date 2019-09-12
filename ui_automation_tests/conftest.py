@@ -38,7 +38,7 @@ def pytest_addoption(parser):
         env = "dev"
     parser.addoption("--driver", action="store", default="chrome", help="Type in browser type")
     if env == 'local':
-        parser.addoption("--exporter_url", action="store", default="http://localhost:9000", help="url")
+        parser.addoption("--exporter_url", action="store", default="http://localhost:8300", help="url")
         parser.addoption("--lite_api_url", action="store", default="http://localhost:8100", help="url")
     elif env == 'dev2':
         parser.addoption("--exporter_url", action="store", default="https://exporter2.lite.service.dev.uktrade.io/", help="url")
