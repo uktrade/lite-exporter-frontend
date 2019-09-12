@@ -18,7 +18,7 @@ So that I can quickly identify where action is required by me and respond to any
     Then I see my ecju query is closed
 
   @LT_996_clc
-   Scenario: view and respond to a ecju query in an good
+   Scenario: view and respond to a ecju query in a good
     Given I go to exporter homepage and choose Test Org
     When I click on an CLC query previously created
     And I select to view ecju queries
