@@ -8,7 +8,8 @@ from apply_for_a_licence.forms.end_user import new_end_user_forms
 from apply_for_a_licence.helpers import create_persistent_bar
 from conf.constants import STANDARD_LICENCE
 from core.builtins.custom_tags import get_string
-from drafts.services import get_draft, post_end_user, get_ultimate_end_users, post_ultimate_end_user
+from drafts.services import get_draft, post_end_user, get_ultimate_end_users, post_ultimate_end_user, \
+    delete_ultimate_end_user
 
 
 class EndUser(TemplateView):
@@ -82,3 +83,11 @@ class AddUltimateEndUser(TemplateView):
 
         return redirect(reverse_lazy('apply_for_a_licence:ultimate_end_user_attach_document',
                                      kwargs={'pk': self.draft_id, 'ueu_pk': data['end_user']['id']}))
+
+
+class RemoveUltimateEndUser(TemplateView):
+    def get(self, request, **kwargs):
+        draft_id = str(kwargs['pk'])
+        ueu_pk = str(kwargs['ueu_pk'])
+        delete_ultimate_end_user(request, draft_id, ueu_pk)
+        return redirect(reverse_lazy('apply_for_a_licence:ultimate_end_users', kwargs={'pk': draft_id}))
