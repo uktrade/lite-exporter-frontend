@@ -219,3 +219,23 @@ def delete_ultimate_end_user_document(driver):
 @then("Wait for download link")
 def wait_for_download_link(driver):
     assert wait_for_download_button(driver)
+
+
+@when("I click attach an end user document link")
+def attach_an_end_user_document(driver):
+    Shared(driver).scroll_to_element('end_user_attach_doc')
+    ApplicationOverviewPage(driver).click_attach_end_user_document()
+
+
+@when("I delete the end user document")
+def end_user_document_delete_is_present(driver):
+    Shared(driver).scroll_to_element('end_user_document_delete')
+    ApplicationOverviewPage(driver).click_delete_end_user_document()
+    UltimateEndUsersListPage(driver).accept_delete_ultimate_end_user_document_confirm()
+    shared = Shared(driver)
+    shared.click_continue()
+
+
+@then("The document has been deleted")
+def document_has_been_deleted(driver):
+    assert ApplicationOverviewPage(driver).attach_end_user_document_is_present()
