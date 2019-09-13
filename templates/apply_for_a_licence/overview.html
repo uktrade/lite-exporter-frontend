@@ -339,7 +339,7 @@
                 {% else %}
                     <tr class="govuk-table__row">
                         <th class="govuk-table__header" scope="row">Document</th>
-                        <td class="govuk-table__cell"><a id="attach_doc" href="{% url 'apply_for_a_licence:end_user_attach_document' draft.id %}" class='govuk-link govuk-link--no-visited-state'>Attach</a></td>
+                        <td class="govuk-table__cell"><a id="end_user_attach_doc" href="{% url 'apply_for_a_licence:end_user_attach_document' draft.id %}" class='govuk-link govuk-link--no-visited-state'>Attach</a></td>
                     </tr>
                 {% endif %}
 			</tbody>
@@ -416,7 +416,7 @@
                     {% else %}
                         <tr class="govuk-table__row">
                             <th class="govuk-table__header" scope="row">Document</th>
-                            <td class="govuk-table__cell"><a id="attach_doc" href="{% url 'apply_for_a_licence:consignee_attach_document' draft.id %}" class='govuk-link govuk-link--no-visited-state'>Attach</a></td>
+                            <td class="govuk-table__cell"><a id="consignee_attach_doc" href="{% url 'apply_for_a_licence:consignee_attach_document' draft.id %}" class='govuk-link govuk-link--no-visited-state'>Attach</a></td>
                         </tr>
                     {% endif %}
 			</tbody>

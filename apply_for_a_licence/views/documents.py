@@ -14,7 +14,8 @@ from conf.constants import STANDARD_LICENCE
 from core.builtins.custom_tags import get_string
 from drafts.services import get_draft, post_ultimate_end_user_document, post_end_user_document, \
     get_ultimate_end_user_document, get_end_user_document, delete_ultimate_end_user_document, delete_end_user_document, \
-    post_consignee_document, get_consignee_document, delete_consignee_document
+    post_consignee_document, get_consignee_document, delete_consignee_document, post_third_party_document, \
+    get_third_party_document, delete_third_party_document
 
 third_party_paths = \
     {
@@ -32,6 +33,11 @@ third_party_paths = \
             {
                 'homepage': 'apply_for_a_licence:overview',
                 'strings': 'consignee.documents'
+            },
+        'third-parties':
+            {
+                'homepage': 'apply_for_a_licence:third_parties',
+                'strings': 'third_parties.documents'
             }
     }
 
@@ -43,6 +49,8 @@ def get_page_content(path):
         return third_party_paths['end-user']
     elif 'consignee' in path:
         return third_party_paths['consignee']
+    elif 'third-parties' in path:
+        return third_party_paths['third-parties']
     else:
         return None
 
@@ -96,6 +104,8 @@ class AttachDocuments(TemplateView):
                                                                              str(kwargs['ueu_pk']), data)
         elif 'consignee' in request.path:
             end_user_document, status_code = post_consignee_document(request, draft_id, data)
+        elif 'third-parties' in request.path:
+            end_user_document, status_code = post_third_party_document(request, draft_id, str(kwargs['tp_pk']), data)
         elif 'end-user' in request.path:
             end_user_document, status_code = post_end_user_document(request, draft_id, data)
         else:
@@ -114,6 +124,8 @@ class DownloadDocument(TemplateView):
             document, status_code = get_ultimate_end_user_document(request, draft_id, str(kwargs['ueu_pk']))
         elif 'consignee' in request.path:
             document, status_code = get_consignee_document(request, draft_id)
+        elif 'third-parties' in request.path:
+            document, status_code = get_third_party_document(request, draft_id, str(kwargs['tp_pk']))
         elif 'end-user' in request.path:
             document, status_code = get_end_user_document(request, draft_id)
         else:
@@ -142,6 +154,8 @@ class DeleteDocument(TemplateView):
                     status_code = delete_ultimate_end_user_document(request, draft_id, str(kwargs['ueu_pk']))
                 elif 'consignee' in request.path:
                     status_code = delete_consignee_document(request, draft_id)
+                elif 'third-parties' in request.path:
+                    status_code = delete_third_party_document(request, draft_id, str(kwargs['tp_pk']))
                 elif 'end-user' in request.path:
                     status_code = delete_end_user_document(request, draft_id)
                 else:

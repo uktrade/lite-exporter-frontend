@@ -33,8 +33,8 @@ class AddThirdParty(TemplateView):
         if response:
             return response
 
-        return redirect(reverse_lazy('apply_for_a_licence:third_parties',
-                                     kwargs={'pk': self.draft_id}))
+        return redirect(reverse_lazy('apply_for_a_licence:third_party_attach_document',
+                                     kwargs={'pk': self.draft_id, 'tp_pk': data['third_party']['id']}))
 
 
 class ThirdParties(TemplateView):
@@ -47,6 +47,9 @@ class ThirdParties(TemplateView):
             'draft_id': draft_id,
             'description': 'add third parties ... TODO',
             'add_link': 'apply_for_a_licence:add_third_party',
+            'download_document_link': 'apply_for_a_licence:third_party_download_document',
+            'delete_document_link': 'apply_for_a_licence:third_party_delete_document',
+            'attach_document_link': 'apply_for_a_licence:third_party_attach_document',
             'delete_link': 'apply_for_a_licence:remove_third_party'
         }
 

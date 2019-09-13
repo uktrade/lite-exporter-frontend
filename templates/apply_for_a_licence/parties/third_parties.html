@@ -35,6 +35,7 @@
 			<th class="govuk-table__header" scope="col">Website</th>
 			<th class="govuk-table__header" scope="col">Address</th>
 			<th class="govuk-table__header" scope="col">Country</th>
+            <th class="govuk-table__header" scope="col">Document</th>
 			<th class="govuk-table__header" scope="col">Third party</th>
 		</tr>
 	</thead>
@@ -46,6 +47,24 @@
 			<td class="govuk-table__cell">{{ third_party.website }}</td>
 			<td class="govuk-table__cell">{{ third_party.address }}</td>
 			<td class="govuk-table__cell">{{ third_party.country }}</td>
+            <td class="govuk-table__cell">
+            {% if third_party.document %}
+                {%  if third_party.document.safe == True %}
+                    <a href="{% url download_document_link draft_id third_party.id %}" id="third_party_document_download" class='govuk-link govuk-link--no-visited-state'>
+                        Download
+                    </a>
+                    <br/>
+                    <a href="{% url delete_document_link draft_id third_party.id %}" id="third_party_document_delete" class='govuk-link govuk-link--no-visited-state'>
+                        Delete
+                    </a>
+                {% else %}
+                    Processing
+                {% endif %}
+            {% else %}
+                <a href="{% url attach_document_link draft_id third_party.id %}" id="attach_third_party_doc" class='govuk-link govuk-link--no-visited-state'>
+                    Attach
+                </a>
+            {% endif %}
 			<td class="govuk-table__cell">
 				<a href="{% url delete_link draft_id third_party.id %}" style="margin: 0;" class="govuk-link">
                     Delete third party

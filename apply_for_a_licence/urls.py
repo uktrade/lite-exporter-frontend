@@ -76,6 +76,12 @@ urlpatterns = [
     path('<uuid:pk>/third-parties/', third_parties.ThirdParties.as_view(), name='third_parties'),
     # ex: /<uuid:pk>/third-parties/add
     path('<uuid:pk>/third-parties/add', third_parties.AddThirdParty.as_view(), name='add_third_party'),
+    # ex: /apply_for_a_licence/<uuid:pk>/ultimate-end-user/attach-document
+    path('<uuid:pk>/third-parties/<uuid:tp_pk>/documents/attach', documents.AttachDocuments.as_view(), name='third_party_attach_document'),
+    # ex: /apply_for_a_licence//<uuid:pk>/ultimate-end-user/download-document/ - Get documents
+    path('<uuid:pk>/third-parties/<uuid:tp_pk>/documents/download', documents.DownloadDocument.as_view(), name='third_party_download_document'),
+    # ex: /apply_for_a_licence/<uuid:pk>/ultimate-end-user/download-document/ - Delete a document
+    path('<uuid:pk>/third-parties/<uuid:tp_pk>/documents/delete', documents.DeleteDocument.as_view(), name="third_party_delete_document"),
     # ex: /<uuid:pk>/third-parties/remove
     path('<uuid:pk>/third-parties/<uuid:ueu_pk>/remove', third_parties.RemoveThirdParty.as_view(), name='remove_third_party')
 ]
