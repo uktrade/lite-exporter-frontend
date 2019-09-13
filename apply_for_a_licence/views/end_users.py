@@ -80,7 +80,7 @@ class AddUltimateEndUser(TemplateView):
             return response
 
         return redirect(reverse_lazy('apply_for_a_licence:ultimate_end_user_attach_document',
-                                     kwargs={'pk': self.draft_id, 'ueu_pk': data['end_user']['id']}))
+                                     kwargs={'pk': self.draft_id, 'ueu_pk': data['ultimate_end_user']['id']}))
 
 
 class RemoveUltimateEndUser(TemplateView):
