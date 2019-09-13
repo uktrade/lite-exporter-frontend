@@ -23,7 +23,7 @@ class Location(TemplateView):
         else:
             data = {'organisation_or_external': 'organisation'}
 
-        return form_page(request, which_location_form, data=data, extra_data={
+        return form_page(request, which_location_form(draft_id), data=data, extra_data={
             'persistent_bar': create_persistent_bar(draft.get('draft'))
         })
 
@@ -37,7 +37,8 @@ class Location(TemplateView):
             errors = {
                 'organisation_or_external': ['Select which one you want']
             }
-            return form_page(request, which_location_form, errors=errors, extra_data={
+
+            return form_page(request, which_location_form(draft_id), errors=errors, extra_data={
                 'persistent_bar': create_persistent_bar(draft.get('draft'))
             })
 

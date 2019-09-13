@@ -13,9 +13,10 @@ from helpers.wait import wait_for_download_button
 scenarios('../features/submit_standard_application.feature', strict_gherkin=False)
 
 
-@when('I click on application overview')
+@when('I click back to the application overview')
 def i_click_on_application_overview(driver):
-    Shared(driver).click_on_application_name()
+    Shared(driver).click_back_link()
+    Shared(driver).click_back_link()
 
 
 @then('good is added to application')
