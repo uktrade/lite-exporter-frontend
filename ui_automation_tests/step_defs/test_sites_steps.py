@@ -48,15 +48,6 @@ def i_see_sites_list(driver, context):
     assert context.new_site_name in Shared(driver).get_text_of_gov_table(), 'Failed to return to Sites list page after Adding site'
 
 
-@then('I see select a site error message')
-def select_a_site_error(driver):
-    shared = Shared(driver)
-    assert 'Cannot create an application without an end user' in shared.get_text_of_error_messages()
-    assert 'Cannot create an application without an end user document' in shared.get_text_of_error_messages()
-    assert 'Cannot create an application with no sites or external sites attached' in shared.get_text_of_error_messages()
-    assert 'Cannot create an application with no goods attached' in shared.get_text_of_error_messages()
-
-
 @when('I click last edit button')
 def click_new_site(driver):
     site_list_overview_page = SitesListOverview(driver)
@@ -68,12 +59,12 @@ def clear_site(driver):
     new_site = NewSite(driver)
     new_site.clear_info_for_site()
 
-
-@then('I see my new site at first position')
-def assert_site_is_added_to_list(driver, context):
-    sites_page = SitesPage(driver)
-    assert sites_page.get_text_of_site(sites_page.get_size_of_sites()-1) == context.new_site_name
-
+# Disabled step because site ordering seems not to be fixed (LT-1518)
+# @then('I see my new site at first position')
+# def assert_site_is_added_to_list(driver, context):
+#     sites_page = SitesPage(driver)
+#     assert sites_page.get_text_of_site(sites_page.get_size_of_sites()-1) == context.new_site_name
+#
 
 @then('I see last site name as edited')
 def last_site_name_edited(driver):
