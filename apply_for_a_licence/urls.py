@@ -45,18 +45,18 @@ urlpatterns = [
     # ex: /apply_for_a_licence/<uuid:pk>/end-user/attach-document
     path('<uuid:pk>/end-user/documents/attach', documents.AttachDocuments.as_view(), name='end_user_attach_document'),
     # ex: /apply_for_a_licence//<uuid:pk>/end-user/download-document/ - Get documents
-    path('<uuid:pk>/end-user/documents/download', documents.DownloadDocument.as_view(), name='download_document'),
+    path('<uuid:pk>/end-user/documents/download', documents.DownloadDocument.as_view(), name='end_user_download_document'),
     # ex: /apply_for_a_licence/<uuid:pk>/end-user/download-document/ - Delete a document
-    path('<uuid:pk>/end-user/documents/delete', documents.DeleteDocument.as_view(), name="delete_document"),
+    path('<uuid:pk>/end-user/documents/delete', documents.DeleteDocument.as_view(), name="end_user_delete_document"),
 
     # ex: /<uuid:pk>/consignee/
     path('<uuid:pk>/consignee/', third_parties.Consignee.as_view(), name='consignee'),
     # ex: /apply_for_a_licence/<uuid:pk>/consignee/attach-document
-    path('<uuid:pk>/consignee/documents/attach', documents.AttachDocuments.as_view(), name='end_user_attach_document'),
+    path('<uuid:pk>/consignee/documents/attach', documents.AttachDocuments.as_view(), name='consignee_attach_document'),
     # ex: /apply_for_a_licence//<uuid:pk>/consignee/download-document/ - Get documents
-    path('<uuid:pk>/consignee/documents/download', documents.DownloadDocument.as_view(), name='end_user_download_document'),
+    path('<uuid:pk>/consignee/documents/download', documents.DownloadDocument.as_view(), name='consignee_download_document'),
     # ex: /apply_for_a_licence/<uuid:pk>/consignee/download-document/ - Delete a document
-    path('<uuid:pk>/consignee/documents/delete', documents.DeleteDocument.as_view(), name="end_user_delete_document"),
+    path('<uuid:pk>/consignee/documents/delete', documents.DeleteDocument.as_view(), name="consignee_delete_document"),
 
     # ex: /<uuid:pk>/ultimate-end-users/
     path('<uuid:pk>/ultimate-end-users/', end_users.UltimateEndUsers.as_view(), name='ultimate_end_users'),
