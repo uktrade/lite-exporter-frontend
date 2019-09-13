@@ -53,7 +53,7 @@ urlpatterns = [
     path('<uuid:pk>/consignee/', third_parties.Consignee.as_view(), name='consignee'),
     # ex: /apply_for_a_licence/<uuid:pk>/consignee/attach-document
     path('<uuid:pk>/consignee/documents/attach', documents.AttachDocuments.as_view(), name='consignee_attach_document'),
-    # ex: /apply_for_a_licence//<uuid:pk>/consignee/download-document/ - Get documents
+    # ex: /apply_for_a_licence/<uuid:pk>/consignee/download-document/ - Get documents
     path('<uuid:pk>/consignee/documents/download', documents.DownloadDocument.as_view(), name='consignee_download_document'),
     # ex: /apply_for_a_licence/<uuid:pk>/consignee/download-document/ - Delete a document
     path('<uuid:pk>/consignee/documents/delete', documents.DeleteDocument.as_view(), name="consignee_delete_document"),

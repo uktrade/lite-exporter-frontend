@@ -1,7 +1,8 @@
 import logging
 
 from conf.client import get, post, put, delete
-from conf.constants import APPLICATIONS_URL, DRAFTS_URL, END_USER_DOCUMENT_URL, ULTIMATE_END_USER_URL, DOCUMENT_URL
+from conf.constants import APPLICATIONS_URL, DRAFTS_URL, END_USER_DOCUMENT_URL, ULTIMATE_END_USER_URL, DOCUMENT_URL, \
+    CONSIGNEE_URL, THIRD_PARTY_URL, CONSIGNEE_DOCUMENT_URL
 
 
 def get_drafts(request):
@@ -121,21 +122,37 @@ def delete_ultimate_end_user_document(request, pk, ueu_pk):
 
 # Third parties
 def get_third_parties(request, pk):
-    data = get(request, DRAFTS_URL + pk + '/third-parties/')
+    data = get(request, DRAFTS_URL + pk + THIRD_PARTY_URL)
     return data.json(), data.status_code
 
 
 def post_third_party(request, pk, json):
-    data = post(request, DRAFTS_URL + pk + '/third-parties/', json)
+    data = post(request, DRAFTS_URL + pk + THIRD_PARTY_URL, json)
     return data.json(), data.status_code
 
 
 def delete_third_party(request, pk, tp_pk):
-    data = delete(request, DRAFTS_URL + pk + '/third-parties/' + tp_pk)
+    data = delete(request, DRAFTS_URL + pk + THIRD_PARTY_URL + tp_pk)
     return data.status_code
 
 
 # Consignee
 def post_consignee(request, pk, json):
-    data = post(request, DRAFTS_URL + pk + '/consignee/', json)
+    data = post(request, DRAFTS_URL + pk + CONSIGNEE_URL, json)
     return data.json(), data.status_code
+
+
+# Consignee Documents
+def get_consignee_document(request, pk):
+    data = get(request, DRAFTS_URL + pk + CONSIGNEE_DOCUMENT_URL)
+    return data.json(), data.status_code
+
+
+def post_consignee_document(request, pk, json):
+    data = post(request, DRAFTS_URL + pk + CONSIGNEE_DOCUMENT_URL, json)
+    return data.json(), data.status_code
+
+
+def delete_consignee_document(request, pk):
+    data = delete(request, DRAFTS_URL + pk + CONSIGNEE_DOCUMENT_URL)
+    return data.status_code

@@ -318,31 +318,30 @@
 					<th class="govuk-table__header" scope="row">Address</th>
 					<td class="govuk-table__cell">{{ draft.end_user.address }}<br/>{{ draft.end_user.country }}</td>
 				</tr>
-                {% if draft.licence_type.key == "standard_licence" %}
-                    {% if end_user_document %}
-                        <tr class="govuk-table__row">
-                            <th class="govuk-table__header" scope="row">Document</th>
-                            <td class="govuk-table__cell" id="end_user_document_state">
-                                {%  if end_user_document.safe == True %}
-                                    <a href="{% url 'apply_for_a_licence:end_user_download_document' pk=draft.id %}" id="end_user_document_download" class='govuk-link govuk-link--no-visited-state'>
-                                        {% get_string 'end_user.documents.download_document' %}
-                                    </a>
-                                    <br/>
-                                    <a href="{% url 'apply_for_a_licence:end_user_delete_document' pk=draft.id %}" id="end_user_document_delete" class='govuk-link govuk-link--no-visited-state'>
-                                        {% get_string 'end_user.documents.delete_document' %}
-                                    </a>
-                                {%  else %}
-                                    {% get_string 'end_user.documents.processing' %}
                                 {% endif %}
+                {% if end_user_document %}
+                    <tr class="govuk-table__row">
+                        <th class="govuk-table__header" scope="row">Document</th>
+                        <td class="govuk-table__cell" id="end_user_document_state">
+                            {%  if end_user_document.safe == True %}
+                                <a href="{% url 'apply_for_a_licence:end_user_download_document' pk=draft.id %}" id="end_user_document_download" class='govuk-link govuk-link--no-visited-state'>
+                                    {% get_string 'end_user.documents.download_document' %}
+                                </a>
+                                <br/>
+                                <a href="{% url 'apply_for_a_licence:end_user_delete_document' pk=draft.id %}" id="end_user_document_delete" class='govuk-link govuk-link--no-visited-state'>
+                                    {% get_string 'end_user.documents.delete_document' %}
+                                </a>
+                            {%  else %}
+                                {% get_string 'end_user.documents.processing' %}
+                            {% endif %}
 
-                            </td>
-                        </tr>
-                    {% else %}
-                        <tr class="govuk-table__row">
-                            <th class="govuk-table__header" scope="row">Document</th>
-                            <td class="govuk-table__cell"><a id="attach_doc" href="{% url 'apply_for_a_licence:end_user_attach_document' draft.id %}" class='govuk-link govuk-link--no-visited-state'>Attach</a></td>
-                        </tr>
-                    {% endif %}
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr class="govuk-table__row">
+                        <th class="govuk-table__header" scope="row">Document</th>
+                        <td class="govuk-table__cell"><a id="attach_doc" href="{% url 'apply_for_a_licence:end_user_attach_document' draft.id %}" class='govuk-link govuk-link--no-visited-state'>Attach</a></td>
+                    </tr>
                 {% endif %}
 			</tbody>
 		</table>
@@ -397,6 +396,30 @@
 					<th class="govuk-table__header" scope="row">Address</th>
 					<td class="govuk-table__cell">{{ draft.consignee.address }}<br/>{{ draft.consignee.country }}</td>
 				</tr>
+                {% if consignee_document %}
+                        <tr class="govuk-table__row">
+                            <th class="govuk-table__header" scope="row">Document</th>
+                            <td class="govuk-table__cell" id="consignee_document_state">
+                                {%  if consignee_document.safe == True %}
+                                    <a href="{% url 'apply_for_a_licence:consignee_download_document' pk=draft.id %}" id="consignee_document_download" class='govuk-link govuk-link--no-visited-state'>
+                                        {% get_string 'end_user.documents.download_document' %}
+                                    </a>
+                                    <br/>
+                                    <a href="{% url 'apply_for_a_licence:consignee_delete_document' pk=draft.id %}" id="consignee_document_delete" class='govuk-link govuk-link--no-visited-state'>
+                                        {% get_string 'end_user.documents.delete_document' %}
+                                    </a>
+                                {%  else %}
+                                    {% get_string 'end_user.documents.processing' %}
+                                {% endif %}
+
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr class="govuk-table__row">
+                            <th class="govuk-table__header" scope="row">Document</th>
+                            <td class="govuk-table__cell"><a id="attach_doc" href="{% url 'apply_for_a_licence:consignee_attach_document' draft.id %}" class='govuk-link govuk-link--no-visited-state'>Attach</a></td>
+                        </tr>
+                    {% endif %}
 			</tbody>
 		</table>
 	{% else %}

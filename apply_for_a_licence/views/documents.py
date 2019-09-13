@@ -13,8 +13,8 @@ from apply_for_a_licence.services import add_document_data, download_document_fr
 from conf.constants import STANDARD_LICENCE
 from core.builtins.custom_tags import get_string
 from drafts.services import get_draft, post_ultimate_end_user_document, post_end_user_document, \
-    get_ultimate_end_user_document, get_end_user_document, delete_ultimate_end_user_document, delete_end_user_document
-
+    get_ultimate_end_user_document, get_end_user_document, delete_ultimate_end_user_document, delete_end_user_document, \
+    post_consignee_document, get_consignee_document, delete_consignee_document
 
 third_party_paths = \
     {
@@ -27,6 +27,11 @@ third_party_paths = \
             {
                 'homepage': 'apply_for_a_licence:overview',
                 'strings': 'end_user.documents'
+            },
+        'consignee':
+            {
+                'homepage': 'apply_for_a_licence:overview',
+                'strings': 'consignee.documents'
             }
     }
 
@@ -36,6 +41,8 @@ def get_page_content(path):
         return third_party_paths['ultimate-end-user']
     elif 'end-user' in path:
         return third_party_paths['end-user']
+    elif 'consignee' in path:
+        return third_party_paths['consignee']
     else:
         return None
 
@@ -87,8 +94,12 @@ class AttachDocuments(TemplateView):
         if 'ultimate-end-user' in request.path:
             end_user_document, status_code = post_ultimate_end_user_document(request, draft_id,
                                                                              str(kwargs['ueu_pk']), data)
-        else:
+        elif 'consignee' in request.path:
+            end_user_document, status_code = post_consignee_document(request, draft_id, data)
+        elif 'end-user' in request.path:
             end_user_document, status_code = post_end_user_document(request, draft_id, data)
+        else:
+            return error_page(None, get_string('end_user.documents.attach_documents.upload_error'))
 
         if status_code == 201:
             return get_homepage(request, draft_id)
@@ -101,10 +112,14 @@ class DownloadDocument(TemplateView):
         draft_id = str(kwargs['pk'])
         if 'ultimate-end-user' in request.path:
             document, status_code = get_ultimate_end_user_document(request, draft_id, str(kwargs['ueu_pk']))
-        else:
+        elif 'consignee' in request.path:
+            document, status_code = get_consignee_document(request, draft_id)
+        elif 'end-user' in request.path:
             document, status_code = get_end_user_document(request, draft_id)
-        document = document['document']
+        else:
+            return error_page(None, get_string('end_user.documents.attach_documents.download_error'))
 
+        document = document['document']
         if document['safe']:
             return download_document_from_s3(document['s3_key'], document['name'])
         else:
@@ -125,8 +140,12 @@ class DeleteDocument(TemplateView):
             if option == 'yes':
                 if 'ultimate-end-user' in request.path:
                     status_code = delete_ultimate_end_user_document(request, draft_id, str(kwargs['ueu_pk']))
-                else:
+                elif 'consignee' in request.path:
+                    status_code = delete_consignee_document(request, draft_id)
+                elif 'end-user' in request.path:
                     status_code = delete_end_user_document(request, draft_id)
+                else:
+                    return error_page(None, get_string('end_user.documents.attach_documents.delete_error'))
 
                 if status_code == 204:
                     return get_homepage(request, draft_id)

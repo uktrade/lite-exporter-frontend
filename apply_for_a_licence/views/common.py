@@ -11,7 +11,7 @@ from core.builtins.custom_tags import get_string
 from core.services import get_sites_on_draft, get_external_locations_on_draft
 from drafts.services import post_drafts, get_draft, get_draft_goods, submit_draft, \
     delete_draft, get_draft_countries, get_draft_goods_type, get_ultimate_end_users, \
-    get_end_user_document, get_third_parties
+    get_end_user_document, get_third_parties, get_consignee_document
 
 
 class StartApplication(TemplateView):
@@ -42,6 +42,7 @@ class Overview(TemplateView):
     def get(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
         data, status_code = get_draft(request, draft_id)
+        draft = data.get('draft')
         sites, status_code = get_sites_on_draft(request, draft_id)
         goods, status_code = get_draft_goods(request, draft_id)
         ultimate_end_users_required = False
@@ -50,12 +51,18 @@ class Overview(TemplateView):
         external_locations, status_code = get_external_locations_on_draft(request, draft_id)
         ultimate_end_users, status_code = get_ultimate_end_users(request, draft_id)
         third_parties, status_code = get_third_parties(request, draft_id)
-        end_user = data.get('draft').get('end_user')
+        end_user = draft.get('end_user')
         if end_user:
             end_user_document, status_code = get_end_user_document(request, draft_id)
             end_user_document = end_user_document.get('document')
         else:
             end_user_document = None
+        consignee = draft.get('consignee')
+        if consignee:
+            consignee_document, status_code = get_consignee_document(request, draft_id)
+            consignee_document = consignee_document.get('document')
+        else:
+            consignee_document = None
 
         for good in goods['goods']:
             if not good['good']['is_good_end_product']:
@@ -63,7 +70,7 @@ class Overview(TemplateView):
 
         context = {
             'title': 'Application Overview',
-            'draft': data.get('draft'),
+            'draft': draft,
             'sites': sites['sites'],
             'goods': goods['goods'],
             'countries': countries['countries'],
@@ -72,6 +79,7 @@ class Overview(TemplateView):
             'ultimate_end_users': ultimate_end_users['ultimate_end_users'],
             'ultimate_end_users_required': ultimate_end_users_required,
             'end_user_document': end_user_document,
+            'consignee_document': consignee_document,
             'third_parties': third_parties['third_parties']
         }
         return render(request, 'apply_for_a_licence/overview.html', context)

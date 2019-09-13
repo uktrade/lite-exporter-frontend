@@ -78,4 +78,4 @@ class Consignee(TemplateView):
         if response:
             return response
 
-        return redirect(reverse_lazy('apply_for_a_licence:overview', kwargs={'pk': draft_id}))
+        return redirect(reverse_lazy('apply_for_a_licence:consignee_attach_document', kwargs={'pk': draft_id}))
