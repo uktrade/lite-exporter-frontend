@@ -8,7 +8,7 @@ from pages.application_overview_page import ApplicationOverviewPage
 from pages.shared import Shared
 from pages.application_goods_list import ApplicationGoodsList
 from pages.ultimate_end_users_list_page import UltimateEndUsersListPage
-from helpers.wait import wait_for_download_button
+from helpers.wait import wait_for_download_button, wait_for_element
 
 scenarios('../features/submit_standard_application.feature', strict_gherkin=False)
 
@@ -221,10 +221,21 @@ def wait_for_download_link(driver):
     assert wait_for_download_button(driver)
 
 
+@then(parsers.parse('Wait for "{id}" to be present'))
+def wait_for_element_to_be_present(driver, id):
+    assert wait_for_element(driver, id)
+
+
 @when("I click attach an end user document link")
 def attach_an_end_user_document(driver):
     Shared(driver).scroll_to_element('end_user_attach_doc')
     ApplicationOverviewPage(driver).click_attach_end_user_document()
+
+
+@when("I click attach an consignee document link")
+def attach_an_end_user_document(driver):
+    Shared(driver).scroll_to_element('consignee_attach_doc')
+    ApplicationOverviewPage(driver).click_attach_consignee_document()
 
 
 @when("I delete the end user document")
@@ -236,6 +247,26 @@ def end_user_document_delete_is_present(driver):
     shared.click_continue()
 
 
-@then("The document has been deleted")
+@when("I delete the consignee document")
+def consignee_document_delete_is_present(driver):
+    Shared(driver).scroll_to_element('consignee_document_delete')
+    ApplicationOverviewPage(driver).click_delete_consignee_document()
+    UltimateEndUsersListPage(driver).accept_delete_ultimate_end_user_document_confirm()
+    shared = Shared(driver)
+    shared.click_continue()
+
+
+@then("The end user document has been deleted")
 def document_has_been_deleted(driver):
     assert ApplicationOverviewPage(driver).attach_end_user_document_is_present()
+
+
+@when("I click on consignees")
+def i_click_on_consignees(driver):
+    Shared(driver).scroll_to_element('consignees')
+    ApplicationOverviewPage(driver).click_consignee_link()
+
+
+@then("The consignee document has been deleted")
+def document_has_been_deleted(driver):
+    assert ApplicationOverviewPage(driver).attach_consignee_document_is_present()

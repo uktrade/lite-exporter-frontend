@@ -34,5 +34,14 @@ def download_link_is_present(driver):
     return "Download" in latest_ueu_links
 
 
+def element_is_present(driver, id):
+    driver.refresh()
+    return bool(driver.find_elements_by_id(id))
+
+
 def wait_for_download_button(driver):
     return wait_for_function(download_link_is_present, driver=driver)
+
+
+def wait_for_element(driver, id):
+    return wait_for_function(element_is_present, driver=driver, id=id)
