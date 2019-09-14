@@ -12,6 +12,7 @@ main {
 	@extend .govuk-link--no-visited-state;
 	font-weight: bold;
 	text-decoration: none;
+
 	&:hover {
 		text-decoration: underline;
 	}
@@ -43,6 +44,7 @@ main {
 		p {
 			text-decoration: underline;
 		}
+
 		.app-icon-label__notification {
 			background-color: darken(govuk-colour("red"), 7.5%);
 		}

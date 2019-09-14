@@ -9,7 +9,7 @@ def get_application(request, pk):
 
 def get_applications(request):
     data = get(request, APPLICATIONS_URL)
-    return data.json(), data.status_code
+    return data.json()['applications']
 
 
 # Case related

@@ -13,7 +13,7 @@ from applications.services import get_application_ecju_queries, get_case_notes, 
 from apply_for_a_licence.services import add_document_data
 from apply_for_a_licence.services import download_document_from_s3
 from core.helpers import group_notifications
-from core.services import get_clc_notifications
+from core.services import get_notifications
 from goods import forms
 from goods.forms import edit_form, attach_documents_form, respond_to_query_form, ecju_query_respond_confirmation_form
 from goods.services import get_goods, post_goods, get_good, update_good, delete_good, get_good_documents, \
@@ -23,12 +23,12 @@ from goods.services import get_goods, post_goods, get_good, update_good, delete_
 class Goods(TemplateView):
     def get(self, request, **kwargs):
         goods = get_goods(request)
-        notifications, _ = get_clc_notifications(request, unviewed=True)
+        notifications = get_notifications(request, unviewed=True)
 
         context = {
             'goods': goods,
             'title': 'Manage Goods',
-            'notifications': group_notifications(notifications['results']),
+            'notifications': group_notifications(notifications),
         }
         return render(request, 'goods/goods.html', context)
 
@@ -43,11 +43,9 @@ class GoodsDetail(TemplateView):
     good_id = None
     good = None
     view_type = None
-    notifications = None
 
     def dispatch(self, request, *args, **kwargs):
         self.good_id = str(kwargs['pk'])
-        self.notifications, _ = get_clc_notifications(request, unviewed=True)
         self.good = get_good(request, self.good_id)
         self.view_type = kwargs['type']
 
@@ -57,24 +55,21 @@ class GoodsDetail(TemplateView):
         return super(GoodsDetail, self).dispatch(request, *args, **kwargs)
 
     def get(self, request, **kwargs):
+        notifications = get_notifications(request, unviewed=True)
         documents = get_good_documents(request, str(self.good_id))
-        case_note_notifications = len([x for x in self.notifications['results']
-                                       if x['clc_query'] == self.good['query_id'] and x['case_note']])
-        ecju_query_notifications = len([x for x in self.notifications['results']
-                                        if x['clc_query'] == self.good['query_id'] and x['ecju_query']])
+        case_note_notifications = len([x for x in notifications if x['parent'] == self.good_id
+                                       and x['object'] == 'case_note'])
+        ecju_query_notifications = len([x for x in notifications if x['parent'] == self.good_id
+                                        and x['object_type'] == 'ecju_query'])
 
         context = {
             'title': 'Good',
             'good': self.good,
             'documents': documents,
-            'type': self.view_type
+            'type': self.view_type,
+            'case_note_notifications': case_note_notifications,
+            'ecju_query_notifications': ecju_query_notifications,
         }
-
-        if case_note_notifications > 0:
-            context['case_note_notifications'] = case_note_notifications
-
-        if ecju_query_notifications > 0:
-            context['ecju_query_notifications'] = ecju_query_notifications
 
         if self.view_type == 'case-notes':
             if self.good.get('case_id'):

@@ -90,3 +90,12 @@ def highlight_text(value: str, term: str) -> str:
 def reference_code(value):
     value = str(value)
     return value[:5] + '-' + value[5:]
+
+
+@register.filter
+@mark_safe
+def pretty_json(value):
+    """
+    Pretty print JSON - for development purposes only.
+    """
+    return '<pre>' + json.dumps(value, indent=4) + '</pre>'
