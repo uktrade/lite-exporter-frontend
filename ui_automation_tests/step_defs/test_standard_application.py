@@ -1,15 +1,13 @@
-import time
-
 from pytest_bdd import scenarios, when, then, parsers
 
 import helpers.helpers as utils
-from helpers import scroll_to_element_by_id
+from helpers.helpers import scroll_to_element_by_id
+from helpers.wait import wait_for_download_button, wait_for_element
 from pages.add_end_user_pages import AddEndUserPages
+from pages.application_goods_list import ApplicationGoodsList
 from pages.application_overview_page import ApplicationOverviewPage
 from pages.shared import Shared
-from pages.application_goods_list import ApplicationGoodsList
 from pages.ultimate_end_users_list_page import ThirdPartyListPage
-from helpers.wait import wait_for_download_button, wait_for_element
 
 scenarios('../features/submit_standard_application.feature', strict_gherkin=False)
 
@@ -158,23 +156,6 @@ def i_click_on_end_user(driver):
 @when('I add a non incorporated good to application')
 def add_a_non_incorporated_good(driver, add_a_non_incorporated_good_to_application):
     pass
-
-
-@when("I wait for the end user document to be processed")
-def i_wait_for_end_user_document_to_be_processed(driver):
-    app = ApplicationOverviewPage(driver)
-    # Constants for total time to retry function and intervals between attempts
-    timeout_limit = 20
-    function_retry_interval = 1
-
-    time_no = 0
-    while time_no < timeout_limit:
-        if "Download" in app.get_end_user_document_state_text():
-            return True
-        time.sleep(function_retry_interval)
-        time_no += function_retry_interval
-        driver.refresh()
-    return False
 
 
 @then(parsers.parse('"{button}" link is present'))
