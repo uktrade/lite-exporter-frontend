@@ -4,8 +4,8 @@ from django.views.generic import TemplateView
 from lite_forms.generators import form_page
 from lite_forms.submitters import submit_paged_form
 
-from apply_for_a_licence.forms.end_user import new_end_user_forms
-from apply_for_a_licence.forms.third_party import third_party_forms
+from apply_for_a_licence.forms.end_user import new_end_user_forms, new_consignee_forms
+from apply_for_a_licence.forms.third_party import third_party_forms, option_list
 from apply_for_a_licence.helpers import create_persistent_bar
 from drafts.services import get_draft, post_third_party, get_third_parties, delete_third_party, post_consignee
 
@@ -45,7 +45,7 @@ class ThirdParties(TemplateView):
         context = {
             'third_parties': data['third_parties'],
             'draft_id': draft_id,
-            'description': 'add third parties ... TODO',
+            'third_party_types': option_list.values(),
             'add_link': 'apply_for_a_licence:add_third_party',
             'download_document_link': 'apply_for_a_licence:third_party_download_document',
             'delete_document_link': 'apply_for_a_licence:third_party_delete_document',
@@ -69,13 +69,13 @@ class Consignee(TemplateView):
         draft_id = str(kwargs['pk'])
         draft, status_code = get_draft(request, draft_id)
 
-        return form_page(request, new_end_user_forms().forms[0], extra_data={
+        return form_page(request, new_consignee_forms().forms[0], extra_data={
             'persistent_bar': create_persistent_bar(draft.get('draft'))
         })
 
     def post(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
-        response, data = submit_paged_form(request, new_end_user_forms(), post_consignee, pk=draft_id)
+        response, data = submit_paged_form(request, new_consignee_forms(), post_consignee, pk=draft_id)
 
         # If there are more forms to go through, continue
         if response:

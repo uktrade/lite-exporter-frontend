@@ -2,12 +2,13 @@ from core.builtins.custom_tags import get_string
 from lite_forms.components import RadioButtons, Form, Option, TextArea, TextInput, FormGroup, FileUpload, \
     BackLink, Label
 from lite_forms.generators import confirm_form
+from lite_forms.common import country_question
 from core.services import get_countries
 
 
-def third_parties_standard_form():
+def third_parties_standard_form(opening_title=None):
     return [
-        Form(title='Who will be the final recipient (end-user) of your goods?',
+        Form(title=opening_title,
              questions=[
                  RadioButtons('sub_type',
                               options=[
@@ -39,7 +40,7 @@ def third_parties_standard_form():
 
 
 def new_end_user_forms():
-    return FormGroup(third_parties_standard_form())
+    return FormGroup(third_parties_standard_form('Who will be the final recipient (end-user) of your goods?'))
 
 
 def attach_document_form(draft_url, title, back_text, return_later_text):
@@ -61,3 +62,7 @@ def delete_document_confirmation_form(overview_url, back_link_text):
                         back_link_text=back_link_text,
                         back_url=overview_url
                         )
+
+
+def new_consignee_forms():
+    return FormGroup(third_parties_standard_form('Who will be the consignee of your goods?'))

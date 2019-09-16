@@ -16,12 +16,17 @@
 
 <div class="lite-app-bar">
 	<div class="lite-app-bar__content">
-		<h1 class="govuk-heading-l">Third parties</h1>
-		<p class="govuk-caption-m">{{ description }}</p>
+		<h1 class="govuk-heading-l">{% get_string 'third_parties.title' %}</h1>
+		<p class="govuk-caption-m">{% get_string 'third_parties.description' %}</p>
+        <ul class="govuk-caption-m">
+            {% for type in third_party_types %}
+            <li>- {{ type }}</li>
+            {% endfor %}
+        </ul>
 	</div>
 	<div class="lite-app-bar__controls">
 		<a href="{% url add_link draft_id %}" class="govuk-button" draggable="false" role="button">
-			Add a Third party
+			{% get_string 'third_parties.add' %}
 		</a>
 	</div>
 </div>
@@ -76,6 +81,6 @@
 </table>
 {% else %}
 	<hr class="lite-horizontal-separator">
-	<p class="govuk-caption-l">You haven't added any Third parties to your application</p>
+	<p class="govuk-caption-l">{% get_string 'third_parties.no_results' %}</p>
 {% endif %}
 {% endblock %}
