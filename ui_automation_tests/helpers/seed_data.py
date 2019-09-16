@@ -3,6 +3,7 @@ import json
 import requests
 
 from conf.settings import env
+from wait import wait_for_ultimate_end_user_document, wait_for_document
 
 
 class SeedData:
@@ -306,6 +307,18 @@ class SeedData:
     def add_consignee_document(self, draft_id):
         self.add_document('/drafts/' + draft_id + '/consignee/document/')
 
+    def check_documents(self, draft_id, ultimate_end_user_id):
+        end_user_document_is_processed = wait_for_document(
+            func=self.check_end_user_document_is_processed, draft_id=draft_id)
+        assert end_user_document_is_processed, "End user document wasn't successfully processed"
+        consignee_document_is_processed = wait_for_document(
+            func=self.check_consignee_document_is_processed, draft_id=draft_id)
+        assert consignee_document_is_processed, "Consignee document wasn't successfully processed"
+        ultimate_end_user_document_is_processed = wait_for_ultimate_end_user_document(
+            func=self.check_ultimate_end_user_document_is_processed, draft_id=draft_id,
+            ultimate_end_user_id=ultimate_end_user_id)
+        assert ultimate_end_user_document_is_processed, "Ultimate end user document wasn't successfully processed"
+
     def add_draft(self, draft=None, good=None, enduser=None, ultimate_end_user=None, consignee=None):
         self.log('Creating draft: ...')
         data = self.request_data['draft'] if draft is None else draft
@@ -334,7 +347,7 @@ class SeedData:
         self.make_request('POST', url='/drafts/' + draft_id + '/consignee/', headers=self.export_headers,
                           body=consignee_data)
         self.add_consignee_document(draft_id)
-        return draft_id, ultimate_end_user_id
+        self.check_documents(draft_id=draft_id, ultimate_end_user_id=ultimate_end_user_id)
 
     def submit_application(self, draft_id=None):
         self.log('submitting application: ...')
