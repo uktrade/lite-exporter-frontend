@@ -1,7 +1,5 @@
-from django.urls import reverse_lazy
-
 from core.builtins.custom_tags import get_string
-from lite_forms.components import RadioButtons, Form, Option, TextArea, Select, TextInput, FormGroup, FileUpload, \
+from lite_forms.components import RadioButtons, Form, Option, TextArea, TextInput, FormGroup, FileUpload, \
     BackLink, Label
 from lite_forms.generators import confirm_form
 from core.services import get_countries
@@ -33,10 +31,8 @@ def third_parties_standard_form():
         Form(title='Where\'s the final recipient based?',
              questions=[
                  TextArea('address', 'Address'),
-                 Select(title='Country',
-                        description='',
-                        name='country',
-                        options=get_countries(None, True)),
+                 country_question(countries=get_countries(None, True),
+                                  prefix='')
              ],
              default_button_name='Save and continue')
     ]

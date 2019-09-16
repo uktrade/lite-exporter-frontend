@@ -10,6 +10,7 @@ def third_party_forms():
                                 RadioButtons('sub_type',
                                              options=[
                                                  Option('agent', 'Agent'),
+                                                 Option('intermediate_consignee', 'Intermediate consignee'),
                                                  Option('authorised_submitter', 'Authorised submitter'),
                                                  Option('consultant', 'Consultant'),
                                                  Option('contact', 'Contact'),
