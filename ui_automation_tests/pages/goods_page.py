@@ -22,7 +22,5 @@ class GoodsPage:
         self.driver.find_element_by_css_selector(self.DELETE_BUTTON).click()
 
     def confirm_delete(self, confirm):
-        if confirm:
-            self.driver.find_element_by_id(self.confirm_delete_id).click()
-        else:
-            self.driver.find_element_by_id(self.cancel_delete_id).click()
+        shared = Shared(self.driver)
+        shared.click_continue()
