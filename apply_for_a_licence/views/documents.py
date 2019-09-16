@@ -67,10 +67,10 @@ def get_homepage(request, draft_id):
     return redirect(reverse(get_page_content(request.path)['homepage'], kwargs={'pk': draft_id}))
 
 
-def get_delete_confirmation_page(path, kwargs):
+def get_delete_confirmation_page(path, pk):
     paths = get_page_content(path)
     return delete_document_confirmation_form(
-        overview_url=reverse(paths['homepage'], kwargs={'pk': str(kwargs['pk'])}),
+        overview_url=reverse(paths['homepage'], kwargs={'pk': pk}),
         back_link_text=get_string(paths['strings']+'.attach_documents.back_to_application_overview')
     )
 
@@ -87,7 +87,7 @@ class AttachDocuments(TemplateView):
             else:
                 return redirect(reverse_lazy('apply_for_a_licence:overview', kwargs={'pk': draft_id}))
         else:
-            return error_page(None, 'Cannot find draft')
+            return error_page(None, get_string('drafts.draft_not_found'))
 
     @csrf_exempt
     def post(self, request, **kwargs):
@@ -140,7 +140,7 @@ class DownloadDocument(TemplateView):
 
 class DeleteDocument(TemplateView):
     def get(self, request, **kwargs):
-        confirmation_form = get_delete_confirmation_page(request.path, kwargs)
+        confirmation_form = get_delete_confirmation_page(request.path, str(kwargs['pk']))
         return form_page(request, confirmation_form)
 
     def post(self, request, **kwargs):
