@@ -38,11 +38,17 @@ def apply_for_an_end_user_advisory_form():
              questions=[
                  TextArea(title='What\'s your reasoning behind this query?',
                           optional=True,
-                          name='reasoning'),
+                          name='reasoning',
+                          extras={
+                              'max_length': 2000,
+                          }),
                  TextArea(title='Is there any other information you can provide about this user?',
                           description='This can help to speed up the query and give you a more accurate result',
                           optional=True,
-                          name='notes'),
+                          name='notes',
+                          extras={
+                                 'max_length': 2000,
+                          }),
                  HiddenField('validate_only', False),
              ],
              default_button_name='Submit'),
