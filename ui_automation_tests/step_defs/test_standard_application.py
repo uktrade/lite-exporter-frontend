@@ -3,6 +3,7 @@ import time
 from pytest_bdd import scenarios, when, then, parsers
 
 import helpers.helpers as utils
+from helpers import scroll_to_element_by_id
 from pages.add_end_user_pages import AddEndUserPages
 from pages.application_overview_page import ApplicationOverviewPage
 from pages.shared import Shared
@@ -38,14 +39,14 @@ def i_see_the_homepage(driver):
 @when('I click on ultimate end users')
 def i_click_on_application_overview(driver, add_an_incorporated_good_to_application):
     app = ApplicationOverviewPage(driver)
-    Shared(driver).scroll_to_element_by_id(app.ultimate_end_user_link)
+    scroll_to_element_by_id(Shared(driver).driver, app.ultimate_end_user_link)
     app.click_ultimate_end_user_link()
 
 
 @when('I click on third parties')
 def i_click_on_application_overview(driver):
     app = ApplicationOverviewPage(driver)
-    Shared(driver).scroll_to_element_by_id(app.third_parties)
+    scroll_to_element_by_id(Shared(driver).driver, app.third_parties)
     app.click_third_parties()
 
 
@@ -150,7 +151,7 @@ def add_new_end_user(driver, type, name, website, address, country, context):
 @when('I click on end user')
 def i_click_on_end_user(driver):
     app = ApplicationOverviewPage(driver)
-    Shared(driver).scroll_to_element_by_id(app.end_user_link)
+    scroll_to_element_by_id(Shared(driver).driver, app.end_user_link)
     app.click_end_user_link()
 
 
@@ -214,19 +215,19 @@ def wait_for_element_to_be_present(driver, id):
 
 @when("I click attach an end user document link")
 def attach_an_end_user_document(driver):
-    Shared(driver).scroll_to_element_by_id('end_user_attach_doc')
+    scroll_to_element_by_id(Shared(driver).driver, 'end_user_attach_doc')
     ApplicationOverviewPage(driver).click_attach_end_user_document()
 
 
 @when("I click attach an consignee document link")
 def attach_an_end_user_document(driver):
-    Shared(driver).scroll_to_element_by_id('consignee_attach_doc')
+    scroll_to_element_by_id(Shared(driver).driver, 'consignee_attach_doc')
     ApplicationOverviewPage(driver).click_attach_consignee_document()
 
 
 @when("I delete the end user document")
 def end_user_document_delete_is_present(driver):
-    Shared(driver).scroll_to_element_by_id('end_user_document_delete')
+    scroll_to_element_by_id(Shared(driver).driver, 'end_user_document_delete')
     ApplicationOverviewPage(driver).click_delete_end_user_document()
     ThirdPartyListPage(driver).accept_delete_confirm()
     shared = Shared(driver)
@@ -235,7 +236,7 @@ def end_user_document_delete_is_present(driver):
 
 @when("I delete the consignee document")
 def consignee_document_delete_is_present(driver):
-    Shared(driver).scroll_to_element_by_id('consignee_document_delete')
+    scroll_to_element_by_id(Shared(driver).driver, 'consignee_document_delete')
     ApplicationOverviewPage(driver).click_delete_consignee_document()
     ThirdPartyListPage(driver).accept_delete_confirm()
     shared = Shared(driver)
@@ -249,7 +250,7 @@ def document_has_been_deleted(driver):
 
 @when("I click on consignees")
 def i_click_on_consignees(driver):
-    Shared(driver).scroll_to_element_by_id('consignees')
+    scroll_to_element_by_id(Shared(driver).driver, 'consignees')
     ApplicationOverviewPage(driver).click_consignee_link()
 
 

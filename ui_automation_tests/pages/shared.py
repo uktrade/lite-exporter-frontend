@@ -74,6 +74,3 @@ class Shared:
 
     def click_on_application_name(self):
         return self.driver.find_element_by_css_selector(self.application_name).click()
-
-    def scroll_to_element_by_id(self, id):
-        self.driver.execute_script("document.getElementById('"+id+"').scrollIntoView(true);")
