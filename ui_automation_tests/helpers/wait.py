@@ -31,7 +31,7 @@ def download_link_is_present(driver):
     driver.refresh()
     shared = Shared(driver)
     latest_ueu_links = [link.text for link in shared.get_links_of_table_row(-1)]
-    return "Download" in latest_ueu_links
+    return 'Download' in latest_ueu_links
 
 
 def element_is_present(driver, id):

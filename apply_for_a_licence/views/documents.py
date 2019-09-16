@@ -17,29 +17,28 @@ from drafts.services import get_draft, post_ultimate_end_user_document, post_end
     post_consignee_document, get_consignee_document, delete_consignee_document, post_third_party_document, \
     get_third_party_document, delete_third_party_document
 
-third_party_paths = \
-    {
-        'ultimate-end-user':
-            {
-                'homepage': 'apply_for_a_licence:ultimate_end_users',
-                'strings': 'ultimate_end_user.documents',
-            },
-        'end-user':
-            {
-                'homepage': 'apply_for_a_licence:overview',
-                'strings': 'end_user.documents'
-            },
-        'consignee':
-            {
-                'homepage': 'apply_for_a_licence:overview',
-                'strings': 'consignee.documents'
-            },
-        'third-parties':
-            {
-                'homepage': 'apply_for_a_licence:third_parties',
-                'strings': 'third_parties.documents'
-            }
-    }
+third_party_paths = {
+    'ultimate-end-user':
+        {
+            'homepage': 'apply_for_a_licence:ultimate_end_users',
+            'strings': 'ultimate_end_user.documents',
+        },
+    'end-user':
+        {
+            'homepage': 'apply_for_a_licence:overview',
+            'strings': 'end_user.documents'
+        },
+    'consignee':
+        {
+            'homepage': 'apply_for_a_licence:overview',
+            'strings': 'consignee.documents'
+        },
+    'third-parties':
+        {
+            'homepage': 'apply_for_a_licence:third_parties',
+            'strings': 'third_parties.documents'
+        }
+}
 
 
 def get_page_content(path):
@@ -58,9 +57,10 @@ def get_page_content(path):
 def get_upload_page(path, draft_id):
     paths = get_page_content(path)
     return attach_document_form(draft_url=reverse(paths['homepage'], kwargs={'pk': draft_id}),
-                                title=get_string(paths['strings']+'.attach_documents.title'),
-                                back_text=get_string(paths['strings']+'.attach_documents.back_to_application_overview'),
-                                return_later_text=get_string(paths['strings']+'.save_end_user'))
+                                title=get_string(paths['strings'] + '.attach_documents.title'),
+                                back_text=get_string(
+                                    paths['strings'] + '.attach_documents.back_to_application_overview'),
+                                return_later_text=get_string(paths['strings'] + '.save_end_user'))
 
 
 def get_homepage(request, draft_id):
@@ -71,7 +71,7 @@ def get_delete_confirmation_page(path, pk):
     paths = get_page_content(path)
     return delete_document_confirmation_form(
         overview_url=reverse(paths['homepage'], kwargs={'pk': pk}),
-        back_link_text=get_string(paths['strings']+'.attach_documents.back_to_application_overview')
+        back_link_text=get_string(paths['strings'] + '.attach_documents.back_to_application_overview')
     )
 
 
