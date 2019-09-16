@@ -15,7 +15,8 @@ from apply_for_a_licence.services import download_document_from_s3
 from core.helpers import group_notifications
 from core.services import get_notifications
 from goods import forms
-from goods.forms import edit_form, attach_documents_form, respond_to_query_form, ecju_query_respond_confirmation_form
+from goods.forms import edit_form, attach_documents_form, respond_to_query_form, ecju_query_respond_confirmation_form, \
+    delete_good_form
 from goods.services import get_goods, post_goods, get_good, update_good, delete_good, get_good_documents, \
     get_good_document, delete_good_document, post_good_documents, raise_clc_query
 
@@ -183,20 +184,7 @@ class EditGood(TemplateView):
 class DeleteGood(TemplateView):
     def get(self, request, **kwargs):
         data = get_good(request, str(kwargs['pk']))
-        if data['status']['key'] != 'draft':
-            context = {
-                'title': 'Cannot Delete Good',
-                'description': 'This good is already inside a application',
-                'flag': 'cannot_delete',
-            }
-        else:
-            context = {
-                'good': data,
-                'title': 'Delete Good',
-                'description': 'Are you sure you want to delete this good?',
-                'flag': 'can_delete',
-            }
-        return render(request, 'goods/confirm_delete.html', context)
+        return form_page(request, delete_good_form(data))
 
     def post(self, request, **kwargs):
         delete_good(request, str(kwargs['pk']))

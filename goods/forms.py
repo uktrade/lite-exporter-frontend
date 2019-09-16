@@ -1,11 +1,12 @@
 from django.urls import reverse, reverse_lazy
 from lite_forms.components import Form, TextArea, RadioButtons, Option, BackLink, FileUpload, TextInput, HTMLBlock, \
-    HiddenField, Button
+    HiddenField, Button, Summary
 from lite_forms.generators import confirm_form
 from lite_forms.styles import ButtonStyle
 
 from conf.settings import env
 from core.builtins.custom_tags import get_string
+from goods.helpers import good_summary
 
 add_goods_questions = Form(title='Add Good', description='', caption='', questions=[
     TextArea(title='Description of good',
@@ -158,5 +159,16 @@ def ecju_query_respond_confirmation_form(edit_response_url):
                         yes_label='Yes, send the response',
                         no_label='No, change my response',
                         back_link_text='Back to edit response',
-                        back_url=edit_response_url
-                        )
+                        back_url=edit_response_url)
+
+
+def delete_good_form(good):
+    return Form(title='Are you sure you want to delete this good?',
+                questions=[
+                    good_summary(good)
+                ],
+                buttons=[
+                    Button(value='Yes, delete the good', action='submit', style=ButtonStyle.WARNING),
+                    Button(value='Cancel', action='', style=ButtonStyle.SECONDARY, link=reverse_lazy('goods:edit',
+                                                                                                     kwargs={'pk': good['id']}))
+                ])

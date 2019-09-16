@@ -12,8 +12,6 @@ urlpatterns = [
     path('edit/<uuid:pk>/', views.EditGood.as_view(), name='edit'),
     # ex: /goods/delete/<uuid:pk>/ - Delete a specific good
     path('delete/<uuid:pk>/', views.DeleteGood.as_view(), name='delete'),
-    # ex: /goods/<uuid:pk>/delete/ - Confirm delete
-    path('<uuid:pk>/delete/', views.DeleteGood.as_view(), name='confirm_delete'),
     # ex: /goods/<uuid:pk>/documents/<uuid:file_pk>/ - Get specific document
     path('<uuid:pk>/documents/<uuid:file_pk>/', views.Document.as_view(), name='document'),
     # ex: /goods/<uuid:pk>/documents/<uuid:file_pk>/delete/ - Delete a document
