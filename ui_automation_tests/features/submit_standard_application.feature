@@ -88,7 +88,7 @@ Feature: I want to indicate the standard licence I want
     And I click applications
     Then I see submitted application
 
-  @LT_1445_ultimate_end_user_upload_download_delete
+  @LT_1445_ultimate_end_user_document
   Scenario: Add an Ultimate end user document and can download and delete
     Given I go to exporter homepage and choose Test Org
     When I create a standard application
@@ -104,7 +104,7 @@ Feature: I want to indicate the standard licence I want
     When I delete the third party document
     Then "Attach" link is present
 
-  @LT_887_end_user_document_upload_download_delete
+  @LT_887_end_user_document
   Scenario: Add an end user document that can be downloaded and deleted
     Given I go to exporter homepage and choose Test Org
     When I create a standard application
@@ -117,7 +117,7 @@ Feature: I want to indicate the standard licence I want
     When I delete the third party document
     Then The end user document has been deleted
 
-  @LT_887_consignee_document_upload_download_delete
+  @LT_887_consignee_document
   Scenario: Add an end user document that can be downloaded and deleted
     Given I go to exporter homepage and choose Test Org
     When I create a standard application
@@ -130,7 +130,7 @@ Feature: I want to indicate the standard licence I want
     When I delete the consignee document
     Then The consignee document has been deleted
 
-  @LT_887_third_party_upload_download_delete
+  @LT_887_third_party_document
   Scenario: Add an Third party document that can be downloaded and deleted
     Given I go to exporter homepage and choose Test Org
     When I create a standard application
