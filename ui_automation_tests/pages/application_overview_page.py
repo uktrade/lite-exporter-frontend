@@ -11,6 +11,7 @@ class ApplicationOverviewPage:
         self.end_user_link = "end_users"   # ID
         self.consignees_link = "consignees"
         self.ultimate_end_user_link = "ultimate_end_users"   # ID
+        self.third_parties = "third_parties"  # ID
         self.sites_link = "a[href*='sites']"
         self.goods_link = "goods"
         self.show_countries_link = "[onclick*='showCountries']"
@@ -95,3 +96,6 @@ class ApplicationOverviewPage:
 
     def attach_consignee_document_is_present(self):
         return self.driver.find_elements_by_id(self.attach_consignee_document)
+
+    def click_third_parties(self):
+        self.driver.find_element_by_id(self.third_parties).click()

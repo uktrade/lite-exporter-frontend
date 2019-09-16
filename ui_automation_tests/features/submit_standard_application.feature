@@ -67,10 +67,10 @@ Feature: I want to indicate the standard licence I want
     Given I go to exporter homepage and choose Test Org
     When I create a standard application
     And I click on ultimate end users
-    And I click on ultimate end users add button
+    And I click on the add button
     And I add an end user of sub_type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
     And I upload a file "file_for_doc_upload_test_1.txt"
-    And I click on ultimate end users add button
+    And I click on the add button
     And I add an end user of sub_type: "commercial", name: "Mr Jones", website: " ", address: "London" and country "Ukraine"
     And I upload a file "file_for_doc_upload_test_1.txt"
     And I remove an ultimate end user so there is one less and return to the overview
@@ -176,7 +176,7 @@ Feature: I want to indicate the standard licence I want
     Given I go to exporter homepage and choose Test Org
     When I create a standard application
     And I click on ultimate end users
-    And I click on ultimate end users add button
+    And I click on the add button
     And I add an end user of sub_type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
     And I click back link
     Then "Attach" link is present
@@ -184,7 +184,7 @@ Feature: I want to indicate the standard licence I want
     And I upload a file "file_for_doc_upload_test_1.txt"
     Then Wait for download link
     And "Delete" link is present
-    When I delete the ultimate end user document
+    When I delete the third party document
     Then "Attach" link is present
 
   @LT_887_end_user_document_upload_download_delete
@@ -197,7 +197,7 @@ Feature: I want to indicate the standard licence I want
     And I click attach an end user document link
     And I upload a file "file_for_doc_upload_test_1.txt"
     Then Wait for "end_user_document_download" to be present
-    When I delete the end user document
+    When I delete the third party document
     Then The end user document has been deleted
 
   @LT_887_consignee_document_upload_download_delete
@@ -212,3 +212,19 @@ Feature: I want to indicate the standard licence I want
     Then Wait for "consignee_document_download" to be present
     When I delete the consignee document
     Then The consignee document has been deleted
+
+  @LT_887_third_party_upload_download_delete
+  Scenario: Add an Third party document that can be downloaded and deleted
+    Given I go to exporter homepage and choose Test Org
+    When I create a standard application
+    And I click on third parties
+    And I click on the add button
+    And I add an end user of sub_type: "agent", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
+    And I click back link
+    Then "Attach" link is present
+    When I click on attach a document
+    And I upload a file "file_for_doc_upload_test_1.txt"
+    Then Wait for download link
+    And "Delete" link is present
+    When I delete the third party document
+    Then "Attach" link is present

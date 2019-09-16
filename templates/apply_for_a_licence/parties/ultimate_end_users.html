@@ -50,18 +50,18 @@
             <td class="govuk-table__cell">
             {% if third_party.document %}
                 {%  if third_party.document.safe == True %}
-                    <a href="{% url download_document_link draft_id third_party.id %}" id="ultimate_end_user_document_download" class='govuk-link govuk-link--no-visited-state'>
+                    <a href="{% url download_document_link draft_id third_party.id %}" id="document_download" class='govuk-link govuk-link--no-visited-state'>
                         Download
                     </a>
                     <br/>
-                    <a href="{% url delete_document_link draft_id third_party.id %}" id="ultimate_end_user_document_delete" class='govuk-link govuk-link--no-visited-state'>
+                    <a href="{% url delete_document_link draft_id third_party.id %}" id="document_delete" class='govuk-link govuk-link--no-visited-state'>
                         Delete
                     </a>
                 {% else %}
                     Processing
                 {% endif %}
             {% else %}
-                <a href="{% url attach_document_link draft_id third_party.id %}" id="attach_end_user_doc" class='govuk-link govuk-link--no-visited-state'>
+                <a href="{% url attach_document_link draft_id third_party.id %}" id="attach_doc" class='govuk-link govuk-link--no-visited-state'>
                     Attach
                 </a>
             {% endif %}

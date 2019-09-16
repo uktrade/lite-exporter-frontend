@@ -7,7 +7,7 @@ from pages.add_end_user_pages import AddEndUserPages
 from pages.application_overview_page import ApplicationOverviewPage
 from pages.shared import Shared
 from pages.application_goods_list import ApplicationGoodsList
-from pages.ultimate_end_users_list_page import UltimateEndUsersListPage
+from pages.ultimate_end_users_list_page import ThirdPartyListPage
 from helpers.wait import wait_for_download_button, wait_for_element
 
 scenarios('../features/submit_standard_application.feature', strict_gherkin=False)
@@ -38,7 +38,15 @@ def i_see_the_homepage(driver):
 @when('I click on ultimate end users')
 def i_click_on_application_overview(driver, add_an_incorporated_good_to_application):
     app = ApplicationOverviewPage(driver)
+    Shared(driver).scroll_to_element(app.ultimate_end_user_link)
     app.click_ultimate_end_user_link()
+
+
+@when('I click on third parties')
+def i_click_on_application_overview(driver):
+    app = ApplicationOverviewPage(driver)
+    Shared(driver).scroll_to_element(app.third_parties)
+    app.click_third_parties()
 
 
 @when('I click on back to overview')
@@ -47,10 +55,9 @@ def i_go_to_the_overview(driver):
     app.click_on_back_to_overview_text()
 
 
-@when('I click on ultimate end users add button')
-def i_click_on_ultimate_end_user(driver):
-    ueu_page = UltimateEndUsersListPage(driver)
-    ueu_page.click_on_add_ultimate_end_user()
+@when('I click on the add button')
+def i_click_on_the_add_button(driver):
+    ThirdPartyListPage(driver).click_on_add_a_third_party()
 
 
 @when(parsers.parse('I add end user of type: "{type}"'))
@@ -165,6 +172,7 @@ def add_new_end_user(driver, type, name, website, address, country, context):
 @when('I click on end user')
 def i_click_on_end_user(driver):
     app = ApplicationOverviewPage(driver)
+    Shared(driver).scroll_to_element(app.end_user_link)
     app.click_end_user_link()
 
 
@@ -199,7 +207,7 @@ def download_and_delete_is_links_are_present(driver, button):
 
 @when("I click on attach a document")
 def click_attach_a_document(driver):
-    UltimateEndUsersListPage(driver).click_on_attach_ultimate_end_user_document(-1)
+    ThirdPartyListPage(driver).click_on_attach_document(-1)
 
 
 @when("I click back link")
@@ -207,11 +215,11 @@ def click_back_link(driver):
     Shared(driver).click_back_link()
 
 
-@when('I delete the ultimate end user document')
+@when('I delete the third party document')
 def delete_ultimate_end_user_document(driver):
-    ultimate_end_user = UltimateEndUsersListPage(driver)
-    ultimate_end_user.click_on_delete_ultimate_end_user_document(-1)
-    ultimate_end_user.accept_delete_ultimate_end_user_document_confirm()
+    third_party = ThirdPartyListPage(driver)
+    third_party.click_on_delete_document(-1)
+    third_party.accept_delete_confirm()
     shared = Shared(driver)
     shared.click_continue()
 
@@ -242,7 +250,7 @@ def attach_an_end_user_document(driver):
 def end_user_document_delete_is_present(driver):
     Shared(driver).scroll_to_element('end_user_document_delete')
     ApplicationOverviewPage(driver).click_delete_end_user_document()
-    UltimateEndUsersListPage(driver).accept_delete_ultimate_end_user_document_confirm()
+    ThirdPartyListPage(driver).accept_delete_confirm()
     shared = Shared(driver)
     shared.click_continue()
 
@@ -251,7 +259,7 @@ def end_user_document_delete_is_present(driver):
 def consignee_document_delete_is_present(driver):
     Shared(driver).scroll_to_element('consignee_document_delete')
     ApplicationOverviewPage(driver).click_delete_consignee_document()
-    UltimateEndUsersListPage(driver).accept_delete_ultimate_end_user_document_confirm()
+    ThirdPartyListPage(driver).accept_delete_confirm()
     shared = Shared(driver)
     shared.click_continue()
 
