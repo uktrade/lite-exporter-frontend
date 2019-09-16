@@ -16,7 +16,6 @@ scenarios('../features/submit_standard_application.feature', strict_gherkin=Fals
 @when('I click back to the application overview')
 def i_click_on_application_overview(driver):
     Shared(driver).click_back_link()
-    Shared(driver).click_back_link()
 
 
 @then('good is added to application')

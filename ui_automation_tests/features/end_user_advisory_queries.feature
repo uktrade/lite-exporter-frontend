@@ -1,5 +1,9 @@
 @end_user_advisory_queries @all
-Feature:
+Feature: I want to raise an End User advisory enquiry to check if a particular end user/ultimate end user is a suitable end user for export
+  As a logged in exporter
+  I want to raise an End User advisory enquiry for a particular end user/ultimate end user
+  So that I can be advised whether or not the person I am seeking to export my goods is a suitable end user for export
+
 
   @LT_1007
   Scenario: create and see listed an end user advisory

@@ -75,3 +75,4 @@ class Shared:
 
     def click_on_application_name(self):
         return self.driver.find_element_by_css_selector(self.application_name).click()
+
