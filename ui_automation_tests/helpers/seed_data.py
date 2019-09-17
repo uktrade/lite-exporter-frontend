@@ -3,7 +3,7 @@ import json
 import requests
 
 from conf.settings import env
-from wait import wait_for_ultimate_end_user_document, wait_for_document
+from helpers.wait import wait_for_ultimate_end_user_document, wait_for_document
 
 
 class SeedData:
