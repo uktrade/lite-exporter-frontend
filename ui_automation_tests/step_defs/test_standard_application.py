@@ -12,9 +12,9 @@ from pages.ultimate_end_users_list_page import ThirdPartyListPage
 scenarios('../features/submit_standard_application.feature', strict_gherkin=False)
 
 
-@when('I click on application overview')
+@when('I click back to the application overview')
 def i_click_on_application_overview(driver):
-    Shared(driver).click_on_application_name()
+    Shared(driver).click_back_link()
 
 
 @then('good is added to application')
@@ -114,7 +114,7 @@ def end_user_on_overview(driver, context):
     assert "Type" in app.get_text_of_end_user_table()
     assert "Name" in app.get_text_of_end_user_table()
     assert "Address" in app.get_text_of_end_user_table()
-    assert context.type_end_user in app.get_text_of_end_user_table()
+    assert context.type_end_user.capitalize() in app.get_text_of_end_user_table()
     assert context.name_end_user in app.get_text_of_end_user_table()
     assert context.address_end_user in app.get_text_of_end_user_table()
 

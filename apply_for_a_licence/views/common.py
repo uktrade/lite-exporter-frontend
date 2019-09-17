@@ -1,17 +1,16 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
-
 from lite_forms.generators import form_page, success_page
 from lite_forms.submitters import submit_paged_form
 
-from apply_for_a_licence.forms import initial
-from apply_for_a_licence.helpers import create_persistent_bar
+from apply_for_a_licence.forms.initial import initial_questions
 from core.builtins.custom_tags import get_string
 from core.services import get_sites_on_draft, get_external_locations_on_draft
+from drafts.services import get_third_parties, get_consignee_document
 from drafts.services import post_drafts, get_draft, get_draft_goods, submit_draft, \
     delete_draft, get_draft_countries, get_draft_goods_type, get_ultimate_end_users, \
-    get_end_user_document, get_third_parties, get_consignee_document
+    get_end_user_document
 
 
 class StartApplication(TemplateView):
@@ -24,11 +23,13 @@ class StartApplication(TemplateView):
 
 
 class InitialQuestions(TemplateView):
+    forms = initial_questions()
+
     def get(self, request, **kwargs):
-        return form_page(request, initial.initial_questions.forms[0])
+        return form_page(request, self.forms.forms[0])
 
     def post(self, request, **kwargs):
-        response, data = submit_paged_form(request, initial.initial_questions, post_drafts)
+        response, data = submit_paged_form(request, self.forms, post_drafts)
 
         # If there are more forms to go through, continue
         if response:
@@ -123,6 +124,7 @@ class Overview(TemplateView):
                             what_happens_next=[],
                             links={'Go to applications': reverse_lazy('applications:applications')})
 
+
 # Delete Application
 class DeleteApplication(TemplateView):
     def get(self, request, **kwargs):
@@ -131,7 +133,6 @@ class DeleteApplication(TemplateView):
         context = {
             'title': 'Are you sure you want to delete this application?',
             'draft': draft.get('draft'),
-            'persistent_bar': create_persistent_bar(draft.get('draft')),
             'page': 'apply_for_a_licence/modals/cancel_application.html',
         }
         return render(request, 'core/static.html', context)
