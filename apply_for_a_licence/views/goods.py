@@ -31,12 +31,12 @@ class GoodsList(TemplateView):
         description = request.GET.get('description', '').strip()
         part_number = request.GET.get('part_number', '').strip()
         control_rating = request.GET.get('control_rating', '').strip()
-        data, status_code = get_goods(request, {'description': description,
-                                                'part_number': part_number,
-                                                'control_rating': control_rating})
+        goods_list, status_code = get_goods(request, {'description': description,
+                                                      'part_number': part_number,
+                                                      'control_rating': control_rating})
 
         filtered_data = []
-        for good in data['goods']:
+        for good in goods_list:
             if good['documents'] and not good['is_good_controlled'] == 'unsure':
                 filtered_data.append(good)
 
@@ -103,15 +103,10 @@ class AddPreexistingGood(TemplateView):
     def get(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
         good, status_code = get_good(request, str(kwargs['good_pk']))
-        good = good.get('good')
 
         context = {
             'title': 'Add a pre-existing good to your application',
-            'page': goods.preexisting_good_form(good.get('id'),
-                                                good.get('description'),
-                                                good.get('control_code'),
-                                                good.get('part_number'),
-                                                get_units(request))
+            'page': goods.preexisting_good_form(good, get_units(request))
         }
         return render(request, 'form.html', context)
 
