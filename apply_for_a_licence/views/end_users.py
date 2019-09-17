@@ -5,7 +5,6 @@ from lite_forms.generators import form_page
 from lite_forms.submitters import submit_paged_form
 
 from apply_for_a_licence.forms.end_user import new_end_user_forms
-from apply_for_a_licence.helpers import create_persistent_bar
 from conf.constants import STANDARD_LICENCE
 from core.builtins.custom_tags import get_string
 from drafts.services import get_draft, post_end_user, get_ultimate_end_users, post_ultimate_end_user, \
@@ -14,12 +13,7 @@ from drafts.services import get_draft, post_end_user, get_ultimate_end_users, po
 
 class EndUser(TemplateView):
     def get(self, request, **kwargs):
-        draft_id = str(kwargs['pk'])
-        draft, status_code = get_draft(request, draft_id)
-
-        return form_page(request, new_end_user_forms().forms[0], extra_data={
-            'persistent_bar': create_persistent_bar(draft.get('draft'))
-        })
+        return form_page(request, new_end_user_forms().forms[0])
 
     def post(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
@@ -67,11 +61,7 @@ class AddUltimateEndUser(TemplateView):
         return super(AddUltimateEndUser, self).dispatch(request, *args, **kwargs)
 
     def get(self, request, **kwargs):
-        draft, status_code = get_draft(request, self.draft_id)
-
-        return form_page(request, self.form.forms[0], extra_data={
-            'persistent_bar': create_persistent_bar(draft.get('draft'))
-        })
+        return form_page(request, self.form.forms[0])
 
     def post(self, request, **kwargs):
         response, data = submit_paged_form(request, self.form, post_ultimate_end_user, pk=self.draft_id)

@@ -3,7 +3,6 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
 from apply_for_a_licence.forms import goods
-from apply_for_a_licence.helpers import create_persistent_bar
 from core.builtins.custom_tags import get_string
 from core.services import get_units
 from drafts.services import get_draft, get_draft_goods, get_draft_goods_type, post_draft_preexisting_goods
@@ -20,8 +19,7 @@ class DraftGoodsList(TemplateView):
             'title': get_string('applications.standard.goods.title'),
             'draft_id': draft_id,
             'data': data,
-            'draft': draft,
-            'persistent_bar': create_persistent_bar(draft.get('draft')),
+            'draft': draft
         }
         return render(request, 'apply_for_a_licence/goods/index.html', context)
 
@@ -49,8 +47,7 @@ class GoodsList(TemplateView):
             'draft': draft,
             'description': description,
             'part_number': part_number,
-            'control_code': control_rating,
-            'persistent_bar': create_persistent_bar(draft.get('draft')),
+            'control_code': control_rating
         }
         return render(request, 'apply_for_a_licence/goods/preexisting.html', context)
 
@@ -65,8 +62,7 @@ class DraftOpenGoodsList(TemplateView):
             'title': 'Application Goods',
             'draft_id': draft_id,
             'data': data,
-            'draft': draft,
-            'persistent_bar': create_persistent_bar(draft.get('draft')),
+            'draft': draft
         }
         return render(request, 'apply_for_a_licence/goods/index.html', context)
 
@@ -81,8 +77,7 @@ class DraftOpenGoodsTypeList(TemplateView):
             'title': get_string('good_types.overview_good_types.title'),
             'draft_id': draft_id,
             'data': data,
-            'draft': draft,
-            'persistent_bar': create_persistent_bar(draft.get('draft')),
+            'draft': draft
         }
         return render(request, 'apply_for_a_licence/goodstype/index.html', context)
 
@@ -99,8 +94,7 @@ class OpenGoodsList(TemplateView):
             'draft_id': draft_id,
             'data': data,
             'draft': draft,
-            'description': description,
-            'persistent_bar': create_persistent_bar(draft.get('draft')),
+            'description': description
         }
         return render(request, 'apply_for_a_licence/goods/preexisting.html', context)
 
@@ -108,7 +102,6 @@ class OpenGoodsList(TemplateView):
 class AddPreexistingGood(TemplateView):
     def get(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
-        draft, status_code = get_draft(request, draft_id)
         good, status_code = get_good(request, str(kwargs['good_pk']))
         good = good.get('good')
 
@@ -118,14 +111,12 @@ class AddPreexistingGood(TemplateView):
                                                 good.get('description'),
                                                 good.get('control_code'),
                                                 good.get('part_number'),
-                                                get_units(request)),
-            'persistent_bar': create_persistent_bar(draft.get('draft')),
+                                                get_units(request))
         }
         return render(request, 'form.html', context)
 
     def post(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
-        draft, status_code = get_draft(request, draft_id)
         data, status_code = post_draft_preexisting_goods(request, draft_id, request.POST)
 
         if status_code != 201:
@@ -139,7 +130,6 @@ class AddPreexistingGood(TemplateView):
                                                     good.get('control_code'),
                                                     good.get('part_number'),
                                                     get_units(request)),
-                'persistent_bar': create_persistent_bar(draft.get('draft')),
                 'data': request.POST,
                 'errors': data.get('errors'),
             }

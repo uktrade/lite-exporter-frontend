@@ -4,10 +4,9 @@ from django.views.generic import TemplateView
 from lite_forms.generators import form_page
 from lite_forms.submitters import submit_paged_form
 
-from apply_for_a_licence.forms.end_user import new_end_user_forms, new_consignee_forms
+from apply_for_a_licence.forms.end_user import new_consignee_forms
 from apply_for_a_licence.forms.third_party import third_party_forms, option_list
-from apply_for_a_licence.helpers import create_persistent_bar
-from drafts.services import get_draft, post_third_party, get_third_parties, delete_third_party, post_consignee
+from drafts.services import post_third_party, get_third_parties, delete_third_party, post_consignee
 
 
 class AddThirdParty(TemplateView):
@@ -21,11 +20,7 @@ class AddThirdParty(TemplateView):
         return super(AddThirdParty, self).dispatch(request, *args, **kwargs)
 
     def get(self, request, **kwargs):
-        draft, status_code = get_draft(request, self.draft_id)
-
-        return form_page(request, self.form.forms[0], extra_data={
-            'persistent_bar': create_persistent_bar(draft.get('draft'))
-        })
+        return form_page(request, self.form.forms[0])
 
     def post(self, request, **kwargs):
         response, data = submit_paged_form(request, self.form, post_third_party, pk=self.draft_id)
@@ -66,12 +61,7 @@ class RemoveThirdParty(TemplateView):
 
 class Consignee(TemplateView):
     def get(self, request, **kwargs):
-        draft_id = str(kwargs['pk'])
-        draft, status_code = get_draft(request, draft_id)
-
-        return form_page(request, new_consignee_forms().forms[0], extra_data={
-            'persistent_bar': create_persistent_bar(draft.get('draft'))
-        })
+        return form_page(request, new_consignee_forms().forms[0])
 
     def post(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
