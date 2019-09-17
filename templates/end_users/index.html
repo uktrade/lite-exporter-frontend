@@ -25,6 +25,7 @@
 					<th class="govuk-table__header" scope="col">Address</th>
 					<th class="govuk-table__header" scope="col">Website</th>
 					<th class="govuk-table__header" scope="col">Reference</th>
+					<th class="govuk-table__header" scope="col"></th>
 				</tr>
 			</thead>
 			<tbody class="govuk-table__body">
@@ -50,6 +51,9 @@
 						</td>
 						<td class="govuk-table__cell">
 							{{ advisory.id|reference_code }}
+						</td>
+						<td class="govuk-table__cell">
+							<a href="#">Copy</a>
 						</td>
 					</tr>
 				{% endfor %}
