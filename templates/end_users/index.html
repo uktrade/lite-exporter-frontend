@@ -53,7 +53,7 @@
 							{{ advisory.id|reference_code }}
 						</td>
 						<td class="govuk-table__cell">
-							<a href="#">Copy</a>
+							<a href="{% url 'end_users:copy' advisory.id %}">Copy</a>
 						</td>
 					</tr>
 				{% endfor %}
