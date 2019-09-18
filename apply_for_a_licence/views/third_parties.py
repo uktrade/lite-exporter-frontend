@@ -6,7 +6,7 @@ from lite_forms.submitters import submit_paged_form
 
 from apply_for_a_licence.forms.end_user import new_consignee_forms
 from apply_for_a_licence.forms.third_party import third_party_forms, option_list
-from drafts.services import post_third_party, get_third_parties, delete_third_party, post_consignee
+from drafts.services import post_third_party, get_third_parties, delete_third_party, post_consignee, get_draft
 
 
 class AddThirdParty(TemplateView):
@@ -15,7 +15,8 @@ class AddThirdParty(TemplateView):
 
     def dispatch(self, request, *args, **kwargs):
         self.draft_id = str(kwargs['pk'])
-        self.form = third_party_forms()
+        draft, _ = get_draft(request, self.draft_id)
+        self.form = third_party_forms(draft.get('draft').get('export_type'))
 
         return super(AddThirdParty, self).dispatch(request, *args, **kwargs)
 
@@ -45,7 +46,8 @@ class ThirdParties(TemplateView):
             'download_document_link': 'apply_for_a_licence:third_party_download_document',
             'delete_document_link': 'apply_for_a_licence:third_party_delete_document',
             'attach_document_link': 'apply_for_a_licence:third_party_attach_document',
-            'delete_link': 'apply_for_a_licence:remove_third_party'
+            'delete_link': 'apply_for_a_licence:remove_third_party',
+            'title': 'Third Parties'
         }
 
         return render(request, 'apply_for_a_licence/parties/third_parties.html', context)

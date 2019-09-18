@@ -16,7 +16,7 @@
 
 <div class="lite-app-bar">
 	<div class="lite-app-bar__content">
-		<h1 class="govuk-heading-l">Ultimate end user</h1>
+		<h1 class="govuk-heading-l">Ultimate End Users</h1>
 		<p class="govuk-caption-m">{{ description }}</p>
 	</div>
 	<div class="lite-app-bar__controls">
@@ -26,7 +26,7 @@
 	</div>
 </div>
 
-{% if third_parties|length %}
+{% if ultimate_end_users|length %}
 <table class="govuk-table">
 	<thead class="govuk-table__head">
 		<tr class="govuk-table__row">
@@ -40,34 +40,34 @@
 		</tr>
 	</thead>
 	<tbody class="govuk-table__body">
-		{% for third_party in third_parties %}
+		{% for ultimate_end_user in ultimate_end_users %}
 		<tr class="govuk-table__row">
-			<td class="govuk-table__cell">{{ third_party.name }}</td>
-			<td class="govuk-table__cell">{{ third_party.type }}</td>
-			<td class="govuk-table__cell">{{ third_party.website }}</td>
-			<td class="govuk-table__cell">{{ third_party.address }}</td>
-			<td class="govuk-table__cell">{{ third_party.country.name }}</td>
+			<td class="govuk-table__cell">{{ ultimate_end_user.name }}</td>
+			<td class="govuk-table__cell">{{ ultimate_end_user.sub_type|title }}</td>
+			<td class="govuk-table__cell">{{ ultimate_end_user.website }}</td>
+			<td class="govuk-table__cell">{{ ultimate_end_user.address }}</td>
+			<td class="govuk-table__cell">{{ ultimate_end_user.country.name }}</td>
             <td class="govuk-table__cell">
-            {% if third_party.document %}
-                {% if third_party.document.safe == True %}
-                    <a href="{% url download_document_link draft_id third_party.id %}" id="document_download" class='govuk-link govuk-link--no-visited-state'>
+            {% if ultimate_end_user.document %}
+                {% if ultimate_end_user.document.safe == True %}
+                    <a href="{% url download_document_link draft_id ultimate_end_user.id %}" id="document_download" class='govuk-link govuk-link--no-visited-state'>
                         Download
                     </a>
                     <br/>
-                    <a href="{% url delete_document_link draft_id third_party.id %}" id="document_delete" class='govuk-link govuk-link--no-visited-state'>
+                    <a href="{% url delete_document_link draft_id ultimate_end_user.id %}" id="document_delete" class='govuk-link govuk-link--no-visited-state'>
                         Delete
                     </a>
                 {% else %}
                     Processing
                 {% endif %}
             {% else %}
-                <a href="{% url attach_document_link draft_id third_party.id %}" id="attach_doc" class='govuk-link govuk-link--no-visited-state'>
+                <a href="{% url attach_document_link draft_id ultimate_end_user.id %}" id="attach_doc" class='govuk-link govuk-link--no-visited-state'>
                     Attach
                 </a>
             {% endif %}
             </td>
 			<td class="govuk-table__cell">
-				<a href="{% url delete_link draft_id third_party.id %}" style="margin: 0;" class="govuk-link">
+				<a href="{% url delete_link draft_id ultimate_end_user.id %}" style="margin: 0;" class="govuk-link">
                     Delete ultimate end user
                 </a>
 			</td>

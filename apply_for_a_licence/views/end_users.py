@@ -37,14 +37,15 @@ class UltimateEndUsers(TemplateView):
         data, status_code = get_ultimate_end_users(request, draft_id)
 
         context = {
-            'third_parties': data['ultimate_end_users'],
+            'ultimate_end_users': data['ultimate_end_users'],
             'draft_id': draft_id,
             'description': get_string('ultimate_end_user.overview_description'),
             'add_link': 'apply_for_a_licence:add_ultimate_end_user',
             'download_document_link': 'apply_for_a_licence:ultimate_end_user_download_document',
             'delete_document_link': 'apply_for_a_licence:ultimate_end_user_delete_document',
             'attach_document_link': 'apply_for_a_licence:ultimate_end_user_attach_document',
-            'delete_link': 'apply_for_a_licence:remove_ultimate_end_user'
+            'delete_link': 'apply_for_a_licence:remove_ultimate_end_user',
+            'title': 'Ultimate End Users'
         }
 
         return render(request, 'apply_for_a_licence/parties/ultimate_end_users.html', context)
