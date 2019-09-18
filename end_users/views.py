@@ -31,6 +31,7 @@ class CopyAdvisory(TemplateView):
         self.forms = copy_end_user_advisory_form()
         query = get_end_user_advisory(request, str(kwargs['pk']))
 
+        # Add the existing end user type as a hidden field to preserve its data
         self.forms.forms[0].questions.append(HiddenField('end_user.type', query['end_user']['type']['key']))
 
         self.data = {
