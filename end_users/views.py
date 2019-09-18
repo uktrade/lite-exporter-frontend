@@ -29,15 +29,17 @@ class CopyAdvisory(TemplateView):
 
     def dispatch(self, request, *args, **kwargs):
         self.forms = copy_end_user_advisory_form()
-        query = get_end_user_advisory(request, str(kwargs['pk']))['end_user']
+        query = get_end_user_advisory(request, str(kwargs['pk']))
 
-        self.forms.forms[0].questions.append(HiddenField('end_user.type', query['type']['key']))
+        self.forms.forms[0].questions.append(HiddenField('end_user.type', query['end_user']['type']['key']))
 
         self.data = {
-            'end_user.name': query['name'],
-            'end_user.website': query['website'],
-            'end_user.address': query['address'],
-            'end_user.country': query['country']['id']
+            'end_user.name': query['end_user']['name'],
+            'end_user.website': query['end_user']['website'],
+            'end_user.address': query['end_user']['address'],
+            'end_user.country': query['end_user']['country']['id'],
+            'reasoning': query['reasoning'],
+            'note': query['note'],
         }
 
         return super(CopyAdvisory, self).dispatch(request, *args, **kwargs)

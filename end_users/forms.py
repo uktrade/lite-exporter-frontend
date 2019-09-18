@@ -13,13 +13,12 @@ def apply_for_an_end_user_advisory_form():
              questions=[
                  HTMLBlock(
                      '<ul class="govuk-list govuk-list--bullet">'
-                     '<li class="govuk-!-margin-bottom-4">I have checked the <a class="govuk-link" href="https://scsanctions.un.org/fop/fop?xml=htdocs/resources/xml/en/consolidated.xml&xslt=htdocs/resources/xsl/en/consolidated.xsl">UN Security Council Committee’s list</a> and my goods will not be used by anyone named on this list</li>'
-                     '<li class="govuk-!-margin-bottom-4">I have checked the <a class="govuk-link" href="https://permissions-finder.service.trade.gov.uk/">Department for International Trade’s list of controlled goods</a> and my goods are not controlled</li>'
-                     '<li class="govuk-!-margin-bottom-4">I have not been previously informed by the Export Control Joint Unit that my goods could be used to make chemical, biological or nuclear weapons</li>'
+                     '<li class="govuk-!-margin-bottom-5">I have checked the <a class="govuk-link" href="https://scsanctions.un.org/fop/fop?xml=htdocs/resources/xml/en/consolidated.xml&xslt=htdocs/resources/xsl/en/consolidated.xsl">UN Security Council Committee’s list</a> and my goods will not be used by anyone named on this list</li>'
+                     '<li class="govuk-!-margin-bottom-5">I have checked the <a class="govuk-link" href="https://permissions-finder.service.trade.gov.uk/">Department for International Trade’s list of controlled goods</a> and my goods are not controlled</li>'
+                     '<li class="govuk-!-margin-bottom-5">I have not been previously informed by the Export Control Joint Unit that my goods could be used to make chemical, biological or nuclear weapons</li>'
                      '<li>I do not have any reason to suspect that my goods could be used to make chemical, biological or nuclear weapons</li>'
                      '</ul>'
                  ),
-                 HiddenField(name='form_pk', value=1)
              ],
              default_button_name='Confirm and continue'),
         Form(title='Check if someone is eligible to import your goods',
@@ -100,7 +99,7 @@ def copy_end_user_advisory_form():
                  TextArea(title='Is there any other information you can provide about this user?',
                           description='This can help to speed up the query and give you a more accurate result',
                           optional=True,
-                          name='notes',
+                          name='note',
                           extras={
                               'max_length': 2000,
                           }),
