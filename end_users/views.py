@@ -40,6 +40,7 @@ class CopyAdvisory(TemplateView):
             'end_user.country': query['end_user']['country']['id'],
             'reasoning': query.get('reasoning', ''),
             'note': query.get('note', ''),
+            'copy_of': query['id'],
         }
 
         return super(CopyAdvisory, self).dispatch(request, *args, **kwargs)
