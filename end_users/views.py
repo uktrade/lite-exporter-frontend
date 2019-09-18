@@ -1,11 +1,9 @@
 from django.shortcuts import render
-from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from lite_forms.components import HiddenField
 from lite_forms.generators import form_page
 from lite_forms.submitters import submit_paged_form
 
-from core.builtins.custom_tags import reference_code
 from end_users.forms import apply_for_an_end_user_advisory_form, copy_end_user_advisory_form, \
     end_user_advisory_success_page
 from end_users.services import get_end_user_advisories, post_end_user_advisories, get_end_user_advisory
