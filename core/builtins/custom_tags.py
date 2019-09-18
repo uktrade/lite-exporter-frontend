@@ -2,6 +2,7 @@ import datetime
 import json
 import re
 
+import stringcase
 from django import template
 from django.template.defaultfilters import stringfilter
 from django.templatetags.tz import do_timezone
@@ -47,6 +48,11 @@ def str_date(value):
     return_value = do_timezone(datetime.datetime.strptime(value, ISO8601_FMT), 'Europe/London')
     return return_value.strftime('%-I:%M') + return_value.strftime('%p').lower() + ' ' + return_value.strftime('%d %B %Y')
 
+
+@register.filter()
+def strip_underscores(value):
+    value = value[0:1].upper() + value[1:]
+    return value.replace('_', ' ')
 
 @register.filter
 @stringfilter
