@@ -98,6 +98,7 @@ class Overview(TemplateView):
             goodstypes, status_code = get_draft_goods_type(request, draft_id)
             external_locations, status_code = get_external_locations_on_draft(request, draft_id)
             ultimate_end_users, status_code = get_ultimate_end_users(request, draft_id)
+            third_parties, status_code = get_third_parties(request, draft_id)
 
             for good in goods['goods']:
                 if not good['good']['is_good_end_product']:
@@ -114,6 +115,7 @@ class Overview(TemplateView):
                 'external_locations': external_locations['external_locations'],
                 'ultimate_end_users': ultimate_end_users['ultimate_end_users'],
                 'ultimate_end_users_required': ultimate_end_users_required,
+                'third_parties': third_parties['third_parties']
             }
             return render(request, 'apply_for_a_licence/overview.html', context)
 
