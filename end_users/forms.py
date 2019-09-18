@@ -60,7 +60,7 @@ def apply_for_an_end_user_advisory_form():
                  TextArea(title='Is there any other information you can provide about this user?',
                           description='This can help to speed up the query and give you a more accurate result',
                           optional=True,
-                          name='notes',
+                          name='note',
                           extras={
                               'max_length': 2000,
                           }),

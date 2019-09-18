@@ -38,8 +38,8 @@ class CopyAdvisory(TemplateView):
             'end_user.website': query['end_user']['website'],
             'end_user.address': query['end_user']['address'],
             'end_user.country': query['end_user']['country']['id'],
-            'reasoning': query['reasoning'],
-            'note': query['note'],
+            'reasoning': query.get('reasoning', ''),
+            'note': query.get('note', ''),
         }
 
         return super(CopyAdvisory, self).dispatch(request, *args, **kwargs)
@@ -48,7 +48,7 @@ class CopyAdvisory(TemplateView):
         return form_page(request, self.forms.forms[0], data=self.data)
 
     def post(self, request, **kwargs):
-        response, data = submit_paged_form(request, self.forms, post_end_user_advisories)
+        response, data = submit_paged_form(request, self.forms, post_end_user_advisories, inject_data=self.data)
 
         if response:
             return response
