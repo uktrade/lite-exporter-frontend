@@ -3,8 +3,8 @@ class AddEndUserAdvisoryPages:
     def __init__(self, driver):
         self.driver = driver
         self.add_new_address_button = 'a[href*="add"]'
-        self.type_choices = 'type-'
-        self.back_to_overview_text = 'Back to Application'  # link text
+        self.type_choices = "sub_type-"
+        self.back_to_overview_text = "Back to Application"  # link text
 
     def enter_name(self, name, prefix=''):
         name_tb = self.driver.find_element_by_id(prefix + 'name')
