@@ -2,7 +2,6 @@ import datetime
 import json
 import re
 
-import stringcase
 from django import template
 from django.template.defaultfilters import stringfilter
 from django.templatetags.tz import do_timezone
