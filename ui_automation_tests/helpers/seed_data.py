@@ -101,14 +101,6 @@ class SeedData:
             'part_number': '1234',
             'validate_only': False,
         },
-        'gov_user': {
-            'email': 'test-uat-user@digital.trade.gov.uk',
-            'first_name': 'ecju',
-            'last_name': 'user'},
-        'export_user': {
-            'email': exporter_user_email,
-            'password': 'password'
-        },
         'draft': {
             'name': 'application',
             'licence_type': 'standard_licence',
@@ -198,8 +190,12 @@ class SeedData:
 
     def setup_org(self):
         organisation = self.find_org_by_name(self.org_name)
+
         if not organisation:
             organisation = self.add_org('organisation')
+        else:
+            self.add_exporter_user_to_org(organisation['id'])
+
         org_id = organisation['id']
         self.add_to_context('org_id', org_id)
         self.add_to_context('first_name', self.first_name)
@@ -267,6 +263,10 @@ class SeedData:
         response = self.make_request('POST', url='/organisations/', body=data)
         organisation = json.loads(response.text)['organisation']
         return organisation
+
+    def add_exporter_user_to_org(self, org_id):
+        user_data = self.request_data['organisation']['user']
+        self.make_request("POST", url='/organisations/' + org_id + '/users/', body=user_data, validate_response=False)
 
     def add_case_note(self, context):
         self.log('Creating case note: ...')
@@ -371,7 +371,7 @@ class SeedData:
     def check_ultimate_end_user_document_is_processed(self, draft_id, ultimate_end_user_id):
         return self.check_document('/drafts/' + draft_id + '/ultimate-end-user/' + ultimate_end_user_id + '/document/')
 
-    def make_request(self, method, url, headers=None, body=None, files=None):
+    def make_request(self, method, url, headers=None, body=None, files=None, validate_response=True):
         if headers is None:
             headers = self.gov_headers
         if body:
@@ -381,6 +381,6 @@ class SeedData:
                                         files=files)
         else:
             response = requests.request(method, self.base_url + url, headers=headers)
-        if not response.ok:
+        if validate_response and not response.ok:
             raise Exception('bad response: ' + response.text)
         return response
