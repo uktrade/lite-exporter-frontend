@@ -100,14 +100,14 @@ class AttachDocuments(TemplateView):
             return error_page(None, get_string('end_user.documents.attach_documents.upload_error'))
 
         if 'ultimate-end-user' in request.path:
-            end_user_document, status_code = post_ultimate_end_user_document(request, draft_id,
+            _, status_code = post_ultimate_end_user_document(request, draft_id,
                                                                              str(kwargs['ueu_pk']), data)
         elif 'consignee' in request.path:
-            end_user_document, status_code = post_consignee_document(request, draft_id, data)
+            _, status_code = post_consignee_document(request, draft_id, data)
         elif 'third-parties' in request.path:
-            end_user_document, status_code = post_third_party_document(request, draft_id, str(kwargs['tp_pk']), data)
+            _, status_code = post_third_party_document(request, draft_id, str(kwargs['tp_pk']), data)
         elif 'end-user' in request.path:
-            end_user_document, status_code = post_end_user_document(request, draft_id, data)
+            _, status_code = post_end_user_document(request, draft_id, data)
         else:
             return error_page(None, get_string('end_user.documents.attach_documents.upload_error'))
 
@@ -132,7 +132,7 @@ class DownloadDocument(TemplateView):
             return error_page(None, get_string('end_user.documents.attach_documents.download_error'))
 
         document = document['document']
-        if document['safe']:
+        if status_code == 200 and document['safe']:
             return download_document_from_s3(document['s3_key'], document['name'])
         else:
             return error_page(None, get_string('end_user.documents.attach_documents.download_error'))
