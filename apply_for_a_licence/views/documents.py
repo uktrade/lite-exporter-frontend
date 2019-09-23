@@ -121,18 +121,18 @@ class DownloadDocument(TemplateView):
     def get(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
         if 'ultimate-end-user' in request.path:
-            document, status_code = get_ultimate_end_user_document(request, draft_id, str(kwargs['ueu_pk']))
+            document, _ = get_ultimate_end_user_document(request, draft_id, str(kwargs['ueu_pk']))
         elif 'consignee' in request.path:
-            document, status_code = get_consignee_document(request, draft_id)
+            document, _ = get_consignee_document(request, draft_id)
         elif 'third-parties' in request.path:
-            document, status_code = get_third_party_document(request, draft_id, str(kwargs['tp_pk']))
+            document, _ = get_third_party_document(request, draft_id, str(kwargs['tp_pk']))
         elif 'end-user' in request.path:
-            document, status_code = get_end_user_document(request, draft_id)
+            document, _ = get_end_user_document(request, draft_id)
         else:
             return error_page(None, get_string('end_user.documents.attach_documents.download_error'))
 
         document = document['document']
-        if status_code == 200 and document['safe']:
+        if document['safe']:
             return download_document_from_s3(document['s3_key'], document['name'])
         else:
             return error_page(None, get_string('end_user.documents.attach_documents.download_error'))
