@@ -4,8 +4,38 @@ from lite_forms.components import RadioButtons, Form, Option, TextArea, TextInpu
 from core.services import get_countries
 
 
-def apply_for_an_end_user_advisory_form():
-    return FormGroup([
+class QuestionBlocks:
+    q_name = TextInput(title='What\'s the end user\'s name?',
+                       name='end_user.name')
+    q_individual = [
+        TextInput(title='What\'s the end user\'s email address?',
+                  name='contact_email'),
+        TextInput(title='What\'s the end user\'s telephone number?',
+                  name='contact_telephone')
+    ]
+    q_nature_of_business = TextInput(title='What\'s the nature of the end user\'s business?',
+                                     name='nature_of_business')
+    q_primary_contact_details = [
+        TextInput(title='What\'s the primary contact\'s name?',
+                  name='contact_email'),
+        TextInput(title='What\'s the primary contact\'s email address?',
+                  name='contact_email'),
+        TextInput(title='What\'s the primary contact\'s telephone number?',
+                  name='contact_telephone')
+    ]
+    q_address = [
+        TextArea(title='What\'s the end user\'s address?',
+                 description='This is usually the delivery address or registered office for the person '
+                             'receiving the goods',
+                 name='end_user.address'),
+        country_question(countries=get_countries(None, True),
+                         prefix='end_user.'),
+    ]
+    q_hidden_validate_only = HiddenField('validate_only', True)
+
+
+def apply_for_an_end_user_advisory_form(individual, commercial):
+    form_group = FormGroup([
         Form(title='Check if someone is eligible to import your goods',
              questions=[
                  RadioButtons(title='How would you describe this end user?',
@@ -18,22 +48,25 @@ def apply_for_an_end_user_advisory_form():
                               ]),
              ],
              default_button_name='Continue'),
-        Form(title='Tell us more about this recipient',
-             questions=[
-                 TextInput(title='What\'s the end user\'s name?',
-                           name='end_user.name'),
-                 TextInput(title='Enter the end user\'s web address?',
-                           name='end_user.website',
-                           optional=True),
-                 TextArea(title='What\'s the end user\'s address?',
-                          description='This is usually the delivery address or registered office for the person '
-                                      'receiving the goods',
-                          name='end_user.address'),
-                 country_question(countries=get_countries(None, True),
-                                  prefix='end_user.'),
-                 HiddenField('validate_only', True),
-             ],
-             default_button_name='Continue'),
+    ])
+
+    form = Form(title='Tell us more about this recipient',
+                questions=[],
+                default_button_name='Continue')
+    form.questions.append(QuestionBlocks.q_name)
+    if individual:
+        [form.questions.append(question) for question in QuestionBlocks.q_individual]
+    elif commercial:
+        form.questions.append(QuestionBlocks.q_nature_of_business)
+        [form.questions.append(question) for question in QuestionBlocks.q_primary_contact_details]
+    else:
+        [form.questions.append(question) for question in QuestionBlocks.q_primary_contact_details]
+    [form.questions.append(question) for question in QuestionBlocks.q_address]
+    form.questions.append(QuestionBlocks.q_hidden_validate_only)
+
+    form_group.forms.append(form)
+
+    form_group.forms.append(
         Form(title='More information about this advisory',
              questions=[
                  TextArea(title='What\'s your reasoning behind this query?',
@@ -47,9 +80,9 @@ def apply_for_an_end_user_advisory_form():
                           optional=True,
                           name='notes',
                           extras={
-                                 'max_length': 2000,
+                              'max_length': 2000,
                           }),
                  HiddenField('validate_only', False),
              ],
-             default_button_name='Submit'),
-    ], show_progress_indicators=True)
+             default_button_name='Submit'))
+    return form_group

@@ -25,7 +25,9 @@ class ApplyForAnAdvisory(TemplateView):
     forms = None
 
     def dispatch(self, request, *args, **kwargs):
-        self.forms = apply_for_an_end_user_advisory_form()
+        individual = request.POST.get('end_user.sub_type') == 'individual'
+        commercial = request.POST.get('end_user.sub_type') == 'commercial'
+        self.forms = apply_for_an_end_user_advisory_form(individual, commercial)
 
         return super(ApplyForAnAdvisory, self).dispatch(request, *args, **kwargs)
 
