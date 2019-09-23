@@ -75,7 +75,9 @@ def apply_for_an_end_user_advisory_form(individual, commercial):
                  conditional(commercial, TextInput(title='What\'s the nature of the end user\'s business?',
                            name='nature_of_business')),
                  conditional(not individual, TextInput(title='What\'s the primary contact\'s name?',
-                           name='contact_email')),
+                           name='contact_name')),
+                 conditional(not individual, TextInput(title='What\'s the primary contact\'s job title?',
+                           name='contact_job_title')),
                  conditional(not individual, TextInput(title='What\'s the primary contact\'s email address?',
                            name='contact_email')),
                  conditional(not individual, TextInput(title='What\'s the primary contact\'s telephone number?',
@@ -112,12 +114,26 @@ def apply_for_an_end_user_advisory_form(individual, commercial):
              default_button_name='Submit')])
 
 
-def copy_end_user_advisory_form():
+def copy_end_user_advisory_form(individual, commercial):
     return FormGroup([
         Form(title='Tell us more about this recipient',
              questions=[
                  TextInput(title='What\'s the end user\'s name?',
                            name='end_user.name'),
+                 conditional(individual, TextInput(title='What\'s the end user\'s email address?',
+                                                   name='contact_email')),
+                 conditional(individual, TextInput(title='What\'s the end user\'s telephone number?',
+                                                   name='contact_telephone')),
+                 conditional(commercial, TextInput(title='What\'s the nature of the end user\'s business?',
+                                                   name='nature_of_business')),
+                 conditional(not individual, TextInput(title='What\'s the primary contact\'s name?',
+                                                       name='contact_name')),
+                 conditional(not individual, TextInput(title='What\'s the primary contact\'s job title?',
+                                                       name='contact_job_title')),
+                 conditional(not individual, TextInput(title='What\'s the primary contact\'s email address?',
+                                                       name='contact_email')),
+                 conditional(not individual, TextInput(title='What\'s the primary contact\'s telephone number?',
+                                                       name='contact_telephone')),
                  TextInput(title='Enter the end user\'s web address?',
                            name='end_user.website',
                            optional=True),
