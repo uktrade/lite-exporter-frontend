@@ -23,7 +23,7 @@ class SeedData:
     good_end_product_true = 'Hot Cross Buns'
     good_end_product_false = 'Falafels'
 
-    request_data = { # noqa
+    request_data = {
         'organisation': {
             'name': org_name,
             'eori_number': '1234567890AAA',
@@ -76,15 +76,6 @@ class SeedData:
             'part_number': '1234',
             'validate_only': False,
         },
-        "gov_user": {  # noqa
-            "email": "test-uat-user@digital.trade.gov.uk",
-            "first_name": "ecju",
-            "last_name": "user"
-        },
-        "export_user": {  # noqa
-            "email": exporter_user_email,
-            "password": "password"
-        },
         'good_end_product_true': {
             'description': good_end_product_true,
             'is_good_controlled': 'yes',
@@ -101,12 +92,11 @@ class SeedData:
             'part_number': '1234',
             'validate_only': False,
         },
-        # TODO: Investigate duplication: gov_user / export_user
-        'gov_user': {  # noqa
+        'gov_user': {
             'email': 'test-uat-user@digital.trade.gov.uk',
             'first_name': 'ecju',
             'last_name': 'user'},
-        'export_user': {  # noqa
+        'export_user': {
             'email': exporter_user_email,
             'password': 'password'
         },
