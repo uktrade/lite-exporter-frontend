@@ -99,8 +99,8 @@ def apply_for_an_end_user_advisory_form(individual, commercial):
                           }),
                  HiddenField('validate_only', False),
              ],
-             default_button_name='Submit'),
-    ], show_progress_indicators=True)
+             default_button_name='Submit'),)
+    return form_group
 
 
 def copy_end_user_advisory_form():
@@ -138,10 +138,8 @@ def copy_end_user_advisory_form():
                           }),
                  HiddenField('validate_only', False),
              ],
-
-             default_button_name='Submit'))
-    return form_group
-
+             default_button_name='Submit'),
+    ])
 
 
 def end_user_advisory_success_page(request, query_reference):
