@@ -17,7 +17,6 @@
 <div class="lite-app-bar">
 	<div class="lite-app-bar__content">
 		<h1 class="govuk-heading-l">{% get_string 'additional_documents.title'%}</h1>
-		<p class="govuk-caption-m">{% get_string 'additional_documents.description' %}</p>
 	</div>
 	<div class="lite-app-bar__controls">
 		<a href="{% url attach_document_link draft_id %}" class="govuk-button" draggable="false" role="button">
@@ -30,9 +29,9 @@
 <table class="govuk-table">
 	<thead class="govuk-table__head">
 		<tr class="govuk-table__row">
-			<th class="govuk-table__header" scope="col">Name</th>
+			<th class="govuk-table__header" scope="col">Document name</th>
 			<th class="govuk-table__header" scope="col">Description</th>
-            <th class="govuk-table__header" scope="col">Document</th>
+            <th class="govuk-table__header" scope="col">Download or delete</th>
 		</tr>
 	</thead>
 	<tbody class="govuk-table__body">
