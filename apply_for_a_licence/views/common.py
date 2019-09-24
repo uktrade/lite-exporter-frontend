@@ -42,10 +42,10 @@ class InitialQuestions(TemplateView):
 class Overview(TemplateView):
     def get(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
-        data, status_code = get_draft(request, draft_id)
+        data, _ = get_draft(request, draft_id)
         draft = data.get('draft')
-        sites, status_code = get_sites_on_draft(request, draft_id)
-        goods, status_code = get_draft_goods(request, draft_id)
+        sites, _ = get_sites_on_draft(request, draft_id)
+        goods, _ = get_draft_goods(request, draft_id)
         ultimate_end_users_required = False
         countries, status_code = get_draft_countries(request, draft_id)
         goodstypes, status_code = get_draft_goods_type(request, draft_id)
@@ -53,15 +53,16 @@ class Overview(TemplateView):
         ultimate_end_users, status_code = get_ultimate_end_users(request, draft_id)
         third_parties, status_code = get_third_parties(request, draft_id)
         additional_documents, status_code = get_additional_documents(request, draft_id)
+
         end_user = draft.get('end_user')
         if end_user:
-            end_user_document, status_code = get_end_user_document(request, draft_id)
+            end_user_document, _ = get_end_user_document(request, draft_id)
             end_user_document = end_user_document.get('document')
         else:
             end_user_document = None
         consignee = draft.get('consignee')
         if consignee:
-            consignee_document, status_code = get_consignee_document(request, draft_id)
+            consignee_document, _ = get_consignee_document(request, draft_id)
             consignee_document = consignee_document.get('document')
         else:
             consignee_document = None
@@ -133,7 +134,7 @@ class Overview(TemplateView):
 class DeleteApplication(TemplateView):
     def get(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
-        draft, status_code = get_draft(request, draft_id)
+        draft, _ = get_draft(request, draft_id)
         context = {
             'title': 'Are you sure you want to delete this application?',
             'draft': draft.get('draft'),
