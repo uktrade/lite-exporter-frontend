@@ -71,7 +71,7 @@
                                 Email
                             </dt>
                             <dd class="govuk-summary-list__value">
-                                {{ case.query.contact_email }}
+                                {{ end_user_advisory.contact_email }}
                             </dd>
                         </div>
                         <div class="govuk-summary-list__row">
@@ -79,17 +79,17 @@
                                 Telephone
                             </dt>
                             <dd class="govuk-summary-list__value">
-                                {{ case.query.contact_telephone }}
+                                {{ end_user_advisory.contact_telephone }}
                             </dd>
                         </div>
                     {% endif %}
-                    {% if case.query.end_user.sub_type.key == 'commercial' %}
+                    {% if end_user_advisory.end_user.sub_type.key == 'commercial' %}
                         <div class="govuk-summary-list__row">
                             <dt class="govuk-summary-list__key">
                                 Nature of Business
                             </dt>
                             <dd class="govuk-summary-list__value">
-                                {{ case.query.nature_of_business }}
+                                {{ end_user_advisory.nature_of_business }}
                             </dd>
                         </div>
                     {% endif %}
