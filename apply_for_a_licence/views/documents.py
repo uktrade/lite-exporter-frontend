@@ -74,6 +74,7 @@ def get_upload_page(path, draft_id):
                                 back_text=get_string(
                                     paths['strings'] + '.attach_documents.back_to_application_overview'),
                                 return_later_text=get_string(paths['strings'] + '.save_end_user'),
+                                description_text=get_string(paths['strings'] + '.attach_documents.description_field_title'),
                                 description=paths['description'])
 
 
