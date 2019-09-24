@@ -8,6 +8,7 @@ from lite_forms.submitters import submit_paged_form
 
 from applications.services import get_case_notes, get_application_ecju_queries, post_application_case_notes, \
     get_ecju_query, put_ecju_query
+from core.helpers import group_notifications
 from core.services import get_notifications
 from end_users.forms import apply_for_an_end_user_advisory_form, copy_end_user_advisory_form, \
     end_user_advisory_success_page, respond_to_query_form, ecju_query_respond_confirmation_form
@@ -17,10 +18,12 @@ from end_users.services import get_end_user_advisories, post_end_user_advisories
 class EndUsersList(TemplateView):
     def get(self, request, **kwargs):
         end_users = get_end_user_advisories(request)
+        notifications = get_notifications(request, unviewed=True)
 
         context = {
             'title': 'End User Advisories',
             'end_users': end_users,
+            'notifications': group_notifications(notifications),
         }
         return render(request, 'end_users/end_users.html', context)
 
@@ -124,9 +127,9 @@ class EndUserDetail(TemplateView):
 
     def get(self, request, **kwargs):
         notifications = get_notifications(request, unviewed=True)
-        case_note_notifications = len([x for x in notifications if x['parent'] == self.end_user_advisory_id
-                                       and x['object'] == 'case_note'])
-        ecju_query_notifications = len([x for x in notifications if x['parent'] == self.end_user_advisory_id
+        case_note_notifications = len([x for x in notifications if str(x['parent']) == self.end_user_advisory_id
+                                       and x['object_type'] == 'case_note'])
+        ecju_query_notifications = len([x for x in notifications if str(x['parent']) == self.end_user_advisory_id
                                         and x['object_type'] == 'ecju_query'])
 
         context = {
