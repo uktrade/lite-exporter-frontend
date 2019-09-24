@@ -7,7 +7,7 @@ from drafts.services import get_additional_documents
 class AdditionalDocuments(TemplateView):
     def get(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
-        data, status_code = get_additional_documents(request, draft_id)
+        data, _ = get_additional_documents(request, draft_id)
 
         context = {
             'additional_documents': data['documents'],
