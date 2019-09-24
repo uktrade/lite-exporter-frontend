@@ -49,7 +49,7 @@ class SeedData:
         },
         'organisation_for_switching_organisations': {
             'name': org_name_for_switching_organisations,
-            'subt_type': 'commercial',
+            'sub_type': 'commercial',
             'eori_number': '1234567890AAA',
             'sic_number': '2345',
             'vat_number': 'GB1234567',
