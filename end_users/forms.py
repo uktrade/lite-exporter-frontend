@@ -8,36 +8,6 @@ from core.builtins.custom_tags import reference_code
 from core.services import get_countries
 
 
-class QuestionBlocks:
-    q_name = TextInput(title='What\'s the end user\'s name?',
-                       name='end_user.name')
-    q_individual = [
-        TextInput(title='What\'s the end user\'s email address?',
-                  name='contact_email'),
-        TextInput(title='What\'s the end user\'s telephone number?',
-                  name='contact_telephone')
-    ]
-    q_nature_of_business = TextInput(title='What\'s the nature of the end user\'s business?',
-                                     name='nature_of_business')
-    q_primary_contact_details = [
-        TextInput(title='What\'s the primary contact\'s name?',
-                  name='contact_email'),
-        TextInput(title='What\'s the primary contact\'s email address?',
-                  name='contact_email'),
-        TextInput(title='What\'s the primary contact\'s telephone number?',
-                  name='contact_telephone')
-    ]
-    q_address = [
-        TextArea(title='What\'s the end user\'s address?',
-                 description='This is usually the delivery address or registered office for the person '
-                             'receiving the goods',
-                 name='end_user.address'),
-        country_question(countries=get_countries(None, True),
-                         prefix='end_user.'),
-    ]
-    q_hidden_validate_only = HiddenField('validate_only', True)
-
-
 def apply_for_an_end_user_advisory_form(individual, commercial):
     return FormGroup([
         Form(title='Confirm how your goods will be used',
@@ -111,7 +81,8 @@ def apply_for_an_end_user_advisory_form(individual, commercial):
                           }),
                  HiddenField('validate_only', False),
              ],
-             default_button_name='Submit')])
+             default_button_name='Submit')],
+        show_progress_indicators=True)
 
 
 def copy_end_user_advisory_form(individual, commercial):
