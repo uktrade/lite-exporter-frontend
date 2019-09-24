@@ -115,15 +115,10 @@ class AddPreexistingGood(TemplateView):
 
         if status_code != 201:
             good, status_code = get_good(request, str(kwargs['good_pk']))
-            good = good.get('good')
 
             context = {
                 'title': 'Add a pre-existing good to your application',
-                'page': goods.preexisting_good_form(good.get('id'),
-                                                    good.get('description'),
-                                                    good.get('control_code'),
-                                                    good.get('part_number'),
-                                                    get_units(request)),
+                'page': goods.preexisting_good_form(good, get_units(request)),
                 'data': request.POST,
                 'errors': data.get('errors'),
             }
