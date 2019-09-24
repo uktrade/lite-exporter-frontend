@@ -88,9 +88,6 @@ urlpatterns = [
 
     path('<uuid:pk>/additional-documents/', apply_for_a_licence.views.additional_documents.AdditionalDocuments.as_view(), name='additional_documents'),
     path('<uuid:pk>/additional-document/attach', documents.AttachDocuments.as_view(), name='attach_additional_document'),
-    # ex: /apply_for_a_licence/<uuid:pk>/end-user/download-document/ - Get document
     path('<uuid:pk>/additional-document/<uuid:doc_pk>/download', documents.DownloadDocument.as_view(), name='download_additional_document'),
-    # ex: /apply_for_a_licence/<uuid:pk>/end-user/download-document/ - Delete a document
     path('<uuid:pk>/additional-document/<uuid:doc_pk>/delete', documents.DeleteDocument.as_view(), name='delete_additional_document'),
-
 ]
