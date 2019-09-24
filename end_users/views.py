@@ -130,7 +130,7 @@ class EndUserDetail(TemplateView):
                                         and x['object_type'] == 'ecju_query'])
 
         context = {
-            'title': 'Good',
+            'title': 'End User Advisory',
             'case_id': self.case_id,
             'end_user_advisory': self.end_user_advisory,
             'case_note_notifications': case_note_notifications,
