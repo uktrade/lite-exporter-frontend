@@ -80,8 +80,8 @@ def apply_for_an_end_user_advisory_form(individual, commercial):
                               'max_length': 2000,
                           }),
                  HiddenField('validate_only', False),
-             ],
-             default_button_name='Submit')],
+             ])
+        ],
         show_progress_indicators=True)
 
 
@@ -133,8 +133,7 @@ def copy_end_user_advisory_form(individual, commercial):
                               'max_length': 2000,
                           }),
                  HiddenField('validate_only', False),
-             ],
-             default_button_name='Submit'),
+             ]),
     ])
 
 
