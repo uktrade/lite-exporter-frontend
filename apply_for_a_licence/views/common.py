@@ -47,12 +47,12 @@ class Overview(TemplateView):
         sites, _ = get_sites_on_draft(request, draft_id)
         goods, _ = get_draft_goods(request, draft_id)
         ultimate_end_users_required = False
-        countries, status_code = get_draft_countries(request, draft_id)
-        goodstypes, status_code = get_draft_goods_type(request, draft_id)
-        external_locations, status_code = get_external_locations_on_draft(request, draft_id)
-        ultimate_end_users, status_code = get_ultimate_end_users(request, draft_id)
-        third_parties, status_code = get_third_parties(request, draft_id)
-        additional_documents, status_code = get_additional_documents(request, draft_id)
+        countries, _ = get_draft_countries(request, draft_id)
+        goodstypes, _ = get_draft_goods_type(request, draft_id)
+        external_locations, _ = get_external_locations_on_draft(request, draft_id)
+        ultimate_end_users, _ = get_ultimate_end_users(request, draft_id)
+        third_parties, _ = get_third_parties(request, draft_id)
+        additional_documents, _ = get_additional_documents(request, draft_id)
 
         end_user = draft.get('end_user')
         if end_user:

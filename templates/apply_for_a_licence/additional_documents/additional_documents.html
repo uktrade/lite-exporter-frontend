@@ -25,7 +25,7 @@
 	</div>
 </div>
 
-{% if additional_documents|length %}
+{% if additional_documents %}
 <table class="govuk-table">
 	<thead class="govuk-table__head">
 		<tr class="govuk-table__row">
@@ -51,6 +51,7 @@
                 {% else %}
                     Processing
                 {% endif %}
+            </td>
 		</tr>
 		{% endfor %}
 	</tbody>
