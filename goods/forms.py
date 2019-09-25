@@ -1,5 +1,5 @@
 from django.urls import reverse, reverse_lazy
-from lite_forms.common import country_question, control_list_entry_question
+from lite_forms.common import control_list_entry_question
 from lite_forms.components import Form, TextArea, RadioButtons, Option, BackLink, FileUpload, TextInput, HTMLBlock, \
     HiddenField, Button
 from lite_forms.generators import confirm_form
@@ -62,6 +62,7 @@ def are_you_sure(good_id):
                     TextInput(
                         title='What do you think is your good\'s control list entry?',
                         description='For example, ML1a.',
+                        optional=True,
                         name='not_sure_details_control_code'),
                     TextArea(
                         title='Further details about your goods',
@@ -69,9 +70,7 @@ def are_you_sure(good_id):
                         optional=True,
                         name='not_sure_details_details'),
                 ],
-                back_link=BackLink('Back to good', reverse('goods:good',
-                                                           kwargs={'pk': good_id}))
-                )
+                back_link=BackLink('Back to good', reverse('goods:good', kwargs={'pk': good_id})))
 
 
 def edit_form(good_id):
@@ -96,9 +95,11 @@ def edit_form(good_id):
                                 value='I don\'t know')
                      ],
                      classes=['govuk-radios--inline']),
-        TextInput(title='What\'s your good\'s control list entry?',
-                  description='<noscript>If your good is controlled, enter its control list entry. </noscript>For example, ML1a.',
-                  name='control_code'),
+        control_list_entry_question(control_list_entries=get_control_list_entries(None, convert_to_options=True),
+                                    title='What\'s your good\'s control list entry?',
+                                    description='<noscript>If your good is controlled, enter its control list entry. </noscript>For example, ML1a.',
+                                    name='control_code',
+                                    inset_text=False),
         RadioButtons(title='Is your good intended to be incorporated into an end product?',
                      description='',
                      name='is_good_end_product',
