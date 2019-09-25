@@ -55,11 +55,6 @@ class DraftAddGoodsType(TemplateView):
 
 
 class GoodsTypeCountries(TemplateView):
-    context = None
-
-    def dispatch(self, request, *args, **kwargs):
-        return super(GoodsTypeCountries, self).dispatch(request, *args, **kwargs)
-
     def get(self, request, *args, **kwargs):
         goods, _ = get_draft_goods_type(request, str(kwargs['pk']))
         countries, _ = get_draft_countries(request, str(kwargs['pk']))
