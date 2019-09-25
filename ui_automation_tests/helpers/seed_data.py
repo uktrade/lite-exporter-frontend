@@ -71,7 +71,7 @@ class SeedData:
         'good': {
             'description': 'Lentils',
             'is_good_controlled': 'yes',
-            'control_code': '1234',
+            'control_code': 'ML1a',
             'is_good_end_product': True,
             'part_number': '1234',
             'validate_only': False,
@@ -79,7 +79,7 @@ class SeedData:
         'good_end_product_true': {
             'description': good_end_product_true,
             'is_good_controlled': 'yes',
-            'control_code': '1234',
+            'control_code': 'ML1a',
             'is_good_end_product': True,
             'part_number': '1234',
             'validate_only': False
@@ -87,7 +87,7 @@ class SeedData:
         'good_end_product_false': {
             'description': good_end_product_false,
             'is_good_controlled': 'yes',
-            'control_code': '1234',
+            'control_code': 'ML1a',
             'is_good_end_product': False,
             'part_number': '1234',
             'validate_only': False,
@@ -137,7 +137,7 @@ class SeedData:
         'clc_good': {
             'description': 'Targus',
             'is_good_controlled': 'unsure',
-            'control_code': '1234',
+            'control_code': 'ML1a',
             'is_good_end_product': True,
             'part_number': '1234',
             'validate_only': False,
@@ -220,7 +220,7 @@ class SeedData:
         self.add_to_context('clc_good_id', item['id'])
         self.add_good_document(item['id'])
         data = {'good_id': self.context['clc_good_id'],
-                'not_sure_details_control_code': 'a',
+                'not_sure_details_control_code': 'ML1a',
                 'not_sure_details_details': 'b'}
         response = self.make_request('POST', url='/queries/control-list-classifications/', headers=self.export_headers, body=data)
         response_data = json.loads(response.text)

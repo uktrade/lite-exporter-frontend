@@ -31,7 +31,7 @@ Feature: I want to indicate the open licence I want
     And I click continue
     And I click on the goods link from overview
     And I click Add goods type button
-    And I add a good or good type with description "Sniper" controlled "Yes" control code "1234" incorporated "Yes" and part number "not needed"
+    And I add a good or good type with description "Sniper" controlled "Yes" control code "ML1a" incorporated "Yes" and part number "not needed"
     Then I see my goods type added at position "1" with a description and a control code
     When I click overview
     Then I see my goods type added to the overview page with a description and a control code
@@ -39,7 +39,7 @@ Feature: I want to indicate the open licence I want
     And I click Add goods type button
     And I click continue
     Then I see good types error messages
-    When I add a good or good type with description "M4" controlled "Yes" control code "1234" incorporated "Yes" and part number "not needed"
+    When I add a good or good type with description "M4" controlled "Yes" control code "ML1a" incorporated "Yes" and part number "not needed"
     Then I see my goods type added at position "2" with a description and a control code
     When I click overview
     Then I see my goods type added to the overview page with a description and a control code
