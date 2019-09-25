@@ -91,7 +91,7 @@ def last_name(request):
 @given('I go to exporter homepage and choose Test Org') # noqa
 def go_to_exporter(driver, register_organisation, sso_sign_in, exporter_url, context):
     if 'pick-organisation' in driver.current_url:
-        no = helpers.get_element_index_by_text(Shared(driver).get_radio_buttons_elements(), context.org_name)
+        no = utils.get_element_index_by_text(Shared(driver).get_radio_buttons_elements(), context.org_name)
         Shared(driver).click_on_radio_buttons(no)
         Shared(driver).click_continue()
     elif Shared(driver).get_text_of_heading() != context.org_name:
