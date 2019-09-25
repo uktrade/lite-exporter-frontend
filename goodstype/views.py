@@ -3,8 +3,9 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from lite_forms.generators import form_page
 
+from drafts.services import get_draft, get_draft_goods_type, get_draft_countries
 from goodstype import forms
-from goodstype.services import post_goods_type, get_goods_type
+from goodstype.services import post_goods_type, get_goods_type, post_goods_type_countries
 
 
 class GoodsType(TemplateView):
@@ -51,3 +52,20 @@ class DraftAddGoodsType(TemplateView):
         if next:
             return redirect(next)
         return redirect(reverse_lazy('apply_for_a_licence:overview', args=[kwargs['pk']]))
+
+
+class GoodsTypeCountries(TemplateView):
+    def get(self, request, pk):
+        goods, _ = get_draft_goods_type(request, str(pk))
+        countries, _ = get_draft_countries(request, str(pk))
+
+        context = {
+            'countries': countries,
+            'goods': goods,
+            'description': "hello"
+        }
+        return render(request, 'apply_for_a_licence/goodstype/countries.html', context)
+
+    def post(self, request, **kwargs):
+        data = request.POST
+        post_goods_type_countries(request, data)

@@ -1,0 +1,59 @@
+{% extends "layouts/base.html" %}
+
+
+{% block body %}
+    {% for good in goods.goods %}
+        good: {{ good.description }} : {{ good.id }} : {{ good.countries }}
+{#        {{ good }}#}
+        <br>
+    {% endfor %}
+
+        {% for country in countries.countries %}
+        country: {{ country }}
+        <br>
+    {% endfor %}
+
+    <div>
+        <h1>Header stuff</h1>
+    </div>
+
+    <form method="post">
+    {% csrf_token %}
+        <table>
+        <tr>
+            <th>Goods Code</th>
+            <th>Description</th>
+            <th>Going to</th>
+        </tr>
+
+        {% for good in goods.goods %}
+            <tr>
+                <td>{{ good.control_code|default:'N/A' }} </td>
+                <td>{{ good.description }} </td>
+                <td>
+                    {% for country in countries.countries %}
+                        country: {{ country }}
+                        <br>
+                        <td class="lite-table__cell">
+						<div class="govuk-checkboxes govuk-checkboxes--small">
+							<div class="govuk-checkboxes__item">
+								<input class="govuk-checkboxes__input" type="checkbox" name="{{good.id}}.countries" id="{{ country.id }}" value="{{ country.id }}">
+								<label class="govuk-label govuk-checkboxes__label" for="{{ country.id }}">
+									<input class="govuk-checkboxes__input" type="checkbox" name="countries" value="{{ country.id }}" id="{{ country.id }}">
+									<label class="govuk-label govuk-checkboxes__label" for="{{ country.id }}">{{ country.name }} <span class="app-country-tag">{{ country.id }}</span>
+								</label>
+							</div>
+						</div>
+					</td>
+                    {% endfor %}
+                </td>
+            </tr>
+        {% endfor %}
+        </table>
+        <button id="button-give-advice" type="submit" class="govuk-button" data-module="govuk-button">
+            Submit
+        </button>
+    </form>
+
+{% endblock %}
+
