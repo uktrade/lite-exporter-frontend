@@ -70,7 +70,7 @@ def create_non_incorporated_good(driver, request, context):
     add_goods_page.enter_description_of_goods(good_name)
     add_goods_page.select_is_your_good_controlled("Yes")
     add_goods_page.select_is_your_good_intended_to_be_incorporated_into_an_end_product("No")
-    add_goods_page.enter_control_code("1234")
+    add_goods_page.enter_control_code("ML1a")
     exporter_hub.click_save_and_continue()
     context.file_to_be_deleted_name = 'file_for_doc_upload_test_2.txt'
     # Path gymnastics to get the absolute path for $PWD/../resources/(file_to_upload_x) that works everywhere
