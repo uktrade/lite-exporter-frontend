@@ -101,11 +101,8 @@ class AttachDocuments(TemplateView):
         draft_id = str(kwargs['pk'])
         draft, status_code = get_draft(request, draft_id)
         if status_code == 200:
-            if draft.get('draft').get('licence_type').get('key') == STANDARD_LICENCE:
-                form = get_upload_page(request.path, draft_id)
-                return form_page(request, form, extra_data={'draft_id': draft_id})
-            else:
-                return redirect(reverse_lazy('apply_for_a_licence:overview', kwargs={'pk': draft_id}))
+            form = get_upload_page(request.path, draft_id)
+            return form_page(request, form, extra_data={'draft_id': draft_id})
         else:
             return error_page(None, get_string('drafts.draft_not_found'))
 
