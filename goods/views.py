@@ -110,10 +110,16 @@ class GoodsDetail(TemplateView):
 
 
 class AddGood(TemplateView):
-    main_form = forms.add_goods_questions
+
+    form = None
+
+    def dispatch(self, request, *args, **kwargs):
+        self.form = forms.add_goods_questions()
+
+        return super(AddGood, self).dispatch(request, *args, **kwargs)
 
     def get(self, request, **kwargs):
-        return form_page(request, self.main_form)
+        return form_page(request, self.form)
 
     def post(self, request):
         data = request.POST.copy()
@@ -123,7 +129,7 @@ class AddGood(TemplateView):
 
         if 'errors' in validated_data:
             if validated_data['errors']:
-                return form_page(request, self.main_form, data=data, errors=validated_data.get('errors'))
+                return form_page(request, self.form, data=data, errors=validated_data.get('errors'))
 
         return redirect(reverse_lazy('goods:attach_documents', kwargs={'pk': validated_data['good']['id']}))
 

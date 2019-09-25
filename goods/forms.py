@@ -1,4 +1,5 @@
 from django.urls import reverse, reverse_lazy
+from lite_forms.common import country_question, control_list_entry_question
 from lite_forms.components import Form, TextArea, RadioButtons, Option, BackLink, FileUpload, TextInput, HTMLBlock, \
     HiddenField, Button
 from lite_forms.generators import confirm_form
@@ -6,46 +7,52 @@ from lite_forms.styles import ButtonStyle
 
 from conf.settings import env
 from core.builtins.custom_tags import get_string
+from core.services import get_control_list_entries
 from goods.helpers import good_summary
 
-add_goods_questions = Form(title='Add Good', description='', caption='', questions=[
-    TextArea(title='Description of good',
-             description='This can make it easier to find your good later',
-             name='description',
-             extras={
-                 'max_length': 280,
-             }),
-    RadioButtons(title='Is your good controlled?',
-                 description='If you don\'t know you can use <a class="govuk-link" href="' + env(
-                     'PERMISSIONS_FINDER_URL') + '">Permissions Finder</a>.',
-                 name='is_good_controlled',
-                 options=[
-                     Option(key='yes',
-                            value='Yes',
-                            show_pane='pane_control_code'),
-                     Option(key='no',
-                            value='No'),
-                     Option(key='unsure',
-                            value='I don\'t know')
-                 ],
-                 classes=['govuk-radios--inline']),
-    TextInput(title='What\'s your good\'s control list entry?',
-              description='<noscript>If your good is controlled, enter its control list entry. </noscript>For example, ML1a.',
-              name='control_code'),
-    RadioButtons(title='Is your good intended to be incorporated into an end product?',
-                 description='',
-                 name='is_good_end_product',
-                 options=[
-                     Option(key='no',
-                            value='Yes'),
-                     Option(key='yes',
-                            value='No')
-                 ],
-                 classes=['govuk-radios--inline']),
-    TextInput(title='Part Number',
-              name='part_number',
-              optional=True),
-])
+
+def add_goods_questions():
+    return Form(title='Add Good',
+                questions=[
+                    TextArea(title='Description of good',
+                             description='This can make it easier to find your good later',
+                             name='description',
+                             extras={
+                                 'max_length': 280,
+                             }),
+                    RadioButtons(title='Is your good controlled?',
+                                 description='If you don\'t know you can use <a class="govuk-link" href="' + env(
+                                     'PERMISSIONS_FINDER_URL') + '">Permissions Finder</a>.',
+                                 name='is_good_controlled',
+                                 options=[
+                                     Option(key='yes',
+                                            value='Yes',
+                                            show_pane='pane_control_code'),
+                                     Option(key='no',
+                                            value='No'),
+                                     Option(key='unsure',
+                                            value='I don\'t know')
+                                 ],
+                                 classes=['govuk-radios--inline']),
+                    control_list_entry_question(control_list_entries=get_control_list_entries(None, convert_to_options=True),
+                                                title='What\'s your good\'s control list entry?',
+                                                description='<noscript>If your good is controlled, enter its control list entry. </noscript>For example, ML1a.',
+                                                name='control_code',
+                                                inset_text=False),
+                    RadioButtons(title='Is your good intended to be incorporated into an end product?',
+                                 description='',
+                                 name='is_good_end_product',
+                                 options=[
+                                     Option(key='no',
+                                            value='Yes'),
+                                     Option(key='yes',
+                                            value='No')
+                                 ],
+                                 classes=['govuk-radios--inline']),
+                    TextInput(title='Part Number',
+                              name='part_number',
+                              optional=True),
+                ])
 
 
 def are_you_sure(good_id):
@@ -170,5 +177,6 @@ def delete_good_form(good):
                 buttons=[
                     Button(value='Yes, delete the good', action='submit', style=ButtonStyle.WARNING),
                     Button(value='Cancel', action='', style=ButtonStyle.SECONDARY, link=reverse_lazy('goods:edit',
-                                                                                                     kwargs={'pk': good['id']}))
+                                                                                                     kwargs={'pk': good[
+                                                                                                         'id']}))
                 ])
