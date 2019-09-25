@@ -55,9 +55,14 @@ class DraftAddGoodsType(TemplateView):
 
 
 class GoodsTypeCountries(TemplateView):
-    def get(self, request, pk):
-        goods, _ = get_draft_goods_type(request, str(pk))
-        countries, _ = get_draft_countries(request, str(pk))
+    context = None
+
+    def dispatch(self, request, *args, **kwargs):
+        return super(GoodsTypeCountries, self).dispatch(request, *args, **kwargs)
+
+    def get(self, request, *args, **kwargs):
+        goods, _ = get_draft_goods_type(request, str(kwargs['pk']))
+        countries, _ = get_draft_countries(request, str(kwargs['pk']))
 
         context = {
             'countries': countries,
@@ -67,5 +72,26 @@ class GoodsTypeCountries(TemplateView):
         return render(request, 'apply_for_a_licence/goodstype/countries.html', context)
 
     def post(self, request, **kwargs):
-        data = request.POST
-        post_goods_type_countries(request, data)
+        data = request.POST.copy()
+
+        goods, _ = get_draft_goods_type(request, str(kwargs['pk']))
+        post_data = {}
+
+        for country in data:
+            split_data = country.split('.')
+            if str(split_data[0]) not in str(post_data):
+                post_data[split_data[0]] = []
+            post_data[split_data[0]].append(split_data[-1])
+
+        post_goods_type_countries(request, post_data)
+
+        countries, _ = get_draft_countries(request, str(kwargs['pk']))
+
+        context = {
+            'countries': countries,
+            'goods': goods,
+            'description': "hello"
+        }
+
+        return render(request, 'apply_for_a_licence/goodstype/countries.html', context)
+

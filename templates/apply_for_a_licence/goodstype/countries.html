@@ -2,54 +2,41 @@
 
 
 {% block body %}
-    {% for good in goods.goods %}
-        good: {{ good.description }} : {{ good.id }} : {{ good.countries }}
-{#        {{ good }}#}
-        <br>
-    {% endfor %}
-
-        {% for country in countries.countries %}
-        country: {{ country }}
-        <br>
-    {% endfor %}
 
     <div>
-        <h1>Header stuff</h1>
+        <span class="govuk-heading-l">Header stuff</span>
     </div>
 
     <form method="post">
-    {% csrf_token %}
-        <table>
-        <tr>
-            <th>Goods Code</th>
-            <th>Description</th>
-            <th>Going to</th>
-        </tr>
-
-        {% for good in goods.goods %}
-            <tr>
-                <td>{{ good.control_code|default:'N/A' }} </td>
-                <td>{{ good.description }} </td>
-                <td>
-                    {% for country in countries.countries %}
-                        country: {{ country }}
-                        <br>
+        {% csrf_token %}
+        <div class="lite-table">
+            <table class="lite-table__body">
+                <thead>
+                    <tr class="lite-table__row">
+                        <th class="lite-table__header" scope="col">Control Rating</th>
+                        <th class="lite-table__header" scope="col">Description</th>
+                        <th class="lite-table__header" scope="col">Going to</th>
+                    </tr>
+                </thead>
+                {% for good in goods.goods %}
+                    <tr class="lite-table__row">
+                        <td class="lite-table__cell">{{ good.control_code|default:'N/A' }}</td>
+                        <td class="lite-table__cell">{{ good.description }}</td>
                         <td class="lite-table__cell">
-						<div class="govuk-checkboxes govuk-checkboxes--small">
-							<div class="govuk-checkboxes__item">
-								<input class="govuk-checkboxes__input" type="checkbox" name="{{good.id}}.countries" id="{{ country.id }}" value="{{ country.id }}">
-								<label class="govuk-label govuk-checkboxes__label" for="{{ country.id }}">
-									<input class="govuk-checkboxes__input" type="checkbox" name="countries" value="{{ country.id }}" id="{{ country.id }}">
-									<label class="govuk-label govuk-checkboxes__label" for="{{ country.id }}">{{ country.name }} <span class="app-country-tag">{{ country.id }}</span>
-								</label>
-							</div>
-						</div>
-					</td>
-                    {% endfor %}
-                </td>
-            </tr>
-        {% endfor %}
-        </table>
+                            {% for country in countries.countries %}
+                                <div class="govuk-checkboxes govuk-checkboxes--small" style="padding-bottom: 50px">
+                                    <div class="govuk-checkboxes__item">
+                                        <input class="govuk-checkboxes__input" type="checkbox" name="{{ good.id }}.{{ country.id }}" id="{{ good.id }}.{{ country.id }}" value="{{ country.id }}">
+                                        <label class="govuk-label govuk-checkboxes__label" for="{{ good.id }}.{{ country.id }}">{{ country.name }} <span class="app-country-tag">{{ country.id }}</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
         <button id="button-give-advice" type="submit" class="govuk-button" data-module="govuk-button">
             Submit
         </button>
