@@ -1,4 +1,4 @@
-from lite_forms.components import TextArea, RadioButtons, Option, Form, TextInput, HiddenField
+from lite_forms.components import TextArea, RadioButtons, Option, Form, TextInput
 
 form = Form(title='Add a description', questions=[
     TextArea(title='Give a short description of your goods.',
