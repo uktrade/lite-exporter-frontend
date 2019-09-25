@@ -14,7 +14,6 @@ from fixtures.internal_case_note import internal_case_note # noqa
 from fixtures.urls import exporter_url, api_url # noqa
 
 import helpers.helpers as utils
-from helpers import helpers
 from pages.add_goods_page import AddGoodPage
 from pages.add_new_external_location_form_page import AddNewExternalLocationFormPage
 from pages.application_overview_page import ApplicationOverviewPage
@@ -97,7 +96,7 @@ def go_to_exporter(driver, register_organisation, sso_sign_in, exporter_url, con
         Shared(driver).click_continue()
     elif Shared(driver).get_text_of_heading() != context.org_name:
         Hub(driver).click_switch_link()
-        no = helpers.get_element_index_by_text(Shared(driver).get_radio_buttons_elements(), context.org_name)
+        no = utils.get_element_index_by_text(Shared(driver).get_radio_buttons_elements(), context.org_name)
         Shared(driver).click_on_radio_buttons(no)
         Shared(driver).click_continue()
 
