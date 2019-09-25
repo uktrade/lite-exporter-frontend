@@ -18,14 +18,15 @@ class SeedData:
     logging = True
     case_note_text = 'I Am Easy to Find'
     ecju_query_text = 'This is a question, please answer'
-    first_name = 'Trinity'
-    last_name = 'Fishburne'
+    first_name = 'Test'
+    last_name = 'Lite'
     good_end_product_true = 'Hot Cross Buns'
     good_end_product_false = 'Falafels'
 
     request_data = {
         'organisation': {
             'name': org_name,
+            'sub_type': 'commercial',
             'eori_number': '1234567890AAA',
             'sic_number': '2345',
             'vat_number': 'GB1234567',
@@ -48,6 +49,7 @@ class SeedData:
         },
         'organisation_for_switching_organisations': {
             'name': org_name_for_switching_organisations,
+            'sub_type': 'commercial',
             'eori_number': '1234567890AAA',
             'sic_number': '2345',
             'vat_number': 'GB1234567',

@@ -42,6 +42,8 @@ def pytest_addoption(parser):
     elif env == 'dev2':
         parser.addoption("--exporter_url", action="store", default="https://exporter2.lite.service.dev.uktrade.io/", help="url")
         parser.addoption("--lite_api_url", action="store", default="https://lite-api2-dev.london.cloudapps.digital/", help="url")
+    elif env == 'demo':
+        raise Exception("This is the demo environment - Try another environment instead")
     else:
         parser.addoption("--exporter_url", action="store", default="https://exporter.lite.service." + env + ".uktrade.io/", help="url")
         parser.addoption("--lite_api_url", action="store", default="https://lite-api-" + env + ".london.cloudapps.digital/", help="url")
@@ -88,11 +90,13 @@ def last_name(request):
 @given('I go to exporter homepage and choose Test Org') # noqa
 def go_to_exporter(driver, register_organisation, sso_sign_in, exporter_url, context):
     if 'pick-organisation' in driver.current_url:
-        Shared(driver).click_on_radio_buttons(0)
+        no = utils.get_element_index_by_text(Shared(driver).get_radio_buttons_elements(), context.org_name)
+        Shared(driver).click_on_radio_buttons(no)
         Shared(driver).click_continue()
     elif Shared(driver).get_text_of_heading() != context.org_name:
         Hub(driver).click_switch_link()
-        Shared(driver).click_on_radio_buttons(0)
+        no = utils.get_element_index_by_text(Shared(driver).get_radio_buttons_elements(), context.org_name)
+        Shared(driver).click_on_radio_buttons(no)
         Shared(driver).click_continue()
 
 
@@ -334,7 +338,7 @@ def application_is_submitted(driver, context):
     element_number = utils.get_element_index_by_text(elements, context.app_time_id)
     element_row = elements[element_number].text
     assert "Submitted" in element_row
-    assert utils.split_and_replace_date_time(context.time_date_submitted) in utils.replace_pm_am_datetime(element_row)
+    assert utils.search_for_correct_date_regex_in_element(element_row)
     assert "0 Goods" or "1 Good" or "2 Goods" in element_row
     assert driver.find_element_by_xpath("// th[text()[contains(., 'Status')]]").is_displayed()
     assert driver.find_element_by_xpath("// th[text()[contains(., 'Last updated')]]").is_displayed()
@@ -354,7 +358,7 @@ def i_see_the_application_overview(driver, context):
     assert context.ref in element
 
     # This can break if the minute changes between the five lines of code
-    assert utils.replace_pm_am_datetime(datetime.datetime.now().strftime("%M%p %d %B %Y").lower()) in utils.replace_pm_am_datetime(element.lower())
+    assert utils.search_for_correct_date_regex_in_element(element)
 
     app_id = driver.current_url[-36:]
     context.app_id = app_id
