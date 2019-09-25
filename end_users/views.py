@@ -150,11 +150,9 @@ class EndUserDetail(TemplateView):
 
         return render(request, 'end_users/end_user.html', context)
 
-    def post(self, request, **kwargs):
+    def post(self, request):
         if self.view_type != 'case-notes':
             return Http404
-
-        good_id = kwargs['pk']
 
         response, _ = post_application_case_notes(request, self.case_id, request.POST)
 
