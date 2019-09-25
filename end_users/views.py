@@ -34,7 +34,6 @@ class CopyAdvisory(TemplateView):
     data = None
 
     def dispatch(self, request, *args, **kwargs):
-        self.forms = copy_end_user_advisory_form()
         query, _ = get_end_user_advisory(request, str(kwargs['pk']))
 
         self.data = {
