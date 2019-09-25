@@ -1,4 +1,7 @@
+from lite_forms.common import control_list_entry_question
 from lite_forms.components import TextArea, RadioButtons, Option, Form, TextInput
+
+from core.services import get_control_list_entries
 
 form = Form(title='Add a description', questions=[
     TextArea(title='Give a short description of your goods.',
@@ -18,9 +21,11 @@ form = Form(title='Add a description', questions=[
                             value='No')
                  ],
                  classes=['govuk-radios--inline']),
-    TextInput(title='What\'s your good\'s control list entry?',
-              description='<noscript>If your good is controlled, enter its control list entry. </noscript>For example, ML1a.',
-              name='control_code'),
+    control_list_entry_question(control_list_entries=get_control_list_entries(None, convert_to_options=True),
+                                title='What\'s your good\'s control list entry?',
+                                description='For example, ML1a.',
+                                name='control_code',
+                                inset_text=False),
     RadioButtons(title='Is your good intended to be incorporated into an end product?',
                  description='',
                  name='is_good_end_product',
