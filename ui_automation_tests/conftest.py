@@ -2,7 +2,6 @@ import datetime
 import os
 import pytest
 from pytest_bdd import given, when, then, parsers
-from selenium.webdriver.common.by import By
 
 from fixtures.core import context, driver, invalid_username, exporter_sso_login_info, s3_key # noqa
 from fixtures.register_organisation import register_organisation, register_organisation_for_switching_organisation # noqa
