@@ -28,7 +28,7 @@ Feature: I want to raise an End User advisory enquiry to check if a particular e
 
   @LT_1474_case_notes
   Scenario: can view gov users case note, and can submit own case note
-    Given an end user advisory with a case note has been added via gov user
+    Given An end user advisory with a case note has been added via gov user
     And I go to exporter homepage and choose Test Org
     When I click on end user advisories
     Then I see a notification on end user advisory list
@@ -38,8 +38,9 @@ Feature: I want to raise an End User advisory enquiry to check if a particular e
     Then I can view "This is my new case note" in case notes
 
   @LT_1474_ecju_queries
+    @MSTG
   Scenario: can view and respond to ecju queries
-    Given an end user advisory with an ecju query has been added via gov user
+    Given An end user advisory with an ecju query has been added via gov user
     And I go to exporter homepage and choose Test Org
     When I click on end user advisories
     Then I see a notification on end user advisory list

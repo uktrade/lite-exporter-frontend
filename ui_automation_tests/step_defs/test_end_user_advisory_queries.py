@@ -15,12 +15,12 @@ scenarios('../features/end_user_advisory_queries.feature', strict_gherkin=False)
 
 
 @given('An end user advisory with a case note has been added via gov user')
-def end_user_advisory_exists_case_note_added(driver, add_end_user_advisory, internal_case_note, context):
+def end_user_advisory_exists_case_note_added(driver, add_end_user_advisory, internal_case_note_end_user_advisory, context):
     pass
 
 
 @given('An end user advisory with an ecju query has been added via gov user')
-def end_user_advisory_exists_ecju_query_added(driver, add_end_user_advisory, internal_ecju_query, context):
+def end_user_advisory_exists_ecju_query_added(driver, add_end_user_advisory, internal_ecju_query_end_user_advisory, context):
     pass
 
 
@@ -112,7 +112,7 @@ def notification_on_end_user_advisory_list(driver, context):
 @then('I see a notification for case note and can view the case note')
 def notification_on_notes_tab(driver):
     enduseradvisorypage = EndUserAdvisoryPage(driver)
-    assert enduseradvisorypage.case_note_notification_bubble_text() == 1
+    assert '1' in enduseradvisorypage.case_note_notification_bubble_text()
     assert SeedData.case_note_text in enduseradvisorypage.latest_case_note_text()
 
 
@@ -149,8 +149,8 @@ def respond_to_query(driver, response):
 
 @when(parsers.parse('I select "{value}" for submitting response and click submit'))
 def submit_response_confirmation(driver, value):
-    driver.find_element_by_xpath('//input[@value="' + value + '"]').click()
-    driver.find_element_by_xpath('//button[@type="submit"]').click()
+    driver.find_element_by_id('confirm_response-' + value).click()
+    driver.find_element_by_css_selector('.govuk-button').click()
 
 
 @then('I see my ecju query is closed')

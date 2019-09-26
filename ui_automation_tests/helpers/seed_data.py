@@ -248,7 +248,7 @@ class SeedData:
         id = json.loads(response.text)['end_user_advisory']['id']
         self.add_to_context('end_user_advisory_id', str(id))
         response = self.make_request("GET", url='/queries/end-user-advisories/' + str(id) + '/', headers=self.export_headers)
-        self.add_to_context('case_id', json.loads(response.text)['case_id'])
+        self.add_to_context('end_user_advisory_case_id', json.loads(response.text)['case_id'])
 
     def find_good_by_name(self, good_name):
         response = self.make_request('GET', url='/goods/', headers=self.export_headers)
@@ -283,11 +283,11 @@ class SeedData:
         organisation = json.loads(response.text)['organisation']
         return organisation
 
-    def add_case_note(self, context):
+    def add_case_note(self, context, case_id):
         self.log('Creating case note: ...')
         data = self.request_data['case_note']
         context.text = self.case_note_text
-        _ = self.make_request("POST", url='/cases/' + context.case_id + '/case-notes/', headers=self.gov_headers, body=data) # noqa
+        _ = self.make_request("POST", url='/cases/' + case_id + '/case-notes/', headers=self.gov_headers, body=data) # noqa
 
     def add_ecju_query(self, case_id):
         self.log("Creating ecju query: ...")

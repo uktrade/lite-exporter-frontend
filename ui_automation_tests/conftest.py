@@ -10,9 +10,9 @@ from fixtures.add_goods import add_an_incorporated_good_to_application, add_a_no
 from fixtures.add_an_application import add_an_application  # noqa
 from fixtures.add_clc_query import add_clc_query  # noqa
 from fixtures.add_end_user_advisory import add_end_user_advisory  # noqa
-from fixtures.internal_ecju_query import internal_ecju_query  # noqa
+from fixtures.internal_ecju_query import internal_ecju_query, internal_ecju_query_end_user_advisory  # noqa
 from fixtures.sso_sign_in import sso_sign_in  # noqa
-from fixtures.internal_case_note import internal_case_note  # noqa
+from fixtures.internal_case_note import internal_case_note, internal_case_note_end_user_advisory  # noqa
 from fixtures.urls import exporter_url, api_url  # noqa
 
 import helpers.helpers as utils
