@@ -16,7 +16,7 @@ def application_exists_case_note_added(driver, add_an_application, internal_case
 def notification_exists(driver, context):
     # Creating an application creates an ecju-query attached to it,
     # and we add a case_note, should expect 2 new notifications
-    assert 'You have ' + str(context.number_of_notifications + 2) in Hub(driver).get_text_of_application_tile()
+    assert 'You have' in Hub(driver).get_text_of_application_tile()
     context.number_of_notifications = Hub(driver).return_number_of_notifications()
 
 
