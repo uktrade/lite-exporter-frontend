@@ -8,18 +8,23 @@
 {% block body %}
 
     <div>
-        <span class="govuk-heading-l">Header stuff</span>
+        <span class="govuk-heading-l">Explain where each item is going (Optional)</span>
     </div>
+
+    <p class="govuk-caption-m">
+        <a class="govuk-link" href="{% url 'apply_for_a_licence:overview' draft_id %}">
+            Skip this section
+        </a> if you are sending every item to every country</p>
 
     <form method="post">
 
 
-        <button id="button-give-advice" type="submit" name="action" value="select_all" class="govuk-button" data-module="govuk-button">
+        <a id="button-give-advice" value="select_all" class="govuk-link" data-module="govuk-button">
                 Select all
-        </button>
-        <button id="button-give-advice" type="submit" name="action" value="deselect_all" class="govuk-button" data-module="govuk-button">
+        </a>
+        <a id="button-give-advice" value="deselect_all" class="govuk-link" data-module="govuk-button">
                 Deselect all
-        </button>
+        </a>
 
         {% csrf_token %}
         <div class="lite-table">
@@ -56,4 +61,3 @@
     </form>
 
 {% endblock %}
-
