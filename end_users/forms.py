@@ -2,20 +2,21 @@ from django.urls import reverse_lazy
 from lite_forms.common import country_question
 from lite_forms.components import RadioButtons, Form, Option, TextArea, TextInput, FormGroup, HiddenField, HTMLBlock
 from lite_forms.generators import success_page
+from lite_forms.helpers import conditional
 
 from core.builtins.custom_tags import reference_code
 from core.services import get_countries
 
 
-def apply_for_an_end_user_advisory_form():
+def apply_for_an_end_user_advisory_form(individual, commercial):
     return FormGroup([
         Form(title='Confirm how your goods will be used',
              questions=[
                  HTMLBlock(
                      '<ul class="govuk-list govuk-list--bullet">'
-                     '<li class="govuk-!-margin-bottom-5">I have checked the <a class="govuk-link" href="https://scsanctions.un.org/fop/fop?xml=htdocs/resources/xml/en/consolidated.xml&xslt=htdocs/resources/xsl/en/consolidated.xsl">UN Security Council Committee’s list</a> and my goods will not be used by anyone named on this list</li>'
-                     '<li class="govuk-!-margin-bottom-5">I have checked the <a class="govuk-link" href="https://permissions-finder.service.trade.gov.uk/">Department for International Trade’s list of controlled goods</a> and my goods are not controlled</li>'
-                     '<li class="govuk-!-margin-bottom-5">I have not been previously informed by the Export Control Joint Unit that my goods could be used to make chemical, biological or nuclear weapons</li>'
+                     '<li class="govuk-!-margin-bottom-5">I have checked the <a class="govuk-link" href="https://scsanctions.un.org/fop/fop?xml=htdocs/resources/xml/en/consolidated.xml&xslt=htdocs/resources/xsl/en/consolidated.xsl">UN Security Council Committee’s list</a> and my goods will not be used by anyone named on this list</li>' # noqa
+                     '<li class="govuk-!-margin-bottom-5">I have checked the <a class="govuk-link" href="https://permissions-finder.service.trade.gov.uk/">Department for International Trade’s list of controlled goods</a> and my goods are not controlled</li>' # noqa
+                     '<li class="govuk-!-margin-bottom-5">I have not been previously informed by the Export Control Joint Unit that my goods could be used to make chemical, biological or nuclear weapons</li>' # noqa
                      '<li>I do not have any reason to suspect that my goods could be used to make chemical, biological or nuclear weapons</li>'
                      '</ul>'
                  ),
@@ -36,7 +37,21 @@ def apply_for_an_end_user_advisory_form():
         Form(title='Tell us more about this recipient',
              questions=[
                  TextInput(title='What\'s the end user\'s name?',
-                           name='end_user.name'),
+                             name='end_user.name'),
+                 conditional(individual, TextInput(title='What\'s the end user\'s email address?',
+                           name='contact_email')),
+                 conditional(individual, TextInput(title='What\'s the end user\'s telephone number?',
+                           name='contact_telephone')),
+                 conditional(commercial, TextInput(title='What\'s the nature of the end user\'s business?',
+                           name='nature_of_business')),
+                 conditional(not individual, TextInput(title='What\'s the primary contact\'s name?',
+                           name='contact_name')),
+                 conditional(not individual, TextInput(title='What\'s the primary contact\'s job title?',
+                           name='contact_job_title')),
+                 conditional(not individual, TextInput(title='What\'s the primary contact\'s email address?',
+                           name='contact_email')),
+                 conditional(not individual, TextInput(title='What\'s the primary contact\'s telephone number?',
+                           name='contact_telephone')),
                  TextInput(title='Enter the end user\'s web address?',
                            name='end_user.website',
                            optional=True),
@@ -65,17 +80,31 @@ def apply_for_an_end_user_advisory_form():
                               'max_length': 2000,
                           }),
                  HiddenField('validate_only', False),
-             ],
-             default_button_name='Submit'),
-    ], show_progress_indicators=True)
+             ])
+        ],
+        show_progress_indicators=True)
 
 
-def copy_end_user_advisory_form():
+def copy_end_user_advisory_form(individual, commercial):
     return FormGroup([
         Form(title='Tell us more about this recipient',
              questions=[
                  TextInput(title='What\'s the end user\'s name?',
                            name='end_user.name'),
+                 conditional(individual, TextInput(title='What\'s the end user\'s email address?',
+                                                   name='contact_email')),
+                 conditional(individual, TextInput(title='What\'s the end user\'s telephone number?',
+                                                   name='contact_telephone')),
+                 conditional(commercial, TextInput(title='What\'s the nature of the end user\'s business?',
+                                                   name='nature_of_business')),
+                 conditional(not individual, TextInput(title='What\'s the primary contact\'s name?',
+                                                       name='contact_name')),
+                 conditional(not individual, TextInput(title='What\'s the primary contact\'s job title?',
+                                                       name='contact_job_title')),
+                 conditional(not individual, TextInput(title='What\'s the primary contact\'s email address?',
+                                                       name='contact_email')),
+                 conditional(not individual, TextInput(title='What\'s the primary contact\'s telephone number?',
+                                                       name='contact_telephone')),
                  TextInput(title='Enter the end user\'s web address?',
                            name='end_user.website',
                            optional=True),
@@ -104,9 +133,8 @@ def copy_end_user_advisory_form():
                               'max_length': 2000,
                           }),
                  HiddenField('validate_only', False),
-             ],
-             default_button_name='Submit'),
-    ], show_progress_indicators=True)
+             ]),
+    ])
 
 
 def end_user_advisory_success_page(request, query_reference):

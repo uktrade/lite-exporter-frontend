@@ -10,8 +10,11 @@ from users.services import post_users, update_user, get_user
 
 class Users(TemplateView):
     def get(self, request, **kwargs):
-        users, status_code = get_organisation_users(request, str(request.user.organisation))
+        users, _ = get_organisation_users(request, str(request.user.organisation))
         organisation, _ = get_organisation(request, str(request.user.organisation))
+
+        if organisation['sub_type']['key'] == 'individual':
+            raise Http404
 
         context = {
             'title': 'Users - ' + organisation['name'],
@@ -63,7 +66,7 @@ class ViewProfile(TemplateView):
 
 class EditUser(TemplateView):
     def get(self, request, **kwargs):
-        data, status_code = get_user(request, str(kwargs['pk']))
+        data, _ = get_user(request, str(kwargs['pk']))
         context = {
             'data': data.get('user'),
             'title': 'Edit User',
