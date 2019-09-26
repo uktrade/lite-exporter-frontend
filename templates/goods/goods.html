@@ -15,6 +15,9 @@
 					Goods
 				{% endblock %}
 			</h2>
+			<p class="govuk-caption-m">
+				Your organisation has {{ goods|length }} goods
+			</p>
 		</div>
 		<div class="lite-app-bar__controls">
 			<a href="{% url 'goods:add' %}" id="add-a-good" class="govuk-button" draggable="false" role="button">
@@ -28,7 +31,7 @@
 			<thead class="govuk-table__head">
 				<tr class="govuk-table__row">
 					<th class="govuk-table__header" scope="col">Description</th>
-					<th class="govuk-table__header" scope="col">Control list entry</th>
+					<th class="govuk-table__header" scope="col" style="min-width: 150px">Control list entry</th>
 					<th class="govuk-table__header" scope="col">Part number</th>
 					<th class="govuk-table__header" scope="col">Status</th>
 				</tr>
