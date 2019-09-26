@@ -8,7 +8,7 @@ from helpers.utils import Timer, get_lite_client
 @fixture(scope='module')
 def add_an_application(driver, request, api_url, exporter_url, context):
     timer = Timer()
-    lite_client = get_lite_client(context)
+    lite_client = get_lite_client(context, api_url)
 
     app_time_id = datetime.datetime.now().strftime(' %d%H%M%S')
     context.app_time_id = app_time_id
