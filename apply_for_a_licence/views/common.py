@@ -39,6 +39,13 @@ class InitialQuestions(TemplateView):
         return redirect(reverse_lazy('apply_for_a_licence:overview', kwargs={'pk': data['draft']['id']}))
 
 
+def check_all_parties_have_documents(parties):
+    for party in parties:
+        if not party['document']:
+            return False
+    return True
+
+
 class Overview(TemplateView):
     def get(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
@@ -79,9 +86,12 @@ class Overview(TemplateView):
             'external_locations': external_locations['external_locations'],
             'ultimate_end_users': ultimate_end_users['ultimate_end_users'],
             'ultimate_end_users_required': ultimate_end_users_required,
+            'ultimate_end_users_documents_complete': 
+                check_all_parties_have_documents(ultimate_end_users['ultimate_end_users']),
             'end_user_document': end_user_document,
             'consignee_document': consignee_document,
-            'third_parties': third_parties['third_parties']
+            'third_parties': third_parties['third_parties'],
+            'third_parties_documents_complete': check_all_parties_have_documents(third_parties['third_parties']),
         }
         return render(request, 'apply_for_a_licence/overview.html', context)
 
