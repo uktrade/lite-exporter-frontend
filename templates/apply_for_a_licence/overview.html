@@ -286,6 +286,10 @@
 			<div class="lite-tag lite-tag--small lite-tag--blue">
 				Done
 			</div>
+        {% elif draft.consignee %}
+            <div class="lite-tag lite-tag--small lite-tag--orange">
+				Started
+			</div>
 		{% else %}
 			<div class="lite-tag lite-tag--small">
 				Not Started
@@ -358,9 +362,13 @@
 			</a>
 		</div>
 
-		{% if draft.consignee %}
+		{% if draft.consignee and consignee_document %}
 			<div class="lite-tag lite-tag--small lite-tag--blue">
 				Done
+			</div>
+        {% elif draft.consignee %}
+            <div class="lite-tag lite-tag--small lite-tag--orange">
+				Started
 			</div>
 		{% else %}
 			<div class="lite-tag lite-tag--small">
