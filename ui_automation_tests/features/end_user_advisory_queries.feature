@@ -26,7 +26,7 @@ Feature: I want to raise an End User advisory enquiry to check if a particular e
     And I enter "reasoning" for my reason, and "these are notes" for notes and click submit
     Then I am given a confirmed submitted page, and am shown a 10 digit code
 
-  @LT_1474
+  @LT_1474_case_notes
   Scenario: can view gov users case note, and can submit own case note
     Given an end user advisory with a case note has been added via gov user
     And I go to exporter homepage and choose Test Org
@@ -37,7 +37,7 @@ Feature: I want to raise an End User advisory enquiry to check if a particular e
     When I enter "This is my new case note" for case note
     Then I can view "This is my new case note" in case notes
 
-  @LT_1474
+  @LT_1474_ecju_queries
   Scenario: can view and respond to ecju queries
     Given an end user advisory with an ecju query has been added via gov user
     And I go to exporter homepage and choose Test Org
@@ -45,7 +45,7 @@ Feature: I want to raise an End User advisory enquiry to check if a particular e
     Then I see a notification on end user advisory list
     When I open an end user advisory already created
     And I select to view ecju queries
-    When I click to respond to the ecju query
+    And I click to respond to the ecju query
     And I enter "This is my response" for ecju query and click submit
     And I select "yes" for submitting response and click submit
     Then I see my ecju query is closed

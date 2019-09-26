@@ -3,7 +3,7 @@ from helpers.seed_data import SeedData
 from helpers.utils import get_or_create_attr
 
 
-@fixture(scope="function")
+@fixture(scope="module")
 def add_end_user_advisory(driver, request, context, exporter_url, api_url):
     api = get_or_create_attr(context, 'api', lambda: SeedData(api_url=api_url, logging=False))
     api.add_eua_query()
