@@ -40,7 +40,6 @@ class Hub(TemplateView):
             sections[1].tiles.append(Tile('Manage my organisation', '', reverse_lazy('users:users')))
 
         context = {
-            'title': get_string('hub.title'),
             'organisation': organisation,
             'sections': sections,
             'application_deleted': request.GET.get('application_deleted'),

@@ -10,7 +10,11 @@
 
 	<div class="lite-app-bar">
 		<div class="lite-app-bar__content">
-			<h2 class="govuk-heading-l">{{ title }}</h2>
+			<h2 class="govuk-heading-l">
+				{% block title %}
+					Goods
+				{% endblock %}
+			</h2>
 		</div>
 		<div class="lite-app-bar__controls">
 			<a href="{% url 'goods:add' %}" id="add-a-good" class="govuk-button" draggable="false" role="button">

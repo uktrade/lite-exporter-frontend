@@ -28,7 +28,6 @@ class Goods(TemplateView):
 
         context = {
             'goods': goods,
-            'title': 'Manage Goods',
             'notifications': group_notifications(notifications),
         }
         return render(request, 'goods/goods.html', context)
@@ -64,7 +63,6 @@ class GoodsDetail(TemplateView):
                                         and x['object_type'] == 'ecju_query'])
 
         context = {
-            'title': 'Good',
             'good': self.good,
             'documents': documents,
             'type': self.view_type,
