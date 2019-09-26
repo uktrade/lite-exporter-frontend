@@ -1,5 +1,9 @@
 {% extends "layouts/base.html" %}
 
+{% block back_link %}
+    <a href="{% url 'apply_for_a_licence:overview' draft_id %}" class="govuk-back-link">Back to Application</a>
+{% endblock %}
+
 
 {% block body %}
 

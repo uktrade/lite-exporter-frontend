@@ -53,6 +53,13 @@ class Overview(TemplateView):
         ultimate_end_users, _ = get_ultimate_end_users(request, draft_id)
         third_parties, _ = get_third_parties(request, draft_id)
         end_user = draft.get('end_user')
+
+        countries_on_goods_types = False
+        for good in goodstypes['goods']:
+            print(good)
+            if good['countries']:
+                countries_on_goods_types = True
+
         if end_user:
             end_user_document, _ = get_end_user_document(request, draft_id)
             end_user_document = end_user_document.get('document')
@@ -81,7 +88,8 @@ class Overview(TemplateView):
             'ultimate_end_users_required': ultimate_end_users_required,
             'end_user_document': end_user_document,
             'consignee_document': consignee_document,
-            'third_parties': third_parties['third_parties']
+            'third_parties': third_parties['third_parties'],
+            'countries_on_goods_types': countries_on_goods_types
         }
         return render(request, 'apply_for_a_licence/overview.html', context)
 
