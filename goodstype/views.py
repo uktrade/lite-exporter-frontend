@@ -81,26 +81,15 @@ class GoodsTypeCountries(TemplateView):
 
         post_data = {}
 
-        if request.POST.get('action') == 'select_all':
-            for good in self.goods:
+        for good_country in data:
+            split_data = good_country.split('.')
+            if str(split_data[0]) not in str(post_data):
+                post_data[split_data[0]] = []
+            post_data[split_data[0]].append(split_data[-1])
+
+        for good in self.goods:
+            if good['id'] not in str(data):
                 post_data[good['id']] = []
-                for county in self.countries:
-                    post_data[good['id']].append(county['id'])
-
-        elif request.POST.get('action') == 'deselect_all':
-            for good in self.goods:
-                post_data[good['id']] = []
-
-        else:
-            for good_country in data:
-                split_data = good_country.split('.')
-                if str(split_data[0]) not in str(post_data):
-                    post_data[split_data[0]] = []
-                post_data[split_data[0]].append(split_data[-1])
-
-            for good in self.goods:
-                if good['id'] not in str(data):
-                    post_data[good['id']] = []
 
         post_goods_type_countries(request, post_data)
 
