@@ -1,7 +1,7 @@
 import logging
 
 from django.shortcuts import redirect
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
@@ -10,7 +10,6 @@ from s3chunkuploader.file_handler import S3FileUploadHandler
 
 from apply_for_a_licence.forms.end_user import attach_document_form, delete_document_confirmation_form
 from apply_for_a_licence.services import add_document_data, download_document_from_s3
-from conf.constants import STANDARD_LICENCE
 from core.builtins.custom_tags import get_string
 from drafts.services import get_draft, post_ultimate_end_user_document, post_end_user_document, \
     get_ultimate_end_user_document, get_end_user_document, delete_ultimate_end_user_document, delete_end_user_document, \
@@ -99,7 +98,7 @@ def get_delete_confirmation_page(path, pk):
 class AttachDocuments(TemplateView):
     def get(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
-        draft, status_code = get_draft(request, draft_id)
+        _, status_code = get_draft(request, draft_id)
         if status_code == 200:
             form = get_upload_page(request.path, draft_id)
             return form_page(request, form, extra_data={'draft_id': draft_id})
