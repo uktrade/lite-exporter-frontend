@@ -61,8 +61,10 @@ class GoodsTypeCountries(TemplateView):
 
     def dispatch(self, request, *args, **kwargs):
         self.draft_id = str(kwargs['pk'])
-        self.goods, _ = get_draft_goods_type(request, self.draft_id)
-        self.countries, _ = get_draft_countries(request, self.draft_id)
+        goods, _ = get_draft_goods_type(request, self.draft_id)
+        self.goods = goods['goods']
+        countries, _ = get_draft_countries(request, self.draft_id)
+        self.countries = countries['countries']
 
         return super(GoodsTypeCountries, self).dispatch(request, *args, **kwargs)
 
@@ -79,17 +81,26 @@ class GoodsTypeCountries(TemplateView):
 
         post_data = {}
 
-        for good_country in data:
-            split_data = good_country.split('.')
-            if str(split_data[0]) not in str(post_data):
-                post_data[split_data[0]] = []
-            post_data[split_data[0]].append(split_data[-1])
+        if request.POST.get('action') == 'select_all':
+            for good in self.goods:
+                post_data[good['id']] = []
+                for county in self.countries:
+                    post_data[good['id']].append(county['id'])
 
-        for good in self.goods['goods']:
-            if good['id'] not in str(data):
+        elif request.POST.get('action') == 'deselect_all':
+            for good in self.goods:
                 post_data[good['id']] = []
 
-        print(post_data)
+        else:
+            for good_country in data:
+                split_data = good_country.split('.')
+                if str(split_data[0]) not in str(post_data):
+                    post_data[split_data[0]] = []
+                post_data[split_data[0]].append(split_data[-1])
+
+            for good in self.goods:
+                if good['id'] not in str(data):
+                    post_data[good['id']] = []
 
         post_goods_type_countries(request, post_data)
 
@@ -97,7 +108,7 @@ class GoodsTypeCountries(TemplateView):
 
         context = {
             'countries': self.countries,
-            'goods': goods,
+            'goods': goods['goods'],
             'draft_id': self.draft_id,
         }
 

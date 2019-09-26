@@ -12,6 +12,15 @@
     </div>
 
     <form method="post">
+
+
+        <button id="button-give-advice" type="submit" name="action" value="select_all" class="govuk-button" data-module="govuk-button">
+                Select all
+        </button>
+        <button id="button-give-advice" type="submit" name="action" value="deselect_all" class="govuk-button" data-module="govuk-button">
+                Deselect all
+        </button>
+
         {% csrf_token %}
         <div class="lite-table">
             <table class="lite-table__body">
@@ -22,12 +31,12 @@
                         <th class="lite-table__header" scope="col">Going to</th>
                     </tr>
                 </thead>
-                {% for good in goods.goods %}
+                {% for good in goods %}
                     <tr class="lite-table__row">
                         <td class="lite-table__cell">{{ good.control_code|default:'N/A' }}</td>
                         <td class="lite-table__cell">{{ good.description }}</td>
                         <td class="lite-table__cell">
-                            {% for country in countries.countries %}
+                            {% for country in countries %}
                                 <div class="govuk-checkboxes govuk-checkboxes--small" style="padding-bottom: 50px">
                                     <div class="govuk-checkboxes__item">
                                         <input class="govuk-checkboxes__input" {% if country.id in good.countries %}checked{% endif %} type="checkbox" name="{{ good.id }}.{{ country.id }}" id="{{ good.id }}.{{ country.id }}" value="{{ country.id }}">
