@@ -1,9 +1,10 @@
 from pytest import fixture
-from helpers.seed_data import SeedData
-from helpers.utils import get_or_create_attr
+
+from helpers.utils import get_lite_client
 
 
 @fixture(scope='module')
-def internal_case_note(driver,  api_url, context):
-    api = get_or_create_attr(context, 'api', lambda: SeedData(api_url=api_url, logging=True))
-    api.add_case_note(context)
+def internal_case_note(context):
+    lite_client = get_lite_client(context)
+    lite_client.create_case_note()
+    context.text = lite_client.context['text']

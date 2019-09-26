@@ -160,17 +160,15 @@ class SeedData:
         }
     }
 
-    def __init__(self, api_url, logging=True):
+    def __init__(self, api_url):
         self.base_url = api_url.rstrip('/')
         self.auth_gov_user()
         self.setup_org()
         self.auth_export_user()
         self.add_good()
-        self.logging = logging
 
     def log(self, text):
-        if self.logging:
-            print(text)
+        print(text)
 
     def add_to_context(self, name, value):
         self.log(name + ': ' + value)
@@ -261,16 +259,16 @@ class SeedData:
         organisation = json.loads(response.text)['organisation']
         return organisation
 
-    def add_case_note(self, context):
+    def create_case_note(self):
         self.log('Creating case note: ...')
         data = self.request_data['case_note']
-        context.text = self.case_note_text
-        _ = self.make_request("POST", url='/cases/' + context.case_id + '/case-notes/', headers=self.gov_headers, body=data) # noqa
+        self.context['text'] = self.case_note_text
+        self.make_request("POST", url='/cases/' + self.context['case_id'] + '/case-notes/', headers=self.gov_headers, body=data)  # noqa
 
     def add_ecju_query(self, case_id):
         self.log("Creating ecju query: ...")
         data = self.request_data['ecju_query']
-        _ = self.make_request("POST", url='/cases/' + case_id + '/ecju-queries/', headers=self.gov_headers, body=data) # noqa
+        _ = self.make_request("POST", url='/cases/' + case_id + '/ecju-queries/', headers=self.gov_headers, body=data)  # noqa
 
     def find_org_by_name(self, org_name):
         response = self.make_request('GET', url='/organisations/')

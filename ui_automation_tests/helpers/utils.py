@@ -1,5 +1,8 @@
 import time
 
+from conf.settings import env
+from helpers.seed_data import SeedData
+
 
 class Timer:
     def __init__(self):
@@ -23,5 +26,12 @@ def get_or_create_attr(obj, attr: str, fn):
     setattr(obj, 'attr', fn) is equivalent to ``obj['attr'] = fn''
     """
     if not hasattr(obj, attr):
-        setattr(obj, attr, fn())
+        setattr(obj, attr, fn)
     return getattr(obj, attr)
+
+
+def get_lite_client(context):
+    """
+    Returns the existing LITE API client, or creates a new one
+    """
+    return get_or_create_attr(context, 'api', SeedData(api_url=env('LITE_API_URL')))

@@ -1,3 +1,5 @@
+import logging
+
 from pytest_bdd import scenarios, given, when, then
 
 from pages.hub_page import Hub
@@ -15,7 +17,7 @@ def application_exists_case_note_added(driver, add_an_application, internal_case
 @then('I can see a notification in application tile')
 def notification_exists(driver, context):
     # Creating an application creates an ecju-query attached to it, and we add a case_note, should expect 2 new notifications
-    assert "You have " + str(context.number_of_notifications + 2) in Hub(driver).get_text_of_application_tile()
+    assert 'You have ' + str(context.number_of_notifications + 2) in Hub(driver).get_text_of_application_tile()
     context.number_of_notifications = Hub(driver).return_number_of_notifications()
 
 
@@ -28,7 +30,7 @@ def click_on_application(driver, context):
 
 @then('I see a notification on application list')
 def notification_on_application_list(driver, context):
-    elements = driver.find_elements_by_css_selector(".govuk-table__row")
+    elements = driver.find_elements_by_css_selector('.govuk-table__row')
     no = helpers.get_element_index_by_partial_text(elements, context.app_name)
     assert elements[no].find_element_by_css_selector(Shared(driver).notification).is_displayed()
 
