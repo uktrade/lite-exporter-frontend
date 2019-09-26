@@ -36,7 +36,8 @@ def add_goods_questions():
                                  classes=['govuk-radios--inline']),
                     control_list_entry_question(control_list_entries=get_control_list_entries(None, convert_to_options=True),
                                                 title='What\'s your good\'s control list entry?',
-                                                description='<noscript>If your good is controlled, enter its control list entry. </noscript>For example, ML1a.',
+                                                description='<noscript>If your good is controlled, enter its '
+                                                            'control list entry. </noscript>For example, ML1a.',
                                                 name='control_code',
                                                 inset_text=False),
                     RadioButtons(title='Is your good intended to be incorporated into an end product?',

@@ -268,8 +268,7 @@ class SeedData:
     def add_ecju_query(self, case_id):
         self.log("Creating ecju query: ...")
         data = self.request_data['ecju_query']
-        _ = self.make_request("POST", url='/cases/' + case_id + '/ecju-queries/', headers=self.gov_headers,
-                              body=data)  # noqa
+        self.make_request("POST", url='/cases/' + case_id + '/ecju-queries/', headers=self.gov_headers, body=data)  # noqa
 
     def find_org_by_name(self, org_name):
         response = self.make_request('GET', url='/organisations/')
