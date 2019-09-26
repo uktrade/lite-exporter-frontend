@@ -3,7 +3,7 @@ from helpers.seed_data import SeedData
 from helpers.utils import Timer, get_or_create_attr
 
 
-@fixture(scope="session")
+@fixture(scope='session')
 def register_organisation(driver, request, api_url, exporter_sso_login_info, context):
     timer = Timer()
     api = get_or_create_attr(context, 'api', lambda: SeedData(api_url=api_url, logging=False))
@@ -14,7 +14,7 @@ def register_organisation(driver, request, api_url, exporter_sso_login_info, con
     timer.print_time('register_organisation')
 
 
-@fixture(scope="session")
+@fixture(scope='session')
 def register_organisation_for_switching_organisation(driver, request, api_url, exporter_sso_login_info, context):
     api = get_or_create_attr(context, 'api', lambda: SeedData(api_url=api_url, logging=False))
     api.setup_org_for_switching_organisations()
