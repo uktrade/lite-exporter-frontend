@@ -7,19 +7,22 @@ from pages.shared import Shared
 
 from core.builtins.custom_tags import reference_code
 from ui_automation_tests.helpers import helpers
+from ui_automation_tests.helpers.seed_data import SeedData
 from ui_automation_tests.pages.application_page import ApplicationPage
 from ui_automation_tests.pages.submitted_applications_page import SubmittedApplicationsPages
 
 scenarios('../features/end_user_advisory_queries.feature', strict_gherkin=False)
 
 
-@given('an end user advisory with a case note has been added via gov user')
+@given('An end user advisory with a case note has been added via gov user')
 def end_user_advisory_exists_case_note_added(driver, add_end_user_advisory, internal_case_note, context):
     pass
 
-@given('an end user advisory with an ecju query has been added via gov user')
+
+@given('An end user advisory with an ecju query has been added via gov user')
 def end_user_advisory_exists_ecju_query_added(driver, add_end_user_advisory, internal_ecju_query, context):
     pass
+
 
 @when('I select to create a new advisory')
 def apply_for_end_user_advisory(driver):
@@ -98,28 +101,24 @@ def enter_name(driver, name):
 
 @when('I open an end user advisory already created')
 def open_already_created_end_user_advisory(driver, context):
-    elements = driver.find_elements_by_css_selector(".govuk-table__row")
-    no = helpers.get_element_index_by_partial_text(elements, reference_code(context.end_user_advisory_id))
-    elements[no].find_elements_by_css_selector("a")[0].click()
+    EndUserAdvisoryPage(driver).open_advisory_by_reference_code(context.end_user_advisory_id)
 
 
 @then('I see a notification on end user advisory list')
 def notification_on_end_user_advisory_list(driver, context):
-    elements = driver.find_elements_by_css_selector(".govuk-table__row")
-    no = helpers.get_element_index_by_partial_text(elements, reference_code(context.end_user_advisory_id))
-    assert elements[no].find_element_by_css_selector(Shared(driver).notification).is_displayed()
+    assert EndUserAdvisoryPage(driver).confirm_advisory_displayed_by_reference_code(context.end_user_advisory_id)
 
 
 @then('I see a notification for case note and can view the case note')
 def notification_on_notes_tab(driver):
-    tab = driver.find_element_by_id('case-notes-tab')
-    assert tab.find_element_by_css_selector('.lite-notification-bubble').text == '1'
-    assert 'I Am Easy to Find' in driver.find_elements_by_css_selector(".lite-application-note")[0].text
+    enduseradvisorypage = EndUserAdvisoryPage(driver)
+    assert enduseradvisorypage.case_note_notification_bubble_text() == 1
+    assert SeedData.case_note_text in enduseradvisorypage.latest_case_note_text()
 
 
 @then(parsers.parse('I can view "{text}" in case notes'))
 def notification_on_notes_tab(driver, text):
-    assert text in driver.find_elements_by_css_selector(".lite-application-note")[0].text
+    assert text in EndUserAdvisoryPage(driver).latest_case_note_text()
 
 
 @when(parsers.parse('I enter "{text}" for case note'))
