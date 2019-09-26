@@ -16,7 +16,7 @@ from pages.shared import Shared
 def add_an_incorporated_good_to_application(driver, request, context, exporter_url, api_url):
     url = driver.current_url
     overview_page = ApplicationOverviewPage(driver)
-    lite_client = get_lite_client(context)
+    lite_client = get_lite_client(context, api_url)
     lite_client.add_good_end_product_false()
     context.goods_name = lite_client.context['goods_name']
     driver.get(url)
@@ -37,7 +37,7 @@ def add_an_incorporated_good_to_application(driver, request, context, exporter_u
 @fixture(scope="function")
 def add_a_non_incorporated_good_to_application(driver, context, request, exporter_url, api_url):
     url = driver.current_url
-    lite_client = get_lite_client(context)
+    lite_client = get_lite_client(context, api_url)
     lite_client.add_good_end_product_true()
     context.goods_name = lite_client.context['goods_name']
     driver.get(url)
