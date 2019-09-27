@@ -94,13 +94,4 @@ class GoodsTypeCountries(TemplateView):
 
         post_goods_type_countries(request, post_data)
 
-        goods, _ = get_draft_goods_type(request, str(kwargs['pk']))
-
-        context = {
-            'countries': self.countries,
-            'goods': goods['goods'],
-            'draft_id': self.draft_id,
-        }
-
-        return render(request, 'apply_for_a_licence/goodstype/countries.html', context)
-
+        return redirect(reverse_lazy('apply_for_a_licence:overview', kwargs={'pk': self.draft_id}))
