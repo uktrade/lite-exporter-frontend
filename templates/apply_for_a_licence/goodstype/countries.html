@@ -6,26 +6,15 @@
 
 {% block head %}
     <script>
+    function check_all2() {
+    }
+
         function check_all() {
-            var table  = document.getElementById('countries_table');
-            var checkboxes = table.getElementsByTagName('input');
-            checkboxes = [...checkboxes];
-            for (var i = 0; i < checkboxes.length; i++) {
-                if (checkboxes[i].type === "checkbox") {
-                  checkboxes[i].checked = true;
-                }
-            }
+            $('#countries_table').find('input:checkbox').prop('checked', true);
         }
 
         function un_check_all() {
-            var table  = document.getElementById('countries_table');
-            var checkboxes = table.getElementsByTagName('input');
-            checkboxes = [...checkboxes];
-            for (var i = 0; i < checkboxes.length; i++) {
-                if (checkboxes[i].type === "checkbox") {
-                    checkboxes[i].checked = false;
-                }
-            }
+            $('#countries_table').find('input:checkbox').prop('checked', false);
         }
     </script>
 {% endblock %}
@@ -44,10 +33,10 @@
 
     <form method="post">
 
-        <a id="button-give-advice" value="select_all" class="govuk-link" data-module="govuk-button" onClick="check_all()">
+        <a id="select_all" value="select_all" class="govuk-link" data-module="govuk-button"  onClick="check_all()">
                 Select all
         </a>
-        <a id="button-give-advice" value="deselect_all" class="govuk-link" data-module="govuk-button" onClick="un_check_all()">
+        <a id="deselect_all" value="deselect_all" class="govuk-link" data-module="govuk-button" onClick="un_check_all()">
                 Deselect all
         </a>
 
