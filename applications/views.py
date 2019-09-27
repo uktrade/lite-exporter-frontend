@@ -106,7 +106,8 @@ class RespondToQuery(TemplateView):
         ecju_query = get_ecju_query(request, str(kwargs['pk']), str(kwargs['query_pk']))
 
         if ecju_query['response']:
-            raise Http404
+            return redirect(reverse_lazy('applications:application-detail', kwargs={'pk': application_id,
+                                                                 'type': 'ecju-queries'}))
 
         return form_page(request, respond_to_query_form(application_id, ecju_query))
 
@@ -121,6 +122,10 @@ class RespondToQuery(TemplateView):
         ecju_query_id = str(kwargs['query_pk'])
 
         ecju_query = get_ecju_query(request, application_id, ecju_query_id)
+
+        if ecju_query['response']:
+            return redirect(reverse_lazy('applications:application-detail', kwargs={'pk': application_id,
+                                                                 'type': 'ecju-queries'}))
 
         if form_name == 'respond_to_query':
             # Post the form data to API for validation only
