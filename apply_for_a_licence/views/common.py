@@ -56,7 +56,6 @@ class Overview(TemplateView):
 
         countries_on_goods_types = False
         for good in goodstypes['goods']:
-            print(good)
             if good['countries']:
                 countries_on_goods_types = True
 
