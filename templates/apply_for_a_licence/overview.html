@@ -282,9 +282,13 @@
 			</a>
 		</div>
 
-		{% if draft.end_user %}
+		{% if draft.end_user and end_user_document %}
 			<div class="lite-tag lite-tag--small lite-tag--blue">
 				Done
+			</div>
+        {% elif draft.end_user %}
+            <div class="lite-tag lite-tag--small">
+				Started
 			</div>
 		{% else %}
 			<div class="lite-tag lite-tag--small">
@@ -302,7 +306,7 @@
 			<tbody class="govuk-table__body">
 				<tr class="govuk-table__row">
 					<th class="govuk-table__header" scope="row">Type</th>
-					<td class="govuk-table__cell">{{ draft.end_user.sub_type|title }}</td>
+					<td class="govuk-table__cell">{{ draft.end_user.sub_type.value|title }}</td>
 				</tr>
 				<tr class="govuk-table__row">
 					<th class="govuk-table__header" scope="row">Name</th>
@@ -358,9 +362,13 @@
 			</a>
 		</div>
 
-		{% if draft.consignee %}
+		{% if draft.consignee and consignee_document %}
 			<div class="lite-tag lite-tag--small lite-tag--blue">
 				Done
+			</div>
+        {% elif draft.consignee %}
+            <div class="lite-tag lite-tag--small">
+				Started
 			</div>
 		{% else %}
 			<div class="lite-tag lite-tag--small">
@@ -435,9 +443,13 @@
 			</a>
 		</div>
 
-		{% if ultimate_end_users %}
+		{% if ultimate_end_users and ultimate_end_users_documents_complete %}
 			<div class="lite-tag lite-tag--small lite-tag--blue">
 				Done
+			</div>
+        {% elif ultimate_end_users %}
+            <div class="lite-tag lite-tag--small">
+				Started
 			</div>
 		{% else %}
 			<div class="lite-tag lite-tag--small">
@@ -487,9 +499,13 @@
 				Third Parties (optional)
 			</a>
 		</div>
-		{% if third_parties %}
-			<div class="lite-tag lite-tag--small lite-tag--blue">
+        {% if third_parties and third_parties_documents_complete %}
+            <div class="lite-tag lite-tag--small lite-tag--blue">
 				Done
+			</div>
+		{% elif third_parties %}
+			<div class="lite-tag lite-tag--small">
+				Started
 			</div>
 		{% else %}
 			<div class="lite-tag lite-tag--small">
@@ -499,6 +515,8 @@
 	</div>
 	{% if errors|key_value:'third_parties' %}
 		<p class="govuk-error-message">{{ errors|key_value:'third_parties' }}</p>
+    {% elif errors|key_value:'third_parties_documents'%}
+        <p class="govuk-error-message">{{ errors|key_value:'third_parties_documents' }}</p>
 	{% endif %}
 	{% if third_parties %}
 		<table class="govuk-table">
@@ -528,6 +546,49 @@
 	{% endif %}
 </div>
 {% endif %}
+
+
+<div class="lite-section {% if errors|key_value:'additional_documents' %}govuk-form-group--error{% endif %}">
+	<div class="lite-section-header">
+		<div>
+			<a id="third_parties" href="{% url 'apply_for_a_licence:additional_documents' draft.id %}" class="lite-overview-section-header govuk-link govuk-link--no-visited-state">
+				Additional Documents (optional)
+			</a>
+		</div>
+		{% if additional_documents %}
+			<div class="lite-tag lite-tag--small lite-tag--blue">
+				Done
+			</div>
+		{% else %}
+			<div class="lite-tag lite-tag--small">
+				Not Started
+			</div>
+		{% endif %}
+	</div>
+	{% if errors|key_value:'additional_documents' %}
+		<p class="govuk-error-message">{{ errors|key_value:'additional_documents' }}</p>
+	{% endif %}
+	{% if additional_documents %}
+		<table class="govuk-table">
+			<thead class="govuk-table__head">
+				<tr class="govuk-table__row">
+					<th class="govuk-table__header" scope="col">Name</th>
+                    <th class="govuk-table__header" scope="col">Description</th>
+				</tr>
+			</thead>
+			<tbody class="govuk-table__body">
+				{% for additional_document in additional_documents %}
+					<tr class="govuk-table__row">
+						<td class="govuk-table__cell">{{ additional_document.name }}</td>
+                        <td class="govuk-table__cell">{{ additional_document.description }}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	{% else %}
+		<p class="govuk-caption-m">Add additional documents to your application</p>
+	{% endif %}
+</div>
 
 <div class="lite-submit-bar js-is-sticky">
 <div class="lite-vertical-align" style="display: inline-flex; float: right; height: 38px;">
