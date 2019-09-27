@@ -33,6 +33,7 @@ def delete_goods_type(request, pk):
     data = delete(request, GOODSTYPE_URL + pk)
     return data.json(), data.status_code
 
+
 def post_goods_type_countries(request, json):
     data = put(request, GOODSTYPE_COUNTRY_URL, json)
     return data.json(), data.status_code
