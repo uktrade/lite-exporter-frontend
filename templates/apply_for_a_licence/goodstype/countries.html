@@ -4,48 +4,44 @@
     <a href="{% url 'apply_for_a_licence:overview' draft_id %}" class="govuk-back-link">Back to Application</a>
 {% endblock %}
 
-
 {% block body %}
 
     <div>
         <span class="govuk-heading-l">Explain where each item is going (Optional)</span>
     </div>
 
-    <p class="govuk-caption-m">
-        <a class="govuk-link" href="{% url 'apply_for_a_licence:overview' draft_id %}">
-            Skip this section
-        </a> if you are sending every item to every country</p>
-
     <form method="post">
 
+        <a id="link-select-all" href="#" class="govuk-link govuk-body" onclick="return selectAll()" style="margin-right: 20px;">
+            Select all
+        </a>
 
-        <a id="button-give-advice" value="select_all" class="govuk-link" data-module="govuk-button">
-                Select all
+        <a id="link-deselect-all" href="#" class="govuk-link govuk-body" onclick="return deselectAll()">
+            Deselect all
         </a>
-        <a id="button-give-advice" value="deselect_all" class="govuk-link" data-module="govuk-button">
-                Deselect all
-        </a>
+
+        <br><br>
 
         {% csrf_token %}
-        <div class="lite-table">
-            <table class="lite-table__body">
-                <thead>
-                    <tr class="lite-table__row">
-                        <th class="lite-table__header" scope="col">Control Rating</th>
-                        <th class="lite-table__header" scope="col">Description</th>
-                        <th class="lite-table__header" scope="col">Going to</th>
+
+            <table class="govuk-table">
+                <thead class="govuk-table__head">
+                    <tr class="govuk-table__row">
+                        <th class="govuk-table__header" scope="col">Control Rating</th>
+                        <th class="govuk-table__header" scope="col">Description</th>
+                        <th class="govuk-table__header" scope="col">Going to</th>
                     </tr>
                 </thead>
                 {% for good in goods %}
-                    <tr class="lite-table__row">
-                        <td class="lite-table__cell">{{ good.control_code|default:'N/A' }}</td>
-                        <td class="lite-table__cell">{{ good.description }}</td>
-                        <td class="lite-table__cell">
+                    <tr class="govuk-table__row">
+                        <td class="govuk-table__cell">{{ good.control_code|default:'N/A' }}</td>
+                        <td class="govuk-table__cell">{{ good.description }}</td>
+                        <td class="govuk-table__cell">
                             {% for country in countries %}
                                 <div class="govuk-checkboxes govuk-checkboxes--small" style="padding-bottom: 50px">
                                     <div class="govuk-checkboxes__item">
                                         <input class="govuk-checkboxes__input" {% if country.id in good.countries %}checked{% endif %} type="checkbox" name="{{ good.id }}.{{ country.id }}" id="{{ good.id }}.{{ country.id }}" value="{{ country.id }}">
-                                        <label class="govuk-label govuk-checkboxes__label" for="{{ good.id }}.{{ country.id }}">{{ country.name }} <span class="app-country-tag">{{ country.id }}</span>
+                                        <label class="govuk-label govuk-checkboxes__label" for="{{ good.id }}.{{ country.id }}">{{ country.name }}
                                         </label>
                                     </div>
                                 </div>
@@ -54,10 +50,27 @@
                     </tr>
                 {% endfor %}
             </table>
-        </div>
         <button id="button-give-advice" type="submit" class="govuk-button" data-module="govuk-button">
             Submit
         </button>
+
+        <p class="govuk-caption-m">
+            <a class="govuk-link" href="{% url 'apply_for_a_licence:overview' draft_id %}">Skip this section</a> if you are sending every item to every country
+        </p>
+
     </form>
 
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        function selectAll() {
+            $("input").prop('checked', true);
+            return false;
+        }
+        function deselectAll() {
+            $("input").prop('checked', false);
+            return false;
+        }
+    </script>
 {% endblock %}

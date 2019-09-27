@@ -78,6 +78,7 @@ class GoodsTypeCountries(TemplateView):
 
     def post(self, request, **kwargs):
         data = request.POST.copy()
+        data.pop('csrfmiddlewaretoken')
 
         post_data = {}
 
@@ -85,7 +86,7 @@ class GoodsTypeCountries(TemplateView):
             split_data = good_country.split('.')
             if str(split_data[0]) not in str(post_data):
                 post_data[split_data[0]] = []
-            post_data[split_data[0]].append(split_data[-1])
+            post_data[split_data[0]].append(split_data[1])
 
         for good in self.goods:
             if good['id'] not in str(data):
