@@ -18,10 +18,14 @@ class GoodsCountriesPage:
         elements = self.driver.find_elements_by_css_selector(".govuk-checkboxes__input")
         for element in elements:
             if not element.is_selected():
-                element.click()
+                return False
+
+        return True
 
     def all_deselected(self):
         elements = self.driver.find_elements_by_css_selector(".govuk-checkboxes__input")
         for element in elements:
             if element.is_selected():
-                element.click()
+                return False
+
+        return True

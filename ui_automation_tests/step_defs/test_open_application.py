@@ -135,7 +135,7 @@ def assign_all(driver, assign_or_unassign):
 def see_all_or_no_selected(driver, assigned_or_unassigned):
     countries_page = GoodsCountriesPage(driver)
     if assigned_or_unassigned == 'assigned':
-        countries_page.all_selected()
+        assert countries_page.all_selected()
     else:
-        countries_page.all_deselected()
+        assert countries_page.all_deselected()
 

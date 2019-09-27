@@ -6,17 +6,15 @@
 
 {% block body %}
 
-    <div>
-        <span class="govuk-heading-l">Explain where each item is going (optional)</span>
-    </div>
+    <h2 class="govuk-heading-l">Explain where each item is going (optional)</h2>
 
     <form method="post">
 
-        <a id="link-select-all" href="#" class="govuk-link govuk-body" onclick="selectAll(true)" style="margin-right: 20px;">
+        <a id="link-select-all" href="#" class="govuk-link govuk-body" onclick="setCheckboxesState(true)" style="margin-right: 20px;">
             Select all
         </a>
 
-        <a id="link-deselect-all" href="#" class="govuk-link govuk-body" onclick="selectAll(false)">
+        <a id="link-deselect-all" href="#" class="govuk-link govuk-body" onclick="setCheckboxesState(false)">
             Deselect all
         </a>
 
@@ -64,8 +62,8 @@
 
 {% block javascript %}
     <script>
-        function selectAll(value) {
-            $('#countries_list').find("input:checkbox").prop('checked', value);
+        function setCheckboxesState(value) {
+            $('input').prop('checked', value);
         }
     </script>
 {% endblock %}
