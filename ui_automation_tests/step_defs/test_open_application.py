@@ -128,6 +128,7 @@ def assign_all(driver, assign_or_unassign):
         countries_page.select_all()
     else:
         countries_page.deselect_all()
+    Shared(driver).click_continue()
 
 
 @then(parsers.parse('I see all countries are "{assigned_or_unassigned}" to all goods'))
