@@ -75,7 +75,7 @@ Feature: I want to indicate the open licence I want
     And I search for country "Canada"
     Then only "Canada" is displayed in country list
 
-  @LT_1363_set_countries_on_goodstypes
+  @LT_1363_set_countries_on_goods
   Scenario: Set countries on goodstypes
     Given I go to exporter homepage and choose Test Org
     When I go to exporter homepage
