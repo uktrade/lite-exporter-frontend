@@ -280,12 +280,12 @@ class SeedData:
         organisation = response.json()['organisation']
         return organisation
 
-    def create_case_note(self):
+    def add_case_note(self, context, case_id):
         self.log('Creating case note: ...')
         data = self.request_data['case_note']
-        self.context['text'] = self.case_note_text
-        self.make_request("POST", url='/cases/' + self.context['case_id'] + '/case-notes/', headers=self.gov_headers,
-                          body=data)  # noqa
+        context.text = self.case_note_text
+        _ = self.make_request("POST", url='/cases/' + case_id + '/case-notes/', headers=self.gov_headers,
+                              body=data)  # noqa
 
     def add_ecju_query(self, case_id):
         self.log("Creating ecju query: ...")
