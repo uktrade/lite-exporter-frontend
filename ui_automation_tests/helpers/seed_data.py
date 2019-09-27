@@ -114,6 +114,19 @@ class SeedData:
             'sub_type': 'government',
             'website': 'https://www.gov.uk'
         },
+        "end_user_advisory": {
+            "end_user": {
+              "name": "Person",
+              "address": "Westminster, London SW1A 0AA",
+              "country": "GB",
+              "sub_type": "government",
+              "website": "https://www.gov.uk"
+            },
+            "contact_telephone": 12345678901,
+            "contact_email": "person@gov.uk",
+            "reasoning": "This is the reason for raising the enquiry",
+            "note": "note for end user advisory"
+        },
         'ultimate_end_user': {
             'name': 'Individual',
             'address': 'Bullring, Birmingham SW1A 0AA',
@@ -224,6 +237,15 @@ class SeedData:
                                      body=data)
         response_data = response.json()
         self.add_ecju_query(response_data['case_id'])
+
+    def add_eua_query(self):
+        self.log("Adding end user advisory: ...")
+        data = self.request_data['end_user_advisory']
+        response = self.make_request("POST", url='/queries/end-user-advisories/', headers=self.export_headers, body=data)
+        id = json.loads(response.text)['end_user_advisory']['id']
+        self.add_to_context('end_user_advisory_id', str(id))
+        response = self.make_request("GET", url='/queries/end-user-advisories/' + str(id) + '/', headers=self.export_headers)
+        self.add_to_context('end_user_advisory_case_id', json.loads(response.text)['case_id'])
 
     def find_good_by_name(self, good_name):
         response = self.make_request('GET', url='/goods/', headers=self.export_headers)
