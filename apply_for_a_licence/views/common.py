@@ -92,7 +92,6 @@ def get_licence_overview(request, kwargs, errors=None):
         'end_user_document': end_user_document,
         'consignee_document': consignee_document,
         'third_parties': third_parties['third_parties'],
-        'third_parties_documents_complete': check_all_parties_have_a_document(third_parties['third_parties']),
         'additional_documents': additional_documents['documents']
     }
     if errors:
