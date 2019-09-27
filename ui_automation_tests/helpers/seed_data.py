@@ -242,10 +242,10 @@ class SeedData:
         self.log("Adding end user advisory: ...")
         data = self.request_data['end_user_advisory']
         response = self.make_request("POST", url='/queries/end-user-advisories/', headers=self.export_headers, body=data)
-        id = json.loads(response.text)['end_user_advisory']['id']
+        id = response.json()['end_user_advisory']['id']
         self.add_to_context('end_user_advisory_id', str(id))
         response = self.make_request("GET", url='/queries/end-user-advisories/' + str(id) + '/', headers=self.export_headers)
-        self.add_to_context('end_user_advisory_case_id', json.loads(response.text)['case_id'])
+        self.add_to_context('end_user_advisory_case_id', response.json()['case_id'])
 
     def find_good_by_name(self, good_name):
         response = self.make_request('GET', url='/goods/', headers=self.export_headers)
