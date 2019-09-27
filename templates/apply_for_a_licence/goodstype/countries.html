@@ -12,11 +12,11 @@
 
     <form method="post">
 
-        <a id="link-select-all" href="#" class="govuk-link govuk-body" onclick="return selectAll()" style="margin-right: 20px;">
+        <a id="link-select-all" href="#" class="govuk-link govuk-body" onclick="return selectAll(true)" style="margin-right: 20px;">
             Select all
         </a>
 
-        <a id="link-deselect-all" href="#" class="govuk-link govuk-body" onclick="return deselectAll()">
+        <a id="link-deselect-all" href="#" class="govuk-link govuk-body" onclick="return selectAll(false)">
             Deselect all
         </a>
 
@@ -24,7 +24,7 @@
 
         {% csrf_token %}
 
-            <table class="govuk-table">
+            <table class="govuk-table" id="countries_list">
                 <thead class="govuk-table__head">
                     <tr class="govuk-table__row">
                         <th class="govuk-table__header" scope="col">Control list entry</th>
@@ -64,12 +64,8 @@
 
 {% block javascript %}
     <script>
-        function selectAll() {
-            $("input").prop('checked', true);
-            return false;
-        }
-        function deselectAll() {
-            $("input").prop('checked', false);
+        function selectAll(value) {
+            $('#countries_list').find("input:checkbox").prop('checked', value);
             return false;
         }
     </script>
