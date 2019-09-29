@@ -273,6 +273,36 @@
 </div>
 {% endif %}
 
+{% if draft.licence_type.key == 'open_licence' and goodstypes and countries %}
+    <div class="lite-section">
+        <div class="lite-section-header">
+            <div>
+                <a id="goods_country_assignments" href="{% url 'goods_type:goods_countries' draft.id %}" class="lite-overview-section-header govuk-link govuk-link--no-visited-state">
+                    Explain where each item is going (optional)
+                </a>
+            </div>
+            {% if countries_on_goods_types %}
+                <div class="lite-tag lite-tag--small lite-tag--blue">
+                    Done
+                </div>
+            {% else %}
+                <div class="lite-tag lite-tag--small">
+                    Not Done
+                </div>
+            {% endif %}
+        </div>
+
+        <p class="govuk-caption-m">In this section, you can choose an item and tick the countries it will go to.</p>
+        <p class="govuk-caption-m">You do not need this:
+            <ul class="govuk-list govuk-list--bullet govuk-caption-m">
+                <li>if you are sending every item to every country</li>
+                <li>but it may get you a quicker decision about your export licence</li>
+            </ul>
+        </p>
+
+    </div>
+{% endif %}
+
 {% if draft.licence_type.key == 'standard_licence' %}
 <div class="lite-section {% if errors|key_value:'end_user' %}govuk-form-group--error{% endif %}">
 	<div class="lite-section-header">
@@ -282,9 +312,13 @@
 			</a>
 		</div>
 
-		{% if draft.end_user %}
+		{% if draft.end_user and end_user_document %}
 			<div class="lite-tag lite-tag--small lite-tag--blue">
 				Done
+			</div>
+        {% elif draft.end_user %}
+            <div class="lite-tag lite-tag--small">
+				Started
 			</div>
 		{% else %}
 			<div class="lite-tag lite-tag--small">
@@ -302,7 +336,7 @@
 			<tbody class="govuk-table__body">
 				<tr class="govuk-table__row">
 					<th class="govuk-table__header" scope="row">Type</th>
-					<td class="govuk-table__cell">{{ draft.end_user.sub_type|title }}</td>
+					<td class="govuk-table__cell">{{ draft.end_user.sub_type.value|title }}</td>
 				</tr>
 				<tr class="govuk-table__row">
 					<th class="govuk-table__header" scope="row">Name</th>
@@ -358,9 +392,13 @@
 			</a>
 		</div>
 
-		{% if draft.consignee %}
+		{% if draft.consignee and consignee_document %}
 			<div class="lite-tag lite-tag--small lite-tag--blue">
 				Done
+			</div>
+        {% elif draft.consignee %}
+            <div class="lite-tag lite-tag--small">
+				Started
 			</div>
 		{% else %}
 			<div class="lite-tag lite-tag--small">
@@ -435,9 +473,13 @@
 			</a>
 		</div>
 
-		{% if ultimate_end_users %}
+		{% if ultimate_end_users and ultimate_end_users_documents_complete %}
 			<div class="lite-tag lite-tag--small lite-tag--blue">
 				Done
+			</div>
+        {% elif ultimate_end_users %}
+            <div class="lite-tag lite-tag--small">
+				Started
 			</div>
 		{% else %}
 			<div class="lite-tag lite-tag--small">
@@ -487,8 +529,8 @@
 				Third Parties (optional)
 			</a>
 		</div>
-		{% if third_parties %}
-			<div class="lite-tag lite-tag--small lite-tag--blue">
+        {% if third_parties %}
+            <div class="lite-tag lite-tag--small lite-tag--blue">
 				Done
 			</div>
 		{% else %}
@@ -499,6 +541,8 @@
 	</div>
 	{% if errors|key_value:'third_parties' %}
 		<p class="govuk-error-message">{{ errors|key_value:'third_parties' }}</p>
+    {% elif errors|key_value:'third_parties_documents'%}
+        <p class="govuk-error-message">{{ errors|key_value:'third_parties_documents' }}</p>
 	{% endif %}
 	{% if third_parties %}
 		<table class="govuk-table">
