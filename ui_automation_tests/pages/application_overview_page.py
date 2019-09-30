@@ -1,6 +1,3 @@
-from ui_automation_tests.helpers.helpers import scroll_to_bottom_of_page
-
-
 class ApplicationOverviewPage:
 
     def __init__(self, driver):
