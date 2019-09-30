@@ -58,10 +58,10 @@ def clear_site(driver):
     new_site.clear_info_for_site()
 
 
-@then('I see the first site name as edited')
-def last_site_name_edited(driver):
-    site_list_overview_page = SitesListOverview(driver)
-    assert 'edited' in site_list_overview_page.get_text_of_first_site_name()
+
+@then('I see last site name as edited')
+def last_site_name_edited(driver, context):
+    assert context.new_site_name in Shared(driver).get_text_of_gov_table()
 
 
 @then(parsers.parse('the checkbox I have selected at position "{no}" is "{checked}"'))
