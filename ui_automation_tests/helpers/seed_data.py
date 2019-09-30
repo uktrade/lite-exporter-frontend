@@ -284,8 +284,7 @@ class SeedData:
         self.log('Creating case note: ...')
         data = self.request_data['case_note']
         context.text = self.case_note_text
-        _ = self.make_request("POST", url='/cases/' + case_id + '/case-notes/', headers=self.gov_headers,
-                              body=data)  # noqa
+        self.make_request("POST", url='/cases/' + case_id + '/case-notes/', headers=self.gov_headers, body=data)  # noqa
 
     def add_ecju_query(self, case_id):
         self.log("Creating ecju query: ...")
