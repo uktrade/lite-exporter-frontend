@@ -1,6 +1,5 @@
 import requests
 
-from conf.settings import env
 from helpers.wait import wait_for_ultimate_end_user_document, wait_for_document
 
 
@@ -19,8 +18,9 @@ class SeedData:
     good_end_product_true = 'Hot Cross Buns'
     good_end_product_false = 'Falafels'
 
-    def __init__(self, api_url, exporter_login):
-        exporter_user_email = exporter_login['email']
+    def __init__(self, api_url, seed_data_config):
+        exporter_user_email = seed_data_config['email']
+        test_s3_key = seed_data_config['s3_key']
         self.base_url = api_url.rstrip('/')
 
         self.request_data = {
@@ -167,7 +167,7 @@ class SeedData:
             },
             'document': {
                 'name': 'document 1',
-                's3_key': env('TEST_S3_KEY'),
+                's3_key': test_s3_key,
                 'size': 0,
                 'description': 'document for test setup'
             }

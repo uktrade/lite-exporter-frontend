@@ -4,9 +4,9 @@ from helpers.utils import Timer, get_lite_client
 
 
 @fixture(scope='session')
-def register_organisation(driver, request, api_url, context, exporter_sso_login_info):
+def register_organisation(driver, request, api_url, context, seed_data_config):
     timer = Timer()
-    lite_client = get_lite_client(context, api_url, exporter_login=exporter_sso_login_info)
+    lite_client = get_lite_client(context, api_url, seed_data_config=seed_data_config)
     context.org_registered_status = True
     context.first_name = lite_client.context['first_name']
     context.last_name = lite_client.context['last_name']
@@ -15,7 +15,7 @@ def register_organisation(driver, request, api_url, context, exporter_sso_login_
 
 
 @fixture(scope='session')
-def register_organisation_for_switching_organisation(driver, request, api_url, context, exporter_sso_login_info):
-    lite_client = get_lite_client(context, api_url, exporter_login=exporter_sso_login_info)
+def register_organisation_for_switching_organisation(driver, request, api_url, context, seed_data_config):
+    lite_client = get_lite_client(context, api_url, seed_data_config=seed_data_config)
     lite_client.setup_org_for_switching_organisations()
     context.org_name_for_switching_organisations = lite_client.context['org_name_for_switching_organisations']
