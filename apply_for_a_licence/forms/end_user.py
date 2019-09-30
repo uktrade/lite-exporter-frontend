@@ -1,17 +1,16 @@
-from django.urls import reverse_lazy
-
 from core.builtins.custom_tags import get_string
-from lite_forms.components import RadioButtons, Form, Option, TextArea, Select, TextInput, FormGroup, FileUpload, \
+from lite_forms.components import RadioButtons, Form, Option, TextArea, TextInput, FormGroup, FileUpload, \
     BackLink, Label
 from lite_forms.generators import confirm_form
+from lite_forms.common import country_question
 from core.services import get_countries
 
 
-def new_end_user_forms():
-    return FormGroup([
-        Form(title='Who will be the final recipient (end-user) of your goods?',
+def third_parties_standard_form(opening_title=None):
+    return [
+        Form(title=opening_title,
              questions=[
-                 RadioButtons('type',
+                 RadioButtons('sub_type',
                               options=[
                                   Option('government', 'A Government Organisation'),
                                   Option('commercial', 'A Commercial Organisation'),
@@ -33,30 +32,45 @@ def new_end_user_forms():
         Form(title='Where\'s the final recipient based?',
              questions=[
                  TextArea('address', 'Address'),
-                 Select(title='Country',
-                        name='country',
-                        options=get_countries(None, True)),
+                 country_question(countries=get_countries(None, True),
+                                  prefix='')
              ],
              default_button_name='Save and continue')
-    ])
+    ]
 
 
-def attach_document_form(draft_url):
-    return Form(get_string('end_user.documents.attach_documents.title'),
+def new_end_user_forms():
+    return FormGroup(third_parties_standard_form('Who will be the final recipient (end-user) of your goods?'))
+
+
+def attach_document_form(draft_url, title, back_text, return_later_text, description_text=None):
+    inputs = [FileUpload('documents')]
+    if description_text:
+        inputs.append(TextArea(title=description_text,
+                               optional=True,
+                               name='description',
+                               extras={
+                                   'max_length': 280,
+                               }))
+    return Form(title,
                 get_string('end_user.documents.attach_documents.description'),
-                [FileUpload('documents')],
-                back_link=BackLink(get_string('end_user.documents.attach_documents.back_to_application_overview'),
+                inputs,
+                back_link=BackLink(back_text,
                                    draft_url),
                 footer_label=Label('Or <a href="'
                                    + draft_url
                                    + '" class="govuk-link govuk-link--no-visited-state">'
-                                   + get_string('end_user.documents.save_end_user')
+                                   + return_later_text
                                    + '</a> ' + get_string('end_user.documents.attach_later')))
 
 
-def delete_document_confirmation_form(overview_url):
+def delete_document_confirmation_form(overview_url, back_link_text):
     return confirm_form(title='Are you sure you want to delete this document?',
                         confirmation_name='delete_document_confirmation',
-                        back_link_text=get_string('end_user.documents.attach_documents.back_to_application_overview'),
+                        back_link_text=back_link_text,
                         back_url=overview_url
                         )
+
+
+def new_consignee_forms():
+    return FormGroup(third_parties_standard_form('Who will be the consignee of your goods?'))

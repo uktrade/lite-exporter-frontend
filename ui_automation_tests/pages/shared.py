@@ -3,7 +3,7 @@ class Shared:
     def __init__(self, driver):
         self.driver = driver
         self.heading = ".govuk-heading-xl"  # CSS
-        self.radio_buttons = ".govuk-radios__input"  # CSS
+        self.radio_buttons = ".govuk-radios__label"  # CSS
         self.submit_button = "button[type*='submit']"
         self.back_link = ".govuk-back-link"
         self.error_messages = ".govuk-error-summary__body"
@@ -17,6 +17,7 @@ class Shared:
         self.h2 = "h2"
         self.h1 = "h1"
         self.lite_section = ".lite-section"
+        self.notification = ".app-icon-label__notification"  # CSS
 
     def get_text_of_error_messages(self):
         return self.driver.find_element_by_css_selector(self.error_messages).text
@@ -42,6 +43,9 @@ class Shared:
     def get_text_of_heading(self):
         return self.driver.find_element_by_css_selector(self.heading).text
 
+    def get_radio_buttons_elements(self):
+        return self.driver.find_elements_by_css_selector(self.radio_buttons)
+
     def click_on_radio_buttons(self, no):
         return self.driver.find_elements_by_css_selector(self.radio_buttons)[no].click()
 
@@ -51,11 +55,14 @@ class Shared:
     def get_text_of_gov_grid_row(self):
         return self.driver.find_element_by_css_selector(self.gov_grid_row).text
 
-    def get_text_of_gov_table(self):
-        return self.driver.find_element_by_css_selector(self.gov_table).text
-
     def get_gov_table_cell_links(self):
         return self.driver.find_elements_by_css_selector(self.gov_table_cell_links)
+
+    def get_table_row(self, no):
+        return self.driver.find_elements_by_css_selector(self.gov_table_row)[no]
+
+    def get_links_of_table_row(self, no):
+        return self.get_table_row(no).find_elements_by_css_selector(self.gov_table_cell_links)
 
     def get_text_of_h2(self):
         return self.driver.find_element_by_tag_name(self.h2).text
@@ -71,3 +78,4 @@ class Shared:
 
     def click_on_application_name(self):
         return self.driver.find_element_by_css_selector(self.application_name).click()
+

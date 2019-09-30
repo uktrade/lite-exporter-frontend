@@ -5,6 +5,7 @@ from pages.application_countries_list import ApplicationCountriesList
 from pages.application_goods_list import ApplicationGoodsList
 from pages.application_goods_type_list import ApplicationGoodsTypeList
 from pages.application_overview_page import ApplicationOverviewPage
+from pages.goods_countries_page import GoodsCountriesPage
 from pages.shared import Shared
 
 
@@ -50,8 +51,8 @@ def i_see_the_goods_types_list(driver, position, context):
 def i_see_the_goods_types_list_overview(driver, context):
     goods_type_page = ApplicationGoodsTypeList(driver)
     good_type_table_overview = goods_type_page.get_text_of_goods_type_info_overview()
-    assert "Description" in good_type_table_overview
-    assert "Control List Classification" in good_type_table_overview
+    assert 'Description' in good_type_table_overview
+    assert 'Control List Classification' in good_type_table_overview
     assert context.good_description in good_type_table_overview
     assert context.control_code in good_type_table_overview
 
@@ -81,22 +82,6 @@ def i_select_country_from_the_country_list(driver, country):
     assert utils.find_element_by_href(driver, '#' + country).is_displayed()
 
 
-@then(parsers.parse('I can see "{country_count}" countries selected on the overview page'))
-def i_can_see_the_country_count_countries_selected_on_the_overview_page(driver, country_count):
-    assert ApplicationOverviewPage(driver).get_text_of_countries_selected() == country_count + ' Countries Selected'
-
-
-@when('I click on number of countries on the overview page')
-def click_on_number_of_countries_selected(driver):
-    utils.scroll_to_bottom_of_page(driver)
-    ApplicationOverviewPage(driver).click_on_countries_selected()
-
-
-@when('I close the modal')
-def close_modal(driver):
-    ApplicationOverviewPage(driver).click_on_modal_close()
-
-
 @when(parsers.parse('I search for country "{country}"'))
 def search_for_country(driver, country):
     ApplicationCountriesList(driver).search_for_country(country)
@@ -108,7 +93,27 @@ def search_country_result(driver, country):
         "Country not searched correctly"
 
 
-@then(parsers.parse('I see "{country}" in a modal'))
-def selected_countries_in_modal(driver, country):
-    assert country in ApplicationOverviewPage(driver).get_text_of_country_modal_content(), \
-        "Country not added to modal"
+@when('I click on assign countries to goods')
+def go_to_good_countries(driver):
+    page = ApplicationOverviewPage(driver)
+    page.click_goods_countries_link()
+
+
+@when(parsers.parse('I "{assign_or_unassign}" all countries to all goods'))
+def assign_all(driver, assign_or_unassign):
+    countries_page = GoodsCountriesPage(driver)
+    if assign_or_unassign == 'assign':
+        countries_page.select_all()
+    else:
+        countries_page.deselect_all()
+    Shared(driver).click_continue()
+
+
+@then(parsers.parse('I see all countries are "{assigned_or_unassigned}" to all goods'))
+def see_all_or_no_selected(driver, assigned_or_unassigned):
+    countries_page = GoodsCountriesPage(driver)
+    if assigned_or_unassigned == 'assigned':
+        assert countries_page.all_selected()
+    else:
+        assert countries_page.all_deselected()
+

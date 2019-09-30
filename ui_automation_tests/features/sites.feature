@@ -19,27 +19,11 @@ Feature: I  want to add and rename my sites
     Given I go to exporter homepage and choose Test Org
     When I click on the manage my organisation link
     When I click sites link
-    And I click last edit button
+    And I click the first edit link
     And I clear the fields for the site
     And I enter in text for new site "edited" "4 Privet Drive" "SU1 1BB" "Surrey" "Surrey" and "Ukraine"
     And I click continue
     Then I see last site name as edited
-    When I click last edit button
-    And I clear the fields for the site
-    And I enter in text for new site "HQ 2" "4 Privet Drive" "SU1 1BB" "Surrey" "Surrey" and "Ukraine"
-    And I click continue
-
-  @LT_933_error
-  Scenario: Test clicking continue when not adding a site
-    Given I go to exporter homepage and choose Test Org
-    When I click on apply for a license button
-    And I click on start button
-    And I enter in name for application and continue
-    And I select "standard" application and continue
-    And I select "permanent" option and continue
-    And I select "yes" for whether I have an export licence and "123456" if I have a reference and continue
-    And I click continue
-    Then I see select a site error message
 
   @LT_933_change
   Scenario: Test changing sites
@@ -59,7 +43,8 @@ Feature: I  want to add and rename my sites
     And I select "yes" for whether I have an export licence and "123456" if I have a reference and continue
     And I click on application locations link
     And I select "organisation" for where my goods are located
-    Then I see my new site at first position
+#    Disabled step because site ordering seems not to be fixed (LT-1518)
+#    Then I see my new site at first position
     When I select the site at position "1"
     And I click continue
     And I click on application locations link

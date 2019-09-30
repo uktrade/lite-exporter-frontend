@@ -13,7 +13,7 @@ class Sites(TemplateView):
     def get(self, request, **kwargs):
         organisation_id = str(request.user.organisation)
         sites, _ = get_sites(request, organisation_id)
-        organisation, _ = get_organisation(request, organisation_id)
+        organisation = get_organisation(request, organisation_id)
 
         context = {
             'title': 'Sites - ' + organisation['name'],
@@ -36,7 +36,7 @@ class NewSite(TemplateView):
 
     def post(self, request, **kwargs):
         organisation_id = str(request.user.organisation)
-        validated_data, status_code = post_sites(request, organisation_id, nest_data(request.POST))
+        validated_data, _ = post_sites(request, organisation_id, nest_data(request.POST))
 
         if 'errors' in validated_data:
             validated_data['errors'] = flatten_data(validated_data['errors'])
@@ -52,7 +52,7 @@ class EditSite(TemplateView):
 
     def dispatch(self, request, *args, **kwargs):
         self.organisation_id = str(request.user.organisation)
-        self.site, status_code = get_site(request, self.organisation_id, str(kwargs['pk']))
+        self.site, _ = get_site(request, self.organisation_id, str(kwargs['pk']))
         self.site['site']['address']['country'] = self.site['site']['address']['country']['id']
         self.form = edit_site_form('Edit ' + self.site['site']['name'])
 
@@ -62,7 +62,7 @@ class EditSite(TemplateView):
         return form_page(request, self.form, data=flatten_data(self.site.get('site')))
 
     def post(self, request, **kwargs):
-        validated_data, status_code = put_site(request,
+        validated_data, _ = put_site(request,
                                                self.organisation_id,
                                                str(kwargs['pk']),
                                                json=nest_data(request.POST))

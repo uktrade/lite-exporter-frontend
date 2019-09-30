@@ -48,6 +48,11 @@ def str_date(value):
     return return_value.strftime('%-I:%M') + return_value.strftime('%p').lower() + ' ' + return_value.strftime('%d %B %Y')
 
 
+@register.filter()
+def strip_underscores(value):
+    value = value[0:1].upper() + value[1:]
+    return value.replace('_', ' ')
+
 @register.filter
 @stringfilter
 def units_pluralise(unit: str, quantity: str):
@@ -76,7 +81,7 @@ def highlight_text(value: str, term: str) -> str:
 
     indexes = [m.start() for m in re.finditer(term, value, flags=re.IGNORECASE)]
 
-    span = '<span class="lite-filter-highlight">'
+    span = '<span class="lite-highlight">'
     span_end = '</span>'
 
     for index in indexes:
@@ -84,3 +89,18 @@ def highlight_text(value: str, term: str) -> str:
         value = insert_str(value, span_end, index + len(span) + len(term))
 
     return value
+
+
+@register.filter()
+def reference_code(value):
+    value = str(value)
+    return value[:5] + '-' + value[5:]
+
+
+@register.filter
+@mark_safe
+def pretty_json(value):
+    """
+    Pretty print JSON - for development purposes only.
+    """
+    return '<pre>' + json.dumps(value, indent=4) + '</pre>'
