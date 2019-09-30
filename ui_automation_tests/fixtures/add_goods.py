@@ -20,7 +20,7 @@ def add_an_incorporated_good_to_application(driver, request, context, exporter_u
     lite_client.add_good_end_product_false()
     context.goods_name = lite_client.context['goods_name']
     driver.get(url)
-    utils.scroll_to_element_by_id('goods')
+    utils.scroll_to_element_by_id(driver, 'goods')
     overview_page.click_goods_link()
     driver.find_element_by_css_selector('a[href*="add-preexisting"]').click()
     elements = driver.find_elements_by_css_selector('.lite-card')
@@ -41,7 +41,7 @@ def add_a_non_incorporated_good_to_application(driver, context, request, exporte
     lite_client.add_good_end_product_true()
     context.goods_name = lite_client.context['goods_name']
     driver.get(url)
-    utils.scroll_to_element_by_id('goods')
+    utils.scroll_to_element_by_id(driver, 'goods')
     ApplicationOverviewPage(driver).click_goods_link()
     driver.find_element_by_css_selector('a[href*="add-preexisting"]').click()
     elements = driver.find_elements_by_css_selector('.lite-card')
