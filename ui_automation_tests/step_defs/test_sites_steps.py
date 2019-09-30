@@ -58,7 +58,6 @@ def clear_site(driver):
     new_site.clear_info_for_site()
 
 
-
 @then('I see last site name as edited')
 def last_site_name_edited(driver, context):
     assert context.new_site_name in Shared(driver).get_text_of_gov_table()

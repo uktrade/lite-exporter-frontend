@@ -23,7 +23,7 @@ Feature: I  want to add and rename my sites
     And I clear the fields for the site
     And I enter in text for new site "edited" "4 Privet Drive" "SU1 1BB" "Surrey" "Surrey" and "Ukraine"
     And I click continue
-    Then I see the first site name as edited
+    Then I see last site name as edited
 
   @LT_933_change
   Scenario: Test changing sites
