@@ -21,6 +21,6 @@ class GoodsPage:
     def click_on_delete_link(self):
         self.driver.find_element_by_css_selector(self.DELETE_BUTTON).click()
 
-    def confirm_delete(self, confirm):
+    def confirm_delete(self):
         shared = Shared(self.driver)
         shared.click_continue()
