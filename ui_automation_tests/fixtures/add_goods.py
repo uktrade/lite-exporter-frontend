@@ -40,7 +40,7 @@ def add_a_non_incorporated_good_to_application(driver, context, request, exporte
     lite_client = get_lite_client(context, api_url)
     lite_client.add_good_end_product_true()
     context.goods_name = lite_client.context['goods_name']
-    context.part_number = api.context['part_number']
+    context.part_number = lite_client.context['part_number']
     driver.get(url)
     utils.scroll_to_element_by_id(driver, 'goods')
     ApplicationOverviewPage(driver).click_goods_link()
