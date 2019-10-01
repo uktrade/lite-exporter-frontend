@@ -50,6 +50,11 @@ def context(request):
     return Context()
 
 
+@fixture(scope="session")
+def invalid_username(request):
+    return "invalid@mail.com"
+
+
 @fixture(scope='session')
 def exporter_info(request):
     exporter_sso_email = env('TEST_EXPORTER_SSO_EMAIL')
