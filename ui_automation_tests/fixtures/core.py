@@ -58,11 +58,13 @@ def invalid_username(request):
 @fixture(scope='session')
 def exporter_info(request):
     exporter_sso_email = env('TEST_EXPORTER_SSO_EMAIL')
+    exporter_sso_password = env('TEST_EXPORTER_SSO_PASSWORD')
     first_name = 'Test'
     last_name = 'Lite'
 
     return {
         'email': exporter_sso_email,
+        'password': exporter_sso_password,
         'first_name': first_name,
         'last_name': last_name
     }
