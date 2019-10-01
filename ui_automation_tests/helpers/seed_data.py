@@ -18,9 +18,10 @@ class SeedData:
     good_end_product_true = 'Hot Cross Buns'
     good_end_product_false = 'Falafels'
 
-    def __init__(self, api_url, seed_data_config):
+    def __init__(self, seed_data_config):
         exporter_user_email = seed_data_config['email']
         test_s3_key = seed_data_config['s3_key']
+        api_url = seed_data_config['api_url']
         self.base_url = api_url.rstrip('/')
 
         self.request_data = {

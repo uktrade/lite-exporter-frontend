@@ -73,4 +73,5 @@ def invalid_username(request):
 def seed_data_config(request):
     exporter_sso_email = env('TEST_EXPORTER_SSO_EMAIL')
     s3_key = env('TEST_S3_KEY')
-    return {'email': exporter_sso_email, 's3_key': s3_key}
+    api_url = request.config.getoption("--lite_api_url")
+    return {'api_url': api_url, 'email': exporter_sso_email, 's3_key': s3_key}
