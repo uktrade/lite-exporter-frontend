@@ -1,6 +1,6 @@
 from pytest_bdd import when, then, scenarios, given
 
-from helpers import helpers
+from shared.tools import helpers
 from pages.hub_page import Hub
 from pages.shared import Shared
 

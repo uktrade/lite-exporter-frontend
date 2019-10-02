@@ -5,9 +5,7 @@ from pages.end_user_advisory_page import EndUserAdvisoryPage
 from pages.respond_to_ecju_query_page import RespondToEcjuQueryPage
 from pages.shared import Shared
 
-from core.builtins.custom_tags import reference_code
-from ui_automation_tests.helpers import helpers
-from ui_automation_tests.helpers.seed_data import SeedData
+from shared.seed_data.seed_data import SeedData
 from ui_automation_tests.pages.application_page import ApplicationPage
 from ui_automation_tests.pages.submitted_applications_page import SubmittedApplicationsPages
 

@@ -2,8 +2,8 @@ import os
 
 from pytest import fixture
 
-import helpers.helpers as utils
-from helpers.utils import get_lite_client
+import shared.tools.helpers as utils
+from shared.tools.utils import get_lite_client
 from pages.add_goods_page import AddGoodPage
 from pages.application_goods_list import ApplicationGoodsList
 from pages.application_overview_page import ApplicationOverviewPage

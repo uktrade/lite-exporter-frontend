@@ -1,6 +1,6 @@
 from core.builtins.custom_tags import reference_code
-from ui_automation_tests.helpers import helpers
-from ui_automation_tests.pages.shared import Shared
+from shared.tools import helpers
+from pages.shared import Shared
 
 
 class EndUserAdvisoryPage:

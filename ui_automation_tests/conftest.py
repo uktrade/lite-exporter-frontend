@@ -15,7 +15,7 @@ from fixtures.sso_sign_in import sso_sign_in  # noqa
 from fixtures.internal_case_note import internal_case_note, internal_case_note_end_user_advisory  # noqa
 from fixtures.urls import exporter_url, api_url  # noqa
 
-import helpers.helpers as utils
+import shared.tools.helpers as utils
 from pages.add_goods_page import AddGoodPage
 from pages.add_new_external_location_form_page import AddNewExternalLocationFormPage
 from pages.application_overview_page import ApplicationOverviewPage

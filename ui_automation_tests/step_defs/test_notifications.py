@@ -2,7 +2,7 @@ from pytest_bdd import scenarios, given, when, then
 
 from pages.hub_page import Hub
 from pages.shared import Shared
-from ui_automation_tests.helpers import helpers
+from shared.tools import helpers
 
 scenarios('../features/notifications.feature', strict_gherkin=False)
 

@@ -3,9 +3,8 @@ import logging
 from pytest_bdd import scenarios, when, then
 from selenium.webdriver.common.by import By
 
-from conf.settings import env
 from pages.exporter_hub_page import ExporterHubPage
-import helpers.helpers as utils
+import shared.tools.helpers as utils
 from pages.shared import Shared
 
 log = logging.getLogger()
