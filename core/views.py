@@ -16,14 +16,9 @@ class Hub(TemplateView):
         user, _ = get_user(request)
 
         notifications = get_notifications(request, unviewed=True)
-<<<<<<< Updated upstream
-        organisation = get_organisation(request, str(request.user.organisation))
-        sections = [
-=======
         organisation, _ = get_organisation(request, str(request.user.organisation))
         if organisation.get('type').get('key') == 'hmrc':
             sections = [
->>>>>>> Stashed changes
                 Section('', [
                     Tile('Raise a HMRC query', '',
                          reverse_lazy('raise_hmrc_query:select_organisation')),
