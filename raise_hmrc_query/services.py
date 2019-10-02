@@ -1,5 +1,3 @@
-from urllib.parse import urlencode
-
 from conf.client import get
 from conf.constants import ORGANISATIONS_URL
 
