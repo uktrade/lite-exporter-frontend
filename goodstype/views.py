@@ -14,8 +14,7 @@ class DraftAddGoodsType(TemplateView):
 
     def post(self, request, **kwargs):
         copied_post = request.POST.copy()
-        copied_post['content_type'] = 'draft'
-        copied_post['object_id'] = str(kwargs.get('pk'))
+        copied_post['application'] = str(kwargs.get('pk'))
         data, status_code = post_goods_type(request, copied_post)
 
         if status_code == 400:
