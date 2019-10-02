@@ -4,7 +4,7 @@ from django.views.generic import TemplateView
 from lite_forms.generators import form_page, success_page
 from lite_forms.submitters import submit_paged_form
 
-from conf.constants import STANDARD_LICENCE, OPEN_LICENCE
+from conf.constants import STANDARD_LICENCE
 from apply_for_a_licence.forms.initial import initial_questions
 from core.builtins.custom_tags import get_string
 from core.services import get_sites_on_draft, get_external_locations_on_draft

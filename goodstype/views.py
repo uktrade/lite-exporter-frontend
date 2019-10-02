@@ -5,7 +5,7 @@ from lite_forms.generators import form_page
 
 from drafts.services import get_draft_goods_type, get_draft_countries
 from goodstype.forms import goods_type_form
-from goodstype.services import post_goods_type, get_goods_type, post_goods_type_countries
+from goodstype.services import post_goods_type, post_goods_type_countries
 
 
 class DraftAddGoodsType(TemplateView):
