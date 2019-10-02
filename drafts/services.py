@@ -39,7 +39,7 @@ def get_draft_goods(request, pk):
     return data.json(), data.status_code
 
 
-def get_draft_goods_type(request, pk):
+def get_draft_goods_types(request, pk):
     data = get(request, DRAFTS_URL + pk + '/goodstype/')
     return data.json(), data.status_code
 

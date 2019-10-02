@@ -10,7 +10,7 @@ from core.builtins.custom_tags import get_string
 from core.services import get_sites_on_draft, get_external_locations_on_draft
 from drafts.services import get_third_parties, get_consignee_document, get_additional_documents
 from drafts.services import post_drafts, get_draft, get_draft_goods, submit_draft, \
-    delete_draft, get_draft_countries, get_draft_goods_type, get_ultimate_end_users, \
+    delete_draft, get_draft_countries, get_draft_goods_types, get_ultimate_end_users, \
     get_end_user_document
 
 
@@ -84,7 +84,7 @@ def get_licence_overview(request, kwargs, errors=None):
             if not good['good']['is_good_end_product']:
                 ultimate_end_users_required = True
     else:
-        goodstypes, _ = get_draft_goods_type(request, draft_id)
+        goodstypes, _ = get_draft_goods_types(request, draft_id)
         countries, _ = get_draft_countries(request, draft_id)
 
         for good in goodstypes['goods']:
