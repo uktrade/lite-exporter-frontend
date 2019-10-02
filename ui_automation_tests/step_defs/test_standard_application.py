@@ -186,7 +186,7 @@ def delete_ultimate_end_user_document(driver):
 
 @then("Wait for download link")
 def wait_for_download_link(driver):
-    assert wait_for_download_button(driver)
+    assert wait_for_download_button(driver, page=Shared(driver))
 
 
 @then(parsers.parse('Wait for "{id}" to be present'))

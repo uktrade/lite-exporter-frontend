@@ -28,7 +28,7 @@ def add_user(driver):
 
 
 @when('I add user')
-def add_user(driver, context, exporter_sso_login_info):
+def add_user(driver, context, exporter_info):
     user_id = datetime.datetime.now().strftime("%H%M%S")
     first_name = "Test"
     last_name = "User" + user_id
@@ -43,7 +43,7 @@ def add_user(driver, context, exporter_sso_login_info):
     exporter_hub.click_users()
     elements = driver.find_elements_by_css_selector(".govuk-table__row")
     # When I choose the option to manage users # Then I should see the current user for my company
-    no = utils.get_element_index_by_text(elements, exporter_sso_login_info["email"])
+    no = utils.get_element_index_by_text(elements, exporter_info["email"])
     assert 'Active' in elements[no].text
     # And I should have the ability to add a new user # And I can insert an name, last name email and password for user
     exporter_hub.click_add_a_user_btn()
@@ -56,7 +56,7 @@ def add_user(driver, context, exporter_sso_login_info):
 
 
 @when('I add self')
-def add_self(driver, exporter_sso_login_info):
+def add_self(driver, exporter_info):
     exporter_hub = ExporterHubPage(driver)
 
     # I want to add a user # I should have an option to manage users
@@ -64,7 +64,7 @@ def add_self(driver, exporter_sso_login_info):
     exporter_hub.click_add_a_user_btn()
     exporter_hub.enter_first_name('first_name')
     exporter_hub.enter_last_name('last_name')
-    exporter_hub.enter_add_user_email(exporter_sso_login_info["email"])
+    exporter_hub.enter_add_user_email(exporter_info["email"])
 
     # When I Save
     exporter_hub.click_save_and_continue()
@@ -79,7 +79,7 @@ def user_is_added(driver, context):
 
 
 @when('I edit user then user is edited')
-def user_is_edited(driver, exporter_url, context, exporter_sso_login_info):
+def user_is_edited(driver, exporter_url, context, exporter_info):
     user_id = datetime.datetime.now().strftime("%d%m%H%M")
     exporter_hub = ExporterHubPage(driver)
 

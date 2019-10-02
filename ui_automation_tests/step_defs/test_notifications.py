@@ -37,7 +37,7 @@ def notification_on_application_list(driver, context):
 
 @then('I can see the internally added note')
 def internal_note_visible(driver, context):
-    assert context.text in driver.find_element_by_css_selector('.lite-case-notes').text
+    assert context.case_note_text in driver.find_element_by_css_selector('.lite-case-notes').text
 
 
 @then('I cannot see a notification')
