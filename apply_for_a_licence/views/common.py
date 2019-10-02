@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic import TemplateView
 from lite_forms.generators import form_page, success_page
 from lite_forms.submitters import submit_paged_form
@@ -49,7 +49,12 @@ def check_all_parties_have_a_document(parties):
 
 def get_licence_overview(request, kwargs, errors=None):
     draft_id = str(kwargs['pk'])
-    data, _ = get_draft(request, draft_id)
+    data, status_code = get_draft(request, draft_id)
+
+    if status_code is not 200:
+        # Wasn't able to get draft so redirecting to exporter hub
+        return redirect(reverse('core:hub'))
+
     draft = data.get('draft')
     sites, _ = get_sites_on_draft(request, draft_id)
     external_locations, _ = get_external_locations_on_draft(request, draft_id)
