@@ -23,6 +23,7 @@ class SelectAnOrganisation(TemplateView):
             'title': 'Select organisation',
             'data': organisations,
             'params': params,
+            'page': params.pop('page'),
             'params_str': convert_dict_to_query_params(params)
         }
 
