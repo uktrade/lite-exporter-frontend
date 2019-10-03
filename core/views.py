@@ -20,7 +20,7 @@ class Hub(TemplateView):
         if organisation.get('type').get('key') == 'hmrc':
             sections = [
                 Section('', [
-                    Tile('Raise a HMRC query', '',
+                    Tile('Make a Customs enquiry', '',
                          reverse_lazy('raise_hmrc_query:select_organisation')),
                 ]),
                 Section('Manage', [
