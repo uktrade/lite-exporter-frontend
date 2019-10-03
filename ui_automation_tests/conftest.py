@@ -16,7 +16,6 @@ from fixtures.internal_case_note import internal_case_note, internal_case_note_e
 from fixtures.urls import exporter_url, api_url  # noqa
 
 import helpers.helpers as utils
-from helpers import helpers
 from pages.add_goods_page import AddGoodPage
 from pages.add_new_external_location_form_page import AddNewExternalLocationFormPage
 from pages.application_overview_page import ApplicationOverviewPage
@@ -411,6 +410,6 @@ def set_up_second_organisation(register_organisation_for_switching_organisation)
 @when("I switch organisations to my second organisation")
 def switch_organisations_to_my_second_organisation(driver, context):
     Hub(driver).click_switch_link()
-    no = helpers.get_element_index_by_text(Shared(driver).get_radio_buttons_elements(), context.org_name_for_switching_organisations)
+    no = utils.get_element_index_by_text(Shared(driver).get_radio_buttons_elements(), context.org_name_for_switching_organisations)
     Shared(driver).click_on_radio_buttons(no)
     Shared(driver).click_continue()
