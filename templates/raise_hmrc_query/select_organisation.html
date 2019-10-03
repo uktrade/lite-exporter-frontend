@@ -2,6 +2,10 @@
 
 {% load svg %}
 
+{% block back_link %}
+<a href="{% url 'core:hub' %}" class="govuk-back-link">Back to hub</a>
+{% endblock %}
+
 {% block body %}
 
 	<legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
