@@ -1,4 +1,4 @@
-{% extends 'layouts/base.html' %}
+{% extends 'layouts/two_pane.html' %}
 
 {% load svg %}
 
@@ -6,7 +6,7 @@
 <a href="{% url 'core:hub' %}" class="govuk-back-link">Back to hub</a>
 {% endblock %}
 
-{% block body %}
+{% block two_thirds %}
 
 	<legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
 		<h1 class="govuk-fieldset__heading">
@@ -14,7 +14,7 @@
 		</h1>
 	</legend>
 	<span class="govuk-hint" style="margin: 30px 0;">
-		Write the name of the organisation in the search box
+		Write the name of the organisation in the search box.
 	</span>
     <form method="get">
 		<div class="lite-search-wrapper">
