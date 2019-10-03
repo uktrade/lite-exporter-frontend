@@ -11,5 +11,5 @@ class HMRCQueryPage:
         input.clear()
         input.send_keys(name)
 
-    def select_first_org(self):
+    def select_first_org_in_list(self):
         self.driver.find_element_by_css_selector(self.govuk_radio_input).click()

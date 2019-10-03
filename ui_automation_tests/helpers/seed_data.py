@@ -288,7 +288,7 @@ class SeedData:
         self.make_request("POST", url='/cases/' + case_id + '/ecju-queries/', headers=self.gov_headers, body=data)  # noqa
 
     def find_org_by_name(self, org_name):
-        response = self.make_request('GET', url='/organisations/')
+        response = self.make_request('GET', url='/organisations/?name=' + org_name)
         organisations = response.json()['results']
         organisation = next((item for item in organisations if item['name'] == org_name), None)
         return organisation
