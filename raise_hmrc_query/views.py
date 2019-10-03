@@ -1,6 +1,5 @@
 from django.shortcuts import render
 
-# Create your views here.
 from django.views.generic import TemplateView
 
 from core.helpers import convert_dict_to_query_params
