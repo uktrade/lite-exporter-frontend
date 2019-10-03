@@ -108,4 +108,7 @@ def pretty_json(value):
 
 @register.filter(name='times')
 def times(number):
+    """
+    Returns a list of numbers from 1 to the number
+    """
     return [x + 1 for x in range(number)]
