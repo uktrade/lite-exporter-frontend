@@ -402,12 +402,12 @@ def create_standard_application(driver, context):
     enter_export_licence(driver, 'yes', '123456', context)
 
 
-@given("I have a second set up organisation")
+@given("I have a second set up organisation") #noga
 def set_up_second_organisation(register_organisation_for_switching_organisation):
     pass
 
 
-@when("I switch organisations to my second organisation")
+@when("I switch organisations to my second organisation") #noga
 def switch_organisations_to_my_second_organisation(driver, context):
     Hub(driver).click_switch_link()
     no = utils.get_element_index_by_text(Shared(driver).get_radio_buttons_elements(), context.org_name_for_switching_organisations)
