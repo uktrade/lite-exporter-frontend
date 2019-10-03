@@ -17,7 +17,6 @@ class Hub(TemplateView):
 
         notifications = get_notifications(request, unviewed=True)
         organisation = get_organisation(request, str(request.user.organisation))
-
         if organisation.get('type').get('key') == 'hmrc':
             sections = [
                 Section('', [
