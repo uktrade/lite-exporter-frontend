@@ -37,7 +37,8 @@ class Hub(TemplateView):
                 Section('Manage', [
                     Tile(get_string('drafts.title'), '',
                          reverse_lazy('drafts:drafts')),
-                    Tile(get_string('applications.title'), generate_notification_string(notifications, 'application'),
+                    Tile(get_string('applications.title'), generate_notification_string(notifications,
+                                                                                        'base_application'),
                          reverse_lazy('applications:applications')),
                     Tile('Goods', generate_notification_string(notifications, 'control_list_classification_query'),
                          reverse_lazy('goods:goods')),
