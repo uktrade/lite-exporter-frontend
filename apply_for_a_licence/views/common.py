@@ -51,7 +51,7 @@ def get_licence_overview(request, kwargs, errors=None):
     draft_id = str(kwargs['pk'])
     data, status_code = get_draft(request, draft_id)
 
-    if status_code is not 200:
+    if status_code != 200:
         # Wasn't able to get draft so redirecting to exporter hub
         return redirect(reverse('core:hub'))
 
@@ -60,12 +60,12 @@ def get_licence_overview(request, kwargs, errors=None):
     external_locations, _ = get_external_locations_on_draft(request, draft_id)
     additional_documents, _ = get_additional_documents(request, draft_id)
 
-    countries = {'countries': list()}
-    goods = {'goods': list()}
-    goodstypes = {'goods': list()}
-    ultimate_end_users = {'ultimate_end_users': list()}
+    countries = {'countries': []}
+    goods = {'goods': []}
+    goodstypes = {'goods': []}
+    ultimate_end_users = {'ultimate_end_users': []}
     ultimate_end_users_required = False
-    third_parties = {'third_parties': list()}
+    third_parties = {'third_parties': []}
     end_user_document = None
     consignee_document = None
     countries_on_goods_types = False
@@ -129,7 +129,7 @@ class Overview(TemplateView):
         draft_id = str(kwargs['pk'])
         data, status_code = submit_draft(request, draft_id)
 
-        if status_code is not 200:
+        if status_code != 200:
             return get_licence_overview(request, kwargs, data.get('errors'))
 
         return success_page(request,
