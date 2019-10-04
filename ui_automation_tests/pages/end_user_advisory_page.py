@@ -27,7 +27,7 @@ class EndUserAdvisoryPage:
 
     def get_table_rows_and_position(self, id):
         elements = self.driver.find_elements_by_css_selector(self.table_row)
-        no = helpers.get_element_index_by_partial_text(elements, reference_code(id))
+        no = helpers.get_element_index_by_text(elements, reference_code(id), complete_match=False)
         return elements, no
 
     def case_note_notification_bubble_text(self):

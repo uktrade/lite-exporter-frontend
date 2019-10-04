@@ -104,7 +104,7 @@ def i_remove_an_ultimate_end_user(driver):
 @then('there is only one ultimate end user')
 def one_ultimate_end_user(driver):
     elements = Shared(driver).get_lite_sections()
-    no = utils.get_element_index_by_partial_text(elements, "Ultimate End Users")
+    no = utils.get_element_index_by_text(elements, "Ultimate End Users", complete_match=False)
     assert len(elements[no].find_elements_by_css_selector(".govuk-table__row")) == 2, "total on the application overview is incorrect after removing ultimate end user"
 
 

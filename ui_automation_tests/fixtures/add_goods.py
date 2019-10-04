@@ -24,7 +24,7 @@ def add_an_incorporated_good_to_application(driver, request, context, exporter_u
     overview_page.click_goods_link()
     driver.find_element_by_css_selector('a[href*="add-preexisting"]').click()
     elements = driver.find_elements_by_css_selector('.lite-card')
-    no = utils.get_element_index_by_partial_text(elements, context.goods_name)
+    no = utils.get_element_index_by_text(elements, context.goods_name, complete_match=False)
     driver.find_elements_by_css_selector('.lite-card .govuk-button')[no].click()
     application_goods_list = ApplicationGoodsList(driver)
     context.unit = 'Number of articles'
@@ -45,7 +45,7 @@ def add_a_non_incorporated_good_to_application(driver, context, request, exporte
     ApplicationOverviewPage(driver).click_goods_link()
     driver.find_element_by_css_selector('a[href*="add-preexisting"]').click()
     elements = driver.find_elements_by_css_selector('.lite-card')
-    no = utils.get_element_index_by_partial_text(elements, context.goods_name)
+    no = utils.get_element_index_by_text(elements, context.goods_name, complete_match=False)
     driver.find_elements_by_css_selector('.lite-card .govuk-button')[no].click()
     application_goods_list = ApplicationGoodsList(driver)
     context.unit = 'Number of articles'
