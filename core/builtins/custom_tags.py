@@ -81,7 +81,7 @@ def highlight_text(value: str, term: str) -> str:
 
     indexes = [m.start() for m in re.finditer(term, value, flags=re.IGNORECASE)]
 
-    span = '<span class="lite-filter-highlight">'
+    span = '<span class="lite-highlight">'
     span_end = '</span>'
 
     for index in indexes:
@@ -104,3 +104,11 @@ def pretty_json(value):
     Pretty print JSON - for development purposes only.
     """
     return '<pre>' + json.dumps(value, indent=4) + '</pre>'
+
+
+@register.filter(name='times')
+def times(number):
+    """
+    Returns a list of numbers from 1 to the number
+    """
+    return [x + 1 for x in range(number)]

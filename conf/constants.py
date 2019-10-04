@@ -2,6 +2,7 @@ ISO8601_FMT = '%Y-%m-%dT%H:%M:%S.%fZ'
 
 # URLs
 APPLICATIONS_URL = '/applications/'
+APPLICATION_SUBMIT_URL = '/submit/'
 CASES_URL = '/cases/'
 DRAFTS_URL = '/drafts/'
 GOODS_URL = '/goods/'
@@ -13,6 +14,7 @@ CONSIGNEE_DOCUMENT_URL = '/consignee/document/'
 THIRD_PARTIES_URL = '/third-parties/'
 DOCUMENT_URL = '/document/'
 GOODSTYPE_URL = '/goodstype/'
+GOODSTYPE_COUNTRY_URL = GOODSTYPE_URL + 'assign_countries/'
 USERS_URL = '/users/'
 ORGANISATIONS_URL = '/organisations/'
 EXTERNAL_LOCATIONS_URL = '/external_locations/'
@@ -33,6 +35,7 @@ END_USER_ADVISORIES_URL = QUERIES_URL + 'end-user-advisories/'
 STATIC_URL = '/static/'
 UNITS_URL = STATIC_URL + 'units/'
 COUNTRIES_URL = STATIC_URL + 'countries/'
+CONTROL_LIST_ENTRIES_URL = STATIC_URL + 'control-list-entries/'
 
 # Applications constants
 STANDARD_LICENCE = 'standard_licence'
