@@ -91,7 +91,7 @@ def user_is_edited(driver, exporter_url, context, exporter_info):
 
     # I should have the option to deactivate an active user # edit link, and link from user name
     elements = Shared(driver).get_table_rows()
-    no = utils.get_element_index_by_partial_text(Shared(driver).get_table_rows(), email)
+    no = utils.get_element_index_by_text(Shared(driver).get_table_rows(), email, complete_match=False)
     elements[no].find_element_by_link_text('Edit').click()
     exporter_hub.enter_add_user_email(email_edited)
     exporter_hub.enter_first_name("Test_edited")
@@ -122,7 +122,7 @@ def user_is_deactivated(driver, exporter_url, context, request):
     # And I can see that the user is now deactivated
     elements = driver.find_elements_by_css_selector(".govuk-table__row")
     # When I choose the option to manage users # Then I should see the current user for my company
-    no = utils.get_element_index_by_partial_text(elements, context.added_user_name)
+    no = utils.get_element_index_by_text(elements, context.added_user_name)
     assert 'Deactivated' in elements[no].text, \
         "user should status was expected to be Deactivated"
 

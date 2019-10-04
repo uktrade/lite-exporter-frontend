@@ -17,7 +17,7 @@ def add_an_incorporated_good_to_application(driver, request, context, exporter_u
     url = driver.current_url
     overview_page = ApplicationOverviewPage(driver)
     lite_client = get_lite_client(context, seed_data_config=seed_data_config)
-    lite_client.add_good_end_product_false()
+    lite_client.seed_good.add_good_end_product('good_end_product_false')
     context.goods_name = lite_client.context['goods_name']
     driver.get(url)
     utils.scroll_to_element_by_id(driver, 'goods')
@@ -38,7 +38,7 @@ def add_an_incorporated_good_to_application(driver, request, context, exporter_u
 def add_a_non_incorporated_good_to_application(driver, context, request, exporter_url, seed_data_config):
     url = driver.current_url
     lite_client = get_lite_client(context, seed_data_config=seed_data_config)
-    lite_client.add_good_end_product_true()
+    lite_client.seed_good.add_good_end_product('good_end_product_true')
     context.goods_name = lite_client.context['goods_name']
     driver.get(url)
     utils.scroll_to_element_by_id(driver, 'goods')
