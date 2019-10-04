@@ -31,6 +31,18 @@ class ApplicationDetailEmpty(TemplateView):
         return redirect(reverse_lazy('applications:application-detail', kwargs={'pk': application_id,
                                                                                 'type': 'case-notes'}))
 
+class ApplicationEdit(TemplateView):
+
+    def get(self, request, *args, **kwargs):
+        self.application_id = str(kwargs['pk'])
+        application, _ = get_application(request, self.application_id)
+        self.application = application['application']
+        context = {
+            'application': self.application,
+            'title': self.application['name'],
+            'type': 'edit-application',
+        }
+        return render(request, 'applications/application.html', context)
 
 class ApplicationDetail(TemplateView):
     application_id = None

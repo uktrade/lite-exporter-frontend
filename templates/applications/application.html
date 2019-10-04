@@ -49,6 +49,9 @@
 				</div>
 			{% endif %}
 		</a>
+		<a href="{% url 'applications:application-edit' application.id %}" class="lite-tabs__tab {% if type == 'edit-application' %}lite-tabs__tab--selected{% endif %}" id="edit-application-tab">
+			Edit application
+		</a>
 		<!-- <a class="lite-tabs__tab selected">Goods</a>
 		<a class="lite-tabs__tab selected">Destinations</a>
 		<a class="lite-tabs__tab selected">Notes</a>
@@ -61,6 +64,8 @@
 	{% include "applications/tabs/case-notes.html" %}
 {% elif type == 'ecju-queries'%}
 	{% include "applications/tabs/ecju-queries.html" %}
+{% elif type == 'edit-application'%}
+	{% include "applications/tabs/edit-application.html" %}
 {% endif %}
 
 {% endblock %}
