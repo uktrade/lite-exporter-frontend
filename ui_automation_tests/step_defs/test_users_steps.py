@@ -122,7 +122,7 @@ def user_is_deactivated(driver, exporter_url, context, request):
     # And I can see that the user is now deactivated
     elements = driver.find_elements_by_css_selector(".govuk-table__row")
     # When I choose the option to manage users # Then I should see the current user for my company
-    no = utils.get_element_index_by_text(elements, context.added_user_name)
+    no = utils.get_element_index_by_text(elements, context.added_user_name, complete_match=False)
     assert 'Deactivated' in elements[no].text, \
         "user should status was expected to be Deactivated"
 
@@ -135,7 +135,7 @@ def user_reactivate(driver, exporter_url, context):
     exporter_hub.click_reactivate_btn()
     elements = driver.find_elements_by_css_selector(".govuk-table__row")
     # When I choose the option to manage users # Then I should see the current user for my company
-    no = utils.get_element_index_by_partial_text(elements, context.added_user_name)
+    no = utils.get_element_index_by_text(elements, context.added_user_name, complete_match=False)
     assert 'Active' in elements[no].text, \
         "user should status was expected to be Active"
 
