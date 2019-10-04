@@ -172,6 +172,8 @@ STATICFILES_FINDERS = (
 
 SASS_PROCESSOR_ENABLED = True
 
+SERVICE_NAME = 'LITE'
+
 
 # File Upload
 # https://github.com/uktrade/s3chunkuploader

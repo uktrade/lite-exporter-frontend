@@ -18,6 +18,13 @@
 {% endblock %}
 
 {% block body %}
+
+	<style media="screen">
+		.govuk-header__content {
+			display: none;
+		}
+	</style>
+
     {% if applicationDeleted == "true" %}
 		<div class="information information-animated">
 			{% get_string 'drafts.deleted' %}

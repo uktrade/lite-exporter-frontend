@@ -50,7 +50,7 @@
 		<div class="govuk-header__container govuk-width-container">
 
 			<div class="govuk-header__logo">
-				<a href="/" class="govuk-header__link govuk-header__link--homepage">
+				<a href="https://www.gov.uk" class="govuk-header__link govuk-header__link--homepage">
 					<span class="govuk-header__logotype">
 
 						<svg role="presentation" focusable="false" class="govuk-header__logotype-crown" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 132 97" height="32" width="36">
@@ -64,18 +64,23 @@
 					</span>
 				</a>
 			</div>
+			<div class="govuk-header__content">
+				<a href="/" class="govuk-header__link govuk-header__link--service-name">
+					{{ SERVICE_NAME }}
+				</a>
+			</div>
 
             {% if user.is_authenticated %}
                 <div id="lite-user-menu">
-                    <a href="{% url 'authbroker_client:logout' %}" class="lite-user-menu-button">Sign out</a>
-                    <div class="lite-user-menu-divider"></div>
+					<a href="{% url 'authbroker_client:logout' %}" class="lite-user-menu-button">Sign out</a>
+					<div class="lite-user-menu-divider"></div>
 
-                    <a class="lite-user-menu-button" href="{% url 'users:profile' %}">
-                        {{ user.first_name }}
-                        <div class="lite-user-menu-button--user">
-                            {% svg 'user' %}
-                        </div>
-                    </a>
+					<a class="lite-user-menu-button" href="{% url 'users:profile' %}">
+						{{ user.first_name }}
+						<div class="lite-user-menu-button--user">
+							{% svg 'user' %}
+						</div>
+					</a>
                 </div>
             {% endif %}
 		</div>
