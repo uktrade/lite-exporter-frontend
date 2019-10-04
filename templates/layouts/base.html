@@ -62,14 +62,16 @@
 					</a>
 				</div>
 
-				<div class="govuk-header__content">
-					<a href="/" class="govuk-header__link govuk-header__link--service-name">
-						{{ SERVICE_NAME }}
-					</a>
-				</div>
+				{% block header_title %}
+					<div class="govuk-header__content">
+						<a href="/" class="govuk-header__link govuk-header__link--service-name">
+							{{ SERVICE_NAME }}
+						</a>
+					</div>
+				{% endblock %}
 
-	            {% if user.is_authenticated %}
-	                <div id="lite-user-menu">
+				{% if user.is_authenticated %}
+					<div id="lite-user-menu">
 						<a href="{% url 'authbroker_client:logout' %}" class="lite-user-menu-button">Sign out</a>
 						<div class="lite-user-menu-divider"></div>
 						<a class="lite-user-menu-button" href="{% url 'users:profile' %}">
@@ -78,8 +80,8 @@
 								{% svg 'user' %}
 							</div>
 						</a>
-	                </div>
-	            {% endif %}
+					</div>
+				{% endif %}
 			</div>
 		</header>
 	{% endblock %}
@@ -132,8 +134,8 @@
 		window.GOVUKFrontend.initAll()
 	</script>
 
-    {% block javascript %}
-    {% endblock %}
+	{% block javascript %}
+	{% endblock %}
 
 </body>
 
