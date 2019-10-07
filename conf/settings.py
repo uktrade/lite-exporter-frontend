@@ -225,3 +225,8 @@ LOGGING = {
         },
     }
 }
+
+
+# Security settings
+
+SECURE_BROWSER_XSS_FILTER = True
