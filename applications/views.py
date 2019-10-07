@@ -8,6 +8,7 @@ from lite_forms.generators import error_page, form_page
 from applications.forms import respond_to_query_form, ecju_query_respond_confirmation_form
 from applications.services import get_applications, get_application, get_case_notes, \
     get_application_ecju_queries, get_ecju_query, put_ecju_query, post_application_case_notes
+from apply_for_a_licence.views.common import get_licence_overview
 from core.helpers import group_notifications
 from core.services import get_notifications
 
@@ -31,18 +32,12 @@ class ApplicationDetailEmpty(TemplateView):
         return redirect(reverse_lazy('applications:application-detail', kwargs={'pk': application_id,
                                                                                 'type': 'case-notes'}))
 
+
 class ApplicationEdit(TemplateView):
 
-    def get(self, request, *args, **kwargs):
-        self.application_id = str(kwargs['pk'])
-        application, _ = get_application(request, self.application_id)
-        self.application = application['application']
-        context = {
-            'application': self.application,
-            'title': self.application['name'],
-            'type': 'edit-application',
-        }
-        return render(request, 'applications/application.html', context)
+    def get(self, request, **kwargs):
+        return get_licence_overview(request, kwargs)
+
 
 class ApplicationDetail(TemplateView):
     application_id = None

@@ -4,7 +4,7 @@ from conf.constants import APPLICATIONS_URL, DRAFTS_URL, END_USER_DOCUMENT_URL, 
 
 
 def get_drafts(request):
-    data = get(request, DRAFTS_URL)
+    data = get(request, APPLICATIONS_URL + '?submitted=false')
     return data.json(), data.status_code
 
 
@@ -14,7 +14,7 @@ def get_draft(request, pk):
 
 
 def post_drafts(request, json):
-    data = post(request, DRAFTS_URL, json)
+    data = post(request, APPLICATIONS_URL, json)
     return data.json(), data.status_code
 
 

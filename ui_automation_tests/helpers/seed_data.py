@@ -330,7 +330,7 @@ class SeedData:
     def add_draft(self, draft=None, good=None, enduser=None, ultimate_end_user=None, consignee=None):
         self.log('Creating draft: ...')
         data = self.request_data['draft'] if draft is None else draft
-        response = self.make_request('POST', url='/drafts/', headers=self.export_headers, body=data)
+        response = self.make_request('POST', url='/applications/', headers=self.export_headers, body=data)
         draft_id = response.json()['draft']['id']
         self.add_to_context('draft_id', draft_id)
         self.log('Adding site: ...')

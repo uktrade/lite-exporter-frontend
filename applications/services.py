@@ -8,7 +8,7 @@ def get_application(request, pk):
 
 
 def get_applications(request):
-    data = get(request, APPLICATIONS_URL)
+    data = get(request, APPLICATIONS_URL + '?submitted=true')
     return data.json()['applications']
 
 
