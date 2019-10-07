@@ -9,7 +9,7 @@ def get_drafts(request):
 
 
 def get_draft(request, pk):
-    data = get(request, DRAFTS_URL + pk)
+    data = get(request, APPLICATIONS_URL + pk)
     return data.json(), data.status_code
 
 

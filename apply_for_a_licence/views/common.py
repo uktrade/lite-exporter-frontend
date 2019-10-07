@@ -55,7 +55,7 @@ def get_licence_overview(request, kwargs, errors=None):
         # Wasn't able to get draft so redirecting to exporter hub
         return redirect(reverse('core:hub'))
 
-    draft = data.get('draft')
+    draft = data.get('application')
     sites, _ = get_sites_on_draft(request, draft_id)
     external_locations, _ = get_external_locations_on_draft(request, draft_id)
     additional_documents, _ = get_additional_documents(request, draft_id)
@@ -98,7 +98,7 @@ def get_licence_overview(request, kwargs, errors=None):
 
     context = {
         'title': 'Application Overview',
-        'draft': draft,
+        'application': draft,
         'sites': sites['sites'],
         'goods': goods['goods'],
         'countries': countries['countries'],
@@ -147,7 +147,7 @@ class DeleteApplication(TemplateView):
         draft, _ = get_draft(request, draft_id)
         context = {
             'title': 'Are you sure you want to delete this application?',
-            'draft': draft.get('draft'),
+            'application': draft.get('application'),
             'page': 'apply_for_a_licence/modals/cancel_application.html',
         }
         return render(request, 'core/static.html', context)
