@@ -25,6 +25,10 @@ def driver(request):
     # chrome_options.add_argument('--headless')
     chrome_options.add_argument('--no-sandbox')
 
+    # Use proxy settings provided in config file for security testing
+    if os.environ.get('PROXY_IP_PORT') is not None:
+        chrome_options.add_argument('--proxy-server=%s' % str(os.environ.get('PROXY_IP_PORT')))
+
     if browser == 'chrome':
         if str(os.environ.get('ENVIRONMENT')) == 'None':
             browser = webdriver.Chrome("chromedriver", options=chrome_options)
@@ -67,3 +71,10 @@ def s3_key(request):
 @fixture(scope="session")
 def invalid_username(request):
     return "invalid@mail.com"
+
+
+@fixture(scope="session")
+def seed_data_config(request, exporter_sso_login_info, s3_key):
+    exporter_sso_email = exporter_sso_login_info['email']
+    api_url = request.config.getoption("--lite_api_url")
+    return {'api_url': api_url, 'email': exporter_sso_email, 's3_key': s3_key}

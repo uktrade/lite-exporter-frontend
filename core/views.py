@@ -17,7 +17,19 @@ class Hub(TemplateView):
 
         notifications = get_notifications(request, unviewed=True)
         organisation = get_organisation(request, str(request.user.organisation))
-        sections = [
+        if organisation.get('type').get('key') == 'hmrc':
+            sections = [
+                Section('', [
+                    Tile('Make a Customs enquiry', '',
+                         reverse_lazy('raise_hmrc_query:select_organisation')),
+                ]),
+                Section('Manage', [
+                    Tile(get_string('drafts.title'), '',
+                         reverse_lazy('drafts:drafts')),
+                ])
+            ]
+        else:
+            sections = [
                 Section('', [
                     Tile(get_string('licences.apply_for_a_licence'), '',
                          reverse_lazy('apply_for_a_licence:index')),
@@ -25,7 +37,8 @@ class Hub(TemplateView):
                 Section('Manage', [
                     Tile(get_string('drafts.title'), '',
                          reverse_lazy('drafts:drafts')),
-                    Tile(get_string('applications.title'), generate_notification_string(notifications, 'application'),
+                    Tile(get_string('applications.title'), generate_notification_string(notifications,
+                                                                                        'base_application'),
                          reverse_lazy('applications:applications')),
                     Tile('Goods', generate_notification_string(notifications, 'control_list_classification_query'),
                          reverse_lazy('goods:goods')),
@@ -34,10 +47,10 @@ class Hub(TemplateView):
                 ]),
             ]
 
-        if organisation.get('sub_type').get('key') == 'individual':
-            sections[1].tiles.append(Tile('Manage my sites', '', reverse_lazy('sites:sites')))
-        else:
-            sections[1].tiles.append(Tile('Manage my organisation', '', reverse_lazy('users:users')))
+            if organisation.get('type').get('key') == 'individual':
+                sections[1].tiles.append(Tile('Manage my sites', '', reverse_lazy('sites:sites')))
+            else:
+                sections[1].tiles.append(Tile('Manage my organisation', '', reverse_lazy('users:users')))
 
         context = {
             'organisation': organisation,
