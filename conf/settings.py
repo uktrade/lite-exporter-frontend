@@ -54,6 +54,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'authbroker_client.middleware.ProtectAllViewsMiddleware',
+    'conf.middleware.TestMiddleware',
     'conf.middleware.LoggingMiddleware',
     'conf.middleware.ProtectAllViewsMiddleware',
     'conf.middleware.UploadFailedMiddleware',
@@ -229,5 +230,13 @@ LOGGING = {
 
 # Security settings
 
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
+if DEBUG:
+    # Disable security features in local environment.
+    SECURE_BROWSER_XSS_FILTER = False
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False
+else:
+    # Enable security features in hosted environments.
+    SECURE_BROWSER_XSS_FILTER = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
