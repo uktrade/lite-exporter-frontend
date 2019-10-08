@@ -225,3 +225,8 @@ LOGGING = {
         },
     }
 }
+
+
+# Security
+
+SECURE_CONTENT_TYPE_NOSNIFF = True
