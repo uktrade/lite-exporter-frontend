@@ -55,7 +55,7 @@ def get_licence_overview(request, kwargs, errors=None):
         # Wasn't able to get draft so redirecting to exporter hub
         return redirect(reverse('core:hub'))
 
-    draft = data.get('application')
+    draft_application = data.get('application')
     sites, _ = get_sites_on_draft(request, draft_id)
     external_locations, _ = get_external_locations_on_draft(request, draft_id)
     additional_documents, _ = get_additional_documents(request, draft_id)
@@ -70,11 +70,11 @@ def get_licence_overview(request, kwargs, errors=None):
     consignee_document = None
     countries_on_goods_types = False
 
-    if draft['licence_type']['key'] == STANDARD_LICENCE:
+    if draft_application['licence_type']['key'] == STANDARD_LICENCE:
         ultimate_end_users, _ = get_ultimate_end_users(request, draft_id)
         third_parties, _ = get_third_parties(request, draft_id)
-        end_user = draft.get('end_user')
-        consignee = draft.get('consignee')
+        end_user = draft_application.get('end_user')
+        consignee = draft_application.get('consignee')
         goods, _ = get_draft_goods(request, draft_id)
 
         if end_user:
@@ -98,7 +98,7 @@ def get_licence_overview(request, kwargs, errors=None):
 
     context = {
         'title': 'Application Overview',
-        'draft': draft,
+        'application': draft_application,
         'sites': sites['sites'],
         'goods': goods['goods'],
         'countries': countries['countries'],
@@ -143,11 +143,11 @@ class Overview(TemplateView):
 # Delete Application
 class DeleteApplication(TemplateView):
     def get(self, request, **kwargs):
-        draft_id = str(kwargs['pk'])
-        draft, _ = get_draft(request, draft_id)
+        application_id = str(kwargs['pk'])
+        application, _ = get_draft(request, application_id)
         context = {
             'title': 'Are you sure you want to delete this application?',
-            'application': draft.get('application'),
+            'application': application.get('application'),
             'page': 'apply_for_a_licence/modals/cancel_application.html',
         }
         return render(request, 'core/static.html', context)

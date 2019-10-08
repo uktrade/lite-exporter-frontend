@@ -24,7 +24,7 @@ def put_draft(request, pk, json):
 
 
 def delete_draft(request, pk):
-    data = delete(request, DRAFTS_URL + pk)
+    data = delete(request, APPLICATIONS_URL + pk)
     return data.json(), data.status_code
 
 
@@ -35,7 +35,7 @@ def submit_draft(request, pk):
 
 # Goods
 def get_draft_goods(request, pk):
-    data = get(request, DRAFTS_URL + pk + '/goods/')
+    data = get(request, APPLICATIONS_URL + pk + '/goods/')
     return data.json(), data.status_code
 
 
@@ -45,15 +45,16 @@ def get_draft_goods_types(request, pk):
 
 
 def get_draft_good(request, pk, good_pk):
-    data = get(request, DRAFTS_URL + pk + '/goods/' + good_pk + '/')
+    data = get(request, APPLICATIONS_URL + pk + '/goods/' + good_pk + '/')
     return data.json(), data.status_code
 
 
 def post_draft_preexisting_goods(request, pk, json):
-    data = post(request, DRAFTS_URL + pk + '/goods/', json)
+    data = post(request, APPLICATIONS_URL + pk + '/goods/', json)
     return data.json(), data.status_code
 
 
+# End User
 def post_end_user(request, pk, json):
     data = post(request, DRAFTS_URL + pk + '/end-user/', json)
     return data.json(), data.status_code
