@@ -98,7 +98,7 @@ def get_licence_overview(request, kwargs, errors=None):
 
     context = {
         'title': 'Application Overview',
-        'application': draft,
+        'draft': draft,
         'sites': sites['sites'],
         'goods': goods['goods'],
         'countries': countries['countries'],
