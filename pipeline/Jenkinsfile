@@ -163,6 +163,10 @@ pipeline
                 value: "${params.AWS_STORAGE_BUCKET_NAME}"
               - name: AWS_REGION
                 value: "${params.AWS_REGION}"
+              - name: TEST_SSO_EMAIL
+                value: "${params.TEST_SSO_EMAIL}"
+              - name: TEST_SSO_NAME
+                value: "${params.TEST_SSO_NAME}"
         """) {
           node(POD_LABEL) {
             container(name: 'selenium-export-frontend', shell: '/bin/bash') {
