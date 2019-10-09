@@ -14,15 +14,6 @@ from drafts.services import post_drafts, get_draft, get_draft_goods, submit_draf
     get_end_user_document
 
 
-class StartApplication(TemplateView):
-    def get(self, request, **kwargs):
-        context = {
-            'title': get_string('licences.apply_for_a_licence'),
-            'service_uses': get_string('licences.use_this_service_to'),
-        }
-        return render(request, 'apply_for_a_licence/index.html', context)
-
-
 class InitialQuestions(TemplateView):
     forms = initial_questions()
 
