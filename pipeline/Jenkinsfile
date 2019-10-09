@@ -167,6 +167,8 @@ pipeline
                 value: "${params.TEST_SSO_EMAIL}"
               - name: TEST_SSO_NAME
                 value: "${params.TEST_SSO_NAME}"
+              - name: TEST_SSO_PASSWORD
+                value: "${params.TEST_SSO_PASSWORD}"
         """) {
           node(POD_LABEL) {
             container(name: 'selenium-export-frontend', shell: '/bin/bash') {
