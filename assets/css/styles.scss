@@ -143,16 +143,6 @@ main {
 	}
 }
 
-.js-is-sticky {
-	bottom: 0;
-}
-
-.js-is-stuck {
-	&:before {
-		opacity: 0;
-	}
-}
-
 .lite-overview-section-header {
 	display: inline-block;
 	@include govuk-font($size: 24, $weight: bold);
