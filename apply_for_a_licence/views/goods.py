@@ -13,12 +13,12 @@ class DraftGoodsList(TemplateView):
     def get(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
         draft, _ = get_draft(request, draft_id)
-        data, _ = get_draft_goods(request, draft_id)
+        goods = get_draft_goods(request, draft_id)
 
         context = {
             'title': get_string('applications.standard.goods.title'),
             'draft_id': draft_id,
-            'data': data,
+            'data': goods,
             'draft': draft
         }
         return render(request, 'apply_for_a_licence/goods/index.html', context)
@@ -56,12 +56,12 @@ class DraftOpenGoodsList(TemplateView):
     def get(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
         draft, _ = get_draft(request, draft_id)
-        data, _ = get_draft_goods(request, draft_id)
+        goods = get_draft_goods(request, draft_id)
 
         context = {
             'title': 'Application Goods',
             'draft_id': draft_id,
-            'data': data,
+            'goods': goods,
             'draft': draft
         }
         return render(request, 'apply_for_a_licence/goods/index.html', context)

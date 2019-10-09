@@ -36,7 +36,7 @@ def submit_draft(request, pk):
 # Goods
 def get_draft_goods(request, pk):
     data = get(request, DRAFTS_URL + pk + '/goods/')
-    return data.json(), data.status_code
+    return data.json()
 
 
 def get_draft_goods_types(request, pk):
