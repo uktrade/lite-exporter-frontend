@@ -10,7 +10,7 @@
 
     <h2 class="govuk-heading-l" style="display: inline-block">{{ title }}</h2>
 
-    <a href="{% url 'apply_for_a_licence:overview' application.id %}" class="govuk-button" style="display: inline-block; float: right">Edit Application</a>
+    <a href="{% url 'applications:application-edit' application.id %}" class="govuk-button" style="display: inline-block; float: right">Edit Application</a>
 
     <div class="lite-information-board">
         <div class="govuk-grid-row">

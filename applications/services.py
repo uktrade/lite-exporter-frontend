@@ -1,4 +1,4 @@
-from conf.client import get, post, put
+from conf.client import get, post, put, delete
 from conf.constants import CASE_NOTES_URL, APPLICATIONS_URL, CASES_URL, ECJU_QUERIES_URL
 
 
@@ -10,6 +10,11 @@ def get_application(request, pk):
 def get_applications(request):
     data = get(request, APPLICATIONS_URL + '?submitted=true')
     return data.json()['applications']
+
+
+def delete_application_preexisting_good(request, good_on_application_pk):
+    response = delete(request, APPLICATIONS_URL + 'good-on-application/' + good_on_application_pk)
+    return response.status_code
 
 
 # Case related

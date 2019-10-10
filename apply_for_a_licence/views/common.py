@@ -9,9 +9,9 @@ from apply_for_a_licence.forms.initial import initial_questions
 from core.builtins.custom_tags import get_string
 from core.services import get_sites_on_draft, get_external_locations_on_draft
 from drafts.services import get_third_parties, get_consignee_document, get_additional_documents
-from drafts.services import post_draft_application, get_draft_application, get_draft_application_goods, submit_draft_application, \
-    delete_draft_application, get_draft_countries, get_application_goods_types, get_ultimate_end_users, \
-    get_end_user_document
+from drafts.services import post_draft_application, get_draft_application, get_draft_application_goods, \
+    submit_draft_application, delete_draft_application, get_draft_countries, get_application_goods_types, \
+    get_ultimate_end_users, get_end_user_document
 
 
 class StartApplication(TemplateView):
@@ -47,18 +47,12 @@ def check_all_parties_have_a_document(parties):
     return True
 
 
-def get_licence_overview(request, kwargs, errors=None):
-    draft_id = str(kwargs['pk'])
-    data, status_code = get_draft_application(request, draft_id)
+def get_licence_overview(request, application, errors=None):
+    application_id = application['id']
 
-    if status_code != 200:
-        # Wasn't able to get draft so redirecting to exporter hub
-        return redirect(reverse('core:hub'))
-
-    draft_application = data.get('application')
-    sites, _ = get_sites_on_draft(request, draft_id)
-    external_locations, _ = get_external_locations_on_draft(request, draft_id)
-    additional_documents, _ = get_additional_documents(request, draft_id)
+    sites, _ = get_sites_on_draft(request, application_id)
+    external_locations, _ = get_external_locations_on_draft(request, application_id)
+    additional_documents, _ = get_additional_documents(request, application_id)
 
     countries = {'countries': []}
     goods = {'goods': []}
@@ -70,27 +64,27 @@ def get_licence_overview(request, kwargs, errors=None):
     consignee_document = None
     countries_on_goods_types = False
 
-    if draft_application['licence_type']['key'] == STANDARD_LICENCE:
-        ultimate_end_users, _ = get_ultimate_end_users(request, draft_id)
-        third_parties, _ = get_third_parties(request, draft_id)
-        end_user = draft_application.get('end_user')
-        consignee = draft_application.get('consignee')
-        goods, _ = get_draft_application_goods(request, draft_id)
+    if application['licence_type']['key'] == STANDARD_LICENCE:
+        ultimate_end_users, _ = get_ultimate_end_users(request, application_id)
+        third_parties, _ = get_third_parties(request, application_id)
+        end_user = application.get('end_user')
+        consignee = application.get('consignee')
+        goods, _ = get_draft_application_goods(request, application_id)
 
         if end_user:
-            end_user_document, _ = get_end_user_document(request, draft_id)
+            end_user_document, _ = get_end_user_document(request, application_id)
             end_user_document = end_user_document.get('document')
 
         if consignee:
-            consignee_document, _ = get_consignee_document(request, draft_id)
+            consignee_document, _ = get_consignee_document(request, application_id)
             consignee_document = consignee_document.get('document')
 
         for good in goods['goods']:
             if not good['good']['is_good_end_product']:
                 ultimate_end_users_required = True
     else:
-        goodstypes, _ = get_application_goods_types(request, draft_id)
-        countries, _ = get_draft_countries(request, draft_id)
+        goodstypes, _ = get_application_goods_types(request, application_id)
+        countries, _ = get_draft_countries(request, application_id)
 
         for good in goodstypes['goods']:
             if good['countries']:
@@ -98,7 +92,7 @@ def get_licence_overview(request, kwargs, errors=None):
 
     context = {
         'title': 'Application Overview',
-        'application': draft_application,
+        'application': application,
         'sites': sites['sites'],
         'goods': goods['goods'],
         'countries': countries['countries'],
@@ -123,14 +117,23 @@ def get_licence_overview(request, kwargs, errors=None):
 
 class Overview(TemplateView):
     def get(self, request, **kwargs):
-        return get_licence_overview(request, kwargs)
+        draft_data, status_code = get_draft_application(request, str(kwargs['pk']))
+
+        if status_code != 200:
+            # Wasn't able to get the draft, so redirecting to exporter hub
+            return redirect(reverse('core:hub'))
+
+        return get_licence_overview(request, application=draft_data.get('application'))
 
     def post(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
-        data, status_code = submit_draft_application(request, draft_id)
+
+        draft_data, _ = get_draft_application(request, str(kwargs['pk']))
+        submit_data, status_code = submit_draft_application(request, draft_id)
 
         if status_code != 200:
-            return get_licence_overview(request, kwargs, data.get('errors'))
+            return get_licence_overview(request, application=draft_data.get('application'),
+                                        errors=submit_data.get('errors'))
 
         return success_page(request,
                             title='Application submitted',

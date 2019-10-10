@@ -1,6 +1,6 @@
 from django.http import Http404
 from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic import TemplateView
 from lite_forms.components import HiddenField
 from lite_forms.generators import error_page, form_page
@@ -34,9 +34,14 @@ class ApplicationDetailEmpty(TemplateView):
 
 
 class ApplicationEdit(TemplateView):
-
     def get(self, request, **kwargs):
-        return get_licence_overview(request, kwargs)
+        application_data, status_code = get_application(request, str(kwargs['pk']))
+
+        if status_code != 200:
+            # Wasn't able to get application so redirecting to exporter hub
+            return redirect(reverse('core:hub'))
+
+        return get_licence_overview(request, application=application_data.get('application'))
 
 
 class ApplicationDetail(TemplateView):
@@ -119,7 +124,6 @@ class RespondToQuery(TemplateView):
                                                                  'type': 'ecju-queries'}))
 
         return super(RespondToQuery, self).dispatch(request, *args, **kwargs)
-
 
     def get(self, request, **kwargs):
         """

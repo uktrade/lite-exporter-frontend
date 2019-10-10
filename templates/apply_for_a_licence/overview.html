@@ -124,14 +124,16 @@
                     <th class="govuk-table__header" scope="row">Qty</th>
 					<th class="govuk-table__header" scope="row">Unit</th>
                     <th class="govuk-table__header" scope="row">Value Per Good</th>
+                    <th class="govuk-table__header" scope="row"></th>
 				</tr>
 				{% for good in goods %}
-					<tr class="govuk-table__row">
+					<tr class="govuk-table__row" id="good-on-application-row-{{ good.id }}">
 						<td class="govuk-table__cell" scope="row">{{ good.good.description }}</td>
                         <td class="govuk-table__cell" scope="row">{{ good.good.part_number }}</td>
                         <td class="govuk-table__cell" scope="row">{{ good.quantity }}</td>
                         <td class="govuk-table__cell" scope="row">{{ good.unit.value }}</td>
                         <td class="govuk-table__cell" scope="row">£{{ good.value }}</td>
+                        <td class="govuk-table__cell" scope="row"><a href="{% url 'apply_for_a_licence:remove_preexisting_good' application.id good.id %}">Remove</a></td>
 					</tr>
 				{% endfor %}
 			</tbody>

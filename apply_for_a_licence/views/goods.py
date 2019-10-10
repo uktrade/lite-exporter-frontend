@@ -1,11 +1,14 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
+from lite_forms.generators import error_page
 
 from apply_for_a_licence.forms import goods
 from core.builtins.custom_tags import get_string
 from core.services import get_units
-from drafts.services import get_draft_application, get_draft_application_goods, get_application_goods_types, post_draft_preexisting_goods
+from drafts.services import get_draft_application, get_draft_application_goods, get_application_goods_types, \
+    post_draft_preexisting_goods
+from applications.services import delete_application_preexisting_good
 from goods.services import get_goods, get_good
 
 
@@ -125,3 +128,16 @@ class AddPreexistingGood(TemplateView):
             return render(request, 'form.html', context)
 
         return redirect(reverse_lazy('apply_for_a_licence:goods', kwargs={'pk': draft_id}))
+
+
+class RemovePreexistingGood(TemplateView):
+    def get(self, request, **kwargs):
+        application_id = str(kwargs['pk'])
+        good_on_application_id = str(kwargs['good_on_application_pk'])
+
+        status_code = delete_application_preexisting_good(request, good_on_application_id)
+
+        if status_code != 200:
+            return error_page(request, 'Unexpected error deleting good')
+
+        return redirect(reverse_lazy('applications:application-edit', kwargs={'pk': application_id}))
