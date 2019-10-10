@@ -54,7 +54,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'authbroker_client.middleware.ProtectAllViewsMiddleware',
-    'conf.middleware.TestMiddleware',
     'conf.middleware.LoggingMiddleware',
     'conf.middleware.ProtectAllViewsMiddleware',
     'conf.middleware.UploadFailedMiddleware',
@@ -239,6 +238,6 @@ if DEBUG:
     CSRF_COOKIE_SECURE = False
 else:
     # Enable security features in hosted environments.
-    SECURE_BROWSER_XSS_FILTER = True
-    SESSION_COOKIE_SECURE = True
-    CSRF_COOKIE_SECURE = True
+    SECURE_BROWSER_XSS_FILTER = not DEBUG
+    SESSION_COOKIE_SECURE = not DEBUG
+    CSRF_COOKIE_SECURE = not DEBUG
