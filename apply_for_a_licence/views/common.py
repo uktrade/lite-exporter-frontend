@@ -4,20 +4,10 @@ from django.views.generic import TemplateView
 from lite_forms.generators import form_page, success_page
 from lite_forms.submitters import submit_paged_form
 
-from conf.constants import STANDARD_LICENCE
 from apply_for_a_licence.forms.initial import initial_questions
-from core.builtins.custom_tags import get_string
+from conf.constants import STANDARD_LICENCE
 from core.services import get_sites_on_draft, get_external_locations_on_draft
 from drafts import services
-
-
-class StartApplication(TemplateView):
-    def get(self, request, **kwargs):
-        context = {
-            'title': get_string('licences.apply_for_a_licence'),
-            'service_uses': get_string('licences.use_this_service_to'),
-        }
-        return render(request, 'apply_for_a_licence/index.html', context)
 
 
 class InitialQuestions(TemplateView):
