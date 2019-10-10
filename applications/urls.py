@@ -8,9 +8,6 @@ urlpatterns = [
     path('', views.ApplicationsList.as_view(), name='applications'),
     # ex: /applications/43a88949-5db9-4334-b0cc-044e91827451/
     path('<uuid:pk>/', views.ApplicationDetailEmpty.as_view(), name='application'),
-    # ex: /applications/43a88949-5db9-4334-b0cc-044e91827451/edit/
-    # EDIT must come before <str:type>, otherwise it would not be picked up
-    path('<uuid:pk>/edit/', views.ApplicationEdit.as_view(), name='application-edit'),
     # ex: /applications/43a88949-5db9-4334-b0cc-044e91827451/case-notes/
     path('<uuid:pk>/<str:type>/', views.ApplicationDetail.as_view(), name='application-detail'),
     # ex: /applications/43a88949-5db9-4334-b0cc-044e91827451/
