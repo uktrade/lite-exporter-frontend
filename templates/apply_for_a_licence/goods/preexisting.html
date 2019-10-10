@@ -42,42 +42,22 @@
 		<div class="govuk-grid-column-two-thirds">
 			{% if description or part_number or control_code %}
 				<div class="lite-filter-bar">
-					<p>Showing goods where</p>
-					{% if description %}
-						<p>description contains</p>
-						<a href="{% url 'apply_for_a_licence:preexisting_good' draft_id %}?part_number={{ part_number }}&?control_rating={{ control_code }}" class="govuk-button govuk-button--secondary lite-filter-bar-item">
-							<div class="lite-filter-bar-item-remove">
-								✕
-							</div>
-							{{ description }}
-						</a>
-					{% endif %}
-					{% if description and part_number and not control_code %}
-						<p>and</p>
-					{% elif part_number and control_code%}
-                        <p>,</p>
+                    <b>Containing</b>
+                    {% if description %}
+                        <a href="{% url 'apply_for_a_licence:preexisting_good' draft_id %}?part_number={{ part_number }}&control_rating={{ control_code }}" class="govuk-button govuk-button--secondary lite-filter-bar-item">
+                            <div class="lite-filter-bar-item-remove">✕</div>{{ description }}
+                        </a>
                     {% endif %}
-					{% if part_number %}
-						<p>part number contains</p>
-						<a href="{% url 'apply_for_a_licence:preexisting_good' draft_id %}?description={{ description }}&?control_rating={{ control_code }}" class="govuk-button govuk-button--secondary lite-filter-bar-item">
-							<div class="lite-filter-bar-item-remove">
-								✕
-							</div>
-							{{ part_number }}
-						</a>
-					{% endif %}
-                    {% if description and part_number and control_code %}
-                        <p>and</p>
+                    {% if part_number %}
+                        <a href="{% url 'apply_for_a_licence:preexisting_good' draft_id %}?description={{ description }}&control_rating={{ control_code }}" class="govuk-button govuk-button--secondary lite-filter-bar-item">
+                            <div class="lite-filter-bar-item-remove">✕</div>{{ part_number }}
+                        </a>
                     {% endif %}
                     {% if control_code %}
-						<p>control list entry contains</p>
-						<a href="{% url 'apply_for_a_licence:preexisting_good' draft_id %}?description={{ description }}&?part_number={{ part_number }}" class="govuk-button govuk-button--secondary lite-filter-bar-item">
-							<div class="lite-filter-bar-item-remove">
-								✕
-							</div>
-							{{ control_code }}
-						</a>
-					{% endif %}
+                        <a href="{% url 'apply_for_a_licence:preexisting_good' draft_id %}?description={{ description }}&part_number={{ part_number }}" class="govuk-button govuk-button--secondary lite-filter-bar-item">
+                            <div class="lite-filter-bar-item-remove">✕</div>{{ control_code }}
+                        </a>
+                    {% endif %}
 				</div>
 			{% endif %}
 			{% if data %}
