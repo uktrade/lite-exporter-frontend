@@ -1,9 +1,9 @@
 from django.urls import path
 
-from . import views
+from drafts import views
 
 app_name = 'drafts'
 urlpatterns = [
-    # ex: /
-    path('', views.index, name='drafts'),
+    # ex: /drafts/ - View all drafts
+    path('', views.DraftsList.as_view(), name='drafts'),
 ]

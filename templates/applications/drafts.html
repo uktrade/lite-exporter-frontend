@@ -1,18 +1,10 @@
 {% extends 'layouts/full_width.html' %}
 
-{% load humanize svg %}
-
 {% block back_link %}
 	{% include 'includes/breadcrumbs.html' %}
 {% endblock %}
 
 {% block body %}
-
-	{% if applicationDeleted == "true" %}
-		<div class="information information-animated">
-			{% get_string 'drafts.deleted' %}
-		</div>
-	{% endif %}
 
 	<div class="lite-app-bar">
 		<div class="lite-app-bar__content">
@@ -21,6 +13,17 @@
 		<div class="lite-app-bar__controls">
 			<a href="{% url 'apply_for_a_licence:index' %}" class="govuk-button" draggable="false" role="button">
 				{% get_string 'licences.apply_for_a_licence' %}
+			</a>
+		</div>
+	</div>
+
+	<div class="lite-tabs--fade">
+		<div class="lite-tabs">
+			<a href="{% url 'applications:applications' %}" class="lite-tabs__tab">
+				Active
+			</a>
+			<a href="{% url 'drafts:drafts' %}" class="lite-tabs__tab lite-tabs__tab--selected">
+				Drafts
 			</a>
 		</div>
 	</div>
@@ -68,24 +71,15 @@
 				{% endfor %}
 			</tbody>
 		</table>
-
-		<!--<div class="lite-pagination">
-			<a href="#" class="lite-pagination--item lite-pagination--selected-item">
-				1
-			</a>
-			<a href="#" class="lite-pagination--item">
-				2
-			</a>
-			<a href="#" class="lite-pagination--item">
-				3
-			</a>
-			<a href="#" class="lite-pagination--item">
-				4
-			</a>
-		</div>-->
-
 	{% else %}
-		<p class="govuk-caption-l">{% get_string 'drafts.no_drafts' %}</p>
+		<br>
+		<div class="lite-information-text">
+			<span class="lite-information-text__icon" aria-hidden="true">!</span>
+			<p class="lite-information-text__text">
+			<span class="govuk-visually-hidden">Information</span>
+				You don't have any draft applications currently.
+			</p>
+		</div>
 	{% endif %}
 
 	{% load static %}

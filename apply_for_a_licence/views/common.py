@@ -75,7 +75,7 @@ def get_licence_overview(request, kwargs, errors=None):
         third_parties, _ = get_third_parties(request, draft_id)
         end_user = draft.get('end_user')
         consignee = draft.get('consignee')
-        goods, _ = get_draft_goods(request, draft_id)
+        goods = get_draft_goods(request, draft_id)
 
         if end_user:
             end_user_document, _ = get_end_user_document(request, draft_id)

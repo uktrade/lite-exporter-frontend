@@ -1,12 +1,11 @@
 {% extends 'layouts/full_width.html' %}
 
-{% load humanize %}
-
 {% block back_link %}
 	{% include 'includes/breadcrumbs.html' %}
 {% endblock %}
 
 {% block body %}
+
 	<div class="lite-app-bar">
 		<div class="lite-app-bar__content">
 			<h1 class="govuk-heading-l">{{ title }}</h1>
@@ -17,6 +16,17 @@
 			</a>
 			<a href="{% url 'apply_for_a_licence:index' %}" class="govuk-button" draggable="false" role="button">
 				{% get_string 'licences.apply_for_a_licence' %}
+			</a>
+		</div>
+	</div>
+
+	<div class="lite-tabs--fade">
+		<div class="lite-tabs">
+			<a href="{% url 'applications:applications' %}" class="lite-tabs__tab lite-tabs__tab--selected">
+				Active
+			</a>
+			<a href="{% url 'drafts:drafts' %}" class="lite-tabs__tab">
+				Drafts
 			</a>
 		</div>
 	</div>
@@ -52,7 +62,14 @@
 			</tbody>
 		</table>
 	{% else %}
-		<p class="govuk-caption-l">{% get_string 'applications.no_applications' %}</p>
+		<br>
+		<div class="lite-information-text">
+			<span class="lite-information-text__icon" aria-hidden="true">!</span>
+			<p class="lite-information-text__text">
+			<span class="govuk-visually-hidden">Information</span>
+				You haven't applied for any licences yet.
+			</p>
+		</div>
 	{% endif %}
 
 {% endblock %}
