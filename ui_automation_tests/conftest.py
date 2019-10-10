@@ -87,6 +87,16 @@ def last_name(request):
     return request.config.getoption("--last_name")
 
 
+@given('an application exists')
+def application_exists(add_an_application):
+    pass
+
+
+@when('I click on application previously created')
+def click_on_an_application(driver, context):
+    driver.find_element_by_partial_link_text(context.app_name).click()
+
+
 @given('I go to exporter homepage and choose Test Org')  # noqa
 def go_to_exporter(driver, register_organisation, sso_sign_in, exporter_url, context):
     if 'pick-organisation' in driver.current_url:

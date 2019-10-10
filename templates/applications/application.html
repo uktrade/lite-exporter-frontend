@@ -3,14 +3,18 @@
 {% load humanize static %}
 
 {% block back_link %}
-	<a href="{% url 'applications:applications' %}" class="govuk-back-link">Back</a>
+    <a href="{% url 'applications:applications' %}" class="govuk-back-link">Back</a>
 {% endblock %}
 
 {% block body %}
-
-    <h2 class="govuk-heading-l" style="display: inline-block">{{ title }}</h2>
-
-    <a href="{% url 'applications:application-edit' application.id %}" class="govuk-button" style="display: inline-block; float: right">Edit Application</a>
+    <div class="lite-app-bar">
+        <div class="lite-app-bar__content">
+            <h1 class="govuk-heading-l">{{ title }}</h1>
+        </div>
+        <div class="lite-app-bar__controls">
+            <a href="{% url 'applications:application-edit' application.id %}" class="govuk-button">Edit Application</a>
+        </div>
+    </div>
 
     <div class="lite-information-board">
         <div class="govuk-grid-row">
@@ -35,7 +39,9 @@
 
     <div class="lite-tabs--fade">
         <div class="lite-tabs">
-            <a href="{% url 'applications:application-detail' application.id 'case-notes' %}" class="lite-tabs__tab {% if type == 'case-notes' %}lite-tabs__tab--selected{% endif %}" id="case-notes-tab">
+            <a href="{% url 'applications:application-detail' application.id 'case-notes' %}"
+               class="lite-tabs__tab {% if type == 'case-notes' %}lite-tabs__tab--selected{% endif %}"
+               id="case-notes-tab">
                 Notes
                 {% if case_note_notifications %}
                     <div class="lite-notification-bubble">
@@ -43,7 +49,9 @@
                     </div>
                 {% endif %}
             </a>
-            <a href="{% url 'applications:application-detail' application.id 'ecju-queries' %}" class="lite-tabs__tab {% if type == 'ecju-queries' %}lite-tabs__tab--selected{% endif %}" id="ecju-queries-tab">
+            <a href="{% url 'applications:application-detail' application.id 'ecju-queries' %}"
+               class="lite-tabs__tab {% if type == 'ecju-queries' %}lite-tabs__tab--selected{% endif %}"
+               id="ecju-queries-tab">
                 ECJU Queries
                 {% if ecju_query_notifications %}
                     <div class="lite-notification-bubble">
@@ -61,7 +69,7 @@
     </div>
     {% if type == 'case-notes' %}
         {% include "applications/tabs/case-notes.html" %}
-    {% elif type == 'ecju-queries'%}
+    {% elif type == 'ecju-queries' %}
         {% include "applications/tabs/ecju-queries.html" %}
     {% endif %}
 

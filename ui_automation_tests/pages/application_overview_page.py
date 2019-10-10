@@ -1,3 +1,6 @@
+from selenium.common.exceptions import NoSuchElementException
+
+
 class ApplicationOverviewPage:
 
     def __init__(self, driver):
@@ -24,6 +27,13 @@ class ApplicationOverviewPage:
         self.download_consignee_document = "consignee_document_download"  # ID
         self.delete_consignee_document = "consignee_document_delete"  # ID
         self.goods_countries_link = "goods_country_assignments"  # ID
+        self.remove_good_link = "a[href*='good-on-application']"
+
+    def find_remove_good_link(self):
+        try:
+            return self.driver.find_element_by_css_selector(self.remove_good_link)
+        except NoSuchElementException:
+            return None
 
     def click_application_locations_link(self):
         self.driver.execute_script("document.getElementById('" + self.location_link + "').scrollIntoView(true);")

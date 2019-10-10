@@ -1,21 +1,10 @@
 from pytest_bdd import when, then, parsers, scenarios, given
 
-from pages.shared import Shared
 from pages.submitted_applications_page import SubmittedApplicationsPages
 
 import helpers.helpers as utils
 
 scenarios('../features/case_notes.feature', strict_gherkin=False)
-
-
-@given('an application exists')
-def application_exists_case_note_added(add_an_application):
-    pass
-
-
-@when('I click on application previously created')
-def click_on_an_application(driver, context):
-    driver.find_element_by_partial_link_text(context.app_name).click()
 
 
 @when(parsers.parse('I enter "{text}" for case note'))
