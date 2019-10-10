@@ -229,7 +229,6 @@ LOGGING = {
 
 
 # Security settings
-<<<<<<< HEAD
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_BROWSER_XSS_FILTER = True
 
