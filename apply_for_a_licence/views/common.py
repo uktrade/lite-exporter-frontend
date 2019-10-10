@@ -8,10 +8,7 @@ from conf.constants import STANDARD_LICENCE
 from apply_for_a_licence.forms.initial import initial_questions
 from core.builtins.custom_tags import get_string
 from core.services import get_sites_on_draft, get_external_locations_on_draft
-from drafts.services import get_third_parties, get_consignee_document, get_additional_documents
-from drafts.services import post_draft_application, get_draft_application, get_draft_application_goods, submit_draft_application, \
-    delete_draft_application, get_draft_countries, get_application_goods_types, get_ultimate_end_users, \
-    get_end_user_document
+from drafts import services
 
 
 class StartApplication(TemplateView):
@@ -30,7 +27,7 @@ class InitialQuestions(TemplateView):
         return form_page(request, self.forms.forms[0])
 
     def post(self, request, **kwargs):
-        response, data = submit_paged_form(request, self.forms, post_draft_application)
+        response, data = submit_paged_form(request, self.forms, services.post_draft_application)
 
         # If there are more forms to go through, continue
         if response:
@@ -49,7 +46,7 @@ def check_all_parties_have_a_document(parties):
 
 def get_licence_overview(request, kwargs, errors=None):
     draft_id = str(kwargs['pk'])
-    data, status_code = get_draft_application(request, draft_id)
+    data, status_code = services.get_draft_application(request, draft_id)
 
     if status_code != 200:
         # Wasn't able to get draft so redirecting to exporter hub
@@ -58,7 +55,7 @@ def get_licence_overview(request, kwargs, errors=None):
     draft_application = data.get('application')
     sites, _ = get_sites_on_draft(request, draft_id)
     external_locations, _ = get_external_locations_on_draft(request, draft_id)
-    additional_documents, _ = get_additional_documents(request, draft_id)
+    additional_documents, _ = services.get_additional_documents(request, draft_id)
 
     countries = {'countries': []}
     goods = {'goods': []}
@@ -71,26 +68,26 @@ def get_licence_overview(request, kwargs, errors=None):
     countries_on_goods_types = False
 
     if draft_application['licence_type']['key'] == STANDARD_LICENCE:
-        ultimate_end_users, _ = get_ultimate_end_users(request, draft_id)
-        third_parties, _ = get_third_parties(request, draft_id)
+        ultimate_end_users, _ = services.get_ultimate_end_users(request, draft_id)
+        third_parties, _ = services.get_third_parties(request, draft_id)
         end_user = draft_application.get('end_user')
         consignee = draft_application.get('consignee')
-        goods, _ = get_draft_application_goods(request, draft_id)
+        goods, _ = services.get_draft_application_goods(request, draft_id)
 
         if end_user:
-            end_user_document, _ = get_end_user_document(request, draft_id)
+            end_user_document, _ = services.get_end_user_document(request, draft_id)
             end_user_document = end_user_document.get('document')
 
         if consignee:
-            consignee_document, _ = get_consignee_document(request, draft_id)
+            consignee_document, _ = services.get_consignee_document(request, draft_id)
             consignee_document = consignee_document.get('document')
 
         for good in goods['goods']:
             if not good['good']['is_good_end_product']:
                 ultimate_end_users_required = True
     else:
-        goodstypes, _ = get_application_goods_types(request, draft_id)
-        countries, _ = get_draft_countries(request, draft_id)
+        goodstypes, _ = services.get_application_goods_types(request, draft_id)
+        countries, _ = services.get_draft_countries(request, draft_id)
 
         for good in goodstypes['goods']:
             if good['countries']:
@@ -127,7 +124,7 @@ class Overview(TemplateView):
 
     def post(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
-        data, status_code = submit_draft_application(request, draft_id)
+        data, status_code = services.submit_draft_application(request, draft_id)
 
         if status_code != 200:
             return get_licence_overview(request, kwargs, data.get('errors'))
@@ -144,7 +141,7 @@ class Overview(TemplateView):
 class DeleteApplication(TemplateView):
     def get(self, request, **kwargs):
         application_id = str(kwargs['pk'])
-        application, _ = get_draft_application(request, application_id)
+        application, _ = services.get_draft_application(request, application_id)
         context = {
             'title': 'Are you sure you want to delete this application?',
             'application': application.get('application'),
@@ -154,7 +151,7 @@ class DeleteApplication(TemplateView):
 
     def post(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
-        delete_draft_application(request, draft_id)
+        services.delete_draft_application(request, draft_id)
 
         if request.GET.get('return') == 'drafts':
             return redirect(reverse_lazy('drafts:index') + '/?application_deleted=true')
