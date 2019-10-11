@@ -34,7 +34,7 @@ def submit_draft_application(request, pk):
 
 
 # Goods
-def get_draft_application_goods(request, pk):
+def get_application_goods(request, pk):
     data = get(request, APPLICATIONS_URL + pk + '/goods/')
     return data.json(), data.status_code
 
@@ -55,7 +55,7 @@ def post_draft_preexisting_goods(request, pk, json):
 
 
 # Countries
-def get_draft_countries(request, pk):
+def get_application_countries(request, pk):
     data = get(request, APPLICATIONS_URL + pk + '/countries/')
     return data.json(), data.status_code
 

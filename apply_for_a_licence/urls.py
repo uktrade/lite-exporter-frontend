@@ -14,17 +14,20 @@ urlpatterns = [
     # ex: /<uuid:pk>/overview/
     path('<uuid:pk>/overview/', common.Overview.as_view(), name='overview'),
 
-    # ex: /<uuid:pk/open-goods/
-    path('<uuid:pk>/add/open-goods', goodstypeviews.DraftAddGoodsType.as_view(), name='add_open_goods'),
-    # ex: /<uuid:pk>/goods/
+    # ex: /apply_for_a_licence/<uuid:pk/open-goods/add
+    path('<uuid:pk>open-goods/add', goodstypeviews.DraftAddGoodsType.as_view(), name='add_open_goods'),
+    # ex: /apply_for_a_licence/<uuid:pk/open-goods/remove
+    # path('<uuid:pk>open-goods/remove', goodstypeviews.DraftAddGoodsType.as_view(), name='add_open_goods'),
+    # ex: /apply_for_a_licence/<uuid:pk>/open-goods/
     path('<uuid:pk>/open-goods/', goods.DraftOpenGoodsTypeList.as_view(), name='open_goods'),
+    # ex: /apply_for_a_licence/<uuid:pk>/goods/
     path('<uuid:pk>/goods/', goods.DraftGoodsList.as_view(), name='goods'),
-    # ex: /<uuid:pk>/goods/add-preexisting/
+    # ex: /apply_for_a_licence/<uuid:pk>/goods/add-preexisting/
     path('<uuid:pk>/goods/add-preexisting/', goods.GoodsList.as_view(), name='preexisting_good'),
-    # ex: /<uuid:pk>/goods/add-preexisting/<uuid:pk>/add/
+    # ex: /apply_for_a_licence/<uuid:pk>/goods/add-preexisting/<uuid:pk>/add/
     path('<uuid:pk>/goods/add-preexisting/<uuid:good_pk>/add/', goods.AddPreexistingGood.as_view(),
          name='add_preexisting_good'),
-    # ex: /<uuid:pk>/good-on-application/<uuid:good_on_application_pk>/remove/
+    # ex: /apply_for_a_licence/<uuid:pk>/good-on-application/<uuid:good_on_application_pk>/remove/
     path('<uuid:pk>/good-on-application/<uuid:good_on_application_pk>/remove/', goods.RemovePreexistingGood.as_view(),
          name='remove_preexisting_good'),
 
@@ -71,7 +74,7 @@ urlpatterns = [
     # ex: /apply_for_a_licence/<uuid:pk>/ultimate-end-user/attach-document
     path('<uuid:pk>/ultimate-end-user/<uuid:ueu_pk>/document/attach', documents.AttachDocuments.as_view(),
          name='ultimate_end_user_attach_document'),
-    # ex: /apply_for_a_licence//<uuid:pk>/ultimate-end-user/download-document/ - Get documents
+    # ex: /apply_for_a_licence/<uuid:pk>/ultimate-end-user/download-document/ - Get documents
     path('<uuid:pk>/ultimate-end-user/<uuid:ueu_pk>/document/download', documents.DownloadDocument.as_view(),
          name='ultimate_end_user_download_document'),
     # ex: /apply_for_a_licence/<uuid:pk>/ultimate-end-user/download-document/ - Delete a document
@@ -84,7 +87,7 @@ urlpatterns = [
     path('<uuid:pk>/ultimate-end-users/<uuid:ueu_pk>/remove', end_users.RemoveUltimateEndUser.as_view(),
          name='remove_ultimate_end_user'),
 
-    # ex: /<uuid:pk>/third-party/
+    # ex: /<uuid:pk>/third-parties/
     path('<uuid:pk>/third-parties/', third_parties.ThirdParties.as_view(), name='third_parties'),
     # ex: /<uuid:pk>/third-parties/add
     path('<uuid:pk>/third-parties/add', third_parties.AddThirdParty.as_view(), name='add_third_party'),

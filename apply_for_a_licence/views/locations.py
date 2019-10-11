@@ -9,7 +9,7 @@ from apply_for_a_licence.forms.location import which_location_form, new_location
 from apply_for_a_licence.forms.sites import sites_form
 from core.services import get_sites_on_draft, post_sites_on_draft, post_external_locations, \
     get_external_locations_on_draft, get_external_locations, post_external_locations_on_draft
-from drafts.services import get_draft_application, get_draft_countries, post_draft_countries
+from drafts.services import get_draft_application, get_application_countries, post_draft_countries
 
 
 class Location(TemplateView):
@@ -144,7 +144,7 @@ class AddExistingExternalLocation(TemplateView):
 class Countries(TemplateView):
     def get(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
-        countries, _ = get_draft_countries(request, draft_id)
+        countries, _ = get_application_countries(request, draft_id)
 
         return form_page(request, countries_form(draft_id), data=countries)
 

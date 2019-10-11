@@ -9,8 +9,8 @@ from apply_for_a_licence.forms.initial import initial_questions
 from core.builtins.custom_tags import get_string
 from core.services import get_sites_on_draft, get_external_locations_on_draft
 from drafts.services import get_third_parties, get_consignee_document, get_additional_documents
-from drafts.services import post_draft_application, get_draft_application, get_draft_application_goods, \
-    submit_draft_application, delete_draft_application, get_draft_countries, get_application_goods_types, \
+from drafts.services import post_draft_application, get_draft_application, get_application_goods, \
+    submit_draft_application, delete_draft_application, get_application_countries, get_application_goods_types, \
     get_ultimate_end_users, get_end_user_document
 
 
@@ -69,7 +69,7 @@ def get_licence_overview(request, application, errors=None):
         third_parties, _ = get_third_parties(request, application_id)
         end_user = application.get('end_user')
         consignee = application.get('consignee')
-        goods, _ = get_draft_application_goods(request, application_id)
+        goods, _ = get_application_goods(request, application_id)
 
         if end_user:
             end_user_document, _ = get_end_user_document(request, application_id)
@@ -84,7 +84,7 @@ def get_licence_overview(request, application, errors=None):
                 ultimate_end_users_required = True
     else:
         goodstypes, _ = get_application_goods_types(request, application_id)
-        countries, _ = get_draft_countries(request, application_id)
+        countries, _ = get_application_countries(request, application_id)
 
         for good in goodstypes['goods']:
             if good['countries']:

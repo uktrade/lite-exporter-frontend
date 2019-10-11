@@ -148,6 +148,7 @@
 				<tr class="govuk-table__row">
                     <th class="govuk-table__header" scope="row">Description</th>
 					<th class="govuk-table__header" scope="row">Control List Classification</th>
+                    <th class="govuk-table__header" scope="row"></th>
 				</tr>
 				{% for goodstype in goodstypes %}
 
@@ -158,6 +159,7 @@
                         {% else %}
                             <td  class="govuk-table__cell" scope="row">N/A</td>
                         {% endif %}
+                        <td class="govuk-table__cell" scope="row"><a href="{% url 'apply_for_a_licence:remove_preexisting_good' application.id goodstype.id %}">Remove</a></td>
                     </tr>
 				{% endfor %}
 			</tbody>

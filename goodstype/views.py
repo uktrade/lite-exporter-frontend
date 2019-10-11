@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from lite_forms.generators import form_page
 
-from drafts.services import get_application_goods_types, get_draft_countries
+from drafts.services import get_application_goods_types, get_application_countries
 from goodstype.forms import goods_type_form
 from goodstype.services import post_goods_type, post_goods_type_countries
 
@@ -35,7 +35,7 @@ class GoodsTypeCountries(TemplateView):
         self.draft_id = str(kwargs['pk'])
         goods, _ = get_application_goods_types(request, self.draft_id)
         self.goods = goods['goods']
-        countries, _ = get_draft_countries(request, self.draft_id)
+        countries, _ = get_application_countries(request, self.draft_id)
         self.countries = countries['countries']
 
         return super(GoodsTypeCountries, self).dispatch(request, *args, **kwargs)

@@ -6,7 +6,7 @@ from lite_forms.generators import error_page
 from apply_for_a_licence.forms import goods
 from core.builtins.custom_tags import get_string
 from core.services import get_units
-from drafts.services import get_draft_application, get_draft_application_goods, get_application_goods_types, \
+from drafts.services import get_draft_application, get_application_goods, get_application_goods_types, \
     post_draft_preexisting_goods
 from applications.services import delete_application_preexisting_good
 from goods.services import get_goods, get_good
@@ -16,7 +16,7 @@ class DraftGoodsList(TemplateView):
     def get(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
         draft, _ = get_draft_application(request, draft_id)
-        data, _ = get_draft_application_goods(request, draft_id)
+        data, _ = get_application_goods(request, draft_id)
 
         context = {
             'title': get_string('applications.standard.goods.title'),
@@ -59,7 +59,7 @@ class DraftOpenGoodsList(TemplateView):
     def get(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
         draft, _ = get_draft_application(request, draft_id)
-        data, _ = get_draft_application_goods(request, draft_id)
+        data, _ = get_application_goods(request, draft_id)
 
         context = {
             'title': 'Application Goods',
