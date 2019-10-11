@@ -1,8 +1,6 @@
-from conf.settings import env
-import os
-import types
-from selenium import webdriver
 from pytest import fixture
+
+from conf.settings import env
 
 
 @fixture(scope="session")
