@@ -227,8 +227,15 @@ LOGGING = {
     }
 }
 
-# CSP Security settings
+# Security settings
 
+# Enable security features in hosted environments.
+SECURE_BROWSER_XSS_FILTER = not DEBUG
+SESSION_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SECURE = not DEBUG
+SECURE_CONTENT_TYPE_NOSNIFF = not DEBUG
+
+# Content Security Policy
 CSP_DEFAULT_SRC = ("'self'",)
 CSP_STYLE_SRC = ("'self'", "'unsafe-inline'")
 CSP_SCRIPT_SRC = ("'self'", 'https://www.googletagmanager.com', 'https://script.hotjar.com', 'ajax.googleapis.com', 'https://www.google-analytics.com')
