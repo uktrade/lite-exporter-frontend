@@ -12,11 +12,11 @@ from ui_automation_tests.fixtures.add_end_user_advisory import add_end_user_advi
 from ui_automation_tests.fixtures.internal_ecju_query import internal_ecju_query, internal_ecju_query_end_user_advisory  # noqa
 from ui_automation_tests.fixtures.sso_sign_in import sso_sign_in  # noqa
 from ui_automation_tests.fixtures.internal_case_note import internal_case_note, internal_case_note_end_user_advisory  # noqa
-from ui_automation_tests.fixtures.urls import exporter_url, api_url  # noqa
 
 from ui_automation_tests.shared.fixtures.apply_for_application import apply_for_standard_application, add_an_ecju_query  # noqa
 from ui_automation_tests.shared.fixtures.driver import driver  # noqa
 from ui_automation_tests.shared.fixtures.core import context, invalid_username, exporter_info, internal_info, s3_key, seed_data_config  # noqa
+from ui_automation_tests.shared.fixtures.urls import exporter_url, api_url  # noqa
 
 import shared.tools.helpers as utils
 from pages.add_goods_page import AddGoodPage
