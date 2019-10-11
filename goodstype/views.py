@@ -1,14 +1,14 @@
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
-from lite_forms.generators import form_page
+from lite_forms.generators import form_page, error_page
 
 from drafts.services import get_application_goods_types, get_application_countries
 from goodstype.forms import goods_type_form
-from goodstype.services import post_goods_type, post_goods_type_countries
+from goodstype.services import post_goods_type, post_goods_type_countries, delete_goods_type
 
 
-class DraftAddGoodsType(TemplateView):
+class ApplicationAddGoodsType(TemplateView):
     def get(self, request, **kwargs):
         return form_page(request, goods_type_form())
 
@@ -24,6 +24,19 @@ class DraftAddGoodsType(TemplateView):
         if next:
             return redirect(next)
         return redirect(reverse_lazy('apply_for_a_licence:overview', args=[kwargs['pk']]))
+
+
+class ApplicationRemoveGoodsType(TemplateView):
+    def get(self, request, **kwargs):
+        application_id = str(kwargs['pk'])
+        good_type_id = str(kwargs['goods_type_pk'])
+
+        status_code = delete_goods_type(request, good_type_id)
+
+        if status_code != 204:
+            return error_page(request, 'Unexpected error deleting goods description')
+
+        return redirect(reverse_lazy('applications:application-edit', kwargs={'pk': application_id}))
 
 
 class GoodsTypeCountries(TemplateView):

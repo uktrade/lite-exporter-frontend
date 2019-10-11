@@ -12,10 +12,11 @@ urlpatterns = [
     # ex: /<uuid:pk>/overview/
     path('<uuid:pk>/overview/', common.Overview.as_view(), name='overview'),
 
-    # ex: /apply_for_a_licence/<uuid:pk/open-goods/add
-    path('<uuid:pk>open-goods/add', goodstypeviews.DraftAddGoodsType.as_view(), name='add_open_goods'),
-    # ex: /apply_for_a_licence/<uuid:pk/open-goods/remove
-    # path('<uuid:pk>open-goods/remove', goodstypeviews.DraftAddGoodsType.as_view(), name='add_open_goods'),
+    # ex: /apply_for_a_licence/<uuid:pk>/open-goods/add/
+    path('<uuid:pk>/goods-types/add/', goodstypeviews.ApplicationAddGoodsType.as_view(), name='add_goods_type'),
+    # ex: /apply_for_a_licence/<uuid:pk>/open-goods/remove/<uuid:goods_type_pk>/
+    path('<uuid:pk>/goods-types/remove/<uuid:goods_type_pk>/', goodstypeviews.ApplicationRemoveGoodsType.as_view(),
+         name='remove_goods_type'),
     # ex: /apply_for_a_licence/<uuid:pk>/open-goods/
     path('<uuid:pk>/open-goods/', goods.DraftOpenGoodsTypeList.as_view(), name='open_goods'),
     # ex: /apply_for_a_licence/<uuid:pk>/goods/

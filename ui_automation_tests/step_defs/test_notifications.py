@@ -8,7 +8,7 @@ scenarios('../features/notifications.feature', strict_gherkin=False)
 
 
 @given('an application exists and a case note has been added via internal gov site')
-def application_exists_case_note_added(driver, add_an_application, internal_case_note, context):
+def application_exists_case_note_added(driver, add_a_standard_application, internal_case_note, context):
     context.number_of_notifications = Hub(driver).return_number_of_notifications()
 
 

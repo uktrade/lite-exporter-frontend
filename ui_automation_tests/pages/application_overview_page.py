@@ -28,6 +28,13 @@ class ApplicationOverviewPage:
         self.delete_consignee_document = "consignee_document_delete"  # ID
         self.goods_countries_link = "goods_country_assignments"  # ID
         self.remove_good_link = "a[href*='good-on-application']"
+        self.remove_goods_type_link = "a[href*='goods-types']"
+
+    def find_remove_goods_type_link(self):
+        try:
+            return self.driver.find_element_by_css_selector(self.remove_goods_type_link)
+        except NoSuchElementException:
+            return None
 
     def find_remove_good_link(self):
         try:

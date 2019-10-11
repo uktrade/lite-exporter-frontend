@@ -6,11 +6,6 @@ from pages.application_page import ApplicationPage
 scenarios('../features/edit_standard_application.feature', strict_gherkin=False)
 
 
-@when('I click edit application')
-def i_click_edit_application(driver):
-    good = ApplicationPage(driver).click_edit_application_link()
-
-
 @when("I remove all goods on the application")
 def i_remove_all_goods_on_the_application(driver):
     """

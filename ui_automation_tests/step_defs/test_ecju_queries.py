@@ -9,12 +9,12 @@ scenarios('../features/ecju_queries.feature', strict_gherkin=False)
 
 
 @given('An application exists and a ecju query has been added via internal gov site')
-def application_exists_ecju_query_added(add_an_application):
+def application_exists_ecju_query_added(add_a_standard_application):
     pass
 
 
 @when('I go to the recently created application')
-def click_on_an_application(driver, exporter_url, context, add_an_application):
+def click_on_an_application(driver, exporter_url, context, add_a_standard_application):
     driver.get(exporter_url.rstrip('/') + "/applications/" + context.app_id)
 
 

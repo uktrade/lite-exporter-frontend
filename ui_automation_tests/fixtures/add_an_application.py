@@ -6,7 +6,7 @@ from shared.tools.utils import Timer, get_lite_client
 
 
 @fixture(scope='module')
-def add_an_application(driver, request, exporter_url, context, seed_data_config):
+def add_a_standard_application(driver, request, exporter_url, context, seed_data_config):
     timer = Timer()
     lite_client = get_lite_client(context, seed_data_config=seed_data_config)
 
@@ -54,3 +54,26 @@ def add_an_application(driver, request, exporter_url, context, seed_data_config)
     context.case_id = lite_client.context['case_id']
     lite_client.seed_ecju.add_ecju_query(context.case_id)
     timer.print_time('apply_for_standard_application')
+
+
+@fixture(scope='module')
+def add_an_open_application(driver, request, exporter_url, context, seed_data_config):
+    timer = Timer()
+    lite_client = get_lite_client(context, seed_data_config=seed_data_config)
+
+    app_time_id = datetime.datetime.now().strftime(' %d%H%M%S')
+    context.app_time_id = app_time_id
+    app_name = 'Test Open Application' + app_time_id
+
+    lite_client.add_open_draft(
+        draft={
+            'name': app_name,
+            'licence_type': 'open_licence',
+            'export_type': 'permanent',
+            'have_you_been_informed': 'yes',
+            'reference_number_on_information_form': '1234'
+        })
+    context.open_app_id = lite_client.context['open_draft_id']
+    context.open_app_name = app_name
+    lite_client.submit_open_application(draft_id=context.open_app_id)
+    timer.print_time('apply_for_open_application')

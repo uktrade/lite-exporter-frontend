@@ -31,7 +31,7 @@ def update_goods_type(request, pk, json):
 
 def delete_goods_type(request, pk):
     data = delete(request, GOODSTYPE_URL + pk)
-    return data.json(), data.status_code
+    return data.status_code
 
 
 def post_goods_type_countries(request, json):

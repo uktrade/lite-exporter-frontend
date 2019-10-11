@@ -7,7 +7,7 @@ from selenium.webdriver.common.by import By
 from fixtures.core import context, driver, invalid_username, exporter_info, internal_info, s3_key, seed_data_config  # noqa
 from fixtures.register_organisation import register_organisation, register_organisation_for_switching_organisation  # noqa
 from fixtures.add_goods import add_an_incorporated_good_to_application, add_a_non_incorporated_good_to_application, create_non_incorporated_good  # noqa
-from fixtures.add_an_application import add_an_application  # noqa
+from fixtures.add_an_application import add_a_standard_application, add_an_open_application  # noqa
 from fixtures.add_clc_query import add_clc_query  # noqa
 from fixtures.add_end_user_advisory import add_end_user_advisory  # noqa
 from fixtures.internal_ecju_query import internal_ecju_query, internal_ecju_query_end_user_advisory  # noqa
@@ -19,6 +19,7 @@ import shared.tools.helpers as utils
 from pages.add_goods_page import AddGoodPage
 from pages.add_new_external_location_form_page import AddNewExternalLocationFormPage
 from pages.application_overview_page import ApplicationOverviewPage
+from pages.application_page import ApplicationPage
 from pages.apply_for_a_licence_page import ApplyForALicencePage
 from pages.attach_document_page import AttachDocumentPage
 from pages.exporter_hub_page import ExporterHubPage
@@ -87,14 +88,19 @@ def last_name(request):
     return request.config.getoption("--last_name")
 
 
-@given('an application exists')
-def application_exists(add_an_application):
+@given('a standard application exists')
+def standard_application_exists(add_a_standard_application):
     pass
 
 
 @when('I click on application previously created')
 def click_on_an_application(driver, context):
     driver.find_element_by_partial_link_text(context.app_name).click()
+
+
+@when('I click edit application')
+def i_click_edit_application(driver):
+    ApplicationPage(driver).click_edit_application_link()
 
 
 @given('I go to exporter homepage and choose Test Org')  # noqa

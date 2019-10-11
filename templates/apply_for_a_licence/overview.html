@@ -159,7 +159,7 @@
                         {% else %}
                             <td  class="govuk-table__cell" scope="row">N/A</td>
                         {% endif %}
-                        <td class="govuk-table__cell" scope="row"><a href="{% url 'apply_for_a_licence:remove_preexisting_good' application.id goodstype.id %}">Remove</a></td>
+                        <td class="govuk-table__cell" scope="row"><a href="{% url 'apply_for_a_licence:remove_goods_type' application.id goodstype.id %}">Remove</a></td>
                     </tr>
 				{% endfor %}
 			</tbody>
