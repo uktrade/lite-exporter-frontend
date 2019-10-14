@@ -38,9 +38,10 @@ def ecju_query_respond_confirmation_form(edit_response_url):
 
 def edit_type_form(application_id):
     inputs = [RadioButtons(title='Do you want to:', name='edit-type', description='Do we want anything here?',
-                           options=[Option(key='minor', value='Add a site'),
-                                    Option(key='minor', value='Delete a site, good, third party or country'),
-                                    Option(key='major', value='Do something else')])]
+                           options=[Option(key='minor',
+                                           value='Add a site, or delete a site, good, third party or country'),
+                                    Option(key='major',
+                                           value='Do something else')])]
 
     return Form(title='Editing your application',
                 description='[WARNING] If you want to change something else, you will need to resubmit your application'
