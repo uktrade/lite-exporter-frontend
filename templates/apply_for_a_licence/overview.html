@@ -341,6 +341,7 @@
 				<tr class="govuk-table__row">
 					<th class="govuk-table__header" scope="row">Type</th>
 					<td class="govuk-table__cell">{{ application.end_user.sub_type.value|title }}</td>
+					<td class="govuk-table__cell"><a href="{% url 'apply_for_a_licence:remove_end_user' application.id %}">Remove</a></td>
 				</tr>
 				<tr class="govuk-table__row">
 					<th class="govuk-table__header" scope="row">Name</th>

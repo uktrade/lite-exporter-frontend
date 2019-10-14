@@ -34,7 +34,7 @@ class ApplicationRemoveGoodsType(TemplateView):
         status_code = delete_goods_type(request, good_type_id)
 
         if status_code != 204:
-            return error_page(request, 'Unexpected error deleting goods description')
+            return error_page(request, 'Unexpected error removing goods description')
 
         return redirect(reverse_lazy('application-edit-overview', kwargs={'pk': application_id}))
 

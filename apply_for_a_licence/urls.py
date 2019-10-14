@@ -50,6 +50,8 @@ urlpatterns = [
 
     # ex: /<uuid:pk>/end-user/
     path('<uuid:pk>/end-user/', end_users.EndUser.as_view(), name='end_user'),
+    # ex: /<uuid:pk>/end-user/remove
+    path('<uuid:pk>/end-user/remove', end_users.RemoveEndUser.as_view(), name='remove_end_user'),
     # ex: /apply_for_a_licence/<uuid:pk>/end-user/attach-document
     path('<uuid:pk>/end-user/document/attach', documents.AttachDocuments.as_view(), name='end_user_attach_document'),
     # ex: /apply_for_a_licence/<uuid:pk>/end-user/download-document/ - Get document

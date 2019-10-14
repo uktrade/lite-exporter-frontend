@@ -1,14 +1,14 @@
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
-from lite_forms.generators import form_page
+from lite_forms.generators import form_page, error_page
 from lite_forms.submitters import submit_paged_form
 
 from apply_for_a_licence.forms.end_user import new_end_user_forms
 from conf.constants import STANDARD_LICENCE
 from core.builtins.custom_tags import get_string
 from drafts.services import get_draft_application, post_end_user, get_ultimate_end_users, post_ultimate_end_user, \
-    delete_ultimate_end_user
+    delete_ultimate_end_user, delete_end_user
 
 
 class EndUser(TemplateView):
@@ -29,6 +29,17 @@ class EndUser(TemplateView):
             return redirect(reverse_lazy('apply_for_a_licence:end_user_attach_document', kwargs={'pk': draft_id}))
         else:
             return redirect(reverse_lazy('apply_for_a_licence:overview', kwargs={'pk': draft_id}))
+
+
+class RemoveEndUser(TemplateView):
+    def get(self, request, **kwargs):
+        application_id = str(kwargs['pk'])
+        status_code = delete_end_user(request, application_id)
+
+        if status_code != 204:
+            return error_page(request, 'Unexpected error removing end user')
+
+        return redirect(reverse_lazy('apply_for_a_licence:overview', kwargs={'pk': application_id}))
 
 
 class UltimateEndUsers(TemplateView):
