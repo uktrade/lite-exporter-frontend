@@ -5,7 +5,7 @@ from django.views.generic import TemplateView
 from lite_forms.components import HiddenField
 from lite_forms.generators import error_page, form_page
 
-from applications.forms import respond_to_query_form, ecju_query_respond_confirmation_form
+from applications.forms import respond_to_query_form, ecju_query_respond_confirmation_form, edit_type_form
 from applications.services import get_applications, get_application, get_case_notes, \
     get_application_ecju_queries, get_ecju_query, put_ecju_query, post_application_case_notes
 from apply_for_a_licence.views.common import get_licence_overview
@@ -33,7 +33,24 @@ class ApplicationDetailEmpty(TemplateView):
                                                                                 'type': 'case-notes'}))
 
 
-class ApplicationEdit(TemplateView):
+class ApplicationEditType(TemplateView):
+    form = edit_type_form()
+
+    def get(self, request, **kwargs):
+        return form_page(request, edit_type_form())
+
+    # def post(self, request, **kwargs):
+    #
+    #     post to api - > change status
+    #
+    #
+    #     if post to api is successful:
+    #         return 'application-edit-overview'
+    #     else:
+    #         return 'some-template.html'
+
+
+class ApplicationEditOverview(TemplateView):
     def get(self, request, **kwargs):
         application_data, status_code = get_application(request, str(kwargs['pk']))
 
@@ -42,6 +59,13 @@ class ApplicationEdit(TemplateView):
             return redirect(reverse('core:hub'))
 
         return get_licence_overview(request, application=application_data.get('application'))
+
+    # def post(self, request, **kwargs):
+    #
+    #     if post to api is successful:
+    #         return 'application-edit-overview'
+    #     else:
+    #         return 'some-template.html'
 
 
 class ApplicationDetail(TemplateView):

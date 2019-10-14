@@ -1,5 +1,5 @@
 from django.urls import reverse_lazy
-from lite_forms.components import HiddenField, Form, BackLink, TextArea, HTMLBlock
+from lite_forms.components import HiddenField, Form, BackLink, TextArea, HTMLBlock, RadioButtons, Option
 from lite_forms.generators import confirm_form
 
 
@@ -34,3 +34,14 @@ def ecju_query_respond_confirmation_form(edit_response_url):
                         back_url=edit_response_url,
                         submit_button_text="Continue"
                         )
+
+
+def edit_type_form():
+    inputs = [RadioButtons(title='', name='', description='',
+                           options=[Option(key='minor', value='minor'), Option(key='major', value='major')])]
+
+    return Form(title='',
+                description='',
+                questions=inputs,
+                back_link=BackLink('Back to application', reverse_lazy()),
+                default_button_name='Continue')
