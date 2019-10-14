@@ -45,3 +45,9 @@ def get_application_ecju_queries(request, pk):
     closed_queries = [x for x in data if x['response']]
 
     return open_queries, closed_queries
+
+
+def set_application_status(request, pk, status):
+    json = {'status': status}
+    data = put(request, APPLICATIONS_URL + pk + '/', json)
+    return data.json(), data.status_code

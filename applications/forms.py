@@ -36,12 +36,17 @@ def ecju_query_respond_confirmation_form(edit_response_url):
                         )
 
 
-def edit_type_form():
-    inputs = [RadioButtons(title='', name='', description='',
-                           options=[Option(key='minor', value='minor'), Option(key='major', value='major')])]
+def edit_type_form(application_id):
+    inputs = [RadioButtons(title='Do you want to:', name='edit-type', description='Do we want anything here?',
+                           options=[Option(key='minor', value='Add a site'),
+                                    Option(key='minor', value='Delete a site, good, third party or country'),
+                                    Option(key='major', value='Do something else')])]
 
-    return Form(title='',
-                description='',
+    return Form(title='Editing your application',
+                description='[WARNING] If you want to change something else, you will need to resubmit your application'
+                            '. This means that it may take longer to make a decision about your application.',
                 questions=inputs,
-                back_link=BackLink('Back to application', reverse_lazy()),
+                back_link=BackLink('Back to application', reverse_lazy('applications:application-detail',
+                                                                       kwargs={'pk': application_id,
+                                                                               'type': 'ecju-queries'})),
                 default_button_name='Continue')

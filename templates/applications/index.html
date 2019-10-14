@@ -36,7 +36,12 @@
 				{% for application in applications %}
 					<tr class="govuk-table__row">
 						<td class="govuk-table__cell">
-							<a class="govuk-link govuk-link--no-visited-state app-icon-label" href="{% url 'applications:application' application.id %}">
+							<a class="govuk-link govuk-link--no-visited-state app-icon-label"
+							    {% if application.status == 'applicant_editing' %}
+									href="{% url 'applications:application-edit-overview' application.id %}">
+								{% else %}
+									href="{% url 'applications:application' application.id %}">
+								{% endif %}
 								<p>{{ application.name }}</p>
 								{% if application.id in notifications %}
 									<span class="app-icon-label__notification">{{ notifications|key_value:application.id }} <span class="govuk-visually-hidden"> notifications</span></span>

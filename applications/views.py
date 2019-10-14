@@ -7,7 +7,7 @@ from lite_forms.generators import error_page, form_page
 
 from applications.forms import respond_to_query_form, ecju_query_respond_confirmation_form, edit_type_form
 from applications.services import get_applications, get_application, get_case_notes, \
-    get_application_ecju_queries, get_ecju_query, put_ecju_query, post_application_case_notes
+    get_application_ecju_queries, get_ecju_query, put_ecju_query, post_application_case_notes, set_application_status
 from apply_for_a_licence.views.common import get_licence_overview
 from core.helpers import group_notifications
 from core.services import get_notifications
@@ -29,25 +29,34 @@ class ApplicationsList(TemplateView):
 class ApplicationDetailEmpty(TemplateView):
     def get(self, request, **kwargs):
         application_id = str(kwargs['pk'])
+        data, _ = get_application(request, application_id)
+
+        if data.get('application').get('status') == 'applicant_editing':
+            return redirect(reverse_lazy('applications:application-edit-overview', kwargs={'pk': application_id}))
+
         return redirect(reverse_lazy('applications:application-detail', kwargs={'pk': application_id,
                                                                                 'type': 'case-notes'}))
 
 
 class ApplicationEditType(TemplateView):
-    form = edit_type_form()
 
     def get(self, request, **kwargs):
-        return form_page(request, edit_type_form())
+        application_id = str(kwargs['pk'])
+        data, _ = get_application(request, application_id)
 
-    # def post(self, request, **kwargs):
-    #
-    #     post to api - > change status
-    #
-    #
-    #     if post to api is successful:
-    #         return 'application-edit-overview'
-    #     else:
-    #         return 'some-template.html'
+        if data.get('application').get('status') == 'applicant_editing':
+            return redirect(reverse_lazy('applications:application-edit-overview', kwargs={'pk': application_id}))
+
+        return form_page(request, edit_type_form(application_id))
+
+    def post(self, request, **kwargs):
+        if request.POST.get('edit-type') == 'major':
+            data, status_code = set_application_status(request, str(kwargs['pk']), 'applicant_editing')
+            if status_code != 200:
+                # TODO: Put 'errors' on page
+                return form_page(request, edit_type_form(str(kwargs['pk'])))
+
+        return redirect(reverse_lazy('applications:application-edit-overview', kwargs={'pk': str(kwargs['pk'])}))
 
 
 class ApplicationEditOverview(TemplateView):
@@ -145,7 +154,7 @@ class RespondToQuery(TemplateView):
 
         if self.ecju_query['response']:
             return redirect(reverse_lazy('applications:application-detail', kwargs={'pk': self.application_id,
-                                                                 'type': 'ecju-queries'}))
+                                                                                    'type': 'ecju-queries'}))
 
         return super(RespondToQuery, self).dispatch(request, *args, **kwargs)
 
@@ -186,13 +195,15 @@ class RespondToQuery(TemplateView):
                                                    request.POST)
 
                 if 'errors' in data:
-                    return form_page(request, respond_to_query_form(self.application_id, self.ecju_query), data=request.POST,
+                    return form_page(request, respond_to_query_form(self.application_id, self.ecju_query),
+                                     data=request.POST,
                                      errors=data['errors'])
 
                 return redirect(reverse_lazy('applications:application-detail', kwargs={'pk': self.application_id,
                                                                                         'type': 'ecju-queries'}))
             elif request.POST.get('confirm_response') == 'no':
-                return form_page(request, respond_to_query_form(self.application_id, self.ecju_query), data=request.POST)
+                return form_page(request, respond_to_query_form(self.application_id, self.ecju_query),
+                                 data=request.POST)
             else:
                 error = {'required': ['This field is required']}
                 form = ecju_query_respond_confirmation_form(reverse_lazy('applications:respond_to_query',
