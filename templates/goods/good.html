@@ -89,7 +89,7 @@
 						Is the good controlled?
 					</dt>
 					<dd class="govuk-summary-list__value">
-						{{ good.is_good_controlled }}
+						{{ good.is_good_controlled|capfirst }}
 					</dd>
 				</div>
 				{% if good.control_code %}
