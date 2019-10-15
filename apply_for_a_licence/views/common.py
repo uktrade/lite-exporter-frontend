@@ -1,3 +1,5 @@
+from http import HTTPStatus
+
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import TemplateView
@@ -156,9 +158,7 @@ class DeleteApplication(TemplateView):
 
     def post(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
-        delete_draft_application(request, draft_id)
+        data, status = delete_draft_application(request, draft_id)
 
-        if request.GET.get('return') == 'drafts':
-            return redirect(reverse_lazy('drafts:index') + '/?application_deleted=true')
-
-        return redirect('/?application_deleted=true')
+        url_with_query_params = f'?application_deleted={(str(status == HTTPStatus.OK)).lower()}'
+        return redirect(reverse_lazy('drafts:drafts') + url_with_query_params)

@@ -622,14 +622,20 @@
 </div>
 
 <div class="lite-submit-bar js-is-sticky">
+{% if not application.status %}
 <div class="lite-vertical-align" style="display: inline-flex; float: right; height: 38px;">
 	<a href="{% url 'apply_for_a_licence:delete' application.id %}" class="govuk-link" style="margin: 0; float: right;">
 		Delete draft
 	</a>
 </div>
+{% endif %}
 <form method="post">
 	{% csrf_token %}
-	<button type="submit" class="govuk-button" name="button" data-prevent-double-click="true" style="margin-bottom: 0;">Submit application</button>
+    {% if not application.status or application.status == 'applicant_editing' %}
+    <button type="submit" class="govuk-button" name="button" data-prevent-double-click="true" style="margin-bottom: 0;">Submit application</button>
+    {% elif application.status == 'submitted' %}
+    <a href="{% url 'applications:application' application.id %}" class="govuk-button" draggable="false" role="button">Done</a>
+    {% endif %}
 </form>
 </div>
 
