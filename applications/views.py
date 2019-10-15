@@ -1,3 +1,5 @@
+from http import HTTPStatus
+
 from django.http import Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
@@ -52,9 +54,9 @@ class ApplicationEditType(TemplateView):
     def post(self, request, **kwargs):
         if request.POST.get('edit-type') == 'major':
             data, status_code = set_application_status(request, str(kwargs['pk']), 'applicant_editing')
-            if status_code != 200:
-                # TODO: Put 'errors' on page
-                return form_page(request, edit_type_form(str(kwargs['pk'])))
+
+            if status_code != HTTPStatus.OK:
+                return form_page(request, edit_type_form(str(kwargs['pk'])), errors=data)
 
         return redirect(reverse_lazy('applications:application-edit-overview', kwargs={'pk': str(kwargs['pk'])}))
 
@@ -63,7 +65,7 @@ class ApplicationEditOverview(TemplateView):
     def get(self, request, **kwargs):
         application_data, status_code = get_application(request, str(kwargs['pk']))
 
-        if status_code != 200:
+        if status_code != HTTPStatus.OK:
             # Wasn't able to get application so redirecting to exporter hub
             return redirect(reverse('core:hub'))
 
@@ -177,7 +179,7 @@ class RespondToQuery(TemplateView):
             data = {'response': request.POST.get('response'), 'validate_only': True}
             response, status_code = put_ecju_query(request, self.application_id, self.ecju_query_id, data)
 
-            if status_code != 200:
+            if status_code != HTTPStatus.OK:
                 errors = response.get('errors')
                 errors = {error: message for error, message in errors.items()}
                 form = respond_to_query_form(self.application_id, self.ecju_query)
