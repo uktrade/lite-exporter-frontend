@@ -629,7 +629,11 @@
 </div>
 <form method="post">
 	{% csrf_token %}
-	<button type="submit" class="govuk-button" name="button" data-prevent-double-click="true" style="margin-bottom: 0;">Submit application</button>
+    {% if application.status == None or application.status == 'applicant_editing' %}
+    <button type="submit" class="govuk-button" name="button" data-prevent-double-click="true" style="margin-bottom: 0;">Submit application</button>
+    {% elif application.status == 'submitted' %}
+    <a href="{% url 'applications:application' application.id %}" class="govuk-button" draggable="false" role="button">Done</a>
+    {% endif %}
 </form>
 </div>
 

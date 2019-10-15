@@ -71,12 +71,15 @@ class ApplicationEditOverview(TemplateView):
 
         return get_licence_overview(request, application=application_data.get('application'))
 
-    # def post(self, request, **kwargs):
-    #
-    #     if post to api is successful:
-    #         return 'application-edit-overview'
-    #     else:
-    #         return 'some-template.html'
+    def post(self, request, **kwargs):
+        application_id = str(kwargs['pk'])
+        data, status_code = set_application_status(request, application_id, 'submitted')
+
+        if status_code != HTTPStatus.OK:
+            application_data, status_code = get_application(request, application_id)
+            return get_licence_overview(request, application=application_data.get('application'), errors=data)
+
+        return redirect(reverse_lazy('applications:application', kwargs={'pk': application_id}))
 
 
 class ApplicationDetail(TemplateView):
