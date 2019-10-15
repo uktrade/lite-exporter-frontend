@@ -15,6 +15,6 @@ def index(request):
     context = {
         'title': 'Drafts',
         'data': data,
-        'applicationDeleted': request.GET.get('application_deleted')
+        'application_deleted': request.GET.get('application_deleted')
     }
     return render(request, 'drafts/index.html', context)
