@@ -5,7 +5,6 @@ Feature: I want to be able to edit and update an active application
   So that any additional information and/or corrected details can be updated on my application
 
   @LT_998_edit_application
-  @ECF
   Scenario: Remove a good description
     Given I go to exporter homepage and choose Test Org
     And an open application exists

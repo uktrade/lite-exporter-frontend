@@ -29,6 +29,7 @@ class ApplicationOverviewPage:
         self.goods_countries_link = "goods_country_assignments"  # ID
         self.remove_good_link = "a[href*='good-on-application']"
         self.remove_goods_type_link = "a[href*='goods-types']"
+        self.remove_end_user_link = "a[href*='end-user/remove']"
 
     def find_remove_goods_type_link(self):
         try:
@@ -39,6 +40,12 @@ class ApplicationOverviewPage:
     def find_remove_good_link(self):
         try:
             return self.driver.find_element_by_css_selector(self.remove_good_link)
+        except NoSuchElementException:
+            return None
+
+    def find_remove_end_user_link(self):
+        try:
+            return self.driver.find_element_by_css_selector(self.remove_end_user_link)
         except NoSuchElementException:
             return None
 
