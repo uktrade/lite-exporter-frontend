@@ -1,2 +1,3 @@
 [bandit]
 exclude: /.venv
+exclude: /ui_automation_tests
