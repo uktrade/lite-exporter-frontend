@@ -7,6 +7,16 @@ import shared.tools.helpers as utils
 scenarios('../features/case_notes.feature', strict_gherkin=False)
 
 
+@given('an application exists')
+def application_exists_case_note_added(apply_for_standard_application, add_an_ecju_query):
+    pass
+
+
+@when('I click on application previously created')
+def click_on_an_application(driver, context):
+    driver.find_element_by_partial_link_text(context.app_name).click()
+
+
 @when(parsers.parse('I enter "{text}" for case note'))
 def enter_case_note_text(driver, text, context):
     application_page = SubmittedApplicationsPages(driver)
