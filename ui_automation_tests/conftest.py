@@ -4,22 +4,26 @@ import pytest
 from pytest_bdd import given, when, then, parsers
 from selenium.webdriver.common.by import By
 
-from fixtures.core import context, driver, invalid_username, exporter_info, internal_info, s3_key, seed_data_config  # noqa
-from fixtures.register_organisation import register_organisation, register_organisation_for_switching_organisation  # noqa
-from fixtures.add_goods import add_an_incorporated_good_to_application, add_a_non_incorporated_good_to_application, create_non_incorporated_good  # noqa
-from fixtures.add_an_application import add_a_standard_application, add_an_open_application  # noqa
-from fixtures.add_clc_query import add_clc_query  # noqa
-from fixtures.add_end_user_advisory import add_end_user_advisory  # noqa
-from fixtures.internal_ecju_query import internal_ecju_query, internal_ecju_query_end_user_advisory  # noqa
-from fixtures.sso_sign_in import sso_sign_in  # noqa
-from fixtures.internal_case_note import internal_case_note, internal_case_note_end_user_advisory  # noqa
-from fixtures.urls import exporter_url, api_url  # noqa
+from pages.application_edit_type_page import ApplicationEditTypePage
+from pages.application_page import ApplicationPage
+from ui_automation_tests.fixtures.register_organisation import register_organisation, register_organisation_for_switching_organisation  # noqa
+from ui_automation_tests.fixtures.env import environment # noqa
+from ui_automation_tests.fixtures.add_goods import add_an_incorporated_good_to_application, add_a_non_incorporated_good_to_application, create_non_incorporated_good  # noqa
+from ui_automation_tests.fixtures.add_clc_query import add_clc_query  # noqa
+from ui_automation_tests.fixtures.add_end_user_advisory import add_end_user_advisory  # noqa
+from ui_automation_tests.fixtures.internal_ecju_query import internal_ecju_query, internal_ecju_query_end_user_advisory  # noqa
+from ui_automation_tests.fixtures.sso_sign_in import sso_sign_in  # noqa
+from ui_automation_tests.fixtures.internal_case_note import internal_case_note, internal_case_note_end_user_advisory  # noqa
+
+from ui_automation_tests.shared.fixtures.apply_for_application import apply_for_standard_application, add_an_ecju_query, apply_for_open_application  # noqa
+from ui_automation_tests.shared.fixtures.driver import driver  # noqa
+from ui_automation_tests.shared.fixtures.core import context, invalid_username, exporter_info, internal_info, s3_key, seed_data_config  # noqa
+from ui_automation_tests.shared.fixtures.urls import exporter_url, api_url  # noqa
 
 import shared.tools.helpers as utils
 from pages.add_goods_page import AddGoodPage
 from pages.add_new_external_location_form_page import AddNewExternalLocationFormPage
 from pages.application_overview_page import ApplicationOverviewPage
-from pages.application_page import ApplicationPage
 from pages.apply_for_a_licence_page import ApplyForALicencePage
 from pages.attach_document_page import AttachDocumentPage
 from pages.exporter_hub_page import ExporterHubPage
@@ -89,13 +93,14 @@ def last_name(request):
 
 
 @given('a standard application exists')
-def standard_application_exists(add_a_standard_application):
+def standard_application_exists(apply_for_standard_application):
     pass
 
 
 @when('I click on application previously created')
 def click_on_an_application(driver, context):
-    driver.find_element_by_partial_link_text(context.app_name).click()
+    # Works on both the Drafts list and Applications list
+    driver.find_element_by_css_selector('a[href*="' + context.app_id + '"]').click()
 
 
 @when('I click edit application')
@@ -390,7 +395,7 @@ def i_click_applications(driver):
 def i_delete_the_application(driver):
     apply = ApplyForALicencePage(driver)
     apply.click_delete_application()
-    assert 'Exporter hub - LITE' in driver.title, "failed to go to Exporter Hub page after deleting application from application overview page"
+    assert 'Drafts - LITE' in driver.title, "failed to go to Drafts list page after deleting application from application overview page"
 
 
 @when('I submit the application')  # noqa
@@ -428,3 +433,10 @@ def switch_organisations_to_my_second_organisation(driver, context):
     no = utils.get_element_index_by_text(Shared(driver).get_radio_buttons_elements(), context.org_name_for_switching_organisations)
     Shared(driver).click_on_radio_buttons(no)
     Shared(driver).click_continue()
+
+
+@when("I choose to make minor edits")
+def i_choose_to_make_minor_edits(driver):
+    application_edit_type_page = ApplicationEditTypePage(driver)
+    application_edit_type_page.click_minor_edits_radio_button()
+    application_edit_type_page.click_change_application_button()

@@ -6,13 +6,8 @@ scenarios('../features/edit_open_application.feature', strict_gherkin=False)
 
 
 @given('an open application exists')
-def open_application_exists(add_an_open_application):
+def open_application_exists(apply_for_open_application):
     pass
-
-
-@when('I click on an open application previously created')
-def click_on_an_open_application(driver, context):
-    driver.find_element_by_partial_link_text(context.open_app_name).click()
 
 
 @when("I remove all goods types on the application")

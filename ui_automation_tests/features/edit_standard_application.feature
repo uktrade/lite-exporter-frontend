@@ -12,6 +12,7 @@ Feature: I want to be able to edit and update an active application
     When I click on applications
     And I click on application previously created
     And I click edit application
+    And I choose to make minor edits
     And I remove all goods on the application
     Then No goods are left on the application
     When I remove the end user off the application
