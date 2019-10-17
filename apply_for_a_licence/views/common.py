@@ -15,15 +15,6 @@ from drafts.services import post_draft_application, get_draft_application, get_a
     get_ultimate_end_users, get_end_user_document
 
 
-class StartApplication(TemplateView):
-    def get(self, request, **kwargs):
-        context = {
-            'title': get_string('licences.apply_for_a_licence'),
-            'service_uses': get_string('licences.use_this_service_to'),
-        }
-        return render(request, 'apply_for_a_licence/index.html', context)
-
-
 class InitialQuestions(TemplateView):
     forms = initial_questions()
 
@@ -158,7 +149,7 @@ class DeleteApplication(TemplateView):
 
     def post(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
-        data, status = delete_draft_application(request, draft_id)
+        _, status = delete_draft_application(request, draft_id)
 
         url_with_query_params = f'?application_deleted={(str(status == HTTPStatus.OK)).lower()}'
         return redirect(reverse_lazy('drafts:drafts') + url_with_query_params)

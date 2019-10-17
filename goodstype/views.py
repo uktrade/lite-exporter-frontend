@@ -36,7 +36,7 @@ class ApplicationRemoveGoodsType(TemplateView):
         if status_code != 204:
             return error_page(request, 'Unexpected error removing goods description')
 
-        return redirect(reverse_lazy('application-edit-overview', kwargs={'pk': application_id}))
+        return redirect(reverse_lazy('applications:application-edit-overview', kwargs={'pk': application_id}))
 
 
 class GoodsTypeCountries(TemplateView):
