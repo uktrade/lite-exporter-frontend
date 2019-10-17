@@ -17,7 +17,7 @@ from ui_automation_tests.fixtures.internal_case_note import internal_case_note, 
 
 from ui_automation_tests.shared.fixtures.apply_for_application import apply_for_standard_application, add_an_ecju_query, apply_for_open_application  # noqa
 from ui_automation_tests.shared.fixtures.driver import driver  # noqa
-from ui_automation_tests.shared.fixtures.core import context, invalid_username, exporter_info, internal_info, s3_key, seed_data_config  # noqa
+from ui_automation_tests.shared.fixtures.core import context, invalid_username, exporter_info, internal_info, seed_data_config  # noqa
 from ui_automation_tests.shared.fixtures.urls import exporter_url, api_url  # noqa
 
 import shared.tools.helpers as utils
