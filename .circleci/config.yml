@@ -59,8 +59,9 @@ jobs:
 
       - run:
           name: Run Bandit
-          command: pipenv install bandit
-                  pipenv run bandit -r .
+          command: |
+            pipenv install bandit
+            pipenv run bandit -r .
 
       - save_cache:
           paths:
