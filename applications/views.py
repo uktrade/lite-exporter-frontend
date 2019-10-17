@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import TemplateView
 from lite_forms.components import HiddenField
-from lite_forms.generators import error_page, form_page
+from lite_forms.generators import error_page, form_page, success_page
 
 from applications.forms import respond_to_query_form, ecju_query_respond_confirmation_form, edit_type_form
 from applications.services import get_applications, get_application, get_case_notes, \
@@ -42,7 +42,6 @@ class ApplicationDetailEmpty(TemplateView):
 
 
 class ApplicationEditType(TemplateView):
-
     def get(self, request, **kwargs):
         application_id = str(kwargs['pk'])
         data, _ = get_application(request, application_id)
@@ -80,7 +79,12 @@ class ApplicationEditOverview(TemplateView):
             application_data, status_code = get_application(request, application_id)
             return get_licence_overview(request, application=application_data.get('application'), errors=data)
 
-        return redirect(reverse_lazy('applications:application', kwargs={'pk': application_id}))
+        return success_page(request,
+                            title='Application submitted',
+                            secondary_title='',
+                            description='',
+                            what_happens_next=[],
+                            links={'Go to applications': reverse_lazy('applications:applications')})
 
 
 class ApplicationDetail(TemplateView):
