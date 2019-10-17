@@ -9,8 +9,8 @@ from requests_oauthlib import OAuth2Session
 
 from conf.settings import env
 
-TOKEN_SESSION_KEY = '_authbroker_token'
-PROFILE_URL = urljoin(settings.AUTHBROKER_URL, env('USER_PROFILE_PATH'))
+TOKEN_SESSION_KEY = env('TOKEN_SESSION_KEY')
+PROFILE_URL = urljoin(settings.AUTHBROKER_URL, 'sso/oauth2/user-profile/v1/')
 INTROSPECT_URL = urljoin(settings.AUTHBROKER_URL, 'sso/oauth2/introspect/')
 TOKEN_URL = urljoin(settings.AUTHBROKER_URL, 'sso/oauth2/token/')
 AUTHORISATION_URL = urljoin(settings.AUTHBROKER_URL, 'sso/oauth2/authorize/')
