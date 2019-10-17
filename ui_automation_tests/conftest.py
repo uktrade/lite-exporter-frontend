@@ -92,18 +92,18 @@ def last_name(request):
     return request.config.getoption("--last_name")
 
 
-@given('a standard application exists')
+@given('a standard application exists')  # noqa
 def standard_application_exists(apply_for_standard_application):
     pass
 
 
-@when('I click on application previously created')
+@when('I click on application previously created')  # noqa
 def click_on_an_application(driver, context):
     # Works on both the Drafts list and Applications list
     driver.find_element_by_css_selector('a[href*="' + context.app_id + '"]').click()
 
 
-@when('I click edit application')
+@when('I click edit application')  # noqa
 def i_click_edit_application(driver):
     ApplicationPage(driver).click_edit_application_link()
 
@@ -129,11 +129,6 @@ def go_to_exporter_when(driver, exporter_url):
 @when('I click on apply for a license button')  # noqa
 def click_apply_licence(driver):
     ExporterHubPage(driver).click_apply_for_a_licence()
-
-
-@when('I click on start button')  # noqa
-def click_start_button(driver):
-    ApplyForALicencePage(driver).click_start_now_btn()
 
 
 @when('I enter in name for application and continue')  # noqa
