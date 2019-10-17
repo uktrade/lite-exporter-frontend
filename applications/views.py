@@ -13,6 +13,7 @@ from applications.services import get_applications, get_application, get_case_no
 from apply_for_a_licence.views.common import get_licence_overview
 from core.helpers import group_notifications
 from core.services import get_notifications
+from drafts.services import submit_application
 
 
 class ApplicationsList(TemplateView):
@@ -73,7 +74,7 @@ class ApplicationEditOverview(TemplateView):
 
     def post(self, request, **kwargs):
         application_id = str(kwargs['pk'])
-        data, status_code = set_application_status(request, application_id, 'submitted')
+        data, status_code = submit_application(request, application_id)
 
         if status_code != HTTPStatus.OK:
             application_data, status_code = get_application(request, application_id)

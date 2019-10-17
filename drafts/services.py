@@ -28,7 +28,7 @@ def delete_draft_application(request, pk):
     return data.json(), data.status_code
 
 
-def submit_draft_application(request, pk):
+def submit_application(request, pk):
     data = put(request, APPLICATIONS_URL + pk + APPLICATION_SUBMIT_URL, json={})
     return data.json(), data.status_code
 

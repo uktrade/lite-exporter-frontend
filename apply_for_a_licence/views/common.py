@@ -11,7 +11,7 @@ from conf.constants import STANDARD_LICENCE
 from core.services import get_sites_on_draft, get_external_locations_on_draft
 from drafts.services import get_third_parties, get_consignee_document, get_additional_documents
 from drafts.services import post_draft_application, get_draft_application, get_application_goods, \
-    submit_draft_application, delete_draft_application, get_application_countries, get_application_goods_types, \
+    submit_application, delete_draft_application, get_application_countries, get_application_goods_types, \
     get_ultimate_end_users, get_end_user_document
 
 
@@ -130,7 +130,7 @@ class Overview(TemplateView):
         draft_id = str(kwargs['pk'])
 
         draft_data, _ = get_draft_application(request, str(kwargs['pk']))
-        submit_data, status_code = submit_draft_application(request, draft_id)
+        submit_data, status_code = submit_application(request, draft_id)
 
         if status_code != 200:
             return get_licence_overview(request, application=draft_data.get('application'),
