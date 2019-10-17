@@ -2,7 +2,6 @@ version: 2.1
 
 orbs:
   jq: circleci/jq@1.8.0
-  bandit: arrai/bandit@1.0.0
 
 jobs:
   build:
@@ -56,6 +55,12 @@ jobs:
       - run:
           name: Install dependencies
           command: pipenv sync --dev
+
+
+      - run:
+          name: Run Bandit
+          command: pipenv install bandit
+                  pipenv run bandit -r .
 
       - save_cache:
           paths:
