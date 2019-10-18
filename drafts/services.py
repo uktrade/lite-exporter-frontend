@@ -40,7 +40,7 @@ def get_application_goods(request, pk):
 
 
 def get_application_goods_types(request, pk):
-    data = get(request, APPLICATIONS_URL + pk + '/goodstype/')
+    data = get(request, APPLICATIONS_URL + pk + '/goodstypes/')
     return data.json(), data.status_code
 
 

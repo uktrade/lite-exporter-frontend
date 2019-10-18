@@ -14,8 +14,7 @@ class ApplicationAddGoodsType(TemplateView):
 
     def post(self, request, **kwargs):
         copied_post = request.POST.copy()
-        copied_post['application'] = str(kwargs.get('pk'))
-        data, status_code = post_goods_type(request, copied_post)
+        data, status_code = post_goods_type(request, str(kwargs.get('pk')), copied_post)
 
         if status_code == 400:
             return form_page(request, goods_type_form(), request.POST, errors=data['errors'])
@@ -31,9 +30,9 @@ class ApplicationRemoveGoodsType(TemplateView):
         application_id = str(kwargs['pk'])
         good_type_id = str(kwargs['goods_type_pk'])
 
-        status_code = delete_goods_type(request, good_type_id)
+        status_code = delete_goods_type(request, application_id, good_type_id)
 
-        if status_code != 204:
+        if status_code != 200:
             return error_page(request, 'Unexpected error removing goods description')
 
         return redirect(reverse_lazy('applications:application-edit-overview', kwargs={'pk': application_id}))
@@ -78,6 +77,6 @@ class GoodsTypeCountries(TemplateView):
             if good['id'] not in str(data):
                 post_data[good['id']] = []
 
-        post_goods_type_countries(request, post_data)
+        post_goods_type_countries(request, self.draft_id, list(post_data.keys())[0], post_data)
 
         return redirect(reverse_lazy('apply_for_a_licence:overview', kwargs={'pk': self.draft_id}))
