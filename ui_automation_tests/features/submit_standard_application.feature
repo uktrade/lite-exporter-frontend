@@ -115,13 +115,14 @@ Feature: I want to indicate the standard licence I want
     And "Delete" link is present
     When I delete the third party document
     Then "Attach" link is present
-    When I click on end user
+    When I click back link
+    And I click on end user
     And I add an end user of sub_type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
     And I click back link
     And I click attach an end user document link
     And I upload a file "file_for_doc_upload_test_1.txt"
     Then Wait for "end_user_document_download" to be present
-    When I delete the third party document
+    When I delete the end user document
     Then The end user document has been deleted
 
 #  @LT_887_consignee_document
