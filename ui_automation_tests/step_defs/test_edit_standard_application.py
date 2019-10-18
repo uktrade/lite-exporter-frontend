@@ -1,7 +1,6 @@
 from pytest_bdd import when, scenarios, then
 
 from pages.application_overview_page import ApplicationOverviewPage
-from pages.application_page import ApplicationPage
 
 scenarios('../features/edit_standard_application.feature', strict_gherkin=False)
 
@@ -26,7 +25,8 @@ def no_goods_are_left_on_the_application(driver):
 @when("I remove the end user off the application")
 def i_remove_the_end_user_off_the_application(driver):
     remove_end_user_link = ApplicationOverviewPage(driver).find_remove_end_user_link()
-    driver.execute_script("arguments[0].click();", remove_end_user_link)
+    if remove_end_user_link:
+        driver.execute_script("arguments[0].click();", remove_end_user_link)
 
 
 @then("No end user is set on the application")
