@@ -125,6 +125,8 @@ Feature: I want to indicate the standard licence I want
     When I delete the end user document
     Then The end user document has been deleted
 
+  # Commented the below tests out as they do the same thing as the above. If there is an issue with consignee or third party documents not being able to download please uncomment out these tests.
+
 #  @LT_887_consignee_document
 #  Scenario: Add a consignee document that can be downloaded and deleted
 #    Given I go to exporter homepage and choose Test Org

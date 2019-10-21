@@ -23,7 +23,7 @@ Feature: I want to edit and remove goods on the goods list
     And I click add a good button
     And I add a good or good type with description "Hand pistol" controlled "Unsure" control code " " incorporated "No" and part number "321"
     And I upload file "file_for_doc_upload_test_1.txt" with description "This is a file I want to upload to show."
-    And I raise a clc query control code "ML1a" description "I believe it is a ML1a"
+    And I raise a clc query control code "ML1a" description "I believe it is ML1a"
     Then I see the clc query in goods list
 
   @LT_1142_add_a_document
