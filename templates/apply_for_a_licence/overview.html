@@ -82,7 +82,7 @@
 			<div class="lite-task-list__item-header">
 				{% if application.licence_type.key == 'open_licence' %}
 					<a id="goods" href="{% url 'apply_for_a_licence:open_goods' application.id %}" class="govuk-link govuk-link--no-visited-state">
-						{% get_string 'good_types.overview.title' %}
+						Describe your goods
 					</a>
 				{% else %}
 					<a id="goods" href="{% url 'apply_for_a_licence:goods' application.id %}" class="govuk-link govuk-link--no-visited-state">
@@ -164,7 +164,7 @@
         <li class="lite-task-list__item">
 			<div class="lite-task-list__item-header">
 				<a id="location" href="{% url 'apply_for_a_licence:location' application.id %}" class="lite-overview-section-header govuk-link govuk-link--no-visited-state">
-					Location of goods
+					Where are your goods now?
 				</a>
 				{% if sites or external_locations %}
 					<div class="lite-tag lite-tag--small lite-tag--blue">
@@ -620,7 +620,8 @@
 		</form>
 		{% if not application.status %}
 			<div class="lite-vertical-align">
-				<a href="{% url 'apply_for_a_licence:delete' application.id %}" class="govuk-link">
+				<a href="{% url 'apply_for_a_licence:delete' application.id %}" class="govuk-link lite-link--warning">
+					{% svg 'close' %}
 					Delete draft
 				</a>
 			</div>
