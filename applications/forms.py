@@ -38,30 +38,19 @@ def ecju_query_respond_confirmation_form(edit_response_url):
 
 
 def edit_type_form(application_id):
-    return Form(title='What do you want to do?',
+    return Form(title='How do you want to change your application?',
+                description='Depending on your answer it can take longer to reach a decision.',
                 questions=[
-                    Group(components=[
-                            List(title='It will not take longer to get a decision about your application if you:',
-                                 items=[
-                                     'delete a site',
-                                     'delete goods',
-                                     'delete a third party',
-                                     'delete a destination country',
-                                     'add a new site'
-                                 ],
-                                 type=List.ListType.BULLETED),
-                            Label('If you do anything else, it will take longer to get a decision.'),
-                        ],
-                        name='',
-                        classes=['app-edit-application-warning']),
                     RadioButtons(name='edit-type',
                                  options=[
                                      Option(key='minor',
-                                            value='Change a site, or delete a good, third party or country'),
+                                            value='Change a site, or delete a good, third party or country',
+                                            description='This won\'t impact the time it takes to reach a decision.'),
                                      Option(key='major',
-                                            value='Something else')
+                                            value='Something else',
+                                            description='This will impact the time it takes to reach a decision.')
                                  ])],
                 back_link=BackLink('Back to application', reverse_lazy('applications:application-detail',
                                                                        kwargs={'pk': application_id,
                                                                                'type': 'ecju-queries'})),
-                default_button_name='Change application')
+                default_button_name='Continue')
