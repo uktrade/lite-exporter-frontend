@@ -2,7 +2,11 @@
 
 {% load humanize svg %}
 
-{% block back_link %}{% endblock %}
+{% block back_link %}
+	{% if application.status %}
+    	<a href="{% url 'applications:applications' %}" class="govuk-back-link">Back to applications</a>
+	{% endif %}
+{% endblock %}
 
 {% block two_thirds %}
 
