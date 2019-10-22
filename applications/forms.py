@@ -1,5 +1,5 @@
 from django.urls import reverse_lazy
-from lite_forms.components import HiddenField, Form, BackLink, TextArea, HTMLBlock, RadioButtons, Option
+from lite_forms.components import HiddenField, Form, BackLink, TextArea, HTMLBlock, RadioButtons, Option, List, Label
 from lite_forms.generators import confirm_form
 
 
@@ -37,21 +37,25 @@ def ecju_query_respond_confirmation_form(edit_response_url):
 
 
 def edit_type_form(application_id):
-    inputs = [RadioButtons(title='', name='edit-type',
-                           options=[Option(key='minor',
-                                           value='Change a site, or delete a good, third party or country'),
-                                    Option(key='major',
-                                           value='Something else')])]
-
     return Form(title='What do you want to do?',
-                description='It will not take longer to get a decision about your application if you:\n'
-                            '　•　delete a site\n'
-                            '　•　delete goods\n'
-                            '　•　delete a third party\n'
-                            '　•　delete a destination country\n'
-                            '　•　add a new site\n\n'
-                            'If you do anything else, it will take longer to get a decision.',
-                questions=inputs,
+                questions=[
+                    List(title='It will not take longer to get a decision about your application if you:',
+                         items=[
+                             'delete a site',
+                             'delete goods',
+                             'delete a third party',
+                             'delete a destination country',
+                             'add a new site'
+                         ],
+                         type=List.ListType.BULLETED),
+                    Label('If you do anything else, it will take longer to get a decision.'),
+                    RadioButtons(name='edit-type',
+                                 options=[
+                                     Option(key='minor',
+                                            value='Change a site, or delete a good, third party or country'),
+                                     Option(key='major',
+                                            value='Something else')
+                                 ])],
                 back_link=BackLink('Back to application', reverse_lazy('applications:application-detail',
                                                                        kwargs={'pk': application_id,
                                                                                'type': 'ecju-queries'})),
