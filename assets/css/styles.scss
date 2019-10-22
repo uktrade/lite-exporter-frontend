@@ -125,17 +125,6 @@ main {
 	}
 }
 
-.lite-overview-section-header {
-	display: inline-block;
-	@include govuk-font($size: 24, $weight: bold);
-	text-decoration: none;
-	margin-bottom: govuk-spacing(1);
-
-	&:hover {
-		text-decoration: underline;
-	}
-}
-
 .no-borders {
 	margin: 0;
 

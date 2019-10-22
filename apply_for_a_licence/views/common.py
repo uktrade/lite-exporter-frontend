@@ -83,7 +83,6 @@ def get_licence_overview(request, application, errors=None):
                 countries_on_goods_types = True
 
     context = {
-        'title': 'Application Overview',
         'application': application,
         'sites': sites['sites'],
         'goods': goods['goods'],
