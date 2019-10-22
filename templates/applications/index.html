@@ -1,4 +1,4 @@
-{% extends 'layouts/full_width.html' %}
+{% extends 'layouts/base.html' %}
 
 {% load humanize %}
 
@@ -38,7 +38,7 @@
 						<td class="govuk-table__cell">
 							<a class="govuk-link govuk-link--no-visited-state app-icon-label"
 							    {% if application.status == 'applicant_editing' %}
-									href="{% url 'applications:application-edit-overview' application.id %}">
+									href="{% url 'applications:application_edit_overview' application.id %}">
 								{% else %}
 									href="{% url 'applications:application' application.id %}">
 								{% endif %}

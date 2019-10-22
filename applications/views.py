@@ -34,8 +34,8 @@ class ApplicationDetailEmpty(TemplateView):
         application_id = str(kwargs['pk'])
         data, _ = get_application(request, application_id)
 
-        if data.get('application').get('status') == 'applicant_editing':
-            return redirect(reverse_lazy('applications:application-edit-overview', kwargs={'pk': application_id}))
+        if data.get('application').get('status').get('key') == 'applicant_editing':
+            return redirect(reverse_lazy('applications:application_edit_overview', kwargs={'pk': application_id}))
 
         return redirect(reverse_lazy('applications:application-detail', kwargs={'pk': application_id,
                                                                                 'type': 'case-notes'}))
@@ -46,8 +46,8 @@ class ApplicationEditType(TemplateView):
         application_id = str(kwargs['pk'])
         data, _ = get_application(request, application_id)
 
-        if data.get('application').get('status') == 'applicant_editing':
-            return redirect(reverse_lazy('applications:application-edit-overview', kwargs={'pk': application_id}))
+        if data.get('application').get('status').get('key') == 'applicant_editing':
+            return redirect(reverse_lazy('applications:application_edit_overview', kwargs={'pk': application_id}))
 
         return form_page(request, edit_type_form(application_id))
 
@@ -58,7 +58,7 @@ class ApplicationEditType(TemplateView):
             if status_code != HTTPStatus.OK:
                 return form_page(request, edit_type_form(str(kwargs['pk'])), errors=data)
 
-        return redirect(reverse_lazy('applications:application-edit-overview', kwargs={'pk': str(kwargs['pk'])}))
+        return redirect(reverse_lazy('applications:application_edit_overview', kwargs={'pk': str(kwargs['pk'])}))
 
 
 class ApplicationEditOverview(TemplateView):
