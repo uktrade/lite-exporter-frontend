@@ -4,7 +4,7 @@ from conf.constants import CASE_NOTES_URL, APPLICATIONS_URL, CASES_URL, ECJU_QUE
 
 def get_application(request, pk):
     data = get(request, APPLICATIONS_URL + pk + '/')
-    return data.json(), data.status_code
+    return data.json()['application']
 
 
 def get_applications(request):

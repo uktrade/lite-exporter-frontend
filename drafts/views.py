@@ -6,7 +6,7 @@ from drafts.services import get_draft_applications
 
 class DraftsList(TemplateView):
     def get(self, request, **kwargs):
-        data, status_code = get_drafts(request)
+        data = get_draft_applications(request)
 
         context = {
             'title': 'Applications',

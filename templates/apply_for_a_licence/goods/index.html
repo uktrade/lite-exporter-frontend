@@ -3,23 +3,23 @@
 {% load svg %}
 
 {% block back_link %}
-	<a href="{% url 'apply_for_a_licence:overview' draft_id %}" class="govuk-back-link">Back to Overview</a>
+	<a href="{% url 'apply_for_a_licence:overview' draft.id %}" class="govuk-back-link">Back to Overview</a>
 {% endblock %}
 
 {% block body %}
 
 	<div class="lite-app-bar">
 		<div class="lite-app-bar__content">
-			<h2 class="govuk-heading-l" style="max-width: 500px; white-space: normal; line-height: 1.25;">{{ title }}</h2>
+			<h2 class="govuk-heading-l">
+				{% block title %}Goods{% endblock%}
+			</h2>
 		</div>
 		<div class="lite-app-bar__controls">
-			{% block right_button %}
-                <a href="{% url 'apply_for_a_licence:preexisting_good' draft_id %}" role='button' draggable='false' class='govuk-button'>{% get_string 'goods.add_from_organisation.button' %}</a>
-            {% endblock %}
+			<a href="{% url 'apply_for_a_licence:preexisting_good' draft.id %}" role='button' draggable='false' class='govuk-button'>{% get_string 'goods.add_from_organisation.button' %}</a>
 		</div>
 	</div>
 
-	{% if data.goods %}
+	{% if goods %}
 		<table class="govuk-table">
 			<thead class="govuk-table__head">
 				<tr class="govuk-table__row">
@@ -31,7 +31,7 @@
 				</tr>
 			</thead>
 			<tbody class="govuk-table__body">
-				{% for good_on_application in data.goods %}
+				{% for good_on_application in goods %}
 					<tr class="govuk-table__row">
 						<td class="govuk-table__cell">
 							{{ good_on_application.good.description }}
@@ -62,6 +62,5 @@
 			</p>
 		</div>
 	{% endif %}
-
 
 {% endblock %}

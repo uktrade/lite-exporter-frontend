@@ -5,12 +5,12 @@ from conf.constants import APPLICATIONS_URL, END_USER_DOCUMENT_URL, ULTIMATE_END
 
 def get_draft_applications(request):
     data = get(request, APPLICATIONS_URL + '?submitted=false')
-    return data.json(), data.status_code
+    return data.json()
 
 
 def get_draft_application(request, pk):
     data = get(request, APPLICATIONS_URL + pk + '?submitted=false')
-    return data.json(), data.status_code
+    return data.json()['application']
 
 
 def post_draft_application(request, json):
@@ -36,12 +36,12 @@ def submit_application(request, pk):
 # Goods
 def get_application_goods(request, pk):
     data = get(request, APPLICATIONS_URL + pk + '/goods/')
-    return data.json(), data.status_code
+    return data.json()['goods']
 
 
 def get_application_goods_types(request, pk):
     data = get(request, APPLICATIONS_URL + pk + '/goodstypes/')
-    return data.json(), data.status_code
+    return data.json()['goods']
 
 
 def get_draft_good(request, pk, good_pk):

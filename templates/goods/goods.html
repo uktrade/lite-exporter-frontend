@@ -1,6 +1,6 @@
 {% extends 'layouts/base.html' %}
 
-{% load svg %}
+{% load svg humanize %}
 
 {% block back_link %}
 	{% include 'includes/breadcrumbs.html' %}
@@ -19,7 +19,7 @@
 				{% if goods|length == 0 %}
 					Your organisation doesn't have any goods.
 				{% else %}
-					Your organisation has {{ goods|length }} goods.
+					Your organisation has {{ goods|length }} good{{ goods|pluralize }}.
 				{% endif %}
 			</p>
 		</div>

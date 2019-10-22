@@ -32,9 +32,9 @@ class ApplicationsList(TemplateView):
 class ApplicationDetailEmpty(TemplateView):
     def get(self, request, **kwargs):
         application_id = str(kwargs['pk'])
-        data, _ = get_application(request, application_id)
+        data = get_application(request, application_id)
 
-        if data.get('application').get('status').get('key') == 'applicant_editing':
+        if data.get('status').get('key') == 'applicant_editing':
             return redirect(reverse_lazy('applications:application_edit_overview', kwargs={'pk': application_id}))
 
         return redirect(reverse_lazy('applications:application-detail', kwargs={'pk': application_id,
@@ -44,9 +44,9 @@ class ApplicationDetailEmpty(TemplateView):
 class ApplicationEditType(TemplateView):
     def get(self, request, **kwargs):
         application_id = str(kwargs['pk'])
-        data, _ = get_application(request, application_id)
+        data = get_application(request, application_id)
 
-        if data.get('application').get('status').get('key') == 'applicant_editing':
+        if data.get('status').get('key') == 'applicant_editing':
             return redirect(reverse_lazy('applications:application_edit_overview', kwargs={'pk': application_id}))
 
         return form_page(request, edit_type_form(application_id))
@@ -63,21 +63,16 @@ class ApplicationEditType(TemplateView):
 
 class ApplicationEditOverview(TemplateView):
     def get(self, request, **kwargs):
-        application_data, status_code = get_application(request, str(kwargs['pk']))
-
-        if status_code != HTTPStatus.OK:
-            # Wasn't able to get application so redirecting to exporter hub
-            return redirect(reverse('core:hub'))
-
-        return get_licence_overview(request, application=application_data.get('application'))
+        application_data = get_application(request, str(kwargs['pk']))
+        return get_licence_overview(request, application=application_data)
 
     def post(self, request, **kwargs):
         application_id = str(kwargs['pk'])
         data, status_code = submit_application(request, application_id)
 
         if status_code != HTTPStatus.OK:
-            application_data, status_code = get_application(request, application_id)
-            return get_licence_overview(request, application=application_data.get('application'), errors=data)
+            application_data = get_application(request, application_id)
+            return get_licence_overview(request, application=application_data, errors=data)
 
         return success_page(request,
                             title='Application submitted',

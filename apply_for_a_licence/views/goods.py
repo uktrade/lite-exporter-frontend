@@ -3,7 +3,6 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from lite_forms.generators import error_page
 
-from apply_for_a_licence.forms import goods
 from core.builtins.custom_tags import get_string
 from core.services import get_units
 from drafts.services import get_draft_application, get_application_goods, get_application_goods_types, \
@@ -15,13 +14,11 @@ from goods.services import get_goods, get_good
 class DraftGoodsList(TemplateView):
     def get(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
-        draft, _ = get_draft_application(request, draft_id)
-        data, _ = get_application_goods(request, draft_id)
+        draft = get_draft_application(request, draft_id)
+        goods = get_application_goods(request, draft_id)
 
         context = {
-            'title': get_string('applications.standard.goods.title'),
-            'draft_id': draft_id,
-            'data': goods,
+            'goods': goods,
             'draft': draft
         }
         return render(request, 'apply_for_a_licence/goods/index.html', context)
@@ -59,7 +56,7 @@ class DraftOpenGoodsList(TemplateView):
     def get(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
         draft, _ = get_draft_application(request, draft_id)
-        data, _ = get_application_goods(request, draft_id)
+        goods = get_application_goods(request, draft_id)
 
         context = {
             'title': 'Application Goods',
