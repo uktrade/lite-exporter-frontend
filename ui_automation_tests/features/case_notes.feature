@@ -4,13 +4,16 @@ Feature: I want to add a note to an application and view notes
   I want to add a note to an application and view existing notes
   So that I can record my findings and comments and others users can see these
 
-  @LT_1119_add
+  @LT_1119_add_cancel
   Scenario: Add a new valid case note
     Given I go to exporter homepage and choose Test Org
     And a standard application exists
     When I click on applications
     And I click on application previously created
     And I enter "This is a note on my application!" for case note
+    And I click cancel button
+    Then entered text is no longer in case note field
+    When I enter "This is a note on my application!" for case note
     And I click post note
     Then note is displayed
 
