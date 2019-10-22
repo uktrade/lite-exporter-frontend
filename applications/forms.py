@@ -1,5 +1,6 @@
 from django.urls import reverse_lazy
-from lite_forms.components import HiddenField, Form, BackLink, TextArea, HTMLBlock, RadioButtons, Option, List, Label
+from lite_forms.components import HiddenField, Form, BackLink, TextArea, HTMLBlock, RadioButtons, Option, List, Label, \
+    Group
 from lite_forms.generators import confirm_form
 
 
@@ -39,16 +40,20 @@ def ecju_query_respond_confirmation_form(edit_response_url):
 def edit_type_form(application_id):
     return Form(title='What do you want to do?',
                 questions=[
-                    List(title='It will not take longer to get a decision about your application if you:',
-                         items=[
-                             'delete a site',
-                             'delete goods',
-                             'delete a third party',
-                             'delete a destination country',
-                             'add a new site'
-                         ],
-                         type=List.ListType.BULLETED),
-                    Label('If you do anything else, it will take longer to get a decision.'),
+                    Group(components=[
+                            List(title='It will not take longer to get a decision about your application if you:',
+                                 items=[
+                                     'delete a site',
+                                     'delete goods',
+                                     'delete a third party',
+                                     'delete a destination country',
+                                     'add a new site'
+                                 ],
+                                 type=List.ListType.BULLETED),
+                            Label('If you do anything else, it will take longer to get a decision.'),
+                        ],
+                        name='',
+                        classes=['app-edit-application-warning']),
                     RadioButtons(name='edit-type',
                                  options=[
                                      Option(key='minor',
