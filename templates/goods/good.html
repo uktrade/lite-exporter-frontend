@@ -89,7 +89,7 @@
 						Is the good controlled?
 					</dt>
 					<dd class="govuk-summary-list__value">
-						{{ good.is_good_controlled|capfirst }}
+						{{ good.is_good_controlled|title }}
 					</dd>
 				</div>
 				{% if good.control_code %}
@@ -115,7 +115,7 @@
 						Is the good intended to be incorporated into an end product?
 					</dt>
 					<dd class="govuk-summary-list__value">
-						{{ good.is_good_end_product }}
+						{{ good.is_good_end_product|friendly_boolean }}
 					</dd>
 				</div>
 			</dl>

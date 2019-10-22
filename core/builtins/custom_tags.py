@@ -123,3 +123,14 @@ def default_na(value):
         return value
     else:
         return mark_safe('<span class="lite-hint">N/A</span>')
+
+
+@register.filter()
+def friendly_boolean(boolean):
+    """
+    Returns 'Yes' if a boolean is equal to True, else 'No'
+    """
+    if boolean is True or boolean == 'true' or boolean == 'True':
+        return 'Yes'
+    else:
+        return 'No'
