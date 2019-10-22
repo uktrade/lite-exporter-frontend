@@ -1,20 +1,15 @@
-from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseServerError
 from django.shortcuts import render
+from django.views.generic import TemplateView
 
 from drafts.services import get_draft_applications
 
 
-@login_required
-def index(request):
-    data, status_code = get_draft_applications(request)
+class DraftsList(TemplateView):
+    def get(self, request, **kwargs):
+        data, status_code = get_drafts(request)
 
-    if status_code is not 200:
-        return HttpResponseServerError()
-
-    context = {
-        'title': 'Drafts',
-        'data': data,
-        'application_deleted': request.GET.get('application_deleted')
-    }
-    return render(request, 'drafts/index.html', context)
+        context = {
+            'title': 'Applications',
+            'data': data
+        }
+        return render(request, 'applications/drafts.html', context)

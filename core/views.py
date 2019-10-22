@@ -35,8 +35,6 @@ class Hub(TemplateView):
                          reverse_lazy('apply_for_a_licence:start')),
                 ]),
                 Section('Manage', [
-                    Tile(get_string('drafts.title'), '',
-                         reverse_lazy('drafts:drafts')),
                     Tile(get_string('applications.title'), generate_notification_string(notifications,
                                                                                         'base_application'),
                          reverse_lazy('applications:applications')),

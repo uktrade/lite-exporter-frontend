@@ -112,3 +112,14 @@ def times(number):
     Returns a list of numbers from 1 to the number
     """
     return [x + 1 for x in range(number)]
+
+
+@register.filter()
+def default_na(value):
+    """
+    Returns N/A if the parameter given is none
+    """
+    if value:
+        return value
+    else:
+        return mark_safe('<span class="lite-hint">N/A</span>')

@@ -21,7 +21,7 @@ class DraftGoodsList(TemplateView):
         context = {
             'title': get_string('applications.standard.goods.title'),
             'draft_id': draft_id,
-            'data': data,
+            'data': goods,
             'draft': draft
         }
         return render(request, 'apply_for_a_licence/goods/index.html', context)
@@ -64,7 +64,7 @@ class DraftOpenGoodsList(TemplateView):
         context = {
             'title': 'Application Goods',
             'draft_id': draft_id,
-            'data': data,
+            'goods': goods,
             'draft': draft
         }
         return render(request, 'apply_for_a_licence/goods/index.html', context)

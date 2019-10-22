@@ -26,7 +26,7 @@ class ApplicationsList(TemplateView):
             'applications': applications,
             'notifications': group_notifications(notifications),
         }
-        return render(request, 'applications/index.html', context)
+        return render(request, 'applications/applications.html', context)
 
 
 class ApplicationDetailEmpty(TemplateView):
