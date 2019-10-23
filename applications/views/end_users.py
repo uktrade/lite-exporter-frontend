@@ -7,7 +7,7 @@ from lite_forms.submitters import submit_paged_form
 from applications.forms.end_user import new_end_user_forms
 from conf.constants import STANDARD_LICENCE
 from core.builtins.custom_tags import get_string
-from applications.services import get_draft_application, post_end_user, get_ultimate_end_users, \
+from applications.services import get_application, post_end_user, get_ultimate_end_users, \
     post_ultimate_end_user, delete_ultimate_end_user, delete_end_user
 
 
@@ -23,7 +23,7 @@ class EndUser(TemplateView):
         if response:
             return response
 
-        draft = get_draft_application(request, draft_id)
+        draft = get_application(request, draft_id)
 
         if draft.get('licence_type').get('key') == STANDARD_LICENCE:
             return redirect(reverse_lazy('applications:end_user_attach_document', kwargs={'pk': draft_id}))
