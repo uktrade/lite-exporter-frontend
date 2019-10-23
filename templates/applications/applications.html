@@ -8,7 +8,7 @@
 
 	<div class="lite-app-bar">
 		<div class="lite-app-bar__content">
-			<h2 class="govuk-heading-l">{{ title }}</h2>
+			<h2 class="govuk-heading-l">{% block title %}Applications{% endblock %}</h2>
 		</div>
 		<div class="lite-app-bar__controls">
 			<a href="." class="govuk-button govuk-button--secondary" draggable="false" role="button">
@@ -22,10 +22,10 @@
 
 	<div class="lite-tabs--fade">
 		<div class="lite-tabs">
-			<a href="{% url 'applications:applications' %}" class="lite-tabs__tab lite-tabs__tab--selected">
+			<a href="{% url 'applications:applications' %}?drafts=false" class="lite-tabs__tab lite-tabs__tab--selected">
 				Active
 			</a>
-			<a href="{% url 'drafts:drafts' %}" class="lite-tabs__tab">
+			<a href="{% url 'applications:applications' %}?drafts=true" class="lite-tabs__tab">
 				Drafts
 			</a>
 		</div>
@@ -46,7 +46,7 @@
 					<tr class="govuk-table__row">
 						<td class="govuk-table__cell">
 							<a class="govuk-link govuk-link--no-visited-state app-icon-label"
-							    {% if application.status == 'applicant_editing' %}
+							    {% if application.status.key == 'applicant_editing' %}
 									href="{% url 'applications:application_edit_overview' application.id %}">
 								{% else %}
 									href="{% url 'applications:application' application.id %}">

@@ -21,11 +21,10 @@ class ApplicationsList(TemplateView):
         drafts = request.GET.get('drafts')
 
         if drafts and drafts.lower() == 'true':
-            data = get_draft_applications(request)
+            drafts = get_draft_applications(request)
 
             context = {
-                'title': 'Applications',
-                'data': data
+                'drafts': drafts
             }
             return render(request, 'applications/drafts.html', context)
         else:
@@ -33,7 +32,6 @@ class ApplicationsList(TemplateView):
             notifications = get_notifications(request, unviewed=True)
 
             context = {
-                'title': 'Applications',
                 'applications': applications,
                 'notifications': group_notifications(notifications),
             }

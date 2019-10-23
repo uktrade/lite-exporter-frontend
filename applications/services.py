@@ -6,7 +6,7 @@ from conf.constants import APPLICATIONS_URL, END_USER_DOCUMENT_URL, ULTIMATE_END
 
 def get_draft_applications(request):
     data = get(request, APPLICATIONS_URL + '?submitted=false')
-    return data.json()
+    return data.json()['applications']
 
 
 def get_draft_application(request, pk):

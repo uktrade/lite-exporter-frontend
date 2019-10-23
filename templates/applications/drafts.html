@@ -8,7 +8,7 @@
 
 	<div class="lite-app-bar">
 		<div class="lite-app-bar__content">
-			<h2 class="govuk-heading-l">{{ title }}</h2>
+			<h2 class="govuk-heading-l">{% block title %}Applications{% endblock %}</h2>
 		</div>
 		<div class="lite-app-bar__controls">
 			<a href="{% url 'apply_for_a_licence:start' %}" class="govuk-button" draggable="false" role="button">
@@ -19,16 +19,16 @@
 
 	<div class="lite-tabs--fade">
 		<div class="lite-tabs">
-			<a href="{% url 'applications:applications' %}" class="lite-tabs__tab">
+			<a href="{% url 'applications:applications' %}?drafts=false" class="lite-tabs__tab">
 				Active
 			</a>
-			<a href="{% url 'drafts:drafts' %}" class="lite-tabs__tab lite-tabs__tab--selected">
+			<a href="{% url 'applications:applications' %}?drafts=true" class="lite-tabs__tab lite-tabs__tab--selected">
 				Drafts
 			</a>
 		</div>
 	</div>
 
-	{% if data.drafts %}
+	{% if drafts %}
 		<table class="govuk-table">
 			<thead class="govuk-table__head">
 				<tr class="govuk-table__row">
@@ -46,7 +46,7 @@
 				</tr>
 			</thead>
 			<tbody class="govuk-table__head">
-				{% for draft in data.applications %}
+				{% for draft in drafts %}
 					<tr class="govuk-table__row">
 						<td class="govuk-table__cell">
 							<a class="govuk-link govuk-link--no-visited-state" style="font-weight: bold;" href="{% url 'applications:overview' draft.id %}">
