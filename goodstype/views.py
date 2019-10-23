@@ -46,8 +46,7 @@ class GoodsTypeCountries(TemplateView):
     def dispatch(self, request, *args, **kwargs):
         self.draft_id = str(kwargs['pk'])
         self.goods = get_application_goods_types(request, self.draft_id)
-        countries, _ = get_application_countries(request, self.draft_id)
-        self.countries = countries['countries']
+        self.countries = get_application_countries(request, self.draft_id)
 
         return super(GoodsTypeCountries, self).dispatch(request, *args, **kwargs)
 

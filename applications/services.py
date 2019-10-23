@@ -1,3 +1,5 @@
+from http import HTTPStatus
+
 from conf.client import get, post, put, delete
 from conf.constants import APPLICATIONS_URL, END_USER_DOCUMENT_URL, ULTIMATE_END_USER_URL, DOCUMENT_URL, \
     CONSIGNEE_URL, THIRD_PARTIES_URL, CONSIGNEE_DOCUMENT_URL, APPLICATION_SUBMIT_URL, ADDITIONAL_DOCUMENT_URL, \
@@ -9,12 +11,12 @@ from s3chunkuploader.file_handler import s3_client
 
 def get_draft_applications(request):
     data = get(request, APPLICATIONS_URL + '?submitted=false')
-    return data.json()['applications']
+    return data.json().get('applications')
 
 
 def get_draft_application(request, pk):
     data = get(request, APPLICATIONS_URL + pk + '?submitted=false')
-    return data.json()['application']
+    return data.json().get('application')
 
 
 def post_draft_application(request, json):
@@ -40,12 +42,12 @@ def submit_application(request, pk):
 # Goods
 def get_application_goods(request, pk):
     data = get(request, APPLICATIONS_URL + pk + '/goods/')
-    return data.json()['goods']
+    return data.json().get('goods') if data.status_code == HTTPStatus.OK else None
 
 
 def get_application_goods_types(request, pk):
     data = get(request, APPLICATIONS_URL + pk + '/goodstypes/')
-    return data.json()['goods']
+    return data.json().get('goods') if data.status_code == HTTPStatus.OK else None
 
 
 def get_draft_good(request, pk, good_pk):
@@ -61,7 +63,7 @@ def post_draft_preexisting_goods(request, pk, json):
 # Countries
 def get_application_countries(request, pk):
     data = get(request, APPLICATIONS_URL + pk + '/countries/')
-    return data.json()['countries']
+    return data.json().get('countries')
 
 
 def post_draft_countries(request, pk, json):
@@ -205,12 +207,12 @@ def delete_additional_party_document(request, pk, doc_pk):
 
 def get_application(request, pk):
     data = get(request, APPLICATIONS_URL + pk + '/')
-    return data.json()['application']
+    return data.json().get('application')
 
 
 def get_applications(request):
     data = get(request, APPLICATIONS_URL + '?submitted=true')
-    return data.json()['applications']
+    return data.json().get('applications')
 
 
 def delete_application_preexisting_good(request, good_on_application_pk):
