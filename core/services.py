@@ -83,7 +83,7 @@ def get_notifications(request, unviewed):
     if unviewed:
         url = '%s?unviewed=True' % url
     data = get(request, url)
-    return data.json()['results']
+    return data.json().get('results')
 
 
 # Organisation
@@ -110,7 +110,7 @@ def put_organisation_user(request, pk, user_pk, json):
 # Cases
 def get_case(request, pk):
     data = get(request, CASES_URL + pk)
-    return data.json()['case']
+    return data.json().get('case')
 
 
 # Control List Entries
@@ -120,7 +120,7 @@ def get_control_list_entries(request, convert_to_options=False):
 
         converted_units = []
 
-        for control_list_entry in data.json()['control_list_entries']:
+        for control_list_entry in data.json().get('control_list_entries'):
             converted_units.append(Option(key=control_list_entry['rating'],
                                           value=control_list_entry['rating'],
                                           description=control_list_entry['text']))
@@ -128,4 +128,4 @@ def get_control_list_entries(request, convert_to_options=False):
         return converted_units
 
     data = get(request, CONTROL_LIST_ENTRIES_URL)
-    return data.json()['control_list_entries']
+    return data.json().get('control_list_entries')

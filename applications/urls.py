@@ -20,13 +20,13 @@ urlpatterns = [
     # ex: /applications/43a88949-5db9-4334-b0cc-044e91827451/
     path('<uuid:pk>/ecju-queries/<uuid:query_pk>/', common.RespondToQuery.as_view(), name='respond_to_query'),
 
+    # ex: /applications/<uuid:pk>/open-goods/
+    path('<uuid:pk>/open-goods/', goods.DraftOpenGoodsTypeList.as_view(), name='open_goods'),
     # ex: /applications/<uuid:pk>/open-goods/add/
     path('<uuid:pk>/goods-types/add/', goodstypeviews.ApplicationAddGoodsType.as_view(), name='add_goods_type'),
     # ex: /applications/<uuid:pk>/open-goods/remove/<uuid:goods_type_pk>/
     path('<uuid:pk>/goods-types/remove/<uuid:goods_type_pk>/', goodstypeviews.ApplicationRemoveGoodsType.as_view(),
          name='remove_goods_type'),
-    # ex: /applications/<uuid:pk>/open-goods/
-    path('<uuid:pk>/open-goods/', goods.DraftOpenGoodsTypeList.as_view(), name='open_goods'),
     # ex: /applications/<uuid:pk>/goods/
     path('<uuid:pk>/goods/', goods.DraftGoodsList.as_view(), name='goods'),
     # ex: /applications/<uuid:pk>/goods/add-preexisting/
