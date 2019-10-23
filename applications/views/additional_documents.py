@@ -18,4 +18,5 @@ class AdditionalDocuments(TemplateView):
             'title': 'Additional Documents'
         }
 
-        return render(request, 'apply_for_a_licence/additional_documents/additional_documents.html', context)
+        return render(request,
+                      'apply_for_a_licence/../../templates/applications/additional_documents/additional_documents.html', context)

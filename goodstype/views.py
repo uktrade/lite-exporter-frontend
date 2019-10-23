@@ -58,7 +58,7 @@ class GoodsTypeCountries(TemplateView):
             'draft_id': self.draft_id,
             'title': 'Explain where each item is going'
         }
-        return render(request, 'apply_for_a_licence/goodstype/countries.html', context)
+        return render(request, 'apply_for_a_licence/../templates/applications/goodstype/countries.html', context)
 
     def post(self, request, **kwargs):
         data = request.POST.copy()

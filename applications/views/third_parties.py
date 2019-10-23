@@ -50,7 +50,7 @@ class ThirdParties(TemplateView):
             'title': 'Third Parties'
         }
 
-        return render(request, 'apply_for_a_licence/parties/third_parties.html', context)
+        return render(request, 'apply_for_a_licence/../../templates/applications/parties/third_parties.html', context)
 
 
 class RemoveThirdParty(TemplateView):

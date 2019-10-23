@@ -72,4 +72,4 @@ def get_licence_overview(request, application, errors=None):
     if errors:
         context['errors'] = errors
 
-    return render(request, 'apply_for_a_licence/overview.html', context)
+    return render(request, 'apply_for_a_licence/../../templates/applications/edit.html', context)

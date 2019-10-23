@@ -82,7 +82,7 @@ class ExternalLocations(TemplateView):
             'data': data,
             'draft': draft,
         }
-        return render(request, 'apply_for_a_licence/external_locations/index.html', context)
+        return render(request, 'apply_for_a_licence/../../templates/applications/external_locations/index.html', context)
 
 
 class AddExternalLocation(TemplateView):

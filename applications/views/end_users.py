@@ -59,7 +59,7 @@ class UltimateEndUsers(TemplateView):
             'title': 'Ultimate End Users'
         }
 
-        return render(request, 'apply_for_a_licence/parties/ultimate_end_users.html', context)
+        return render(request, 'apply_for_a_licence/../../templates/applications/parties/ultimate_end_users.html', context)
 
 
 class AddUltimateEndUser(TemplateView):
