@@ -9,7 +9,6 @@ from applications.services import get_application, put_application
 
 
 class ApplicationEditToldByAnOfficial(TemplateView):
-
     application_id = None
     application = None
     form = told_by_an_official_form()
@@ -21,12 +20,7 @@ class ApplicationEditToldByAnOfficial(TemplateView):
         return super(ApplicationEditToldByAnOfficial, self).dispatch(request, *args, **kwargs)
 
     def get(self, request, **kwargs):
-        data = {
-            'have_you_been_informed': 'yes' if self.application['reference_number_on_information_form'] else 'no',
-            'reference_number_on_information_form': self.application['reference_number_on_information_form'],
-        }
-
-        return form_page(request, self.form, data=data)
+        return form_page(request, self.form, data=self.application)
 
     def post(self, request, **kwargs):
         # Delete the reference_number_on_information_form key if have_you_been_informed is set to no
@@ -35,7 +29,7 @@ class ApplicationEditToldByAnOfficial(TemplateView):
             data = {'reference_number_on_information_form': None}
 
         response, _ = submit_single_form(request, self.form, put_application, pk=self.application_id,
-                                                     override_data=data)
+                                         override_data=data)
 
         # If there are more forms to go through, continue
         if response:
