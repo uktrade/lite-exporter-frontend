@@ -15,9 +15,9 @@ def get_licence_overview(request, application, errors=None):
     external_locations, _ = get_external_locations_on_draft(request, application_id)
     additional_documents, _ = get_additional_documents(request, application_id)
 
-    countries = {'countries': []}
-    goods = {'goods': []}
-    goodstypes = {'goods': []}
+    countries = []
+    goods = []
+    goodstypes = []
     ultimate_end_users = {'ultimate_end_users': []}
     ultimate_end_users_required = False
     third_parties = {'third_parties': []}
