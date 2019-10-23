@@ -7,13 +7,12 @@ class ApplicationOverviewPage:
         self.driver = driver
         self.location_link = "location"
         self.countries_link = "countries"
-        self.goods_link = "goods"
+        self.goods_link = "standard-goods"
         self.end_user_link = "end_users"   # ID
         self.consignees_link = "consignees"
         self.ultimate_end_user_link = "ultimate_end_users"   # ID
         self.third_parties = "third_parties"  # ID
         self.sites_link = "a[href*='sites']"
-        self.goods_link = "goods"
         self.lite_section = ".lite-section"   # CSS
         self.gov_tables = ".govuk-table__body"   # CSS
         self.back_to_overview_text = "Back to Application" #link text
