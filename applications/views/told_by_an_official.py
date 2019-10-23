@@ -23,13 +23,7 @@ class ApplicationEditToldByAnOfficial(TemplateView):
         return form_page(request, self.form, data=self.application)
 
     def post(self, request, **kwargs):
-        # Delete the reference_number_on_information_form key if have_you_been_informed is set to no
-        data = {}
-        if request.POST['have_you_been_informed'] == 'no':
-            data = {'reference_number_on_information_form': None}
-
-        response, _ = submit_single_form(request, self.form, put_application, pk=self.application_id,
-                                         override_data=data)
+        response, _ = submit_single_form(request, self.form, put_application, pk=self.application_id)
 
         # If there are more forms to go through, continue
         if response:
