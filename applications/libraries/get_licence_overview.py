@@ -16,8 +16,8 @@ def get_licence_overview(request, application, errors=None):
     additional_documents, _ = get_additional_documents(request, application_id)
 
     countries = {'countries': []}
-    goods = {'goods': []}
-    goodstypes = {'goods': []}
+    goods = []
+    goodstypes = []
     ultimate_end_users = {'ultimate_end_users': []}
     ultimate_end_users_required = False
     third_parties = {'third_parties': []}
@@ -72,4 +72,4 @@ def get_licence_overview(request, application, errors=None):
     if errors:
         context['errors'] = errors
 
-    return render(request, 'apply_for_a_licence/../../templates/applications/edit.html', context)
+    return render(request, 'applications/edit.html', context)
