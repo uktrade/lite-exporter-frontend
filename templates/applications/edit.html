@@ -42,7 +42,7 @@
 		</div>
 	{% endif %}
 
-	<h1 class="govuk-heading-l govuk-!-margin-bottom-7">
+	<h1 class="govuk-heading-l govuk-!-margin-bottom-2">
 		{% block title %}
 			{% if application.status.key == "submitted" or application.status.key == "applicant_editing" %}
 				Edit your application
@@ -55,6 +55,9 @@
 			{% endif %}
 		{% endblock %}
 	</h1>
+
+	<!-- Details that can't be edited -->
+	<p class="govuk-hint govuk-!-margin-bottom-9">Export Type: {{ application.export_type.value }}</p>
 
 	<!-- Initial -->
 	<ol class="lite-task-list">
@@ -69,7 +72,7 @@
 			<ul class="lite-task-list__items {% if application.status.key == "submitted" or application.status.key == "applicant_editing" %}govuk-!-padding-0{% endif %}">
 				<li class="lite-task-list__item">
 					<div class="lite-task-list__item-header">
-						<a id="goods" href="{% url 'applications:edit_reference_name' application.id %}" class="govuk-link govuk-link--no-visited-state">
+						<a id="reference-name" href="{% url 'applications:edit_reference_name' application.id %}" class="govuk-link govuk-link--no-visited-state">
 							Reference name
 						</a>
 						<div class="lite-tag lite-tag--blue">
@@ -80,19 +83,6 @@
 						<p class="govuk-body-m">
 							{{ application.name }}
 						</p>
-					</div>
-				</li>
-				<li class="lite-task-list__item">
-					<div class="lite-task-list__item-header">
-						<a id="goods" href="{% url 'applications:open_goods' application.id %}" class="govuk-link govuk-link--no-visited-state">
-							Export Type
-						</a>
-						<div class="lite-tag lite-tag--blue">
-							Done
-						</div>
-					</div>
-					<div class="lite-task-list__item-details">
-						<p class="govuk-body-m">{{ application.export_type.value }}</p>
 					</div>
 				</li>
 				{% if application.reference_number_on_information_form %}
