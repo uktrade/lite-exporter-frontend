@@ -3,6 +3,7 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from lite_forms.generators import error_page
 
+from apply_for_a_licence.forms.goods import preexisting_good_form
 from core.builtins.custom_tags import get_string
 from core.services import get_units
 from drafts.services import get_draft_application, get_application_goods, get_application_goods_types, \
@@ -27,7 +28,7 @@ class DraftGoodsList(TemplateView):
 class GoodsList(TemplateView):
     def get(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
-        draft, _ = get_draft_application(request, draft_id)
+        draft = get_draft_application(request, draft_id)
         description = request.GET.get('description', '').strip()
         part_number = request.GET.get('part_number', '').strip()
         control_rating = request.GET.get('control_rating', '').strip()
@@ -55,7 +56,7 @@ class GoodsList(TemplateView):
 class DraftOpenGoodsList(TemplateView):
     def get(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
-        draft, _ = get_draft_application(request, draft_id)
+        draft = get_draft_application(request, draft_id)
         goods = get_application_goods(request, draft_id)
 
         context = {
@@ -70,13 +71,11 @@ class DraftOpenGoodsList(TemplateView):
 class DraftOpenGoodsTypeList(TemplateView):
     def get(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
-        draft, _ = get_draft_application(request, draft_id)
-        data, _ = get_application_goods_types(request, draft_id)
+        draft = get_draft_application(request, draft_id)
+        goods = get_application_goods_types(request, draft_id)
 
         context = {
-            'title': get_string('good_types.overview_good_types.title'),
-            'draft_id': draft_id,
-            'data': data,
+            'goods': goods,
             'draft': draft
         }
         return render(request, 'apply_for_a_licence/goodstype/index.html', context)
@@ -85,12 +84,11 @@ class DraftOpenGoodsTypeList(TemplateView):
 class OpenGoodsList(TemplateView):
     def get(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
-        draft, _ = get_draft_application(request, draft_id)
+        draft = get_draft_application(request, draft_id)
         description = request.GET.get('description', '')
         data, _ = get_goods(request, {'description': description})
 
         context = {
-            'title': 'Goods',
             'draft_id': draft_id,
             'data': data,
             'draft': draft,
@@ -105,7 +103,7 @@ class AddPreexistingGood(TemplateView):
 
         context = {
             'title': 'Add a pre-existing good to your application',
-            'page': goods.preexisting_good_form(good, get_units(request))
+            'page': preexisting_good_form(good, get_units(request))
         }
         return render(request, 'form.html', context)
 
@@ -118,7 +116,7 @@ class AddPreexistingGood(TemplateView):
 
             context = {
                 'title': 'Add a pre-existing good to your application',
-                'page': goods.preexisting_good_form(good, get_units(request)),
+                'page': preexisting_good_form(good, get_units(request)),
                 'data': request.POST,
                 'errors': data.get('errors'),
             }

@@ -74,7 +74,7 @@ class ExistingSites(TemplateView):
 class ExternalLocations(TemplateView):
     def get(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
-        draft, _ = get_draft_application(request, draft_id)
+        draft = get_draft_application(request, draft_id)
         org_external_locations, _ = get_external_locations(request, request.user.organisation)
         data, _ = get_external_locations_on_draft(request, draft_id)
 

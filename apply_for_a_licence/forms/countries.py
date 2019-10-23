@@ -13,5 +13,6 @@ def countries_form(draft_id):
                     Checkboxes('countries', get_countries(None, True), classes=['govuk-checkboxes--small']),
                 ],
                 javascript_imports=['/assets/javascripts/filter-checkbox-list.js'],
+                default_button_name='Save',
                 back_link=BackLink('Back to Overview', reverse('apply_for_a_licence:overview',
                                                                kwargs={'pk': draft_id})))

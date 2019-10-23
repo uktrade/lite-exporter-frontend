@@ -31,13 +31,12 @@
 		</div>
 	</div>
 
-	{% if applications|length %}
+	{% if applications %}
 		<table class="govuk-table">
 			<thead class="govuk-table__head">
 				<tr class="govuk-table__row">
-					<th class="govuk-table__header" scope="col">
-						Reference
-					</th>
+					<th class="govuk-table__header" scope="col">Reference</th>
+					<th class="govuk-table__header" scope="col">Type</th>
 					<th class="govuk-table__header" scope="col">Last updated</th>
 					<th class="govuk-table__header" scope="col">Status</th>
 				</tr>
@@ -57,6 +56,9 @@
 									<span class="app-icon-label__notification">{{ notifications|key_value:application.id }} <span class="govuk-visually-hidden"> notifications</span></span>
 								{% endif %}
 							</a>
+						</td>
+						<td class="govuk-table__cell">
+							{{ application.licence_type.value }}
 						</td>
 						<td class="govuk-table__cell">
 							{{ application.last_modified_at|str_date }}
