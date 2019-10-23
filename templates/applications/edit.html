@@ -11,14 +11,14 @@
 {% block full_width %}
 
 	{% if application.status.key == "submitted" %}
-		<!-- <div class="lite-info-bar lite-info-bar--no-animation">
+		<div class="lite-info-bar lite-info-bar--no-animation">
 			The changes you make to this application won't impact its processing time.
-		</div> -->
+		</div>
 	{% endif %}
-	{% if not application.satus or application.status.key == "applicant_editing" %}
-		<!-- <div class="lite-info-bar lite-info-bar--warning lite-info-bar--no-animation">
+	{% if not application.status or application.status.key == "applicant_editing" %}
+		<div class="lite-info-bar lite-info-bar--warning lite-info-bar--no-animation">
 			This application won't be processed until it is submitted.
-		</div> -->
+		</div>
 	{% endif %}
 
 {% endblock %}
@@ -46,10 +46,14 @@
 
 	<h1 class="govuk-heading-l govuk-!-margin-bottom-7">
 		{% block title %}
-			{% if application.licence_type.key == 'standard_licence' %}
-				Apply for a standard export licence
+			{% if application.status.key == "submitted" or application.status.key == "applicant_editing" %}
+				Edit your application
 			{% else %}
-				Apply for an open export licence
+				{% if application.licence_type.key == 'standard_licence' %}
+					Apply for a standard export licence
+				{% else %}
+					Apply for an open export licence
+				{% endif %}
 			{% endif %}
 		{% endblock %}
 	</h1>
@@ -58,9 +62,13 @@
 	<ol class="lite-task-list">
 		<li>
 			<h2 class="lite-task-list__section">
-				<span class="lite-task-list__section-number">1. </span> Prepare application
+				{% if application.status.key == "submitted" or application.status.key == "applicant_editing" %}
+					Basic details
+				{% else %}
+					<span class="lite-task-list__section-number">1. </span> Prepare application
+				{% endif %}
 			</h2>
-			<ul class="lite-task-list__items">
+			<ul class="lite-task-list__items {% if application.status.key == "submitted" or application.status.key == "applicant_editing" %}govuk-!-padding-0{% endif %}">
 				<li class="lite-task-list__item">
 					<div class="lite-task-list__item-header">
 						<a id="goods" href="{% url 'applications:open_goods' application.id %}" class="govuk-link govuk-link--no-visited-state">
@@ -71,7 +79,9 @@
 						</div>
 					</div>
 					<div class="lite-task-list__item-details">
-						<p class="govuk-body-m">I am a header</p>
+						<p class="govuk-body-m">
+							{{ application.name }}
+						</p>
 					</div>
 				</li>
 				<li class="lite-task-list__item">
@@ -98,7 +108,7 @@
 							</div>
 						</div>
 						<div class="lite-task-list__item-details">
-							<p class="govuk-caption-m">Yes - {{ application.reference_number_on_information_form }}</p>
+							<p class="govuk-body-m">Yes - {{ application.reference_number_on_information_form }}</p>
 						</div>
 					</li>
 				{% endif %}
@@ -110,9 +120,13 @@
 	<ol class="lite-task-list">
 		<li>
 			<h2 class="lite-task-list__section">
-				<span class="lite-task-list__section-number">2. </span> Complete application
+				{% if application.status.key == "submitted" or application.status.key == "applicant_editing" %}
+					More information
+				{% else %}
+					<span class="lite-task-list__section-number">2. </span> Complete application
+				{% endif %}
 			</h2>
-		    <ul class="lite-task-list__items">
+		    <ul class="lite-task-list__items {% if application.status.key == "submitted" or application.status.key == "applicant_editing" %}govuk-!-padding-0{% endif %}">
 		        <!-- Goods -->
 		        <li class="lite-task-list__item">
 					<div class="lite-task-list__item-header">
@@ -136,11 +150,6 @@
 						{% endif %}
 		            </div>
 					<div class="lite-task-list__item-details">
-						{% if errors|key_value:'goods' %}
-							<p class="govuk-error-message">
-								{{ errors|key_value:'goods' }}
-							</p>
-						{% endif %}
 						{% if application.licence_type.key == 'standard_licence' and goods %}
 							<table class="govuk-table">
 								<tbody class="govuk-table__body">
@@ -155,7 +164,7 @@
 									{% for good in goods %}
 										<tr class="govuk-table__row" id="good-on-application-row-{{ good.id }}">
 											<td class="govuk-table__cell" scope="row">{{ good.good.description }}</td>
-											<td class="govuk-table__cell" scope="row">{{ good.good.part_number }}</td>
+											<td class="govuk-table__cell" scope="row">{{ good.good.part_number|default_na }}</td>
 											<td class="govuk-table__cell" scope="row">{{ good.quantity }}</td>
 											<td class="govuk-table__cell" scope="row">{{ good.unit.value }}</td>
 											<td class="govuk-table__cell" scope="row">£{{ good.value }}</td>
@@ -209,12 +218,6 @@
 						{% endif %}
 					</div>
 					<div class="lite-task-list__item-details">
-						{% if errors|key_value:'location' %}
-							<p class="govuk-error-message">
-								{{ errors|key_value:'location' }}
-							</p>
-						{% endif %}
-
 						{% if sites %}
 							<table class="govuk-table">
 								<tbody class="govuk-table__body">
@@ -275,18 +278,10 @@
 							{% endif %}
 						</div>
 						<div class="lite-task-list__item-details">
-							{% if errors|key_value:'countries' %}
-								<p class="govuk-error-message">
-									{{ errors|key_value:'countries' }}
-								</p>
-							{% endif %}
-
-							<p class="govuk-caption-m">Select all the countries that your goods are going to</p>
-
 							<div class="display-none-inline_style">
 								<div id="countries-data">
 									{% for country in countries %}
-									<p class="govuk-label">{{ country.name }}</p>
+										<p class="govuk-label">{{ country.name }}</p>
 									{% endfor %}
 								</div>
 							</div>
@@ -337,11 +332,6 @@
 							{% endif %}
 						</div>
 						<div class="lite-task-list__item-details">
-							{% if errors|key_value:'end_user' %}
-								<p class="govuk-error-message">{{ errors|key_value:'end_user' }}</p>
-						    {% elif errors|key_value:'end_user_document'%}
-						        <p class="govuk-error-message">{{ errors|key_value:'end_user_document' }}</p>
-							{% endif %}
 							{% if application.end_user %}
 								<table class="govuk-table">
 									<tbody class="govuk-table__body">
@@ -417,11 +407,6 @@
 							{% endif %}
 						</div>
 						<div class="lite-task-list__item-details">
-							{% if errors|key_value:'consignee' %}
-								<p class="govuk-error-message">{{ errors|key_value:'consignee' }}</p>
-						    {% elif errors|key_value:'consignee_document'%}
-						        <p class="govuk-error-message">{{ errors|key_value:'consignee_document' }}</p>
-							{% endif %}
 							{% if application.consignee %}
 								<table class="govuk-table">
 									<tbody class="govuk-table__body">
@@ -497,11 +482,6 @@
 							{% endif %}
 						</div>
 						<div class="lite-task-list__item-details">
-							{% if errors|key_value:'ultimate_end_users' %}
-								<p class="govuk-error-message">{{ errors|key_value:'ultimate_end_users' }}</p>
-						    {% elif errors|key_value:'ultimate_end_user_documents'%}
-						        <p class="govuk-error-message">{{ errors|key_value:'ultimate_end_user_documents' }}</p>
-							{% endif %}
 							{% if ultimate_end_users %}
 								<table class="govuk-table">
 									<thead class="govuk-table__head">
@@ -548,11 +528,6 @@
 							{% endif %}
 						</div>
 						<div class="lite-task-list__item-details">
-							{% if errors|key_value:'third_parties' %}
-								<p class="govuk-error-message">{{ errors|key_value:'third_parties' }}</p>
-						    {% elif errors|key_value:'third_parties_documents'%}
-						        <p class="govuk-error-message">{{ errors|key_value:'third_parties_documents' }}</p>
-							{% endif %}
 							{% if third_parties %}
 								<table class="govuk-table">
 									<thead class="govuk-table__head">
@@ -598,9 +573,6 @@
 						{% endif %}
 					</div>
 					<div class="lite-task-list__item-details">
-						{% if errors|key_value:'additional_documents' %}
-							<p class="govuk-error-message">{{ errors|key_value:'additional_documents' }}</p>
-						{% endif %}
 						{% if additional_documents %}
 							<table class="govuk-table">
 								<thead class="govuk-table__head">

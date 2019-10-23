@@ -97,10 +97,11 @@ class ApplicationEditOverview(TemplateView):
 
     def post(self, request, **kwargs):
         application_id = str(kwargs['pk'])
+        application_data = get_application(request, str(kwargs['pk']))
         submit_data, status_code = submit_application(request, application_id)
 
         if status_code != HTTPStatus.OK:
-            return get_licence_overview(request, application=submit_data, errors=submit_data.get('errors'))
+            return get_licence_overview(request, application=application_data, errors=submit_data.get('errors'))
 
         return success_page(request,
                             title='Application submitted',
