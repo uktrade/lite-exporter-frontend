@@ -54,11 +54,11 @@ class ApplicationDetailEmpty(TemplateView):
 class DeleteApplication(TemplateView):
     def get(self, request, **kwargs):
         application_id = str(kwargs['pk'])
-        application, _ = get_draft_application(request, application_id)
+        application = get_draft_application(request, application_id)
         context = {
             'title': 'Are you sure you want to delete this application?',
             'application': application,
-            'page': 'apply_for_a_licence/modals/cancel_application.html',
+            'page': 'applications/modals/cancel_application.html',
         }
         return render(request, 'core/static.html', context)
 
