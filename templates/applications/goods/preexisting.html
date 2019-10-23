@@ -62,14 +62,14 @@
 				<tbody class="govuk-table__body">
 					{% for good in data %}
 						<tr class="govuk-table__row">
-							<td class="govuk-table__cell">
+							<td class="govuk-table__cell" id="good-description">
 								{{ good.description|highlight_text:description }}
 								{% if good.status.key == 'verified' %}<span class="app-verified__symbol">{% svg 'verified' %}</span><span class="govuk-visually-hidden"> (Verified good)</span>{% endif %}
 							</td>
-							<td class="govuk-table__cell">
+							<td class="govuk-table__cell" id="good-part-number">
 								{{ good.part_number|highlight_text:part_number|default_na }}
 							</td>
-							<td class="govuk-table__cell">
+							<td class="govuk-table__cell" id="good-control_code">
 								{{ good.control_code|highlight_text:control_code|default_na }}
 							</td>
 							<td class="govuk-table__cell lite-!-text-align-right">

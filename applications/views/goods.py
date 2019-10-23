@@ -19,9 +19,10 @@ class DraftGoodsList(TemplateView):
 
         context = {
             'goods': goods,
-            'draft': draft
+            'draft': draft,
+            'draft_id': draft_id
         }
-        return render(request, 'apply_for_a_licence/../../templates/applications/goods/index.html', context)
+        return render(request, 'applications/goods/index.html', context)
 
 
 class GoodsList(TemplateView):
@@ -49,7 +50,7 @@ class GoodsList(TemplateView):
             'part_number': part_number,
             'control_code': control_rating
         }
-        return render(request, 'apply_for_a_licence/../../templates/applications/goods/preexisting.html', context)
+        return render(request, 'applications/goods/preexisting.html', context)
 
 
 class DraftOpenGoodsList(TemplateView):
@@ -64,7 +65,7 @@ class DraftOpenGoodsList(TemplateView):
             'goods': goods,
             'draft': draft
         }
-        return render(request, 'apply_for_a_licence/../../templates/applications/goods/index.html', context)
+        return render(request, 'applications/goods/index.html', context)
 
 
 class DraftOpenGoodsTypeList(TemplateView):
@@ -78,7 +79,7 @@ class DraftOpenGoodsTypeList(TemplateView):
             'draft': draft,
             'draft_id': draft_id
         }
-        return render(request, 'apply_for_a_licence/../../templates/applications/goodstype/index.html', context)
+        return render(request, 'applications/goodstype/index.html', context)
 
 
 class OpenGoodsList(TemplateView):
@@ -94,7 +95,7 @@ class OpenGoodsList(TemplateView):
             'draft': draft,
             'description': description
         }
-        return render(request, 'apply_for_a_licence/../../templates/applications/goods/preexisting.html', context)
+        return render(request, 'applications/goods/preexisting.html', context)
 
 
 class AddPreexistingGood(TemplateView):

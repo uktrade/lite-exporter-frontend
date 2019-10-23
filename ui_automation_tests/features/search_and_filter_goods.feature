@@ -4,7 +4,7 @@ Feature: I want to search for goods in my goods list to add to an in progress ap
   I want to search for goods in my goods list to add to an in progress application
   So that I can quickly and easily complete my application for types of goods I have exported before
 
-  @LT_1159_filters
+  @LT_1159_filters @AT
   Scenario: Search for goods by filters
     Given I go to exporter homepage and choose Test Org
     When I create a good of description "Test apple123", control code "ML4" and part number "5678" if it does not exist
@@ -25,15 +25,4 @@ Feature: I want to search for goods in my goods list to add to an in progress ap
     And All goods have control code "ML4"
     And All goods have part number "5678"
     # Only 1 good matches all 3 criteria
-    And "1" goods are found
-    When I remove the part number filter
-    Then All goods have description "Test apple123"
-    And All goods have control code "ML4"
-    # 2 test goods match these criteria
-    And "2" goods are found
-    When I remove the control code filter
-    Then All goods have description "Test apple123"
-    # All test goods match these criteria
-    And "3" goods are found
-    When I remove the description filter
-    Then I see all goods
+    Then "1" goods are found
