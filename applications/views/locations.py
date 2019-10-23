@@ -9,7 +9,7 @@ from applications.forms.location import which_location_form, new_location_form, 
 from applications.forms.sites import sites_form
 from core.services import get_sites_on_draft, post_sites_on_draft, post_external_locations, \
     get_external_locations_on_draft, get_external_locations, post_external_locations_on_draft
-from applications.services import get_draft_application, get_application_countries, post_draft_countries
+from applications.services import get_application, get_application_countries, post_application_countries
 
 
 class Location(TemplateView):
@@ -71,7 +71,7 @@ class ExistingSites(TemplateView):
 class ExternalLocations(TemplateView):
     def get(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
-        draft = get_draft_application(request, draft_id)
+        draft = get_application(request, draft_id)
         org_external_locations, _ = get_external_locations(request, request.user.organisation)
         data, _ = get_external_locations_on_draft(request, draft_id)
 
@@ -152,8 +152,8 @@ class Countries(TemplateView):
             'countries': request.POST.getlist('countries')
         }
 
-        response, _ = submit_single_form(request, countries_form(draft_id), post_draft_countries,
-                                                     pk=draft_id, override_data=data)
+        response, _ = submit_single_form(request, countries_form(draft_id), post_application_countries,
+                                         pk=draft_id, override_data=data)
 
         if response:
             return response

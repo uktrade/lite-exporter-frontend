@@ -1,3 +1,5 @@
+from http import HTTPStatus
+
 from lite_forms.components import Option
 
 from conf.client import get, post, put
@@ -110,7 +112,7 @@ def put_organisation_user(request, pk, user_pk, json):
 # Cases
 def get_case(request, pk):
     data = get(request, CASES_URL + pk)
-    return data.json().get('case')
+    return data.json().get('case') if data.status_code == HTTPStatus.OK else None
 
 
 # Control List Entries

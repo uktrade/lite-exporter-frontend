@@ -11,25 +11,30 @@ from s3chunkuploader.file_handler import s3_client
 
 def get_draft_applications(request):
     data = get(request, APPLICATIONS_URL + '?submitted=false')
-    return data.json().get('applications')
+    return data.json().get('applications') if data.status_code == HTTPStatus.OK else None
 
 
-def get_draft_application(request, pk):
-    data = get(request, APPLICATIONS_URL + pk + '?submitted=false')
-    return data.json().get('application')
+def get_applications(request):
+    data = get(request, APPLICATIONS_URL + '?submitted=true')
+    return data.json().get('applications') if data.status_code == HTTPStatus.OK else None
 
 
-def post_draft_application(request, json):
+def get_application(request, pk):
+    data = get(request, APPLICATIONS_URL + pk)
+    return data.json().get('application') if data.status_code == HTTPStatus.OK else None
+
+
+def post_application(request, json):
     data = post(request, APPLICATIONS_URL, json)
     return data.json(), data.status_code
 
 
-def put_draft_application(request, pk, json):
+def put_application(request, pk, json):
     data = put(request, APPLICATIONS_URL + pk + '/', json)
     return data.json(), data.status_code
 
 
-def delete_draft_application(request, pk):
+def delete_application(request, pk):
     data = delete(request, APPLICATIONS_URL + pk)
     return data.json(), data.status_code
 
@@ -50,12 +55,7 @@ def get_application_goods_types(request, pk):
     return data.json().get('goods') if data.status_code == HTTPStatus.OK else None
 
 
-def get_draft_good(request, pk, good_pk):
-    data = get(request, APPLICATIONS_URL + pk + '/goods/' + good_pk + '/')
-    return data.json(), data.status_code
-
-
-def post_draft_preexisting_goods(request, pk, json):
+def post_application_preexisting_goods(request, pk, json):
     data = post(request, APPLICATIONS_URL + pk + '/goods/', json)
     return data.json(), data.status_code
 
@@ -63,10 +63,10 @@ def post_draft_preexisting_goods(request, pk, json):
 # Countries
 def get_application_countries(request, pk):
     data = get(request, APPLICATIONS_URL + pk + '/countries/')
-    return data.json().get('countries')
+    return data.json().get('countries') if data.status_code == HTTPStatus.OK else None
 
 
-def post_draft_countries(request, pk, json):
+def post_application_countries(request, pk, json):
     data = post(request, APPLICATIONS_URL + pk + '/countries/', json)
     return data.json(), data.status_code
 
@@ -205,16 +205,6 @@ def delete_additional_party_document(request, pk, doc_pk):
     return data.status_code
 
 
-def get_application(request, pk):
-    data = get(request, APPLICATIONS_URL + pk + '/')
-    return data.json().get('application')
-
-
-def get_applications(request):
-    data = get(request, APPLICATIONS_URL + '?submitted=true')
-    return data.json().get('applications')
-
-
 def delete_application_preexisting_good(request, good_on_application_pk):
     response = delete(request, APPLICATIONS_URL + 'good-on-application/' + good_on_application_pk)
     return response.status_code
@@ -248,11 +238,6 @@ def get_application_ecju_queries(request, pk):
     closed_queries = [x for x in data if x['response']]
 
     return open_queries, closed_queries
-
-
-def put_application(request, pk, json):
-    data = put(request, APPLICATIONS_URL + pk, json)
-    return data.json(), data.status_code
 
 
 def set_application_status(request, pk, status):

@@ -6,7 +6,7 @@ from lite_forms.submitters import submit_paged_form
 
 from applications.forms.end_user import new_consignee_forms
 from applications.forms.third_party import third_party_forms, option_list
-from applications.services import post_third_party, get_third_parties, delete_third_party, post_consignee, get_draft_application
+from applications.services import post_third_party, get_third_parties, delete_third_party, post_consignee, get_application
 
 
 class AddThirdParty(TemplateView):
@@ -15,7 +15,7 @@ class AddThirdParty(TemplateView):
 
     def dispatch(self, request, *args, **kwargs):
         self.draft_id = str(kwargs['pk'])
-        draft = get_draft_application(request, self.draft_id)
+        draft = get_application(request, self.draft_id)
         self.form = third_party_forms(draft.get('export_type'))
 
         return super(AddThirdParty, self).dispatch(request, *args, **kwargs)
