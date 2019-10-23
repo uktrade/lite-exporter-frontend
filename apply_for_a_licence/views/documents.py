@@ -26,13 +26,13 @@ document_forms_paths = {
         },
     'end-user':
         {
-            'homepage': 'applications:overview',
+            'homepage': 'applications:edit',
             'strings': 'end_user.documents',
             'description': False
         },
     'consignee':
         {
-            'homepage': 'applications:overview',
+            'homepage': 'applications:edit',
             'strings': 'consignee.documents',
             'description': False
         },
@@ -98,12 +98,8 @@ def get_delete_confirmation_page(path, pk):
 class AttachDocuments(TemplateView):
     def get(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
-        _, status_code = get_draft_application(request, draft_id)
-        if status_code == 200:
-            form = get_upload_page(request.path, draft_id)
-            return form_page(request, form, extra_data={'draft_id': draft_id})
-        else:
-            return error_page(None, get_string('drafts.draft_not_found'))
+        form = get_upload_page(request.path, draft_id)
+        return form_page(request, form, extra_data={'draft_id': draft_id})
 
     @csrf_exempt
     def post(self, request, **kwargs):

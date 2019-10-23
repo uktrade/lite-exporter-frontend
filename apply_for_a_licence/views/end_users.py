@@ -25,10 +25,10 @@ class EndUser(TemplateView):
 
         draft = get_draft_application(request, draft_id)
 
-        if draft.get('application').get('licence_type').get('key') == STANDARD_LICENCE:
+        if draft.get('licence_type').get('key') == STANDARD_LICENCE:
             return redirect(reverse_lazy('applications:end_user_attach_document', kwargs={'pk': draft_id}))
         else:
-            return redirect(reverse_lazy('applications:overview', kwargs={'pk': draft_id}))
+            return redirect(reverse_lazy('applications:edit', kwargs={'pk': draft_id}))
 
 
 class RemoveEndUser(TemplateView):
@@ -39,7 +39,7 @@ class RemoveEndUser(TemplateView):
         if status_code != 204:
             return error_page(request, 'Unexpected error removing end user')
 
-        return redirect(reverse_lazy('applications:overview', kwargs={'pk': application_id}))
+        return redirect(reverse_lazy('applications:edit', kwargs={'pk': application_id}))
 
 
 class UltimateEndUsers(TemplateView):

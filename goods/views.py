@@ -159,7 +159,7 @@ class DraftAddGood(TemplateView):
         if status_code == 400:
             return form_page(request, forms.form, request.POST, errors=data['errors'])
 
-        return redirect(reverse_lazy('applications:overview'), kwargs['pk'])
+        return redirect(reverse_lazy('applications:edit'), kwargs['pk'])
 
 
 class EditGood(TemplateView):

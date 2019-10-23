@@ -28,7 +28,7 @@ class InitialQuestions(TemplateView):
             return response
 
         # If there is no response (no forms left to go through), go to the overview page
-        return redirect(reverse_lazy('applications:overview', kwargs={'pk': data['application']['id']}))
+        return redirect(reverse_lazy('applications:edit', kwargs={'pk': data['application']['id']}))
 
 
 def check_all_parties_have_a_document(parties):
@@ -103,29 +103,6 @@ def get_licence_overview(request, application, errors=None):
         context['errors'] = errors
 
     return render(request, 'apply_for_a_licence/overview.html', context)
-
-
-class Overview(TemplateView):
-    def get(self, request, **kwargs):
-        draft = get_draft_application(request, str(kwargs['pk']))
-
-        return get_licence_overview(request, application=draft)
-
-    def post(self, request, **kwargs):
-        draft_id = str(kwargs['pk'])
-        draft = get_draft_application(request, str(kwargs['pk']))
-        submit_data, status_code = submit_application(request, draft_id)
-
-        if status_code != 200:
-            return get_licence_overview(request, application=draft,
-                                        errors=submit_data.get('errors'))
-
-        return success_page(request,
-                            title='Application submitted',
-                            secondary_title='',
-                            description='',
-                            what_happens_next=[],
-                            links={'Go to applications': reverse_lazy('applications:applications')})
 
 
 # Delete Application

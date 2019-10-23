@@ -10,22 +10,17 @@ app_name = 'applications'
 urlpatterns = [
     # ex: /applications/
     path('', views.ApplicationsList.as_view(), name='applications'),
-    # ex: /<uuid:pk>/overview/
-    path('<uuid:pk>/overview/', common.Overview.as_view(), name='overview'),
-
-
     # ex: /applications/43a88949-5db9-4334-b0cc-044e91827451/
     path('<uuid:pk>/', views.ApplicationDetailEmpty.as_view(), name='application'),
-    # ex: /applications/43a88949-5db9-4334-b0cc-044e91827451/edit/type
-    path('<uuid:pk>/edit/type/', views.ApplicationEditType.as_view(), name='application-edit-type'),
-    # ex: /applications/43a88949-5db9-4334-b0cc-044e91827451/edit/overview
-    path('<uuid:pk>/edit/overview/', views.ApplicationEditOverview.as_view(), name='application_edit_overview'),
-    # ex: /applications/43a88949-5db9-4334-b0cc-044e91827451/
-    path('<uuid:pk>/ecju-queries/<uuid:query_pk>/', views.RespondToQuery.as_view(), name='respond_to_query'),
-
-
     # ex: /<uuid:pk>/delete/
     path('<uuid:pk>/delete/', common.DeleteApplication.as_view(), name='delete'),
+    # ex: /applications/43a88949-5db9-4334-b0cc-044e91827451/edit/overview
+    path('<uuid:pk>/edit/', views.ApplicationEditOverview.as_view(), name='edit'),
+    # ex: /applications/43a88949-5db9-4334-b0cc-044e91827451/edit/type
+    path('<uuid:pk>/edit/type/', views.ApplicationEditType.as_view(), name='edit_type'),
+
+    # ex: /applications/43a88949-5db9-4334-b0cc-044e91827451/
+    path('<uuid:pk>/ecju-queries/<uuid:query_pk>/', views.RespondToQuery.as_view(), name='respond_to_query'),
 
     # ex: /applications/<uuid:pk>/open-goods/add/
     path('<uuid:pk>/goods-types/add/', goodstypeviews.ApplicationAddGoodsType.as_view(), name='add_goods_type'),

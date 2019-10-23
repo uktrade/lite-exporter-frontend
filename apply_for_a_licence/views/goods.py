@@ -134,4 +134,4 @@ class RemovePreexistingGood(TemplateView):
         if status_code != 204:
             return error_page(request, 'Unexpected error removing good')
 
-        return redirect(reverse_lazy('applications:application_edit_overview', kwargs={'pk': application_id}))
+        return redirect(reverse_lazy('applications:edit', kwargs={'pk': application_id}))

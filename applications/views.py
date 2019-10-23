@@ -45,7 +45,7 @@ class ApplicationDetailEmpty(TemplateView):
         data = get_application(request, application_id)
 
         if data.get('status').get('key') == 'applicant_editing':
-            return redirect(reverse_lazy('applications:application_edit_overview', kwargs={'pk': application_id}))
+            return redirect(reverse_lazy('applications:edit', kwargs={'pk': application_id}))
 
         return redirect(reverse_lazy('applications:application-detail', kwargs={'pk': application_id,
                                                                                 'type': 'case-notes'}))
@@ -57,7 +57,7 @@ class ApplicationEditType(TemplateView):
         data = get_application(request, application_id)
 
         if data.get('status').get('key') == 'applicant_editing':
-            return redirect(reverse_lazy('applications:application_edit_overview', kwargs={'pk': application_id}))
+            return redirect(reverse_lazy('applications:edit', kwargs={'pk': application_id}))
 
         return form_page(request, edit_type_form(application_id))
 
@@ -68,7 +68,7 @@ class ApplicationEditType(TemplateView):
             if status_code != HTTPStatus.OK:
                 return form_page(request, edit_type_form(str(kwargs['pk'])), errors=data)
 
-        return redirect(reverse_lazy('applications:application_edit_overview', kwargs={'pk': str(kwargs['pk'])}))
+        return redirect(reverse_lazy('applications:edit', kwargs={'pk': str(kwargs['pk'])}))
 
 
 class ApplicationEditOverview(TemplateView):
@@ -78,11 +78,10 @@ class ApplicationEditOverview(TemplateView):
 
     def post(self, request, **kwargs):
         application_id = str(kwargs['pk'])
-        data, status_code = set_application_status(request, application_id)
+        submit_data, status_code = submit_application(request, application_id)
 
         if status_code != HTTPStatus.OK:
-            application_data = get_application(request, application_id)
-            return get_licence_overview(request, application=application_data, errors=data)
+            return get_licence_overview(request, application=submit_data, errors=submit_data.get('errors'))
 
         return success_page(request,
                             title='Application submitted',
@@ -100,8 +99,7 @@ class ApplicationDetail(TemplateView):
 
     def dispatch(self, request, *args, **kwargs):
         self.application_id = str(kwargs['pk'])
-        application, _ = get_application(request, self.application_id)
-        self.application = application['application']
+        self.application = get_application(request, self.application_id)
         self.case_id = self.application['case']
         self.view_type = kwargs['type']
 

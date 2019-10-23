@@ -22,7 +22,7 @@ class ApplicationAddGoodsType(TemplateView):
         next = request.GET.get('next')
         if next:
             return redirect(next)
-        return redirect(reverse_lazy('applications:overview', args=[kwargs['pk']]))
+        return redirect(reverse_lazy('applications:edit', args=[kwargs['pk']]))
 
 
 class ApplicationRemoveGoodsType(TemplateView):
@@ -35,7 +35,7 @@ class ApplicationRemoveGoodsType(TemplateView):
         if status_code != 200:
             return error_page(request, 'Unexpected error removing goods description')
 
-        return redirect(reverse_lazy('applications:application_edit_overview', kwargs={'pk': application_id}))
+        return redirect(reverse_lazy('applications:edit', kwargs={'pk': application_id}))
 
 
 class GoodsTypeCountries(TemplateView):
@@ -78,4 +78,4 @@ class GoodsTypeCountries(TemplateView):
 
         post_goods_type_countries(request, self.draft_id, list(post_data.keys())[0], post_data)
 
-        return redirect(reverse_lazy('applications:overview', kwargs={'pk': self.draft_id}))
+        return redirect(reverse_lazy('applications:edit', kwargs={'pk': self.draft_id}))

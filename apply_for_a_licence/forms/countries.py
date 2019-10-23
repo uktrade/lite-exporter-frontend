@@ -14,5 +14,5 @@ def countries_form(draft_id):
                 ],
                 javascript_imports=['/assets/javascripts/filter-checkbox-list.js'],
                 default_button_name='Save',
-                back_link=BackLink('Back to Overview', reverse('applications:overview',
+                back_link=BackLink('Back to Overview', reverse('applications:edit',
                                                                kwargs={'pk': draft_id})))

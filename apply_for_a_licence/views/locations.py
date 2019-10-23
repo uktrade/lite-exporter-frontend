@@ -65,7 +65,7 @@ class ExistingSites(TemplateView):
         if status_code != 201:
             return form_page(request, sites_form(request), errors=response.get('errors'))
 
-        return redirect(reverse_lazy('applications:overview', kwargs={'pk': draft_id}))
+        return redirect(reverse_lazy('applications:edit', kwargs={'pk': draft_id}))
 
 
 # External Locations
@@ -161,4 +161,4 @@ class Countries(TemplateView):
         if response:
             return response
 
-        return redirect(reverse_lazy('applications:overview', kwargs={'pk': draft_id}))
+        return redirect(reverse_lazy('applications:edit', kwargs={'pk': draft_id}))

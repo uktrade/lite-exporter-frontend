@@ -1,7 +1,7 @@
 {% extends "layouts/base.html" %}
 
 {% block back_link %}
-    <a href="{% url 'applications:overview' draft_id %}" class="govuk-back-link">Back to application</a>
+    <a href="{% url 'applications:edit' draft_id %}" class="govuk-back-link">Back to application</a>
 {% endblock %}
 
 {% block body %}
@@ -52,7 +52,7 @@
         </button>
 
         <p class="govuk-caption-m">
-            <a class="govuk-link" href="{% url 'applications:overview' draft_id %}">Skip this section</a> if you are sending every item to every country
+            <a class="govuk-link" href="{% url 'applications:edit' draft_id %}">Skip this section</a> if you are sending every item to every country
         </p>
 
     </form>
