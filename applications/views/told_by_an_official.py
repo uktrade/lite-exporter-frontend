@@ -4,7 +4,6 @@ from django.views.generic import TemplateView
 from lite_forms.generators import form_page
 from lite_forms.submitters import submit_single_form
 
-from applications.forms.reference_name import reference_name_form
 from applications.forms.told_by_an_official import told_by_an_official_form
 from applications.services import get_application, put_application
 
@@ -35,7 +34,7 @@ class ApplicationEditToldByAnOfficial(TemplateView):
         if request.POST['have_you_been_informed'] == 'no':
             data = {'reference_number_on_information_form': None}
 
-        response, response_data = submit_single_form(request, self.form, put_application, pk=self.application_id,
+        response, _ = submit_single_form(request, self.form, put_application, pk=self.application_id,
                                                      override_data=data)
 
         # If there are more forms to go through, continue
