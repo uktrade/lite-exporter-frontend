@@ -248,7 +248,7 @@ def click_my_goods_link(driver):
 @when('I click on goods tile')  # noqa
 def click_my_goods_link(driver):
     exporter_hub = ApplicationOverviewPage(driver)
-    driver.execute_script("document.getElementById('goods').scrollIntoView(true);")
+    driver.execute_script("document.getElementById('standard-goods').scrollIntoView(true);")
     exporter_hub.click_goods_link()
 
 
