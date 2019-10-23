@@ -45,7 +45,13 @@
 	{% endif %}
 
 	<h1 class="govuk-heading-l govuk-!-margin-bottom-7">
-		{% block title %}Apply for a standard export licence{% endblock %}
+		{% block title %}
+			{% if application.licence_type.key == 'standard_licence' %}
+				Apply for a standard export licence
+			{% else %}
+				Apply for an open export licence
+			{% endif %}
+		{% endblock %}
 	</h1>
 
 	<!-- Initial -->
