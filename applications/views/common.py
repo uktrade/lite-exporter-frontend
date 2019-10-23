@@ -7,11 +7,10 @@ from django.views.generic import TemplateView
 from lite_forms.components import HiddenField
 from lite_forms.generators import error_page, form_page, success_page
 
-from applications.forms import respond_to_query_form, ecju_query_respond_confirmation_form, edit_type_form
+from applications.libraries.get_licence_overview import get_licence_overview
 from applications.services import get_applications, get_application, get_case_notes, \
-    get_application_ecju_queries, get_ecju_query, put_ecju_query, post_application_case_notes, set_application_status, \
-    get_draft_applications, submit_application
-from apply_for_a_licence.views.common import get_licence_overview
+    get_application_ecju_queries, get_ecju_query, put_ecju_query, post_application_case_notes, get_draft_applications, \
+    submit_application, get_draft_application, delete_draft_application
 from core.helpers import group_notifications
 from core.services import get_notifications
 
@@ -51,6 +50,25 @@ class ApplicationDetailEmpty(TemplateView):
                                                                                 'type': 'case-notes'}))
 
 
+class DeleteApplication(TemplateView):
+    def get(self, request, **kwargs):
+        application_id = str(kwargs['pk'])
+        application, _ = get_draft_application(request, application_id)
+        context = {
+            'title': 'Are you sure you want to delete this application?',
+            'application': application,
+            'page': 'apply_for_a_licence/modals/cancel_application.html',
+        }
+        return render(request, 'core/static.html', context)
+
+    def post(self, request, **kwargs):
+        draft_id = str(kwargs['pk'])
+        _, status = delete_draft_application(request, draft_id)
+
+        url_with_query_params = f'?application_deleted={(str(status == HTTPStatus.OK)).lower()}'
+        return redirect(reverse_lazy('applications:applications') + '?drafts=True' + url_with_query_params)
+
+
 class ApplicationEditType(TemplateView):
     def get(self, request, **kwargs):
         application_id = str(kwargs['pk'])
@@ -63,7 +81,7 @@ class ApplicationEditType(TemplateView):
 
     def post(self, request, **kwargs):
         if request.POST.get('edit-type') == 'major':
-            data, status_code = submit_application(request, str(kwargs['pk']), 'applicant_editing')
+            data, status_code = submit_application(request, str(kwargs['pk']))
 
             if status_code != HTTPStatus.OK:
                 return form_page(request, edit_type_form(str(kwargs['pk'])), errors=data)

@@ -1,6 +1,6 @@
 from lite_forms.components import RadioButtons, Form, Option, FormGroup
 
-from apply_for_a_licence.forms.end_user import third_parties_standard_form
+from applications.forms.end_user import third_parties_standard_form
 
 option_list = {
     'agent': 'Agent or broker',

@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from lite_forms.generators import error_page
 
-from apply_for_a_licence.forms.goods import preexisting_good_form
+from applications.forms.goods import preexisting_good_form
 from core.builtins.custom_tags import get_string
 from core.services import get_units
 from applications.services import get_draft_application, get_application_goods, get_application_goods_types, \

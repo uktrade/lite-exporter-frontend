@@ -1,26 +1,24 @@
 from django.urls import path
 
-from applications import views
-from apply_for_a_licence.views import common, goods, locations, end_users, documents, third_parties, \
-    additional_documents
+from applications.views import goods, documents, third_parties, locations, end_users, additional_documents, common
 from goodstype import views as goodstypeviews
 
 
 app_name = 'applications'
 urlpatterns = [
     # ex: /applications/
-    path('', views.ApplicationsList.as_view(), name='applications'),
+    path('', common.ApplicationsList.as_view(), name='applications'),
     # ex: /applications/43a88949-5db9-4334-b0cc-044e91827451/
-    path('<uuid:pk>/', views.ApplicationDetailEmpty.as_view(), name='application'),
+    path('<uuid:pk>/', common.ApplicationDetailEmpty.as_view(), name='application'),
     # ex: /<uuid:pk>/delete/
     path('<uuid:pk>/delete/', common.DeleteApplication.as_view(), name='delete'),
     # ex: /applications/43a88949-5db9-4334-b0cc-044e91827451/edit/overview
-    path('<uuid:pk>/edit/', views.ApplicationEditOverview.as_view(), name='edit'),
+    path('<uuid:pk>/edit/', common.ApplicationEditOverview.as_view(), name='edit'),
     # ex: /applications/43a88949-5db9-4334-b0cc-044e91827451/edit/type
-    path('<uuid:pk>/edit/type/', views.ApplicationEditType.as_view(), name='edit_type'),
+    path('<uuid:pk>/edit/type/', common.ApplicationEditType.as_view(), name='edit_type'),
 
     # ex: /applications/43a88949-5db9-4334-b0cc-044e91827451/
-    path('<uuid:pk>/ecju-queries/<uuid:query_pk>/', views.RespondToQuery.as_view(), name='respond_to_query'),
+    path('<uuid:pk>/ecju-queries/<uuid:query_pk>/', common.RespondToQuery.as_view(), name='respond_to_query'),
 
     # ex: /applications/<uuid:pk>/open-goods/add/
     path('<uuid:pk>/goods-types/add/', goodstypeviews.ApplicationAddGoodsType.as_view(), name='add_goods_type'),
@@ -121,5 +119,5 @@ urlpatterns = [
          name='delete_additional_document'),
 
     # ex: /applications/43a88949-5db9-4334-b0cc-044e91827451/case-notes/
-    path('<uuid:pk>/<str:type>/', views.ApplicationDetail.as_view(), name='application-detail'),
+    path('<uuid:pk>/<str:type>/', common.ApplicationDetail.as_view(), name='application-detail'),
 ]

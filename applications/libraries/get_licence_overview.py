@@ -1,41 +1,11 @@
-from http import HTTPStatus
+from django.shortcuts import render
 
-from django.shortcuts import render, redirect
-from django.urls import reverse_lazy, reverse
-from django.views.generic import TemplateView
-from lite_forms.generators import form_page, success_page
-from lite_forms.submitters import submit_paged_form
-
-from apply_for_a_licence.forms.initial import initial_questions
+from applications.services import get_additional_documents, get_ultimate_end_users, get_third_parties, \
+    get_application_goods, get_end_user_document, get_consignee_document, get_application_countries, \
+    get_application_goods_types
+from apply_for_a_licence.views import check_all_parties_have_a_document
 from conf.constants import STANDARD_LICENCE
 from core.services import get_sites_on_draft, get_external_locations_on_draft
-from applications.services import post_draft_application, get_draft_application, get_application_goods, \
-    submit_application, delete_draft_application, get_application_countries, get_application_goods_types, \
-    get_ultimate_end_users, get_end_user_document, get_third_parties, get_consignee_document, get_additional_documents
-
-
-class InitialQuestions(TemplateView):
-    forms = initial_questions()
-
-    def get(self, request, **kwargs):
-        return form_page(request, self.forms.forms[0])
-
-    def post(self, request, **kwargs):
-        response, data = submit_paged_form(request, self.forms, post_draft_application)
-
-        # If there are more forms to go through, continue
-        if response:
-            return response
-
-        # If there is no response (no forms left to go through), go to the overview page
-        return redirect(reverse_lazy('applications:edit', kwargs={'pk': data['application']['id']}))
-
-
-def check_all_parties_have_a_document(parties):
-    for party in parties:
-        if not party['document']:
-            return False
-    return True
 
 
 def get_licence_overview(request, application, errors=None):
@@ -103,23 +73,3 @@ def get_licence_overview(request, application, errors=None):
         context['errors'] = errors
 
     return render(request, 'apply_for_a_licence/overview.html', context)
-
-
-# Delete Application
-class DeleteApplication(TemplateView):
-    def get(self, request, **kwargs):
-        application_id = str(kwargs['pk'])
-        application, _ = get_draft_application(request, application_id)
-        context = {
-            'title': 'Are you sure you want to delete this application?',
-            'application': application,
-            'page': 'apply_for_a_licence/modals/cancel_application.html',
-        }
-        return render(request, 'core/static.html', context)
-
-    def post(self, request, **kwargs):
-        draft_id = str(kwargs['pk'])
-        _, status = delete_draft_application(request, draft_id)
-
-        url_with_query_params = f'?application_deleted={(str(status == HTTPStatus.OK)).lower()}'
-        return redirect(reverse_lazy('applications:applications') + '?drafts=True' + url_with_query_params)

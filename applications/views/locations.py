@@ -4,9 +4,9 @@ from django.views.generic import TemplateView
 from lite_forms.generators import form_page
 from lite_forms.submitters import submit_single_form
 
-from apply_for_a_licence.forms.countries import countries_form
-from apply_for_a_licence.forms.location import which_location_form, new_location_form, external_locations_form
-from apply_for_a_licence.forms.sites import sites_form
+from applications.forms.countries import countries_form
+from applications.forms.location import which_location_form, new_location_form, external_locations_form
+from applications.forms.sites import sites_form
 from core.services import get_sites_on_draft, post_sites_on_draft, post_external_locations, \
     get_external_locations_on_draft, get_external_locations, post_external_locations_on_draft
 from applications.services import get_draft_application, get_application_countries, post_draft_countries

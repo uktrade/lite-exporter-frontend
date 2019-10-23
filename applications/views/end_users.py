@@ -4,11 +4,11 @@ from django.views.generic import TemplateView
 from lite_forms.generators import form_page, error_page
 from lite_forms.submitters import submit_paged_form
 
-from apply_for_a_licence.forms.end_user import new_end_user_forms
+from applications.forms.end_user import new_end_user_forms
 from conf.constants import STANDARD_LICENCE
 from core.builtins.custom_tags import get_string
-from applications.services import get_draft_application, post_end_user, get_ultimate_end_users, post_ultimate_end_user, \
-    delete_ultimate_end_user, delete_end_user
+from applications.services import get_draft_application, post_end_user, get_ultimate_end_users, \
+    post_ultimate_end_user, delete_ultimate_end_user, delete_end_user
 
 
 class EndUser(TemplateView):

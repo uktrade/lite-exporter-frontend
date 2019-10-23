@@ -8,14 +8,13 @@ from django.views.generic import TemplateView
 from lite_forms.generators import form_page, error_page
 from s3chunkuploader.file_handler import S3FileUploadHandler
 
-from apply_for_a_licence.forms.end_user import attach_document_form, delete_document_confirmation_form
-from apply_for_a_licence.services import add_document_data, download_document_from_s3
+from applications.forms.end_user import attach_document_form, delete_document_confirmation_form
 from core.builtins.custom_tags import get_string
-from applications.services import get_draft_application, post_ultimate_end_user_document, post_end_user_document, \
+from applications.services import post_ultimate_end_user_document, post_end_user_document, \
     get_ultimate_end_user_document, get_end_user_document, delete_ultimate_end_user_document, delete_end_user_document, \
     post_consignee_document, get_consignee_document, delete_consignee_document, post_third_party_document, \
     get_third_party_document, delete_third_party_document, post_additional_document, get_additional_document, \
-    delete_additional_party_document
+    delete_additional_party_document, add_document_data, download_document_from_s3
 
 document_forms_paths = {
     'ultimate-end-user':
