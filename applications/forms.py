@@ -33,8 +33,7 @@ def ecju_query_respond_confirmation_form(edit_response_url):
                         no_label='No, change my response',
                         back_link_text='Back to edit response',
                         back_url=edit_response_url,
-                        submit_button_text="Continue"
-                        )
+                        submit_button_text='Continue')
 
 
 def edit_type_form(application_id):

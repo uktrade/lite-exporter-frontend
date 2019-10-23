@@ -15,8 +15,8 @@ class AddThirdParty(TemplateView):
 
     def dispatch(self, request, *args, **kwargs):
         self.draft_id = str(kwargs['pk'])
-        draft, _ = get_draft_application(request, self.draft_id)
-        self.form = third_party_forms(draft.get('application').get('export_type'))
+        draft = get_draft_application(request, self.draft_id)
+        self.form = third_party_forms(draft.get('export_type'))
 
         return super(AddThirdParty, self).dispatch(request, *args, **kwargs)
 

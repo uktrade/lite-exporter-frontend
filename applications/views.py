@@ -2,7 +2,7 @@ from http import HTTPStatus
 
 from django.http import Http404
 from django.shortcuts import render, redirect
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from lite_forms.components import HiddenField
 from lite_forms.generators import error_page, form_page, success_page
@@ -21,14 +21,13 @@ class ApplicationsList(TemplateView):
         drafts = request.GET.get('drafts')
 
         if drafts and drafts.lower() == 'true':
-            data, status_code = get_draft_applications(request)
+            data = get_draft_applications(request)
 
             context = {
-                'title': 'Drafts',
-                'data': data,
-                'application_deleted': request.GET.get('application_deleted')
+                'title': 'Applications',
+                'data': data
             }
-            return render(request, 'drafts/index.html', context)
+            return render(request, 'applications/drafts.html', context)
         else:
             applications = get_applications(request)
             notifications = get_notifications(request, unviewed=True)
@@ -39,16 +38,16 @@ class ApplicationsList(TemplateView):
                 'notifications': group_notifications(notifications),
             }
 
-            return render(request, 'applications/index.html', context)
+            return render(request, 'applications/applications.html', context)
 
 
 class ApplicationDetailEmpty(TemplateView):
     def get(self, request, **kwargs):
         application_id = str(kwargs['pk'])
-        data, _ = get_application(request, application_id)
+        data = get_application(request, application_id)
 
-        if data.get('application').get('status') == 'applicant_editing':
-            return redirect(reverse_lazy('applications:application-edit-overview', kwargs={'pk': application_id}))
+        if data.get('status').get('key') == 'applicant_editing':
+            return redirect(reverse_lazy('applications:application_edit_overview', kwargs={'pk': application_id}))
 
         return redirect(reverse_lazy('applications:application-detail', kwargs={'pk': application_id,
                                                                                 'type': 'case-notes'}))
@@ -57,10 +56,10 @@ class ApplicationDetailEmpty(TemplateView):
 class ApplicationEditType(TemplateView):
     def get(self, request, **kwargs):
         application_id = str(kwargs['pk'])
-        data, _ = get_application(request, application_id)
+        data = get_application(request, application_id)
 
-        if data.get('application').get('status') == 'applicant_editing':
-            return redirect(reverse_lazy('applications:application-edit-overview', kwargs={'pk': application_id}))
+        if data.get('status').get('key') == 'applicant_editing':
+            return redirect(reverse_lazy('applications:application_edit_overview', kwargs={'pk': application_id}))
 
         return form_page(request, edit_type_form(application_id))
 
@@ -71,26 +70,21 @@ class ApplicationEditType(TemplateView):
             if status_code != HTTPStatus.OK:
                 return form_page(request, edit_type_form(str(kwargs['pk'])), errors=data)
 
-        return redirect(reverse_lazy('applications:application-edit-overview', kwargs={'pk': str(kwargs['pk'])}))
+        return redirect(reverse_lazy('applications:application_edit_overview', kwargs={'pk': str(kwargs['pk'])}))
 
 
 class ApplicationEditOverview(TemplateView):
     def get(self, request, **kwargs):
-        application_data, status_code = get_application(request, str(kwargs['pk']))
-
-        if status_code != HTTPStatus.OK:
-            # Wasn't able to get application so redirecting to exporter hub
-            return redirect(reverse('core:hub'))
-
-        return get_licence_overview(request, application=application_data.get('application'))
+        application_data = get_application(request, str(kwargs['pk']))
+        return get_licence_overview(request, application=application_data)
 
     def post(self, request, **kwargs):
         application_id = str(kwargs['pk'])
         data, status_code = set_application_status(request, application_id)
 
         if status_code != HTTPStatus.OK:
-            application_data, status_code = get_application(request, application_id)
-            return get_licence_overview(request, application=application_data.get('application'), errors=data)
+            application_data = get_application(request, application_id)
+            return get_licence_overview(request, application=application_data, errors=data)
 
         return success_page(request,
                             title='Application submitted',

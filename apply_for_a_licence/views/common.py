@@ -60,7 +60,7 @@ def get_licence_overview(request, application, errors=None):
         third_parties, _ = get_third_parties(request, application_id)
         end_user = application.get('end_user')
         consignee = application.get('consignee')
-        goods, _ = get_application_goods(request, application_id)
+        goods = get_application_goods(request, application_id)
 
         if end_user:
             end_user_document, _ = get_end_user_document(request, application_id)
@@ -70,23 +70,23 @@ def get_licence_overview(request, application, errors=None):
             consignee_document, _ = get_consignee_document(request, application_id)
             consignee_document = consignee_document.get('document')
 
-        for good in goods['goods']:
+        for good in goods:
             if not good['good']['is_good_end_product']:
                 ultimate_end_users_required = True
     else:
-        goodstypes, _ = get_application_goods_types(request, application_id)
+        goodstypes = get_application_goods_types(request, application_id)
         countries, _ = get_application_countries(request, application_id)
 
-        for good in goodstypes['goods']:
+        for good in goodstypes:
             if good['countries']:
                 countries_on_goods_types = True
 
     context = {
         'application': application,
         'sites': sites['sites'],
-        'goods': goods['goods'],
+        'goods': goods,
         'countries': countries['countries'],
-        'goodstypes': goodstypes['goods'],
+        'goodstypes': goodstypes,
         'external_locations': external_locations['external_locations'],
         'ultimate_end_users': ultimate_end_users['ultimate_end_users'],
         'ultimate_end_users_required': ultimate_end_users_required,
@@ -107,22 +107,17 @@ def get_licence_overview(request, application, errors=None):
 
 class Overview(TemplateView):
     def get(self, request, **kwargs):
-        draft_data, status_code = get_draft_application(request, str(kwargs['pk']))
+        draft = get_draft_application(request, str(kwargs['pk']))
 
-        if status_code != 200:
-            # Wasn't able to get the draft, so redirecting to exporter hub
-            return redirect(reverse('core:hub'))
-
-        return get_licence_overview(request, application=draft_data.get('application'))
+        return get_licence_overview(request, application=draft)
 
     def post(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
-
-        draft_data, _ = get_draft_application(request, str(kwargs['pk']))
+        draft = get_draft_application(request, str(kwargs['pk']))
         submit_data, status_code = submit_application(request, draft_id)
 
         if status_code != 200:
-            return get_licence_overview(request, application=draft_data.get('application'),
+            return get_licence_overview(request, application=draft,
                                         errors=submit_data.get('errors'))
 
         return success_page(request,
@@ -140,7 +135,7 @@ class DeleteApplication(TemplateView):
         application, _ = get_draft_application(request, application_id)
         context = {
             'title': 'Are you sure you want to delete this application?',
-            'application': application.get('application'),
+            'application': application,
             'page': 'apply_for_a_licence/modals/cancel_application.html',
         }
         return render(request, 'core/static.html', context)
