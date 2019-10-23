@@ -134,3 +134,16 @@ def friendly_boolean(boolean):
         return 'Yes'
     else:
         return 'No'
+
+
+@register.filter()
+def pluralise_unit(unit, value):
+    is_singular = value == '1'
+
+    if '(s)' in unit:
+        if is_singular:
+            return unit.replace('(s)', '')
+        else:
+            return unit.replace('(s)', 's')
+
+    return unit
