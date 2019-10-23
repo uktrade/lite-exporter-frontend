@@ -9,7 +9,7 @@ from lite_forms.generators import error_page, form_page, success_page
 
 from applications.forms.common import respond_to_query_form, ecju_query_respond_confirmation_form, edit_type_form
 from applications.libraries.get_licence_overview import get_licence_overview
-from applications.services import get_applications, get_application, get_case_notes, \
+from applications.services import get_applications, get_case_notes, \
     get_application_ecju_queries, get_ecju_query, put_ecju_query, post_application_case_notes, get_draft_applications, \
     submit_application, get_application, delete_application, set_application_status
 from core.helpers import group_notifications
@@ -54,11 +54,12 @@ class ApplicationDetailEmpty(TemplateView):
 class DeleteApplication(TemplateView):
     def get(self, request, **kwargs):
         application_id = str(kwargs['pk'])
-        application, _ = get_application(request, application_id)
+        application = get_application(request, application_id)
+
         context = {
             'title': 'Are you sure you want to delete this application?',
             'application': application,
-            'page': 'apply_for_a_licence/modals/cancel_application.html',
+            'page': 'applications/modals/cancel_application.html',
         }
         return render(request, 'core/static.html', context)
 
