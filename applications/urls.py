@@ -1,7 +1,7 @@
 from django.urls import path
 
 from applications.views import goods, documents, third_parties, locations, end_users, additional_documents, common, \
-    reference_name
+    reference_name, told_by_an_official
 from goodstype import views as goodstypeviews
 
 
@@ -19,7 +19,11 @@ urlpatterns = [
     path('<uuid:pk>/edit/type/', common.ApplicationEditType.as_view(), name='edit_type'),
 
     # ex: /applications/<uuid:pk>/edit/reference-name/
-    path('<uuid:pk>/edit/reference-name/', reference_name.ApplicationEditReferenceName.as_view(), name='edit_reference_name'),
+    path('<uuid:pk>/edit/reference-name/', reference_name.ApplicationEditReferenceName.as_view(),
+         name='edit_reference_name'),
+    # ex: /applications/<uuid:pk>/edit/told-by-an-official/
+    path('<uuid:pk>/edit/told-by-an-official/', told_by_an_official.ApplicationEditToldByAnOfficial.as_view(),
+         name='edit_told_by_an_official'),
 
     # ex: /applications/<uuid:pk>/
     path('<uuid:pk>/ecju-queries/<uuid:query_pk>/', common.RespondToQuery.as_view(), name='respond_to_query'),
