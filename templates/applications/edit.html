@@ -60,11 +60,9 @@
 						<a id="goods" href="{% url 'applications:open_goods' application.id %}" class="govuk-link govuk-link--no-visited-state">
 							Reference name
 						</a>
-						{% if goods|length or goodstypes|length %}
-							<div class="lite-tag lite-tag--blue">
-								Done
-							</div>
-						{% endif %}
+						<div class="lite-tag lite-tag--blue">
+							Done
+						</div>
 					</div>
 					<div class="lite-task-list__item-details">
 						<p class="govuk-body-m">I am a header</p>
@@ -75,11 +73,9 @@
 						<a id="goods" href="{% url 'applications:open_goods' application.id %}" class="govuk-link govuk-link--no-visited-state">
 							Export Type
 						</a>
-						{% if goods|length or goodstypes|length %}
-							<div class="lite-tag lite-tag--blue">
-								Done
-							</div>
-						{% endif %}
+						<div class="lite-tag lite-tag--blue">
+							Done
+						</div>
 					</div>
 					<div class="lite-task-list__item-details">
 						<p class="govuk-body-m">{{ application.export_type.value }}</p>
@@ -91,11 +87,9 @@
 							<a id="goods" href="{% url 'applications:open_goods' application.id %}" class="govuk-link govuk-link--no-visited-state">
 								Reference Number
 							</a>
-							{% if goods|length or goodstypes|length %}
-								<div class="lite-tag lite-tag--blue">
-									Done
-								</div>
-							{% endif %}
+							<div class="lite-tag lite-tag--blue">
+								Done
+							</div>
 						</div>
 						<div class="lite-task-list__item-details">
 							<p class="govuk-caption-m">Yes - {{ application.reference_number_on_information_form }}</p>
@@ -113,6 +107,7 @@
 				<span class="lite-task-list__section-number">2. </span> Complete application
 			</h2>
 		    <ul class="lite-task-list__items">
+				{{ goods }}
 		        <!-- Goods -->
 		        <li class="lite-task-list__item">
 					<div class="lite-task-list__item-header">
