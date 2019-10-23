@@ -57,7 +57,9 @@
 	</h1>
 
 	<!-- Details that can't be edited -->
-	<p class="govuk-hint govuk-!-margin-bottom-9">Export Type: {{ application.export_type.value }}</p>
+	<p class="govuk-hint govuk-!-margin-bottom-9">
+		Export type: {{ application.export_type.value }}
+	</p>
 
 	<!-- Initial -->
 	<ol class="lite-task-list">
@@ -88,7 +90,7 @@
 				{% if application.reference_number_on_information_form %}
 					<li class="lite-task-list__item">
 						<div class="lite-task-list__item-header">
-							<a id="goods" href="{% url 'applications:open_goods' application.id %}" class="govuk-link govuk-link--no-visited-state">
+							<a id="reference-number" href="{% url 'applications:open_goods' application.id %}" class="govuk-link govuk-link--no-visited-state">
 								Reference Number
 							</a>
 							<div class="lite-tag lite-tag--blue">
@@ -119,11 +121,11 @@
 		        <li class="lite-task-list__item">
 					<div class="lite-task-list__item-header">
 						{% if application.licence_type.key == 'open_licence' %}
-							<a id="goods" href="{% url 'applications:open_goods' application.id %}" class="govuk-link govuk-link--no-visited-state">
+							<a id="open-goods" href="{% url 'applications:open_goods' application.id %}" class="govuk-link govuk-link--no-visited-state">
 								Describe your goods
 							</a>
 						{% else %}
-							<a id="goods" href="{% url 'applications:goods' application.id %}" class="govuk-link govuk-link--no-visited-state">
+							<a id="standard-goods" href="{% url 'applications:goods' application.id %}" class="govuk-link govuk-link--no-visited-state">
 								Add goods
 							</a>
 						{% endif %}

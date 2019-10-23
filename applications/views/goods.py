@@ -14,13 +14,12 @@ from goods.services import get_goods, get_good
 class DraftGoodsList(TemplateView):
     def get(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
-        draft = get_application(request, draft_id)
+        application = get_application(request, draft_id)
         goods = get_application_goods(request, draft_id)
 
         context = {
             'goods': goods,
-            'draft': draft,
-            'draft_id': draft_id
+            'application': application
         }
         return render(request, 'applications/goods/index.html', context)
 
@@ -28,7 +27,7 @@ class DraftGoodsList(TemplateView):
 class GoodsList(TemplateView):
     def get(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
-        draft = get_application(request, draft_id)
+        application = get_application(request, draft_id)
         description = request.GET.get('description', '').strip()
         part_number = request.GET.get('part_number', '').strip()
         control_rating = request.GET.get('control_rating', '').strip()
@@ -45,7 +44,7 @@ class GoodsList(TemplateView):
             'title': get_string('goods.add_from_organisation.title'),
             'draft_id': draft_id,
             'data': filtered_data,
-            'draft': draft,
+            'application': application,
             'description': description,
             'part_number': part_number,
             'control_code': control_rating
