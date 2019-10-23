@@ -71,7 +71,7 @@
 			<ul class="lite-task-list__items {% if application.status.key == "submitted" or application.status.key == "applicant_editing" %}govuk-!-padding-0{% endif %}">
 				<li class="lite-task-list__item">
 					<div class="lite-task-list__item-header">
-						<a id="goods" href="{% url 'applications:open_goods' application.id %}" class="govuk-link govuk-link--no-visited-state">
+						<a id="goods" href="{% url 'applications:edit_reference_name' application.id %}" class="govuk-link govuk-link--no-visited-state">
 							Reference name
 						</a>
 						<div class="lite-tag lite-tag--blue">

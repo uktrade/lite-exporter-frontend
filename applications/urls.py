@@ -1,6 +1,7 @@
 from django.urls import path
 
-from applications.views import goods, documents, third_parties, locations, end_users, additional_documents, common
+from applications.views import goods, documents, third_parties, locations, end_users, additional_documents, common, \
+    reference_name
 from goodstype import views as goodstypeviews
 
 
@@ -8,16 +9,19 @@ app_name = 'applications'
 urlpatterns = [
     # ex: /applications/
     path('', common.ApplicationsList.as_view(), name='applications'),
-    # ex: /applications/43a88949-5db9-4334-b0cc-044e91827451/
+    # ex: /applications/<uuid:pk>/
     path('<uuid:pk>/', common.ApplicationDetailEmpty.as_view(), name='application'),
     # ex: /<uuid:pk>/delete/
     path('<uuid:pk>/delete/', common.DeleteApplication.as_view(), name='delete'),
-    # ex: /applications/43a88949-5db9-4334-b0cc-044e91827451/edit/overview
+    # ex: /applications/<uuid:pk>/edit/overview
     path('<uuid:pk>/edit/', common.ApplicationEditOverview.as_view(), name='edit'),
-    # ex: /applications/43a88949-5db9-4334-b0cc-044e91827451/edit/type
+    # ex: /applications/<uuid:pk>/edit/type
     path('<uuid:pk>/edit/type/', common.ApplicationEditType.as_view(), name='edit_type'),
 
-    # ex: /applications/43a88949-5db9-4334-b0cc-044e91827451/
+    # ex: /applications/<uuid:pk>/edit/reference-name/
+    path('<uuid:pk>/edit/reference-name/', reference_name.ApplicationEditReferenceName.as_view(), name='edit_reference_name'),
+
+    # ex: /applications/<uuid:pk>/
     path('<uuid:pk>/ecju-queries/<uuid:query_pk>/', common.RespondToQuery.as_view(), name='respond_to_query'),
 
     # ex: /applications/<uuid:pk>/open-goods/
@@ -118,6 +122,6 @@ urlpatterns = [
     path('<uuid:pk>/additional-document/<uuid:doc_pk>/delete', documents.DeleteDocument.as_view(),
          name='delete_additional_document'),
 
-    # ex: /applications/43a88949-5db9-4334-b0cc-044e91827451/case-notes/
+    # ex: /applications/<uuid:pk>/case-notes/
     path('<uuid:pk>/<str:type>/', common.ApplicationDetail.as_view(), name='application-detail'),
 ]
