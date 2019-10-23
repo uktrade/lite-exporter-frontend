@@ -45,7 +45,7 @@ class GoodsTypeCountries(TemplateView):
 
     def dispatch(self, request, *args, **kwargs):
         self.draft_id = str(kwargs['pk'])
-        goods = get_application_goods_types(request, self.draft_id)
+        self.goods = get_application_goods_types(request, self.draft_id)
         countries, _ = get_application_countries(request, self.draft_id)
         self.countries = countries['countries']
 
@@ -58,7 +58,7 @@ class GoodsTypeCountries(TemplateView):
             'draft_id': self.draft_id,
             'title': 'Explain where each item is going'
         }
-        return render(request, 'apply_for_a_licence/../templates/applications/goodstype/countries.html', context)
+        return render(request, 'applications/goodstype/countries.html', context)
 
     def post(self, request, **kwargs):
         data = request.POST.copy()
