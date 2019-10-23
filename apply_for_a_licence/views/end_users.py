@@ -7,7 +7,7 @@ from lite_forms.submitters import submit_paged_form
 from apply_for_a_licence.forms.end_user import new_end_user_forms
 from conf.constants import STANDARD_LICENCE
 from core.builtins.custom_tags import get_string
-from drafts.services import get_draft_application, post_end_user, get_ultimate_end_users, post_ultimate_end_user, \
+from applications.services import get_draft_application, post_end_user, get_ultimate_end_users, post_ultimate_end_user, \
     delete_ultimate_end_user, delete_end_user
 
 
@@ -26,9 +26,9 @@ class EndUser(TemplateView):
         draft, _ = get_draft_application(request, draft_id)
 
         if draft.get('application').get('licence_type').get('key') == STANDARD_LICENCE:
-            return redirect(reverse_lazy('apply_for_a_licence:end_user_attach_document', kwargs={'pk': draft_id}))
+            return redirect(reverse_lazy('applications:end_user_attach_document', kwargs={'pk': draft_id}))
         else:
-            return redirect(reverse_lazy('apply_for_a_licence:overview', kwargs={'pk': draft_id}))
+            return redirect(reverse_lazy('applications:overview', kwargs={'pk': draft_id}))
 
 
 class RemoveEndUser(TemplateView):
@@ -39,7 +39,7 @@ class RemoveEndUser(TemplateView):
         if status_code != 204:
             return error_page(request, 'Unexpected error removing end user')
 
-        return redirect(reverse_lazy('apply_for_a_licence:overview', kwargs={'pk': application_id}))
+        return redirect(reverse_lazy('applications:overview', kwargs={'pk': application_id}))
 
 
 class UltimateEndUsers(TemplateView):
@@ -51,11 +51,11 @@ class UltimateEndUsers(TemplateView):
             'ultimate_end_users': data['ultimate_end_users'],
             'draft_id': draft_id,
             'description': get_string('ultimate_end_user.overview_description'),
-            'add_link': 'apply_for_a_licence:add_ultimate_end_user',
-            'download_document_link': 'apply_for_a_licence:ultimate_end_user_download_document',
-            'delete_document_link': 'apply_for_a_licence:ultimate_end_user_delete_document',
-            'attach_document_link': 'apply_for_a_licence:ultimate_end_user_attach_document',
-            'delete_link': 'apply_for_a_licence:remove_ultimate_end_user',
+            'add_link': 'applications:add_ultimate_end_user',
+            'download_document_link': 'applications:ultimate_end_user_download_document',
+            'delete_document_link': 'applications:ultimate_end_user_delete_document',
+            'attach_document_link': 'applications:ultimate_end_user_attach_document',
+            'delete_link': 'applications:remove_ultimate_end_user',
             'title': 'Ultimate End Users'
         }
 
@@ -81,7 +81,7 @@ class AddUltimateEndUser(TemplateView):
         if response:
             return response
 
-        return redirect(reverse_lazy('apply_for_a_licence:ultimate_end_user_attach_document',
+        return redirect(reverse_lazy('applications:ultimate_end_user_attach_document',
                                      kwargs={'pk': self.draft_id, 'ueu_pk': data['ultimate_end_user']['id']}))
 
 
@@ -90,4 +90,4 @@ class RemoveUltimateEndUser(TemplateView):
         draft_id = str(kwargs['pk'])
         ueu_pk = str(kwargs['ueu_pk'])
         delete_ultimate_end_user(request, draft_id, ueu_pk)
-        return redirect(reverse_lazy('apply_for_a_licence:ultimate_end_users', kwargs={'pk': draft_id}))
+        return redirect(reverse_lazy('applications:ultimate_end_users', kwargs={'pk': draft_id}))

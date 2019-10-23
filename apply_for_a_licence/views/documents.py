@@ -11,7 +11,7 @@ from s3chunkuploader.file_handler import S3FileUploadHandler
 from apply_for_a_licence.forms.end_user import attach_document_form, delete_document_confirmation_form
 from apply_for_a_licence.services import add_document_data, download_document_from_s3
 from core.builtins.custom_tags import get_string
-from drafts.services import get_draft_application, post_ultimate_end_user_document, post_end_user_document, \
+from applications.services import get_draft_application, post_ultimate_end_user_document, post_end_user_document, \
     get_ultimate_end_user_document, get_end_user_document, delete_ultimate_end_user_document, delete_end_user_document, \
     post_consignee_document, get_consignee_document, delete_consignee_document, post_third_party_document, \
     get_third_party_document, delete_third_party_document, post_additional_document, get_additional_document, \
@@ -20,31 +20,31 @@ from drafts.services import get_draft_application, post_ultimate_end_user_docume
 document_forms_paths = {
     'ultimate-end-user':
         {
-            'homepage': 'apply_for_a_licence:ultimate_end_users',
+            'homepage': 'applications:ultimate_end_users',
             'strings': 'ultimate_end_user.documents',
             'description': False
         },
     'end-user':
         {
-            'homepage': 'apply_for_a_licence:overview',
+            'homepage': 'applications:overview',
             'strings': 'end_user.documents',
             'description': False
         },
     'consignee':
         {
-            'homepage': 'apply_for_a_licence:overview',
+            'homepage': 'applications:overview',
             'strings': 'consignee.documents',
             'description': False
         },
     'third-parties':
         {
-            'homepage': 'apply_for_a_licence:third_parties',
+            'homepage': 'applications:third_parties',
             'strings': 'third_parties.documents',
             'description': False
         },
     'additional-document':
         {
-            'homepage': 'apply_for_a_licence:additional_documents',
+            'homepage': 'applications:additional_documents',
             'strings': 'additional_documents.documents',
             'description': True
         }

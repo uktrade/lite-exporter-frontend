@@ -3,7 +3,7 @@
 {% load svg %}
 
 {% block back_link %}
-	<a href="{% url 'apply_for_a_licence:overview' draft_id %}" class="govuk-back-link">Back to Overview</a>
+	<a href="{% url 'applications:overview' draft_id %}" class="govuk-back-link">Back to Overview</a>
 {% endblock %}
 
 {% block body %}
@@ -14,7 +14,7 @@
 		</div>
 		<div class="lite-app-bar__controls">
 			{% block right_button %}
-                <a href="{% url 'apply_for_a_licence:preexisting_good' draft_id %}" role='button' draggable='false' class='govuk-button'>{% get_string 'goods.add_from_organisation.button' %}</a>
+                <a href="{% url 'applications:preexisting_good' draft_id %}" role='button' draggable='false' class='govuk-button'>{% get_string 'goods.add_from_organisation.button' %}</a>
             {% endblock %}
 		</div>
 	</div>

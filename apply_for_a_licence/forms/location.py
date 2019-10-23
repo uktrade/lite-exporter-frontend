@@ -15,7 +15,7 @@ def which_location_form(draft_id):
                     ])
                 ],
                 default_button_name='Continue',
-                back_link=BackLink('Back to Overview', reverse('apply_for_a_licence:overview',
+                back_link=BackLink('Back to Overview', reverse('applications:overview',
                                                                kwargs={'pk': draft_id})))
 
 

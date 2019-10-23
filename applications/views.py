@@ -9,24 +9,37 @@ from lite_forms.generators import error_page, form_page, success_page
 
 from applications.forms import respond_to_query_form, ecju_query_respond_confirmation_form, edit_type_form
 from applications.services import get_applications, get_application, get_case_notes, \
-    get_application_ecju_queries, get_ecju_query, put_ecju_query, post_application_case_notes, set_application_status
+    get_application_ecju_queries, get_ecju_query, put_ecju_query, post_application_case_notes, set_application_status, \
+    get_draft_applications, submit_application
 from apply_for_a_licence.views.common import get_licence_overview
 from core.helpers import group_notifications
 from core.services import get_notifications
-from drafts.services import submit_application
 
 
 class ApplicationsList(TemplateView):
     def get(self, request, **kwargs):
-        applications = get_applications(request)
-        notifications = get_notifications(request, unviewed=True)
+        drafts = request.GET.get('drafts')
 
-        context = {
-            'title': 'Applications',
-            'applications': applications,
-            'notifications': group_notifications(notifications),
-        }
-        return render(request, 'applications/index.html', context)
+        if drafts and drafts.lower() == 'true':
+            data, status_code = get_draft_applications(request)
+
+            context = {
+                'title': 'Drafts',
+                'data': data,
+                'application_deleted': request.GET.get('application_deleted')
+            }
+            return render(request, 'drafts/index.html', context)
+        else:
+            applications = get_applications(request)
+            notifications = get_notifications(request, unviewed=True)
+
+            context = {
+                'title': 'Applications',
+                'applications': applications,
+                'notifications': group_notifications(notifications),
+            }
+
+            return render(request, 'applications/index.html', context)
 
 
 class ApplicationDetailEmpty(TemplateView):
@@ -53,7 +66,7 @@ class ApplicationEditType(TemplateView):
 
     def post(self, request, **kwargs):
         if request.POST.get('edit-type') == 'major':
-            data, status_code = set_application_status(request, str(kwargs['pk']), 'applicant_editing')
+            data, status_code = submit_application(request, str(kwargs['pk']), 'applicant_editing')
 
             if status_code != HTTPStatus.OK:
                 return form_page(request, edit_type_form(str(kwargs['pk'])), errors=data)
@@ -73,7 +86,7 @@ class ApplicationEditOverview(TemplateView):
 
     def post(self, request, **kwargs):
         application_id = str(kwargs['pk'])
-        data, status_code = submit_application(request, application_id)
+        data, status_code = set_application_status(request, application_id)
 
         if status_code != HTTPStatus.OK:
             application_data, status_code = get_application(request, application_id)

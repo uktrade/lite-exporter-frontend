@@ -9,10 +9,9 @@ from lite_forms.submitters import submit_paged_form
 from apply_for_a_licence.forms.initial import initial_questions
 from conf.constants import STANDARD_LICENCE
 from core.services import get_sites_on_draft, get_external_locations_on_draft
-from drafts.services import get_third_parties, get_consignee_document, get_additional_documents
-from drafts.services import post_draft_application, get_draft_application, get_application_goods, \
+from applications.services import post_draft_application, get_draft_application, get_application_goods, \
     submit_application, delete_draft_application, get_application_countries, get_application_goods_types, \
-    get_ultimate_end_users, get_end_user_document
+    get_ultimate_end_users, get_end_user_document, get_third_parties, get_consignee_document, get_additional_documents
 
 
 class InitialQuestions(TemplateView):
@@ -29,7 +28,7 @@ class InitialQuestions(TemplateView):
             return response
 
         # If there is no response (no forms left to go through), go to the overview page
-        return redirect(reverse_lazy('apply_for_a_licence:overview', kwargs={'pk': data['application']['id']}))
+        return redirect(reverse_lazy('applications:overview', kwargs={'pk': data['application']['id']}))
 
 
 def check_all_parties_have_a_document(parties):
@@ -151,4 +150,4 @@ class DeleteApplication(TemplateView):
         _, status = delete_draft_application(request, draft_id)
 
         url_with_query_params = f'?application_deleted={(str(status == HTTPStatus.OK)).lower()}'
-        return redirect(reverse_lazy('drafts:drafts') + url_with_query_params)
+        return redirect(reverse_lazy('applications:applications') + '?drafts=True' + url_with_query_params)

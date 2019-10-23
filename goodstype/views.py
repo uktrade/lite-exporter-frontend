@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from lite_forms.generators import form_page, error_page
 
-from drafts.services import get_application_goods_types, get_application_countries
+from applications.services import get_application_goods_types, get_application_countries
 from goodstype.forms import goods_type_form
 from goodstype.services import post_goods_type, post_goods_type_countries, delete_goods_type
 
@@ -22,7 +22,7 @@ class ApplicationAddGoodsType(TemplateView):
         next = request.GET.get('next')
         if next:
             return redirect(next)
-        return redirect(reverse_lazy('apply_for_a_licence:overview', args=[kwargs['pk']]))
+        return redirect(reverse_lazy('applications:overview', args=[kwargs['pk']]))
 
 
 class ApplicationRemoveGoodsType(TemplateView):
@@ -79,4 +79,4 @@ class GoodsTypeCountries(TemplateView):
 
         post_goods_type_countries(request, self.draft_id, list(post_data.keys())[0], post_data)
 
-        return redirect(reverse_lazy('apply_for_a_licence:overview', kwargs={'pk': self.draft_id}))
+        return redirect(reverse_lazy('applications:overview', kwargs={'pk': self.draft_id}))
