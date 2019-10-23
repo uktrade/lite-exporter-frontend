@@ -75,7 +75,8 @@ class DraftOpenGoodsTypeList(TemplateView):
 
         context = {
             'goods': goods,
-            'draft': draft
+            'draft': draft,
+            'draft_id': draft_id
         }
         return render(request, 'apply_for_a_licence/goodstype/index.html', context)
 

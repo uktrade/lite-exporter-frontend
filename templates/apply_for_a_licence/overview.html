@@ -15,7 +15,7 @@
 			The changes you make to this application won't impact its processing time.
 		</div>
 	{% endif %}
-	{% if application.status.key == "applicant_editing" %}
+	{% if not application.satus or application.status.key == "applicant_editing" %}
 		<div class="lite-info-bar lite-info-bar--warning lite-info-bar--no-animation">
 			This application won't be processed until it is submitted.
 		</div>

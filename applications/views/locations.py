@@ -47,15 +47,12 @@ class Location(TemplateView):
 class ExistingSites(TemplateView):
     def get(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
-        _, _ = get_draft_application(request, draft_id)
         response, _ = get_sites_on_draft(request, draft_id)
 
         return form_page(request, sites_form(request), data=response)
 
     def post(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
-        _, status_code = get_draft_application(request, draft_id)
-
         data = {
             'sites': request.POST.getlist('sites')
         }
