@@ -98,8 +98,9 @@
 					</div>
 					<div class="lite-task-list__item-details">
 						<p class="govuk-body-m">
-							{% if application.reference_number_on_information_form %}
-								Yes - {{ application.reference_number_on_information_form }}
+							{{ application.have_you_been_informed }}
+							{% if application.have_you_been_informed == 'yes' %}
+								Yes{% if application.reference_number_on_information_form %} - {{ application.reference_number_on_information_form }}{% endif %}
 							{% else %}
 								No
 							{% endif %}
@@ -109,6 +110,8 @@
 			</ul>
 		</li>
 	</ol>
+
+	{{ application }}
 
 	<!-- Tasks -->
 	<ol class="lite-task-list">
