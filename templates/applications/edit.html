@@ -602,9 +602,9 @@
 						</form>
 						{% if not application.status.key %}
 							<div class="lite-vertical-align">
-								<a href="{% url 'applications:delete' application.id %}" class="govuk-link lite-link--warning">
+								<a href="{% url 'applications:delete' application.id %}" class="govuk-link lite-link--icon">
 									{% svg 'close' %}
-									Delete draft
+									Delete <span class="govuk-visually-hidden">draft</span>
 								</a>
 							</div>
 						{% endif %}
