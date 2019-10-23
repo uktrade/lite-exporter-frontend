@@ -248,6 +248,11 @@ def get_application_ecju_queries(request, pk):
     return open_queries, closed_queries
 
 
+def put_application(request, pk, json):
+    data = put(request, APPLICATIONS_URL + pk, json)
+    return data.json(), data.status_code
+
+
 def set_application_status(request, pk, status):
     json = {'status': status}
     data = put(request, APPLICATIONS_URL + pk + MANAGE_STATUS_URL, json)
