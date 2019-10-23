@@ -15,7 +15,7 @@ def get_licence_overview(request, application, errors=None):
     external_locations, _ = get_external_locations_on_draft(request, application_id)
     additional_documents, _ = get_additional_documents(request, application_id)
 
-    countries = {'countries': []}
+    countries = []
     goods = []
     goodstypes = []
     ultimate_end_users = {'ultimate_end_users': []}
@@ -45,7 +45,7 @@ def get_licence_overview(request, application, errors=None):
                 ultimate_end_users_required = True
     else:
         goodstypes = get_application_goods_types(request, application_id)
-        countries, _ = get_application_countries(request, application_id)
+        countries = get_application_countries(request, application_id)
 
         for good in goodstypes:
             if good['countries']:
@@ -55,7 +55,7 @@ def get_licence_overview(request, application, errors=None):
         'application': application,
         'sites': sites['sites'],
         'goods': goods,
-        'countries': countries['countries'],
+        'countries': countries,
         'goodstypes': goodstypes,
         'external_locations': external_locations['external_locations'],
         'ultimate_end_users': ultimate_end_users['ultimate_end_users'],

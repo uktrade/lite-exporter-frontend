@@ -61,7 +61,7 @@ def post_draft_preexisting_goods(request, pk, json):
 # Countries
 def get_application_countries(request, pk):
     data = get(request, APPLICATIONS_URL + pk + '/countries/')
-    return data.json(), data.status_code
+    return data.json()['countries']
 
 
 def post_draft_countries(request, pk, json):
