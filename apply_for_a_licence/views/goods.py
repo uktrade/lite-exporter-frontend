@@ -6,9 +6,8 @@ from lite_forms.generators import error_page
 from apply_for_a_licence.forms.goods import preexisting_good_form
 from core.builtins.custom_tags import get_string
 from core.services import get_units
-from drafts.services import get_draft_application, get_application_goods, get_application_goods_types, \
-    post_draft_preexisting_goods
-from applications.services import delete_application_preexisting_good
+from applications.services import get_draft_application, get_application_goods, get_application_goods_types, \
+    post_draft_preexisting_goods, delete_application_preexisting_good
 from goods.services import get_goods, get_good
 
 
@@ -122,7 +121,7 @@ class AddPreexistingGood(TemplateView):
             }
             return render(request, 'form.html', context)
 
-        return redirect(reverse_lazy('apply_for_a_licence:goods', kwargs={'pk': draft_id}))
+        return redirect(reverse_lazy('applications:goods', kwargs={'pk': draft_id}))
 
 
 class RemovePreexistingGood(TemplateView):

@@ -9,7 +9,7 @@ from apply_for_a_licence.forms.location import which_location_form, new_location
 from apply_for_a_licence.forms.sites import sites_form
 from core.services import get_sites_on_draft, post_sites_on_draft, post_external_locations, \
     get_external_locations_on_draft, get_external_locations, post_external_locations_on_draft
-from drafts.services import get_draft_application, get_application_countries, post_draft_countries
+from applications.services import get_draft_application, get_application_countries, post_draft_countries
 
 
 class Location(TemplateView):
@@ -36,9 +36,9 @@ class Location(TemplateView):
             return form_page(request, which_location_form(draft_id), errors=errors)
 
         if data['organisation_or_external'] == 'external':
-            return redirect(reverse_lazy('apply_for_a_licence:external_locations', kwargs={'pk': draft_id}))
+            return redirect(reverse_lazy('applications:external_locations', kwargs={'pk': draft_id}))
         else:
-            return redirect(reverse_lazy('apply_for_a_licence:existing_sites', kwargs={'pk': draft_id}))
+            return redirect(reverse_lazy('applications:existing_sites', kwargs={'pk': draft_id}))
 
 
 # Existing Sites
@@ -65,7 +65,7 @@ class ExistingSites(TemplateView):
         if status_code != 201:
             return form_page(request, sites_form(request), errors=response.get('errors'))
 
-        return redirect(reverse_lazy('apply_for_a_licence:overview', kwargs={'pk': draft_id}))
+        return redirect(reverse_lazy('applications:overview', kwargs={'pk': draft_id}))
 
 
 # External Locations
@@ -113,7 +113,7 @@ class AddExternalLocation(TemplateView):
         post_external_locations_on_draft(request, draft_id, data)
 
         # If there is no response (no forms left to go through), go to the overview page
-        return redirect(reverse_lazy('apply_for_a_licence:external_locations', kwargs={'pk': draft_id}))
+        return redirect(reverse_lazy('applications:external_locations', kwargs={'pk': draft_id}))
 
 
 class AddExistingExternalLocation(TemplateView):
@@ -135,7 +135,7 @@ class AddExistingExternalLocation(TemplateView):
         if status_code != 201:
             return form_page(request, external_locations_form(request), errors=response.get('errors'))
 
-        return redirect(reverse_lazy('apply_for_a_licence:external_locations', kwargs={'pk': draft_id}))
+        return redirect(reverse_lazy('applications:external_locations', kwargs={'pk': draft_id}))
 
 
 # Countries
@@ -161,4 +161,4 @@ class Countries(TemplateView):
         if response:
             return response
 
-        return redirect(reverse_lazy('apply_for_a_licence:overview', kwargs={'pk': draft_id}))
+        return redirect(reverse_lazy('applications:overview', kwargs={'pk': draft_id}))

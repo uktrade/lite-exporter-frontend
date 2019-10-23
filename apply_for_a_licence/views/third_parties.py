@@ -6,7 +6,7 @@ from lite_forms.submitters import submit_paged_form
 
 from apply_for_a_licence.forms.end_user import new_consignee_forms
 from apply_for_a_licence.forms.third_party import third_party_forms, option_list
-from drafts.services import post_third_party, get_third_parties, delete_third_party, post_consignee, get_draft_application
+from applications.services import post_third_party, get_third_parties, delete_third_party, post_consignee, get_draft_application
 
 
 class AddThirdParty(TemplateView):
@@ -29,7 +29,7 @@ class AddThirdParty(TemplateView):
         if response:
             return response
 
-        return redirect(reverse_lazy('apply_for_a_licence:third_party_attach_document',
+        return redirect(reverse_lazy('applications:third_party_attach_document',
                                      kwargs={'pk': self.draft_id, 'tp_pk': data['third_party']['id']}))
 
 
@@ -42,11 +42,11 @@ class ThirdParties(TemplateView):
             'third_parties': data['third_parties'],
             'draft_id': draft_id,
             'third_party_types': option_list.values(),
-            'add_link': 'apply_for_a_licence:add_third_party',
-            'download_document_link': 'apply_for_a_licence:third_party_download_document',
-            'delete_document_link': 'apply_for_a_licence:third_party_delete_document',
-            'attach_document_link': 'apply_for_a_licence:third_party_attach_document',
-            'delete_link': 'apply_for_a_licence:remove_third_party',
+            'add_link': 'applications:add_third_party',
+            'download_document_link': 'applications:third_party_download_document',
+            'delete_document_link': 'applications:third_party_delete_document',
+            'attach_document_link': 'applications:third_party_attach_document',
+            'delete_link': 'applications:remove_third_party',
             'title': 'Third Parties'
         }
 
@@ -58,7 +58,7 @@ class RemoveThirdParty(TemplateView):
         draft_id = str(kwargs['pk'])
         ueu_pk = str(kwargs['ueu_pk'])
         delete_third_party(request, draft_id, ueu_pk)
-        return redirect(reverse_lazy('apply_for_a_licence:third_parties', kwargs={'pk': draft_id}))
+        return redirect(reverse_lazy('applications:third_parties', kwargs={'pk': draft_id}))
 
 
 class Consignee(TemplateView):
@@ -73,4 +73,4 @@ class Consignee(TemplateView):
         if response:
             return response
 
-        return redirect(reverse_lazy('apply_for_a_licence:consignee_attach_document', kwargs={'pk': draft_id}))
+        return redirect(reverse_lazy('applications:consignee_attach_document', kwargs={'pk': draft_id}))

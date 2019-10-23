@@ -3,7 +3,7 @@
 {% load static svg %}
 
 {% block back_link %}
-	<a href="{% url 'apply_for_a_licence:goods' draft_id %}" class="govuk-back-link">Back to Goods</a>
+	<a href="{% url 'applications:goods' draft_id %}" class="govuk-back-link">Back to Goods</a>
 {% endblock%}
 
 {% block body %}
@@ -73,7 +73,7 @@
 								{{ good.control_code|highlight_text:control_code|default_na }}
 							</td>
 							<td class="govuk-table__cell lite-!-text-align-right">
-								<a href="{% url 'apply_for_a_licence:add_preexisting_good' draft_id good.id %}" class="govuk-link govuk-link--no-visited-state" draggable="false" style="margin-bottom: 0;">
+								<a href="{% url 'applications:add_preexisting_good' draft_id good.id %}" class="govuk-link govuk-link--no-visited-state" draggable="false" style="margin-bottom: 0;">
 									Add <span class="govuk-visually-hidden">{{ good.description }}</span> to application
 								</a>
 							</td>
