@@ -33,8 +33,9 @@
 			<thead class="govuk-table__head">
 				<tr class="govuk-table__row">
 					<th class="govuk-table__header">
-						Name
+						Reference
 					</th>
+					<th class="govuk-table__header" scope="col">Type</th>
 					<th class="govuk-table__header">
 						Created On
 					</th>
@@ -49,12 +50,12 @@
 				{% for draft in drafts %}
 					<tr class="govuk-table__row">
 						<td class="govuk-table__cell">
-							<a class="govuk-link govuk-link--no-visited-state" style="font-weight: bold;" href="{% url 'applications:edit' draft.id %}">
+							<a class="govuk-link govuk-link--no-visited-state" href="{% url 'applications:edit' draft.id %}">
 								{{ draft.name }}
 							</a>
-							<p class="govuk-!-font-size-16" style="opacity: 0.7; margin: 0; margin-top: 5px;">
-								{{ draft.licence_type.value }}
-							</p>
+						</td>
+						<td class="govuk-table__cell">
+							{{ draft.licence_type.value }}
 						</td>
 						<td class="govuk-table__cell">
 							{{ draft.last_modified_at|str_date }}
@@ -62,7 +63,7 @@
 						<td class="govuk-table__cell">
 							{{ draft.export_type.value }}
 						</td>
-						<td class="govuk-table__cell">
+						<td class="govuk-table__cell govuk-table__cell--numeric">
 							<a href="{% url 'applications:delete' draft.id %}" style="margin: 0;" class="govuk-link">
 								Delete
 							</a>
