@@ -513,7 +513,7 @@
 									</thead>
 									<tbody class="govuk-table__body">
 										{% for ultimate_end_user in ultimate_end_users %}
-											<tr class="govuk-table__row">
+											<tr class="govuk-table__row" id="ultimate-end-user-row-{{ ultimate_end_user.id }}">
 												<td class="govuk-table__cell">{{ ultimate_end_user.name }}</td>
 						                        <td class="govuk-table__cell">{{ ultimate_end_user.sub_type.value }}</td>
 						                        <td class="govuk-table__cell">{{ ultimate_end_user.website|default_na }}</td>

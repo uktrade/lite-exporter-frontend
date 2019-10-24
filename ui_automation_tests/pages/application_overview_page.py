@@ -14,14 +14,15 @@ class ApplicationOverviewPage:
         self.ultimate_end_user_link = "ultimate_end_users"   # ID
         self.third_parties = "third_parties"  # ID
         self.sites_link = "a[href*='sites']"
-        self.lite_section = ".lite-section"   # CSS
+        self.goods_on_application = "[id^=good-on-application-row]"  # CSS
+        self.ultimate_end_users = "[id^=ultimate-end-user-row]"
         self.gov_tables = ".govuk-table__body"   # CSS
-        self.back_to_overview_text = "Back to Application" #link text
-        self.submit_application_button = "button[type*='submit']" # CSS
-        self.attach_end_user_document_link = "attach_doc" # ID
-        self.download_end_user_document = "end_user_document_download" # ID
-        self.delete_end_user_document = "end_user_document_delete" # ID
-        self.end_user_document_state = "end_user_document_state" # ID
+        self.back_to_overview_text = "Back to Application"  # link text
+        self.submit_application_button = "button[type*='submit']"  # CSS
+        self.attach_end_user_document_link = "attach_doc"  # ID
+        self.download_end_user_document = "end_user_document_download"  # ID
+        self.delete_end_user_document = "end_user_document_delete"  # ID
+        self.end_user_document_state = "end_user_document_state"  # ID
         self.attach_end_user_document = "end_user_attach_doc"  # ID
         self.attach_consignee_document = "consignee_attach_doc"  # ID
         self.download_consignee_document = "consignee_document_download"  # ID
@@ -87,8 +88,11 @@ class ApplicationOverviewPage:
     def get_text_of_end_user_table(self):
         return self.driver.find_elements_by_css_selector(self.gov_tables)[len(self.driver.find_elements_by_css_selector(self.gov_tables))-1].text
 
-    def get_text_of_good(self, no):
-        return self.driver.find_elements_by_css_selector(self.lite_section)[no].text
+    def get_text_of_good(self, index=0):
+        return self.driver.find_elements_by_css_selector(self.goods_on_application)[index].text
+
+    def get_ultimate_end_users(self):
+        return self.driver.find_elements_by_css_selector(self.ultimate_end_users)
 
     def get_end_user_document_state_text(self):
         return self.driver.find_element_by_id(self.end_user_document_state).text

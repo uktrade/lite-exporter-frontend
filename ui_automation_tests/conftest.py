@@ -366,8 +366,6 @@ def i_see_the_application_overview(driver, context):
     element = driver.find_element_by_css_selector(".lite-task-list__items").text
     assert "Reference name" in element
     assert context.app_name in element
-    # assert "Export type" in element
-    # assert context.perm_or_temp.capitalize() in element
     assert "Told by an official" in element
     assert context.ref in element
 

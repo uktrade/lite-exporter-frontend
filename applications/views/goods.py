@@ -44,7 +44,8 @@ class GoodsList(TemplateView):
             'data': filtered_data,
             'description': description,
             'part_number': part_number,
-            'control_code': control_rating
+            'control_code': control_rating,
+            'draft_id': application_id
         }
         return render(request, 'applications/goods/preexisting.html', context)
 
