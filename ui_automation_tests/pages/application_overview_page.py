@@ -7,7 +7,8 @@ class ApplicationOverviewPage:
         self.driver = driver
         self.location_link = "location"
         self.countries_link = "countries"
-        self.goods_link = "standard-goods"
+        self.standard_goods_link = "standard-goods"
+        self.open_goods_link = "open-goods"
         self.end_user_link = "end_users"   # ID
         self.consignees_link = "consignees"
         self.ultimate_end_user_link = "ultimate_end_users"   # ID
@@ -52,8 +53,12 @@ class ApplicationOverviewPage:
         self.driver.execute_script("document.getElementById('" + self.location_link + "').scrollIntoView(true);")
         self.driver.find_element_by_id(self.location_link).click()
 
-    def click_goods_link(self):
-        element = self.driver.find_element_by_id(self.goods_link)
+    def click_standard_goods_link(self):
+        element = self.driver.find_element_by_id(self.standard_goods_link)
+        self.driver.execute_script("arguments[0].click();", element)
+
+    def click_open_goods_link(self):
+        element = self.driver.find_element_by_id(self.open_goods_link)
         self.driver.execute_script("arguments[0].click();", element)
 
     def click_sites_link(self):

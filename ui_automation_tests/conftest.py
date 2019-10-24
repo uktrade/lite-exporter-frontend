@@ -249,7 +249,7 @@ def click_my_goods_link(driver):
 def click_my_goods_link(driver):
     exporter_hub = ApplicationOverviewPage(driver)
     driver.execute_script("document.getElementById('standard-goods').scrollIntoView(true);")
-    exporter_hub.click_goods_link()
+    exporter_hub.click_standard_goods_link()
 
 
 @when('I click on end user advisories')  # noqa
@@ -336,8 +336,8 @@ def raise_clc_query(driver, control_code, description):
 @when('I click on the goods link from overview')  # noqa
 def click_goods_link_overview(driver):
     overview_page = ApplicationOverviewPage(driver)
-    driver.execute_script("document.getElementById('goods').scrollIntoView(true);")
-    overview_page.click_goods_link()
+    driver.execute_script("document.getElementById('open-goods').scrollIntoView(true);")
+    overview_page.click_open_goods_link()
 
 
 @then('application is submitted')  # noqa
