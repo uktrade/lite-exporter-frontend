@@ -19,7 +19,7 @@ def i_click_on_application_overview(driver):
 
 @then('good is added to application')
 def good_is_added(driver, context):
-    good = ApplicationOverviewPage(driver).get_text_of_good(1)
+    good = ApplicationOverviewPage(driver).get_text_of_good(index=0)
     assert context.goods_name in good
     # TODO put this back when bug is fixed - showing mtr instead of metres
     # assert str(context.quantity) + ".0 " + context.unit in good
