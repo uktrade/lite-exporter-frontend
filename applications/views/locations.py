@@ -141,7 +141,7 @@ class AddExistingExternalLocation(TemplateView):
 class Countries(TemplateView):
     def get(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
-        countries = get_application_countries(request, draft_id)
+        countries = {'countries': get_application_countries(request, draft_id)}
 
         return form_page(request, countries_form(draft_id), data=countries)
 

@@ -20,19 +20,12 @@ def get_units(request):
 
 
 def get_countries(request, convert_to_options=False):
-    data = get(request, COUNTRIES_URL)
+    data = get(request, COUNTRIES_URL).json()['countries']
 
     if convert_to_options:
-        converted_units = []
+        return [Option(x['id'], x['name']) for x in data]
 
-        for country in data.json().get('countries'):
-            converted_units.append(
-                Option(country.get('id'), country.get('name'))
-            )
-
-        return converted_units
-
-    return data.json(), data.status_code
+    return data
 
 
 def get_sites_on_draft(request, pk):
