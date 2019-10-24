@@ -10,13 +10,13 @@
 
     <form method="post">
 
-        <a id="link-select-all" href="#" class="govuk-link govuk-body" onclick="setCheckboxesState(true)" style="margin-right: 20px;">
+        <a id="link-select-all" href="./?all=True" class="govuk-link govuk-body"  style="margin-right: 20px;">
             Select all
         </a>
-
-        <a id="link-deselect-all" href="#" class="govuk-link govuk-body" onclick="setCheckboxesState(false)">
+        <a id="link-select-all" href="./?all=False" class="govuk-link govuk-body"  style="margin-right: 20px;">
             Deselect all
         </a>
+
 
         <br><br>
 
@@ -39,7 +39,7 @@
                             {% for country in countries %}
                                 <div class="govuk-checkboxes govuk-checkboxes--small" style="padding-bottom: 50px">
                                     <div class="govuk-checkboxes__item">
-                                        <input class="govuk-checkboxes__input" {% if country in good.countries %}checked{% endif %} type="checkbox" name="{{ good.id }}.{{ country.id }}" id="{{ good.id }}.{{ country.id }}" value="{{ country.id }}">
+                                        <input class="govuk-checkboxes__input" {% if country in good.countries or select == 'True' %}checked{% endif %} type="checkbox" name="{{ good.id }}.{{ country.id }}" id="{{ good.id }}.{{ country.id }}" value="{{ country.id }}">
                                         <label class="govuk-label govuk-checkboxes__label" for="{{ good.id }}.{{ country.id }}">{{ country.name }}
                                         </label>
                                     </div>
@@ -59,12 +59,4 @@
 
     </form>
 
-{% endblock %}
-
-{% block javascript %}
-    <script>
-        function setCheckboxesState(value) {
-            $('input').prop('checked', value);
-        }
-    </script>
 {% endblock %}
