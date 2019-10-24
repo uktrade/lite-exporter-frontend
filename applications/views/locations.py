@@ -1,3 +1,4 @@
+from django.http import Http404
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
@@ -56,8 +57,12 @@ class Location(TemplateView):
 
 class ExistingSites(TemplateView):
     def get(self, request, **kwargs):
-        draft_id = str(kwargs['pk'])
-        response, _ = get_sites_on_draft(request, draft_id)
+        application_id = str(kwargs['pk'])
+        application = get_application(request, application_id)
+        response, _ = get_sites_on_draft(request, application_id)
+
+        if application['status'].get('key') == 'submitted' and not response['sites']:
+            raise Http404
 
         return form_page(request, sites_form(request), data=response)
 
@@ -80,19 +85,22 @@ class ExistingSites(TemplateView):
 
 class ExternalLocations(TemplateView):
     def get(self, request, **kwargs):
-        draft_id = str(kwargs['pk'])
-        draft = get_application(request, draft_id)
+        application_id = str(kwargs['pk'])
+        application = get_application(request, application_id)
         org_external_locations, _ = get_external_locations(request, request.user.organisation)
-        data, _ = get_external_locations_on_draft(request, draft_id)
+        data, _ = get_external_locations_on_draft(request, application_id)
+
+        if application['status'].get('key') == 'submitted' and not data['external_locations']:
+            raise Http404
 
         context = {
             'title': 'External Locations',
             'org_external_locations': org_external_locations,
-            'draft_id': draft_id,
+            'draft_id': application_id,
             'data': data,
-            'draft': draft,
+            'draft': application,
         }
-        return render(request, 'apply_for_a_licence/../../templates/applications/external_locations/index.html', context)
+        return render(request, 'applications/external_locations/index.html', context)
 
 
 class AddExternalLocation(TemplateView):
