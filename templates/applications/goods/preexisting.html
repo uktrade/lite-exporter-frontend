@@ -8,7 +8,7 @@
 
 {% block body %}
 
-	<h2 class="govuk-heading-l">{{ title }}</h2>
+	<h2 class="govuk-heading-l">{% block title %}Add a good from your organisation{% endblock %}</h2>
 
 	{% if data or description or part_number or control_code %}
 		<div class="lite-js-only">
