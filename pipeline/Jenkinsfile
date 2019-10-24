@@ -169,8 +169,8 @@ pipeline
                 value: "${params.TEST_SSO_NAME}"
               - name: TEST_SSO_PASSWORD
                 value: "${params.TEST_SSO_PASSWORD}"
-              - name: PROXY_IP_PORT
-                value: "${params.PROXY_IP_PORT}"
+              - name: RUN_ZAP
+                value: "${params.RUN_ZAP}"
               - name: ZAP_TARGET_URL
                 value: "${params.ZAP_TARGET_URL}"
         """) {
