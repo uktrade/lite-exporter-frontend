@@ -15,6 +15,7 @@ class ApplicationOverviewPage:
         self.third_parties = "third_parties"  # ID
         self.sites_link = "a[href*='sites']"
         self.goods_on_application = "[id^=good-on-application-row]"  # CSS
+        self.ultimate_end_users = "[id^=ultimate-end-user-row]"
         self.gov_tables = ".govuk-table__body"   # CSS
         self.back_to_overview_text = "Back to Application"  # link text
         self.submit_application_button = "button[type*='submit']"  # CSS
@@ -89,6 +90,9 @@ class ApplicationOverviewPage:
 
     def get_text_of_good(self, index=0):
         return self.driver.find_elements_by_css_selector(self.goods_on_application)[index].text
+
+    def get_ultimate_end_users(self):
+        return self.driver.find_elements_by_css_selector(self.ultimate_end_users)
 
     def get_end_user_document_state_text(self):
         return self.driver.find_element_by_id(self.end_user_document_state).text
