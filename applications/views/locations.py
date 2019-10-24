@@ -14,14 +14,24 @@ from applications.services import get_application, get_application_countries, po
 
 class Location(TemplateView):
     def get(self, request, **kwargs):
-        draft_id = str(kwargs['pk'])
-        data, _ = get_external_locations_on_draft(request, draft_id)
-        if data['external_locations']:
+        application_id = str(kwargs['pk'])
+        application = get_application(request, application_id)
+        external_locations, _ = get_external_locations_on_draft(request, application_id)
+
+        print(application['status'])
+
+        if external_locations['external_locations']:
             data = {'organisation_or_external': 'external'}
+
+            if application['status'].get('key') == 'submitted':
+                return redirect(reverse_lazy('applications:external_locations', kwargs={'pk': application_id}))
         else:
             data = {'organisation_or_external': 'organisation'}
 
-        return form_page(request, which_location_form(draft_id), data=data)
+            if application['status'].get('key') == 'submitted':
+                return redirect(reverse_lazy('applications:existing_sites', kwargs={'pk': application_id}))
+
+        return form_page(request, which_location_form(application_id), data=data)
 
     def post(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
