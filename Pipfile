@@ -30,6 +30,9 @@ boto3 = ">=1.9"
 lite-forms = "*"
 prospector = "*"
 django-csp = "*"
+bandit = "*"
+gunicorn = "*"
+whitenoise = "*"
 
 [requires]
 python_version = "3.7"
