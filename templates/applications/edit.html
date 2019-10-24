@@ -44,7 +44,7 @@
 
 	<h1 class="govuk-heading-l govuk-!-margin-bottom-2">
 		{% block title %}
-			{% if application.status.key == "submitted" or application.status.key == "applicant_editing" %}
+			{% if is_editing %}
 				Edit your application
 			{% else %}
 				{% if application.licence_type.key == 'standard_licence' %}
@@ -58,7 +58,7 @@
 
 	<!-- Details that can't be edited -->
 	<p class="govuk-hint govuk-!-margin-bottom-9">
-		{% if application.status.key == "submitted" or application.status.key == "applicant_editing" %}Licence type: {{ application.licence_type.value }} - {% endif %}
+		{% if is_editing %}Licence type: {{ application.licence_type.value }} - {% endif %}
 		Export type: {{ application.export_type.value }}
 	</p>
 
@@ -66,13 +66,13 @@
 	<ol class="lite-task-list">
 		<li>
 			<h2 class="lite-task-list__section">
-				{% if application.status.key == "submitted" or application.status.key == "applicant_editing" %}
+				{% if is_editing %}
 					Basic details
 				{% else %}
 					<span class="lite-task-list__section-number">1. </span> Prepare application
 				{% endif %}
 			</h2>
-			<ul class="lite-task-list__items {% if application.status.key == "submitted" or application.status.key == "applicant_editing" %}govuk-!-padding-0{% endif %}">
+			<ul class="lite-task-list__items {% if is_editing %}govuk-!-padding-0{% endif %}">
 				<li class="lite-task-list__item">
 					<div class="lite-task-list__item-header">
 						<a id="reference-name" href="{% url 'applications:edit_reference_name' application.id %}" class="govuk-link govuk-link--no-visited-state">
@@ -115,13 +115,13 @@
 	<ol class="lite-task-list">
 		<li>
 			<h2 class="lite-task-list__section">
-				{% if application.status.key == "submitted" or application.status.key == "applicant_editing" %}
+				{% if is_editing %}
 					More information
 				{% else %}
 					<span class="lite-task-list__section-number">2. </span> Complete application
 				{% endif %}
 			</h2>
-		    <ul class="lite-task-list__items {% if application.status.key == "submitted" or application.status.key == "applicant_editing" %}govuk-!-padding-0{% endif %}">
+		    <ul class="lite-task-list__items {% if is_editing %}govuk-!-padding-0{% endif %}">
 		        <!-- Goods -->
 		        <li class="lite-task-list__item">
 					<div class="lite-task-list__item-header">
@@ -163,7 +163,12 @@
 											<td class="govuk-table__cell" scope="row">{{ good.quantity }}</td>
 											<td class="govuk-table__cell" scope="row">{{ good.unit.value }}</td>
 											<td class="govuk-table__cell" scope="row">£{{ good.value }}</td>
-											<td class="govuk-table__cell govuk-table__cell--numeric" scope="row"><a href="{% url 'applications:remove_preexisting_good' application.id good.id %}">Remove</a></td>
+											<td class="govuk-table__cell govuk-table__cell--numeric" scope="row">
+												<a class="lite-link--icon" href="{% url 'applications:remove_preexisting_good' application.id good.id %}">
+													{% svg 'close' %}
+													Remove
+												</a>
+											</td>
 										</tr>
 									{% endfor %}
 								</tbody>
@@ -187,7 +192,12 @@
 											{% else %}
 												<td  class="govuk-table__cell" scope="row">N/A</td>
 											{% endif %}
-											<td class="govuk-table__cell" scope="row"><a href="{% url 'applications:remove_goods_type' application.id goodstype.id %}">Remove</a></td>
+											<td class="govuk-table__cell govuk-table__cell--numeric" scope="row">
+												<a class="lite-link--icon" href="{% url 'applications:remove_goods_type' application.id goodstype.id %}">
+													{% svg 'close' %}
+													Remove
+												</a>
+											</td>
 										</tr>
 									{% endfor %}
 								</tbody>
@@ -233,7 +243,12 @@
 												{{ site.address.postcode }}<br/>
 												{{ site.address.country.name }}
 											</td>
-											<td class="govuk-table__cell govuk-table__cell--numeric" scope="row"><a href="#">Remove</a></td>
+											<td class="govuk-table__cell govuk-table__cell--numeric" scope="row">
+												<a class="lite-link--icon" href="#">
+													{% svg 'close' %}
+													Remove
+												</a>
+											</td>
 										</tr>
 									{% endfor %}
 								</tbody>
@@ -335,7 +350,12 @@
 										<tr class="govuk-table__row">
 											<th class="govuk-table__header" scope="row">Type</th>
 											<td class="govuk-table__cell">{{ application.end_user.sub_type.value|title }}</td>
-											<td class="govuk-table__cell"><a href="{% url 'applications:remove_end_user' application.id %}">Remove</a></td>
+											<td class="govuk-table__cell">
+												<a class="lite-link--icon" href="{% url 'applications:remove_end_user' application.id %}">
+													{% svg 'close' %}
+													Remove
+												</a>
+											</td>
 										</tr>
 										<tr class="govuk-table__row">
 											<th class="govuk-table__header" scope="row">Name</th>
@@ -575,14 +595,30 @@
 								<thead class="govuk-table__head">
 									<tr class="govuk-table__row">
 										<th class="govuk-table__header" scope="col">Name</th>
-										<th class="govuk-table__header" scope="col">Description</th>
+										<th class="govuk-table__header" scope="col"></th>
 									</tr>
 								</thead>
 								<tbody class="govuk-table__body">
 									{% for additional_document in additional_documents %}
 										<tr class="govuk-table__row">
 											<td class="govuk-table__cell">{{ additional_document.name }}</td>
-											<td class="govuk-table__cell">{{ additional_document.description }}</td>
+											<td class="govuk-table__cell govuk-table__cell--numeric">
+												{% if additional_document.safe == True %}
+													<a href="{% url 'applications:download_additional_document' application.id additional_document.id %}" id="document_download" class='govuk-link govuk-link--no-visited-state'>
+														Download
+													</a>
+												{% else %}
+													Processing
+												{% endif %}
+											</td>
+											<td class="govuk-table__cell govuk-table__cell--numeric">
+												{% if additional_document.safe == True %}
+													<a href="{% url 'applications:delete_additional_document' application.id additional_document.id %}" id="document_delete" class='govuk-link govuk-link--no-visited-state lite-link--icon'>
+														{% svg 'close' %}
+														Delete
+													</a>
+												{% endif %}
+											</td>
 										</tr>
 									{% endfor %}
 								</tbody>

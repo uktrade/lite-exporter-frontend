@@ -51,7 +51,10 @@
 							£{{ good_on_application.value }}
 						</td>
 						<td class="govuk-table__cell govuk-table__cell--numeric">
-							<a class="govuk-link" href="{% url 'applications:remove_preexisting_good' application.id good_on_application.id %}">Remove</a>
+							<a class="govuk-link lite-link--icon" href="{% url 'applications:remove_preexisting_good' application.id good_on_application.id %}">
+								{% svg 'close' %}
+								Remove
+							</a>
 						</td>
 					</tr>
 				{% endfor %}
