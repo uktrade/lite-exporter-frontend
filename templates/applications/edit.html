@@ -58,6 +58,7 @@
 
 	<!-- Details that can't be edited -->
 	<p class="govuk-hint govuk-!-margin-bottom-9">
+		{% if application.status.key == "submitted" or application.status.key == "applicant_editing" %}Licence type: {{ application.licence_type.value }} - {% endif %}
 		Export type: {{ application.export_type.value }}
 	</p>
 
@@ -218,6 +219,7 @@
 									<tr class="govuk-table__row">
 										<th class="govuk-table__header" scope="row">Site</th>
 										<td class="govuk-table__header">Location</td>
+										<td class="govuk-table__header"></td>
 									</tr>
 									{% for site in sites %}
 										<tr class="govuk-table__row">
@@ -231,6 +233,7 @@
 												{{ site.address.postcode }}<br/>
 												{{ site.address.country.name }}
 											</td>
+											<td class="govuk-table__cell govuk-table__cell--numeric" scope="row"><a href="#">Remove</a></td>
 										</tr>
 									{% endfor %}
 								</tbody>

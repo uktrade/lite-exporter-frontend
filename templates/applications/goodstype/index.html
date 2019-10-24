@@ -3,7 +3,7 @@
 {% load svg %}
 
 {% block back_link %}
-	<a href="{% url 'applications:edit' draft_id %}" class="govuk-back-link">Back to Overview</a>
+	<a href="{% url 'applications:edit' application.id %}" class="govuk-back-link">Back to Overview</a>
 {% endblock %}
 
 {% block body %}
@@ -15,7 +15,7 @@
 			</h2>
 		</div>
 		<div class="lite-app-bar__controls">
-			<a href="{% url 'applications:add_goods_type' draft_id %}?next={% url 'applications:open_goods' draft_id %}" role='button' draggable='false' class='govuk-button'>{% get_string 'good_types.overview_good_types.add_good_type_button' %}</a>
+			<a href="{% url 'applications:add_goods_type' application.id %}?next={% url 'applications:open_goods' application.id %}" role='button' draggable='false' class='govuk-button'>{% get_string 'good_types.overview_good_types.add_good_type_button' %}</a>
 		</div>
 	</div>
 
@@ -26,6 +26,7 @@
 					<th scope="col" class="govuk-table__header">Name</th>
 					<th scope="col" class="govuk-table__header">Part Number</th>
 					<th scope="col" class="govuk-table__header">Control List Entry</th>
+					<th scope="col" class="govuk-table__header"></th>
 				</tr>
 			</thead>
 			<tbody class="govuk-table__body">
@@ -40,6 +41,7 @@
 						<td class="govuk-table__cell">
 							{{ good_on_application.control_code|default_na }}
 						</td>
+						<td class="govuk-table__cell govuk-table__cell--numeric" scope="row"><a href="{% url 'applications:remove_goods_type' application.id good_on_application.id %}">Remove</a></td>
 					</tr>
 				{% endfor %}
 			</tbody>
