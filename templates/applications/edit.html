@@ -58,6 +58,7 @@
 
 	<!-- Details that can't be edited -->
 	<p class="govuk-hint govuk-!-margin-bottom-9">
+		{% if application.status.key == "submitted" or application.status.key == "applicant_editing" %}Licence type: {{ application.licence_type.value }} - {% endif %}
 		Export type: {{ application.export_type.value }}
 	</p>
 
