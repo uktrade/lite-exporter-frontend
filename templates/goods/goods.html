@@ -19,7 +19,7 @@
 				{% if goods|length == 0 %}
 					Your organisation doesn't have any goods.
 				{% else %}
-					Your organisation has {{ goods|length }} good{{ goods|pluralize }}.
+					Your organisation has {{ goods|length|apnumber }} good{{ goods|pluralize }}.
 				{% endif %}
 			</p>
 		</div>
