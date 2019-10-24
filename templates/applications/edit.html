@@ -406,7 +406,7 @@
 					<li class="lite-task-list__item">
 						<div class="lite-task-list__item-header">
 							<a id="consignees" href="{% url 'applications:consignee' application.id %}" class="govuk-link govuk-link--no-visited-state">
-								Add consignees
+								Set consignee
 							</a>
 
 							{% if application.consignee and consignee_document %}
@@ -429,7 +429,13 @@
 									<tbody class="govuk-table__body">
 										<tr class="govuk-table__row">
 											<th class="govuk-table__header" scope="row">Type</th>
-											<td class="govuk-table__cell">{{ application.consignee.sub_type.value|title }}</td>
+											<td class="govuk-table__cell">{{ application.consignee.sub_type.value }}</td>
+											<td class="govuk-table__cell govuk-table__cell--numeric">
+												<a class="lite-link--icon" href="{% url 'applications:remove_end_user' application.id %}">
+													{% svg 'close' %}
+													Remove
+												</a>
+											</td>
 										</tr>
 										<tr class="govuk-table__row">
 											<th class="govuk-table__header" scope="row">Name</th>
