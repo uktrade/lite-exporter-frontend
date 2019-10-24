@@ -75,7 +75,7 @@ class ExistingSites(TemplateView):
         response, status_code = post_sites_on_draft(request, draft_id, data)
 
         if status_code != 201:
-            return form_page(request, sites_form(request), errors=response.get('errors'))
+            return form_page(request, sites_form(request), errors=response.get('errors'), data=data)
 
         return redirect(reverse_lazy('applications:edit', kwargs={'pk': draft_id}))
 
