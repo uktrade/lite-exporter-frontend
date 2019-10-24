@@ -363,18 +363,13 @@ def application_is_submitted(driver, context):
 
 @then('I see the application overview')  # noqa
 def i_see_the_application_overview(driver, context):
-    element = driver.find_element_by_css_selector(".govuk-table").text
-    assert "Name" in element
-    assert "Licence type" in element
-    assert "Export type" in element
-    assert "Reference Number" in element
-    assert "Created at" in element
-    assert context.type.capitalize() + " Licence" in element
-    assert context.perm_or_temp.capitalize() in element
+    element = driver.find_element_by_css_selector(".lite-task-list__items").text
+    assert "Reference name" in element
+    assert context.app_name in element
+    # assert "Export type" in element
+    # assert context.perm_or_temp.capitalize() in element
+    assert "Told by an official" in element
     assert context.ref in element
-
-    # This can break if the minute changes between the five lines of code
-    assert utils.search_for_correct_date_regex_in_element(element)
 
     app_id = driver.current_url[-36:]
     context.app_id = app_id
@@ -390,7 +385,8 @@ def i_click_applications(driver):
 def i_delete_the_application(driver):
     apply = ApplyForALicencePage(driver)
     apply.click_delete_application()
-    assert 'Drafts - LITE' in driver.title, "failed to go to Drafts list page after deleting application from application overview page"
+    assert 'Applications - LITE' in driver.title, "failed to go to Applications list page after deleting application " \
+                                                  "from application overview page"
 
 
 @when('I submit the application')  # noqa
