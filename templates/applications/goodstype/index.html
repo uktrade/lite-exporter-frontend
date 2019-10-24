@@ -41,7 +41,12 @@
 						<td class="govuk-table__cell">
 							{{ good_on_application.control_code|default_na }}
 						</td>
-						<td class="govuk-table__cell govuk-table__cell--numeric" scope="row"><a href="{% url 'applications:remove_goods_type' application.id good_on_application.id %}">Remove</a></td>
+						<td class="govuk-table__cell govuk-table__cell--numeric" scope="row">
+							<a class="lite-link--icon" href="{% url 'applications:remove_goods_type' application.id good_on_application.id %}">
+								{% svg 'close' %}
+								Remove
+							</a>
+						</td>
 					</tr>
 				{% endfor %}
 			</tbody>

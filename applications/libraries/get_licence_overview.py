@@ -11,6 +11,12 @@ from core.services import get_sites_on_draft, get_external_locations_on_draft
 def get_licence_overview(request, application, errors=None):
     application_id = application['id']
 
+    # Add the editing type (if possible) to the context to make it easier to read/change in the future
+    is_editing = application['status']['key'] == 'submitted' or application['status']['key'] == 'applicant_editing'
+    edit_type = None
+    if is_editing:
+        edit_type = 'minor_edit' if application['status']['key'] == 'submitted' else 'major_edit'
+
     sites, _ = get_sites_on_draft(request, application_id)
     external_locations, _ = get_external_locations_on_draft(request, application_id)
     additional_documents, _ = get_additional_documents(request, application_id)
@@ -53,6 +59,8 @@ def get_licence_overview(request, application, errors=None):
 
     context = {
         'application': application,
+        'is_editing': is_editing,
+        'edit_type': edit_type,
         'sites': sites['sites'],
         'goods': goods,
         'countries': countries,

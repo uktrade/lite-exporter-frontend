@@ -1,25 +1,19 @@
 {% extends 'layouts/base.html' %}
 
-{% load humanize %}
+{% load svg %}
 
 {% block back_link %}
-<a href="{% url 'applications:edit' draft_id %}" class="govuk-back-link">Back to Application</a>
+	<a href="{% url 'applications:edit' application.id %}" class="govuk-back-link">Back to application</a>
 {% endblock %}
 
 {% block body %}
-
-{% if userDeactivated == "true" %}
-<div class="information information-animated">
-	{% get_string 'users.deleted' %}
-</div>
-{% endif %}
 
 <div class="lite-app-bar">
 	<div class="lite-app-bar__content">
 		<h1 class="govuk-heading-l">{% get_string 'additional_documents.title'%}</h1>
 	</div>
 	<div class="lite-app-bar__controls">
-		<a href="{% url attach_document_link draft_id %}" class="govuk-button" draggable="false" role="button">
+		<a href="{% url 'applications:attach_additional_document' application.id %}" class="govuk-button" draggable="false" role="button">
 			{% get_string 'additional_documents.add' %}
 		</a>
 	</div>
@@ -31,26 +25,33 @@
 		<tr class="govuk-table__row">
 			<th class="govuk-table__header" scope="col">Document name</th>
 			<th class="govuk-table__header" scope="col">Description</th>
-            <th class="govuk-table__header" scope="col">Download or delete</th>
+			<th class="govuk-table__header" scope="col"></th>
+            <th class="govuk-table__header" scope="col"></th>
 		</tr>
 	</thead>
 	<tbody class="govuk-table__body">
 		{% for additional_document in additional_documents %}
 		<tr class="govuk-table__row">
 			<td class="govuk-table__cell">{{ additional_document.name }}</td>
-            <td class="govuk-table__cell">{%  if additional_document.description %} {{ additional_document.description }} {% endif %} </td>
             <td class="govuk-table__cell">
-                {% if additional_document.safe == True %}
-                    <a href="{% url download_document_link draft_id additional_document.id %}" id="document_download" class='govuk-link govuk-link--no-visited-state'>
-                        Download
-                    </a>
-                    <br/>
-                    <a href="{% url delete_document_link draft_id additional_document.id %}" id="document_delete" class='govuk-link govuk-link--no-visited-state'>
-                        Delete
-                    </a>
+				{{ additional_document.description|default_na }}
+			</td>
+			<td class="govuk-table__cell govuk-table__cell--numeric">
+				{% if additional_document.safe == True %}
+					<a href="{% url 'applications:download_additional_document' application.id additional_document.id %}" id="document_download" class='govuk-link govuk-link--no-visited-state'>
+						Download
+					</a>
                 {% else %}
                     Processing
-                {% endif %}
+				{% endif %}
+			</td>
+            <td class="govuk-table__cell govuk-table__cell--numeric">
+                {% if additional_document.safe == True %}
+                    <a href="{% url 'applications:delete_additional_document' application.id additional_document.id %}" id="document_delete" class='govuk-link govuk-link--no-visited-state lite-link--icon'>
+                        {% svg 'close' %}
+						Delete
+                    </a>
+				{% endif %}
             </td>
 		</tr>
 		{% endfor %}
@@ -60,4 +61,5 @@
 	<hr class="lite-horizontal-separator">
 	<p class="govuk-caption-l">{% get_string 'additional_documents.no_results' %}</p>
 {% endif %}
+
 {% endblock %}
