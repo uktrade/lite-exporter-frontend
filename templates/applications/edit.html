@@ -350,7 +350,7 @@
 										<tr class="govuk-table__row">
 											<th class="govuk-table__header" scope="row">Type</th>
 											<td class="govuk-table__cell">{{ application.end_user.sub_type.value|title }}</td>
-											<td class="govuk-table__cell">
+											<td class="govuk-table__cell govuk-table__cell--numeric">
 												<a class="lite-link--icon" href="{% url 'applications:remove_end_user' application.id %}">
 													{% svg 'close' %}
 													Remove
@@ -508,16 +508,23 @@
 						                    <th class="govuk-table__header" scope="col">Website</th>
 											<th class="govuk-table__header" scope="col">Address</th>
 											<th class="govuk-table__header" scope="col">Country</th>
+											<th class="govuk-table__header" scope="col"></th>
 										</tr>
 									</thead>
 									<tbody class="govuk-table__body">
 										{% for ultimate_end_user in ultimate_end_users %}
 											<tr class="govuk-table__row">
 												<td class="govuk-table__cell">{{ ultimate_end_user.name }}</td>
-						                        <td class="govuk-table__cell">{{ ultimate_end_user.sub_type.value|title }}</td>
-						                        <td class="govuk-table__cell">{{ ultimate_end_user.website }}</td>
+						                        <td class="govuk-table__cell">{{ ultimate_end_user.sub_type.value }}</td>
+						                        <td class="govuk-table__cell">{{ ultimate_end_user.website|default_na }}</td>
 												<td class="govuk-table__cell">{{ ultimate_end_user.address }}</td>
 												<td class="govuk-table__cell">{{ ultimate_end_user.country.name }}</td>
+												<td class="govuk-table__cell">
+													<a href="#" class='govuk-link govuk-link--no-visited-state lite-link--icon'>
+														{% svg 'close' %}
+														Remove
+													</a>
+												</td>
 											</tr>
 										{% endfor %}
 									</tbody>
@@ -554,16 +561,23 @@
 						                    <th class="govuk-table__header" scope="col">Website</th>
 											<th class="govuk-table__header" scope="col">Address</th>
 											<th class="govuk-table__header" scope="col">Country</th>
+											<th class="govuk-table__header" scope="col"></th>
 										</tr>
 									</thead>
 									<tbody class="govuk-table__body">
 										{% for third_party in third_parties %}
 											<tr class="govuk-table__row">
 												<td class="govuk-table__cell">{{ third_party.name }}</td>
-						                        <td class="govuk-table__cell">{{ third_party.sub_type.value|title }}</td>
-						                        <td class="govuk-table__cell">{{ third_party.website }}</td>
+						                        <td class="govuk-table__cell">{{ third_party.sub_type.value }}</td>
+						                        <td class="govuk-table__cell">{{ third_party.website|default_na }}</td>
 												<td class="govuk-table__cell">{{ third_party.address }}</td>
 												<td class="govuk-table__cell">{{ third_party.country.name }}</td>
+												<td class="govuk-table__cell govuk-table__cell--numeric">
+													<a href="{% url 'applications:third_party_delete_document' application.id third_party.id %}" class="govuk-link lite-link--icon">
+														{% svg 'close' %}
+														Remove
+													</a>
+												</td>
 											</tr>
 										{% endfor %}
 									</tbody>
