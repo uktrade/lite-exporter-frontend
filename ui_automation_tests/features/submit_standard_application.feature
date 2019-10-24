@@ -4,7 +4,7 @@ Feature: I want to indicate the standard licence I want
   I want to indicate the kind of licence I want
   So that I am more likely to get the correct kind of licence or the kind of licence I would like
 
-  @LT_1091_draft @AT
+  @LT_1091_draft
   Scenario: Apply for a licence to draft and delete
     Given I go to exporter homepage and choose Test Org
     When I click on apply for a license button
