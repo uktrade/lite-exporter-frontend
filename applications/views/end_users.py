@@ -5,10 +5,9 @@ from lite_forms.generators import form_page, error_page
 from lite_forms.submitters import submit_paged_form
 
 from applications.forms.end_user import new_end_user_forms
-from conf.constants import STANDARD_LICENCE
-from core.builtins.custom_tags import get_string
 from applications.services import get_application, post_end_user, get_ultimate_end_users, \
     post_ultimate_end_user, delete_ultimate_end_user, delete_end_user
+from conf.constants import STANDARD_LICENCE
 
 
 class EndUser(TemplateView):
