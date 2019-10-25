@@ -7,12 +7,12 @@ Feature: I want to be able to edit and update an active application
   @LT_998_edit_application
   Scenario: Edit a standard application
     Given I go to exporter homepage and choose Test Org
-    And a standard application exists
+    And I create a standard application via api
     When I click on applications
     And I click on application previously created
     And I click edit application
     And I choose to make minor edits
     And I remove all goods on the application
-    Then No goods are left on the application
+    Then no goods are left on the application
     When I remove the end user off the application
-    Then No end user is set on the application
+    Then no end user is set on the application

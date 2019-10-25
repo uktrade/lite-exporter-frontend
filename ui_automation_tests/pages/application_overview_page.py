@@ -31,6 +31,7 @@ class ApplicationOverviewPage:
         self.remove_good_link = "a[href*='good-on-application']"
         self.remove_goods_type_link = "a[href*='goods-types']"
         self.remove_end_user_link = "a[href*='end-user/remove']"
+        self.lite_task_list_items = ".lite-task-list__items"
 
     def find_remove_goods_type_link(self):
         try:
@@ -55,10 +56,12 @@ class ApplicationOverviewPage:
         self.driver.find_element_by_id(self.location_link).click()
 
     def click_standard_goods_link(self):
+        self.driver.execute_script("document.getElementById('" + self.standard_goods_link + "').scrollIntoView(true);")
         element = self.driver.find_element_by_id(self.standard_goods_link)
         self.driver.execute_script("arguments[0].click();", element)
 
     def click_open_goods_link(self):
+        self.driver.execute_script("document.getElementById('" + self.open_goods_link + "').scrollIntoView(true);")
         element = self.driver.find_element_by_id(self.open_goods_link)
         self.driver.execute_script("arguments[0].click();", element)
 
@@ -117,3 +120,6 @@ class ApplicationOverviewPage:
 
     def click_third_parties(self):
         self.driver.find_element_by_id(self.third_parties).click()
+
+    def get_text_of_lite_task_list_items(self):
+        return self.driver.find_element_by_css_selector(self.lite_task_list_items).text

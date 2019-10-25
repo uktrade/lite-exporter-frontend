@@ -17,7 +17,6 @@ def add_good_to_application(driver, context, lite_client):
     overview_page = ApplicationOverviewPage(driver)
     context.goods_name = lite_client.context['goods_name']
     driver.get(url)
-    utils.scroll_to_element_by_id(driver, 'standard-goods')
     overview_page.click_standard_goods_link()
     driver.find_element_by_css_selector('a[href*="add-preexisting"]').click()
     elements = driver.find_elements_by_css_selector('.govuk-table__row')
