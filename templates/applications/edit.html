@@ -318,7 +318,7 @@
 				{% if application.licence_type.key == 'standard_licence' %}
 					<li class="lite-task-list__item">
 						<div class="lite-task-list__item-header">
-							<a id="end_users" href="{% url 'applications:end_user' application.id %}" class="govuk-link govuk-link--no-visited-state">
+							<a id="end_users" {% if edit_type != 'minor_edit' %}href="{% url 'applications:end_user' application.id %}"{% endif %} class="govuk-link govuk-link--no-visited-state">
 								Set end user
 							</a>
 
@@ -342,12 +342,14 @@
 									<tbody class="govuk-table__body">
 										<tr class="govuk-table__row">
 											<th class="govuk-table__header" scope="row">Type</th>
-											<td class="govuk-table__cell">{{ application.end_user.sub_type.value|title }}</td>
+											<td class="govuk-table__cell">{{ application.end_user.sub_type.value }}</td>
 											<td class="govuk-table__cell govuk-table__cell--numeric">
-												<a class="lite-link--icon" href="{% url 'applications:remove_end_user' application.id %}">
-													{% svg 'close' %}
-													Remove
-												</a>
+												{% if edit_type != 'minor_edit' %}
+													<a class="lite-link--icon" href="{% url 'applications:remove_end_user' application.id %}">
+														{% svg 'close' %}
+														Remove
+													</a>
+												{% endif %}
 											</td>
 										</tr>
 										<tr class="govuk-table__row">
@@ -373,9 +375,11 @@
 						                                    {% get_string 'end_user.documents.download_document' %}
 						                                </a>
 						                                <br/>
+														{% if edit_type != 'minor_edit' %}
 						                                <a href="{% url 'applications:end_user_delete_document' pk=application.id %}" id="end_user_document_delete" class='govuk-link govuk-link--no-visited-state'>
 						                                    {% get_string 'end_user.documents.delete_document' %}
 						                                </a>
+														{% endif %}
 						                            {%  else %}
 						                                {% get_string 'end_user.documents.processing' %}
 						                            {% endif %}
