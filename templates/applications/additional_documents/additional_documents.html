@@ -10,7 +10,7 @@
 
 	<div class="lite-app-bar">
 		<div class="lite-app-bar__content">
-			<h1 class="govuk-heading-l">{% get_string 'additional_documents.title'%}</h1>
+			<h1 class="govuk-heading-l">{% block title %}{% get_string 'additional_documents.title'%}{% endblock %}</h1>
 		</div>
 		<div class="lite-app-bar__controls">
 			<a href="{% url 'applications:attach_additional_document' application.id %}" class="govuk-button" draggable="false" role="button">
