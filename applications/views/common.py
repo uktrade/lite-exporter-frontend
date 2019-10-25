@@ -82,11 +82,19 @@ class ApplicationEditType(TemplateView):
         return form_page(request, edit_type_form(application_id))
 
     def post(self, request, **kwargs):
-        if request.POST.get('edit-type') == 'major':
+        application_id = str(kwargs['pk'])
+        edit_type = request.POST.get('edit-type')
+
+        if edit_type == 'major':
             data, status_code = set_application_status(request, str(kwargs['pk']), 'applicant_editing')
 
             if status_code != HTTPStatus.OK:
                 return form_page(request, edit_type_form(str(kwargs['pk'])), errors=data)
+
+        elif edit_type is None:
+            return form_page(request,
+                             edit_type_form(application_id),
+                             errors={'edit-type': ['Select what type of edit you\'d like to make.']})
 
         return redirect(reverse_lazy('applications:edit', kwargs={'pk': str(kwargs['pk'])}))
 

@@ -36,21 +36,14 @@ class AddThirdParty(TemplateView):
 
 class ThirdParties(TemplateView):
     def get(self, request, **kwargs):
-        draft_id = str(kwargs['pk'])
-        data, _ = get_third_parties(request, draft_id)
+        application_id = str(kwargs['pk'])
+        application = get_application(request, application_id)
+        third_parties = get_third_parties(request, application_id)
 
         context = {
-            'third_parties': data['third_parties'],
-            'draft_id': draft_id,
-            'third_party_types': option_list.values(),
-            'add_link': 'applications:add_third_party',
-            'download_document_link': 'applications:third_party_download_document',
-            'delete_document_link': 'applications:third_party_delete_document',
-            'attach_document_link': 'applications:third_party_attach_document',
-            'delete_link': 'applications:remove_third_party',
-            'title': 'Third Parties'
+            'application': application,
+            'third_parties': third_parties,
         }
-
         return render(request, 'applications/parties/third_parties.html', context)
 
 

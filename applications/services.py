@@ -133,7 +133,7 @@ def delete_ultimate_end_user_document(request, pk, ueu_pk):
 # Third parties
 def get_third_parties(request, pk):
     data = get(request, APPLICATIONS_URL + pk + THIRD_PARTIES_URL)
-    return data.json(), data.status_code
+    return data.json()['third_parties']
 
 
 def post_third_party(request, pk, json):
