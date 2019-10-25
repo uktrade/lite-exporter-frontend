@@ -130,7 +130,7 @@ def friendly_boolean(boolean):
     """
     Returns 'Yes' if a boolean is equal to True, else 'No'
     """
-    if boolean is True or boolean == 'true' or boolean == 'True':
+    if boolean is True or boolean.lower() == 'true':
         return 'Yes'
     else:
         return 'No'
@@ -138,6 +138,13 @@ def friendly_boolean(boolean):
 
 @register.filter()
 def pluralise_unit(unit, value):
+    """
+    Modify units given from the API to include an 's' if the
+    value is not singular.
+
+    Units require an (s) at the end of their names to
+    use this functionality.
+    """
     is_singular = value == '1'
 
     if '(s)' in unit:
