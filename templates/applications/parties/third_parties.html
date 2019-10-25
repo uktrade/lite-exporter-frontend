@@ -10,7 +10,7 @@
 
 	<div class="lite-app-bar">
 		<div class="lite-app-bar__content">
-			<h1 class="govuk-heading-l">{% get_string 'third_parties.title'%}</h1>
+			<h1 class="govuk-heading-l">{% block title %}{% get_string 'third_parties.title' %}{% endblock %}</h1>
 		</div>
 		<div class="lite-app-bar__controls">
 			<a href="{% url 'applications:add_third_party' application.id %}" class="govuk-button" draggable="false" role="button">
