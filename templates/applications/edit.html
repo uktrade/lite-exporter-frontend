@@ -672,13 +672,13 @@
 					<div class="app-submit-bar">
 						<form method="post">
 							{% csrf_token %}
-							{% if not application.status.key == 'draft' or application.status.key == 'applicant_editing' %}
+							{% if not application.status.value or application.status.key == 'applicant_editing' %}
 								<button type="submit" class="govuk-button" data-prevent-double-click="true" style="margin-bottom: 0;">Submit application</button>
-							{% elif application.status == 'submitted' %}
+							{% else %}
 								<a href="{% url 'applications:application' application.id %}" class="govuk-button" draggable="false" role="button">Done</a>
 							{% endif %}
 						</form>
-						{% if not application.status.key %}
+						{% if not application.status.value %}
 							<div class="lite-vertical-align">
 								<a href="{% url 'applications:delete' application.id %}" class="govuk-link lite-link--icon">
 									{% svg 'close' %}
