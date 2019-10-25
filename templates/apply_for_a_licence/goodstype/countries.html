@@ -10,10 +10,10 @@
 
     <form method="post">
         <div class="lite-buttons-row">
-            <a id="link-select-all" href="./?all=True" class="govuk-link govuk-body govuk-link--no-visited-state"  style="margin-right: 20px;">
+            <a id="link-select-all" href="./?all=True" class="govuk-link govuk-body govuk-link--no-visited-state">
                 Select all
             </a>
-            <a id="link-deselect-all" href="./?all=False" class="govuk-link govuk-body govuk-link--no-visited-state"  style="margin-right: 20px;">
+            <a id="link-deselect-all" href="./?all=False" class="govuk-link govuk-body govuk-link--no-visited-state">
                 Deselect all
             </a>
         </div>
@@ -36,7 +36,7 @@
                         <td class="govuk-table__cell">{{ good.description }}</td>
                         <td class="govuk-table__cell">
                             {% for country in countries %}
-                                <div class="govuk-checkboxes govuk-checkboxes--small" style="padding-bottom: 50px">
+                                <div class="govuk-checkboxes govuk-checkboxes--small">
                                     <div class="govuk-checkboxes__item">
                                         <input class="govuk-checkboxes__input" {% if country in good.countries and select != 'False' or select == 'True' %}checked{% endif %} type="checkbox" name="{{ good.id }}.{{ country.id }}" id="{{ good.id }}.{{ country.id }}" value="{{ country.id }}">
                                         <label class="govuk-label govuk-checkboxes__label" for="{{ good.id }}.{{ country.id }}">{{ country.name }}
