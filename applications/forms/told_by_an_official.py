@@ -2,7 +2,7 @@ from lite_forms.components import Form, RadioButtons, Option, TextInput
 
 
 def told_by_an_official_form():
-    return Form(title='Have you been told that you need an export licence by an official?',
+    return Form(title='Have you been officially informed that you need an export licence?',
                 description='This could be a letter or email from HMRC or another government department.',
                 questions=[
                     RadioButtons(name='have_you_been_informed',

@@ -125,14 +125,18 @@
 		        <!-- Goods -->
 		        <li class="lite-task-list__item">
 					<div class="lite-task-list__item-header">
-						{% if application.licence_type.key == 'open_licence' %}
-							<a id="open-goods" href="{% url 'applications:open_goods' application.id %}" class="govuk-link govuk-link--no-visited-state">
-								Describe your goods
-							</a>
+						{% if edit_type != 'minor_edit' %}
+							{% if application.licence_type.key == 'open_licence' %}
+								<a id="open-goods" href="{% url 'applications:open_goods' application.id %}" class="govuk-link govuk-link--no-visited-state">
+									Describe your goods
+								</a>
+							{% else %}
+								<a id="standard-goods" href="{% url 'applications:goods' application.id %}" class="govuk-link govuk-link--no-visited-state">
+									Add goods
+								</a>
+							{% endif %}
 						{% else %}
-							<a id="standard-goods" href="{% url 'applications:goods' application.id %}" class="govuk-link govuk-link--no-visited-state">
-								Add goods
-							</a>
+							Goods
 						{% endif %}
 						{% if goods|length or goodstypes|length %}
 							<div class="lite-tag lite-tag--blue">
@@ -318,9 +322,13 @@
 				{% if application.licence_type.key == 'standard_licence' %}
 					<li class="lite-task-list__item">
 						<div class="lite-task-list__item-header">
-							<a id="end_users" {% if edit_type != 'minor_edit' %}href="{% url 'applications:end_user' application.id %}"{% endif %} class="govuk-link govuk-link--no-visited-state">
-								Set end user
-							</a>
+							{% if edit_type != 'minor_edit' %}
+								<a id="end_users" href="{% url 'applications:end_user' application.id %}" class="govuk-link govuk-link--no-visited-state">
+									Set end user
+								</a>
+							{% else %}
+								End user
+							{% endif %}
 
 							{% if application.end_user and end_user_document %}
 								<div class="lite-tag lite-tag--blue">
@@ -402,9 +410,13 @@
 				{% if application.licence_type.key == 'standard_licence' %}
 					<li class="lite-task-list__item">
 						<div class="lite-task-list__item-header">
-							<a id="consignees" href="{% url 'applications:consignee' application.id %}" class="govuk-link govuk-link--no-visited-state">
-								Set consignee
-							</a>
+							{% if edit_type != 'minor_edit' %}
+								<a id="consignees" href="{% url 'applications:consignee' application.id %}" class="govuk-link govuk-link--no-visited-state">
+									Set consignee
+								</a>
+							{% else %}
+								Consignee
+							{% endif %}
 
 							{% if application.consignee and consignee_document %}
 								<div class="lite-tag lite-tag--blue">
@@ -483,9 +495,13 @@
 				{% if application.licence_type.key == 'standard_licence' and ultimate_end_users_required %}
 					<li class="lite-task-list__item">
 						<div class="lite-task-list__item-header">
-							<a id="ultimate_end_users" href="{% url 'applications:ultimate_end_users' application.id %}" class="govuk-link govuk-link--no-visited-state">
-								Add ultimate end users
-							</a>
+							{% if edit_type != 'minor_edit' %}
+								<a id="ultimate_end_users" href="{% url 'applications:ultimate_end_users' application.id %}" class="govuk-link govuk-link--no-visited-state">
+									Add ultimate end users
+								</a>
+							{% else %}
+								Ultimate End Users
+							{% endif %}
 
 							{% if ultimate_end_users and ultimate_end_users_documents_complete %}
 								<div class="lite-tag lite-tag--blue">
@@ -541,9 +557,13 @@
 				{% if application.licence_type.key == 'standard_licence' %}
 					<li class="lite-task-list__item">
 						<div class="lite-task-list__item-header">
+							{% if edit_type != 'minor_edit' %}
 								<a id="third_parties" href="{% url 'applications:third_parties' application.id %}" class="lite-overview-section-header govuk-link govuk-link--no-visited-state">
 									Add third parties (optional)
 								</a>
+							{% else %}
+								Third Parties
+							{% endif %}
 					        {% if third_parties %}
 					            <div class="lite-tag lite-tag--blue">
 									Done
