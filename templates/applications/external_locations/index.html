@@ -1,7 +1,5 @@
 {% extends 'layouts/base.html' %}
 
-{% load svg %}
-
 {% block back_link %}
 	<a href="{% url 'applications:location' draft_id %}" class="govuk-back-link">Back</a>
 {% endblock %}
@@ -13,12 +11,12 @@
 			<h2 class="govuk-heading-l">{% get_string 'goods.location_lists.title' %}</h2>
 		</div>
 		<div class="lite-app-bar__controls">
-			{% if org_external_locations.external_locations|length %}
+			{% if org_external_locations.external_locations %}
 				<a href="{% url 'applications:add_preexisting_external_location' draft_id %}" class="govuk-button govuk-button--secondary">
 					{% get_string 'goods.location_lists.find_address_button' %}
 				</a>
 			{% endif %}
-			<a href="{% url 'applications:add_external_location' draft_id %}" class="govuk-button" style="margin-bottom: 15px;">
+			<a href="{% url 'applications:add_external_location' draft_id %}" class="govuk-button">
 				{% get_string 'goods.location_lists.add_address_button' %}
 			</a>
 		</div>
