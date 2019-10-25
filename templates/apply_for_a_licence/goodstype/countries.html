@@ -6,17 +6,17 @@
 
 {% block body %}
 
-    <h2 class="govuk-heading-l">Explain where each item is going (optional)</h2>
+    <h1 class="govuk-heading-xl">{% block title %}Explain where each item is going (optional){% endblock %}</h1>
 
     <form method="post">
-
-        <a id="link-select-all" href="./?all=True" class="govuk-link govuk-body"  style="margin-right: 20px;">
-            Select all
-        </a>
-        <a id="link-deselect-all" href="./?all=False" class="govuk-link govuk-body"  style="margin-right: 20px;">
-            Deselect all
-        </a>
-
+        <div class="lite-buttons-row">
+            <a id="link-select-all" href="./?all=True" class="govuk-link govuk-body govuk-link--no-visited-state"  style="margin-right: 20px;">
+                Select all
+            </a>
+            <a id="link-deselect-all" href="./?all=False" class="govuk-link govuk-body govuk-link--no-visited-state"  style="margin-right: 20px;">
+                Deselect all
+            </a>
+        </div>
         <br><br>
 
         {% csrf_token %}
@@ -53,7 +53,7 @@
         </button>
 
         <p class="govuk-caption-m">
-            <a class="govuk-link" href="{% url 'apply_for_a_licence:overview' draft_id %}">Skip this section</a> if you are sending every item to every country
+            <a class="govuk-link govuk-link--no-visited-state" href="{% url 'apply_for_a_licence:overview' draft_id %}">Skip this section</a> if you are sending every item to every country
         </p>
 
     </form>
