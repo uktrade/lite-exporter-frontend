@@ -19,8 +19,6 @@ class Location(TemplateView):
         application = get_application(request, application_id)
         external_locations, _ = get_external_locations_on_draft(request, application_id)
 
-        print(application['status'])
-
         if external_locations['external_locations']:
             data = {'organisation_or_external': 'external'}
 
