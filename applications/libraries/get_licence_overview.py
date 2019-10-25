@@ -32,7 +32,7 @@ def get_licence_overview(request, application, errors=None):
     countries_on_goods_types = False
 
     if application['licence_type']['key'] == STANDARD_LICENCE:
-        ultimate_end_users, _ = get_ultimate_end_users(request, application_id)
+        ultimate_end_users = get_ultimate_end_users(request, application_id)
         third_parties, _ = get_third_parties(request, application_id)
         end_user = application.get('end_user')
         consignee = application.get('consignee')
@@ -66,10 +66,10 @@ def get_licence_overview(request, application, errors=None):
         'countries': countries,
         'goodstypes': goodstypes,
         'external_locations': external_locations['external_locations'],
-        'ultimate_end_users': ultimate_end_users['ultimate_end_users'],
+        'ultimate_end_users': ultimate_end_users,
         'ultimate_end_users_required': ultimate_end_users_required,
         'ultimate_end_users_documents_complete':
-            check_all_parties_have_a_document(ultimate_end_users['ultimate_end_users']),
+            check_all_parties_have_a_document(ultimate_end_users),
         'end_user_document': end_user_document,
         'consignee_document': consignee_document,
         'countries_on_goods_types': countries_on_goods_types,

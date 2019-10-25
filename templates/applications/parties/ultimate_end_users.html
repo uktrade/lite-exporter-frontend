@@ -3,7 +3,7 @@
 {% load svg %}
 
 {% block back_link %}
-	<a href="{% url 'applications:edit' draft_id %}" class="govuk-back-link">Back to Application</a>
+	<a href="{% url 'applications:edit' application.id %}" class="govuk-back-link">Back to Application</a>
 {% endblock %}
 
 {% block body %}
@@ -11,10 +11,10 @@
 	<div class="lite-app-bar">
 		<div class="lite-app-bar__content">
 			<h1 class="govuk-heading-l">Ultimate End Users</h1>
-			<p class="govuk-caption-m">{{ description }}</p>
+			<p class="govuk-caption-m">{% get_string 'ultimate_end_user.overview_description' %}</p>
 		</div>
 		<div class="lite-app-bar__controls">
-			<a href="{% url add_link draft_id %}" class="govuk-button" draggable="false" role="button">
+			<a href="{% url 'applications:add_ultimate_end_user' application.id %}" class="govuk-button" draggable="false" role="button">
 				Add an ultimate end user
 			</a>
 		</div>
@@ -37,33 +37,33 @@
 			{% for ultimate_end_user in ultimate_end_users %}
 			<tr class="govuk-table__row">
 				<td class="govuk-table__cell">{{ ultimate_end_user.name }}</td>
-				<td class="govuk-table__cell">{{ ultimate_end_user.sub_type.value|title }}</td>
-				<td class="govuk-table__cell">{{ ultimate_end_user.website }}</td>
+				<td class="govuk-table__cell">{{ ultimate_end_user.sub_type.value }}</td>
+				<td class="govuk-table__cell">{{ ultimate_end_user.website|default_na }}</td>
 				<td class="govuk-table__cell">{{ ultimate_end_user.address }}</td>
 				<td class="govuk-table__cell">{{ ultimate_end_user.country.name }}</td>
 	            <td class="govuk-table__cell">
 	            {% if ultimate_end_user.document %}
 	                {% if ultimate_end_user.document.safe == True %}
-	                    <a href="{% url download_document_link draft_id ultimate_end_user.id %}" id="document_download" class='govuk-link govuk-link--no-visited-state'>
+	                    <a href="{% url 'applications:ultimate_end_user_download_document' application.id ultimate_end_user.id %}" id="document_download" class='govuk-link govuk-link--no-visited-state'>
 	                        Download
 	                    </a>
 	                    <br/>
-	                    <a href="{% url delete_document_link draft_id ultimate_end_user.id %}" id="document_delete" class='govuk-link govuk-link--no-visited-state'>
+	                    <a href="{% url 'applications:ultimate_end_user_delete_document' application.id ultimate_end_user.id %}" id="document_delete" class='govuk-link govuk-link--no-visited-state'>
 	                        Delete
 	                    </a>
 	                {% else %}
 	                    Processing
 	                {% endif %}
 	            {% else %}
-	                <a href="{% url attach_document_link draft_id ultimate_end_user.id %}" id="attach_doc" class='govuk-link govuk-link--no-visited-state'>
+	                <a href="{% url 'applications:ultimate_end_user_attach_document' application.id ultimate_end_user.id %}" id="attach_doc" class='govuk-link govuk-link--no-visited-state'>
 	                    Attach
 	                </a>
 	            {% endif %}
 	            </td>
 				<td class="govuk-table__cell">
-					<a href="{% url delete_link draft_id ultimate_end_user.id %}" class="govuk-link lite-link--icon">
+					<a href="{% url 'applications:remove_ultimate_end_user' application.id ultimate_end_user.id %}" class="govuk-link lite-link--icon">
 						{% svg 'close' %}
-						Delete ultimate end user
+						Remove ultimate end user
 	                </a>
 				</td>
 			</tr>

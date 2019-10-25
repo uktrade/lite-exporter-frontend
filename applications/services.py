@@ -101,7 +101,7 @@ def delete_end_user_document(request, pk):
 # Ultimate End Users
 def get_ultimate_end_users(request, pk):
     data = get(request, APPLICATIONS_URL + pk + '/ultimate-end-users/')
-    return data.json(), data.status_code
+    return data.json()['ultimate_end_users']
 
 
 def post_ultimate_end_user(request, pk, json):
