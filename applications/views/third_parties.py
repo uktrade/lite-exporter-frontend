@@ -1,12 +1,13 @@
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
-from lite_forms.generators import form_page
+from lite_forms.generators import form_page, error_page
 from lite_forms.submitters import submit_paged_form
 
 from applications.forms.end_user import new_consignee_forms
 from applications.forms.third_party import third_party_forms, option_list
-from applications.services import post_third_party, get_third_parties, delete_third_party, post_consignee, get_application
+from applications.services import post_third_party, get_third_parties, delete_third_party, post_consignee, \
+    get_application, delete_consignee
 
 
 class AddThirdParty(TemplateView):
@@ -74,3 +75,14 @@ class Consignee(TemplateView):
             return response
 
         return redirect(reverse_lazy('applications:consignee_attach_document', kwargs={'pk': draft_id}))
+
+
+class RemoveConsignee(TemplateView):
+    def get(self, request, **kwargs):
+        application_id = str(kwargs['pk'])
+        status_code = delete_consignee(request, application_id)
+
+        if status_code != 204:
+            return error_page(request, 'Unexpected error removing consignee')
+
+        return redirect(reverse_lazy('applications:edit', kwargs={'pk': application_id}))

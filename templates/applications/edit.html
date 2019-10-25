@@ -424,7 +424,7 @@
 											<th class="govuk-table__header" scope="row">Type</th>
 											<td class="govuk-table__cell">{{ application.consignee.sub_type.value }}</td>
 											<td class="govuk-table__cell govuk-table__cell--numeric">
-												<a class="lite-link--icon" href="{% url 'applications:remove_end_user' application.id %}">
+												<a class="lite-link--icon" href="{% url 'applications:remove_consignee' application.id %}">
 													{% svg 'close' %}
 													Remove
 												</a>

@@ -75,6 +75,8 @@ urlpatterns = [
 
     # ex: /<uuid:pk>/consignee/
     path('<uuid:pk>/consignee/', third_parties.Consignee.as_view(), name='consignee'),
+    # ex: /<uuid:pk>/consignee/remove/
+    path('<uuid:pk>/consignee/remove', third_parties.RemoveConsignee.as_view(), name='remove_consignee'),
     # ex: /applications/<uuid:pk>/consignee/attach-document
     path('<uuid:pk>/consignee/document/attach', documents.AttachDocuments.as_view(), name='consignee_attach_document'),
     # ex: /applications/<uuid:pk>/consignee/download-document/ - Get documents

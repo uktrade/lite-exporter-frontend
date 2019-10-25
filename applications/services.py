@@ -168,6 +168,11 @@ def post_consignee(request, pk, json):
     return data.json(), data.status_code
 
 
+def delete_consignee(request, pk):
+    data = delete(request, APPLICATIONS_URL + pk + CONSIGNEE_URL)
+    return data.status_code
+
+
 # Consignee Documents
 def get_consignee_document(request, pk):
     data = get(request, APPLICATIONS_URL + pk + CONSIGNEE_DOCUMENT_URL)
