@@ -2,6 +2,8 @@ from django.urls import reverse_lazy
 from lite_forms.components import HiddenField, Form, BackLink, TextArea, HTMLBlock, RadioButtons, Option
 from lite_forms.generators import confirm_form
 
+from core.builtins.custom_tags import get_string
+
 
 def respond_to_query_form(application_id, ecju_query):
     return Form(title='Respond to query',
@@ -36,17 +38,17 @@ def ecju_query_respond_confirmation_form(edit_response_url):
 
 
 def edit_type_form(application_id):
-    return Form(title='How do you want to change your application?',
-                description='Depending on your answer it can take longer to reach a decision.',
+    return Form(title=get_string('applications.edit.title'),
+                description=get_string('applications.edit.description'),
                 questions=[
                     RadioButtons(name='edit-type',
                                  options=[
                                      Option(key='minor',
-                                            value='Change a site, or delete a good, third party or country',
-                                            description='This won\'t impact the time it takes to reach a decision.'),
+                                            value=get_string('applications.edit.minor.title'),
+                                            description=get_string('applications.edit.minor.description')),
                                      Option(key='major',
-                                            value='Something else',
-                                            description='This will impact the time it takes to reach a decision.')
+                                            value=get_string('applications.edit.major.title'),
+                                            description=get_string('applications.edit.major.description')),
                                  ])],
                 back_link=BackLink('Back to application', reverse_lazy('applications:application-detail',
                                                                        kwargs={'pk': application_id,
