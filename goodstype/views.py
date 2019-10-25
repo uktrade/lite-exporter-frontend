@@ -45,7 +45,7 @@ class GoodsTypeCountries(TemplateView):
             'countries': self.countries,
             'goods': self.goods,
             'draft_id': self.draft_id,
-            'select': request.GET.get('all', False)
+            'select': request.GET.get('all', None)
         }
         return render(request, 'apply_for_a_licence/goodstype/countries.html', context)
 

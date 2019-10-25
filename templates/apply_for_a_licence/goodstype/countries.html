@@ -38,7 +38,7 @@
                             {% for country in countries %}
                                 <div class="govuk-checkboxes govuk-checkboxes--small" style="padding-bottom: 50px">
                                     <div class="govuk-checkboxes__item">
-                                        <input class="govuk-checkboxes__input" {% if country in good.countries or select == 'True' %}checked{% endif %} type="checkbox" name="{{ good.id }}.{{ country.id }}" id="{{ good.id }}.{{ country.id }}" value="{{ country.id }}">
+                                        <input class="govuk-checkboxes__input" {% if country in good.countries and select != 'False' or select == 'True' %}checked{% endif %} type="checkbox" name="{{ good.id }}.{{ country.id }}" id="{{ good.id }}.{{ country.id }}" value="{{ country.id }}">
                                         <label class="govuk-label govuk-checkboxes__label" for="{{ good.id }}.{{ country.id }}">{{ country.name }}
                                         </label>
                                     </div>
