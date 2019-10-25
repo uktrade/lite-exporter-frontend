@@ -113,7 +113,6 @@ class AddExternalLocation(TemplateView):
         response, response_data = submit_single_form(request, new_location_form(), post_external_locations,
                                                      pk=str(request.user.organisation))
 
-        # If there are more forms to go through, continue
         if response:
             return response
         id = response_data['external_location']['id']
@@ -123,7 +122,10 @@ class AddExternalLocation(TemplateView):
             'external_locations': [id],
             'method': 'append_location'
         }
-        post_external_locations_on_draft(request, draft_id, data)
+        data, status_code = post_external_locations_on_draft(request, draft_id, data)
+
+        if status_code == 400:
+            return form_page(request, new_location_form(), data=request.POST, errors=data['errors'])
 
         # If there is no response (no forms left to go through), go to the overview page
         return redirect(reverse_lazy('applications:external_locations', kwargs={'pk': draft_id}))
