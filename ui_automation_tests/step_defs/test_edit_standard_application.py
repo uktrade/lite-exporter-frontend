@@ -17,7 +17,7 @@ def i_remove_all_goods_on_the_application(driver):
         i_remove_all_goods_on_the_application(driver)
 
 
-@then("No goods are left on the application")
+@then("no goods are left on the application")
 def no_goods_are_left_on_the_application(driver):
     assert(ApplicationOverviewPage(driver).find_remove_good_link(), None)
 
@@ -29,6 +29,6 @@ def i_remove_the_end_user_off_the_application(driver):
         driver.execute_script("arguments[0].click();", remove_end_user_link)
 
 
-@then("No end user is set on the application")
+@then("no end user is set on the application")
 def no_end_user_is_set_on_the_application(driver):
     assert (ApplicationOverviewPage(driver).find_remove_end_user_link(), None)

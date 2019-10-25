@@ -5,7 +5,7 @@ from pages.application_overview_page import ApplicationOverviewPage
 scenarios('../features/edit_open_application.feature', strict_gherkin=False)
 
 
-@given('an open application exists')
+@given('I create an open application via api')
 def open_application_exists(apply_for_open_application):
     pass
 
@@ -22,6 +22,6 @@ def i_remove_all_goods_types_on_the_application(driver):
         i_remove_all_goods_types_on_the_application(driver)
 
 
-@then("No goods types are left on the application")
+@then("no goods types are left on the application")
 def no_goods_types_are_left_on_the_application(driver):
     assert(ApplicationOverviewPage(driver).find_remove_goods_type_link(), None)

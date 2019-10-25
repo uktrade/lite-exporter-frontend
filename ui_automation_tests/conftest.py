@@ -92,7 +92,7 @@ def last_name(request):
     return request.config.getoption("--last_name")
 
 
-@given('a standard application exists')  # noqa
+@given('I create a standard application via api')  # noqa
 def standard_application_exists(apply_for_standard_application):
     pass
 
@@ -248,7 +248,6 @@ def click_my_goods_link(driver):
 @when('I click on goods tile')  # noqa
 def click_my_goods_link(driver):
     exporter_hub = ApplicationOverviewPage(driver)
-    driver.execute_script("document.getElementById('standard-goods').scrollIntoView(true);")
     exporter_hub.click_standard_goods_link()
 
 
@@ -336,7 +335,6 @@ def raise_clc_query(driver, control_code, description):
 @when('I click on the goods link from overview')  # noqa
 def click_goods_link_overview(driver):
     overview_page = ApplicationOverviewPage(driver)
-    driver.execute_script("document.getElementById('open-goods').scrollIntoView(true);")
     overview_page.click_open_goods_link()
 
 
@@ -363,7 +361,7 @@ def application_is_submitted(driver, context):
 
 @then('I see the application overview')  # noqa
 def i_see_the_application_overview(driver, context):
-    element = driver.find_element_by_css_selector(".lite-task-list__items").text
+    element = ApplicationOverviewPage(driver).get_text_of_lite_task_list_items()
     assert "Reference name" in element
     assert context.app_name in element
     assert "Told by an official" in element
