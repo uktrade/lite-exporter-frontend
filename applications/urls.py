@@ -13,9 +13,9 @@ urlpatterns = [
     path('<uuid:pk>/', common.ApplicationDetailEmpty.as_view(), name='application'),
     # ex: /<uuid:pk>/delete/
     path('<uuid:pk>/delete/', common.DeleteApplication.as_view(), name='delete'),
-    # ex: /applications/<uuid:pk>/edit/overview
+    # ex: /applications/<uuid:pk>/edit/
     path('<uuid:pk>/edit/', common.ApplicationEditOverview.as_view(), name='edit'),
-    # ex: /applications/<uuid:pk>/edit/type
+    # ex: /applications/<uuid:pk>/edit/type/
     path('<uuid:pk>/edit/type/', common.ApplicationEditType.as_view(), name='edit_type'),
 
     # ex: /applications/<uuid:pk>/edit/reference-name/
