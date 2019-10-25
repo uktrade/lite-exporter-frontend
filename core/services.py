@@ -47,7 +47,8 @@ def get_external_locations(request, pk, formatted=False):
         for external_location in data.json().get('external_locations'):
             external_location_id = external_location.get('id')
             external_location_name = external_location.get('name')
-            external_location_address = external_location.get('address')
+            external_location_address = external_location.get('address') + '\n' + \
+                                        external_location.get('country')
 
             external_locations_options.append(
                 Option(external_location_id, external_location_name, description=external_location_address)

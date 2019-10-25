@@ -14,13 +14,11 @@
 		</div>
 		<div class="lite-app-bar__controls">
 			{% if org_external_locations.external_locations|length %}
-				<a href="{% url 'applications:add_preexisting_external_location' draft_id %}" class="govuk-button govuk-button--secondary govuk-button--icon">
-					{% svg 'search' %}
+				<a href="{% url 'applications:add_preexisting_external_location' draft_id %}" class="govuk-button govuk-button--secondary">
 					{% get_string 'goods.location_lists.find_address_button' %}
 				</a>
 			{% endif %}
-			<a href="{% url 'applications:add_external_location' draft_id %}" class="govuk-button govuk-button--icon" style="margin-bottom: 15px;">
-				{% svg 'new' %}
+			<a href="{% url 'applications:add_external_location' draft_id %}" class="govuk-button" style="margin-bottom: 15px;">
 				{% get_string 'goods.location_lists.add_address_button' %}
 			</a>
 		</div>
