@@ -130,7 +130,7 @@ def friendly_boolean(boolean):
     """
     Returns 'Yes' if a boolean is equal to True, else 'No'
     """
-    if boolean is True or boolean.lower() == 'true':
+    if boolean is True or str(boolean).lower() == 'true':
         return 'Yes'
     else:
         return 'No'
