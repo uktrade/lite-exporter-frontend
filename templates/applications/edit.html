@@ -125,19 +125,15 @@
 		        <!-- Goods -->
 		        <li class="lite-task-list__item">
 					<div class="lite-task-list__item-header">
-						{% if edit_type != 'minor_edit' %}
-							{% if application.licence_type.key == 'open_licence' %}
-								<a id="open-goods" href="{% url 'applications:open_goods' application.id %}" class="govuk-link govuk-link--no-visited-state">
-									Describe your goods
-								</a>
-							{% else %}
-								<a id="standard-goods" href="{% url 'applications:goods' application.id %}" class="govuk-link govuk-link--no-visited-state">
-									Add goods
-								</a>
-							{% endif %}
-						{% else %}
-							Goods
-						{% endif %}
+                        {% if application.licence_type.key == 'open_licence' %}
+                            <a id="open-goods" href="{% url 'applications:open_goods' application.id %}" class="govuk-link govuk-link--no-visited-state">
+                                Describe your goods
+                            </a>
+                        {% else %}
+                            <a id="standard-goods" href="{% url 'applications:goods' application.id %}" class="govuk-link govuk-link--no-visited-state">
+                                Goods
+                            </a>
+                        {% endif %}
 						{% if goods|length or goodstypes|length %}
 							<div class="lite-tag lite-tag--blue">
 								Done
@@ -167,12 +163,6 @@
 											<td class="govuk-table__cell" scope="row">{{ good.quantity }}</td>
 											<td class="govuk-table__cell" scope="row">{{ good.unit.value }}</td>
 											<td class="govuk-table__cell" scope="row">£{{ good.value }}</td>
-											<td class="govuk-table__cell govuk-table__cell--numeric" scope="row">
-												<a class="lite-link--icon" href="{% url 'applications:remove_preexisting_good' application.id good.id %}">
-													{% svg 'close' %}
-													Remove
-												</a>
-											</td>
 										</tr>
 									{% endfor %}
 								</tbody>
@@ -188,7 +178,6 @@
 										<th class="govuk-table__header" scope="row"></th>
 									</tr>
 									{% for goodstype in goodstypes %}
-
 										<tr class="govuk-table__row">
 											<td class="govuk-table__cell" scope="row">{{ goodstype.description }}</td>
 											{% if goodstype.control_code %}
@@ -196,12 +185,6 @@
 											{% else %}
 												<td  class="govuk-table__cell" scope="row">N/A</td>
 											{% endif %}
-											<td class="govuk-table__cell govuk-table__cell--numeric" scope="row">
-												<a class="lite-link--icon" href="{% url 'applications:remove_goods_type' application.id goodstype.id %}">
-													{% svg 'close' %}
-													Remove
-												</a>
-											</td>
 										</tr>
 									{% endfor %}
 								</tbody>
@@ -214,7 +197,7 @@
 		        <li class="lite-task-list__item">
 					<div class="lite-task-list__item-header">
 						<a id="location" href="{% url 'applications:location' application.id %}" class="lite-overview-section-header govuk-link govuk-link--no-visited-state">
-							Set goods location
+							Goods locations
 						</a>
 						{% if sites or external_locations %}
 							<div class="lite-tag lite-tag--blue">
@@ -322,14 +305,13 @@
 				{% if application.licence_type.key == 'standard_licence' %}
 					<li class="lite-task-list__item">
 						<div class="lite-task-list__item-header">
-							{% if edit_type != 'minor_edit' %}
-								<a id="end_users" href="{% url 'applications:end_user' application.id %}" class="govuk-link govuk-link--no-visited-state">
-									Set end user
-								</a>
-							{% else %}
-								End user
-							{% endif %}
-
+                            {% if edit_type != 'minor_edit' %}
+                            <a id="end_users" href="{% url 'applications:end_user' application.id %}" class="govuk-link govuk-link--no-visited-state">
+                                End user
+                            </a>
+                            {% else %}
+                                End user
+                            {% endif %}
 							{% if application.end_user and end_user_document %}
 								<div class="lite-tag lite-tag--blue">
 									Done
@@ -410,14 +392,13 @@
 				{% if application.licence_type.key == 'standard_licence' %}
 					<li class="lite-task-list__item">
 						<div class="lite-task-list__item-header">
-							{% if edit_type != 'minor_edit' %}
-								<a id="consignees" href="{% url 'applications:consignee' application.id %}" class="govuk-link govuk-link--no-visited-state">
-									Set consignee
-								</a>
-							{% else %}
-								Consignee
-							{% endif %}
-
+                            {% if edit_type != 'minor_edit' %}
+                            <a id="consignees" href="{% url 'applications:consignee' application.id %}" class="govuk-link govuk-link--no-visited-state">
+                                Consignee
+                            </a>
+                            {%  else %}
+                                 Consignee
+                            {% endif %}
 							{% if application.consignee and consignee_document %}
 								<div class="lite-tag lite-tag--blue">
 									Done
@@ -440,10 +421,12 @@
 											<th class="govuk-table__header" scope="row">Type</th>
 											<td class="govuk-table__cell">{{ application.consignee.sub_type.value }}</td>
 											<td class="govuk-table__cell govuk-table__cell--numeric">
+                                                {% if edit_type != 'minor_edit' %}
 												<a class="lite-link--icon" href="{% url 'applications:remove_consignee' application.id %}">
 													{% svg 'close' %}
 													Remove
 												</a>
+                                                {% endif %}
 											</td>
 										</tr>
 										<tr class="govuk-table__row">
@@ -497,14 +480,9 @@
 				{% if application.licence_type.key == 'standard_licence' and ultimate_end_users_required %}
 					<li class="lite-task-list__item">
 						<div class="lite-task-list__item-header">
-							{% if edit_type != 'minor_edit' %}
-								<a id="ultimate_end_users" href="{% url 'applications:ultimate_end_users' application.id %}" class="govuk-link govuk-link--no-visited-state">
-									Add ultimate end users
-								</a>
-							{% else %}
-								Ultimate End Users
-							{% endif %}
-
+                            <a id="ultimate_end_users" href="{% url 'applications:ultimate_end_users' application.id %}" class="govuk-link govuk-link--no-visited-state">
+                                Ultimate End Users
+                            </a>
 							{% if ultimate_end_users and ultimate_end_users_documents_complete %}
 								<div class="lite-tag lite-tag--blue">
 									Done
@@ -540,12 +518,6 @@
 						                        <td class="govuk-table__cell">{{ ultimate_end_user.website|default_na }}</td>
 												<td class="govuk-table__cell">{{ ultimate_end_user.address }}</td>
 												<td class="govuk-table__cell">{{ ultimate_end_user.country.name }}</td>
-												<td class="govuk-table__cell">
-													<a href="{% url 'applications:remove_ultimate_end_user' application.id ultimate_end_user.id %}" class='govuk-link govuk-link--no-visited-state lite-link--icon'>
-														{% svg 'close' %}
-														Remove
-													</a>
-												</td>
 											</tr>
 										{% endfor %}
 									</tbody>
@@ -559,13 +531,9 @@
 				{% if application.licence_type.key == 'standard_licence' %}
 					<li class="lite-task-list__item">
 						<div class="lite-task-list__item-header">
-							{% if edit_type != 'minor_edit' %}
-								<a id="third_parties" href="{% url 'applications:third_parties' application.id %}" class="lite-overview-section-header govuk-link govuk-link--no-visited-state">
-									Add third parties (optional)
-								</a>
-							{% else %}
-								Third Parties
-							{% endif %}
+                            <a id="third_parties" href="{% url 'applications:third_parties' application.id %}" class="lite-overview-section-header govuk-link govuk-link--no-visited-state">
+                            Third Parties (optional)
+                            </a>
 					        {% if third_parties %}
 					            <div class="lite-tag lite-tag--blue">
 									Done
@@ -597,12 +565,6 @@
 						                        <td class="govuk-table__cell">{{ third_party.website|default_na }}</td>
 												<td class="govuk-table__cell">{{ third_party.address }}</td>
 												<td class="govuk-table__cell">{{ third_party.country.name }}</td>
-												<td class="govuk-table__cell govuk-table__cell--numeric">
-													<a href="{% url 'applications:remove_third_party' application.id third_party.id %}" class="govuk-link lite-link--icon">
-														{% svg 'close' %}
-														Remove
-													</a>
-												</td>
 											</tr>
 										{% endfor %}
 									</tbody>
@@ -616,7 +578,7 @@
 				<li class="lite-task-list__item">
 					<div class="lite-task-list__item-header">
 						<a id="third_parties" href="{% url 'applications:additional_documents' application.id %}" class="lite-overview-section-header govuk-link govuk-link--no-visited-state">
-							Add additional documentation (optional)
+							Additional documentation (optional)
 						</a>
 						{% if additional_documents %}
 							<div class="lite-tag lite-tag--blue">
