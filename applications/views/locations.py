@@ -9,7 +9,8 @@ from applications.forms.countries import countries_form
 from applications.forms.location import which_location_form, new_location_form, external_locations_form
 from applications.forms.sites import sites_form
 from core.services import get_sites_on_draft, post_sites_on_draft, post_external_locations, \
-    get_external_locations_on_draft, get_external_locations, post_external_locations_on_draft
+    get_external_locations_on_draft, get_external_locations, post_external_locations_on_draft, \
+    delete_external_locations_from_draft
 from applications.services import get_application, get_application_countries, post_application_countries
 
 
@@ -48,7 +49,6 @@ class Location(TemplateView):
             return redirect(reverse_lazy('applications:external_locations', kwargs={'pk': draft_id}))
         else:
             return redirect(reverse_lazy('applications:existing_sites', kwargs={'pk': draft_id}))
-
 
 # Existing Sites
 
@@ -128,6 +128,15 @@ class AddExternalLocation(TemplateView):
             return form_page(request, new_location_form(), data=request.POST, errors=data['errors'])
 
         # If there is no response (no forms left to go through), go to the overview page
+        return redirect(reverse_lazy('applications:external_locations', kwargs={'pk': draft_id}))
+
+
+class RemoveExternalLocation(TemplateView):
+    def get(self, request, **kwargs):
+        draft_id = str(kwargs['pk'])
+        ext_loc_id = str(kwargs['ext_loc_pk'])
+        delete_external_locations_from_draft(request, draft_id, ext_loc_id)
+
         return redirect(reverse_lazy('applications:external_locations', kwargs={'pk': draft_id}))
 
 

@@ -2,7 +2,7 @@ from http import HTTPStatus
 
 from lite_forms.components import Option
 
-from conf.client import get, post, put
+from conf.client import get, post, put, delete
 from conf.constants import UNITS_URL, APPLICATIONS_URL, COUNTRIES_URL, EXTERNAL_LOCATIONS_URL, NOTIFICATIONS_URL, \
     ORGANISATIONS_URL, CASES_URL, CONTROL_LIST_ENTRIES_URL
 
@@ -62,6 +62,11 @@ def get_external_locations(request, pk, formatted=False):
 def get_external_locations_on_draft(request, pk):
     data = get(request, APPLICATIONS_URL + pk + '/external_locations/')
     return data.json(), data.status_code
+
+
+def delete_external_locations_from_draft(request, pk, ext_loc_pk):
+    data = delete(request, APPLICATIONS_URL + pk + '/external_locations/' + ext_loc_pk + '/')
+    return data.status_code
 
 
 def post_external_locations_on_draft(request, pk, json):
