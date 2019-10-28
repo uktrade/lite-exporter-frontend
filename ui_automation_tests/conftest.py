@@ -422,8 +422,8 @@ def switch_organisations_to_my_second_organisation(driver, context):
     Shared(driver).click_continue()
 
 
-@when("I choose to make minor edits")  # noqa
+@when("I choose to make major edits")  # noqa
 def i_choose_to_make_minor_edits(driver):
     application_edit_type_page = ApplicationEditTypePage(driver)
-    application_edit_type_page.click_minor_edits_radio_button()
+    application_edit_type_page.click_major_edits_radio_button()
     application_edit_type_page.click_change_application_button()

@@ -28,9 +28,11 @@ class ApplicationOverviewPage:
         self.download_consignee_document = "consignee_document_download"  # ID
         self.delete_consignee_document = "consignee_document_delete"  # ID
         self.goods_countries_link = "goods_country_assignments"  # ID
+        self.goods_link = "a[href*='goods']"  # ID
         self.remove_good_link = "a[href*='good-on-application']"
         self.remove_goods_type_link = "a[href*='goods-types']"
         self.remove_end_user_link = "a[href*='end-user/remove']"
+        self.remove_consignee_link = "a[href*='consignee/remove']"
         self.lite_task_list_items = ".lite-task-list__items"
 
     def find_remove_goods_type_link(self):
@@ -50,6 +52,15 @@ class ApplicationOverviewPage:
             return self.driver.find_element_by_css_selector(self.remove_end_user_link)
         except NoSuchElementException:
             return None
+
+    def find_remove_consignee_link(self):
+        try:
+            return self.driver.find_element_by_css_selector(self.remove_consignee_link)
+        except NoSuchElementException:
+            return None
+
+    def click_application_goods_link(self):
+        self.driver.find_element_by_css_selector(self.goods_link).click()
 
     def click_application_locations_link(self):
         self.driver.execute_script("document.getElementById('" + self.location_link + "').scrollIntoView(true);")
