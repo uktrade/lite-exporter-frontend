@@ -29,7 +29,7 @@ class ApplicationOverviewPage:
         self.delete_consignee_document = "consignee_document_delete"  # ID
         self.goods_countries_link = "goods_country_assignments"  # ID
         self.remove_good_link = "a[href*='good-on-application']"
-        self.remove_goods_type_link = "a[href*='goods-types']"
+        self.remove_goods_type_link = "a[href*='goods-types/remove']"
         self.remove_end_user_link = "a[href*='end-user/remove']"
         self.remove_consignee_link = "a[href*='consignee/remove']"
         self.remove_third_party_link = "a[href*='remove']"

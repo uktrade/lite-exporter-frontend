@@ -14,5 +14,5 @@ Feature: I want to be able to edit and update an active application
     And I click edit application
     And I choose to make major edits
     And I click on open goods tile
-    And I remove a good from the application
-#    Then no goods types are left on the application
+    And I remove a good type from the application
+    Then no goods types are left on the application
