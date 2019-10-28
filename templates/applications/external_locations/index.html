@@ -27,7 +27,7 @@
 			<div class="lite-card">
 				<h4 class="govuk-heading-s" style="margin-bottom: 0;">{{ external_location.name }}</h4>
 				<p class="govuk-label">{{ external_location.address|linebreaksbr }}<br>{{ external_location.country }}</p>
-                {% if not draft.status.value or draft.status.key == 'applicant_editing' or data.external_locations|length > 1%}
+                {% if not draft.status.value or draft.status.key == 'applicant_editing' or data.external_locations|length > 1 %}
                     <a class="lite-link--icon" href="{% url 'applications:remove_external_location' draft_id external_location.id %}">
                         Remove
                     </a>
