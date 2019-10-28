@@ -251,6 +251,12 @@ def click_my_goods_link(driver):
     exporter_hub.click_standard_goods_link()
 
 
+@when("I click on open goods tile")  # noqa
+def click_my_goods_link(driver):
+    exporter_hub = ApplicationOverviewPage(driver)
+    exporter_hub.click_open_goods_link()
+
+
 @when('I click on end user advisories')  # noqa
 def click_my_end_user_advisory_link(driver):
     exporter_hub = ExporterHubPage(driver)
