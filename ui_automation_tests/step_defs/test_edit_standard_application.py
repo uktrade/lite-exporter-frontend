@@ -1,5 +1,6 @@
 from pytest_bdd import when, scenarios, then
 
+from conftest import enter_application_name, enter_export_licence
 from pages.application_overview_page import ApplicationOverviewPage
 from pages.shared import Shared
 
@@ -74,3 +75,25 @@ def i_click_confirm(driver, add_an_incorporated_good_to_application):
 @then("the document is removed from the application")
 def no_documents_are_set_on_the_application(driver):
     assert (ApplicationOverviewPage(driver).find_remove_additional_document_link(), None)
+
+
+@when("I change my reference name")
+def change_ref_name(driver, context):
+    driver.find_element_by_id('reference-name').click()
+    enter_application_name(driver, context)
+
+
+@when("I change my reference number")
+def change_ref_num(driver, context):
+    driver.find_element_by_id('reference-number').click()
+    enter_export_licence(driver, 'yes', '12345678', context)
+
+
+@then("I see my edited reference name")
+def assert_ref_name(context, driver):
+    assert context.app_name in driver.find_element_by_css_selector('.lite-task-list').text
+
+
+@then("I see my edited reference number")
+def assert_ref_num(driver):
+    assert '12345678' in driver.find_element_by_css_selector('.lite-task-list').text

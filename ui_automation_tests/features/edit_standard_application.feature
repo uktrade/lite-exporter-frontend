@@ -4,7 +4,7 @@ Feature: I want to be able to edit and update an active application
   I want to be able to edit and update an active application
   So that any additional information and/or corrected details can be updated on my application
 
-  @LT_998_edit_application @AT
+  @LT_998_edit_application
   Scenario: Edit a standard application
     Given I go to exporter homepage and choose Test Org
     And I create a standard application via api
@@ -12,7 +12,11 @@ Feature: I want to be able to edit and update an active application
     And I click on application previously created
     And I click edit application
     And I choose to make major edits
-    And I click on standard goods tile
+    And I change my reference name
+    Then I see my edited reference name
+    When I change my reference number
+    Then I see my edited reference number
+    When I click on standard goods tile
     And I remove a good from the application
     Then the good has been removed from the application
     When I click back to the application overview
