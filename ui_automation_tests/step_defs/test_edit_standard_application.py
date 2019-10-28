@@ -1,8 +1,19 @@
 from pytest_bdd import when, scenarios, then
 
 from pages.application_overview_page import ApplicationOverviewPage
+from pages.shared import Shared
 
 scenarios('../features/edit_standard_application.feature', strict_gherkin=False)
+
+
+@when("I click on the application goods link")
+def i_click_on_the_application_goods_link(driver):
+    ApplicationOverviewPage(driver).click_application_goods_link()
+
+
+@when('I click back to the application overview')
+def i_click_on_application_overview(driver):
+    Shared(driver).click_back_link()
 
 
 @when("I remove all goods on the application")
@@ -32,3 +43,15 @@ def i_remove_the_end_user_off_the_application(driver):
 @then("no end user is set on the application")
 def no_end_user_is_set_on_the_application(driver):
     assert (ApplicationOverviewPage(driver).find_remove_end_user_link(), None)
+
+
+@when("I remove the consignee off the application")
+def i_remove_the_end_user_off_the_application(driver):
+    remove_consignee_link = ApplicationOverviewPage(driver).find_remove_consignee_link()
+    if remove_consignee_link:
+        driver.execute_script("arguments[0].click();", remove_consignee_link)
+
+
+@then("no consignee is set on the application")
+def no_end_user_is_set_on_the_application(driver):
+    assert (ApplicationOverviewPage(driver).find_remove_consignee_link(), None)
