@@ -68,7 +68,7 @@ def i_remove_an_additional_document(driver):
 
 
 @when('I confirm I want to delete the document')
-def i_click_confirm(driver, add_an_incorporated_good_to_application):
+def i_click_confirm(driver):
     ApplicationOverviewPage(driver).confirm_delete_additional_document()
 
 
