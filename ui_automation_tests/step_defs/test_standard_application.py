@@ -1,6 +1,5 @@
 from pytest_bdd import scenarios, when, then, parsers
 
-import shared.tools.helpers as utils
 from shared.tools.helpers import scroll_to_element_by_id
 from shared.tools.wait import wait_for_download_button, wait_for_element
 from pages.add_end_user_pages import AddEndUserPages

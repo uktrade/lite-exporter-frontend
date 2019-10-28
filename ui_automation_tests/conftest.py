@@ -245,7 +245,7 @@ def click_my_goods_link(driver):
     exporter_hub.click_my_goods()
 
 
-@when('I click on goods tile')  # noqa
+@when("I click on standard goods tile")  # noqa
 def click_my_goods_link(driver):
     exporter_hub = ApplicationOverviewPage(driver)
     exporter_hub.click_standard_goods_link()

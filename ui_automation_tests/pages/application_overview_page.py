@@ -15,10 +15,10 @@ class ApplicationOverviewPage:
         self.third_parties = "third_parties"  # ID
         self.sites_link = "a[href*='sites']"
         self.goods_on_application = "[id^=good-on-application-row]"  # CSS
-        self.ultimate_end_users = "[id^=ultimate-end-user-row]"
+        self.ultimate_end_users = "[id^=ultimate-end-user-row]" # CSS
         self.gov_tables = ".govuk-table__body"   # CSS
         self.back_to_overview_text = "Back to Application"  # link text
-        self.submit_application_button = "button[type*='submit']"  # CSS
+        self.submit_button = "button[type*='submit']"  # CSS
         self.attach_end_user_document_link = "attach_doc"  # ID
         self.download_end_user_document = "end_user_document_download"  # ID
         self.delete_end_user_document = "end_user_document_delete"  # ID
@@ -28,12 +28,14 @@ class ApplicationOverviewPage:
         self.download_consignee_document = "consignee_document_download"  # ID
         self.delete_consignee_document = "consignee_document_delete"  # ID
         self.goods_countries_link = "goods_country_assignments"  # ID
-        self.goods_link = "a[href*='goods']"  # ID
         self.remove_good_link = "a[href*='good-on-application']"
         self.remove_goods_type_link = "a[href*='goods-types']"
         self.remove_end_user_link = "a[href*='end-user/remove']"
         self.remove_consignee_link = "a[href*='consignee/remove']"
+        self.remove_third_party_link = "a[href*='remove']"
+        self.remove_additional_document_link = "document_delete"  # ID
         self.lite_task_list_items = ".lite-task-list__items"
+        self.delete_additional_doc_confirm_yes = "delete_document_confirmation-yes"  # ID
 
     def find_remove_goods_type_link(self):
         try:
@@ -59,8 +61,24 @@ class ApplicationOverviewPage:
         except NoSuchElementException:
             return None
 
-    def click_application_goods_link(self):
-        self.driver.find_element_by_css_selector(self.goods_link).click()
+    def find_remove_third_party_link(self):
+        try:
+            return self.driver.find_element_by_css_selector(self.remove_third_party_link)
+        except NoSuchElementException:
+            return None
+
+    def find_remove_additional_document_link(self):
+        try:
+            return self.driver.find_element_by_id(self.remove_additional_document_link)
+        except NoSuchElementException:
+            return None
+
+    def confirm_delete_additional_document(self):
+        self.driver.find_element_by_id(self.delete_additional_doc_confirm_yes).click()
+        self.driver.find_element_by_css_selector(self.submit_button).click()
+
+    def click_third_parties(self):
+        self.driver.find_element_by_id(self.third_parties).click()
 
     def click_application_locations_link(self):
         self.driver.execute_script("document.getElementById('" + self.location_link + "').scrollIntoView(true);")
@@ -128,9 +146,6 @@ class ApplicationOverviewPage:
 
     def attach_consignee_document_is_present(self):
         return self.driver.find_elements_by_id(self.attach_consignee_document)
-
-    def click_third_parties(self):
-        self.driver.find_element_by_id(self.third_parties).click()
 
     def get_text_of_lite_task_list_items(self):
         return self.driver.find_element_by_css_selector(self.lite_task_list_items).text
