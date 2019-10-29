@@ -28,6 +28,7 @@
 	<br><br>
 	{% if data.results|length and params.name %}
 		<form method="post">
+            {% csrf_token %}
 			<div class="govuk-form-group">
 				<div class="govuk-radios">
 					{% for organisation in data.results %}
@@ -57,7 +58,7 @@
 		    {% endif %}
 			<br><br>
 
-			<button class="govuk-button govuk-button--disabled" data-module="govuk-button" disabled aria-disabled="true">
+			<button class="govuk-button" data-module="govuk-button">
 				Confirm and continue
 			</button>
 		</form>

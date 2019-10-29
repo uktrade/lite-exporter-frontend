@@ -49,5 +49,16 @@ def group_notifications(notifications: list):
     return notifications_filtered
 
 
-def convert_dict_to_query_params(dictionary):
+def convert_dict_to_query_params(dictionary: dict):
     return '&'.join(([key + '=' + str(value) for (key, value) in dictionary.items()]))
+
+
+def convert_parameters_to_query_params(dictionary: dict):
+    """
+    Given a dictionary of parameters, convert to a query param string
+    Removes request object and deletes empty keys
+    """
+    if 'request' in dictionary:
+        del dictionary['request']
+
+    return '?' + convert_dict_to_query_params({key: value for key, value in dictionary.items() if value is not None})
