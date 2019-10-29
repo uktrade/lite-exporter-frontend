@@ -9,11 +9,9 @@ from raise_hmrc_query.services import get_organisations
 class SelectAnOrganisation(TemplateView):
     def get(self, request, *args, **kwargs):
         name = request.GET.get('name', '').strip()
-
         params = {'page': int(request.GET.get('page', 1)),
                   'name': name}
-
-        organisations = get_organisations(request, **params)
+        organisations = get_organisations(request, org_type='hmrc', **params)
 
         context = {
             'organisations': organisations,
