@@ -10,13 +10,13 @@
 
 	<legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
 		<h1 class="govuk-fieldset__heading">
-			Which organisation are you enquiring about?
+			{% block title %}Which organisation are you enquiring about?{% endblock %}
 		</h1>
 	</legend>
 	<span class="govuk-hint" style="margin: 30px 0;">
 		Write the name of the organisation in the search box.
 	</span>
-    <form method="get">
+    <form method="get" class="govuk-!-margin-bottom-6">
 		<div class="lite-search-wrapper">
 		    <div class="lite-search-icon">
 		    	{% svg 'search' %}
@@ -25,13 +25,13 @@
             <button type="submit" class="govuk-button">Search</button>
 	    </div>
     </form>
-	<br><br>
-	{% if data.results|length and params.name %}
-		<form method="post">
+
+	{% if organisations.results|length and params.name %}
+		<form method="post" class="govuk-!-margin-bottom-6">
             {% csrf_token %}
 			<div class="govuk-form-group">
 				<div class="govuk-radios">
-					{% for organisation in data.results %}
+					{% for organisation in organisations.results %}
 						<div class="govuk-radios__item">
 							<input class="govuk-radios__input" id="organisation-{{ organisation.id }}" name="organisation" type="radio" value="{{ organisation.id }}">
 							<label class="govuk-label govuk-radios__label" for="organisation-{{ organisation.id }}">
@@ -56,7 +56,6 @@
 		            {% endfor %}
 		        </div>
 		    {% endif %}
-			<br><br>
 
 			<button class="govuk-button" data-module="govuk-button">
 				Confirm and continue

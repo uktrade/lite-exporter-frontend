@@ -10,15 +10,13 @@ class SelectAnOrganisation(TemplateView):
     def get(self, request, *args, **kwargs):
         name = request.GET.get('name', '').strip()
 
-        params = {'page': int(request.GET.get('page', 1))}
-        if name:
-            params['name'] = name
+        params = {'page': int(request.GET.get('page', 1)),
+                  'name': name}
 
-        organisations, _ = get_organisations(request, **params)
+        organisations = get_organisations(request, **params)
 
         context = {
-            'title': 'Select organisation',
-            'data': organisations,
+            'organisations': organisations,
             'params': params,
             'page': params.pop('page'),
             'params_str': convert_dict_to_query_params(params)
