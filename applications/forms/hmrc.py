@@ -1,6 +1,22 @@
-from lite_forms.components import Form, TextArea
+from lite_forms.components import Form, TextArea, Summary, Label, HiddenField
 
 from applications.components import back_to_task_list, footer_label
+from core.builtins.custom_tags import str_date
+
+
+def confirm_organisation_form(organisation):
+    return Form(title='Confirm you want to make a query for this organisation',
+                questions=[
+                    Summary(values={
+                        'Name': organisation['name'],
+                        'Registration Number': organisation['registration_number'],
+                        'EORI Number': organisation['eori_number'],
+                        'VAT Number': organisation['vat_number'],
+                        'Created at': str_date(organisation['created_at']),
+                    }),
+                    HiddenField('organisation', organisation['id'])
+                ],
+                default_button_name='Confirm and continue')
 
 
 def query_explanation_form(application_id):

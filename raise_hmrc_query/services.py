@@ -13,3 +13,11 @@ def get_organisations(request, page: int = 0, name=None, org_type=None):
     """
     data = get(request, ORGANISATIONS_URL + convert_parameters_to_query_params(locals()))
     return data.json()
+
+
+def get_organisation(request, pk):
+    """
+    Returns an organisation
+    """
+    data = get(request, ORGANISATIONS_URL + pk)
+    return data.json()
