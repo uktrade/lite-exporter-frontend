@@ -20,10 +20,12 @@ class Hub(TemplateView):
         string = ''
 
         for root, dirs, files in os.walk(settings.STATIC_ROOT):
+            string = string + '<br><h3>' + root + '/</h3>'
             for file in files:
                 string = string + '<br>' + file
+            string = string + '<br>'
 
-        return HttpResponse(f'<h1>{string}</h1>')
+        return HttpResponse(f'{string}')
 
         # notifications = get_notifications(request, unviewed=True)
         # organisation = get_organisation(request, str(request.user.organisation))
