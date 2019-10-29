@@ -37,4 +37,4 @@ class SelectAnOrganisation(TemplateView):
         else:
             # Do an application POST here to create the draft
             # then redirect to the application:edit page for hmrc queries
-            raise Http404
+            return render(request, 'applications/hmrc-edit.html')
