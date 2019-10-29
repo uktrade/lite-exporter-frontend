@@ -1,12 +1,9 @@
-import os
-
-from django.http import Http404, HttpResponse
+from django.http import Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from lite_forms.generators import form_page
 
-from conf import settings
 from core.builtins.custom_tags import get_string
 from core.forms import select_your_organisation_form
 from core.helpers import Section, Tile, generate_notification_string
@@ -17,62 +14,53 @@ from users.services import get_user
 class Hub(TemplateView):
     def get(self, request, **kwargs):
         user, _ = get_user(request)
-        string = ''
 
-        for root, dirs, files in os.walk(settings.STATIC_ROOT):
-            string = string + '<br><h3>' + root + '/</h3>'
-            for file in files:
-                string = string + '<br>' + file
-            string = string + '<br>'
+        notifications = get_notifications(request, unviewed=True)
+        organisation = get_organisation(request, str(request.user.organisation))
+        if organisation.get('type').get('key') == 'hmrc':
+            sections = [
+                Section('', [
+                    Tile('Make a Customs enquiry', '',
+                         reverse_lazy('raise_hmrc_query:select_organisation')),
+                ]),
+                Section('Manage', [
+                    Tile(get_string('drafts.title'), '',
+                         reverse_lazy('drafts:drafts')),
+                ])
+            ]
+        else:
+            sections = [
+                Section('', [
+                    Tile(get_string('licences.apply_for_a_licence'), '',
+                         reverse_lazy('apply_for_a_licence:start')),
+                ]),
+                Section('Manage', [
+                    Tile(get_string('drafts.title'), '',
+                         reverse_lazy('drafts:drafts')),
+                    Tile(get_string('applications.title'), generate_notification_string(notifications,
+                                                                                        'base_application'),
+                         reverse_lazy('applications:applications')),
+                    Tile('Goods', generate_notification_string(notifications, 'control_list_classification_query'),
+                         reverse_lazy('goods:goods')),
+                    Tile('End User Advisories', generate_notification_string(notifications, 'end_user_advisory_query'),
+                         reverse_lazy('end_users:end_users')),
+                ]),
+            ]
 
-        return HttpResponse(f'{string}')
+            if organisation.get('type').get('key') == 'individual':
+                sections[1].tiles.append(Tile('Manage my sites', '', reverse_lazy('sites:sites')))
+            else:
+                sections[1].tiles.append(Tile('Manage my organisation', '', reverse_lazy('users:users')))
 
-        # notifications = get_notifications(request, unviewed=True)
-        # organisation = get_organisation(request, str(request.user.organisation))
-        # if organisation.get('type').get('key') == 'hmrc':
-        #     sections = [
-        #         Section('', [
-        #             Tile('Make a Customs enquiry', '',
-        #                  reverse_lazy('raise_hmrc_query:select_organisation')),
-        #         ]),
-        #         Section('Manage', [
-        #             Tile(get_string('drafts.title'), '',
-        #                  reverse_lazy('drafts:drafts')),
-        #         ])
-        #     ]
-        # else:
-        #     sections = [
-        #         Section('', [
-        #             Tile(get_string('licences.apply_for_a_licence'), '',
-        #                  reverse_lazy('apply_for_a_licence:start')),
-        #         ]),
-        #         Section('Manage', [
-        #             Tile(get_string('drafts.title'), '',
-        #                  reverse_lazy('drafts:drafts')),
-        #             Tile(get_string('applications.title'), generate_notification_string(notifications,
-        #                                                                                 'base_application'),
-        #                  reverse_lazy('applications:applications')),
-        #             Tile('Goods', generate_notification_string(notifications, 'control_list_classification_query'),
-        #                  reverse_lazy('goods:goods')),
-        #             Tile('End User Advisories', generate_notification_string(notifications, 'end_user_advisory_query'),
-        #                  reverse_lazy('end_users:end_users')),
-        #         ]),
-        #     ]
-        #
-        #     if organisation.get('type').get('key') == 'individual':
-        #         sections[1].tiles.append(Tile('Manage my sites', '', reverse_lazy('sites:sites')))
-        #     else:
-        #         sections[1].tiles.append(Tile('Manage my organisation', '', reverse_lazy('users:users')))
-        #
-        # context = {
-        #     'organisation': organisation,
-        #     'sections': sections,
-        #     'application_deleted': request.GET.get('application_deleted'),
-        #     'user_data': user['user'],
-        #     'notifications': notifications
-        # }
+        context = {
+            'organisation': organisation,
+            'sections': sections,
+            'application_deleted': request.GET.get('application_deleted'),
+            'user_data': user['user'],
+            'notifications': notifications
+        }
 
-        # return render(request, 'core/hub.html', context)
+        return render(request, 'core/hub.html', context)
 
 
 class PickOrganisation(TemplateView):
