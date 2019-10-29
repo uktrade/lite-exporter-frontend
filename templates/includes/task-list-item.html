@@ -1,0 +1,20 @@
+<li class="lite-task-list__item">
+	<div class="lite-task-list__item-header">
+		<a id="{{ title|idify }}" href="{{ url }}" class="govuk-link govuk-link--no-visited-state">
+			{{ title }}
+		</a>
+		{% if status == 'done' %}
+			<div class="lite-tag lite-tag--blue">
+				Done
+			</div>
+		{% elif status == 'in_progress' %}
+			<div class="lite-tag lite-tag--orange">
+				In progress
+			</div>
+		{% else %}
+			<div class="lite-tag lite-tag--hollow">
+				Not started
+			</div>
+		{% endif %}
+	</div>
+</li>

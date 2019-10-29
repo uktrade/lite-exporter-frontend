@@ -1,0 +1,60 @@
+{% extends 'layouts/two_pane.html' %}
+
+{% block two_thirds %}
+
+	<h1 class="govuk-heading-l govuk-!-margin-bottom-2">
+		{% block title %}
+			Apply for a ??
+		{% endblock %}
+	</h1>
+
+	<p class="govuk-hint govuk-!-margin-bottom-9">
+		Query on behalf of: <a href="#" class="govuk-link govuk-link--no-visited-state">Ghosteen Inc</a>
+	</p>
+
+	<ol class="lite-task-list">
+		<li>
+			<h2 class="lite-task-list__section">
+				<span class="lite-task-list__section-number">1. </span> Provide details on your application
+			</h2>
+		    <ul class="lite-task-list__items">
+				{% include "includes/task-list-item.html" with title="Describe your goods" %}
+
+				{% include "includes/task-list-item.html" with title="Set end user" %}
+
+				{% include "includes/task-list-item.html" with title="Add ultimate end users" %}
+
+				{% include "includes/task-list-item.html" with title="Add third parties" %}
+
+				{% include "includes/task-list-item.html" with title="Goods location" %}
+
+				{% include "includes/task-list-item.html" with title="Supporting Documentation" %}
+
+				{% include "includes/task-list-item.html" with title="Optional note" %}
+			</ul>
+		</li>
+	</ol>
+
+	<ol class="lite-task-list">
+		<li>
+			<h2 class="lite-task-list__section">
+				<span class="lite-task-list__section-number">2. </span> Check your answers
+			</h2>
+		    <ul class="lite-task-list__items">
+		        {% include "includes/task-list-item.html" with title="Check your answers" %}
+			</ul>
+		</li>
+	</ol>
+
+	<ol class="lite-task-list">
+		<li>
+			<h2 class="lite-task-list__section">
+				<span class="lite-task-list__section-number">3. </span> Confirm and submit your query
+			</h2>
+		    <ul class="lite-task-list__items">
+				{% include "includes/task-list-item.html" with title="Confirm and submit your query" %}
+			</ul>
+		</li>
+	</ol>
+
+{% endblock %}

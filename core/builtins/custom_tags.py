@@ -154,3 +154,12 @@ def pluralise_unit(unit, value):
             return unit.replace('(s)', 's')
 
     return unit
+
+
+@register.filter()
+def idify(string: str):
+    """
+    Converts a string to a format suitable for HTML IDs
+    eg 'Add goods' becomes 'add_goods'
+    """
+    return string.lower().replace(' ', '_')

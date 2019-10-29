@@ -1,5 +1,4 @@
 from django.shortcuts import render
-
 from django.views.generic import TemplateView
 
 from core.helpers import convert_dict_to_query_params
@@ -11,7 +10,7 @@ class SelectAnOrganisation(TemplateView):
         name = request.GET.get('name', '').strip()
         params = {'page': int(request.GET.get('page', 1)),
                   'name': name}
-        organisations = get_organisations(request, org_type='hmrc', **params)
+        organisations = get_organisations(request, org_type='commercial', **params)
 
         context = {
             'organisations': organisations,
@@ -20,3 +19,6 @@ class SelectAnOrganisation(TemplateView):
             'params_str': convert_dict_to_query_params(params)
         }
         return render(request, 'raise_hmrc_query/select_organisation.html', context)
+
+    def post(self, request, *args, **kwargs):
+        return render(request, 'applications/hmrc-edit.html')
