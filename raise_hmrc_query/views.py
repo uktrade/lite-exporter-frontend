@@ -18,7 +18,7 @@ class SelectAnOrganisation(TemplateView):
             'page': params.pop('page'),
             'params_str': convert_dict_to_query_params(params)
         }
-        return render(request, 'raise_hmrc_query/select_organisation.html', context)
+        return render(request, 'hmrc/select-organisation.html', context)
 
     def post(self, request, *args, **kwargs):
         return render(request, 'applications/hmrc-edit.html')
