@@ -1,13 +1,28 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
 from applications.forms.hmrc import confirm_organisation_form
-from applications.libraries.get_hmrc_task_list import get_hmrc_task_list
-from applications.services import post_applications
+from applications.services import post_applications, get_draft_applications
 from core.helpers import convert_dict_to_query_params
 from core.permissions import is_in_organisation_type
 from core.services import get_organisations, get_organisation
 from lite_forms.generators import form_page
+
+
+class DraftsList(TemplateView):
+
+    def dispatch(self, request, *args, **kwargs):
+        is_in_organisation_type(request, 'hmrc')
+        return super(DraftsList, self).dispatch(request, *args, **kwargs)
+
+    def get(self, request, *args, **kwargs):
+        drafts = get_draft_applications(request)
+
+        context = {
+            'drafts': drafts
+        }
+        return render(request, 'hmrc/drafts.html', context)
 
 
 class SelectAnOrganisation(TemplateView):
@@ -55,4 +70,4 @@ class SelectAnOrganisation(TemplateView):
 
             response, _ = post_applications(request, data)
 
-            return get_hmrc_task_list(request, response['application']['id'])
+            return redirect(reverse_lazy('applications:edit', kwargs={'pk': response['application']['id']}))

@@ -21,11 +21,11 @@ class Hub(TemplateView):
             sections = [
                 Section('', [
                     Tile('Make a Customs enquiry', '',
-                         reverse_lazy('raise_hmrc_query:select_organisation')),
+                         reverse_lazy('hmrc:raise_a_query')),
                 ]),
                 Section('Manage', [
                     Tile(get_string('drafts.title'), '',
-                         reverse_lazy('applications:applications') + '?drafts=True'),
+                         reverse_lazy('hmrc:drafts')),
                 ])
             ]
         else:

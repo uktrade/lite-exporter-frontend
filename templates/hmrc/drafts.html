@@ -10,22 +10,11 @@
 
 	<div class="lite-app-bar">
 		<div class="lite-app-bar__content">
-			<h2 class="govuk-heading-l">{% block title %}Applications{% endblock %}</h2>
+			<h2 class="govuk-heading-l">{% block title %}Drafts{% endblock %}</h2>
 		</div>
 		<div class="lite-app-bar__controls">
-			<a href="{% url 'apply_for_a_licence:start' %}" class="govuk-button" draggable="false" role="button">
-				{% get_string 'licences.apply_for_a_licence' %}
-			</a>
-		</div>
-	</div>
-
-	<div class="lite-tabs--fade">
-		<div class="lite-tabs">
-			<a href="{% url 'applications:applications' %}?drafts=false" class="lite-tabs__tab">
-				In Progress
-			</a>
-			<a href="{% url 'applications:applications' %}?drafts=true" class="lite-tabs__tab lite-tabs__tab--selected">
-				Drafts
+			<a href="{% url 'hmrc:raise_a_query' %}" class="govuk-button" draggable="false" role="button">
+				Raise a query
 			</a>
 		</div>
 	</div>
@@ -37,12 +26,11 @@
 					<th class="govuk-table__header">
 						Reference
 					</th>
-					<th class="govuk-table__header" scope="col">Type</th>
 					<th class="govuk-table__header">
-						Created On
+						On behalf of
 					</th>
 					<th class="govuk-table__header">
-						Export Type
+						Created On
 					</th>
 					<th class="govuk-table__header">
 					</th>
@@ -57,13 +45,10 @@
 							</a>
 						</td>
 						<td class="govuk-table__cell">
-							{{ draft.application_type.value }}
+							Ghosteen Inc
 						</td>
 						<td class="govuk-table__cell">
 							{{ draft.last_modified_at|str_date }}
-						</td>
-						<td class="govuk-table__cell">
-							{{ draft.export_type.value }}
 						</td>
 						<td class="govuk-table__cell govuk-table__cell--numeric">
 							<a href="{% url 'applications:delete' draft.id %}" class="govuk-link lite-link--icon">

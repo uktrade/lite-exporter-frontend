@@ -4,6 +4,8 @@ from django.http import Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
+
+from applications.libraries.get_hmrc_task_list import get_hmrc_task_list
 from lite_forms.components import HiddenField
 from lite_forms.generators import error_page, form_page, success_page
 
@@ -102,6 +104,11 @@ class ApplicationEditType(TemplateView):
 class ApplicationEditOverview(TemplateView):
     def get(self, request, **kwargs):
         application_data = get_application(request, str(kwargs['pk']))
+        application_type = application_data['application_type']['key']
+
+        if application_type == 'hmrc_query':
+            return get_hmrc_task_list(request, application_data)
+
         return get_licence_overview(request, application=application_data)
 
     def post(self, request, **kwargs):
