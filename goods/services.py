@@ -20,9 +20,15 @@ def get_good(request, pk):
     return data.json().get('good'), data.status_code
 
 
-def post_goods(request, json):
+def post_good(request, json):
     data = post(request, GOODS_URL, json)
     return data.json(), data.status_code
+
+
+def validate_good(request, json):
+    json['validate_only'] = True
+    data = post(request, GOODS_URL, json)
+    return data
 
 
 def update_good(request, pk, json):

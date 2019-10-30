@@ -37,6 +37,8 @@ urlpatterns = [
          name='remove_goods_type'),
     # ex: /applications/<uuid:pk>/goods/
     path('<uuid:pk>/goods/', goods.DraftGoodsList.as_view(), name='goods'),
+    # ex: /applications/<uuid:pk>/goods/add-new/
+    path('<uuid:pk>/goods/add-new/', goods.AddNewGood.as_view(), name='new_good'),
     # ex: /applications/<uuid:pk>/goods/add-preexisting/
     path('<uuid:pk>/goods/add-preexisting/', goods.GoodsList.as_view(), name='preexisting_good'),
     # ex: /applications/<uuid:pk>/goods/add-preexisting/<uuid:pk>/add/
