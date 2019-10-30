@@ -6,6 +6,7 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
 from applications.libraries.get_hmrc_task_list import get_hmrc_task_list
+from core.builtins.custom_tags import default_na
 from lite_forms.components import HiddenField
 from lite_forms.generators import error_page, form_page, success_page
 
@@ -263,3 +264,41 @@ class RespondToQuery(TemplateView):
         else:
             # Submitted data does not contain an expected form field - return an error
             return error_page(None, 'We had an issue creating your response. Try again later.')
+
+
+class CheckYourAnswers(TemplateView):
+
+    def get(self, request, **kwargs):
+        application_id = kwargs['pk']
+        application = get_application(request, application_id)
+
+        context = {
+            'answers': {
+                'Goods': [
+                    {
+                        'Description': 'Easy to find',
+                        'Part number': 'ML1a',
+                        'Control list entry': 'ML1a',
+                        'Quantity': 'ML1a',
+                        'Monetary value': 'ML1a',
+                    },
+                    {
+                        'Description': 'Easy to find',
+                        'Part number': 'ML1a',
+                        'Control list entry': 'ML1a',
+                        'Quantity': 'ML1a',
+                        'Monetary value': 'ML1a',
+                    },
+                    {
+                        'Description': 'Easy to find',
+                        'Part number': 'ML1a',
+                        'Control list entry': default_na(None),
+                        'Quantity': 'ML1a',
+                        'Monetary value': 'ML1a',
+                    }
+                ],
+                'Ultimate end users': [],
+                'Optional note': 'I Am Easy to Find'
+            }
+        }
+        return render(request, 'applications/check-your-answers.html', context)

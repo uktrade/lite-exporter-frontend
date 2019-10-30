@@ -46,7 +46,7 @@
 				<span class="lite-task-list__section-number">2. </span> Check your answers
 			</h2>
 		    <ul class="lite-task-list__items">
-				{% url 'applications:end_user' application.id as check_your_answers_url %}
+				{% url 'applications:check_your_answers' application.id as check_your_answers_url %}
 		        {% include "includes/task-list-item.html" with title="Check your answers" url=check_your_answers_url %}
 			</ul>
 		</li>

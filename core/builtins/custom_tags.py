@@ -163,3 +163,8 @@ def idify(string: str):
     eg 'Add goods' becomes 'add_goods'
     """
     return string.lower().replace(' ', '_')
+
+
+@register.filter
+def classname(obj):
+    return obj.__class__.__name__

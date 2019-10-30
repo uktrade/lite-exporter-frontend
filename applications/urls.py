@@ -133,6 +133,9 @@ urlpatterns = [
     # ex: /applications/<uuid:pk>/optional-note/
     path('<uuid:pk>/optional-note/', optional_note.ApplicationOptionalNote.as_view(), name='optional_note'),
 
+    # ex: /applications/<uuid:pk>/optional-note/
+    path('<uuid:pk>/check-your-answers/', common.CheckYourAnswers.as_view(), name='check_your_answers'),
+
     # This HAS to be at the bottom, otherwise it'll swallow
     # other url calls
     # ex: /applications/<uuid:pk>/case-notes/
