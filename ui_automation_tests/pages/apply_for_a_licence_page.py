@@ -9,8 +9,8 @@ class ApplyForALicencePage:
     def __init__(self, driver):
         self.driver = driver
         self.name_or_reference_input_id = "name"
-        self.standard_licence_button = "input#licence_type-standard_licence"
-        self.open_licence_button = "input#licence_type-open_licence"
+        self.standard_licence_button = "input#application_type-standard_licence"
+        self.open_licence_button = "input#application_type-open_licence"
         self.submit_button = "button[type*='submit']"
         self.export_button = "export_type-"
         self.export_licence_yes_or_no = "have_you_been_informed-"

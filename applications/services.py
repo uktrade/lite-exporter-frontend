@@ -24,7 +24,7 @@ def get_application(request, pk):
     return data.json().get('application') if data.status_code == HTTPStatus.OK else None
 
 
-def post_application(request, json):
+def post_applications(request, json):
     data = post(request, APPLICATIONS_URL, json)
     return data.json(), data.status_code
 

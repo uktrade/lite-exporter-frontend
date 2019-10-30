@@ -29,7 +29,7 @@ def get_licence_overview(request, application, errors=None):
     consignee_document = None
     countries_on_goods_types = False
 
-    if application['licence_type']['key'] == STANDARD_LICENCE:
+    if application['application_type']['key'] == STANDARD_LICENCE:
         ultimate_end_users = services.get_ultimate_end_users(request, application_id)
         third_parties = services.get_third_parties(request, application_id)
         end_user = application.get('end_user')

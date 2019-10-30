@@ -4,7 +4,7 @@ from django.views.generic import TemplateView
 from lite_forms.generators import form_page
 from lite_forms.submitters import submit_paged_form
 
-from applications.services import post_application
+from applications.services import post_applications
 from apply_for_a_licence.initial import initial_questions
 
 
@@ -15,7 +15,7 @@ class InitialQuestions(TemplateView):
         return form_page(request, self.forms.forms[0])
 
     def post(self, request, **kwargs):
-        response, data = submit_paged_form(request, self.forms, post_application)
+        response, data = submit_paged_form(request, self.forms, post_applications)
 
         # If there are more forms to go through, continue
         if response:

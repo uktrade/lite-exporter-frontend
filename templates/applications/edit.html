@@ -47,7 +47,7 @@
 			{% if is_editing %}
 				Edit your application
 			{% else %}
-				{% if application.licence_type.key == 'standard_licence' %}
+				{% if application.application_type.key == 'standard_licence' %}
 					Apply for a standard export licence
 				{% else %}
 					Apply for an open export licence
@@ -58,7 +58,7 @@
 
 	<!-- Details that can't be edited -->
 	<p class="govuk-hint govuk-!-margin-bottom-9">
-		{% if is_editing %}Licence type: {{ application.licence_type.value }} - {% endif %}
+		{% if is_editing %}Licence type: {{ application.application_type.value }} - {% endif %}
 		Export type: {{ application.export_type.value }}
 	</p>
 
@@ -125,7 +125,7 @@
 		        <!-- Goods -->
 		        <li class="lite-task-list__item">
 					<div class="lite-task-list__item-header">
-                        {% if application.licence_type.key == 'open_licence' %}
+                        {% if application.application_type.key == 'open_licence' %}
                             <a id="open-goods" href="{% url 'applications:open_goods' application.id %}" class="govuk-link govuk-link--no-visited-state">
                                 Describe your goods
                             </a>
@@ -145,7 +145,7 @@
 						{% endif %}
 		            </div>
 					<div class="lite-task-list__item-details">
-						{% if application.licence_type.key == 'standard_licence' and goods %}
+						{% if application.application_type.key == 'standard_licence' and goods %}
 							<table class="govuk-table">
 								<tbody class="govuk-table__body">
 									<tr class="govuk-table__row">
@@ -169,7 +169,7 @@
 							</table>
 						{% endif %}
 
-						{% if application.licence_type.key == 'open_licence' and goodstypes %}
+						{% if application.application_type.key == 'open_licence' and goodstypes %}
 							<table id="good_types_table_overview" class="govuk-table">
 								<tbody class="govuk-table__body">
 									<tr class="govuk-table__row">
@@ -253,7 +253,7 @@
 				</li>
 
 				<!-- Destination -->
-				{% if application.licence_type.key == 'open_licence' %}
+				{% if application.application_type.key == 'open_licence' %}
 					<li class="lite-task-list__item">
 						<div class="lite-task-list__item-header">
 							<a id="countries" href="{% url 'applications:countries' application.id %}" class="lite-overview-section-header govuk-link govuk-link--no-visited-state">
@@ -282,7 +282,7 @@
 				{% endif %}
 
 				<!-- Good/country mapping -->
-				{% if application.licence_type.key == 'open_licence' and goodstypes and countries %}
+				{% if application.application_type.key == 'open_licence' and goodstypes and countries %}
 					<li class="lite-task-list__item">
 						<div class="lite-task-list__item-header">
 							<a id="goods_country_assignments" href="{% url 'goods_type:goods_countries' application.id %}" class="lite-overview-section-header govuk-link govuk-link--no-visited-state">
@@ -302,7 +302,7 @@
 				{% endif %}
 
 				<!-- End User -->
-				{% if application.licence_type.key == 'standard_licence' %}
+				{% if application.application_type.key == 'standard_licence' %}
 					<li class="lite-task-list__item">
 						<div class="lite-task-list__item-header">
                             {% if edit_type != 'minor_edit' %}
@@ -389,7 +389,7 @@
 				{% endif %}
 
 				<!-- Consignee -->
-				{% if application.licence_type.key == 'standard_licence' %}
+				{% if application.application_type.key == 'standard_licence' %}
 					<li class="lite-task-list__item">
 						<div class="lite-task-list__item-header">
                             {% if edit_type != 'minor_edit' %}
@@ -477,7 +477,7 @@
 				{% endif %}
 
 				<!-- Ultimate End Users -->
-				{% if application.licence_type.key == 'standard_licence' and ultimate_end_users_required %}
+				{% if application.application_type.key == 'standard_licence' and ultimate_end_users_required %}
 					<li class="lite-task-list__item">
 						<div class="lite-task-list__item-header">
                             <a id="ultimate_end_users" href="{% url 'applications:ultimate_end_users' application.id %}" class="govuk-link govuk-link--no-visited-state">
@@ -528,7 +528,7 @@
 				{% endif %}
 
 				<!-- Third Parties -->
-				{% if application.licence_type.key == 'standard_licence' %}
+				{% if application.application_type.key == 'standard_licence' %}
 					<li class="lite-task-list__item">
 						<div class="lite-task-list__item-header">
                             <a id="third_parties" href="{% url 'applications:third_parties' application.id %}" class="lite-overview-section-header govuk-link govuk-link--no-visited-state">

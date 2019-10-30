@@ -11,7 +11,7 @@ def initial_questions():
                  TextInput(name='name'),
              ], default_button_name='Continue'),
         Form('Which export licence do you want to apply for?', 'Select one of the options.', [
-            RadioButtons(name='licence_type',
+            RadioButtons(name='application_type',
                          options=[
                              Option(key=STANDARD_LICENCE, value='Standard Licence',
                                     description='Standard Licences are specific to the company and the recipient (consignee). '

@@ -24,7 +24,7 @@ class EndUser(TemplateView):
 
         draft = get_application(request, draft_id)
 
-        if draft.get('licence_type').get('key') == STANDARD_LICENCE:
+        if draft.get('application_type').get('key') == STANDARD_LICENCE:
             return redirect(reverse_lazy('applications:end_user_attach_document', kwargs={'pk': draft_id}))
         else:
             return redirect(reverse_lazy('applications:edit', kwargs={'pk': draft_id}))
