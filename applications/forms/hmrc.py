@@ -1,5 +1,5 @@
 from applications.components import back_to_task_list, footer_label
-from core.builtins.custom_tags import str_date
+from core.helpers import str_date_only
 from lite_forms.components import Form, TextArea, Summary, HiddenField
 
 
@@ -11,7 +11,7 @@ def confirm_organisation_form(organisation):
                         'Registration Number': organisation['registration_number'],
                         'EORI Number': organisation['eori_number'],
                         'VAT Number': organisation['vat_number'],
-                        'Created at': str_date(organisation['created_at']),
+                        'Joined on': str_date_only(organisation['created_at']),
                     }),
                     HiddenField('organisation', organisation['id'])
                 ],
