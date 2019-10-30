@@ -50,9 +50,19 @@ def get_application_goods(request, pk):
     return data.json().get('goods') if data.status_code == HTTPStatus.OK else None
 
 
+def validate_application_good(request, pk, json):
+    json['validate_only'] = True
+    return post(request, APPLICATIONS_URL + pk + '/goods/', json)
+
+
 def get_application_goods_types(request, pk):
     data = get(request, APPLICATIONS_URL + pk + '/goodstypes/')
     return data.json().get('goods') if data.status_code == HTTPStatus.OK else None
+
+
+def post_application_preexisting_goods(request, pk, json):
+    data = post(request, APPLICATIONS_URL + pk + '/goods/', json)
+    return data.json(), data.status_code
 
 
 def post_application_preexisting_goods(request, pk, json):
