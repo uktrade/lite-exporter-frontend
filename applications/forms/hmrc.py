@@ -5,7 +5,7 @@ from core.builtins.custom_tags import str_date
 
 
 def confirm_organisation_form(organisation):
-    return Form(title='Confirm you want to make a query for this organisation',
+    return Form(title='Confirm that you want to make a query for this organisation',
                 questions=[
                     Summary(values={
                         'Name': organisation['name'],

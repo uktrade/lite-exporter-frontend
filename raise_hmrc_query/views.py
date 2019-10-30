@@ -4,6 +4,7 @@ from django.views.generic import TemplateView
 from lite_forms.generators import form_page
 
 from applications.forms.hmrc import confirm_organisation_form
+from applications.libraries.get_hmrc_task_list import get_hmrc_task_list
 from core.helpers import convert_dict_to_query_params
 from raise_hmrc_query.services import get_organisations, get_organisation
 
@@ -37,4 +38,4 @@ class SelectAnOrganisation(TemplateView):
         else:
             # Do an application POST here to create the draft
             # then redirect to the application:edit page for hmrc queries
-            return render(request, 'applications/hmrc-edit.html')
+            return get_hmrc_task_list(request, None)
