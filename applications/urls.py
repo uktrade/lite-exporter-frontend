@@ -1,9 +1,8 @@
 from django.urls import path
 
 from applications.views import goods, documents, third_parties, locations, end_users, additional_documents, common, \
-    reference_name, told_by_an_official
+    reference_name, told_by_an_official, optional_note
 from goodstype import views as goodstypeviews
-
 
 app_name = 'applications'
 urlpatterns = [
@@ -131,6 +130,12 @@ urlpatterns = [
     path('<uuid:pk>/additional-document/<uuid:doc_pk>/delete', documents.DeleteDocument.as_view(),
          name='delete_additional_document'),
 
+    # ex: /applications/<uuid:pk>/optional-note/
+    path('<uuid:pk>/optional-note/', optional_note.ApplicationOptionalNote.as_view(), name='optional_note'),
+
+    # This HAS to be at the bottom, otherwise it'll swallow
+    # other url calls
     # ex: /applications/<uuid:pk>/case-notes/
     path('<uuid:pk>/<str:type>/', common.ApplicationDetail.as_view(), name='application-detail'),
+
 ]

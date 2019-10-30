@@ -16,25 +16,25 @@
 				<span class="lite-task-list__section-number">1. </span> Provide details of your query
 			</h2>
 		    <ul class="lite-task-list__items">
-				{% url 'core:hub' as goods_url %}
+				{% url 'applications:open_goods' application.id as goods_url %}
 				{% include "includes/task-list-item.html" with title="Describe your goods" url=goods_url %}
 
-				{% url 'core:hub' as end_user_url %}
+				{% url 'applications:end_user' application.id as end_user_url %}
 				{% include "includes/task-list-item.html" with title="Set end user" url=end_user_url %}
 
-				{% url 'core:hub' as ultimate_end_user_url %}
+				{% url 'applications:ultimate_end_users' application.id as ultimate_end_user_url %}
 				{% include "includes/task-list-item.html" with title="Add ultimate end users" url=ultimate_end_user_url %}
 
-				{% url 'core:hub' as third_parties_url %}
+				{% url 'applications:third_parties' application.id as third_parties_url %}
 				{% include "includes/task-list-item.html" with title="Add third parties" url=third_parties_url %}
 
-				{% url 'core:hub' as goods_location_url %}
+				{% url 'applications:location' application.id as goods_location_url %}
 				{% include "includes/task-list-item.html" with title="Goods location" url=goods_location_url %}
 
-				{% url 'core:hub' as supporting_documentation_url %}
+				{% url 'applications:additional_documents' application.id as supporting_documentation_url %}
 				{% include "includes/task-list-item.html" with title="Supporting Documentation" url=supporting_documentation_url %}
 
-				{% url 'core:hub' as optional_note_url %}
+				{% url 'applications:optional_note' application.id as optional_note_url %}
 				{% include "includes/task-list-item.html" with title="Optional note" url=optional_note_url %}
 			</ul>
 		</li>
@@ -46,7 +46,7 @@
 				<span class="lite-task-list__section-number">2. </span> Check your answers
 			</h2>
 		    <ul class="lite-task-list__items">
-				{% url 'core:hub' as check_your_answers_url %}
+				{% url 'applications:end_user' application.id as check_your_answers_url %}
 		        {% include "includes/task-list-item.html" with title="Check your answers" url=check_your_answers_url %}
 			</ul>
 		</li>
@@ -58,7 +58,7 @@
 				<span class="lite-task-list__section-number">3. </span> Confirm and submit your query
 			</h2>
 		    <ul class="lite-task-list__items">
-				{% url 'core:hub' as confirm_url %}
+				{% url 'applications:end_user' application.id as confirm_url %}
 				{% include "includes/task-list-item.html" with title="Confirm and submit your query" url=confirm_url %}
 			</ul>
 		</li>

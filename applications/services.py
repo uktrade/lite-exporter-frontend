@@ -20,7 +20,7 @@ def get_applications(request):
 
 
 def get_application(request, pk):
-    data = get(request, APPLICATIONS_URL + pk)
+    data = get(request, APPLICATIONS_URL + str(pk))
     return data.json().get('application') if data.status_code == HTTPStatus.OK else None
 
 
@@ -30,7 +30,7 @@ def post_applications(request, json):
 
 
 def put_application(request, pk, json):
-    data = put(request, APPLICATIONS_URL + pk + '/', json)
+    data = put(request, APPLICATIONS_URL + str(pk), json)
     return data.json(), data.status_code
 
 
@@ -40,7 +40,7 @@ def delete_application(request, pk):
 
 
 def submit_application(request, pk):
-    data = put(request, APPLICATIONS_URL + pk + APPLICATION_SUBMIT_URL, json={})
+    data = put(request, APPLICATIONS_URL + str(pk) + APPLICATION_SUBMIT_URL, json={})
     return data.json(), data.status_code
 
 
