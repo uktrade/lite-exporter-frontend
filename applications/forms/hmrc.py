@@ -1,7 +1,6 @@
-from lite_forms.components import Form, TextArea, Summary, Label, HiddenField
-
 from applications.components import back_to_task_list, footer_label
 from core.builtins.custom_tags import str_date
+from lite_forms.components import Form, TextArea, Summary, HiddenField
 
 
 def confirm_organisation_form(organisation):

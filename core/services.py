@@ -1,5 +1,6 @@
 from http import HTTPStatus
 
+from core.helpers import convert_parameters_to_query_params
 from lite_forms.components import Option
 
 from conf.client import get, post, put, delete
@@ -8,15 +9,8 @@ from conf.constants import UNITS_URL, APPLICATIONS_URL, COUNTRIES_URL, EXTERNAL_
 
 
 def get_units(request):
-    data = get(request, UNITS_URL).json()
-    converted_units = []
-
-    for key, value in data.get('units').items():
-        converted_units.append(
-            Option(key, value)
-        )
-
-    return converted_units
+    data = get(request, UNITS_URL).json().get('units')
+    return [Option(key, value) for key, value in data.items()]
 
 
 def get_countries(request, convert_to_options=False):
@@ -88,8 +82,23 @@ def get_notifications(request, unviewed):
 
 
 # Organisation
+def get_organisations(request, page: int = 0, name=None, org_type=None):
+    """
+    Returns a list of organisations
+    :param request: Standard HttpRequest object
+    :param page: Returns n page of page results
+    :param name: Filter by name
+    :param org_type: Filter by org type - 'hmrc', 'commercial', 'individual'
+    """
+    data = get(request, ORGANISATIONS_URL + convert_parameters_to_query_params(locals()))
+    return data.json()
+
+
 def get_organisation(request, pk):
-    data = get(request, ORGANISATIONS_URL + pk)
+    """
+    Returns an organisation
+    """
+    data = get(request, ORGANISATIONS_URL + str(pk))
     return data.json()
 
 
