@@ -120,7 +120,6 @@ class AddGood(TemplateView):
 
     def post(self, request):
         data = request.POST.copy()
-        data['validate_only'] = False
 
         validated_data, _ = post_good(request, data)
 
