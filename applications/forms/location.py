@@ -15,7 +15,7 @@ def which_location_form(draft_id):
                     ])
                 ],
                 default_button_name='Continue',
-                back_link=BackLink('Back to overview', reverse('applications:edit',
+                back_link=BackLink('Back to task list', reverse('applications:edit',
                                                                kwargs={'pk': draft_id})))
 
 

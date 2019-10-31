@@ -1,23 +1,10 @@
-$lite-transition-speed: 0.3s !default; // Set default page width
-@import "../shared/node_modules/govuk-frontend/govuk/all"; // LITE Shared Assets
-@import "../shared/lite-frontend/scss/all"; // Local Assets
-@import "components/all";
+$lite-transition-speed: 0s !default;
+@import "../shared/node_modules/govuk-frontend/govuk/all"; // GOV.UK Design System
+@import "../shared/lite-frontend/scss/all"; // LITE Design System
+@import "components/all"; // Local assets
 
 main {
 	min-height: 60vh;
-}
-
-.app-check-your-answers-group {
-	table {
-		tr:last-of-type td {
-			// border-bottom: none;
-		}
-	}
-
-	.govuk-summary-list__row:last-of-type dd,
-	.govuk-summary-list__row:last-of-type dt {
-		// border-bottom: none;
-	}
 }
 
 .app-brand-sep {

@@ -18,7 +18,8 @@ def third_parties_standard_form(opening_title=None):
                                   Option('other', 'Other', show_or=True),
                               ]),
              ],
-             default_button_name='Continue'),
+             default_button_name='Continue',
+             back_link=BackLink('Back to task list')),
         Form(title='Enter the final recipient\'s name',
              questions=[
                  TextInput('name'),
