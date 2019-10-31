@@ -273,6 +273,7 @@ class CheckYourAnswers(TemplateView):
         application = get_application(request, application_id)
 
         context = {
+            'application': application,
             'answers': {
                 'Goods': [
                     {
@@ -325,4 +326,7 @@ class Submit(TemplateView):
         application_id = kwargs['pk']
         application = get_application(request, application_id)
 
-        return render(request, 'applications/submit.html', {})
+        context = {
+            'application': application,
+        }
+        return render(request, 'applications/submit.html', context)
