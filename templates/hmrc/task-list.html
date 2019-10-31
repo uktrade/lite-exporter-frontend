@@ -32,7 +32,7 @@
 				{% include "includes/task-list-item.html" with title="Goods location" url=goods_location_url %}
 
 				{% url 'applications:additional_documents' application.id as supporting_documentation_url %}
-				{% include "includes/task-list-item.html" with title="Supporting Documentation" url=supporting_documentation_url %}
+				{% include "includes/task-list-item.html" with title="Supporting documentation" url=supporting_documentation_url %}
 
 				{% url 'applications:optional_note' application.id as optional_note_url %}
 				{% include "includes/task-list-item.html" with title="Optional note" url=optional_note_url %}
