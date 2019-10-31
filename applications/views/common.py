@@ -297,8 +297,32 @@ class CheckYourAnswers(TemplateView):
                         'Monetary value': 'ML1a',
                     }
                 ],
-                'Ultimate end users': [],
+                'End User': {
+                    'Name': 'Matt Berninger',
+                    'Type': 'Commercial Organisation',
+                    'Address': '123 Reading Road',
+                    'Website': default_na(None),
+                    'Document': 'file.pdf'
+                },
+                'Ultimate end users': [
+                    {
+                        'Name': 'Matt Berninger',
+                        'Type': 'Commercial Organisation',
+                        'Address': '123 Reading Road',
+                        'Website': default_na(None),
+                        'Document': 'file.pdf'
+                    }
+                ],
                 'Optional note': 'I Am Easy to Find'
             }
         }
         return render(request, 'applications/check-your-answers.html', context)
+
+
+class Submit(TemplateView):
+
+    def get(self, request, **kwargs):
+        application_id = kwargs['pk']
+        application = get_application(request, application_id)
+
+        return render(request, 'applications/submit.html', {})

@@ -58,7 +58,7 @@
 				<span class="lite-task-list__section-number">3. </span> Confirm and submit your query
 			</h2>
 		    <ul class="lite-task-list__items">
-				{% url 'applications:end_user' application.id as confirm_url %}
+				{% url 'applications:submit' application.id as confirm_url %}
 				{% include "includes/task-list-item.html" with title="Confirm and submit your query" url=confirm_url %}
 			</ul>
 		</li>

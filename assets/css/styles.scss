@@ -7,6 +7,27 @@ main {
 	min-height: 60vh;
 }
 
+.app-check-your-answers-group {
+	table {
+		tr:last-of-type td {
+			// border-bottom: none;
+		}
+	}
+
+	.govuk-summary-list__row:last-of-type dd,
+	.govuk-summary-list__row:last-of-type dt {
+		// border-bottom: none;
+	}
+}
+
+.app-brand-sep {
+	display: block;
+	height: 1px;
+	background: transparent;
+	margin: govuk-spacing(6) 0;
+	border: none;
+}
+
 .app-icon-label {
 	text-decoration: none;
 	display: flex;
@@ -109,38 +130,4 @@ main {
 		max-height: 20px;
 		margin-left: govuk-spacing(2);
 	}
-}
-
-.no-borders {
-	margin: 0;
-
-	.section-header {
-		display: flex;
-		justify-content: center;
-		flex-direction: column;
-	}
-
-	.section:first-of-type {
-		margin-top: 0;
-		padding-top: 0;
-		border-top: none;
-
-		.section-header {
-			margin-top: 5px;
-			padding-top: 0;
-		}
-	}
-
-	.section:last-of-type {
-		border-bottom: none;
-	}
-}
-
-.lite-section-break {
-	margin: 0;
-	padding: 0;
-	height: 2px;
-	border: none;
-	background-color: transparent;
-	margin-bottom: govuk-spacing(6);
 }

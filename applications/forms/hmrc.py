@@ -22,8 +22,9 @@ def query_explanation_form(application_id):
     return Form(title='Explain the reason behind your query',
                 questions=[
                     TextArea(name='reasoning',
+                             optional=True,
                              extras={
-                                 'max_length': 500,
+                                 'max_length': 1000,
                              })
                 ],
                 default_button_name='Save and mark as done',
