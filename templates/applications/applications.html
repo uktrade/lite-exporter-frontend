@@ -31,7 +31,7 @@
 		</div>
 	</div>
 
-	{% if applications %}
+	{% if applications.results %}
 		<table class="govuk-table">
 			<thead class="govuk-table__head">
 				<tr class="govuk-table__row">
@@ -42,7 +42,7 @@
 				</tr>
 			</thead>
 			<tbody class="govuk-table__body">
-				{% for application in applications %}
+				{% for application in applications.results %}
 					<tr class="govuk-table__row">
 						<td class="govuk-table__cell">
 							<a class="govuk-link govuk-link--no-visited-state app-icon-label"

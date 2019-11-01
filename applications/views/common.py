@@ -104,7 +104,7 @@ class ApplicationEditType(TemplateView):
 
 class ApplicationEditOverview(TemplateView):
     def get(self, request, **kwargs):
-        application_data = get_application(request, str(kwargs['pk']))
+        application_data = get_application(request, kwargs['pk'])
         application_type = application_data['application_type']['key']
 
         if application_type == 'hmrc_query':

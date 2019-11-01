@@ -70,4 +70,4 @@ class SelectAnOrganisation(TemplateView):
 
             response, _ = post_applications(request, data)
 
-            return redirect(reverse_lazy('applications:edit', kwargs={'pk': response['application']['id']}))
+            return redirect(reverse_lazy('applications:edit', kwargs={'pk': response['id']}))

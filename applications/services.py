@@ -11,17 +11,17 @@ from s3chunkuploader.file_handler import s3_client
 
 def get_draft_applications(request):
     data = get(request, APPLICATIONS_URL + '?submitted=false')
-    return data.json().get('applications') if data.status_code == HTTPStatus.OK else None
+    return data.json()
 
 
 def get_applications(request):
     data = get(request, APPLICATIONS_URL + '?submitted=true')
-    return data.json().get('applications') if data.status_code == HTTPStatus.OK else None
+    return data.json()
 
 
 def get_application(request, pk):
     data = get(request, APPLICATIONS_URL + str(pk))
-    return data.json().get('application') if data.status_code == HTTPStatus.OK else None
+    return data.json()
 
 
 def post_applications(request, json):
