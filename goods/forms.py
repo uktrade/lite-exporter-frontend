@@ -12,7 +12,7 @@ from core.services import get_control_list_entries
 from goods.helpers import good_summary
 
 
-def add_goods_questions(clc=True):
+def add_goods_questions(clc=True, back_link=BackLink()):
     if clc:
         description = 'If you don\'t know you can use <a class="govuk-link" href="' + env(
             'PERMISSIONS_FINDER_URL') + '">Permissions Finder</a>.'
@@ -66,7 +66,9 @@ def add_goods_questions(clc=True):
                     TextInput(title='Part Number',
                               name='part_number',
                               optional=True),
-                ])
+                ],
+                back_link=back_link
+                )
 
     return form
 
@@ -140,7 +142,7 @@ def edit_form(good_id):
                 ])
 
 
-def attach_documents_form(back_url, description):
+def attach_documents_form(back_url, description, back_form=False):
     return Form(get_string('goods.documents.attach_documents.title'),
                 description,
                 [
@@ -152,7 +154,8 @@ def attach_documents_form(back_url, description):
                                  'max_length': 280,
                              })
                 ],
-                back_link=BackLink(get_string('goods.documents.attach_documents.back_to_good'), back_url))
+                back_link=BackLink(get_string('goods.documents.attach_documents.back_to_good'), back_url),
+                use_input_for_back_link=back_form)
 
 
 def respond_to_query_form(good_id, ecju_query):
