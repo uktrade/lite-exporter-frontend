@@ -2,9 +2,9 @@ from core.builtins.custom_tags import default_na
 
 
 def convert_application_to_check_your_answers(application):
-    if application['application_type']['key'] == 'standard_application':
+    if application['application_type']['key'] == 'standard_licence':
         return _convert_standard_application(application)
-    elif application['application_type']['key'] == 'open_application':
+    elif application['application_type']['key'] == 'open_licence':
         return _convert_open_application(application)
     elif application['application_type']['key'] == 'hmrc_query':
         return _convert_hmrc_query(application)

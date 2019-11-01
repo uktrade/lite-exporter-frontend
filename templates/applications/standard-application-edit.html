@@ -14,7 +14,7 @@
 			The changes you make to this application won't impact its processing time.
 		</div>
 	{% endif %}
-	{% if not application.status or application.status.key == "applicant_editing" %}
+	{% if application.status.key == "applicant_editing" %}
 		<div class="lite-info-bar lite-info-bar--warning lite-info-bar--no-animation">
 			This application won't be processed until it is submitted.
 		</div>
@@ -47,11 +47,7 @@
 			{% if is_editing %}
 				Edit your application
 			{% else %}
-				{% if application.application_type.key == 'standard_licence' %}
-					Apply for a standard export licence
-				{% else %}
-					Apply for an open export licence
-				{% endif %}
+				Apply for a standard export licence
 			{% endif %}
 		{% endblock %}
 	</h1>
@@ -73,40 +69,11 @@
 				{% endif %}
 			</h2>
 			<ul class="lite-task-list__items {% if is_editing %}govuk-!-padding-0{% endif %}">
-				<li class="lite-task-list__item">
-					<div class="lite-task-list__item-header">
-						<a id="reference-name" href="{% url 'applications:edit_reference_name' application.id %}" class="govuk-link govuk-link--no-visited-state">
-							Reference name
-						</a>
-						<div class="lite-tag lite-tag--blue">
-							Done
-						</div>
-					</div>
-					<div class="lite-task-list__item-details">
-						<p class="govuk-body-m">
-							{{ application.name }}
-						</p>
-					</div>
-				</li>
-				<li class="lite-task-list__item">
-					<div class="lite-task-list__item-header">
-						<a id="reference-number" href="{% url 'applications:edit_told_by_an_official' application.id %}" class="govuk-link govuk-link--no-visited-state">
-							Told by an official
-						</a>
-						<div class="lite-tag lite-tag--blue">
-							Done
-						</div>
-					</div>
-					<div class="lite-task-list__item-details">
-						<p class="govuk-body-m">
-							{% if application.have_you_been_informed == 'yes' %}
-								Yes{% if application.reference_number_on_information_form %} - {{ application.reference_number_on_information_form }}{% endif %}
-							{% else %}
-								No
-							{% endif %}
-						</p>
-					</div>
-				</li>
+				{% url 'applications:edit_reference_name' application.id as reference_name_url %}
+				{% include "includes/task-list-item.html" with title="Reference name" url=reference_name_url done=True description=application.name %}
+
+				{% url 'applications:edit_told_by_an_official' application.id as told_by_an_official_url %}
+				{% include "includes/task-list-item.html" with title="Told by an official" url=told_by_an_official_url done=True %}
 			</ul>
 		</li>
 	</ol>

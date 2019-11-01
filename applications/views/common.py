@@ -5,19 +5,17 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
-from applications.libraries.check_your_answers_helpers import convert_application_to_check_your_answers
-from applications.libraries.get_hmrc_task_list import get_hmrc_task_list
-from core.builtins.custom_tags import default_na
-from lite_forms.components import HiddenField
-from lite_forms.generators import error_page, form_page, success_page
-
 from applications.forms.common import respond_to_query_form, ecju_query_respond_confirmation_form, edit_type_form
+from applications.libraries.check_your_answers_helpers import convert_application_to_check_your_answers
 from applications.libraries.get_licence_overview import get_licence_overview
+from applications.libraries.task_lists import get_application_task_list
 from applications.services import get_applications, get_case_notes, \
     get_application_ecju_queries, get_ecju_query, put_ecju_query, post_application_case_notes, get_draft_applications, \
     submit_application, get_application, delete_application, set_application_status
 from core.helpers import group_notifications
 from core.services import get_notifications
+from lite_forms.components import HiddenField
+from lite_forms.generators import error_page, form_page, success_page
 
 
 class ApplicationsList(TemplateView):
@@ -105,13 +103,8 @@ class ApplicationEditType(TemplateView):
 
 class ApplicationEditOverview(TemplateView):
     def get(self, request, **kwargs):
-        application_data = get_application(request, kwargs['pk'])
-        application_type = application_data['application_type']['key']
-
-        if application_type == 'hmrc_query':
-            return get_hmrc_task_list(request, application_data)
-
-        return get_licence_overview(request, application=application_data)
+        application = get_application(request, kwargs['pk'])
+        return get_application_task_list(request, application)
 
     def post(self, request, **kwargs):
         application_id = str(kwargs['pk'])
