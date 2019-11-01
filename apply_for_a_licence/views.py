@@ -22,7 +22,7 @@ class InitialQuestions(TemplateView):
             return response
 
         # If there is no response (no forms left to go through), go to the overview page
-        return redirect(reverse_lazy('applications:edit', kwargs={'pk': data['application']['id']}))
+        return redirect(reverse_lazy('applications:edit', kwargs={'pk': data['id']}))
 
 
 def check_all_parties_have_a_document(parties):
