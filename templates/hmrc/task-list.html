@@ -17,16 +17,19 @@
 			</h2>
 		    <ul class="lite-task-list__items">
 				{% url 'applications:open_goods' application.id as goods_url %}
-				{% include "includes/task-list-item.html" with title="Describe your goods" url=goods_url %}
+				{% include "includes/task-list-item.html" with title="Describe your goods" url=goods_url done=application.goods_types %}
 
 				{% url 'applications:end_user' application.id as end_user_url %}
-				{% include "includes/task-list-item.html" with title="Set end user" url=end_user_url %}
+				{% include "includes/task-list-item.html" with title="Set end user" url=end_user_url done=application.end_user %}
 
 				{% url 'applications:ultimate_end_users' application.id as ultimate_end_user_url %}
-				{% include "includes/task-list-item.html" with title="Add ultimate end users" url=ultimate_end_user_url %}
+				{% include "includes/task-list-item.html" with title="Add ultimate end users" url=ultimate_end_user_url done=application.ultimate_end_users %}
 
 				{% url 'applications:third_parties' application.id as third_parties_url %}
-				{% include "includes/task-list-item.html" with title="Add third parties" url=third_parties_url %}
+				{% include "includes/task-list-item.html" with title="Add third parties" url=third_parties_url done=application.third_parties %}
+
+				{% url 'applications:third_parties' application.id as third_parties_url %}
+				{% include "includes/task-list-item.html" with title="Add consignees" url=third_parties_url done=application.consignees %}
 
 				{% url 'applications:location' application.id as goods_location_url %}
 				{% include "includes/task-list-item.html" with title="Goods location" url=goods_location_url %}
