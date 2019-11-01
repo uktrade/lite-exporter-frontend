@@ -65,12 +65,6 @@ class GoodsList(TemplateView):
 @method_decorator(csrf_exempt, 'dispatch')
 class AddNewGood(TemplateView):
     form = None
-    # form_names = ['good_details', 'good_on_application_details', 'good_document']
-    #
-    # good_details_form_fields = ['description', 'control_code', 'part_number', 'is_good_controlled',
-    #                             'is_good_end_product']
-    # good_on_application_form_fields = ['value', 'quantity', 'unit']
-
     form_details = [
         {
             'name': 'good_details',
@@ -172,7 +166,7 @@ class AddNewGood(TemplateView):
     def generate_form(self, request, form_num):
         self.form = add_new_good_forms(request)[form_num]
         self.form.questions.append(HiddenField('form_name', value=self.form_details[form_num]['name']))
-        if form_num != len(self.form_details) - 1:
+        if form_num != len(self.form_details) - 1:  # Final form should use the default save button
             self.form.buttons = [Button('Continue', 'continue')]
         # use request.POST as the source for hidden fields so that all data from all forms to date is added
         self.add_hidden_fields(request.POST)
