@@ -11,12 +11,8 @@ from lite_forms.generators import form_page
 
 
 class DraftsList(TemplateView):
-
-    def dispatch(self, request, *args, **kwargs):
-        is_in_organisation_type(request, 'hmrc')
-        return super(DraftsList, self).dispatch(request, *args, **kwargs)
-
     def get(self, request, *args, **kwargs):
+        is_in_organisation_type(request, 'hmrc')
         drafts = get_draft_applications(request)
 
         context = {
@@ -26,7 +22,6 @@ class DraftsList(TemplateView):
 
 
 class SelectAnOrganisation(TemplateView):
-
     def dispatch(self, request, *args, **kwargs):
         is_in_organisation_type(request, 'hmrc')
         return super(SelectAnOrganisation, self).dispatch(request, *args, **kwargs)

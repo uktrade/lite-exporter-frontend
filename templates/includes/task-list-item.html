@@ -3,15 +3,17 @@
 		<a id="{{ title|idify }}" href="{{ url }}" class="govuk-link govuk-link--no-visited-state">
 			{{ title }}
 		</a>
-		{% if status == 'done' %}
+		{% if done %}
 			<div class="lite-tag lite-tag--blue">
 				Done
 			</div>
-		{% elif status == 'in_progress' %}
+		{% endif %}
+		{% if not done and in_progress %}
 			<div class="lite-tag lite-tag--orange">
 				In progress
 			</div>
-		{% else %}
+		{% endif %}
+		{% if not done and not in_progress %}
 			<div class="lite-tag lite-tag--hollow">
 				Not started
 			</div>

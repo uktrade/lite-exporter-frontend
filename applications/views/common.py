@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
+from applications.libraries.check_your_answers_helpers import convert_application_to_check_your_answers
 from applications.libraries.get_hmrc_task_list import get_hmrc_task_list
 from core.builtins.custom_tags import default_na
 from lite_forms.components import HiddenField
@@ -275,46 +276,7 @@ class CheckYourAnswers(TemplateView):
         context = {
             'application': application,
             'answers': {
-                'Goods': [
-                    {
-                        'Description': 'Easy to find',
-                        'Part number': 'ML1a',
-                        'Control list entry': 'ML1a',
-                        'Quantity': 'ML1a',
-                        'Monetary value': 'ML1a',
-                    },
-                    {
-                        'Description': 'Easy to find',
-                        'Part number': 'ML1a',
-                        'Control list entry': 'ML1a',
-                        'Quantity': 'ML1a',
-                        'Monetary value': 'ML1a',
-                    },
-                    {
-                        'Description': 'Easy to find',
-                        'Part number': 'ML1a',
-                        'Control list entry': default_na(None),
-                        'Quantity': 'ML1a',
-                        'Monetary value': 'ML1a',
-                    }
-                ],
-                'End User': {
-                    'Name': 'Matt Berninger',
-                    'Type': 'Commercial Organisation',
-                    'Address': '123 Reading Road',
-                    'Website': default_na(None),
-                    'Document': 'file.pdf'
-                },
-                'Ultimate end users': [
-                    {
-                        'Name': 'Matt Berninger',
-                        'Type': 'Commercial Organisation',
-                        'Address': '123 Reading Road',
-                        'Website': default_na(None),
-                        'Document': 'file.pdf'
-                    }
-                ],
-                'Optional note': 'I Am Easy to Find'
+                **convert_application_to_check_your_answers(application)
             }
         }
         return render(request, 'applications/check-your-answers.html', context)

@@ -35,7 +35,7 @@
 				{% include "includes/task-list-item.html" with title="Supporting documentation" url=supporting_documentation_url %}
 
 				{% url 'applications:optional_note' application.id as optional_note_url %}
-				{% include "includes/task-list-item.html" with title="Optional note" url=optional_note_url %}
+				{% include "includes/task-list-item.html" with title="Optional note" url=optional_note_url done=application.reasoning %}
 			</ul>
 		</li>
 	</ol>
