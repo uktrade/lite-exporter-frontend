@@ -7,15 +7,14 @@ from lite_forms.helpers import conditional
 from lite_forms.styles import ButtonStyle
 
 from conf.settings import env
-from core.builtins.custom_tags import get_string
+from core.builtins.custom_tags import get_string, get_const_string
 from core.services import get_control_list_entries
 from goods.helpers import good_summary
 
 
 def add_goods_questions(clc=True, back_link=BackLink()):
     if clc:
-        description = 'If you don\'t know you can use <a class="govuk-link" href="' + env(
-            'PERMISSIONS_FINDER_URL') + '">Permissions Finder</a>.'
+        description = get_const_string('GOODS_CREATE_CONTROL_CODE_REQUIRED_DESC')
         is_your_good_controlled_options = [Option(key='yes',
                                                   value='Yes',
                                                   show_pane='pane_control_code'),
@@ -24,10 +23,7 @@ def add_goods_questions(clc=True, back_link=BackLink()):
                                            Option(key='unsure',
                                                   value='I don\'t know')]
     else:
-        description = 'If you don\'t know, please use <a class="govuk-link" href="' + env(
-            'PERMISSIONS_FINDER_URL') + '">Permissions Finder</a> to find the appropriate ' \
-            'code before adding the good to the application. You may need to create a good ' \
-            'from the goods list if you are still unsure'
+        description = get_const_string('APPLICATION_GOODS_CONTROL_CODE_REQUIRED_DESCRIPTION')
         is_your_good_controlled_options = [Option(key='yes',
                                                   value='Yes',
                                                   show_pane='pane_control_code'),
@@ -142,7 +138,7 @@ def edit_form(good_id):
                 ])
 
 
-def attach_documents_form(back_url, description, back_form=False):
+def attach_documents_form(back_url, description):
     return Form(get_string('goods.documents.attach_documents.title'),
                 description,
                 [
@@ -154,8 +150,7 @@ def attach_documents_form(back_url, description, back_form=False):
                                  'max_length': 280,
                              })
                 ],
-                back_link=BackLink(get_string('goods.documents.attach_documents.back_to_good'), back_url),
-                use_input_for_back_link=back_form)
+                back_link=BackLink(get_string('goods.documents.attach_documents.back_to_good'), back_url))
 
 
 def respond_to_query_form(good_id, ecju_query):

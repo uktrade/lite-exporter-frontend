@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
 from lite_forms.components import HiddenField, Button
-from lite_forms.generators import error_page
+from lite_forms.generators import error_page, form_page
 from s3chunkuploader.file_handler import S3FileUploadHandler
 from django.utils.decorators import method_decorator
 
@@ -69,19 +69,16 @@ class AddNewGood(TemplateView):
     context = None
     form_details = [
         {
-            'name': 'good_details',
             'fields': ['description', 'control_code', 'part_number', 'is_good_controlled', 'is_good_end_product'],
             'validation_function': validate_good,
             'prefix': 'good_'  # Prefix needed to distinguish fields with same names on multiple forms
         },
         {
-            'name': 'good_on_application_details',
             'fields': ['value', 'quantity', 'unit'],
             'validation_function': validate_application_good,
             'prefix': 'good_on_app_'
         },
         {
-            'name': 'good_document',
             'fields': []
         }
     ]
@@ -104,11 +101,12 @@ class AddNewGood(TemplateView):
         self.request.upload_handlers.insert(0, S3FileUploadHandler(request))
 
         self.application_id = str(kwargs['pk'])
-        form_names = list(map(lambda f: f['name'], self.form_details))
-        form_num = form_names.index(request.POST.get('form_name'))
+        form_num = int(request.POST.get('form_pk'))
 
-        if request.POST.get('actions', None) == 'back':
-            self.generate_form(request, form_num-1, form_num)
+        if request.POST.get('_action', None) == 'back':
+            generate_form_num = form_num - 1
+            self.context['data'] = self.extract_data_from_hidden_fields(request.POST, generate_form_num)
+            self.generate_form(request, generate_form_num, form_num)
 
         elif form_num == 0:
             self.handle_post_for_form(request, form_num)
@@ -144,8 +142,10 @@ class AddNewGood(TemplateView):
 
                 return redirect('applications:goods', self.application_id)
             else:
+                # Error is thrown if a document is not attached
+                self.context['data'] = {}
                 self.generate_form(request, form_num, form_num)
-                self.context['errors'] = {'': ['A document is required.']}
+                self.context['errors'] = {'documents': ['A document is required.']}
 
         self.context['page'] = self.form
 
@@ -165,22 +165,25 @@ class AddNewGood(TemplateView):
             data = self.form_details[form_num]['validation_function'](request, json=post)
 
         if data.status_code != 200:
+            self.context['data'] = post
             self.generate_form(request, form_num, form_num)
             self.context['errors'] = data.json()['errors']
-            self.context['data'] = post
         else:
-            self.generate_form(request, (form_num + 1), form_num)
+            generate_form_num = form_num + 1
+            self.context['data'] = self.extract_data_from_hidden_fields(request.POST, generate_form_num)
+            self.generate_form(request, generate_form_num, form_num)
 
     def generate_form(self, request, destination_form, originating_form):
         self.form = add_new_good_forms(request, self.application_id)[destination_form]
-        self.form.questions.append(HiddenField('form_name', value=self.form_details[destination_form]['name']))
+        self.context['form_pk'] = destination_form
+        self.form.questions.append(HiddenField('form_pk', destination_form))
+
         if destination_form != len(self.form_details) - 1:  # Final form should use the default save button
             self.form.buttons = [Button('Continue', 'continue')]
 
         if originating_form != -1:  # If this isn't the first form we've visited
             # Use request.POST as the source for hidden fields so that all data from all forms to date is added
             self.add_hidden_fields(request.POST, originating_form)
-            self.context['data'] = self.extract_data_from_hidden_fields(request.POST, destination_form)
 
     def add_hidden_fields(self, post, originating_form):
         self.add_hidden_details_fields(post, 0, originating_form)
@@ -195,17 +198,19 @@ class AddNewGood(TemplateView):
 
             if form_to_process_num == originating_form:
                 self.form.questions.append(HiddenField(prefix + field, value=field_value_from_posted_form))
+                self.context['data'][(prefix + field)] = field_value_from_posted_form
             else:
                 field_value_from_hidden_field = post.get(prefix + field, None)
 
                 if field_value_from_hidden_field or field_value_from_hidden_field == '':
                     self.form.questions.append(HiddenField((prefix + field), value=field_value_from_hidden_field))
+                    self.context['data'][(prefix + field)] = field_value_from_hidden_field
 
     def extract_data_from_hidden_fields(self, post, destination_form_num):
         data = {}
 
         for field in self.form_details[destination_form_num]['fields']:
-            data[field] = post.get((self.form_details[destination_form_num]['prefix'] + field), None)
+            data[field] = post.get((self.form_details[destination_form_num]['prefix'] + field), '')
 
         return data
 
