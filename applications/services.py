@@ -30,6 +30,9 @@ def post_applications(request, json):
 
 
 def put_application(request, pk, json):
+    print('\n')
+    print(locals())
+    print('\n')
     data = put(request, APPLICATIONS_URL + str(pk), json)
     return data.json(), data.status_code
 

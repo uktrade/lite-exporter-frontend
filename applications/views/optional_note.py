@@ -1,33 +1,14 @@
-from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView
 
 from applications.forms.hmrc import query_explanation_form
 from applications.services import get_application, put_application
-from lite_forms.generators import form_page
-from lite_forms.submitters import submit_single_form
+from lite_forms.views import SingleFormView
 
 
-class ApplicationOptionalNote(TemplateView):
-
-    application_id = None
-    application = None
-    form = None
-
-    def dispatch(self, request, *args, **kwargs):
-        self.application_id = kwargs['pk']
-        self.application = get_application(request, self.application_id)
-        self.form = query_explanation_form(self.application_id)
-
-        return super(ApplicationOptionalNote, self).dispatch(request, *args, **kwargs)
-
-    def get(self, request, **kwargs):
-        return form_page(request, self.form, data=self.application)
-
-    def post(self, request, **kwargs):
-        response, _ = submit_single_form(request, self.form, put_application, pk=self.application_id)
-
-        if response:
-            return response
-
-        return redirect(reverse_lazy('applications:edit', kwargs={'pk': self.application_id}))
+class ApplicationOptionalNote(SingleFormView):
+    def init(self, request, **kwargs):
+        self.object_pk = kwargs['pk']
+        self.data = get_application(request, self.object_pk)
+        self.form = query_explanation_form(self.object_pk)
+        self.action = put_application
+        self.success_url = reverse_lazy('applications:task_list', kwargs={'pk': self.object_pk})

@@ -1,4 +1,4 @@
-from applications.components import back_to_task_list, footer_label
+from applications.components import back_to_task_list
 from core.helpers import str_date_only
 from lite_forms.components import Form, TextArea, Summary, HiddenField
 

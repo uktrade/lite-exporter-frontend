@@ -78,4 +78,4 @@ class RemoveConsignee(TemplateView):
         if status_code != 204:
             return error_page(request, 'Unexpected error removing consignee')
 
-        return redirect(reverse_lazy('applications:edit', kwargs={'pk': application_id}))
+        return redirect(reverse_lazy('applications:task_list', kwargs={'pk': application_id}))

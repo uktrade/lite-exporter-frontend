@@ -23,12 +23,12 @@ class Location(TemplateView):
         if external_locations['external_locations']:
             data = {'organisation_or_external': 'external'}
 
-            if application['status'].get('key') == 'submitted':
+            if application['status'] and application['status'].get('key') == 'submitted':
                 return redirect(reverse_lazy('applications:external_locations', kwargs={'pk': application_id}))
         else:
             data = {'organisation_or_external': 'organisation'}
 
-            if application['status'].get('key') == 'submitted':
+            if application['status'] and application['status'].get('key') == 'submitted':
                 return redirect(reverse_lazy('applications:existing_sites', kwargs={'pk': application_id}))
 
         return form_page(request, which_location_form(application_id), data=data)
@@ -59,7 +59,7 @@ class ExistingSites(TemplateView):
         application = get_application(request, application_id)
         response, _ = get_sites_on_draft(request, application_id)
 
-        if application['status'].get('key') == 'submitted' and not response['sites']:
+        if application['status'] and application['status'].get('key') == 'submitted' and not response['sites']:
             raise Http404
 
         return form_page(request, sites_form(request), data=response)
@@ -75,7 +75,7 @@ class ExistingSites(TemplateView):
         if status_code != 201:
             return form_page(request, sites_form(request), errors=response.get('errors'), data=data)
 
-        return redirect(reverse_lazy('applications:edit', kwargs={'pk': draft_id}))
+        return redirect(reverse_lazy('applications:task_list', kwargs={'pk': draft_id}))
 
 
 # External Locations
@@ -88,7 +88,7 @@ class ExternalLocations(TemplateView):
         org_external_locations, _ = get_external_locations(request, request.user.organisation)
         data, _ = get_external_locations_on_draft(request, application_id)
 
-        if application['status'].get('key') == 'submitted' and not data['external_locations']:
+        if application['status'] and application['status'].get('key') == 'submitted' and not data['external_locations']:
             raise Http404
 
         context = {
@@ -185,4 +185,4 @@ class Countries(TemplateView):
         if response:
             return response
 
-        return redirect(reverse_lazy('applications:edit', kwargs={'pk': draft_id}))
+        return redirect(reverse_lazy('applications:task_list', kwargs={'pk': draft_id}))

@@ -1,12 +1,14 @@
-from core.builtins.custom_tags import default_na
+from conf.constants import NEW_LINE, STANDARD_LICENCE, OPEN_LICENCE, HMRC_QUERY
+from core.builtins.custom_tags import default_na, friendly_boolean
+from core.helpers import convert_to_link
 
 
 def convert_application_to_check_your_answers(application):
-    if application['application_type']['key'] == 'standard_licence':
+    if application['application_type']['key'] == STANDARD_LICENCE:
         return _convert_standard_application(application)
-    elif application['application_type']['key'] == 'open_licence':
+    elif application['application_type']['key'] == OPEN_LICENCE:
         return _convert_open_application(application)
-    elif application['application_type']['key'] == 'hmrc_query':
+    elif application['application_type']['key'] == HMRC_QUERY:
         return _convert_hmrc_query(application)
     else:
         raise NotImplementedError()
@@ -23,44 +25,106 @@ def _convert_open_application(application):
 def _convert_hmrc_query(application):
     return {
         'On behalf of': application['organisation']['name'],
-        'Goods': [
-            {
-                'Description': 'Easy to find',
-                'Part number': 'ML1a',
-                'Control list entry': 'ML1a',
-                'Quantity': 'ML1a',
-                'Monetary value': 'ML1a',
-            },
-            {
-                'Description': 'Easy to find',
-                'Part number': 'ML1a',
-                'Control list entry': 'ML1a',
-                'Quantity': 'ML1a',
-                'Monetary value': 'ML1a',
-            },
-            {
-                'Description': 'Easy to find',
-                'Part number': 'ML1a',
-                'Control list entry': default_na(None),
-                'Quantity': 'ML1a',
-                'Monetary value': 'ML1a',
-            }
-        ],
-        'End User': {
-            'Name': 'Matt Berninger',
-            'Type': 'Commercial Organisation',
-            'Address': '123 Reading Road',
-            'Website': default_na(None),
-            'Document': 'file.pdf'
-        },
-        'Ultimate end users': [
-            {
-                'Name': 'Matt Berninger',
-                'Type': 'Commercial Organisation',
-                'Address': '123 Reading Road',
-                'Website': default_na(None),
-                'Document': 'file.pdf'
-            }
-        ],
-        'Optional note': application['reasoning']
+        'Goods': _convert_goods_types(application['goods_types']),
+        'End user': _convert_end_user(application['end_user']),
+        'Ultimate end users': [_convert_end_user(x) for x in application['ultimate_end_users']],
+        'Third parties': _convert_third_parties(application['third_parties']),
+        'Consignee': _convert_consignee(application['consignee']),
+        'Goods locations': _convert_goods_locations(application['goods_locations']),
+        'Supporting documentation': _get_supporting_documentation(application['supporting_documentation']),
+        'Optional note': application['reasoning'],
     }
+
+
+def _convert_goods(goods):
+    return [
+        {
+            'Description': good['description'],
+            'Part number': good['part_number'],
+            'Controlled': friendly_boolean(good['is_good_controlled']),
+            'Control list entry': default_na(good['control_code']),
+            'Quantity': '?',  # TODO
+            'Monetary value': '£',  # TODO
+        } for good in goods
+    ]
+
+
+def _convert_goods_types(goods_types):
+    return [
+        {
+            'Description': good['description'],
+            'Controlled': friendly_boolean(good['is_good_controlled']),
+            'Control list entry': default_na(good['control_code']),
+        } for good in goods_types
+    ]
+
+
+def _convert_end_user(end_user):
+    return {
+        'Name': end_user['name'],
+        'Type': end_user['sub_type']['value'],
+        'Address': end_user['address'] + '\n' + end_user['country']['name'],
+        'Website': convert_to_link(end_user['website']),
+        'Document': _convert_document(end_user['document'])
+    }
+
+
+def _convert_consignee(consignee):
+    return {
+        'Name': consignee['name'],
+        'Type': consignee['sub_type']['value'],
+        'Address': consignee['address'] + NEW_LINE + consignee['country']['name'],
+        'Website': convert_to_link(consignee['website']),
+        'Document': _convert_document(consignee['document'])
+    }
+
+
+def _convert_third_parties(third_parties):
+    return [
+        {
+            'Name': third_party['name'],
+            'Type': third_party['sub_type']['value'],
+            'Address': third_party['address'] + NEW_LINE + third_party['country']['name'],
+            'Website': convert_to_link(third_party['website']),
+            'Document': _convert_document(third_party['document'])
+        } for third_party in third_parties
+    ]
+
+
+def _convert_goods_locations(goods_locations):
+    if goods_locations['type'] == 'sites':
+        return [
+            {
+                'Site': site['name'],
+                'Address': site['address']['address_line_1'] + NEW_LINE +
+                           site['address']['address_line_2'] + NEW_LINE +
+                           site['address']['city'] + NEW_LINE +
+                           site['address']['region'] + NEW_LINE +
+                           site['address']['postcode'] + NEW_LINE +
+                           site['address']['country']['name']
+            } for site in goods_locations['data']
+        ]
+    else:
+        return [
+            {
+                'Site': external_location['name'],
+                'Address': external_location['address'] + NEW_LINE +
+                           external_location['country']['name']
+            } for external_location in goods_locations['data']
+        ]
+
+
+def _get_supporting_documentation(supporting_documentation):
+    return [
+        {
+            'File name': document['name'],
+            'Description': default_na(document['description']),
+        } for document in supporting_documentation
+    ]
+
+
+def _convert_document(document):
+    if not document:
+        return default_na(None)
+
+    return convert_to_link(document['name'], document['name'])

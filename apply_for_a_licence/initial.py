@@ -4,12 +4,6 @@ from lite_forms.components import RadioButtons, Form, DetailComponent, TextInput
 
 def initial_questions():
     return FormGroup([
-        Form('Enter a reference name for this application',
-             'This can make it easier for you or your organisation to find in the '
-             'future.',
-             [
-                 TextInput(name='name'),
-             ], default_button_name='Continue'),
         Form('Which export licence do you want to apply for?', 'Select one of the options.', [
             RadioButtons(name='application_type',
                          options=[
@@ -30,6 +24,12 @@ def initial_questions():
                                                             'class="govuk-visually-hidden"> (Opens in a new window or '
                                                             'tab)</span></a>.', )
         ], default_button_name='Continue'),
+        Form('Enter a reference name for your application',
+             'This can make it easier for you or your organisation to find in the '
+             'future.',
+             [
+                 TextInput(name='name'),
+             ], default_button_name='Continue'),
         Form('Do you want to export temporarily or permanently', '',
              [
                  RadioButtons(name='export_type',

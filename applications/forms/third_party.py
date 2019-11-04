@@ -14,11 +14,12 @@ option_list = {
 
 
 def third_party_forms(export_type):
-    if export_type['value'] == 'Permanent':
+    if export_type and export_type['value'] == 'Permanent':
         form_options = option_list.copy()
         del form_options['additional_end_user']
     else:
         form_options = option_list.copy()
+
     third_party_form = third_parties_standard_form()
     options = [Option(key, value) for key, value in form_options.items()]
     options.append(Option('other', 'Other', show_or=True))

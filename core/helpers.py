@@ -1,9 +1,12 @@
 import datetime
 from collections import defaultdict
+from html import escape
 
+from django.template.defaultfilters import safe
 from django.templatetags.tz import do_timezone
 
 from conf.constants import ISO8601_FMT
+from core.builtins.custom_tags import default_na
 
 
 class Section:
@@ -62,3 +65,20 @@ def convert_parameters_to_query_params(dictionary: dict):
         del dictionary['request']
 
     return '?' + convert_dict_to_query_params({key: value for key, value in dictionary.items() if value is not None})
+
+
+def convert_to_link(address, name=None, classes=''):
+    """
+    Returns a correctly formatted, safe link to an address
+    Returns default_na if no address is provided
+    """
+    if not address:
+        return default_na(None)
+
+    if not name:
+        name = address
+
+    address = escape(address)
+    name = escape(name)
+
+    return safe(f'<a href="{address}" class="govuk-link {classes}">{name}</a>')

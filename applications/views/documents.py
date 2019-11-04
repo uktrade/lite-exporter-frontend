@@ -25,13 +25,13 @@ document_forms_paths = {
         },
     'end-user':
         {
-            'homepage': 'applications:edit',
+            'homepage': 'applications:task_list',
             'strings': 'end_user.documents',
             'description': False
         },
     'consignee':
         {
-            'homepage': 'applications:edit',
+            'homepage': 'applications:task_list',
             'strings': 'consignee.documents',
             'description': False
         },

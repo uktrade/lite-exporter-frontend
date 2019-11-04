@@ -12,10 +12,10 @@ urlpatterns = [
     path('<uuid:pk>/', common.ApplicationDetailEmpty.as_view(), name='application'),
     # ex: /<uuid:pk>/delete/
     path('<uuid:pk>/delete/', common.DeleteApplication.as_view(), name='delete'),
-    # ex: /applications/<uuid:pk>/edit/
-    path('<uuid:pk>/edit/', common.ApplicationEditOverview.as_view(), name='edit'),
-    # ex: /applications/<uuid:pk>/edit/type/
-    path('<uuid:pk>/edit/type/', common.ApplicationEditType.as_view(), name='edit_type'),
+    # ex: /applications/<uuid:pk>/task-list/
+    path('<uuid:pk>/task-list/', common.ApplicationTaskList.as_view(), name='task_list'),
+    # ex: /applications/<uuid:pk>/edit-type/
+    path('<uuid:pk>/edit-type/', common.ApplicationEditType.as_view(), name='edit_type'),
 
     # ex: /applications/<uuid:pk>/edit/reference-name/
     path('<uuid:pk>/edit/reference-name/', reference_name.ApplicationEditReferenceName.as_view(),

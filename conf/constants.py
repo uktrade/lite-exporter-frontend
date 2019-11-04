@@ -1,4 +1,5 @@
 ISO8601_FMT = '%Y-%m-%dT%H:%M:%S.%fZ'
+NEW_LINE = '\n'
 
 # URLs
 APPLICATIONS_URL = '/applications/'
@@ -41,3 +42,4 @@ CONTROL_LIST_ENTRIES_URL = STATIC_URL + 'control-list-entries/'
 # Applications constants
 STANDARD_LICENCE = 'standard_licence'
 OPEN_LICENCE = 'open_licence'
+HMRC_QUERY = 'hmrc_query'

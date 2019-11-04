@@ -4,6 +4,7 @@ from django.views.generic import TemplateView
 
 from applications.forms.hmrc import confirm_organisation_form
 from applications.services import post_applications, get_draft_applications
+from conf.constants import HMRC_QUERY
 from core.helpers import convert_dict_to_query_params
 from core.permissions import is_in_organisation_type
 from core.services import get_organisations, get_organisation
@@ -56,13 +57,10 @@ class SelectAnOrganisation(TemplateView):
             # Create a draft HMRC application
             data = {
                 'name': 'HMRC Query',
-                'application_type': 'hmrc_query',
-                'export_type': 'permanent',
-                'reference_number_on_information_form': '',
-                'have_you_been_informed': 'no',
+                'application_type': HMRC_QUERY,
                 'organisation': organisation
             }
 
             response, _ = post_applications(request, data)
 
-            return redirect(reverse_lazy('applications:edit', kwargs={'pk': response['id']}))
+            return redirect(reverse_lazy('applications:task_list', kwargs={'pk': response['id']}))

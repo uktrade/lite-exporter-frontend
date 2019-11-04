@@ -47,7 +47,7 @@ class ApplicationDetailEmpty(TemplateView):
         data = get_application(request, application_id)
 
         if data.get('status').get('key') == 'applicant_editing':
-            return redirect(reverse_lazy('applications:edit', kwargs={'pk': application_id}))
+            return redirect(reverse_lazy('applications:task_list', kwargs={'pk': application_id}))
 
         return redirect(reverse_lazy('applications:application-detail', kwargs={'pk': application_id,
                                                                                 'type': 'case-notes'}))
@@ -79,7 +79,7 @@ class ApplicationEditType(TemplateView):
         data = get_application(request, application_id)
 
         if data.get('status').get('key') == 'applicant_editing':
-            return redirect(reverse_lazy('applications:edit', kwargs={'pk': application_id}))
+            return redirect(reverse_lazy('applications:task_list', kwargs={'pk': application_id}))
 
         return form_page(request, edit_type_form(application_id))
 
@@ -98,10 +98,10 @@ class ApplicationEditType(TemplateView):
                              edit_type_form(application_id),
                              errors={'edit-type': ['Select what type of edit you\'d like to make.']})
 
-        return redirect(reverse_lazy('applications:edit', kwargs={'pk': str(kwargs['pk'])}))
+        return redirect(reverse_lazy('applications:task_list', kwargs={'pk': str(kwargs['pk'])}))
 
 
-class ApplicationEditOverview(TemplateView):
+class ApplicationTaskList(TemplateView):
     def get(self, request, **kwargs):
         application = get_application(request, kwargs['pk'])
         return get_application_task_list(request, application)

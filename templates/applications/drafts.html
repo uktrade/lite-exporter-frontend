@@ -52,7 +52,7 @@
 				{% for draft in drafts.results %}
 					<tr class="govuk-table__row">
 						<td class="govuk-table__cell">
-							<a class="govuk-link govuk-link--no-visited-state" href="{% url 'applications:edit' draft.id %}">
+							<a class="govuk-link govuk-link--no-visited-state" href="{% url 'applications:task_list' draft.id %}">
 								{{ draft.name }}
 							</a>
 						</td>
