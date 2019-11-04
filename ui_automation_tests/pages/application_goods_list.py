@@ -6,6 +6,7 @@ class ApplicationGoodsList:
     def __init__(self, driver):
         self.driver = driver
         self.add_from_org_goods_button = 'a.govuk-button[href*="add_preexisting"]'   # CSS
+        self.add_new_good_button = 'a.govuk-button[href*="add-new"]'  # CSS
         self.add_to_application = 'a.govuk-button'
         self.overview_link = '.govuk-back-link'   # CSS
         self.quantity_field = 'quantity'   # ID
@@ -26,6 +27,7 @@ class ApplicationGoodsList:
         self.part_number_filter = 'part-number-filter'
         self.control_code_filter = 'control-code-filter'
         self.description_filter = 'description-filter'
+        self.good_entry = '.govuk-table__body .govuk-table__row'
 
     def add_values_to_good(self, value, quantity, unit):
         self.driver.find_element_by_id(self.value_field).send_keys(value)
@@ -70,3 +72,10 @@ class ApplicationGoodsList:
 
     def get_good_control_codes(self):
         return self.driver.find_elements_by_id(self.control_code)
+
+    def click_add_new_good_button(self):
+        return self.driver.find_element_by_css_selector(self.add_new_good_button).click()
+
+    def get_goods_count(self):
+        return len(self.driver.find_elements_by_css_selector(self.good_entry))
+

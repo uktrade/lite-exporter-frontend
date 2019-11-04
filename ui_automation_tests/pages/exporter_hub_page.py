@@ -65,7 +65,7 @@ class ExporterHubPage:
         self.driver.find_element_by_css_selector(self.my_goods_btn).click()
 
     def click_save_and_continue(self):
-        self.driver.find_element_by_css_selector("button[type*='submit']").click()
+        self.driver.find_element_by_css_selector("button[type*='submit'][value='submit']").click()
 
     def verify_good_is_in_goods_list(self, description, part_number, control_code):
         goods_row = self.driver.find_element_by_xpath("//*[text()[contains(.,'" + description + "')]]")
