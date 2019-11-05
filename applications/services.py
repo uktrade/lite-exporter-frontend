@@ -4,7 +4,7 @@ from conf.client import get, post, put, delete
 from conf.constants import APPLICATIONS_URL, END_USER_DOCUMENT_URL, ULTIMATE_END_USER_URL, DOCUMENT_URL, \
     CONSIGNEE_URL, THIRD_PARTIES_URL, CONSIGNEE_DOCUMENT_URL, APPLICATION_SUBMIT_URL, ADDITIONAL_DOCUMENT_URL, \
     CASES_URL, CASE_NOTES_URL, ECJU_QUERIES_URL, MANAGE_STATUS_URL
-from conf.settings import AWS_STORAGE_BUCKET_NAME, STREAMING_CHUNK_SIZE
+from conf.settings import AWS_STORAGE_BUCKET_NAME, STREAMING_CHUNK_SIZE, MAX_UPLOAD_SIZE
 from django.http import StreamingHttpResponse
 from s3chunkuploader.file_handler import s3_client
 
@@ -259,6 +259,10 @@ def add_document_data(request):
         return None, 'Multiple files attached'
 
     file = files[0]
+
+    if file.file_size > MAX_UPLOAD_SIZE:
+        return None, 'File too large'
+
     try:
         original_name = file.original_name
     except Exception: # noqa
