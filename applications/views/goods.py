@@ -77,7 +77,7 @@ class AddNewGood(TemplateView):
         ['good_description', 'good_control_code', 'good_part_number', 'good_is_good_controlled', 'good_is_good_end_product'],
         ['good_on_app_value', 'good_on_app_quantity', 'good_on_app_unit'],
         []
-            ]
+    ]
     data = None
     errors = None
     validation_function = [validate_good, validate_application_good]
@@ -156,7 +156,7 @@ class AddNewGood(TemplateView):
         if data.status_code != 200:
             self.data = post
             self.generate_form(request, form_num)
-            self.errors = data.json()['errors']
+            self.errors = self.add_prefix_to_errors(data.json()['errors'], self.prefix[form_num])
         else:
             self.data = post
             generate_form_num = form_num + 1
@@ -176,6 +176,10 @@ class AddNewGood(TemplateView):
                 for field in self.fields[fields_num]:
                     if self.data.get(field, ""):
                         self.form.questions.append(HiddenField(field, self.data[field]))
+
+    @staticmethod
+    def add_prefix_to_errors(json, prefix):
+        return {prefix + k: v for (k, v) in json.items()}
 
 
 class DraftOpenGoodsTypeList(TemplateView):
