@@ -28,16 +28,21 @@ class SelectAnOrganisation(TemplateView):
         return super(SelectAnOrganisation, self).dispatch(request, *args, **kwargs)
 
     def get(self, request, *args, **kwargs):
-        name = request.GET.get('name', '').strip()
-        params = {'page': int(request.GET.get('page', 1)),
-                  'name': name}
-        organisations = get_organisations(request, org_type='commercial', **params)
+        search_term = request.GET.get('search_term', '').strip()
+        params = {'page': int(request.GET.get('page', 1))}
+
+        if search_term:
+            params['search_term'] = search_term
+
+        params_str = convert_dict_to_query_params(params)
+
+        organisations = get_organisations(request, **params)
 
         context = {
             'organisations': organisations,
             'params': params,
             'page': params.pop('page'),
-            'params_str': convert_dict_to_query_params(params),
+            'params_str': params_str,
             'show_error': kwargs.get('show_error', False)
         }
         return render(request, 'hmrc/select-organisation.html', context)
