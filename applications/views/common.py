@@ -112,7 +112,7 @@ class ApplicationTaskList(TemplateView):
         submit_data, status_code = submit_application(request, application_id)
 
         if status_code != HTTPStatus.OK:
-            return get_licence_overview(request, application=application_data, errors=submit_data.get('errors'))
+            raise Http404
 
         return success_page(request,
                             title='Application submitted',
