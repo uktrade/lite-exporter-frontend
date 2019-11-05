@@ -61,11 +61,14 @@
 				{% endif %}
 			</ul>
 		</li>
-		<li>
-			<form method="post">
-				<button type="submit" class="govuk-button">Submit</button>
-			</form>
-		</li>
+		{% if application.goods_types and application.end_user and application.ultimate_end_users and application.third_parties and application.consignee and application.goods_locations.data and application.supporting_documentation %}
+			<li>
+				<form method="post">
+	                {% csrf_token %}
+					<button type="submit" class="govuk-button">Submit</button>
+				</form>
+			</li>
+		{% endif %}
 	</ol>
 
 	<!-- <ol class="lite-task-list">
