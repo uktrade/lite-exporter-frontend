@@ -12,12 +12,12 @@ from core.services import get_control_list_entries
 from goods.helpers import good_summary
 
 
-def add_goods_questions(clc=True, back_link=BackLink()):
+def add_goods_questions(clc=True, back_link=BackLink(), prefix=""):
     if clc:
         description = get_const_string('GOODS_CREATE_CONTROL_CODE_REQUIRED_DESC')
         is_your_good_controlled_options = [Option(key='yes',
                                                   value='Yes',
-                                                  show_pane='pane_control_code'),
+                                                  show_pane='pane_' + prefix + 'control_code'),
                                            Option(key='no',
                                                   value='No'),
                                            Option(key='unsure',
@@ -26,7 +26,7 @@ def add_goods_questions(clc=True, back_link=BackLink()):
         description = get_const_string('APPLICATION_GOODS_CONTROL_CODE_REQUIRED_DESCRIPTION')
         is_your_good_controlled_options = [Option(key='yes',
                                                   value='Yes',
-                                                  show_pane='pane_control_code'),
+                                                  show_pane='pane_' + prefix + 'control_code'),
                                            Option(key='no',
                                                   value='No')]
 
@@ -34,24 +34,24 @@ def add_goods_questions(clc=True, back_link=BackLink()):
                 questions=[
                     TextArea(title='Description of good',
                              description='This can make it easier to find your good later',
-                             name='description',
+                             name=prefix+'description',
                              extras={
                                  'max_length': 280,
                              }),
                     RadioButtons(title='Is your good controlled?',
                                  description=description,
-                                 name='is_good_controlled',
+                                 name=prefix+'is_good_controlled',
                                  options=is_your_good_controlled_options,
                                  classes=['govuk-radios--inline']),
                     control_list_entry_question(control_list_entries=get_control_list_entries(None, convert_to_options=True),
                                                 title='What\'s your good\'s control list entry?',
                                                 description='<noscript>If your good is controlled, enter its '
                                                             'control list entry. </noscript>For example, ML1a.',
-                                                name='control_code',
+                                                name=prefix+'control_code',
                                                 inset_text=False),
                     RadioButtons(title='Is your good intended to be incorporated into an end product?',
                                  description='',
-                                 name='is_good_end_product',
+                                 name=prefix+'is_good_end_product',
                                  options=[
                                      Option(key='no',
                                             value='Yes'),
@@ -60,7 +60,7 @@ def add_goods_questions(clc=True, back_link=BackLink()):
                                  ],
                                  classes=['govuk-radios--inline']),
                     TextInput(title='Part Number',
-                              name='part_number',
+                              name=prefix+'part_number',
                               optional=True),
                 ],
                 back_link=back_link

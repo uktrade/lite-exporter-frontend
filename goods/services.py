@@ -3,6 +3,7 @@ from urllib.parse import urlencode
 
 from conf.client import get, post, put, delete
 from conf.constants import GOODS_URL, DOCUMENTS_URL, CONTROL_LIST_CLASSIFICATIONS_URL
+from core.helpers import remove_prefix
 
 
 def get_goods(request, params=None):
@@ -21,13 +22,21 @@ def get_good(request, pk):
 
 
 def post_good(request, json):
-    data = post(request, GOODS_URL, json)
+    if json.get('good_description', False) or json.get('good_description') == "":
+        post_data = remove_prefix(json, 'good_')
+    else:
+        post_data = json
+    data = post(request, GOODS_URL, post_data)
     return data.json(), data.status_code
 
 
 def validate_good(request, json):
-    json['validate_only'] = True
-    data = post(request, GOODS_URL, json)
+    if json.get('good_description', False) or json.get('good_description') == "":
+        post_data = remove_prefix(json, 'good_')
+    else:
+        post_data = json
+    post_data['validate_only'] = True
+    data = post(request, GOODS_URL, post_data)
     return data
 
 
