@@ -16,7 +16,7 @@ from lite_content.lite_exporter_frontend import constants
 register = template.Library()
 
 
-@register.simple_tag
+@register.simple_tag(name='lcs')
 def get_const_string(value):
     try:
         return getattr(constants, value)

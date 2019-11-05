@@ -197,9 +197,11 @@ class AddPreexistingGood(TemplateView):
     def get(self, request, **kwargs):
         good, _ = get_good(request, str(kwargs['good_pk']))
 
+        title = 'Add a pre-existing good to your application'
+
         context = {
-            'title': 'Add a pre-existing good to your application',
-            'page': good_on_application_form(good, get_units(request))
+            'title': title,
+            'page': good_on_application_form(good, get_units(request), title)
         }
         return render(request, 'form.html', context)
 
@@ -210,9 +212,11 @@ class AddPreexistingGood(TemplateView):
         if status_code != 201:
             good, status_code = get_good(request, str(kwargs['good_pk']))
 
+            title = 'Add a pre-existing good to your application'
+
             context = {
-                'title': 'Add a pre-existing good to your application',
-                'page': good_on_application_form(good, get_units(request)),
+                'title': title,
+                'page': good_on_application_form(good, get_units(request), title),
                 'data': request.POST,
                 'errors': data.get('errors'),
             }
