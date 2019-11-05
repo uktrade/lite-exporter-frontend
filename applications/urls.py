@@ -47,44 +47,31 @@ urlpatterns = [
 
     # ex: /<uuid:pk>/location/
     path('<uuid:pk>/location/', locations.Location.as_view(), name='location'),
-    # ex: /<uuid:pk>/location/existing-sites/
     path('<uuid:pk>/location/existing-sites/', locations.ExistingSites.as_view(), name='existing_sites'),
-    # ex: /<uuid:pk>/location/external-locations/
     path('<uuid:pk>/location/external-locations/', locations.ExternalLocations.as_view(), name='external_locations'),
-    # ex: /<uuid:pk>/location/external-locations/add/
     path('<uuid:pk>/location/external-locations/add/', locations.AddExternalLocation.as_view(),
          name='add_external_location'),
-    # ex: /<uuid:pk>/location/external-locations/<uuid:ext_loc_pk>
     path('<uuid:pk>/location/external-locations/<uuid:ext_loc_pk>', locations.RemoveExternalLocation.as_view(),
          name='remove_external_location'),
-    # ex: /<uuid:pk>/location/external-locations/preexisting/
     path('<uuid:pk>/location/external-locations/preexisting/', locations.AddExistingExternalLocation.as_view(),
          name='add_preexisting_external_location'),
-    # ex: /<uuid:pk>/location/countries/
     path('<uuid:pk>/location/countries/', locations.Countries.as_view(), name='countries'),
 
-    # ex: /<uuid:pk>/end-user/
+    # End User
     path('<uuid:pk>/end-user/', end_users.EndUser.as_view(), name='end_user'),
-    # ex: /<uuid:pk>/end-user/remove
-    path('<uuid:pk>/end-user/remove', end_users.RemoveEndUser.as_view(), name='remove_end_user'),
-    # ex: /applications/<uuid:pk>/end-user/attach-document
-    path('<uuid:pk>/end-user/document/attach', documents.AttachDocuments.as_view(), name='end_user_attach_document'),
-    # ex: /applications/<uuid:pk>/end-user/download-document/ - Get document
-    path('<uuid:pk>/end-user/document/download', documents.DownloadDocument.as_view(),
-         name='end_user_download_document'),
-    # ex: /applications/<uuid:pk>/end-user/download-document/ - Delete a document
-    path('<uuid:pk>/end-user/document/delete', documents.DeleteDocument.as_view(), name="end_user_delete_document"),
+    path('<uuid:pk>/end-user/set/', end_users.SetEndUser.as_view(), name='set_end_user'),
+    path('<uuid:pk>/end-user/remove/', end_users.RemoveEndUser.as_view(), name='remove_end_user'),
+    path('<uuid:pk>/end-user/document/attach/', documents.AttachDocuments.as_view(), name='end_user_attach_document'),
+    path('<uuid:pk>/end-user/document/download/', documents.DownloadDocument.as_view(), name='end_user_download_document'),
+    path('<uuid:pk>/end-user/document/delete/', documents.DeleteDocument.as_view(), name="end_user_delete_document"),
 
-    # ex: /<uuid:pk>/consignee/
+    # Consignee
     path('<uuid:pk>/consignee/', third_parties.Consignee.as_view(), name='consignee'),
-    # ex: /<uuid:pk>/consignee/remove/
+    path('<uuid:pk>/consignee/set/', third_parties.SetConsignee.as_view(), name='set_consignee'),
     path('<uuid:pk>/consignee/remove', third_parties.RemoveConsignee.as_view(), name='remove_consignee'),
-    # ex: /applications/<uuid:pk>/consignee/attach-document
     path('<uuid:pk>/consignee/document/attach', documents.AttachDocuments.as_view(), name='consignee_attach_document'),
-    # ex: /applications/<uuid:pk>/consignee/download-document/ - Get documents
     path('<uuid:pk>/consignee/document/download', documents.DownloadDocument.as_view(),
          name='consignee_download_document'),
-    # ex: /applications/<uuid:pk>/consignee/download-document/ - Delete a document
     path('<uuid:pk>/consignee/document/delete', documents.DeleteDocument.as_view(), name="consignee_delete_document"),
 
     # ex: /<uuid:pk>/ultimate-end-users/

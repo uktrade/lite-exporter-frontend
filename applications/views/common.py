@@ -261,7 +261,6 @@ class RespondToQuery(TemplateView):
 
 
 class CheckYourAnswers(TemplateView):
-
     def get(self, request, **kwargs):
         application_id = kwargs['pk']
         application = get_application(request, application_id)
@@ -276,7 +275,6 @@ class CheckYourAnswers(TemplateView):
 
 
 class Submit(TemplateView):
-
     def get(self, request, **kwargs):
         application_id = kwargs['pk']
         application = get_application(request, application_id)

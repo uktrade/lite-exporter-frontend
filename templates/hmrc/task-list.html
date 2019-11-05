@@ -49,7 +49,7 @@
 				<span class="lite-task-list__section-number">2. </span> Check your answers
 			</h2>
 			<ul class="lite-task-list__items">
-				{% if application.goods_types and application.end_user and application.ultimate_end_users and application.third_parties and application.consignee and application.goods_locations.data and application.supporting_documentation %}
+				{% if application.goods_types and application.end_user and application.ultimate_end_users and application.third_parties and application.consignee and application.goods_locations.data %}
 					{% url 'applications:check_your_answers' application.id as check_your_answers_url %}
 			        {% include "includes/task-list-item.html" with title="Check your answers" url=check_your_answers_url %}
 				{% else %}
@@ -61,7 +61,7 @@
 				{% endif %}
 			</ul>
 		</li>
-		{% if application.goods_types and application.end_user and application.ultimate_end_users and application.third_parties and application.consignee and application.goods_locations.data and application.supporting_documentation %}
+		{% if application.goods_types and application.end_user and application.ultimate_end_users and application.third_parties and application.consignee and application.goods_locations.data %}
 			<li>
 				<form method="post">
 	                {% csrf_token %}

@@ -1,6 +1,8 @@
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
+
+from applications.libraries.check_your_answers_helpers import _convert_consignee
 from lite_forms.generators import form_page, error_page
 from lite_forms.submitters import submit_paged_form
 
@@ -8,6 +10,7 @@ from applications.forms.end_user import new_consignee_forms
 from applications.forms.third_party import third_party_forms
 from applications.services import post_third_party, get_third_parties, delete_third_party, post_consignee, \
     get_application, delete_consignee
+from lite_forms.views import MultiFormView
 
 
 class AddThirdParty(TemplateView):
@@ -57,17 +60,28 @@ class RemoveThirdParty(TemplateView):
 
 class Consignee(TemplateView):
     def get(self, request, **kwargs):
-        return form_page(request, new_consignee_forms().forms[0])
+        application_id = str(kwargs['pk'])
+        application = get_application(request, application_id)
 
-    def post(self, request, **kwargs):
-        draft_id = str(kwargs['pk'])
-        response, _ = submit_paged_form(request, new_consignee_forms(), post_consignee, object_pk=draft_id)
+        if application['consignee']:
+            context = {
+                'application': application,
+                'title': 'Consignee',
+                'edit_url': reverse_lazy('applications:set_consignee', kwargs={'pk': application_id}),
+                'answers': _convert_consignee(application['consignee']),
+            }
+            return render(request, 'applications/check-your-answer.html', context)
+        else:
+            return redirect(reverse_lazy('applications:set_consignee', kwargs={'pk': application_id}))
 
-        # If there are more forms to go through, continue
-        if response:
-            return response
 
-        return redirect(reverse_lazy('applications:consignee_attach_document', kwargs={'pk': draft_id}))
+class SetConsignee(MultiFormView):
+    def init(self, request, **kwargs):
+        self.object_pk = kwargs['pk']
+        self.data = get_application(request, self.object_pk)['end_user']
+        self.forms = new_consignee_forms()
+        self.action = post_consignee
+        self.success_url = reverse_lazy('applications:consignee_attach_document', kwargs={'pk': self.object_pk})
 
 
 class RemoveConsignee(TemplateView):

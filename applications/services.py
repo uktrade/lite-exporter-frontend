@@ -76,7 +76,7 @@ def post_application_countries(request, pk, json):
 
 # End User
 def post_end_user(request, pk, json):
-    data = post(request, APPLICATIONS_URL + pk + '/end-user/', json)
+    data = post(request, APPLICATIONS_URL + str(pk) + '/end-user/', json)
     return data.json(), data.status_code
 
 

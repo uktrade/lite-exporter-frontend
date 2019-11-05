@@ -1,0 +1,39 @@
+{% extends 'layouts/two_pane.html' %}
+
+{% block back_link %}
+	<a href="{% url 'applications:task_list' application.id %}" class="govuk-back-link">Back to task list</a>
+{% endblock %}
+
+{% block two_thirds %}
+
+	<div class="lite-app-bar">
+		<div class="lite-app-bar__content">
+			<h1 class="govuk-heading-l">
+				{% block title %}
+					{{ title }}
+				{% endblock %}
+			</h1>
+		</div>
+		{% if edit_url %}
+			<div class="lite-app-bar__controls">
+				<a href="{{ edit_url }}" class="govuk-button" draggable="false" role="button">
+					Edit
+				</a>
+			</div>
+		{% endif %}
+	</div>
+
+    <dl class="govuk-summary-list">
+        {% for key, value in answers.items %}
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    {{ key }}
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    {{ value|linebreaksbr }}
+                </dd>
+            </div>
+        {% endfor %}
+    </dl>
+
+{% endblock %}
