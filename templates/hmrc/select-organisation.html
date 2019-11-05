@@ -29,11 +29,11 @@
 		</h1>
 	</legend>
 	<span class="govuk-hint" style="margin: 30px 0;">
-		Write the name of the organisation in the search box.
+		Write the name or company registration number of the organisation in the search box.
 	</span>
     <form method="get" class="govuk-!-margin-bottom-6">
 		<div class="lite-search__container">
-		    <input type="search" name="name" class="govuk-input" name="search" id="search" value="{{ params.name }}" placeholder="Search organisations" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+		    <input type="search" name="search_term" class="govuk-input" name="search" id="search" value="{{ params.search_term }}" placeholder="Search organisations" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
             <button class="lite-search__button" type="submit">
 				{% svg 'search' %}
 				<span>Search</span>
@@ -41,7 +41,7 @@
 	    </div>
     </form>
 
-	{% if organisations.results|length and params.name %}
+	{% if organisations.results|length and params.search_term %}
 		<form method="post">
             {% csrf_token %}
 			<div class="govuk-form-group {% if show_error %}govuk-form-group--error{% endif %}">
@@ -55,8 +55,11 @@
 						<div class="govuk-radios__item">
 							<input class="govuk-radios__input" id="organisation-{{ organisation.id }}" name="organisation" type="radio" value="{{ organisation.id }}">
 							<label class="govuk-label govuk-radios__label" for="organisation-{{ organisation.id }}">
-								{{ organisation.name }}
+								{{ organisation.name|highlight_text:params.search_term }}
 							</label>
+                            <span id="sign-in-item-hint" class="govuk-hint govuk-radios__hint">
+								{{ organisation.registration_number|highlight_text:params.search_term }}
+							</span>
 							<span id="sign-in-item-hint" class="govuk-hint govuk-radios__hint">
 								{{ organisation.type.value }}
 							</span>
@@ -81,7 +84,7 @@
 				Continue
 			</button>
 		</form>
-	{% elif params.name %}
+	{% elif params.search_term %}
 		<div class="lite-information-text">
 			<span class="lite-information-text__icon" aria-hidden="true">!</span>
 			<p class="lite-information-text__text">
