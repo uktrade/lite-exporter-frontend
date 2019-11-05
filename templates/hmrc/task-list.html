@@ -48,14 +48,27 @@
 			<h2 class="lite-task-list__section">
 				<span class="lite-task-list__section-number">2. </span> Check your answers
 			</h2>
-		    <ul class="lite-task-list__items">
-				{% url 'applications:check_your_answers' application.id as check_your_answers_url %}
-		        {% include "includes/task-list-item.html" with title="Check your answers" url=check_your_answers_url %}
+			<ul class="lite-task-list__items">
+				{% if application.goods_types and application.end_user and application.ultimate_end_users and application.third_parties and application.consignee and application.goods_locations.data and application.supporting_documentation %}
+					{% url 'applications:check_your_answers' application.id as check_your_answers_url %}
+			        {% include "includes/task-list-item.html" with title="Check your answers" url=check_your_answers_url %}
+				{% else %}
+					<li class="lite-task-list__item">
+						<div class="lite-task-list__item-header">
+							Check your answers
+						</div>
+					</li>
+				{% endif %}
 			</ul>
+		</li>
+		<li>
+			<form method="post">
+				<button type="submit" class="govuk-button">Submit</button>
+			</form>
 		</li>
 	</ol>
 
-	<ol class="lite-task-list">
+	<!-- <ol class="lite-task-list">
 		<li>
 			<h2 class="lite-task-list__section">
 				<span class="lite-task-list__section-number">3. </span> Confirm and submit your query
@@ -65,6 +78,6 @@
 				{% include "includes/task-list-item.html" with title="Confirm and submit your query" url=confirm_url %}
 			</ul>
 		</li>
-	</ol>
+	</ol> -->
 
 {% endblock %}

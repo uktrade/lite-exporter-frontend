@@ -4,7 +4,7 @@ class AttachDocumentPage:
         self.driver = driver
         self.file = 'file'  # ID
         self.description = 'description'  # ID
-        self.submit_btn = '.govuk-button[action="submit"]'  # CSS
+        self.submit_button = "button[type*='submit'][value='submit']"  # CSS
         self.added_document_item = '.lite-card--download'  # CSS
 
     def choose_file(self, file_location_path):
