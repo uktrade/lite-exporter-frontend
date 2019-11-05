@@ -16,21 +16,21 @@ def add_goods_questions(clc=True, back_link=BackLink(), prefix=""):
     if clc:
         description = get_const_string('GOODS_CREATE_CONTROL_CODE_REQUIRED_DESC')
         is_your_good_controlled_options = [Option(key='yes',
-                                                  value='Yes',
+                                                  value=get_const_string('GOODS_CREATE_CONTROL_CODE_YES'),
                                                   show_pane='pane_' + prefix + 'control_code'),
                                            Option(key='no',
-                                                  value='No'),
+                                                  value=get_const_string('GOODS_CREATE_CONTROL_CODE_NO')),
                                            Option(key='unsure',
-                                                  value='I don\'t know')]
+                                                  value=get_const_string('GOODS_CREATE_CONTROL_CODE_UNSURE'))]
     else:
         description = get_const_string('APPLICATION_GOODS_CONTROL_CODE_REQUIRED_DESCRIPTION')
         is_your_good_controlled_options = [Option(key='yes',
-                                                  value='Yes',
+                                                  value=get_const_string('GOODS_CREATE_CONTROL_CODE_YES'),
                                                   show_pane='pane_' + prefix + 'control_code'),
                                            Option(key='no',
-                                                  value='No')]
+                                                  value=get_const_string('GOODS_CREATE_CONTROL_CODE_NO'))]
 
-    form = Form(title='Add a good',
+    form = Form(title=get_const_string('GOODS_CREATE_TITLE'),
                 questions=[
                     TextArea(title='Description of good',
                              description='This can make it easier to find your good later',

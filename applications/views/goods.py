@@ -5,6 +5,8 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
+
+from core.builtins.custom_tags import get_const_string
 from lite_forms.components import HiddenField, Button
 from lite_forms.generators import error_page, form_page
 from s3chunkuploader.file_handler import S3FileUploadHandler
@@ -136,11 +138,9 @@ class AddNewGood(TemplateView):
                 # Error is thrown if a document is not attached
                 self.data = request.POST.copy()
                 self.generate_form(request, form_num)
-                self.errors = {'documents': ['A document is required.']}
+                self.errors = {'documents': get_const_string('APPLICATION_GOODS_ADD_DOCUMENT_MISSING')}
 
         return form_page(request, self.form, self.data, self.errors, {'form_pk': self.form_num})
-
-# ---------------------------------------------------------------
 
     def handle_post_for_form(self, request, form_num, pk=None):
         post = request.POST.copy()
@@ -177,8 +177,6 @@ class AddNewGood(TemplateView):
                     if self.data.get(field, ""):
                         self.form.questions.append(HiddenField(field, self.data[field]))
 
-# ---------------------------------------------------------------
-
 
 class DraftOpenGoodsTypeList(TemplateView):
     def get(self, request, **kwargs):
@@ -197,7 +195,7 @@ class AddPreexistingGood(TemplateView):
     def get(self, request, **kwargs):
         good, _ = get_good(request, str(kwargs['good_pk']))
 
-        title = 'Add a pre-existing good to your application'
+        title = get_const_string('APPLICATION_GOODS_ADD_PREEXISTING_TITLE')
 
         context = {
             'title': title,
@@ -212,7 +210,7 @@ class AddPreexistingGood(TemplateView):
         if status_code != 201:
             good, status_code = get_good(request, str(kwargs['good_pk']))
 
-            title = 'Add a pre-existing good to your application'
+            title = get_const_string('APPLICATION_GOODS_ADD_PREEXISTING_TITLE')
 
             context = {
                 'title': title,
