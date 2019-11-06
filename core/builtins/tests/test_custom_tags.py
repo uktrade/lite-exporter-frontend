@@ -101,33 +101,3 @@ class TestCustomTags(TestCase):
         actual_value = ct.classname(TestCase)
 
         self.assertEqual(actual_value, expected_value)
-
-    def test_invert_value_true_to_false(self):
-        expected_value = False
-        actual_value = ct.invert_value(True)
-
-        self.assertEqual(actual_value, expected_value)
-
-    def test_invert_value_false_to_true(self):
-        expected_value = True
-        actual_value = ct.invert_value(False)
-
-        self.assertEqual(actual_value, expected_value)
-
-    def test_invert_value_none_to_true(self):
-        expected_value = True
-        actual_value = ct.invert_value(None)
-
-        self.assertEqual(actual_value, expected_value)
-
-    def test_invert_value_number_to_false(self):
-        expected_value = False
-        actual_value = ct.invert_value(1234)
-
-        self.assertEqual(actual_value, expected_value)
-
-    def test_invert_value_string_to_false(self):
-        expected_value = False
-        actual_value = ct.invert_value('junk')
-
-        self.assertEqual(actual_value, expected_value)
