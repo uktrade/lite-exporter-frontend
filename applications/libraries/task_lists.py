@@ -133,12 +133,12 @@ def _get_hmrc_query_task_list(request, application):
         'application': application,
         'goods_types_status': 'done' if application['goods_types'] else None,
         'goods_locations_status': 'done' if application['goods_locations'] else None,
-        'end_user_status': 'done' if application['end_user'].get('document') else 'in_progress' if application['end_user'] else None,
+        'end_user_status': check_all_parties_have_a_document([application['end_user']]),
         'ultimate_end_users_status': check_all_parties_have_a_document(application['ultimate_end_users']),
         'third_parties_status': check_all_parties_have_a_document(application['third_parties']),
         'consignee_status': 'done' if application['consignee'] else None,
         'supporting_documentation_status': 'done' if application['supporting_documentation'] else None,
-        'optional_note_status': 'done'
+        'optional_note_status': 'done' if application['reasoning'] else None,
     }
     return render(request, 'hmrc/task-list.html', context)
 
