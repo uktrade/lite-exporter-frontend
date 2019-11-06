@@ -172,3 +172,8 @@ def idify(string: str):
 @register.filter
 def classname(obj):
     return obj.__class__.__name__
+
+
+@register.filter()
+def invert_value(true_value):
+    return not true_value

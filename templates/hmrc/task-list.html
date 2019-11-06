@@ -31,8 +31,8 @@
 				{% url 'applications:third_parties' application.id as third_parties_url %}
 				{% include "includes/task-list-item.html" with title="Add third parties" url=third_parties_url done=application.third_parties optional=True %}
 
-				{% url 'applications:consignee' application.id as third_parties_url %}
-				{% include "includes/task-list-item.html" with title="Add a consignee" url=third_parties_url done=application.consignee optional=True %}
+				{% url 'applications:consignee' application.id as consignee_url %}
+				{% include "includes/task-list-item.html" with title="Add a consignee" url=consignee_url in_progress=application.consignee.document|invert_value done=application.consignee.document optional=True %}
 
 				{% url 'applications:additional_documents' application.id as supporting_documentation_url %}
 				{% include "includes/task-list-item.html" with title="Attach supporting documentation" url=supporting_documentation_url done=application.supporting_documentation optional=True %}
