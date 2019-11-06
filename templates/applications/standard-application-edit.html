@@ -73,7 +73,7 @@
 				{% include "includes/task-list-item.html" with title="Reference name" url=reference_name_url done=True description=application.name %}
 
 				{% url 'applications:edit_told_by_an_official' application.id as told_by_an_official_url %}
-				{% include "includes/task-list-item.html" with title="Told by an official" url=told_by_an_official_url done=True %}
+				{% include "includes/task-list-item.html" with title="Told by an official that you need an export licence" url=told_by_an_official_url done=True description=reference_number_description %}
 			</ul>
 		</li>
 	</ol>

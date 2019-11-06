@@ -24,6 +24,10 @@ def _get_standard_application_task_list(request, application):
     # Add the editing type (if possible) to the context to make it easier to read/change in the future
     is_editing = False
     edit_type = None
+
+    reference_number_description = _get_reference_number_description(
+            application['have_you_been_informed'], application['reference_number_on_information_form'])
+
     if application['status']:
         is_editing = application['status']['key'] == 'submitted' or application['status']['key'] == 'applicant_editing'
         if is_editing:
@@ -60,6 +64,7 @@ def _get_standard_application_task_list(request, application):
         'application': application,
         'is_editing': is_editing,
         'edit_type': edit_type,
+        'reference_number_description': reference_number_description,
         'sites': sites['sites'],
         'goods': goods,
         'external_locations': external_locations['external_locations'],
@@ -86,6 +91,9 @@ def _get_open_application_task_list(request, application):
         if is_editing:
             edit_type = 'minor_edit' if application['status']['key'] == 'submitted' else 'major_edit'
 
+    reference_number_description = _get_reference_number_description(
+            application['have_you_been_informed'], application['reference_number_on_information_form'])
+
     external_locations, _ = get_external_locations_on_draft(request, application_id)
     additional_documents, _ = get_additional_documents(request, application_id)
 
@@ -106,6 +114,7 @@ def _get_open_application_task_list(request, application):
         'application': application,
         'is_editing': is_editing,
         'edit_type': edit_type,
+        'reference_number_description': reference_number_description,
         'countries': countries,
         'goodstypes': goodstypes,
         'external_locations': external_locations['external_locations'],
@@ -126,3 +135,14 @@ def _get_hmrc_query_task_list(request, application):
         'application': application
     }
     return render(request, 'hmrc/task-list.html', context)
+
+
+def _get_reference_number_description(have_you_been_informed:str, reference_number_on_information_form):
+    if have_you_been_informed == 'yes':
+        if not reference_number_on_information_form:
+            reference_number_on_information_form = 'not provided'
+        reference_number_description = 'Yes. Reference number: ' + reference_number_on_information_form
+    else:
+        reference_number_description = 'No'
+
+    return reference_number_description
