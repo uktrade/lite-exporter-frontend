@@ -62,12 +62,17 @@ def _convert_goods_types(goods_types):
 
 
 def _convert_end_user(end_user, application_id):
+    if end_user['document']:
+        document = _convert_document(end_user['document'], 'end-user', application_id)
+    else:
+        document = convert_to_link(reverse_lazy('applications:end_user_attach_document',
+                                                kwargs={'pk': application_id}), 'Attach document')
     return {
         'Name': end_user['name'],
         'Type': end_user['sub_type']['value'],
         'Address': end_user['address'] + '\n' + end_user['country']['name'],
         'Website': convert_to_link(end_user['website']),
-        'Document': _convert_document(end_user['document'], 'end-user', application_id)
+        'Document': document
     }
 
 
@@ -84,12 +89,18 @@ def _convert_ultimate_end_users(ultimate_end_users, application_id):
 
 
 def _convert_consignee(consignee, application_id):
+    if consignee['document']:
+        document = _convert_document(consignee['document'], 'consignee', application_id)
+    else:
+        document = convert_to_link(reverse_lazy('applications:consignee_attach_document',
+                                                kwargs={'pk': application_id}), 'Attach document')
+
     return {
         'Name': consignee['name'],
         'Type': consignee['sub_type']['value'],
         'Address': consignee['address'] + NEW_LINE + consignee['country']['name'],
         'Website': convert_to_link(consignee['website']),
-        'Document': _convert_document(consignee['document'], 'consignee', application_id)
+        'Document': document,
     }
 
 
