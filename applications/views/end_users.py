@@ -21,7 +21,7 @@ class EndUser(TemplateView):
                 'application': application,
                 'title': 'End user',
                 'edit_url': reverse_lazy('applications:set_end_user', kwargs={'pk': application_id}),
-                'answers': _convert_end_user(application['end_user']),
+                'answers': _convert_end_user(application['end_user'], application_id),
             }
             return render(request, 'applications/check-your-answer.html', context)
         else:

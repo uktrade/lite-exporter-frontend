@@ -56,6 +56,9 @@ class DraftOpenGoodsTypeList(TemplateView):
         application = get_application(request, application_id)
         goods = get_application_goods_types(request, application_id)
 
+        if not application['goods_types']:
+            return redirect(reverse_lazy('applications:add_goods_type', kwargs={'pk': application_id}))
+
         context = {
             'goods': goods,
             'application': application,

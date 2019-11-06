@@ -5,7 +5,7 @@ from core.services import get_control_list_entries
 
 
 def goods_type_form():
-    return Form(title='Add a description', questions=[
+    return Form(title='Describe your goods', questions=[
         TextArea(title='Give a short description of your goods.',
                  name='description',
                  extras={

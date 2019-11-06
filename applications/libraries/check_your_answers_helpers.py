@@ -1,3 +1,5 @@
+from django.urls import reverse_lazy
+
 from conf.constants import NEW_LINE, STANDARD_LICENCE, OPEN_LICENCE, HMRC_QUERY
 from core.builtins.custom_tags import default_na, friendly_boolean
 from core.helpers import convert_to_link
@@ -26,12 +28,12 @@ def _convert_hmrc_query(application):
     return {
         'On behalf of': application['organisation']['name'],
         'Goods': _convert_goods_types(application['goods_types']),
-        'End user': _convert_end_user(application['end_user']),
-        'Ultimate end users': [_convert_end_user(x) for x in application['ultimate_end_users']],
-        'Third parties': _convert_third_parties(application['third_parties']),
-        'Consignee': _convert_consignee(application['consignee']),
+        'End user': _convert_end_user(application['end_user'], application['id']),
+        'Ultimate end users': _convert_ultimate_end_users(application['ultimate_end_users'], application['id']),
+        'Third parties': _convert_third_parties(application['third_parties'], application['id']),
+        'Consignee': _convert_consignee(application['consignee'], application['id']),
         'Goods locations': _convert_goods_locations(application['goods_locations']),
-        'Supporting documentation': _get_supporting_documentation(application['supporting_documentation']),
+        'Supporting documentation': _get_supporting_documentation(application['supporting_documentation'], application['id']),
         'Optional note': application['reasoning'],
     }
 
@@ -59,34 +61,49 @@ def _convert_goods_types(goods_types):
     ]
 
 
-def _convert_end_user(end_user):
+def _convert_end_user(end_user, application_id):
     return {
         'Name': end_user['name'],
         'Type': end_user['sub_type']['value'],
         'Address': end_user['address'] + '\n' + end_user['country']['name'],
         'Website': convert_to_link(end_user['website']),
-        'Document': _convert_document(end_user['document'])
+        'Document': _convert_document(end_user['document'], 'end-user', application_id)
     }
 
 
-def _convert_consignee(consignee):
+def _convert_ultimate_end_users(ultimate_end_users, application_id):
+    return [
+        {
+            **_convert_end_user(ultimate_end_user, application_id),
+            'Document': convert_to_link(reverse_lazy('applications:ultimate_end_user_download_document',
+                                                     kwargs={'pk': application_id,
+                                                             'ueu_pk': ultimate_end_user['id']}),
+                                        ultimate_end_user['document']['name'])
+        } for ultimate_end_user in ultimate_end_users
+    ]
+
+
+def _convert_consignee(consignee, application_id):
     return {
         'Name': consignee['name'],
         'Type': consignee['sub_type']['value'],
         'Address': consignee['address'] + NEW_LINE + consignee['country']['name'],
         'Website': convert_to_link(consignee['website']),
-        'Document': _convert_document(consignee['document'])
+        'Document': _convert_document(consignee['document'], 'consignee', application_id)
     }
 
 
-def _convert_third_parties(third_parties):
+def _convert_third_parties(third_parties, application_id):
     return [
         {
             'Name': third_party['name'],
             'Type': third_party['sub_type']['value'],
             'Address': third_party['address'] + NEW_LINE + third_party['country']['name'],
             'Website': convert_to_link(third_party['website']),
-            'Document': _convert_document(third_party['document'])
+            'Document': convert_to_link(reverse_lazy('applications:third_party_download_document',
+                                                     kwargs={'pk': application_id,
+                                                             'tp_pk': third_party['id']}),
+                                        third_party['document']['name'])
         } for third_party in third_parties
     ]
 
@@ -114,17 +131,20 @@ def _convert_goods_locations(goods_locations):
         ]
 
 
-def _get_supporting_documentation(supporting_documentation):
+def _get_supporting_documentation(supporting_documentation, application_id):
     return [
         {
-            'File name': document['name'],
+            'File name': convert_to_link(reverse_lazy('applications:download_additional_document',
+                                                      kwargs={'pk': application_id,
+                                                              'doc_pk': document['id']}
+                                                      ), document['name']),
             'Description': default_na(document['description']),
         } for document in supporting_documentation
     ]
 
 
-def _convert_document(document):
+def _convert_document(document, document_type, application_id):
     if not document:
         return default_na(None)
 
-    return convert_to_link(document['name'], document['name'])
+    return convert_to_link(f'/applications/{application_id}/{document_type}/document/download/', document['name'])
