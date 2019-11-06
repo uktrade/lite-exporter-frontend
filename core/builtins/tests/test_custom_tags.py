@@ -78,7 +78,7 @@ class TestCustomTags(TestCase):
 
         self.assertEqual(actual_value, expected_value)
 
-    def test_pluralise_unit_singular_wihtout_s(self):
+    def test_pluralise_unit_singular_without_s(self):
         expected_value = 'gram'
         actual_value = ct.pluralise_unit('gram', '1')
 
