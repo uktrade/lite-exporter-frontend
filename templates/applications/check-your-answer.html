@@ -17,7 +17,7 @@
 		<div class="lite-app-bar__controls">
 			{% if remove_url %}
 				<a href="{{ remove_url }}" class="govuk-button govuk-button--secondary" draggable="false" role="button">
-					Remove {{ title }}
+					Remove {{ title|lower }}
 				</a>
 			{% endif %}
 			{% if edit_url %}

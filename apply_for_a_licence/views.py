@@ -13,10 +13,3 @@ class InitialQuestions(MultiFormView):
     def get_success_url(self):
         pk = self.get_validated_data()['id']
         return reverse_lazy('applications:task_list', kwargs={'pk': pk})
-
-
-def check_all_parties_have_a_document(parties):
-    for party in parties:
-        if not party['document']:
-            return False
-    return True

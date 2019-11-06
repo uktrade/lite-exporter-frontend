@@ -1,8 +1,8 @@
 from django.shortcuts import render
 
+from applications.libraries.validate_status import check_all_parties_have_a_document
 from applications.services import get_application_countries, get_application_goods_types, get_ultimate_end_users, \
     get_third_parties, get_application_goods, get_end_user_document, get_consignee_document, get_additional_documents
-from apply_for_a_licence.views import check_all_parties_have_a_document
 from conf.constants import HMRC_QUERY, OPEN_LICENCE, STANDARD_LICENCE
 from core.services import get_sites_on_draft, get_external_locations_on_draft
 
@@ -65,7 +65,6 @@ def _get_standard_application_task_list(request, application):
         'external_locations': external_locations['external_locations'],
         'ultimate_end_users': ultimate_end_users,
         'ultimate_end_users_required': ultimate_end_users_required,
-        'ultimate_end_users_documents_complete': check_all_parties_have_a_document(ultimate_end_users),
         'end_user_document': end_user_document,
         'consignee_document': consignee_document,
         'countries_on_goods_types': countries_on_goods_types,
@@ -111,7 +110,6 @@ def _get_open_application_task_list(request, application):
         'external_locations': external_locations['external_locations'],
         'ultimate_end_users': ultimate_end_users,
         'ultimate_end_users_required': ultimate_end_users_required,
-        'ultimate_end_users_documents_complete': check_all_parties_have_a_document(ultimate_end_users),
         'end_user_document': end_user_document,
         'consignee_document': consignee_document,
         'countries_on_goods_types': countries_on_goods_types,
@@ -123,6 +121,14 @@ def _get_open_application_task_list(request, application):
 
 def _get_hmrc_query_task_list(request, application):
     context = {
-        'application': application
+        'application': application,
+        'goods_types_status': 'done' if application['goods_types'] else None,
+        'goods_locations_status': 'done' if application['goods_locations'] else None,
+        'end_user_status': 'done' if application['end_user'].get('document') else 'in_progress' if application['end_user'] else None,
+        'ultimate_end_users_status': check_all_parties_have_a_document(application['ultimate_end_users']),
+        'third_parties_status': check_all_parties_have_a_document(application['third_parties']),
+        'consignee_status': 'done' if application['consignee'] else None,
+        'supporting_documentation_status': 'done' if application['supporting_documentation'] else None,
+        'optional_note_status': 'done'
     }
     return render(request, 'hmrc/task-list.html', context)

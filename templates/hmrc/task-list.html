@@ -17,28 +17,28 @@
 			</h2>
 		    <ul class="lite-task-list__items">
 				{% url 'applications:open_goods' application.id as goods_url %}
-				{% include "includes/task-list-item.html" with title="Describe your goods" url=goods_url done=application.goods_types %}
+				{% include "includes/task-list-item.html" with title="Describe your goods" url=goods_url status=goods_types_status %}
 
 				{% url 'applications:location' application.id as goods_location_url %}
-				{% include "includes/task-list-item.html" with title="Goods locations" url=goods_location_url done=application.goods_locations.data %}
+				{% include "includes/task-list-item.html" with title="Goods locations" url=goods_location_url status=goods_locations_status %}
 
 				{% url 'applications:end_user' application.id as end_user_url %}
-				{% include "includes/task-list-item.html" with title="Set end user" url=end_user_url in_progress=application.end_user.document|invert_value done=application.end_user.document %}
+				{% include "includes/task-list-item.html" with title="Set end user" url=end_user_url status=end_user_status %}
 
 				{% url 'applications:ultimate_end_users' application.id as ultimate_end_user_url %}
-				{% include "includes/task-list-item.html" with title="Add ultimate end users" url=ultimate_end_user_url done=application.ultimate_end_users optional=True %}
+				{% include "includes/task-list-item.html" with title="Add ultimate end users" url=ultimate_end_user_url status=ultimate_end_users_status optional=True %}
 
 				{% url 'applications:third_parties' application.id as third_parties_url %}
-				{% include "includes/task-list-item.html" with title="Add third parties" url=third_parties_url done=application.third_parties optional=True %}
+				{% include "includes/task-list-item.html" with title="Add third parties" url=third_parties_url status=third_parties_status optional=True %}
 
 				{% url 'applications:consignee' application.id as consignee_url %}
-				{% include "includes/task-list-item.html" with title="Add a consignee" url=consignee_url in_progress=application.consignee.document|invert_value done=application.consignee.document optional=True %}
+				{% include "includes/task-list-item.html" with title="Add a consignee" url=consignee_url status=consignee_status optional=True %}
 
 				{% url 'applications:additional_documents' application.id as supporting_documentation_url %}
-				{% include "includes/task-list-item.html" with title="Attach supporting documentation" url=supporting_documentation_url done=application.supporting_documentation optional=True %}
+				{% include "includes/task-list-item.html" with title="Attach supporting documentation" url=supporting_documentation_url status=supporting_documentation_status optional=True %}
 
 				{% url 'applications:optional_note' application.id as optional_note_url %}
-				{% include "includes/task-list-item.html" with title="Explain the reason behind your query" url=optional_note_url done=application.reasoning optional=True %}
+				{% include "includes/task-list-item.html" with title="Explain the reason behind your query" url=optional_note_url status=optional_note_status optional=True %}
 			</ul>
 		</li>
 	</ol>
