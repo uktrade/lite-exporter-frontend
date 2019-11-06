@@ -97,6 +97,9 @@ def highlight_text(value: str, term: str) -> str:
 
 @register.filter()
 def reference_code(value):
+    """
+    Converts ten digit string to two five digit strings hyphenated
+    """
     value = str(value)
     return value[:5] + '-' + value[5:]
 
@@ -171,9 +174,15 @@ def idify(string: str):
 
 @register.filter
 def classname(obj):
+    """
+    Returns object class name
+    """
     return obj.__class__.__name__
 
 
 @register.filter()
-def invert_value(true_value):
-    return not true_value
+def invert_value(value):
+    """
+    Converts truthy values to false and falsey values to true
+    """
+    return not value
