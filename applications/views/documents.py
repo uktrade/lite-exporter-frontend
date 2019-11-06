@@ -73,10 +73,8 @@ def get_upload_page(path, draft_id):
     else:
         description_text = None
 
-    return attach_document_form(draft_url=reverse(paths['homepage'], kwargs={'pk': draft_id}),
+    return attach_document_form(application_id=draft_id,
                                 title=get_string(paths['strings'] + '.attach_documents.title'),
-                                back_text=get_string(
-                                    paths['strings'] + '.attach_documents.back_to_application_overview'),
                                 return_later_text=get_string(paths['strings'] + '.save_end_user'),
                                 description_text=description_text)
 

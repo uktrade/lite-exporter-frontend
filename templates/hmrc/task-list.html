@@ -23,7 +23,7 @@
 				{% include "includes/task-list-item.html" with title="Goods locations" url=goods_location_url done=application.goods_locations.data %}
 
 				{% url 'applications:end_user' application.id as end_user_url %}
-				{% include "includes/task-list-item.html" with title="Set end user" url=end_user_url done=application.end_user %}
+				{% include "includes/task-list-item.html" with title="Set end user" url=end_user_url in_progress=application.end_user.document|invert_value done=application.end_user.document %}
 
 				{% url 'applications:ultimate_end_users' application.id as ultimate_end_user_url %}
 				{% include "includes/task-list-item.html" with title="Add ultimate end users" url=ultimate_end_user_url done=application.ultimate_end_users optional=True %}

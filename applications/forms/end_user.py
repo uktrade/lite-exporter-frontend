@@ -1,3 +1,6 @@
+from django.urls import reverse_lazy
+
+from applications.components import back_to_task_list
 from core.builtins.custom_tags import get_string
 from lite_forms.components import RadioButtons, Form, Option, TextArea, TextInput, FormGroup, FileUpload, \
     BackLink, Label
@@ -44,7 +47,7 @@ def new_end_user_forms():
     return FormGroup(third_parties_standard_form(get_string('end_user.title')))
 
 
-def attach_document_form(draft_url, title, back_text, return_later_text, description_text=None):
+def attach_document_form(application_id, title, return_later_text, description_text=None):
     inputs = [FileUpload('documents')]
     if description_text:
         inputs.append(TextArea(title=description_text,
@@ -56,10 +59,9 @@ def attach_document_form(draft_url, title, back_text, return_later_text, descrip
     return Form(title,
                 get_string('end_user.documents.attach_documents.description'),
                 inputs,
-                back_link=BackLink(back_text,
-                                   draft_url),
+                back_link=back_to_task_list(application_id),
                 footer_label=Label('Or <a href="'
-                                   + draft_url
+                                   + str(reverse_lazy('applications:task_list', kwargs={'pk': application_id}))
                                    + '" class="govuk-link govuk-link--no-visited-state">'
                                    + return_later_text
                                    + '</a> ' + get_string('end_user.documents.attach_later')))
