@@ -45,17 +45,19 @@ urlpatterns = [
     path('<uuid:pk>/good-on-application/<uuid:good_on_application_pk>/remove/', goods.RemovePreexistingGood.as_view(),
          name='remove_preexisting_good'),
 
-    # ex: /<uuid:pk>/location/
-    path('<uuid:pk>/location/', locations.Location.as_view(), name='location'),
-    path('<uuid:pk>/location/existing-sites/', locations.ExistingSites.as_view(), name='existing_sites'),
-    path('<uuid:pk>/location/external-locations/', locations.ExternalLocations.as_view(), name='external_locations'),
-    path('<uuid:pk>/location/external-locations/add/', locations.AddExternalLocation.as_view(),
+    # ex: /<uuid:pk>/goods-locations/
+    path('<uuid:pk>/goods-locations/', locations.GoodsLocation.as_view(), name='location'),
+    path('<uuid:pk>/goods-locations/edit/', locations.EditGoodsLocation.as_view(), name='edit_location'),
+    path('<uuid:pk>/goods-locations/existing-sites/', locations.ExistingSites.as_view(), name='existing_sites'),
+    path('<uuid:pk>/goods-locations/external-locations/select/', locations.SelectAddExternalLocation.as_view(),
+         name='select_add_external_location'),
+    path('<uuid:pk>/goods-locations/external-locations/add/', locations.AddExternalLocation.as_view(),
          name='add_external_location'),
-    path('<uuid:pk>/location/external-locations/<uuid:ext_loc_pk>', locations.RemoveExternalLocation.as_view(),
+    path('<uuid:pk>/goods-locations/external-locations/<uuid:ext_loc_pk>', locations.RemoveExternalLocation.as_view(),
          name='remove_external_location'),
-    path('<uuid:pk>/location/external-locations/preexisting/', locations.AddExistingExternalLocation.as_view(),
+    path('<uuid:pk>/goods-locations/external-locations/preexisting/', locations.AddExistingExternalLocation.as_view(),
          name='add_preexisting_external_location'),
-    path('<uuid:pk>/location/countries/', locations.Countries.as_view(), name='countries'),
+    path('<uuid:pk>/goods-locations/countries/', locations.Countries.as_view(), name='countries'),
 
     # End User
     path('<uuid:pk>/end-user/', end_users.EndUser.as_view(), name='end_user'),
