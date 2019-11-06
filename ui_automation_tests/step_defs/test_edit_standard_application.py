@@ -79,13 +79,13 @@ def no_documents_are_set_on_the_application(driver):
 
 @when("I change my reference name")
 def change_ref_name(driver, context):
-    driver.find_element_by_id('reference-name').click()
+    driver.find_element_by_id('reference_name').click()
     enter_application_name(driver, context)
 
 
 @when("I change my reference number")
 def change_ref_num(driver, context):
-    driver.find_element_by_id('reference-number').click()
+    driver.find_element_by_id('reference_number').click()
     enter_export_licence(driver, 'yes', '12345678', context)
 
 
