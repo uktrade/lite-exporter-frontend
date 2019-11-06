@@ -14,13 +14,18 @@
 				{% endblock %}
 			</h1>
 		</div>
-		{% if edit_url %}
-			<div class="lite-app-bar__controls">
+		<div class="lite-app-bar__controls">
+			{% if remove_url %}
+				<a href="{{ remove_url }}" class="govuk-button govuk-button--secondary" draggable="false" role="button">
+					Remove {{ title }}
+				</a>
+			{% endif %}
+			{% if edit_url %}
 				<a href="{{ edit_url }}" class="govuk-button" draggable="false" role="button">
 					Edit
 				</a>
-			</div>
-		{% endif %}
+			{% endif %}
+		</div>
 	</div>
 
     <dl class="govuk-summary-list">
