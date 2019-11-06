@@ -5,6 +5,7 @@ Feature: I want to be able to edit and update an active application
   So that any additional information and/or corrected details can be updated on my application
 
   @LT_998_edit_standard_application
+    @MS
   Scenario: Edit a standard application
     Given I go to exporter homepage and choose Test Org
     And I create a standard application via api

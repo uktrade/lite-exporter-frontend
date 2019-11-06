@@ -6,6 +6,7 @@ Feature: I want to edit and remove goods on the goods list
 
   @LT_928_edit
   Scenario: Edit and delete good
+    @MS
     Given I go to exporter homepage and choose Test Org
     When I click on goods link
     And I click add a good button
@@ -34,7 +35,7 @@ Feature: I want to edit and remove goods on the goods list
     Then I see the document has been attached
 
   @LT_886_add_new_good_to_app
-  @MSP
+    @MS
   Scenario: Add a new good directly to a standard application
     Given I go to exporter homepage and choose Test Org
     When I create a standard application
