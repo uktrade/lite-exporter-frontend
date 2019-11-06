@@ -178,11 +178,3 @@ def classname(obj):
     Returns object class name
     """
     return obj.__class__.__name__
-
-
-@register.filter()
-def invert_value(value):
-    """
-    Converts truthy values to false and falsey values to true
-    """
-    return not value
