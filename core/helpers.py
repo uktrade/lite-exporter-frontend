@@ -64,6 +64,11 @@ def convert_parameters_to_query_params(dictionary: dict):
     if 'request' in dictionary:
         del dictionary['request']
 
+    # If a given item in the dictionary is a list, convert it to a comma separated string
+    for key, value in dictionary.items():
+        if isinstance(value, list):
+            dictionary[key] = ','.join(dictionary[key])
+
     return '?' + convert_dict_to_query_params({key: value for key, value in dictionary.items() if value is not None})
 
 

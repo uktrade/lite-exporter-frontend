@@ -34,7 +34,7 @@ class SelectAnOrganisation(TemplateView):
         if search_term:
             params['search_term'] = search_term
 
-        organisations = get_organisations(request, org_type='commercial', **params)
+        organisations = get_organisations(request, org_types=['commercial', 'individual'], **params)
         params_str = convert_dict_to_query_params(params)
 
         context = {
