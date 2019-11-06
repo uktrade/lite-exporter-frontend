@@ -6,7 +6,6 @@ Feature: I want to edit and remove goods on the goods list
 
   @LT_928_edit
   Scenario: Edit and delete good
-    @MS
     Given I go to exporter homepage and choose Test Org
     When I click on goods link
     And I click add a good button
@@ -35,14 +34,13 @@ Feature: I want to edit and remove goods on the goods list
     Then I see the document has been attached
 
   @LT_886_add_new_good_to_app
-    @MS
   Scenario: Add a new good directly to a standard application
     Given I go to exporter homepage and choose Test Org
     When I create a standard application
     And I click to manage goods on a standard application
     Then I see there are no goods on the application
     When I click Add a new good
-    And I add a good or good type with description "New good for application" controlled "Yes" control code "ML8a25b" incorporated "No" and part number "P123"
-    And I enter details for a good on an application with value "99.98", quantity "13" and unit of measurement "Kilograms" and I click Continue"
+    And I add a new good with description "New good for application" controlled "Yes" control code "ML8a25b" incorporated "No" and part number "P123"
+    And I enter details for the new good on an application with value "99.98", quantity "13" and unit of measurement "Kilogram(s)" and I click Continue"
     And I attach a document to the good with description "Test good spec 01"
     Then A new good has been added to the application

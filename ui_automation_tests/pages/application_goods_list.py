@@ -3,8 +3,9 @@ from selenium.webdriver.support.ui import Select
 
 class ApplicationGoodsList:
 
-    def __init__(self, driver):
+    def __init__(self, driver, prefix=""):
         self.driver = driver
+        self.prefix = prefix
         self.add_from_org_goods_button = 'a.govuk-button[href*="add_preexisting"]'   # CSS
         self.add_new_good_button = 'a.govuk-button[href*="add-new"]'  # CSS
         self.add_to_application = 'a.govuk-button'
@@ -30,9 +31,9 @@ class ApplicationGoodsList:
         self.good_entry = '.govuk-table__body .govuk-table__row'
 
     def add_values_to_good(self, value, quantity, unit):
-        self.driver.find_element_by_id(self.value_field).send_keys(value)
-        self.driver.find_element_by_id(self.quantity_field).send_keys(quantity)
-        select = Select(self.driver.find_element_by_id(self.unit_dropdown))
+        self.driver.find_element_by_id(self.prefix+self.value_field).send_keys(value)
+        self.driver.find_element_by_id(self.prefix+self.quantity_field).send_keys(quantity)
+        select = Select(self.driver.find_element_by_id(self.prefix+self.unit_dropdown))
         select.select_by_visible_text(unit)
 
     def click_on_overview(self):

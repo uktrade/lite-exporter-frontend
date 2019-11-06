@@ -16,7 +16,6 @@ Feature: I want to indicate the standard licence I want
     When I delete the application
 
   @LT_1091_standard @setup
-    @MS
   Scenario: Submit standard application
     Given I go to exporter homepage and choose Test Org
     When I create a standard application
@@ -42,7 +41,6 @@ Feature: I want to indicate the standard licence I want
     Then I see submitted application
 
   @LT_1091_external
-    @MS
   Scenario: Submit standard application with external locations
     Given I go to exporter homepage and choose Test Org
     When I create a standard application
@@ -71,7 +69,6 @@ Feature: I want to indicate the standard licence I want
     Then I see submitted application
 
   @LT_1042_happy_path
-    @MS
   Scenario: Apply for a licence with ultimate end users
     Given I go to exporter homepage and choose Test Org
     When I create a standard application
@@ -103,7 +100,6 @@ Feature: I want to indicate the standard licence I want
     Then I see submitted application
 
   @LT_1445_ultimate_end_user_document
-    @MS
   Scenario: Add an Ultimate end user document and can download and delete
     Given I go to exporter homepage and choose Test Org
     When I create a standard application

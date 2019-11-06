@@ -132,3 +132,20 @@ def i_attach_a_document_to_the_good(driver, description):
 @then("A new good has been added to the application")
 def a_new_good_has_been_added_to_the_application(driver):
     assert ApplicationGoodsList(driver).get_goods_count() == 1
+
+
+@when(parsers.parse('I add a new good with description "{description}" controlled "{controlled}" control code "{control_code}" incorporated "{incorporated}" and part number "{part_number}"'))  # noqa
+def create_a_new_good_in_application(driver, description, controlled, control_code, incorporated, part_number):
+    prefix = 'good_'
+    add_goods_page = AddGoodPage(driver, prefix=prefix)
+    add_goods_page.enter_description_of_goods(description)
+    add_goods_page.select_is_your_good_controlled(controlled)
+    add_goods_page.select_is_your_good_intended_to_be_incorporated_into_an_end_product(incorporated)
+    add_goods_page.enter_control_code(control_code)
+    Shared(driver).click_continue()
+
+
+@when(parsers.parse('I enter details for the new good on an application with value "{value}", quantity "{quantity}" and unit of measurement "{unit}" and I click Continue"'))  # noqa
+def i_enter_detail_for_the_good_on_the_application(driver, value, quantity, unit):
+    ApplicationGoodsList(driver, prefix="good_on_app_").add_values_to_good(value, quantity, unit)
+    Shared(driver).click_continue()
