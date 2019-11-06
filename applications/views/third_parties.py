@@ -2,14 +2,13 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
-from applications.libraries.check_your_answers_helpers import _convert_consignee
-from lite_forms.generators import form_page, error_page
-from lite_forms.submitters import submit_paged_form
-
 from applications.forms.end_user import new_consignee_forms
 from applications.forms.third_party import third_party_forms
-from applications.services import post_third_party, get_third_parties, delete_third_party, post_consignee, \
+from applications.libraries.check_your_answers_helpers import _convert_consignee
+from applications.services import post_third_party, delete_third_party, post_consignee, \
     get_application, delete_consignee
+from lite_forms.generators import form_page, error_page
+from lite_forms.submitters import submit_paged_form
 from lite_forms.views import MultiFormView
 
 
