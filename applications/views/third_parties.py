@@ -41,11 +41,13 @@ class ThirdParties(TemplateView):
     def get(self, request, **kwargs):
         application_id = str(kwargs['pk'])
         application = get_application(request, application_id)
-        third_parties = get_third_parties(request, application_id)
+
+        if not application['third_parties']:
+            return redirect(reverse_lazy('applications:add_third_party', kwargs={'pk': application_id}))
 
         context = {
             'application': application,
-            'third_parties': third_parties,
+            'third_parties': application['third_parties'],
         }
         return render(request, 'applications/parties/third_parties.html', context)
 

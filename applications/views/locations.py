@@ -32,20 +32,15 @@ class EditGoodsLocation(TemplateView):
     def get(self, request, **kwargs):
         application_id = str(kwargs['pk'])
         application = get_application(request, application_id)
-        external_locations, _ = get_external_locations_on_draft(request, application_id)
 
-        if external_locations['external_locations']:
-            data = {'organisation_or_external': 'external'}
-
+        if application['goods_locations']:
             if application['status'] and application['status'].get('key') == 'submitted':
                 return redirect(reverse_lazy('applications:location', kwargs={'pk': application_id}))
         else:
-            data = {'organisation_or_external': 'organisation'}
-
             if application['status'] and application['status'].get('key') == 'submitted':
                 return redirect(reverse_lazy('applications:existing_sites', kwargs={'pk': application_id}))
 
-        return form_page(request, which_location_form(application_id), data=data)
+        return form_page(request, which_location_form(application_id))
 
     def post(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
