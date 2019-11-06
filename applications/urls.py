@@ -6,25 +6,24 @@ from goodstype import views as goodstypeviews
 
 app_name = 'applications'
 urlpatterns = [
-    # ex: /applications/
+    # Common
     path('', common.ApplicationsList.as_view(), name='applications'),
-    # ex: /applications/<uuid:pk>/
     path('<uuid:pk>/', common.ApplicationDetailEmpty.as_view(), name='application'),
-    # ex: /<uuid:pk>/delete/
     path('<uuid:pk>/delete/', common.DeleteApplication.as_view(), name='delete'),
-    # ex: /applications/<uuid:pk>/task-list/
     path('<uuid:pk>/task-list/', common.ApplicationTaskList.as_view(), name='task_list'),
-    # ex: /applications/<uuid:pk>/edit-type/
     path('<uuid:pk>/edit-type/', common.ApplicationEditType.as_view(), name='edit_type'),
+    path('<uuid:pk>/check-your-answers/', common.CheckYourAnswers.as_view(), name='check_your_answers'),
+    path('<uuid:pk>/submit/', common.Submit.as_view(), name='submit'),
+    path('<uuid:pk>/ecju-queries/<uuid:query_pk>/', common.RespondToQuery.as_view(), name='respond_to_query'),
 
-    # ex: /applications/<uuid:pk>/edit/reference-name/
+    # Standard and Open Licence
     path('<uuid:pk>/edit/reference-name/', reference_name.ApplicationEditReferenceName.as_view(),
          name='edit_reference_name'),
-    # ex: /applications/<uuid:pk>/edit/told-by-an-official/
     path('<uuid:pk>/edit/told-by-an-official/', told_by_an_official.ApplicationEditToldByAnOfficial.as_view(),
          name='edit_told_by_an_official'),
 
-    path('<uuid:pk>/ecju-queries/<uuid:query_pk>/', common.RespondToQuery.as_view(), name='respond_to_query'),
+    # HMRC
+    path('<uuid:pk>/optional-note/', optional_note.ApplicationOptionalNote.as_view(), name='optional_note'),
 
     # Goods
     path('<uuid:pk>/open-goods/', goods.DraftOpenGoodsTypeList.as_view(), name='open_goods'),
@@ -103,18 +102,6 @@ urlpatterns = [
     path('<uuid:pk>/additional-document/<uuid:doc_pk>/delete', documents.DeleteDocument.as_view(),
          name='delete_additional_document'),
 
-    # ex: /applications/<uuid:pk>/optional-note/
-    path('<uuid:pk>/optional-note/', optional_note.ApplicationOptionalNote.as_view(), name='optional_note'),
-
-    # ex: /applications/<uuid:pk>/check-your-answers/
-    path('<uuid:pk>/check-your-answers/', common.CheckYourAnswers.as_view(), name='check_your_answers'),
-
-    # ex: /applications/<uuid:pk>/submit/
-    path('<uuid:pk>/submit/', common.Submit.as_view(), name='submit'),
-
-    # This HAS to be at the bottom, otherwise it'll swallow
-    # other url calls
-    # ex: /applications/<uuid:pk>/case-notes/
+    # This HAS to be at the bottom, otherwise it'll swallow other url calls
     path('<uuid:pk>/<str:type>/', common.ApplicationDetail.as_view(), name='application-detail'),
-
 ]
