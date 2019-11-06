@@ -62,7 +62,10 @@ def _convert_goods_types(goods_types):
 
 
 def _convert_end_user(end_user, application_id):
-    if end_user['document']:
+    if not end_user:
+        return {}
+
+    if end_user.get('document'):
         document = _convert_document(end_user['document'], 'end-user', application_id)
     else:
         document = convert_to_link(reverse_lazy('applications:end_user_attach_document',
@@ -89,6 +92,9 @@ def _convert_ultimate_end_users(ultimate_end_users, application_id):
 
 
 def _convert_consignee(consignee, application_id):
+    if not consignee:
+        return {}
+
     if consignee['document']:
         document = _convert_document(consignee['document'], 'consignee', application_id)
     else:
