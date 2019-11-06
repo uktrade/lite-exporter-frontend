@@ -138,7 +138,7 @@ class AddNewGood(TemplateView):
                 # Error is thrown if a document is not attached
                 self.data = request.POST.copy()
                 self.generate_form(request, form_num)
-                self.errors = {'documents': get_const_string('APPLICATION_GOODS_ADD_DOCUMENT_MISSING')}
+                self.errors = {'documents': [get_const_string('APPLICATION_GOODS_ADD_DOCUMENT_MISSING')]}
 
         return form_page(request, self.form, self.data, self.errors, {'form_pk': self.form_num})
 
