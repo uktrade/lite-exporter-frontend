@@ -164,7 +164,7 @@ def delete_third_party_document(request, pk, tp_pk):
 
 # Consignee
 def post_consignee(request, pk, json):
-    data = post(request, APPLICATIONS_URL + pk + CONSIGNEE_URL, json)
+    data = post(request, APPLICATIONS_URL + str(pk) + CONSIGNEE_URL, json)
     return data.json(), data.status_code
 
 
