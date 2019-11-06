@@ -82,13 +82,13 @@ def get_notifications(request, unviewed):
 
 
 # Organisation
-def get_organisations(request, page: int = 0, search_term=None, org_types=None):
+def get_organisations(request, page: int = 0, search_term=None, org_type=None):
     """
     Returns a list of organisations
     :param request: Standard HttpRequest object
     :param page: Returns n page of page results
     :param search_term: Filter by name
-    :param org_types: Filter by org type - 'hmrc', 'commercial', 'individual', or an array of it
+    :param org_type: Filter by org type - 'hmrc', 'commercial', 'individual', or an array of it
     """
     data = get(request, ORGANISATIONS_URL + convert_parameters_to_query_params(locals()))
     return data.json()

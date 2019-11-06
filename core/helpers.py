@@ -52,8 +52,21 @@ def group_notifications(notifications: list):
     return notifications_filtered
 
 
+def convert_value_to_query_param(key: str, value):
+    if isinstance(value, list):
+        return_value = ''
+        for item in value:
+            if not return_value:
+                return_value = return_value + key + '=' + item
+            else:
+                return_value = return_value + '&' + key + '=' + item
+        return return_value
+
+    return key + '=' + str(value)
+
+
 def convert_dict_to_query_params(dictionary: dict):
-    return '&'.join(([key + '=' + str(value) for (key, value) in dictionary.items()]))
+    return '&'.join(([convert_value_to_query_param(key, value) for (key, value) in dictionary.items()]))
 
 
 def convert_parameters_to_query_params(dictionary: dict):
@@ -63,11 +76,6 @@ def convert_parameters_to_query_params(dictionary: dict):
     """
     if 'request' in dictionary:
         del dictionary['request']
-
-    # If a given item in the dictionary is a list, convert it to a comma separated string
-    for key, value in dictionary.items():
-        if isinstance(value, list):
-            dictionary[key] = ','.join(dictionary[key])
 
     return '?' + convert_dict_to_query_params({key: value for key, value in dictionary.items() if value is not None})
 
