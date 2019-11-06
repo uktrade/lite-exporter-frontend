@@ -15,7 +15,11 @@
 		{% endif %}
 		{% if not done and not in_progress %}
 			<div class="lite-tag lite-tag--hollow">
-				Not started
+				{% if optional %}
+					Optional
+				{% else %}
+					Not started
+				{% endif %}
 			</div>
 		{% endif %}
 	</div>

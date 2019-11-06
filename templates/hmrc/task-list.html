@@ -23,22 +23,22 @@
 				{% include "includes/task-list-item.html" with title="Set end user" url=end_user_url done=application.end_user %}
 
 				{% url 'applications:ultimate_end_users' application.id as ultimate_end_user_url %}
-				{% include "includes/task-list-item.html" with title="Add ultimate end users" url=ultimate_end_user_url done=application.ultimate_end_users %}
+				{% include "includes/task-list-item.html" with title="Add ultimate end users" url=ultimate_end_user_url done=application.ultimate_end_users optional=True %}
 
 				{% url 'applications:third_parties' application.id as third_parties_url %}
-				{% include "includes/task-list-item.html" with title="Add third parties" url=third_parties_url done=application.third_parties %}
+				{% include "includes/task-list-item.html" with title="Add third parties" url=third_parties_url done=application.third_parties optional=True %}
 
 				{% url 'applications:consignee' application.id as third_parties_url %}
-				{% include "includes/task-list-item.html" with title="Set consignee" url=third_parties_url done=application.consignee %}
+				{% include "includes/task-list-item.html" with title="Set consignee" url=third_parties_url done=application.consignee optional=True %}
 
 				{% url 'applications:location' application.id as goods_location_url %}
 				{% include "includes/task-list-item.html" with title="Goods locations" url=goods_location_url done=application.goods_locations.data %}
 
 				{% url 'applications:additional_documents' application.id as supporting_documentation_url %}
-				{% include "includes/task-list-item.html" with title="Supporting documentation" url=supporting_documentation_url done=application.supporting_documentation %}
+				{% include "includes/task-list-item.html" with title="Supporting documentation" url=supporting_documentation_url done=application.supporting_documentation optional=True %}
 
 				{% url 'applications:optional_note' application.id as optional_note_url %}
-				{% include "includes/task-list-item.html" with title="Optional note" url=optional_note_url done=application.reasoning %}
+				{% include "includes/task-list-item.html" with title="Why are you raising this query?" url=optional_note_url done=application.reasoning optional=True %}
 			</ul>
 		</li>
 	</ol>
@@ -49,7 +49,7 @@
 				<span class="lite-task-list__section-number">2. </span> Check your answers
 			</h2>
 			<ul class="lite-task-list__items">
-				{% if application.goods_types and application.end_user and application.ultimate_end_users and application.third_parties and application.consignee and application.goods_locations.data %}
+				{% if application.goods_types and application.end_user and application.goods_locations.data %}
 					{% url 'applications:check_your_answers' application.id as check_your_answers_url %}
 			        {% include "includes/task-list-item.html" with title="Check your answers" url=check_your_answers_url %}
 				{% else %}
@@ -61,7 +61,7 @@
 				{% endif %}
 			</ul>
 		</li>
-		{% if application.goods_types and application.end_user and application.ultimate_end_users and application.third_parties and application.consignee and application.goods_locations.data %}
+		{% if application.goods_types and application.end_user and application.goods_locations.data %}
 			<li>
 				<form method="post">
 	                {% csrf_token %}
