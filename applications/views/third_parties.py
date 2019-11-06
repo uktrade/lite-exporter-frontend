@@ -80,7 +80,7 @@ class Consignee(TemplateView):
 class SetConsignee(MultiFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs['pk']
-        self.data = get_application(request, self.object_pk)['end_user']
+        self.data = get_application(request, self.object_pk)['consignee']
         self.forms = new_consignee_forms()
         self.action = post_consignee
         self.success_url = reverse_lazy('applications:consignee_attach_document', kwargs={'pk': self.object_pk})
