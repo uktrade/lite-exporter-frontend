@@ -102,7 +102,13 @@ class AttachDocuments(TemplateView):
 
     @csrf_exempt
     def post(self, request, **kwargs):
+        draft_id = str(kwargs['pk'])
+        form = get_upload_page(request.path, draft_id)
         self.request.upload_handlers.insert(0, S3FileUploadHandler(request))
+
+        if not request.FILES:
+            return form_page(request, form, extra_data={'draft_id': draft_id}, errors={'documents': ['Select a file to upload']})
+
         logging.info(self.request)
         draft_id = str(kwargs['pk'])
         data, error = add_document_data(request)
@@ -111,8 +117,7 @@ class AttachDocuments(TemplateView):
             return error_page(None, get_string('end_user.documents.attach_documents.upload_error'))
 
         if 'ultimate-end-user' in request.path:
-            _, status_code = post_ultimate_end_user_document(request, draft_id,
-                                                                             str(kwargs['ueu_pk']), data)
+            _, status_code = post_ultimate_end_user_document(request, draft_id, str(kwargs['ueu_pk']), data)
         elif 'consignee' in request.path:
             _, status_code = post_consignee_document(request, draft_id, data)
         elif 'third-parties' in request.path:

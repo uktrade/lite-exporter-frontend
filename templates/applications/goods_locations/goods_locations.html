@@ -31,7 +31,7 @@
 					Edit sites
 				</a>
 			{% else %}
-				<a href="{% url 'applications:add_preexisting_external_location' application.id %}" class="govuk-button govuk-button--secondary">
+				<a href="{% url 'applications:add_preexisting_external_location' application.id %}" class="govuk-button">
 					{% get_string 'goods.location_lists.find_address_button' %}
 				</a>
 				<a href="{% url 'applications:add_external_location' application.id %}" class="govuk-button">
