@@ -5,7 +5,7 @@ class ApplicationPage:
         self.ecju_query_tab = "ecju-queries-tab"  # ID
         self.ecju_query_response_text = 'Respond to query'  # text
         self.ecju_queries_closed = "closed-ecju-query"  # ID
-        self.edit_application_link = "a[href*='/edit/']"
+        self.edit_application_link = "a[href*='/edit-type/']"
 
     def click_edit_application_link(self):
         self.driver.find_element_by_css_selector(self.edit_application_link).click()
