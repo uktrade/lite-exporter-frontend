@@ -1,4 +1,4 @@
-def validate_external_location_choice(request, pk, json):
+def validate_external_location_choice(_request, _pk, json):
     if json.get('choice'):
         return json, 200
 
