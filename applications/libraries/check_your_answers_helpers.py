@@ -97,11 +97,11 @@ def _convert_goods_locations(goods_locations):
             {
                 'Site': site['name'],
                 'Address': site['address']['address_line_1'] + NEW_LINE +
-                           site['address']['address_line_2'] + NEW_LINE +
-                           site['address']['city'] + NEW_LINE +
-                           site['address']['region'] + NEW_LINE +
-                           site['address']['postcode'] + NEW_LINE +
-                           site['address']['country']['name']
+                site['address']['address_line_2'] + NEW_LINE +
+                site['address']['city'] + NEW_LINE +
+                site['address']['region'] + NEW_LINE +
+                site['address']['postcode'] + NEW_LINE +
+                site['address']['country']['name']
             } for site in goods_locations['data']
         ]
     else:
@@ -109,7 +109,7 @@ def _convert_goods_locations(goods_locations):
             {
                 'Site': external_location['name'],
                 'Address': external_location['address'] + NEW_LINE +
-                           external_location['country']['name']
+                external_location['country']['name']
             } for external_location in goods_locations['data']
         ]
 

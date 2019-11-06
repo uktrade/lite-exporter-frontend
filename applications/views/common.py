@@ -7,7 +7,6 @@ from django.views.generic import TemplateView
 
 from applications.forms.common import respond_to_query_form, ecju_query_respond_confirmation_form, edit_type_form
 from applications.libraries.check_your_answers_helpers import convert_application_to_check_your_answers
-from applications.libraries.get_licence_overview import get_licence_overview
 from applications.libraries.task_lists import get_application_task_list
 from applications.services import get_applications, get_case_notes, \
     get_application_ecju_queries, get_ecju_query, put_ecju_query, post_application_case_notes, get_draft_applications, \
@@ -108,8 +107,8 @@ class ApplicationTaskList(TemplateView):
 
     def post(self, request, **kwargs):
         application_id = str(kwargs['pk'])
-        application_data = get_application(request, str(kwargs['pk']))
-        submit_data, status_code = submit_application(request, application_id)
+        get_application(request, str(kwargs['pk']))
+        _, status_code = submit_application(request, application_id)
 
         if status_code != HTTPStatus.OK:
             raise Http404

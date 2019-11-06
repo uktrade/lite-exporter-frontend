@@ -3,18 +3,17 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
-from applications.validators import validate_external_location_choice
-from lite_forms.generators import form_page
-from lite_forms.submitters import submit_single_form
-
 from applications.forms.countries import countries_form
 from applications.forms.location import which_location_form, new_location_form, external_locations_form, \
     add_external_location
 from applications.forms.sites import sites_form
-from core.services import get_sites_on_draft, post_sites_on_draft, post_external_locations, \
-    get_external_locations_on_draft, get_external_locations, post_external_locations_on_draft, \
-    delete_external_locations_from_draft
 from applications.services import get_application, get_application_countries, post_application_countries
+from applications.validators import validate_external_location_choice
+from core.services import get_sites_on_draft, post_sites_on_draft, post_external_locations, \
+    get_external_locations_on_draft, post_external_locations_on_draft, \
+    delete_external_locations_from_draft
+from lite_forms.generators import form_page
+from lite_forms.submitters import submit_single_form
 from lite_forms.views import SingleFormView
 
 
