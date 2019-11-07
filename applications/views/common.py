@@ -107,11 +107,11 @@ class ApplicationTaskList(TemplateView):
 
     def post(self, request, **kwargs):
         application_id = str(kwargs['pk'])
-        get_application(request, str(kwargs['pk']))
-        _, status_code = submit_application(request, application_id)
+        application = get_application(request, str(kwargs['pk']))
+        data, status_code = submit_application(request, application_id)
 
         if status_code != HTTPStatus.OK:
-            raise Http404
+            return get_application_task_list(request, application, errors=data.get('errors'))
 
         return success_page(request,
                             title='Application submitted',

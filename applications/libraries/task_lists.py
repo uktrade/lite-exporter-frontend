@@ -7,18 +7,18 @@ from conf.constants import HMRC_QUERY, OPEN_LICENCE, STANDARD_LICENCE
 from core.services import get_sites_on_draft, get_external_locations_on_draft
 
 
-def get_application_task_list(request, application):
+def get_application_task_list(request, application, errors=None):
     if application['application_type']['key'] == STANDARD_LICENCE:
-        return _get_standard_application_task_list(request, application)
+        return _get_standard_application_task_list(request, application, errors)
     elif application['application_type']['key'] == OPEN_LICENCE:
-        return _get_open_application_task_list(request, application)
+        return _get_open_application_task_list(request, application, errors)
     elif application['application_type']['key'] == HMRC_QUERY:
         return _get_hmrc_query_task_list(request, application)
     else:
         raise NotImplementedError()
 
 
-def _get_standard_application_task_list(request, application):
+def _get_standard_application_task_list(request, application, errors=None):
     application_id = application['id']
 
     # Add the editing type (if possible) to the context to make it easier to read/change in the future
@@ -74,12 +74,13 @@ def _get_standard_application_task_list(request, application):
         'consignee_document': consignee_document,
         'countries_on_goods_types': countries_on_goods_types,
         'third_parties': third_parties,
-        'additional_documents': additional_documents['documents']
+        'additional_documents': additional_documents['documents'],
+        'errors': errors
     }
     return render(request, 'applications/standard-application-edit.html', context)
 
 
-def _get_open_application_task_list(request, application):
+def _get_open_application_task_list(request, application, errors=None):
     application_id = application['id']
 
     # Add the editing type (if possible) to the context to make it easier to read/change in the future
@@ -125,7 +126,8 @@ def _get_open_application_task_list(request, application):
         'consignee_document': consignee_document,
         'countries_on_goods_types': countries_on_goods_types,
         'third_parties': third_parties,
-        'additional_documents': additional_documents['documents']
+        'additional_documents': additional_documents['documents'],
+        'errors': errors
     }
     return render(request, 'applications/open-application-edit.html', context)
 
