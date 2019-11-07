@@ -156,7 +156,7 @@ class DownloadDocument(TemplateView):
         elif 'end-user' in request.path:
             document, _ = get_end_user_document(request, draft_id)
         elif 'goods-type' in request.path:
-            document, status_code = get_goods_type_document(request, draft_id, str(kwargs['good_pk']))
+            document, _ = get_goods_type_document(request, draft_id, str(kwargs['good_pk']))
         elif 'additional-document' in request.path:
             document, _ = get_additional_document(request, draft_id, str(kwargs['doc_pk']))
         else:

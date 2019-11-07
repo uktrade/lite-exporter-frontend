@@ -3,25 +3,27 @@
 		<a id="{{ title|idify }}" href="{{ url }}" class="govuk-link govuk-link--no-visited-state">
 			{{ title }}
 		</a>
-		{% if status == 'done' %}
-			<div class="lite-tag lite-tag--blue">
-				Done
-			</div>
-		{% endif %}
-		{% if status == 'in_progress' %}
-			<div class="lite-tag lite-tag--orange">
-				In progress
-			</div>
-		{% endif %}
-		{% if not status %}
-			<div class="lite-tag lite-tag--hollow">
-				<span class="govuk-visually-hidden">This section is </span>
-				{% if optional %}
-					Optional
-				{% else %}
-					Not started
-				{% endif %}
-			</div>
+		{% if not hide_tag %}
+			{% if status == 'done' %}
+				<div class="lite-tag lite-tag--blue">
+					Done
+				</div>
+			{% endif %}
+			{% if status == 'in_progress' %}
+				<div class="lite-tag lite-tag--orange">
+					In progress
+				</div>
+			{% endif %}
+			{% if not status %}
+				<div class="lite-tag lite-tag--hollow">
+					<span class="govuk-visually-hidden">This section is </span>
+					{% if optional %}
+						Optional
+					{% else %}
+						Not started
+					{% endif %}
+				</div>
+			{% endif %}
 		{% endif %}
 	</div>
 	{% if description %}
