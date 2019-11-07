@@ -38,6 +38,12 @@ urlpatterns = [
     path('<uuid:pk>/goods-types/add/', goods_types.ApplicationAddGoodsType.as_view(), name='add_goods_type'),
     path('<uuid:pk>/goods-types/remove/<uuid:goods_type_pk>/', goods_types.ApplicationRemoveGoodsType.as_view(),
          name='remove_goods_type'),
+    path('<uuid:pk>/goods-types/<uuid:good_pk>/document/attach/', documents.AttachDocuments.as_view(),
+         name='goods_type_attach_document'),
+    path('<uuid:pk>/goods-types/<uuid:good_pk>/document/download/', documents.DownloadDocument.as_view(),
+         name='goods_type_download_document'),
+    path('<uuid:pk>/goods-types/<uuid:good_pk>/document/delete/', documents.DeleteDocument.as_view(),
+         name="goods_type_delete_document"),
 
     # Goods locations
     path('<uuid:pk>/goods-locations/', locations.GoodsLocation.as_view(), name='location'),

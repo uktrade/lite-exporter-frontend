@@ -310,3 +310,18 @@ def delete_goods_type(request, app_pk, good_pk):
 def post_goods_type_countries(request, app_pk, good_pk, json):
     data = put(request, APPLICATIONS_URL + app_pk + GOODSTYPE_URL + good_pk + GOODSTYPE_COUNTRY_URL, json)
     return data.json(), data.status_code
+
+
+def get_goods_type_document(request, pk, good_pk):
+    data = get(request, APPLICATIONS_URL + pk + GOODSTYPE_URL + good_pk + DOCUMENT_URL)
+    return data.json(), data.status_code
+
+
+def post_goods_type_document(request, pk, good_pk, json):
+    data = post(request, APPLICATIONS_URL + pk + GOODSTYPE_URL + good_pk + DOCUMENT_URL, json)
+    return data.json(), data.status_code
+
+
+def delete_goods_type_document(request, pk, good_pk):
+    data = delete(request, APPLICATIONS_URL + pk + GOODSTYPE_URL + good_pk + DOCUMENT_URL)
+    return data.status_code

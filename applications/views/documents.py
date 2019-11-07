@@ -14,7 +14,8 @@ from applications.services import post_ultimate_end_user_document, post_end_user
     get_ultimate_end_user_document, get_end_user_document, delete_ultimate_end_user_document, delete_end_user_document, \
     post_consignee_document, get_consignee_document, delete_consignee_document, post_third_party_document, \
     get_third_party_document, delete_third_party_document, post_additional_document, get_additional_document, \
-    delete_additional_party_document, add_document_data, download_document_from_s3
+    delete_additional_party_document, add_document_data, download_document_from_s3, post_goods_type_document, \
+    delete_goods_type_document, get_goods_type_document
 
 document_forms_paths = {
     'ultimate-end-user':
@@ -27,6 +28,12 @@ document_forms_paths = {
         {
             'homepage': 'applications:task_list',
             'strings': 'end_user.documents',
+            'description': False
+        },
+    'goods-types':
+        {
+            'homepage': 'applications:open_goods',
+            'strings': 'goods_types.documents',
             'description': False
         },
     'consignee':
@@ -55,6 +62,8 @@ def get_page_content(path):
         return document_forms_paths['ultimate-end-user']
     elif 'end-user' in path:
         return document_forms_paths['end-user']
+    elif 'goods-types' in path:
+        return document_forms_paths['goods-types']
     elif 'consignee' in path:
         return document_forms_paths['consignee']
     elif 'third-parties' in path:
@@ -122,6 +131,8 @@ class AttachDocuments(TemplateView):
             _, status_code = post_third_party_document(request, draft_id, str(kwargs['tp_pk']), data)
         elif 'end-user' in request.path:
             _, status_code = post_end_user_document(request, draft_id, data)
+        elif 'goods-type' in request.path:
+            _, status_code = post_goods_type_document(request, draft_id, str(kwargs['good_pk']), data)
         elif 'additional-document' in request.path:
             _, status_code = post_additional_document(request, draft_id, data)
         else:
@@ -144,6 +155,8 @@ class DownloadDocument(TemplateView):
             document, _ = get_third_party_document(request, draft_id, str(kwargs['tp_pk']))
         elif 'end-user' in request.path:
             document, _ = get_end_user_document(request, draft_id)
+        elif 'goods-type' in request.path:
+            document, status_code = get_goods_type_document(request, draft_id, str(kwargs['good_pk']))
         elif 'additional-document' in request.path:
             document, _ = get_additional_document(request, draft_id, str(kwargs['doc_pk']))
         else:
@@ -176,6 +189,8 @@ class DeleteDocument(TemplateView):
                     status_code = delete_third_party_document(request, draft_id, str(kwargs['tp_pk']))
                 elif 'end-user' in request.path:
                     status_code = delete_end_user_document(request, draft_id)
+                elif 'goods-type' in request.path:
+                    status_code = delete_goods_type_document(request, draft_id, str(kwargs['good_pk']))
                 elif 'additional-document' in request.path:
                     status_code = delete_additional_party_document(request, draft_id, str(kwargs['doc_pk']))
                 else:
