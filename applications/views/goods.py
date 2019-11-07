@@ -1,5 +1,3 @@
-import copy
-
 from django.http import Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
@@ -7,7 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
 
 from core.builtins.custom_tags import get_const_string
-from lite_forms.components import HiddenField, Button
+from lite_forms.components import HiddenField
 from lite_forms.generators import error_page, form_page
 from s3chunkuploader.file_handler import S3FileUploadHandler
 from django.utils.decorators import method_decorator
@@ -126,7 +124,7 @@ class AddNewGood(TemplateView):
                     return error_page(None, error)
 
                 # Send LITE API the file information
-                good_documents, _ = post_good_documents(request, good_id, [data])
+                post_good_documents(request, good_id, [data])
 
                 # Attach good to application
                 post_data['good_id'] = good_id

@@ -31,7 +31,6 @@ def good_on_application_form(good, units, title, prefix=""):
 def add_new_good_forms(request, application_id):
     back_link = BackLink(get_const_string("APPLICATION_GOODS_ADD_BACK"), reverse("applications:goods",
                                                                                  kwargs={'pk': application_id}))
-    continue_button = [Button('Continue', 'continue')]
 
     return [
         add_goods_questions(clc=False, back_link=back_link, prefix="good_"),

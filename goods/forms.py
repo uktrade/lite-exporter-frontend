@@ -1,9 +1,8 @@
 from django.urls import reverse, reverse_lazy
 from lite_forms.common import control_list_entry_question
 from lite_forms.components import Form, TextArea, RadioButtons, Option, BackLink, FileUpload, TextInput, HTMLBlock, \
-    HiddenField, Button, DetailComponent
+    HiddenField, Button
 from lite_forms.generators import confirm_form
-from lite_forms.helpers import conditional
 from lite_forms.styles import ButtonStyle
 
 from conf.settings import env
