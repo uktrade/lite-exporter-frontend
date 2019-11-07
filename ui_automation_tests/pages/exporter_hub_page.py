@@ -16,7 +16,7 @@ class ExporterHubPage:
         self.sites_link = "a[href*='sites']"
         self.goods_tile = "a[href*='sites']"
         self.end_user_advisory_tile = "a[href*='/end-users/']"
-        self.raise_hmrc_query_btn = "a[href*='/raise-hmrc-query/"
+        self.raise_hmrc_query_btn = "a[href*='/raise-a-query/"
 
     def go_to(self, url):
         self.driver.get(url)

@@ -12,5 +12,5 @@ def raise_query_on_behalf_of_my_first_org(driver, context):
     ExporterHubPage(driver).click_raise_hmrc_query()
     page = HMRCQueryPage(driver)
     page.search_for_org(context.org_name)
-    Shared(driver).click_continue()
-    page.select_first_org_in_list()
+    page.click_org_radio_button(context.org_id)
+    page.click_continue()
