@@ -7,18 +7,18 @@ from conf.constants import HMRC_QUERY, OPEN_LICENCE, STANDARD_LICENCE
 from core.services import get_sites_on_draft, get_external_locations_on_draft
 
 
-def get_application_task_list(request, application):
+def get_application_task_list(request, application, errors=None):
     if application['application_type']['key'] == STANDARD_LICENCE:
-        return _get_standard_application_task_list(request, application)
+        return _get_standard_application_task_list(request, application, errors)
     elif application['application_type']['key'] == OPEN_LICENCE:
-        return _get_open_application_task_list(request, application)
+        return _get_open_application_task_list(request, application, errors)
     elif application['application_type']['key'] == HMRC_QUERY:
         return _get_hmrc_query_task_list(request, application)
     else:
         raise NotImplementedError()
 
 
-def _get_standard_application_task_list(request, application):
+def _get_standard_application_task_list(request, application, errors=None):
     application_id = application['id']
 
     # Add the editing type (if possible) to the context to make it easier to read/change in the future
@@ -74,12 +74,13 @@ def _get_standard_application_task_list(request, application):
         'consignee_document': consignee_document,
         'countries_on_goods_types': countries_on_goods_types,
         'third_parties': third_parties,
-        'additional_documents': additional_documents['documents']
+        'additional_documents': additional_documents['documents'],
+        'errors': errors
     }
     return render(request, 'applications/standard-application-edit.html', context)
 
 
-def _get_open_application_task_list(request, application):
+def _get_open_application_task_list(request, application, errors=None):
     application_id = application['id']
 
     # Add the editing type (if possible) to the context to make it easier to read/change in the future
@@ -93,6 +94,7 @@ def _get_open_application_task_list(request, application):
     reference_number_description = _get_reference_number_description(
         application['have_you_been_informed'], application['reference_number_on_information_form'])
 
+    sites, _ = get_sites_on_draft(request, application_id)
     external_locations, _ = get_external_locations_on_draft(request, application_id)
     additional_documents, _ = get_additional_documents(request, application_id)
 
@@ -116,6 +118,7 @@ def _get_open_application_task_list(request, application):
         'reference_number_description': reference_number_description,
         'countries': countries,
         'goodstypes': goodstypes,
+        'sites': sites,
         'external_locations': external_locations['external_locations'],
         'ultimate_end_users': ultimate_end_users,
         'ultimate_end_users_required': ultimate_end_users_required,
@@ -123,7 +126,8 @@ def _get_open_application_task_list(request, application):
         'consignee_document': consignee_document,
         'countries_on_goods_types': countries_on_goods_types,
         'third_parties': third_parties,
-        'additional_documents': additional_documents['documents']
+        'additional_documents': additional_documents['documents'],
+        'errors': errors
     }
     return render(request, 'applications/open-application-edit.html', context)
 
