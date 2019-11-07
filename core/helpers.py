@@ -94,4 +94,4 @@ def convert_to_link(address, name=None, classes=''):
     address = escape(address)
     name = escape(name)
 
-    return safe(f'<a href="{address}" class="govuk-link {classes}">{name}</a>')
+    return safe(f'<a href="{address}" class="govuk-link govuk-link--no-visited-state {classes}">{name}</a>')

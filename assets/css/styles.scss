@@ -7,6 +7,30 @@ main {
 	min-height: 60vh;
 }
 
+.govuk-summary-list__key--highlight {
+	border-left: govuk-spacing(1) solid govuk-colour("orange");
+	padding-left: govuk-spacing(3);
+}
+
+.lite-warning-summary {
+	@include govuk-responsive-margin(9, "bottom");
+	border: govuk-spacing(1) solid govuk-colour("orange");
+	padding: govuk-spacing(4);
+}
+
+.lite-error-summary__list {
+	margin: 0;
+
+	li:last-of-type {
+		margin: 0;
+	}
+}
+
+.lite-error-summary__list a {
+	color: govuk-colour("orange");
+	font-weight: bold;
+}
+
 .app-check-your-answers-separator {
 	display: block;
 	height: 1px;
