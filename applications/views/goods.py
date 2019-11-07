@@ -1,13 +1,13 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
-from lite_forms.generators import error_page
 
 from applications.forms.goods import preexisting_good_form
-from applications.services import get_application, get_application_goods, get_application_goods_types, \
-    post_application_preexisting_goods, delete_application_preexisting_good
+from applications.services import get_application, get_application_goods, post_application_preexisting_goods, \
+    delete_application_preexisting_good
 from core.services import get_units
 from goods.services import get_goods, get_good
+from lite_forms.generators import error_page
 
 
 class DraftGoodsList(TemplateView):
