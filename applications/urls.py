@@ -47,7 +47,7 @@ urlpatterns = [
          name='select_add_external_location'),
     path('<uuid:pk>/goods-locations/external-locations/add/', locations.AddExternalLocation.as_view(),
          name='add_external_location'),
-    path('<uuid:pk>/goods-locations/external-locations/<uuid:ext_loc_pk>', locations.RemoveExternalLocation.as_view(),
+    path('<uuid:pk>/goods-locations/external-locations/<uuid:ext_loc_pk>/', locations.RemoveExternalLocation.as_view(),
          name='remove_external_location'),
     path('<uuid:pk>/goods-locations/external-locations/preexisting/', locations.AddExistingExternalLocation.as_view(),
          name='add_preexisting_external_location'),

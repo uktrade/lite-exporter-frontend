@@ -5,6 +5,5 @@ from apply_for_a_licence import views
 app_name = 'apply_for_a_licence'
 
 urlpatterns = [
-    # ex: /apply-for-a-licence/
     path('', views.InitialQuestions.as_view(), name='start'),
 ]
