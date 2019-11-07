@@ -85,7 +85,7 @@ def change_ref_name(driver, context):
 
 @when("I change my reference number")
 def change_ref_num(driver, context):
-    driver.find_element_by_id('reference_number').click()
+    driver.find_element_by_id('told_by_an_official_that_you_need_an_export_licence').click()
     enter_export_licence(driver, 'yes', '12345678', context)
 
 
