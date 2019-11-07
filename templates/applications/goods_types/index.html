@@ -16,7 +16,13 @@
 		</div>
         {% if not application.status.value or application.status.key == 'applicant_editing' %}
 		<div class="lite-app-bar__controls">
-			<a href="{% url 'applications:add_goods_type' application.id %}?next={% url 'applications:open_goods' application.id %}" role='button' draggable='false' class='govuk-button'>{% get_string 'good_types.overview_good_types.add_good_type_button' %}</a>
+			<a href="{% url 'applications:add_goods_type' application.id %}?next={% url 'applications:open_goods' application.id %}" role='button' draggable='false' class='govuk-button'>
+				{% if goods %}
+					Add another good
+				{% else %}
+					{% get_string 'good_types.overview_good_types.add_good_type_button' %}
+				{% endif %}
+			</a>
 		</div>
         {% endif %}
 	</div>

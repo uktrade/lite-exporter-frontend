@@ -3,7 +3,7 @@ from http import HTTPStatus
 from conf.client import get, post, put, delete
 from conf.constants import APPLICATIONS_URL, END_USER_DOCUMENT_URL, ULTIMATE_END_USER_URL, DOCUMENT_URL, \
     CONSIGNEE_URL, THIRD_PARTIES_URL, CONSIGNEE_DOCUMENT_URL, APPLICATION_SUBMIT_URL, ADDITIONAL_DOCUMENT_URL, \
-    CASES_URL, CASE_NOTES_URL, ECJU_QUERIES_URL, MANAGE_STATUS_URL
+    CASES_URL, CASE_NOTES_URL, ECJU_QUERIES_URL, MANAGE_STATUS_URL, GOODSTYPE_URL, GOODSTYPES_URL, GOODSTYPE_COUNTRY_URL
 from conf.settings import AWS_STORAGE_BUCKET_NAME, STREAMING_CHUNK_SIZE
 from django.http import StreamingHttpResponse
 from s3chunkuploader.file_handler import s3_client
@@ -290,3 +290,23 @@ def download_document_from_s3(s3_key, original_file_name):
     response = StreamingHttpResponse(generate_file(s3_response), **_kwargs)
     response['Content-Disposition'] = f'attachment; filename="{original_file_name}"'
     return response
+
+# Goods Types
+def get_goods_type(request, app_pk, good_pk):
+    data = get(request, APPLICATIONS_URL + app_pk + GOODSTYPE_URL + good_pk + '/')
+    return data.json(), data.status_code
+
+
+def post_goods_type(request, app_pk, json):
+    data = post(request, APPLICATIONS_URL + app_pk + GOODSTYPES_URL, json)
+    return data.json(), data.status_code
+
+
+def delete_goods_type(request, app_pk, good_pk):
+    data = delete(request, APPLICATIONS_URL + app_pk + GOODSTYPE_URL + good_pk + "/")
+    return data.status_code
+
+
+def post_goods_type_countries(request, app_pk, good_pk, json):
+    data = put(request, APPLICATIONS_URL + app_pk + GOODSTYPE_URL + good_pk + GOODSTYPE_COUNTRY_URL, json)
+    return data.json(), data.status_code

@@ -50,22 +50,6 @@ class GoodsList(TemplateView):
         return render(request, 'applications/goods/preexisting.html', context)
 
 
-class DraftOpenGoodsTypeList(TemplateView):
-    def get(self, request, **kwargs):
-        application_id = str(kwargs['pk'])
-        application = get_application(request, application_id)
-        goods = get_application_goods_types(request, application_id)
-
-        if not application['goods_types']:
-            return redirect(reverse_lazy('applications:add_goods_type', kwargs={'pk': application_id}))
-
-        context = {
-            'goods': goods,
-            'application': application,
-        }
-        return render(request, 'applications/goodstype/index.html', context)
-
-
 class AddPreexistingGood(TemplateView):
     def get(self, request, **kwargs):
         good, _ = get_good(request, str(kwargs['good_pk']))

@@ -1,8 +1,7 @@
 from django.urls import path
 
 from applications.views import goods, documents, third_parties, locations, end_users, additional_documents, common, \
-    reference_name, told_by_an_official, optional_note
-from goodstype import views as goodstypeviews
+    reference_name, told_by_an_official, optional_note, goods_types
 
 app_name = 'applications'
 urlpatterns = [
@@ -26,16 +25,19 @@ urlpatterns = [
     path('<uuid:pk>/optional-note/', optional_note.ApplicationOptionalNote.as_view(), name='optional_note'),
 
     # Goods
-    path('<uuid:pk>/open-goods/', goods.DraftOpenGoodsTypeList.as_view(), name='open_goods'),
-    path('<uuid:pk>/goods-types/add/', goodstypeviews.ApplicationAddGoodsType.as_view(), name='add_goods_type'),
-    path('<uuid:pk>/goods-types/remove/<uuid:goods_type_pk>/', goodstypeviews.ApplicationRemoveGoodsType.as_view(),
-         name='remove_goods_type'),
     path('<uuid:pk>/goods/', goods.DraftGoodsList.as_view(), name='goods'),
     path('<uuid:pk>/goods/add-preexisting/', goods.GoodsList.as_view(), name='preexisting_good'),
     path('<uuid:pk>/goods/add-preexisting/<uuid:good_pk>/add/', goods.AddPreexistingGood.as_view(),
          name='add_preexisting_good'),
     path('<uuid:pk>/good-on-application/<uuid:good_on_application_pk>/remove/', goods.RemovePreexistingGood.as_view(),
          name='remove_preexisting_good'),
+
+    # Goods Types
+    path('<uuid:pk>/goods-types/', goods_types.DraftOpenGoodsTypeList.as_view(), name='open_goods'),
+    path('<uuid:pk>/goods-types/countries/', goods_types.GoodsTypeCountries.as_view(), name='goods_countries'),
+    path('<uuid:pk>/goods-types/add/', goods_types.ApplicationAddGoodsType.as_view(), name='add_goods_type'),
+    path('<uuid:pk>/goods-types/remove/<uuid:goods_type_pk>/', goods_types.ApplicationRemoveGoodsType.as_view(),
+         name='remove_goods_type'),
 
     # Goods locations
     path('<uuid:pk>/goods-locations/', locations.GoodsLocation.as_view(), name='location'),
