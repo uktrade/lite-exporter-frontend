@@ -4,6 +4,7 @@ from django.views.generic import TemplateView
 
 from applications.forms.end_user import new_end_user_forms
 from applications.libraries.check_your_answers_helpers import _convert_end_user
+from applications.libraries.validate_status import check_all_parties_have_a_document
 from applications.services import get_application, post_end_user, get_ultimate_end_users, \
     post_ultimate_end_user, delete_ultimate_end_user, delete_end_user
 from lite_forms.generators import form_page, error_page
@@ -59,6 +60,7 @@ class UltimateEndUsers(TemplateView):
         context = {
             'application': application,
             'ultimate_end_users': ultimate_end_users,
+            'show_warning': check_all_parties_have_a_document(ultimate_end_users) == 'in_progress'
         }
         return render(request, 'applications/parties/ultimate_end_users.html', context)
 
