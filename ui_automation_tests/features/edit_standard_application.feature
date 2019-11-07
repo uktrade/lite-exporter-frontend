@@ -40,5 +40,3 @@ Feature: I want to be able to edit and update an active application
     And my application has been withdrawn
     And I click on application previously created
     Then the edit application button is not present
-
-

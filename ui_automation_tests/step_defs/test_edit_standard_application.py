@@ -102,4 +102,6 @@ def assert_ref_num(driver):
 
 @then('the edit application button is not present')
 def edit_button_not_present(driver):
+    driver.set_timeout_to(0)
     assert len((ApplicationPage(driver).find_edit_application_button())) == 0
+    driver.set_timeout_to(10)
