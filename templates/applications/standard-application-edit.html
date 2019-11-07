@@ -70,10 +70,10 @@
 			</h2>
 			<ul class="lite-task-list__items {% if is_editing %}govuk-!-padding-0{% endif %}">
 				{% url 'applications:edit_reference_name' application.id as reference_name_url %}
-				{% include "includes/task-list-item.html" with title="Reference name" url=reference_name_url done=True description=application.name %}
+				{% include "includes/task-list-item.html" with title="Reference name" url=reference_name_url status="done" description=application.name %}
 
 				{% url 'applications:edit_told_by_an_official' application.id as told_by_an_official_url %}
-				{% include "includes/task-list-item.html" with title="Told by an official that you need an export licence" url=told_by_an_official_url done=True description=reference_number_description %}
+				{% include "includes/task-list-item.html" with title="Told by an official that you need an export licence" url=told_by_an_official_url status="done" description=reference_number_description %}
 			</ul>
 		</li>
 	</ol>
@@ -284,8 +284,8 @@
 									Done
 								</div>
 					        {% elif application.end_user %}
-					            <div class="lite-tag lite-tag--hollow">
-									Started
+					            <div class="lite-tag lite-tag--orange">
+									In progress
 								</div>
 							{% else %}
 								<div class="lite-tag lite-tag--hollow">
@@ -371,8 +371,8 @@
 									Done
 								</div>
 					        {% elif application.consignee %}
-					            <div class="lite-tag lite-tag--hollow">
-									Started
+					            <div class="lite-tag lite-tag--orange">
+									In progress
 								</div>
 							{% else %}
 								<div class="lite-tag lite-tag--hollow">
@@ -455,8 +455,8 @@
 									Done
 								</div>
 					        {% elif ultimate_end_users %}
-					            <div class="lite-tag lite-tag--hollow">
-									Started
+					            <div class="lite-tag lite-tag--orange">
+									In progress
 								</div>
 							{% else %}
 								<div class="lite-tag lite-tag--hollow">
