@@ -93,6 +93,7 @@ def _get_open_application_task_list(request, application):
     reference_number_description = _get_reference_number_description(
         application['have_you_been_informed'], application['reference_number_on_information_form'])
 
+    sites, _ = get_sites_on_draft(request, application_id)
     external_locations, _ = get_external_locations_on_draft(request, application_id)
     additional_documents, _ = get_additional_documents(request, application_id)
 
@@ -116,6 +117,7 @@ def _get_open_application_task_list(request, application):
         'reference_number_description': reference_number_description,
         'countries': countries,
         'goodstypes': goodstypes,
+        'sites': sites,
         'external_locations': external_locations['external_locations'],
         'ultimate_end_users': ultimate_end_users,
         'ultimate_end_users_required': ultimate_end_users_required,
