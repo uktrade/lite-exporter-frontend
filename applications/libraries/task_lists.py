@@ -26,7 +26,7 @@ def _get_standard_application_task_list(request, application):
     edit_type = None
 
     reference_number_description = _get_reference_number_description(
-            application['have_you_been_informed'], application['reference_number_on_information_form'])
+        application['have_you_been_informed'], application['reference_number_on_information_form'])
 
     if application['status']:
         is_editing = application['status']['key'] == 'submitted' or application['status']['key'] == 'applicant_editing'
@@ -91,7 +91,7 @@ def _get_open_application_task_list(request, application):
             edit_type = 'minor_edit' if application['status']['key'] == 'submitted' else 'major_edit'
 
     reference_number_description = _get_reference_number_description(
-            application['have_you_been_informed'], application['reference_number_on_information_form'])
+        application['have_you_been_informed'], application['reference_number_on_information_form'])
 
     external_locations, _ = get_external_locations_on_draft(request, application_id)
     additional_documents, _ = get_additional_documents(request, application_id)
@@ -140,10 +140,16 @@ def _get_hmrc_query_task_list(request, application):
         'supporting_documentation_status': 'done' if application['supporting_documentation'] else None,
         'optional_note_status': 'done' if application['reasoning'] else None,
     }
+
+    context['show_submit_button'] = context['goods_types_status'] == 'done' and \
+                                    context['goods_locations_status'] == 'done' and \
+                                    context['end_user_status'] == 'done' and \
+                                    context['ultimate_end_users_status'] != 'in_progress'
+
     return render(request, 'hmrc/task-list.html', context)
 
 
-def _get_reference_number_description(have_you_been_informed:str, reference_number_on_information_form):
+def _get_reference_number_description(have_you_been_informed: str, reference_number_on_information_form):
     if have_you_been_informed == 'yes':
         if not reference_number_on_information_form:
             reference_number_on_information_form = 'not provided'

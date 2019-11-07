@@ -15,23 +15,21 @@
 	{% for key, value in answers.items %}
 		<h2 class="govuk-heading-m">{{ key }}</h2>
 		<div>
-			{% if value|classname == 'str' %}
-                {% if value  %}
-                    <dl class="govuk-summary-list">
-                        <div class="govuk-summary-list__row">
-                            <dd class="govuk-summary-list__value">
-                                {{ value }}
-                            </dd>
-                            <!-- <dd class="govuk-summary-list__actions">
-                                <a class="govuk-link" href="#">
-                                    Change<span class="govuk-visually-hidden"> {{ key }}</span>
-                                </a>
-                            </dd> -->
-                        </div>
-                    </dl>
-				{% else %}
-					<p class="govuk-caption-m">You haven't added any information for this section.</p>
-				{% endif %}
+			{% if not value %}
+				<p class="govuk-caption-m">You haven't added any information for this section.</p>
+			{% elif value|classname == 'str' %}
+                <dl class="govuk-summary-list">
+                    <div class="govuk-summary-list__row">
+                        <dd class="govuk-summary-list__value">
+                            {{ value }}
+                        </dd>
+                        <!-- <dd class="govuk-summary-list__actions">
+                            <a class="govuk-link" href="#">
+                                Change<span class="govuk-visually-hidden"> {{ key }}</span>
+                            </a>
+                        </dd> -->
+                    </div>
+                </dl>
 			{% elif value|classname == 'dict' %}
 				<dl class="govuk-summary-list">
 					{% for key, value in value.items %}
@@ -51,32 +49,28 @@
 					{% endfor %}
 				</dl>
 			{% elif value|classname == 'list' %}
-				{% if value %}
-					<table class="govuk-table">
-						<thead class="govuk-table__head">
-							<tr class="govuk-table__row">
-								{% for key, value in value.0.items %}
-									<th scope="col" class="govuk-table__header">{{ key }}</th>
-								{% endfor %}
-								<!-- <th scope="col" class="govuk-table__header"></th> -->
-							</tr>
-						</thead>
-						<tbody class="govuk-table__body">
-							{% for item in value %}
-								<tr class="govuk-table__row">
-									{% for key, value in item.items %}
-										<td class="govuk-table__cell">{{ value|linebreaksbr }}</td>
-									{% endfor %}
-									<!-- <td class="govuk-table__cell">
-										<a href="#">Change</a>
-									</td> -->
-								</tr>
+				<table class="govuk-table">
+					<thead class="govuk-table__head">
+						<tr class="govuk-table__row">
+							{% for key, value in value.0.items %}
+								<th scope="col" class="govuk-table__header">{{ key }}</th>
 							{% endfor %}
-						</tbody>
-					</table>
-				{% else %}
-					<p class="govuk-caption-m">You haven't added any information for this section.</p>
-				{% endif %}
+							<!-- <th scope="col" class="govuk-table__header"></th> -->
+						</tr>
+					</thead>
+					<tbody class="govuk-table__body">
+						{% for item in value %}
+							<tr class="govuk-table__row">
+								{% for key, value in item.items %}
+									<td class="govuk-table__cell">{{ value|linebreaksbr }}</td>
+								{% endfor %}
+								<!-- <td class="govuk-table__cell">
+									<a href="#">Change</a>
+								</td> -->
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
 			{% endif %}
 		</div>
 		<hr class="app-check-your-answers-separator">

@@ -33,7 +33,8 @@ def _convert_hmrc_query(application):
         'Third parties': _convert_third_parties(application['third_parties'], application['id']),
         'Consignee': _convert_consignee(application['consignee'], application['id']),
         'Goods locations': _convert_goods_locations(application['goods_locations']),
-        'Supporting documentation': _get_supporting_documentation(application['supporting_documentation'], application['id']),
+        'Supporting documentation': _get_supporting_documentation(application['supporting_documentation'],
+                                                                  application['id']),
         'Optional note': application['reasoning'],
     }
 
@@ -83,10 +84,13 @@ def _convert_ultimate_end_users(ultimate_end_users, application_id):
     return [
         {
             **_convert_end_user(ultimate_end_user, application_id),
-            'Document': convert_to_link(reverse_lazy('applications:ultimate_end_user_download_document',
-                                                     kwargs={'pk': application_id,
-                                                             'ueu_pk': ultimate_end_user['id']}),
-                                        ultimate_end_user['document']['name'])
+            'Document': _convert_document_2(reverse_lazy('applications:ultimate_end_user_download_document',
+                                                         kwargs={'pk': application_id,
+                                                                 'ueu_pk': ultimate_end_user['id']}),
+                                            reverse_lazy('applications:ultimate_end_user_attach_document',
+                                                         kwargs={'pk': application_id,
+                                                                 'ueu_pk': ultimate_end_user['id']}),
+                                            ultimate_end_user['document'])
         } for ultimate_end_user in ultimate_end_users
     ]
 
@@ -117,10 +121,12 @@ def _convert_third_parties(third_parties, application_id):
             'Type': third_party['sub_type']['value'],
             'Address': third_party['address'] + NEW_LINE + third_party['country']['name'],
             'Website': convert_to_link(third_party['website']),
-            'Document': convert_to_link(reverse_lazy('applications:third_party_download_document',
-                                                     kwargs={'pk': application_id,
-                                                             'tp_pk': third_party['id']}),
-                                        third_party['document']['name'])
+            'Document': _convert_document_2(reverse_lazy('applications:third_party_download_document',
+                                                         kwargs={'pk': application_id,
+                                                                 'tp_pk': third_party['id']}),
+                                            reverse_lazy('applications:third_party_attach_document',
+                                                         kwargs={'pk': application_id}),
+                                            third_party['document'])
         } for third_party in third_parties
     ]
 
@@ -131,11 +137,11 @@ def _convert_goods_locations(goods_locations):
             {
                 'Site': site['name'],
                 'Address': site['address']['address_line_1'] + NEW_LINE +
-                site['address']['address_line_2'] + NEW_LINE +
-                site['address']['city'] + NEW_LINE +
-                site['address']['region'] + NEW_LINE +
-                site['address']['postcode'] + NEW_LINE +
-                site['address']['country']['name']
+                           site['address']['address_line_2'] + NEW_LINE +
+                           site['address']['city'] + NEW_LINE +
+                           site['address']['region'] + NEW_LINE +
+                           site['address']['postcode'] + NEW_LINE +
+                           site['address']['country']['name']
             } for site in goods_locations['data']
         ]
     else:
@@ -143,7 +149,7 @@ def _convert_goods_locations(goods_locations):
             {
                 'Site': external_location['name'],
                 'Address': external_location['address'] + NEW_LINE +
-                external_location['country']['name']
+                           external_location['country']['name']
             } for external_location in goods_locations['data']
         ]
 
@@ -165,3 +171,10 @@ def _convert_document(document, document_type, application_id):
         return default_na(None)
 
     return convert_to_link(f'/applications/{application_id}/{document_type}/document/download/', document['name'])
+
+
+def _convert_document_2(address, attach_address, document):
+    if not document:
+        return convert_to_link(attach_address, 'Attach document')
+
+    return convert_to_link(address, document['name'])
