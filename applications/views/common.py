@@ -15,6 +15,7 @@ from core.helpers import group_notifications
 from core.services import get_notifications, get_organisation
 from lite_forms.components import HiddenField
 from lite_forms.generators import error_page, form_page, success_page
+from conf import constants
 
 
 class ApplicationsList(TemplateView):
@@ -162,6 +163,8 @@ class ApplicationDetail(TemplateView):
 
             if self.view_type == 'ecju-queries':
                 context['open_queries'], context['closed_queries'] = get_application_ecju_queries(request, self.case_id)
+
+        context['read_only_statuses'] = constants.READ_ONLY_STATUSES
 
         return render(request, 'applications/application.html', context)
 
