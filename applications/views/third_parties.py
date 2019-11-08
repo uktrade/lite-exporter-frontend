@@ -41,8 +41,9 @@ class ThirdParties(TemplateView):
         application_id = str(kwargs['pk'])
         application = get_application(request, application_id)
 
-        if not application['third_parties']:
-            return redirect(reverse_lazy('applications:add_third_party', kwargs={'pk': application_id}))
+        # This is going to get added back in a future story
+        # if not application['third_parties']:
+        #     return redirect(reverse_lazy('applications:add_third_party', kwargs={'pk': application_id}))
 
         context = {
             'application': application,
