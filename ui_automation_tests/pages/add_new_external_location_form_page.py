@@ -3,7 +3,7 @@ class AddNewExternalLocationFormPage:
     def __init__(self, driver):
         self.driver = driver
         self.add_new_address_button = 'a[href*="add"]'
-        self.submit_button = "button[type*='submit'][value='submit']"
+        self.submit_button = "button[value='submit'][value='submit']"
 
     def enter_external_location_name(self, name):
         name_tb = self.driver.find_element_by_id("name")

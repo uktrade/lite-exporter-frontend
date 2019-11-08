@@ -1,5 +1,7 @@
 import time
 
+from shared.tools.helpers import highlight
+
 
 class ExporterHubPage:
 
@@ -65,7 +67,7 @@ class ExporterHubPage:
         self.driver.find_element_by_css_selector(self.my_goods_btn).click()
 
     def click_save_and_continue(self):
-        self.driver.find_element_by_css_selector("button[type*='submit']").click()
+        self.driver.find_element_by_css_selector("button[value='submit']").click()
 
     def verify_good_is_in_goods_list(self, description, part_number, control_code):
         goods_row = self.driver.find_element_by_xpath("//*[text()[contains(.,'" + description + "')]]")
@@ -77,7 +79,8 @@ class ExporterHubPage:
         self.driver.find_element_by_css_selector(self.users_btn).click()
 
     def click_add_a_user_btn(self):
-        self.driver.find_element_by_css_selector("a[href*='/users/add']").click()
+        highlight(self.driver.find_element_by_id("button-add-a-member"))
+        self.driver.find_element_by_id("button-add-a-member").click()
 
     def enter_first_name(self, first_name):
         self.driver.find_element_by_id("first_name").clear()

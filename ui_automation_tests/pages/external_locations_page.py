@@ -4,7 +4,7 @@ class ExternalLocationsPage:
         self.driver = driver
         self.add_new_address_button = "//a[contains(@href, 'add')]"
         self.preexisting_locations_button = 'a[href*=preexisting'
-        self.submit_button = "button[type*='submit'][value='submit']"
+        self.submit_button = "button[value='submit'][value='submit']"
 
     def click_save_and_continue(self):
         self.driver.find_element_by_css_selector(self.submit_button).click()

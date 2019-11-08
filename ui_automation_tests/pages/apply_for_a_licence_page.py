@@ -11,7 +11,7 @@ class ApplyForALicencePage:
         self.name_or_reference_input_id = "name"
         self.standard_licence_button = "input#application_type-standard_licence"
         self.open_licence_button = "input#application_type-open_licence"
-        self.submit_button = "button[type*='submit'][value='submit']"
+        self.submit_button = "button[value='submit']"
         self.export_button = "export_type-"
         self.export_licence_yes_or_no = "have_you_been_informed-"
         self.reference_number = "reference_number_on_information_form"
@@ -36,7 +36,7 @@ class ApplyForALicencePage:
         self.driver.execute_script("document.querySelectorAll('.govuk-button--warning')[0].click()")
 
     def click_submit_application(self):
-        self.driver.execute_script("document.querySelectorAll(\"button[type*='submit']\")[0].click()")
+        self.driver.execute_script("document.querySelectorAll(\"button[value='submit']\")[0].click()")
 
     def click_export_licence(self, type):
         logging.info(type)

@@ -201,7 +201,7 @@ def add_new_external_location(driver, name, address, country):
 def assert_checkbox_at_position(driver, position_number):
     preexisting_locations_page = PreexistingLocationsPage(driver)
     preexisting_locations_page.click_external_locations_checkbox(int(position_number) - 1)
-    driver.find_element_by_css_selector(".lite-buttons-row button[type*='submit']").click()
+    driver.find_element_by_css_selector(".lite-buttons-row button[value='submit']").click()
 
 
 @then(parsers.parse('I see "{number_of_locations}" locations'))  # noqa
@@ -223,7 +223,7 @@ def i_click_add_preexisting_locations(driver):
 
 @when('I click continue')  # noqa
 def i_click_continue(driver):
-    driver.find_element_by_css_selector(".lite-buttons-row button[type*='submit']").click()
+    driver.find_element_by_css_selector(".lite-buttons-row button[value='submit']").click()
 
 
 @then(parsers.parse('error message is "{expected_error}"'))  # noqa

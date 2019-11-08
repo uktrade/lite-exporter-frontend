@@ -18,6 +18,7 @@ def add_user(driver):
     exporter_hub = ExporterHubPage(driver)
     exists = utils.is_element_present(driver, By.XPATH, "//td[text()[contains(.,'testuser_1@mail.com')]]")
     if not exists:
+        # Add multiple users for future steps
         for x in range(3):
             i = str(x + 1)
             exporter_hub.click_add_a_user_btn()
