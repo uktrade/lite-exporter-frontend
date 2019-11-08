@@ -1,7 +1,7 @@
 {% extends "layouts/base.html" %}
 
 {% block back_link %}
-    <a href="{% url 'applications:task_list' draft_id %}" class="govuk-back-link">Back to task list</a>
+    <a href="{% url 'applications:task_list' draft_id %}" id="back-link" class="govuk-back-link">Back to task list</a>
 {% endblock %}
 
 {% block body %}

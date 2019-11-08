@@ -225,6 +225,7 @@ def i_click_add_preexisting_locations(driver):
 @when('I click continue')  # noqa
 def i_click_continue(driver):
     functions.click_submit(driver)
+    functions.click_back_link(driver)
 
 
 @then(parsers.parse('error message is "{expected_error}"'))  # noqa
@@ -415,8 +416,8 @@ def click_users_link(driver):
 @when('I create a standard application')  # noqa
 def create_standard_application(driver, context):
     click_apply_licence(driver)
-    enter_application_name(driver, context)
     enter_type_of_application(driver, 'standard', context)
+    enter_application_name(driver, context)
     enter_permanent_or_temporary(driver, 'permanent', context)
     enter_export_licence(driver, 'yes', '123456', context)
 
