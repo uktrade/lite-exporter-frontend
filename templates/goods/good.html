@@ -152,7 +152,7 @@
 						</thead>
 						<tbody class="govuk-table__body">
 							{% for document in documents %}
-								<tr class="govuk-table__row">
+								<tr id="document-{{ document.id }}" class="govuk-table__row">
 									<td class="govuk-table__cell">{{ document.name }}</td>
 									<td class="govuk-table__cell">{{ document.description|default_na|slice:"0:40" }} {% if document.description|length > 40 %}...{% endif %}</td>
 									<td class="govuk-table__cell">{{ document.user.first_name }} {{ document.user.last_name }} at {{ document.created_at|str_date }}</td>

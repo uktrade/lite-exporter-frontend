@@ -1,6 +1,5 @@
 from pytest_bdd import scenarios, when, then, parsers
 
-from pages.attach_document_page import AttachDocumentPage
 from pages.goods_list import GoodsList
 from pages.exporter_hub_page import ExporterHubPage
 from pages.add_goods_page import AddGoodPage
@@ -68,7 +67,7 @@ def attach_document_to_modifiable_good(driver, context, create_non_incorporated_
 
 @then('I see the document has been attached')
 def i_see_the_attached_good(driver, context):
-    added_doc = AttachDocumentPage(driver).get_text_of_document_added_item()
+    added_doc = GoodsPage(driver).get_text_of_document_added_item()
     assert context.file_to_be_deleted_name in added_doc, "file is not displayed"
     assert context.document_description in added_doc, "file description is not displayed"
 
