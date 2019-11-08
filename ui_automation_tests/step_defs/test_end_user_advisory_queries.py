@@ -1,5 +1,6 @@
 from pytest_bdd import when, then, parsers, scenarios, given
 
+import functions
 from pages.add_end_user_advisory_pages import AddEndUserAdvisoryPages
 from pages.end_user_advisory_page import EndUserAdvisoryPage
 from pages.respond_to_ecju_query_page import RespondToEcjuQueryPage
@@ -25,7 +26,7 @@ def end_user_advisory_exists_ecju_query_added(driver, add_end_user_advisory, int
 def apply_for_end_user_advisory(driver):
     end_user_advisory_page = EndUserAdvisoryPage(driver)
     end_user_advisory_page.click_apply_for_advisories()
-    Shared(driver).click_continue()
+    functions.click_submit(driver)
 
 
 @when(parsers.parse('I select "{type}" user type and continue'))
@@ -33,7 +34,7 @@ def select_end_user_type(driver, type):
     end_user_page = AddEndUserAdvisoryPages(driver)
     prefix = "end_user."
     end_user_page.select_type(type, prefix)
-    Shared(driver).click_continue()
+    functions.click_submit(driver)
 
 
 @when(parsers.parse('I enter "{name}" for the name'))
@@ -41,14 +42,14 @@ def add_user_details(driver, name):
     end_user_page = AddEndUserAdvisoryPages(driver)
     prefix = "end_user."
     end_user_page.enter_name(name, prefix)
-    Shared(driver).click_continue()
+    functions.click_submit(driver)
 
 
 @when(parsers.parse('I enter "{nature}" for the nature of business'))
 def add_user_details(driver, nature):
     end_user_page = AddEndUserAdvisoryPages(driver)
     end_user_page.enter_nature(nature)
-    Shared(driver).click_continue()
+    functions.click_submit(driver)
 
 
 @when(parsers.parse('I enter "{name}" for the primary contact name, "{job}" for primary contact_job_title, "{email}" for the primary contact email, "{telephone}" for the primary contact telephone'))
@@ -58,7 +59,7 @@ def add_user_details(driver, name, email, telephone, job):
     end_user_page.enter_primary_contact_name(name)
     end_user_page.enter_primary_contact_job_title(job)
     end_user_page.enter_primary_contact_telephone(telephone)
-    Shared(driver).click_continue()
+    functions.click_submit(driver)
 
 
 @when(parsers.parse('I enter "{address}" for the address, "{country}" as the country and continue'))
@@ -67,7 +68,7 @@ def add_user_details(driver, address, country):
     prefix = "end_user."
     end_user_page.enter_address(address, prefix)
     end_user_page.enter_country(country, prefix)
-    Shared(driver).click_continue()
+    functions.click_submit(driver)
 
 
 @when(parsers.parse('I enter "{reasoning}" for my reason, and "{notes}" for notes and click submit'))
@@ -75,7 +76,7 @@ def enter_advisory_details(driver, reasoning, notes):
     end_user_page = AddEndUserAdvisoryPages(driver)
     end_user_page.enter_reasoning(reasoning)
     end_user_page.enter_notes(notes)
-    Shared(driver).click_continue()
+    functions.click_submit(driver)
 
 
 @then('I am given a confirmed submitted page, and am shown a 10 digit code')
@@ -93,7 +94,7 @@ def click_copy(driver):
 def enter_name(driver, name):
     prefix = "end_user."
     AddEndUserAdvisoryPages(driver).enter_name(name, prefix)
-    Shared(driver).click_continue()
+    functions.click_submit(driver)
 
 
 @when('I open an end user advisory already created')
@@ -143,7 +144,7 @@ def click_ecju_query_tab(driver):
 def respond_to_query(driver, response):
     response_page = RespondToEcjuQueryPage(driver)
     response_page.enter_form_response(response)
-    Shared(driver).click_continue()
+    functions.click_submit(driver)
 
 
 @when(parsers.parse('I select "{value}" for submitting response and click submit'))

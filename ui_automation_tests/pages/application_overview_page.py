@@ -1,5 +1,7 @@
 from selenium.common.exceptions import NoSuchElementException
 
+import functions
+
 
 class ApplicationOverviewPage:
 
@@ -18,7 +20,6 @@ class ApplicationOverviewPage:
         self.ultimate_end_users = "[id^=ultimate-end-user-row]" # CSS
         self.gov_tables = ".govuk-table__body"   # CSS
         self.back_to_overview_text = "Back to task list"  # link text
-        self.submit_button = "button[value='submit'][value='submit']"  # CSS
         self.attach_end_user_document_link = "attach_doc"  # ID
         self.download_end_user_document = "end_user_document_download"  # ID
         self.delete_end_user_document = "end_user_document_delete"  # ID
@@ -75,7 +76,7 @@ class ApplicationOverviewPage:
 
     def confirm_delete_additional_document(self):
         self.driver.find_element_by_id(self.delete_additional_doc_confirm_yes).click()
-        self.driver.find_element_by_css_selector(self.submit_button).click()
+        functions.click_submit(self.driver)
 
     def click_third_parties(self):
         self.driver.find_element_by_id(self.third_parties).click()

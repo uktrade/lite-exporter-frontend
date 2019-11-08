@@ -1,5 +1,6 @@
 from pytest_bdd import scenarios, when, then, parsers
 
+import functions
 from shared.tools.helpers import scroll_to_element_by_id
 from shared.tools.wait import wait_for_download_button, wait_for_element
 from pages.add_end_user_pages import AddEndUserPages
@@ -63,7 +64,7 @@ def add_new_end_user_type(driver, type, context):
     add_end_user_pages = AddEndUserPages(driver)
     add_end_user_pages.select_type(type)
     context.type_end_user = type
-    add_end_user_pages.click_continue()
+    functions.click_submit(driver)
 
 
 @when(parsers.parse('I add end user of name: "{name}"'))
@@ -71,14 +72,14 @@ def add_new_end_user_name(driver, name, context):
     add_end_user_pages = AddEndUserPages(driver)
     add_end_user_pages.enter_name(name)
     context.name_end_user = name
-    add_end_user_pages.click_continue()
+    functions.click_submit(driver)
 
 
 @when(parsers.parse('I add end user of website "{website}"'))
 def add_new_end_user_website(driver, website):
     add_end_user_pages = AddEndUserPages(driver)
     add_end_user_pages.enter_website(website)
-    add_end_user_pages.click_continue()
+    functions.click_submit(driver)
 
 
 @when(parsers.parse('I add end user of address: "{address}" and country "{country}"'))
@@ -87,7 +88,7 @@ def add_new_end_user_address(driver, address, country, context):
     add_end_user_pages.enter_address(address)
     context.address_end_user = address
     add_end_user_pages.enter_country(country)
-    add_end_user_pages.click_continue()
+    functions.click_submit(driver)
 
 
 @when('I remove an ultimate end user so there is one less and return to the overview')
@@ -132,16 +133,16 @@ def add_new_end_user(driver, type, name, website, address, country, context):
     add_end_user_pages = AddEndUserPages(driver)
     add_end_user_pages.select_type(type)
     context.type_end_user = type
-    add_end_user_pages.click_continue()
+    functions.click_submit(driver)
     add_end_user_pages.enter_name(name)
     context.name_end_user = name
-    add_end_user_pages.click_continue()
+    functions.click_submit(driver)
     add_end_user_pages.enter_website(website)
-    add_end_user_pages.click_continue()
+    functions.click_submit(driver)
     add_end_user_pages.enter_address(address)
     context.address_end_user = address
     add_end_user_pages.enter_country(country)
-    add_end_user_pages.click_continue()
+    functions.click_submit(driver)
 
 
 @when('I click on end user')
@@ -178,8 +179,7 @@ def delete_ultimate_end_user_document(driver):
     third_party = ThirdPartyListPage(driver)
     third_party.click_on_delete_document(-1)
     third_party.accept_delete_confirm()
-    shared = Shared(driver)
-    shared.click_continue()
+    functions.click_submit(driver)
 
 
 @then("Wait for download link")
@@ -209,8 +209,7 @@ def end_user_document_delete_is_present(driver):
     scroll_to_element_by_id(Shared(driver).driver, 'end_user_document_delete')
     ApplicationOverviewPage(driver).click_delete_end_user_document()
     ThirdPartyListPage(driver).accept_delete_confirm()
-    shared = Shared(driver)
-    shared.click_continue()
+    functions.click_submit(driver)
 
 
 @when("I delete the consignee document")
@@ -218,8 +217,7 @@ def consignee_document_delete_is_present(driver):
     scroll_to_element_by_id(Shared(driver).driver, 'consignee_document_delete')
     ApplicationOverviewPage(driver).click_delete_consignee_document()
     ThirdPartyListPage(driver).accept_delete_confirm()
-    shared = Shared(driver)
-    shared.click_continue()
+    functions.click_submit(driver)
 
 
 @then("The end user document has been deleted")

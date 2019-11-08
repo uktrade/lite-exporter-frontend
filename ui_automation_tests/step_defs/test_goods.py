@@ -1,5 +1,6 @@
 from pytest_bdd import scenarios, when, then, parsers
 
+import functions
 from pages.goods_list import GoodsList
 from pages.exporter_hub_page import ExporterHubPage
 from pages.add_goods_page import AddGoodPage
@@ -39,7 +40,7 @@ def edit_good(driver, description, controlled,  control_code, incorporated, part
     goods_page.click_on_goods_edit_link()
     context.edited_description = context.good_description + " " + description
     add_goods_page.enter_description_of_goods(context.edited_description)
-    exporter_hub.click_save_and_continue()
+    functions.click_submit(driver)
 
 
 @then('I see my edited good in the goods list')

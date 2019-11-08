@@ -4,6 +4,7 @@ import pytest
 from pytest_bdd import given, when, then, parsers
 from selenium.webdriver.common.by import By
 
+import functions
 from pages.application_edit_type_page import ApplicationEditTypePage
 from pages.application_page import ApplicationPage
 from ui_automation_tests.fixtures.register_organisation import register_organisation, register_organisation_for_switching_organisation  # noqa
@@ -119,12 +120,12 @@ def go_to_exporter(driver, register_organisation, sso_sign_in, exporter_url, con
     if 'pick-organisation' in driver.current_url:
         no = utils.get_element_index_by_text(Shared(driver).get_radio_buttons_elements(), context.org_name)
         Shared(driver).click_on_radio_buttons(no)
-        Shared(driver).click_continue()
+        functions.click_submit(driver)
     elif Shared(driver).get_text_of_heading() != context.org_name:
         Hub(driver).click_switch_link()
         no = utils.get_element_index_by_text(Shared(driver).get_radio_buttons_elements(), context.org_name)
         Shared(driver).click_on_radio_buttons(no)
-        Shared(driver).click_continue()
+        functions.click_submit(driver)
 
 
 @when('I go to exporter homepage')  # noqa
@@ -145,7 +146,7 @@ def enter_application_name(driver, context):
     app_name = "Request for Nimbus 2000 " + app_time_id
     apply.enter_name_or_reference_for_application(app_name)
     context.app_name = app_name
-    apply.click_save_and_continue()
+    functions.click_submit(driver)
 
 
 @when(parsers.parse('I select "{type}" application and continue'))  # noqa
@@ -154,7 +155,7 @@ def enter_type_of_application(driver, type, context):
     # type needs to be standard or open
     apply = ApplyForALicencePage(driver)
     apply.click_export_licence(type)
-    apply.click_continue()
+    functions.click_submit(driver)
 
 
 @when(parsers.parse('I select "{permanent_or_temporary}" option and continue'))  # noqa
@@ -163,7 +164,7 @@ def enter_permanent_or_temporary(driver, permanent_or_temporary, context):
     # type needs to be permanent or temporary
     apply = ApplyForALicencePage(driver)
     apply.click_permanent_or_temporary_button(permanent_or_temporary)
-    apply.click_continue()
+    functions.click_submit(driver)
 
 
 @when(parsers.parse('I select "{yes_or_no}" for whether I have an export licence and "{reference}" if I have a reference and continue'))  # noqa
@@ -172,7 +173,7 @@ def enter_export_licence(driver, yes_or_no, reference, context):
     apply.click_export_licence_yes_or_no(yes_or_no)
     context.ref = reference
     apply.type_into_reference_number(reference)
-    apply.click_continue()
+    functions.click_submit(driver)
 
 
 @when('I click on application locations link')  # noqa
@@ -185,7 +186,7 @@ def i_click_application_locations_link(driver):
 def choose_location_type(driver, organisation_or_external):
     which_location_form = WhichLocationFormPage(driver)
     which_location_form.click_on_organisation_or_external_radio_button(organisation_or_external)
-    which_location_form.click_continue()
+    functions.click_submit(driver)
 
 
 @when(parsers.parse('I fill in new external location form with name: "{name}", address: "{address}" and country: "{country}" and continue'))  # noqa
@@ -194,14 +195,14 @@ def add_new_external_location(driver, name, address, country):
     add_new_external_location_form_page.enter_external_location_name(name)
     add_new_external_location_form_page.enter_external_location_address(address)
     add_new_external_location_form_page.enter_external_location_country(country)
-    add_new_external_location_form_page.click_continue()
+    functions.click_submit(driver)
 
 
 @when(parsers.parse('I select the location at position "{position_number}" in external locations list and continue'))  # noqa
 def assert_checkbox_at_position(driver, position_number):
     preexisting_locations_page = PreexistingLocationsPage(driver)
     preexisting_locations_page.click_external_locations_checkbox(int(position_number) - 1)
-    driver.find_element_by_css_selector(".lite-buttons-row button[value='submit']").click()
+    functions.click_submit(driver)
 
 
 @then(parsers.parse('I see "{number_of_locations}" locations'))  # noqa
@@ -223,7 +224,7 @@ def i_click_add_preexisting_locations(driver):
 
 @when('I click continue')  # noqa
 def i_click_continue(driver):
-    driver.find_element_by_css_selector(".lite-buttons-row button[value='submit']").click()
+    functions.click_submit(driver)
 
 
 @then(parsers.parse('error message is "{expected_error}"'))  # noqa
@@ -299,10 +300,10 @@ def add_new_good(driver, description, controlled, control_code, incorporated, pa
     elif "empty" not in good_part:
         add_goods_page.enter_part_number(good_part)
     if controlled.lower() == 'unsure':
-        exporter_hub.click_save_and_continue()
+        functions.click_submit(driver)
     else:
         add_goods_page.enter_control_code(control_code)
-        exporter_hub.click_save_and_continue()
+        functions.click_submit(driver)
     if good_part_needed:
         context.good_id_from_url = driver.current_url.split('/goods/')[1].split('/')[0]
 
@@ -323,7 +324,7 @@ def upload_a_file(driver, filename):
     attach_document_page = AttachDocumentPage(driver)
     file_path = get_file_upload_path(filename)
     attach_document_page.choose_file(file_path)
-    Shared(driver).click_continue()
+    functions.click_submit(driver)
 
 
 @when(parsers.parse('I upload file "{filename}" with description "{description}"'))  # noqa
@@ -332,7 +333,7 @@ def upload_a_file_with_description(driver, filename, description):
     file_path = get_file_upload_path(filename)
     attach_document_page.choose_file(file_path)
     attach_document_page.enter_description(description)
-    Shared(driver).click_continue()
+    functions.click_submit(driver)
 
 
 @when(parsers.parse('I raise a clc query control code "{control_code}" description "{description}"'))  # noqa
@@ -340,8 +341,7 @@ def raise_clc_query(driver, control_code, description):
     raise_clc_query_page = AddGoodPage(driver)
     raise_clc_query_page.enter_control_code_unsure(control_code)
     raise_clc_query_page.enter_control_unsure_details(description)
-    exporter_hub = ExporterHubPage(driver)
-    exporter_hub.click_save_and_continue()
+    functions.click_submit(driver)
 
 
 @when('I click on the goods link from overview')  # noqa
@@ -400,7 +400,7 @@ def i_delete_the_application(driver):
 @when('I submit the application')  # noqa
 def submit_the_application(driver, context):
     apply = ApplyForALicencePage(driver)
-    apply.click_submit_application()
+    functions.click_submit(driver)
     assert apply.get_text_of_success_message() == "Application submitted"
     context.time_date_submitted = datetime.datetime.now().strftime("%I:%M%p").lstrip("0").replace(" 0", " ").lower() \
                                   + datetime.datetime.now().strftime(" %d %B %Y")
@@ -431,7 +431,7 @@ def switch_organisations_to_my_second_organisation(driver, context):
     Hub(driver).click_switch_link()
     no = utils.get_element_index_by_text(Shared(driver).get_radio_buttons_elements(), context.org_name_for_switching_organisations)
     Shared(driver).click_on_radio_buttons(no)
-    Shared(driver).click_continue()
+    functions.click_submit(driver)
 
 
 @when("I choose to make major edits")  # noqa

@@ -1,3 +1,4 @@
+import functions
 from pages.shared import Shared
 
 
@@ -23,8 +24,7 @@ class GoodsPage:
         self.driver.find_element_by_css_selector(self.DELETE_BUTTON).click()
 
     def confirm_delete(self, confirm):
-        shared = Shared(self.driver)
-        shared.click_continue()
+        functions.click_submit(self.driver)
 
     def get_text_of_document_added_item(self):
         return self.driver.find_element_by_css_selector(self.document_partial_id).text

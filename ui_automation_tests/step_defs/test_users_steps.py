@@ -3,6 +3,7 @@ import logging
 from pytest_bdd import scenarios, when, then
 from selenium.webdriver.common.by import By
 
+import functions
 from pages.exporter_hub_page import ExporterHubPage
 import shared.tools.helpers as utils
 from pages.shared import Shared
@@ -25,7 +26,7 @@ def add_user(driver):
             exporter_hub.enter_first_name("Test")
             exporter_hub.enter_last_name("user_" + i)
             exporter_hub.enter_add_user_email("testuser_" + i + "@mail.com")
-            exporter_hub.click_save_and_continue()
+            functions.click_submit(driver)
 
 
 @when('I add user')
@@ -53,7 +54,7 @@ def add_user(driver, context, exporter_info):
     exporter_hub.enter_add_user_email(email)
 
     # When I Save
-    exporter_hub.click_save_and_continue()
+    functions.click_submit(driver)
 
 
 @when('I add self')
@@ -68,7 +69,7 @@ def add_self(driver, exporter_info):
     exporter_hub.enter_add_user_email(exporter_info["email"])
 
     # When I Save
-    exporter_hub.click_save_and_continue()
+    functions.click_submit(driver)
 
 
 @then('user is added')
@@ -98,7 +99,7 @@ def user_is_edited(driver, exporter_url, context, exporter_info):
     exporter_hub.enter_first_name("Test_edited")
     exporter_hub.enter_last_name("user_2_edited")
 
-    exporter_hub.click_submit()
+    functions.click_submit(driver)
 
     assert utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'Test_edited user_2_edited')]]")
     assert utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'Test_edited')]]")
@@ -118,7 +119,7 @@ def user_is_deactivated(driver, exporter_url, context, request):
 
     exporter_hub.click_user_name_link(context.added_user_name)
 
-    exporter_hub.click_deactivate_btn()
+    exporter_hub.click_deactivate_button()
 
     # And I can see that the user is now deactivated
     elements = driver.find_elements_by_css_selector(".govuk-table__row")
