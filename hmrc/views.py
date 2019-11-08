@@ -11,17 +11,6 @@ from core.services import get_organisations, get_organisation
 from lite_forms.generators import form_page
 
 
-class DraftsList(TemplateView):
-    def get(self, request, *args, **kwargs):
-        is_in_organisation_type(request, 'hmrc')
-        drafts = get_draft_applications(request)
-
-        context = {
-            'drafts': drafts
-        }
-        return render(request, 'hmrc/drafts.html', context)
-
-
 class SelectAnOrganisation(TemplateView):
     def dispatch(self, request, *args, **kwargs):
         is_in_organisation_type(request, 'hmrc')

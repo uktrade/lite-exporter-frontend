@@ -12,7 +12,7 @@ from applications.services import get_applications, get_case_notes, \
     get_application_ecju_queries, get_ecju_query, put_ecju_query, post_application_case_notes, get_draft_applications, \
     submit_application, get_application, delete_application, set_application_status
 from core.helpers import group_notifications
-from core.services import get_notifications
+from core.services import get_notifications, get_organisation
 from lite_forms.components import HiddenField
 from lite_forms.generators import error_page, form_page, success_page
 
@@ -20,12 +20,14 @@ from lite_forms.generators import error_page, form_page, success_page
 class ApplicationsList(TemplateView):
     def get(self, request, **kwargs):
         drafts = request.GET.get('drafts')
+        organisation = get_organisation(request, request.user.organisation)
 
         if drafts and drafts.lower() == 'true':
             drafts = get_draft_applications(request)
 
             context = {
-                'drafts': drafts
+                'drafts': drafts,
+                'organisation': organisation,
             }
             return render(request, 'applications/drafts.html', context)
         else:
@@ -35,8 +37,8 @@ class ApplicationsList(TemplateView):
             context = {
                 'applications': applications,
                 'notifications': group_notifications(notifications),
+                'organisation': organisation,
             }
-
             return render(request, 'applications/applications.html', context)
 
 

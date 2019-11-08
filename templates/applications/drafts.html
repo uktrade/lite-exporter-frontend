@@ -13,9 +13,15 @@
 			<h2 class="govuk-heading-l">{% block title %}Applications{% endblock %}</h2>
 		</div>
 		<div class="lite-app-bar__controls">
-			<a href="{% url 'apply_for_a_licence:start' %}" class="govuk-button" draggable="false" role="button">
-				{% get_string 'licences.apply_for_a_licence' %}
-			</a>
+			{% if organisation.type.key == 'hmrc' %}
+				<a href="{% url 'hmrc:raise_a_query' %}" class="govuk-button" draggable="false" role="button">
+					Raise a query
+				</a>
+			{% else %}
+				<a href="{% url 'apply_for_a_licence:start' %}" class="govuk-button" draggable="false" role="button">
+					{% get_string 'licences.apply_for_a_licence' %}
+				</a>
+			{% endif %}
 		</div>
 	</div>
 
@@ -41,9 +47,11 @@
 					<th class="govuk-table__header">
 						Created On
 					</th>
-					<th class="govuk-table__header">
-						Export Type
-					</th>
+					{% if organisation.type.key != 'hmrc' %}
+						<th class="govuk-table__header">
+							Export Type
+						</th>
+					{% endif %}
 					<th class="govuk-table__header">
 					</th>
 				</tr>
@@ -62,9 +70,11 @@
 						<td class="govuk-table__cell">
 							{{ draft.last_modified_at|str_date }}
 						</td>
-						<td class="govuk-table__cell">
-							{{ draft.export_type.value }}
-						</td>
+						{% if organisation.type.key != 'hmrc' %}
+							<td class="govuk-table__cell">
+								{{ draft.export_type.value }}
+							</td>
+						{% endif %}
 						<td class="govuk-table__cell govuk-table__cell--numeric">
 							<a href="{% url 'applications:delete' draft.id %}" class="govuk-link lite-link--icon">
                                 {% svg 'close' %}

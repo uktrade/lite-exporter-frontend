@@ -24,8 +24,10 @@ class Hub(TemplateView):
                          reverse_lazy('hmrc:raise_a_query')),
                 ]),
                 Section('Manage', [
+                    Tile(get_string('applications.title'), '',
+                         reverse_lazy('applications:applications')),
                     Tile(get_string('drafts.title'), '',
-                         reverse_lazy('hmrc:drafts')),
+                         reverse_lazy('applications:applications') + '?drafts=true'),
                 ])
             ]
         else:
