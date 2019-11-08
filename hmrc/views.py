@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
 from applications.forms.hmrc import confirm_organisation_form
-from applications.services import post_applications, get_draft_applications
+from applications.services import post_applications
 from conf.constants import HMRC_QUERY
 from core.helpers import convert_dict_to_query_params
 from core.permissions import is_in_organisation_type
