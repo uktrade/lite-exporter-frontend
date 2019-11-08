@@ -166,7 +166,7 @@
 						<a id="location" href="{% url 'applications:location' application.id %}" class="lite-overview-section-header govuk-link govuk-link--no-visited-state">
 							Goods locations
 						</a>
-						{% if sites or external_locations %}
+						{% if sites.sites or external_locations %}
 							<div class="lite-tag lite-tag--blue">
 								Done
 							</div>
@@ -177,14 +177,14 @@
 						{% endif %}
 					</div>
 					<div class="lite-task-list__item-details">
-						{% if sites %}
+						{% if sites.sites %}
 							<table class="govuk-table">
 								<tbody class="govuk-table__body">
 									<tr class="govuk-table__row">
 										<th class="govuk-table__header" scope="row">Site</th>
 										<td class="govuk-table__header">Location</td>
 									</tr>
-									{% for site in sites %}
+									{% for site in sites.sites %}
 										<tr class="govuk-table__row">
 											<td class="govuk-table__cell" scope="row">{{ site.name }}</td>
 											<td class="govuk-table__cell">
