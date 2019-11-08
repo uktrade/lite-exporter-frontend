@@ -157,7 +157,7 @@ class ApplicationDetail(TemplateView):
             'ecju_query_notifications': ecju_query_notifications,
         }
 
-        if self.application['application_type']['key'] == 'hmrc':
+        if self.application['application_type']['key'] != 'hmrc':
             if self.view_type == 'case-notes':
                 context['notes'] = get_case_notes(request, self.case_id)['case_notes']
 
