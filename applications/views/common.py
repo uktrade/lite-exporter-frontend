@@ -47,7 +47,7 @@ class ApplicationDetailEmpty(TemplateView):
         application_id = str(kwargs['pk'])
         data = get_application(request, application_id)
 
-        if data.get('status').get('key') == 'applicant_editing':
+        if data.get('status') and data.get('status').get('key') == 'applicant_editing':
             return redirect(reverse_lazy('applications:task_list', kwargs={'pk': application_id}))
 
         return redirect(reverse_lazy('applications:application-detail', kwargs={'pk': application_id,
@@ -79,7 +79,7 @@ class ApplicationEditType(TemplateView):
         application_id = str(kwargs['pk'])
         data = get_application(request, application_id)
 
-        if data.get('status').get('key') == 'applicant_editing':
+        if data.get('status') and data.get('status').get('key') == 'applicant_editing':
             return redirect(reverse_lazy('applications:task_list', kwargs={'pk': application_id}))
 
         return form_page(request, edit_type_form(application_id))
@@ -156,11 +156,12 @@ class ApplicationDetail(TemplateView):
             'ecju_query_notifications': ecju_query_notifications,
         }
 
-        if self.view_type == 'case-notes':
-            context['notes'] = get_case_notes(request, self.case_id)['case_notes']
+        if self.application['application_type']['key'] == 'hmrc':
+            if self.view_type == 'case-notes':
+                context['notes'] = get_case_notes(request, self.case_id)['case_notes']
 
-        if self.view_type == 'ecju-queries':
-            context['open_queries'], context['closed_queries'] = get_application_ecju_queries(request, self.case_id)
+            if self.view_type == 'ecju-queries':
+                context['open_queries'], context['closed_queries'] = get_application_ecju_queries(request, self.case_id)
 
         return render(request, 'applications/application.html', context)
 
