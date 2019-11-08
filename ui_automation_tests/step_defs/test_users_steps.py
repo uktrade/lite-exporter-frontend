@@ -87,7 +87,7 @@ def user_is_edited(driver, exporter_url, context, exporter_info):
 
     email = context.email_to_search
 
-    email_edited = "testuser_2_edited" + user_id+ "@mail.com"
+    email_edited = "testuser_2_edited" + user_id + "@mail.com"
     # Given I am a logged-in user # I want to deactivate users # When I choose the option to manage users
     exporter_hub.click_users()
 
@@ -95,9 +95,9 @@ def user_is_edited(driver, exporter_url, context, exporter_info):
     elements = Shared(driver).get_table_rows()
     no = utils.get_element_index_by_text(Shared(driver).get_table_rows(), email, complete_match=False)
     elements[no].find_element_by_link_text('Edit').click()
-    exporter_hub.enter_add_user_email(email_edited)
     exporter_hub.enter_first_name("Test_edited")
     exporter_hub.enter_last_name("user_2_edited")
+    exporter_hub.enter_add_user_email(email_edited)
 
     functions.click_submit(driver)
 
