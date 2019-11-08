@@ -189,6 +189,13 @@ def choose_location_type(driver, organisation_or_external):
     functions.click_submit(driver)
 
 
+@when(parsers.parse('I select "{choice}" for whether or not I want a new or existing location to be added'))  # noqa
+def choose_location_type(driver, choice):
+    which_location_form = WhichLocationFormPage(driver)
+    which_location_form.click_on_choice_radio_button(choice)
+    functions.click_submit(driver)
+
+
 @when(parsers.parse('I fill in new external location form with name: "{name}", address: "{address}" and country: "{country}" and continue'))  # noqa
 def add_new_external_location(driver, name, address, country):
     add_new_external_location_form_page = AddNewExternalLocationFormPage(driver)
@@ -207,7 +214,7 @@ def assert_checkbox_at_position(driver, position_number):
 
 @then(parsers.parse('I see "{number_of_locations}" locations'))  # noqa
 def i_see_a_number_of_locations(driver, number_of_locations):
-    assert len(driver.find_elements_by_css_selector('.lite-card')) == int(number_of_locations)
+    assert len(driver.find_elements_by_css_selector('tbody tr')) == int(number_of_locations)
 
 
 @when('I click on add new address')  # noqa
@@ -225,7 +232,6 @@ def i_click_add_preexisting_locations(driver):
 @when('I click continue')  # noqa
 def i_click_continue(driver):
     functions.click_submit(driver)
-    functions.click_back_link(driver)
 
 
 @then(parsers.parse('error message is "{expected_error}"'))  # noqa

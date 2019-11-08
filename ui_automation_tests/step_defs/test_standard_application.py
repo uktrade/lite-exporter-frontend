@@ -14,7 +14,7 @@ scenarios('../features/submit_standard_application.feature', strict_gherkin=Fals
 
 @when('I click back to the application overview')
 def i_click_on_application_overview(driver):
-    Shared(driver).click_back_link()
+    functions.click_back_link(driver)
 
 
 @then('good is added to application')
@@ -171,7 +171,7 @@ def click_attach_a_document(driver):
 
 @when("I click back link")
 def click_back_link(driver):
-    Shared(driver).click_back_link()
+    functions.click_back_link(driver)
 
 
 @when('I delete the third party document')

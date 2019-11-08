@@ -1,5 +1,7 @@
 from selenium.webdriver.support.ui import Select
 
+import functions
+
 
 class ApplicationGoodsList:
 
@@ -7,7 +9,6 @@ class ApplicationGoodsList:
         self.driver = driver
         self.add_from_org_goods_button = 'a.govuk-button[href*="add_preexisting"]'   # CSS
         self.add_to_application = 'a.govuk-button'
-        self.overview_link = '.govuk-back-link'   # CSS
         self.quantity_field = 'quantity'   # ID
         self.unit_dropdown = 'unit'   # ID
         self.value_field = 'value'   # ID
@@ -34,7 +35,7 @@ class ApplicationGoodsList:
         select.select_by_visible_text(unit)
 
     def click_on_overview(self):
-        self.driver.find_element_by_css_selector(self.overview_link).click()
+        functions.click_back_link(self.driver)
 
     def type_into_filter_description_search_box_and_filter(self, value):
         self.driver.find_element_by_id(self.show_filters_link).click()

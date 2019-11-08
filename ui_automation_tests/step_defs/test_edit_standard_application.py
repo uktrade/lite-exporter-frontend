@@ -1,5 +1,6 @@
 from pytest_bdd import when, scenarios, then
 
+import functions
 from conftest import enter_application_name, enter_export_licence
 from pages.application_overview_page import ApplicationOverviewPage
 from pages.application_page import ApplicationPage
@@ -10,7 +11,7 @@ scenarios('../features/edit_standard_application.feature', strict_gherkin=False)
 
 @when('I click back to the application overview')
 def i_click_on_application_overview(driver):
-    Shared(driver).click_back_link()
+    functions.click_back_link(driver)
 
 
 @when('I click on the application third parties link')
