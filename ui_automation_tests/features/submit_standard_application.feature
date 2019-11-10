@@ -109,6 +109,7 @@ Feature: I want to indicate the standard licence I want
     And I click on the add button
     And I add an end user of sub_type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
     And I click back link
+    And I click on ultimate end users
     Then "Attach" link is present
     When I click on attach a document
     And I upload a file "file_for_doc_upload_test_1.txt"
