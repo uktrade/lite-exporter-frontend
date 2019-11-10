@@ -1,5 +1,4 @@
 import functions
-from pages.shared import Shared
 
 
 class GoodsPage:

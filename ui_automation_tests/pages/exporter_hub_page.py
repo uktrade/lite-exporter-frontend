@@ -1,7 +1,5 @@
 import time
 
-from shared.tools.helpers import highlight
-
 
 class ExporterHubPage:
 

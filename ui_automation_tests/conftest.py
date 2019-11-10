@@ -291,7 +291,6 @@ def click_add_from_organisation_button(driver):
 @when(parsers.parse('I add a good or good type with description "{description}" controlled "{controlled}" control code "{control_code}" incorporated "{incorporated}" and part number "{part}"'))  # noqa
 def add_new_good(driver, description, controlled, control_code, incorporated, part, context):
     good_part_needed = True
-    exporter_hub = ExporterHubPage(driver)
     add_goods_page = AddGoodPage(driver)
     date_time = utils.get_current_date_time_string()
     good_description = "%s %s" % (description, date_time)

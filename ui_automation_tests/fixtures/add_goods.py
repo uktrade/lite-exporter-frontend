@@ -4,13 +4,12 @@ from pytest import fixture
 
 import functions
 import shared.tools.helpers as utils
-from shared.tools.utils import get_lite_client
 from pages.add_goods_page import AddGoodPage
 from pages.application_goods_list import ApplicationGoodsList
 from pages.application_overview_page import ApplicationOverviewPage
 from pages.attach_document_page import AttachDocumentPage
 from pages.exporter_hub_page import ExporterHubPage
-from pages.shared import Shared
+from shared.tools.utils import get_lite_client
 
 
 def add_good_to_application(driver, context, lite_client):
