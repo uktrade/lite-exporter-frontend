@@ -109,24 +109,24 @@ def post_ultimate_end_user(request, pk, json):
     return data.json(), data.status_code
 
 
-def delete_ultimate_end_user(request, pk, ueu_pk):
-    data = delete(request, APPLICATIONS_URL + pk + '/ultimate-end-users/' + ueu_pk)
+def delete_ultimate_end_user(request, pk, obj_pk):
+    data = delete(request, APPLICATIONS_URL + pk + '/ultimate-end-users/' + obj_pk)
     return data.json(), data.status_code
 
 
 # Ultimate end user Documents
-def get_ultimate_end_user_document(request, pk, ueu_pk):
-    data = get(request, APPLICATIONS_URL + pk + ULTIMATE_END_USER_URL + ueu_pk + DOCUMENT_URL)
+def get_ultimate_end_user_document(request, pk, obj_pk):
+    data = get(request, APPLICATIONS_URL + pk + ULTIMATE_END_USER_URL + str(obj_pk) + DOCUMENT_URL)
     return data.json(), data.status_code
 
 
-def post_ultimate_end_user_document(request, pk, ueu_pk, json):
-    data = post(request, APPLICATIONS_URL + pk + ULTIMATE_END_USER_URL + ueu_pk + DOCUMENT_URL, json)
+def post_ultimate_end_user_document(request, pk, obj_pk, json):
+    data = post(request, APPLICATIONS_URL + pk + ULTIMATE_END_USER_URL + str(obj_pk) + DOCUMENT_URL, json)
     return data.json(), data.status_code
 
 
-def delete_ultimate_end_user_document(request, pk, ueu_pk):
-    data = delete(request, APPLICATIONS_URL + pk + ULTIMATE_END_USER_URL + ueu_pk + DOCUMENT_URL)
+def delete_ultimate_end_user_document(request, pk, obj_pk):
+    data = delete(request, APPLICATIONS_URL + pk + ULTIMATE_END_USER_URL + str(obj_pk) + DOCUMENT_URL)
     return data.status_code
 
 
@@ -141,24 +141,24 @@ def post_third_party(request, pk, json):
     return data.json(), data.status_code
 
 
-def delete_third_party(request, pk, tp_pk):
-    data = delete(request, APPLICATIONS_URL + pk + THIRD_PARTIES_URL + tp_pk)
+def delete_third_party(request, pk, obj_pk):
+    data = delete(request, APPLICATIONS_URL + pk + THIRD_PARTIES_URL + obj_pk)
     return data.status_code
 
 
 # Third party Documents
-def get_third_party_document(request, pk, tp_pk):
-    data = get(request, APPLICATIONS_URL + pk + THIRD_PARTIES_URL + tp_pk + DOCUMENT_URL)
+def get_third_party_document(request, pk, obj_pk):
+    data = get(request, APPLICATIONS_URL + pk + THIRD_PARTIES_URL + obj_pk + DOCUMENT_URL)
     return data.json(), data.status_code
 
 
-def post_third_party_document(request, pk, tp_pk, json):
-    data = post(request, APPLICATIONS_URL + pk + THIRD_PARTIES_URL + tp_pk + DOCUMENT_URL, json)
+def post_third_party_document(request, pk, obj_pk, json):
+    data = post(request, APPLICATIONS_URL + pk + THIRD_PARTIES_URL + obj_pk + DOCUMENT_URL, json)
     return data.json(), data.status_code
 
 
-def delete_third_party_document(request, pk, tp_pk):
-    data = delete(request, APPLICATIONS_URL + pk + THIRD_PARTIES_URL + tp_pk + DOCUMENT_URL)
+def delete_third_party_document(request, pk, obj_pk):
+    data = delete(request, APPLICATIONS_URL + pk + THIRD_PARTIES_URL + obj_pk + DOCUMENT_URL)
     return data.status_code
 
 
@@ -313,15 +313,15 @@ def post_goods_type_countries(request, app_pk, good_pk, json):
 
 
 def get_goods_type_document(request, pk, good_pk):
-    data = get(request, APPLICATIONS_URL + pk + GOODSTYPE_URL + good_pk + DOCUMENT_URL)
+    data = get(request, APPLICATIONS_URL + pk + GOODSTYPE_URL + str(good_pk) + DOCUMENT_URL)
     return data.json(), data.status_code
 
 
 def post_goods_type_document(request, pk, good_pk, json):
-    data = post(request, APPLICATIONS_URL + pk + GOODSTYPE_URL + good_pk + DOCUMENT_URL, json)
+    data = post(request, APPLICATIONS_URL + pk + GOODSTYPE_URL + str(good_pk) + DOCUMENT_URL, json)
     return data.json(), data.status_code
 
 
 def delete_goods_type_document(request, pk, good_pk):
-    data = delete(request, APPLICATIONS_URL + pk + GOODSTYPE_URL + good_pk + DOCUMENT_URL)
+    data = delete(request, APPLICATIONS_URL + pk + GOODSTYPE_URL + str(good_pk) + DOCUMENT_URL)
     return data.status_code

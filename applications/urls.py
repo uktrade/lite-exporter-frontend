@@ -33,16 +33,16 @@ urlpatterns = [
          name='remove_preexisting_good'),
 
     # Goods Types
-    path('<uuid:pk>/goods-types/', goods_types.DraftOpenGoodsTypeList.as_view(), name='open_goods'),
+    path('<uuid:pk>/goods-types/', goods_types.DraftOpenGoodsTypeList.as_view(), name='goods_types'),
     path('<uuid:pk>/goods-types/countries/', goods_types.GoodsTypeCountries.as_view(), name='goods_countries'),
     path('<uuid:pk>/goods-types/add/', goods_types.ApplicationAddGoodsType.as_view(), name='add_goods_type'),
     path('<uuid:pk>/goods-types/remove/<uuid:goods_type_pk>/', goods_types.ApplicationRemoveGoodsType.as_view(),
          name='remove_goods_type'),
-    path('<uuid:pk>/goods-types/<uuid:good_pk>/document/attach/', documents.AttachDocuments.as_view(),
+    path('<uuid:pk>/goods-types/<uuid:obj_pk>/document/attach/', documents.AttachDocuments.as_view(),
          name='goods_type_attach_document'),
-    path('<uuid:pk>/goods-types/<uuid:good_pk>/document/download/', documents.DownloadDocument.as_view(),
+    path('<uuid:pk>/goods-types/<uuid:obj_pk>/document/download/', documents.DownloadDocument.as_view(),
          name='goods_type_download_document'),
-    path('<uuid:pk>/goods-types/<uuid:good_pk>/document/delete/', documents.DeleteDocument.as_view(),
+    path('<uuid:pk>/goods-types/<uuid:obj_pk>/document/delete/', documents.DeleteDocument.as_view(),
          name="goods_type_delete_document"),
 
     # Goods locations
@@ -78,36 +78,36 @@ urlpatterns = [
 
     # Ultimate end users
     path('<uuid:pk>/ultimate-end-users/', end_users.UltimateEndUsers.as_view(), name='ultimate_end_users'),
-    path('<uuid:pk>/ultimate-end-user/<uuid:ueu_pk>/document/attach/', documents.AttachDocuments.as_view(),
+    path('<uuid:pk>/ultimate-end-user/<uuid:obj_pk>/document/attach/', documents.AttachDocuments.as_view(),
          name='ultimate_end_user_attach_document'),
-    path('<uuid:pk>/ultimate-end-user/<uuid:ueu_pk>/document/download/', documents.DownloadDocument.as_view(),
+    path('<uuid:pk>/ultimate-end-user/<uuid:obj_pk>/document/download/', documents.DownloadDocument.as_view(),
          name='ultimate_end_user_download_document'),
-    path('<uuid:pk>/ultimate-end-user/<uuid:ueu_pk>/document/delete/', documents.DeleteDocument.as_view(),
+    path('<uuid:pk>/ultimate-end-user/<uuid:obj_pk>/document/delete/', documents.DeleteDocument.as_view(),
          name="ultimate_end_user_delete_document"),
     path('<uuid:pk>/ultimate-end-users/add/', end_users.AddUltimateEndUser.as_view(), name='add_ultimate_end_user'),
-    path('<uuid:pk>/ultimate-end-users/<uuid:ueu_pk>/remove/', end_users.RemoveUltimateEndUser.as_view(),
+    path('<uuid:pk>/ultimate-end-users/<uuid:obj_pk>/remove/', end_users.RemoveUltimateEndUser.as_view(),
          name='remove_ultimate_end_user'),
 
     # Third parties
     path('<uuid:pk>/third-parties/', third_parties.ThirdParties.as_view(), name='third_parties'),
     path('<uuid:pk>/third-parties/add/', third_parties.AddThirdParty.as_view(), name='add_third_party'),
-    path('<uuid:pk>/third-parties/<uuid:tp_pk>/document/attach', documents.AttachDocuments.as_view(),
+    path('<uuid:pk>/third-parties/<uuid:obj_pk>/document/attach', documents.AttachDocuments.as_view(),
          name='third_party_attach_document'),
-    path('<uuid:pk>/third-parties/<uuid:tp_pk>/document/download', documents.DownloadDocument.as_view(),
+    path('<uuid:pk>/third-parties/<uuid:obj_pk>/document/download', documents.DownloadDocument.as_view(),
          name='third_party_download_document'),
-    path('<uuid:pk>/third-parties/<uuid:tp_pk>/document/delete', documents.DeleteDocument.as_view(),
+    path('<uuid:pk>/third-parties/<uuid:obj_pk>/document/delete', documents.DeleteDocument.as_view(),
          name="third_party_delete_document"),
-    path('<uuid:pk>/third-parties/<uuid:ueu_pk>/remove', third_parties.RemoveThirdParty.as_view(),
+    path('<uuid:pk>/third-parties/<uuid:obj_pk>/remove', third_parties.RemoveThirdParty.as_view(),
          name='remove_third_party'),
 
     # Supporting documentation
     path('<uuid:pk>/additional-documents/',
          additional_documents.AdditionalDocuments.as_view(), name='additional_documents'),
-    path('<uuid:pk>/additional-document/attach', documents.AttachDocuments.as_view(),
+    path('<uuid:pk>/additional-document/attach/', documents.AttachDocuments.as_view(),
          name='attach_additional_document'),
-    path('<uuid:pk>/additional-document/<uuid:doc_pk>/download', documents.DownloadDocument.as_view(),
+    path('<uuid:pk>/additional-document/<uuid:obj_pk>/download', documents.DownloadDocument.as_view(),
          name='download_additional_document'),
-    path('<uuid:pk>/additional-document/<uuid:doc_pk>/delete', documents.DeleteDocument.as_view(),
+    path('<uuid:pk>/additional-document/<uuid:obj_pk>/delete', documents.DeleteDocument.as_view(),
          name='delete_additional_document'),
 
     # This HAS to be at the bottom, otherwise it'll swallow other url calls

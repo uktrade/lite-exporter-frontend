@@ -92,7 +92,7 @@
 		        <!-- Goods -->
 		        <li class="lite-task-list__item">
 					<div class="lite-task-list__item-header">
-                        <a id="open-goods" href="{% url 'applications:open_goods' application.id %}" class="govuk-link govuk-link--no-visited-state">
+                        <a id="open-goods" href="{% url 'applications:goods_types' application.id %}" class="govuk-link govuk-link--no-visited-state">
                             Describe your goods
                         </a>
 						{% if goods|length or goodstypes|length %}

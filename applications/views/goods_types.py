@@ -35,7 +35,7 @@ class ApplicationAddGoodsType(TemplateView):
         if status_code == 400:
             return form_page(request, goods_type_form(), request.POST, errors=data['errors'])
 
-        return redirect(reverse_lazy('applications:open_goods', args=[kwargs['pk']]))
+        return redirect(reverse_lazy('applications:goods_types', args=[kwargs['pk']]))
 
 
 class ApplicationRemoveGoodsType(TemplateView):
@@ -48,7 +48,7 @@ class ApplicationRemoveGoodsType(TemplateView):
         if status_code != 200:
             return error_page(request, 'Unexpected error removing goods description')
 
-        return redirect(reverse_lazy('applications:open_goods', kwargs={'pk': application_id}))
+        return redirect(reverse_lazy('applications:goods_types', kwargs={'pk': application_id}))
 
 
 class GoodsTypeCountries(TemplateView):

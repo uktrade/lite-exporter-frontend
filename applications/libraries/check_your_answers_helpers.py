@@ -86,10 +86,10 @@ def _convert_ultimate_end_users(ultimate_end_users, application_id):
             **_convert_end_user(ultimate_end_user, application_id),
             'Document': _convert_document_2(reverse_lazy('applications:ultimate_end_user_download_document',
                                                          kwargs={'pk': application_id,
-                                                                 'ueu_pk': ultimate_end_user['id']}),
+                                                                 'obj_pk': ultimate_end_user['id']}),
                                             reverse_lazy('applications:ultimate_end_user_attach_document',
                                                          kwargs={'pk': application_id,
-                                                                 'ueu_pk': ultimate_end_user['id']}),
+                                                                 'obj_pk': ultimate_end_user['id']}),
                                             ultimate_end_user['document'])
         } for ultimate_end_user in ultimate_end_users
     ]
@@ -123,7 +123,7 @@ def _convert_third_parties(third_parties, application_id):
             'Website': convert_to_link(third_party['website']),
             'Document': _convert_document_2(reverse_lazy('applications:third_party_download_document',
                                                          kwargs={'pk': application_id,
-                                                                 'tp_pk': third_party['id']}),
+                                                                 'obj_pk': third_party['id']}),
                                             reverse_lazy('applications:third_party_attach_document',
                                                          kwargs={'pk': application_id}),
                                             third_party['document'])

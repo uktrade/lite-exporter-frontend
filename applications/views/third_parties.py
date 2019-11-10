@@ -33,7 +33,7 @@ class AddThirdParty(TemplateView):
             return response
 
         return redirect(reverse_lazy('applications:third_party_attach_document',
-                                     kwargs={'pk': self.draft_id, 'tp_pk': data['third_party']['id']}))
+                                     kwargs={'pk': self.draft_id, 'obj_pk': data['third_party']['id']}))
 
 
 class ThirdParties(TemplateView):
@@ -55,8 +55,8 @@ class ThirdParties(TemplateView):
 class RemoveThirdParty(TemplateView):
     def get(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
-        ueu_pk = str(kwargs['ueu_pk'])
-        delete_third_party(request, draft_id, ueu_pk)
+        obj_pk = str(kwargs['obj_pk'])
+        delete_third_party(request, draft_id, obj_pk)
         return redirect(reverse_lazy('applications:third_parties', kwargs={'pk': draft_id}))
 
 

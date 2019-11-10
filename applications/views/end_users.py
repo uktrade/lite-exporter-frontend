@@ -85,12 +85,12 @@ class AddUltimateEndUser(TemplateView):
             return response
 
         return redirect(reverse_lazy('applications:ultimate_end_user_attach_document',
-                                     kwargs={'pk': self.draft_id, 'ueu_pk': data['ultimate_end_user']['id']}))
+                                     kwargs={'pk': self.draft_id, 'obj_pk': data['ultimate_end_user']['id']}))
 
 
 class RemoveUltimateEndUser(TemplateView):
     def get(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
-        ueu_pk = str(kwargs['ueu_pk'])
-        delete_ultimate_end_user(request, draft_id, ueu_pk)
+        obj_pk = str(kwargs['obj_pk'])
+        delete_ultimate_end_user(request, draft_id, obj_pk)
         return redirect(reverse_lazy('applications:ultimate_end_users', kwargs={'pk': draft_id}))
