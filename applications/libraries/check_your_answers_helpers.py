@@ -46,8 +46,8 @@ def _convert_goods(goods):
             'Part number': good['part_number'],
             'Controlled': friendly_boolean(good['is_good_controlled']),
             'Control list entry': default_na(good['control_code']),
-            'Quantity': '?',  # TODO
-            'Monetary value': '£',  # TODO
+            'Quantity': '?',  # TODO for when we bring this feature to standard/open apps
+            'Monetary value': '£',  # TODO for when we bring this feature to standard/open apps
         } for good in goods
     ]
 

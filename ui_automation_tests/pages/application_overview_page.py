@@ -19,7 +19,7 @@ class ApplicationOverviewPage:
         self.goods_on_application = "[id^=good-on-application-row]"  # CSS
         self.ultimate_end_users = "[id^=ultimate-end-user-row]" # CSS
         self.gov_tables = ".govuk-table__body"   # CSS
-        self.back_to_overview_text = "Back to task list"  # link text
+        self.back_to_overview_text = 'Back to task list'  # link text
         self.attach_end_user_document_link = "attach_doc"  # ID
         self.download_end_user_document = "end_user_document_download"  # ID
         self.delete_end_user_document = "end_user_document_delete"  # ID
