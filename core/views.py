@@ -2,6 +2,8 @@ from django.http import Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
+
+from conf.constants import HMRC_QUERY
 from lite_forms.generators import form_page
 
 from core.builtins.custom_tags import get_string
@@ -17,7 +19,7 @@ class Hub(TemplateView):
 
         notifications = get_notifications(request, unviewed=True)
         organisation = get_organisation(request, str(request.user.organisation))
-        if organisation.get('type').get('key') == 'hmrc':
+        if organisation.get('type').get('key') == HMRC_QUERY:
             sections = [
                 Section('', [
                     Tile('Make a Customs enquiry', '',
