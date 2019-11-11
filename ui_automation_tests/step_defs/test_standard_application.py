@@ -167,11 +167,6 @@ def click_attach_a_document(driver):
     ThirdPartyListPage(driver).click_on_attach_document(-1)
 
 
-@when("I click back link")
-def click_back_link(driver):
-    functions.click_back_link(driver)
-
-
 @when('I delete the third party document')
 def delete_ultimate_end_user_document(driver):
     third_party = ThirdPartyListPage(driver)

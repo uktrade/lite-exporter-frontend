@@ -23,7 +23,7 @@ Feature: I want to indicate the standard licence I want
     And I select "organisation" for where my goods are located
     And I select the site at position "1"
     And I click continue
-    And I click back link
+    And I click the back link
     And I add a non incorporated good to application
     Then good is added to application
     When I click on end user
@@ -90,7 +90,7 @@ Feature: I want to indicate the standard licence I want
     And I select "organisation" for where my goods are located
     And I select the site at position "1"
     And I click continue
-    When I click back link
+    When I click the back link
     And I click on end user
     And I add an end user of sub_type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
     And I upload a file "file_for_doc_upload_test_1.txt"
@@ -141,7 +141,7 @@ Feature: I want to indicate the standard licence I want
 #    When I create a standard application
 #    And I click on consignees
 #    And I add an end user of sub_type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
-#    And I click back link
+#    And I click the back link
 #    And I click attach an consignee document link
 #    And I upload a file "file_for_doc_upload_test_1.txt"
 #    Then Wait for "consignee_document_download" to be present
@@ -155,7 +155,7 @@ Feature: I want to indicate the standard licence I want
 #    And I click on third parties
 #    And I click on the add button
 #    And I add an end user of sub_type: "agent", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
-#    And I click back link
+#    And I click the back link
 #    Then "Attach" link is present
 #    When I click on attach a document
 #    And I upload a file "file_for_doc_upload_test_1.txt"
