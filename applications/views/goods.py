@@ -129,7 +129,7 @@ class AddNewGood(TemplateView):
                 # Attach good to application
                 post_data['good_id'] = good_id
 
-                _, _ = post_good_on_application(request, self.application_id, post_data)
+                post_good_on_application(request, self.application_id, post_data)
 
                 return redirect('applications:goods', self.application_id)
             else:
