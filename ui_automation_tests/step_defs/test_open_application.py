@@ -128,8 +128,3 @@ def see_all_or_no_selected(driver, assigned_or_unassigned):
     else:
         assert countries_page.all_deselected()
 
-
-@when("I click back link")
-def click_back_link(driver):
-    functions.click_back_link(driver)
-
