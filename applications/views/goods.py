@@ -159,7 +159,7 @@ class AddNewGood(TemplateView):
             self.data = post
             generate_form_num = form_num + 1
             self.generate_form(request, generate_form_num)
-            self.errors = {}
+            self.errors = None
 
     def generate_form(self, request, destination_form):
         self.form = add_new_good_forms(request, self.application_id)[destination_form]
