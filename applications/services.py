@@ -201,12 +201,12 @@ def get_additional_documents(request, pk):
 
 
 def get_additional_document(request, pk, doc_pk):
-    data = get(request, APPLICATIONS_URL + pk + ADDITIONAL_DOCUMENT_URL + doc_pk + '/')
+    data = get(request, APPLICATIONS_URL + pk + ADDITIONAL_DOCUMENT_URL + str(doc_pk) + '/')
     return data.json(), data.status_code
 
 
 def delete_additional_party_document(request, pk, doc_pk):
-    data = delete(request, APPLICATIONS_URL + pk + ADDITIONAL_DOCUMENT_URL + doc_pk + '/')
+    data = delete(request, APPLICATIONS_URL + pk + ADDITIONAL_DOCUMENT_URL + str(doc_pk) + '/')
     return data.status_code
 
 

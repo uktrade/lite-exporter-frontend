@@ -24,7 +24,7 @@ def add_external_location():
                 questions=[
                     RadioButtons('choice', [
                         Option('new', 'Add a new external location'),
-                        Option('preexisting', 'Add a preexisting external location'),
+                        Option('preexisting', 'Add a pre-existing external location'),
                     ])
                 ],
                 default_button_name='Continue')
