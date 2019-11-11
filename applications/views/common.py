@@ -11,7 +11,7 @@ from applications.libraries.task_lists import get_application_task_list
 from applications.services import get_applications, get_case_notes, \
     get_application_ecju_queries, get_ecju_query, put_ecju_query, post_application_case_notes, get_draft_applications, \
     submit_application, get_application, delete_application, set_application_status
-from conf.constants import HMRC_QUERY
+from conf.constants import HMRC_QUERY, APPLICANT_EDITING
 from core.helpers import group_notifications
 from core.services import get_notifications, get_organisation
 from lite_forms.components import HiddenField
@@ -49,7 +49,7 @@ class ApplicationDetailEmpty(TemplateView):
         application_id = str(kwargs['pk'])
         data = get_application(request, application_id)
 
-        if data.get('status') and data.get('status').get('key') == 'applicant_editing':
+        if data.get('status') and data.get('status').get('key') == APPLICANT_EDITING:
             return redirect(reverse_lazy('applications:task_list', kwargs={'pk': application_id}))
 
         return redirect(reverse_lazy('applications:application-detail', kwargs={'pk': application_id,
@@ -81,7 +81,7 @@ class ApplicationEditType(TemplateView):
         application_id = str(kwargs['pk'])
         data = get_application(request, application_id)
 
-        if data.get('status') and data.get('status').get('key') == 'applicant_editing':
+        if data.get('status') and data.get('status').get('key') == APPLICANT_EDITING:
             return redirect(reverse_lazy('applications:task_list', kwargs={'pk': application_id}))
 
         return form_page(request, edit_type_form(application_id))
@@ -91,7 +91,7 @@ class ApplicationEditType(TemplateView):
         edit_type = request.POST.get('edit-type')
 
         if edit_type == 'major':
-            data, status_code = set_application_status(request, str(kwargs['pk']), 'applicant_editing')
+            data, status_code = set_application_status(request, str(kwargs['pk']), APPLICANT_EDITING)
 
             if status_code != HTTPStatus.OK:
                 return form_page(request, edit_type_form(str(kwargs['pk'])), errors=data)
