@@ -478,6 +478,6 @@ def i_leave_a_note(driver, reasoning):
     text_area.send_keys(reasoning)
 
 
-@when("I click the back link")  # noqa
+@when('I click the back link')  # noqa
 def click_back_link(driver):
     functions.click_back_link(driver)
