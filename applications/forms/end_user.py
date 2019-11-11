@@ -2,14 +2,14 @@ from django.urls import reverse_lazy
 
 from applications.components import back_to_task_list
 from core.builtins.custom_tags import get_string
-from lite_forms.components import RadioButtons, Form, Option, TextArea, TextInput, FormGroup, FileUpload, \
-    BackLink, Label
-from lite_forms.generators import confirm_form
-from lite_forms.common import country_question
 from core.services import get_countries
+from lite_forms.common import country_question
+from lite_forms.components import RadioButtons, Form, Option, TextArea, TextInput, FormGroup, FileUpload, \
+    Label
+from lite_forms.generators import confirm_form
 
 
-def third_parties_standard_form(opening_title=None):
+def third_parties_standard_form(application, opening_title=None):
     return [
         Form(title=opening_title,
              questions=[
@@ -22,7 +22,7 @@ def third_parties_standard_form(opening_title=None):
                               ]),
              ],
              default_button_name='Continue',
-             back_link=BackLink(get_string('common.back_to_task_list'))),
+             back_link=back_to_task_list(application['id'])),
         Form(title='Enter the final recipient\'s name',
              questions=[
                  TextInput('name'),
@@ -43,8 +43,8 @@ def third_parties_standard_form(opening_title=None):
     ]
 
 
-def new_end_user_forms():
-    return FormGroup(third_parties_standard_form(get_string('end_user.title')))
+def new_end_user_forms(application):
+    return FormGroup(third_parties_standard_form(application, get_string('end_user.title')))
 
 
 def attach_document_form(application_id, title, return_later_text, description_text=None):
@@ -75,5 +75,5 @@ def delete_document_confirmation_form(overview_url, back_link_text):
                         )
 
 
-def new_consignee_forms():
-    return FormGroup(third_parties_standard_form(get_string('consignee.title')))
+def new_consignee_forms(application):
+    return FormGroup(third_parties_standard_form(application, get_string('consignee.title')))

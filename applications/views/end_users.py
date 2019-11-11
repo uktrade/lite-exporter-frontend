@@ -34,8 +34,9 @@ class EndUser(TemplateView):
 class SetEndUser(MultiFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs['pk']
-        self.data = get_application(request, self.object_pk)['end_user']
-        self.forms = new_end_user_forms()
+        application = get_application(request, self.object_pk)
+        self.data = application['end_user']
+        self.forms = new_end_user_forms(application)
         self.action = post_end_user
         self.success_url = reverse_lazy('applications:end_user_attach_document', kwargs={'pk': self.object_pk})
 
@@ -71,7 +72,8 @@ class AddUltimateEndUser(TemplateView):
 
     def dispatch(self, request, *args, **kwargs):
         self.draft_id = str(kwargs['pk'])
-        self.form = new_end_user_forms()
+        application = get_application(request, self.draft_id)
+        self.form = new_end_user_forms(application)
 
         return super(AddUltimateEndUser, self).dispatch(request, *args, **kwargs)
 
