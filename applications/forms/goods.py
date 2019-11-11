@@ -33,7 +33,7 @@ def add_new_good_forms(request, application_id):
                                                                                  kwargs={'pk': application_id}))
 
     return [
-        add_goods_questions(clc=False, back_link=back_link, prefix='good_'),
+        add_goods_questions(allow_query=False, back_link=back_link, prefix='good_'),
         good_on_application_form(good={}, units=get_units(request), prefix='good_on_app_',
                                  title=get_const_string('APPLICATION_GOODS_ADD_APPLICATION_DETAILS')),
         attach_documents_form('#', description=get_const_string('APPLICATION_GOODS_ADD_DOCUMENT_DESCRIPTION'))]
