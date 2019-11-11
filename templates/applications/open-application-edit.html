@@ -190,33 +190,31 @@
 				</li>
 
 				<!-- Destination -->
-				{% if application.application_type.key == 'open_licence' %}
-					<li class="lite-task-list__item">
-						<div class="lite-task-list__item-header">
-							<a id="countries" href="{% url 'applications:countries' application.id %}" class="lite-overview-section-header govuk-link govuk-link--no-visited-state">
-								Where are your goods going?
-							</a>
-							{% if countries %}
-							<div class="lite-tag lite-tag--blue">
-								Done
-							</div>
-							{% else %}
-							<div class="lite-tag lite-tag--hollow">
-								Not started
-							</div>
-							{% endif %}
+				<li class="lite-task-list__item">
+					<div class="lite-task-list__item-header">
+						<a id="countries" href="{% url 'applications:countries' application.id %}" class="lite-overview-section-header govuk-link govuk-link--no-visited-state">
+							Where are your goods going?
+						</a>
+						{% if countries %}
+						<div class="lite-tag lite-tag--blue">
+							Done
 						</div>
-						<div class="lite-task-list__item-details">
-							<div class="display-none-inline_style">
-								<div id="countries-data">
-									{% for country in countries %}
-										<p class="govuk-label">{{ country.name }}</p>
-									{% endfor %}
-								</div>
+						{% else %}
+						<div class="lite-tag lite-tag--hollow">
+							Not started
+						</div>
+						{% endif %}
+					</div>
+					<div class="lite-task-list__item-details">
+						<div class="display-none-inline_style">
+							<div id="countries-data">
+								{% for country in countries %}
+									<p class="govuk-label">{{ country.name }}</p>
+								{% endfor %}
 							</div>
-					   </div>
-					</li>
-				{% endif %}
+						</div>
+				   </div>
+				</li>
 
 				<!-- Good/country mapping -->
 				{% if application.application_type.key == 'open_licence' and goodstypes and countries %}
