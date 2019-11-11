@@ -10,7 +10,7 @@
             <h1 class="govuk-heading-l">{{ title }}</h1>
         </div>
         <div class="lite-app-bar__controls">
-            {% if application.status.value|lower not in read_only_statuses %}
+            {% if application.status.value|lower not in read_only_statuses and application.application_type.key != 'hmrc_query' %}
                 <a href="{% url 'applications:edit_type' application.id %}" id='edit-application-button'
                    class="govuk-button">Edit application</a>
             {% endif %}
