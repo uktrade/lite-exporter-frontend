@@ -13,13 +13,13 @@ from lite_forms.views import MultiFormView
 
 
 class AddThirdParty(TemplateView):
-    draft_id = None
+    application_id = None
     form = None
 
     def dispatch(self, request, *args, **kwargs):
-        self.draft_id = str(kwargs['pk'])
-        draft = get_application(request, self.draft_id)
-        self.form = third_party_forms(draft.get('export_type'))
+        self.application_id = str(kwargs['pk'])
+        application = get_application(request, self.application_id)
+        self.form = third_party_forms(application)
 
         return super(AddThirdParty, self).dispatch(request, *args, **kwargs)
 
@@ -27,13 +27,13 @@ class AddThirdParty(TemplateView):
         return form_page(request, self.form.forms[0])
 
     def post(self, request, **kwargs):
-        response, data = submit_paged_form(request, self.form, post_third_party, object_pk=self.draft_id)
+        response, data = submit_paged_form(request, self.form, post_third_party, object_pk=self.application_id)
 
         if response:
             return response
 
         return redirect(reverse_lazy('applications:third_party_attach_document',
-                                     kwargs={'pk': self.draft_id, 'obj_pk': data['third_party']['id']}))
+                                     kwargs={'pk': self.application_id, 'obj_pk': data['third_party']['id']}))
 
 
 class ThirdParties(TemplateView):
@@ -81,8 +81,9 @@ class Consignee(TemplateView):
 class SetConsignee(MultiFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs['pk']
-        self.data = get_application(request, self.object_pk)['consignee']
-        self.forms = new_consignee_forms()
+        application = get_application(request, self.object_pk)
+        self.data = application['consignee']
+        self.forms = new_consignee_forms(application)
         self.action = post_consignee
         self.success_url = reverse_lazy('applications:consignee_attach_document', kwargs={'pk': self.object_pk})
 
