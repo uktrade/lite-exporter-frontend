@@ -180,13 +180,7 @@ def enter_export_licence(driver, yes_or_no, reference, context):
 @when('I click on application locations link')  # noqa
 def i_click_application_locations_link(driver):
     app = ApplicationOverviewPage(driver)
-    app.click_application_locations_link()\
-
-
-@when('I click on application hmrc locations link')  # noqa
-def i_click_application_locations_link(driver):
-    app = ApplicationOverviewPage(driver)
-    app.click_hmrc_application_locations_link()
+    app.click_application_locations_link()
 
 
 @when(parsers.parse('I click on link with id "{link_id}"'))  # noqa
