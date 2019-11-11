@@ -57,10 +57,8 @@
 							<label class="govuk-label govuk-radios__label" for="organisation-{{ organisation.id }}">
 								{{ organisation.name|highlight_text:params.search_term }}
 							</label>
-                            <span id="sign-in-item-hint" class="govuk-hint govuk-radios__hint">
-								{{ organisation.registration_number|highlight_text:params.search_term }}
-							</span>
 							<span id="sign-in-item-hint" class="govuk-hint govuk-radios__hint">
+								{{ organisation.registration_number|highlight_text:params.search_term }}<br>
 								{{ organisation.type.value }}
 							</span>
 						</div>
