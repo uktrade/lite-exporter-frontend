@@ -478,7 +478,7 @@ def i_choose_to_make_minor_edits(driver):
     application_edit_type_page.click_change_application_button()
 
 
-@when(parsers.parse('I leave a note for the "{text_area}"'))
+@when(parsers.parse('I leave a note for the "{reasoning}"'))
 def i_leave_a_note(driver, reasoning):
     text_area = driver.find_element_by_id(reasoning)
     text_area.clear()
