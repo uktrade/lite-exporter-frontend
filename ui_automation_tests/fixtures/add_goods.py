@@ -2,7 +2,7 @@ import os
 
 from pytest import fixture
 
-import functions
+from shared import functions
 import shared.tools.helpers as utils
 from pages.add_goods_page import AddGoodPage
 from pages.application_goods_list import ApplicationGoodsList

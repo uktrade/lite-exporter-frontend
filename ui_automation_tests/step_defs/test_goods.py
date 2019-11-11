@@ -1,6 +1,6 @@
 from pytest_bdd import scenarios, when, then, parsers
 
-import functions
+from shared import functions
 from pages.goods_list import GoodsList
 from pages.exporter_hub_page import ExporterHubPage
 from pages.add_goods_page import AddGoodPage

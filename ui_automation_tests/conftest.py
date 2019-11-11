@@ -5,6 +5,7 @@ from pytest_bdd import given, when, then, parsers
 from selenium.webdriver.common.by import By
 
 import functions
+from shared import functions
 from pages.application_edit_type_page import ApplicationEditTypePage
 from pages.application_page import ApplicationPage
 from ui_automation_tests.fixtures.register_organisation import register_organisation, register_organisation_for_switching_organisation  # noqa

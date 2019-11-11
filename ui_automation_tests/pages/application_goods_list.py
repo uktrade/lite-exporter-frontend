@@ -1,6 +1,6 @@
 from selenium.webdriver.support.ui import Select
 
-import functions
+from shared import functions
 
 
 class ApplicationGoodsList:

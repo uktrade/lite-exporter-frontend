@@ -1,4 +1,4 @@
-import functions
+from shared import functions
 
 
 class GoodsPage:

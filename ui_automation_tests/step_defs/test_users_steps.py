@@ -3,7 +3,7 @@ import logging
 from pytest_bdd import scenarios, when, then
 from selenium.webdriver.common.by import By
 
-import functions
+from shared import functions
 from pages.exporter_hub_page import ExporterHubPage
 import shared.tools.helpers as utils
 from pages.shared import Shared

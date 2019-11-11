@@ -1,6 +1,6 @@
 from pytest_bdd import scenarios, when, then, parsers
 
-import functions
+from shared import functions
 import shared.tools.helpers as utils
 from pages.application_countries_list import ApplicationCountriesList
 from pages.application_goods_list import ApplicationGoodsList
