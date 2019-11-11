@@ -3,7 +3,7 @@ from django.shortcuts import render
 from applications.libraries.validate_status import check_all_parties_have_a_document
 from applications.services import get_application_countries, get_application_goods_types, get_ultimate_end_users, \
     get_third_parties, get_application_goods, get_end_user_document, get_consignee_document, get_additional_documents
-from conf.constants import HMRC_QUERY, OPEN_LICENCE, STANDARD_LICENCE
+from conf.constants import HMRC_QUERY, OPEN_LICENCE, STANDARD_LICENCE, APPLICANT_EDITING
 from core.services import get_sites_on_draft, get_external_locations_on_draft
 
 
@@ -29,7 +29,7 @@ def _get_standard_application_task_list(request, application, errors=None):
         application['have_you_been_informed'], application['reference_number_on_information_form'])
 
     if application['status']:
-        is_editing = application['status']['key'] == 'submitted' or application['status']['key'] == 'applicant_editing'
+        is_editing = application['status']['key'] == 'submitted' or application['status']['key'] == APPLICANT_EDITING
         if is_editing:
             edit_type = 'minor_edit' if application['status']['key'] == 'submitted' else 'major_edit'
 
@@ -87,7 +87,7 @@ def _get_open_application_task_list(request, application, errors=None):
     is_editing = False
     edit_type = None
     if application['status']:
-        is_editing = application['status']['key'] == 'submitted' or application['status']['key'] == 'applicant_editing'
+        is_editing = application['status']['key'] == 'submitted' or application['status']['key'] == APPLICANT_EDITING
         if is_editing:
             edit_type = 'minor_edit' if application['status']['key'] == 'submitted' else 'major_edit'
 
