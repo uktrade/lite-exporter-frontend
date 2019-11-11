@@ -1,5 +1,5 @@
 ISO8601_FMT = '%Y-%m-%dT%H:%M:%S.%fZ'
-NEW_LINE = '\n'
+NEWLINE = '\n'
 
 # URLs
 APPLICATIONS_URL = '/applications/'

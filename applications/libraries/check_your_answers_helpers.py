@@ -1,6 +1,6 @@
 from django.urls import reverse_lazy
 
-from conf.constants import NEW_LINE, STANDARD_LICENCE, OPEN_LICENCE, HMRC_QUERY
+from conf.constants import NEWLINE, STANDARD_LICENCE, OPEN_LICENCE, HMRC_QUERY
 from core.builtins.custom_tags import default_na, friendly_boolean
 from core.helpers import convert_to_link
 
@@ -108,7 +108,7 @@ def _convert_consignee(consignee, application_id):
     return {
         'Name': consignee['name'],
         'Type': consignee['sub_type']['value'],
-        'Address': consignee['address'] + NEW_LINE + consignee['country']['name'],
+        'Address': consignee['address'] + NEWLINE + consignee['country']['name'],
         'Website': convert_to_link(consignee['website']),
         'Document': document,
     }
@@ -119,7 +119,7 @@ def _convert_third_parties(third_parties, application_id):
         {
             'Name': third_party['name'],
             'Type': third_party['sub_type']['value'],
-            'Address': third_party['address'] + NEW_LINE + third_party['country']['name'],
+            'Address': third_party['address'] + NEWLINE + third_party['country']['name'],
             'Website': convert_to_link(third_party['website']),
             'Document': _convert_document_2(reverse_lazy('applications:third_party_download_document',
                                                          kwargs={'pk': application_id,
@@ -136,20 +136,20 @@ def _convert_goods_locations(goods_locations):
         return [
             {
                 'Site': site['name'],
-                'Address': site['address']['address_line_1'] + NEW_LINE +
-                site['address']['address_line_2'] + NEW_LINE +
-                site['address']['city'] + NEW_LINE +
-                site['address']['region'] + NEW_LINE +
-                site['address']['postcode'] + NEW_LINE +
-                site['address']['country']['name']
+                'Address': site['address']['address_line_1'] + NEWLINE +
+                           site['address']['address_line_2'] + NEWLINE +
+                           site['address']['city'] + NEWLINE +
+                           site['address']['region'] + NEWLINE +
+                           site['address']['postcode'] + NEWLINE +
+                           site['address']['country']['name']
             } for site in goods_locations['data']
         ]
     else:
         return [
             {
                 'Site': external_location['name'],
-                'Address': external_location['address'] + NEW_LINE +
-                external_location['country']['name']
+                'Address': external_location['address'] + NEWLINE +
+                           external_location['country']['name']
             } for external_location in goods_locations['data']
         ]
 
