@@ -1,10 +1,11 @@
 from conf.constants import STANDARD_LICENCE, OPEN_LICENCE
+from core.builtins.custom_tags import get_string
 from lite_forms.components import RadioButtons, Form, DetailComponent, TextInput, Option, FormGroup
 
 
 def initial_questions():
     return FormGroup([
-        Form('Which export licence do you want to apply for?', 'Select one of the options.', [
+        Form(get_string('applications.initial_questions.export_title'), [
             RadioButtons(name='application_type',
                          options=[
                              Option(key=STANDARD_LICENCE, value='Standard Licence',
@@ -24,9 +25,7 @@ def initial_questions():
                                                             'class="govuk-visually-hidden"> (Opens in a new window or '
                                                             'tab)</span></a>.', )
         ], default_button_name='Continue'),
-        Form('Enter a reference name for your application',
-             'This can make it easier for you or your organisation to find in the '
-             'future.',
+        Form(get_string('applications.initial_questions.reference_title'),
              [
                  TextInput(name='name'),
              ], default_button_name='Continue'),
