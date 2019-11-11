@@ -19,7 +19,6 @@ class ApplicationOverviewPage:
         self.goods_on_application = "[id^=good-on-application-row]"  # CSS
         self.ultimate_end_users = "[id^=ultimate-end-user-row]" # CSS
         self.gov_tables = ".govuk-table__body"   # CSS
-        self.back_to_overview_text = 'Back to task list'  # link text
         self.attach_end_user_document_link = "attach_doc"  # ID
         self.download_end_user_document = "end_user_document_download"  # ID
         self.delete_end_user_document = "end_user_document_delete"  # ID
@@ -114,9 +113,6 @@ class ApplicationOverviewPage:
     def click_goods_countries_link(self):
         self.driver.execute_script("document.getElementById('" + self.goods_countries_link + "').scrollIntoView(true);")
         self.driver.find_element_by_id(self.goods_countries_link).click()
-
-    def click_on_back_to_overview_text(self):
-        self.driver.find_element_by_link_text(self.back_to_overview_text).click()
 
     def get_text_of_end_user_table(self):
         return self.driver.find_elements_by_css_selector(self.gov_tables)[len(self.driver.find_elements_by_css_selector(self.gov_tables))-1].text

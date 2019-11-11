@@ -50,8 +50,7 @@ def i_click_on_application_overview(driver):
 
 @when('I click on back to overview')
 def i_go_to_the_overview(driver):
-    app = ApplicationOverviewPage(driver)
-    app.click_on_back_to_overview_text()
+    functions.click_back_link(driver)
 
 
 @when('I click on the add button')
@@ -97,8 +96,7 @@ def i_remove_an_ultimate_end_user(driver):
     driver.find_element_by_link_text('Remove ultimate end user').click()
     total = no_of_ultimate_end_users - Shared(driver).get_size_of_table_rows()
     assert total == 1, "total on the ultimate end users summary is incorrect after removing ultimate end user"
-    app = ApplicationOverviewPage(driver)
-    app.click_on_back_to_overview_text()
+    functions.click_back_link(driver)
 
 
 @then('there is only one ultimate end user')

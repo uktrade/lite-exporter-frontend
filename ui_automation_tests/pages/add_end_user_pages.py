@@ -4,7 +4,6 @@ class AddEndUserPages:
         self.driver = driver
         self.add_new_address_button = 'a[href*="add"]'
         self.type_choices = "sub_type-"
-        self.back_to_overview_text = 'Back to task list'  # link text
 
     def enter_name(self, name):
         name_tb = self.driver.find_element_by_id("name")
