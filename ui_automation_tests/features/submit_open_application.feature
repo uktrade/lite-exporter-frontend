@@ -27,7 +27,7 @@ Feature: I want to indicate the open licence I want
     And I select "organisation" for where my goods are located
     And I select the site at position "1"
     And I click continue
-    And I click back link
+    And I click the back link
     And I click on the goods link from overview
     And I click Add goods type button
     And I add a good or good type with description "Sniper" controlled "Yes" control code "ML1a" incorporated "Yes" and part number "not needed"
