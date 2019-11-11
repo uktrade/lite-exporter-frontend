@@ -5,6 +5,7 @@ from pytest_bdd import given, when, then, parsers
 from selenium.webdriver.common.by import By
 
 import functions
+from pages.add_end_user_pages import AddEndUserPages
 from pages.application_edit_type_page import ApplicationEditTypePage
 from pages.application_page import ApplicationPage
 from ui_automation_tests.fixtures.register_organisation import register_organisation, register_organisation_for_switching_organisation  # noqa
@@ -179,7 +180,37 @@ def enter_export_licence(driver, yes_or_no, reference, context):
 @when('I click on application locations link')  # noqa
 def i_click_application_locations_link(driver):
     app = ApplicationOverviewPage(driver)
-    app.click_application_locations_link()
+    app.click_application_locations_link()\
+
+
+@when('I click on application hmrc locations link')  # noqa
+def i_click_application_locations_link(driver):
+    app = ApplicationOverviewPage(driver)
+    app.click_hmrc_application_locations_link()
+
+
+@when(parsers.parse('I click on link with id "{link_id}"'))  # noqa
+def i_click_on_link_with_id(driver, link_id):
+    driver.find_element_by_id(link_id).click()
+
+
+@when(parsers.parse(
+    'I add an end user of sub_type: "{type}", name: "{name}", website: "{website}", address: "{address}" and country "{'
+    'country}"'))
+def add_new_end_user(driver, type, name, website, address, country, context):
+    add_end_user_pages = AddEndUserPages(driver)
+    add_end_user_pages.select_type(type)
+    context.type_end_user = type
+    functions.click_submit(driver)
+    add_end_user_pages.enter_name(name)
+    context.name_end_user = name
+    functions.click_submit(driver)
+    add_end_user_pages.enter_website(website)
+    functions.click_submit(driver)
+    add_end_user_pages.enter_address(address)
+    context.address_end_user = address
+    add_end_user_pages.enter_country(country)
+    functions.click_submit(driver)
 
 
 @when(parsers.parse('I select "{organisation_or_external}" for where my goods are located'))  # noqa
