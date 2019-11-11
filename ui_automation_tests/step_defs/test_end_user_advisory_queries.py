@@ -1,6 +1,6 @@
 from pytest_bdd import when, then, parsers, scenarios, given
 
-import functions
+from shared import functions
 from pages.add_end_user_advisory_pages import AddEndUserAdvisoryPages
 from pages.end_user_advisory_page import EndUserAdvisoryPage
 from pages.respond_to_ecju_query_page import RespondToEcjuQueryPage
@@ -107,6 +107,7 @@ def notification_on_end_user_advisory_list(driver, context):
     # Commenting out due to bug LT-1433
     # assert EndUserAdvisoryPage(driver).confirm_advisory_displayed_by_reference_code(context.end_user_advisory_id)
     pass
+
 
 @then('I see a notification for case note and can view the case note')
 def notification_on_notes_tab(driver, context):

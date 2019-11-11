@@ -1,10 +1,9 @@
 from pytest_bdd import when, scenarios, then
 
-import functions
+from shared import functions
 from conftest import enter_application_name, enter_export_licence
 from pages.application_overview_page import ApplicationOverviewPage
 from pages.application_page import ApplicationPage
-from pages.shared import Shared
 
 scenarios('../features/edit_standard_application.feature', strict_gherkin=False)
 

@@ -1,6 +1,6 @@
 from pytest_bdd import when, then, given, parsers, scenarios
 
-import functions
+from shared import functions
 from pages.application_page import ApplicationPage
 from pages.exporter_hub_page import ExporterHubPage
 from pages.respond_to_ecju_query_page import RespondToEcjuQueryPage

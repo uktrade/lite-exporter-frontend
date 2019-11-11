@@ -84,13 +84,13 @@ def _convert_ultimate_end_users(ultimate_end_users, application_id):
     return [
         {
             **_convert_end_user(ultimate_end_user, application_id),
-            'Document': _convert_document_2(reverse_lazy('applications:ultimate_end_user_download_document',
-                                                         kwargs={'pk': application_id,
-                                                                 'obj_pk': ultimate_end_user['id']}),
-                                            reverse_lazy('applications:ultimate_end_user_attach_document',
-                                                         kwargs={'pk': application_id,
-                                                                 'obj_pk': ultimate_end_user['id']}),
-                                            ultimate_end_user['document'])
+            'Document': _convert_attachable_document(reverse_lazy('applications:ultimate_end_user_download_document',
+                                                                  kwargs={'pk': application_id,
+                                                                          'obj_pk': ultimate_end_user['id']}),
+                                                     reverse_lazy('applications:ultimate_end_user_attach_document',
+                                                                  kwargs={'pk': application_id,
+                                                                          'obj_pk': ultimate_end_user['id']}),
+                                                     ultimate_end_user['document'])
         } for ultimate_end_user in ultimate_end_users
     ]
 
@@ -121,12 +121,12 @@ def _convert_third_parties(third_parties, application_id):
             'Type': third_party['sub_type']['value'],
             'Address': third_party['address'] + NEWLINE + third_party['country']['name'],
             'Website': convert_to_link(third_party['website']),
-            'Document': _convert_document_2(reverse_lazy('applications:third_party_download_document',
-                                                         kwargs={'pk': application_id,
-                                                                 'obj_pk': third_party['id']}),
-                                            reverse_lazy('applications:third_party_attach_document',
-                                                         kwargs={'pk': application_id}),
-                                            third_party['document'])
+            'Document': _convert_attachable_document(reverse_lazy('applications:third_party_download_document',
+                                                                  kwargs={'pk': application_id,
+                                                                          'obj_pk': third_party['id']}),
+                                                     reverse_lazy('applications:third_party_attach_document',
+                                                     kwargs={'pk': application_id}),
+                                                     third_party['document'])
         } for third_party in third_parties
     ]
 
@@ -137,11 +137,11 @@ def _convert_goods_locations(goods_locations):
             {
                 'Site': site['name'],
                 'Address': site['address']['address_line_1'] + NEWLINE +
-                           site['address']['address_line_2'] + NEWLINE +
-                           site['address']['city'] + NEWLINE +
-                           site['address']['region'] + NEWLINE +
-                           site['address']['postcode'] + NEWLINE +
-                           site['address']['country']['name']
+                site['address']['address_line_2'] + NEWLINE +
+                site['address']['city'] + NEWLINE +
+                site['address']['region'] + NEWLINE +
+                site['address']['postcode'] + NEWLINE +
+                site['address']['country']['name']
             } for site in goods_locations['data']
         ]
     else:
@@ -149,7 +149,7 @@ def _convert_goods_locations(goods_locations):
             {
                 'Site': external_location['name'],
                 'Address': external_location['address'] + NEWLINE +
-                           external_location['country']['name']
+                external_location['country']['name']
             } for external_location in goods_locations['data']
         ]
 
@@ -173,7 +173,7 @@ def _convert_document(document, document_type, application_id):
     return convert_to_link(f'/applications/{application_id}/{document_type}/document/download/', document['name'])
 
 
-def _convert_document_2(address, attach_address, document):
+def _convert_attachable_document(address, attach_address, document):
     if not document:
         return convert_to_link(attach_address, 'Attach document')
 

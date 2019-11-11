@@ -1,6 +1,6 @@
 from selenium.common.exceptions import NoSuchElementException
 
-import functions
+from shared import functions
 
 
 class ApplicationOverviewPage:
