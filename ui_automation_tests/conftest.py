@@ -183,6 +183,12 @@ def i_click_application_locations_link(driver):
     app.click_application_locations_link()
 
 
+@when('I click on application hmrc locations link')  # noqa
+def i_click_application_locations_link(driver):
+    app = ApplicationOverviewPage(driver)
+    app.click_hmrc_application_locations_link()
+
+
 @when(parsers.parse('I click on link with id "{link_id}"'))  # noqa
 def i_click_on_link_with_id(driver, link_id):
     driver.find_element_by_id(link_id).click()
