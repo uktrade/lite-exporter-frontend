@@ -188,8 +188,7 @@ def i_click_on_link_with_id(driver, link_id):
     driver.find_element_by_id(link_id).click()
 
 
-@when(parsers.parse(
-    'I add an end user of sub_type: "{type}", name: "{name}", website: "{website}", address: "{address}" and country "{'
+@when(parsers.parse('I add an end user of sub_type: "{type}", name: "{name}", website: "{website}", address: "{address}" and country "{'  # noqa
     'country}"'))
 def add_new_end_user(driver, type, name, website, address, country, context):
     add_end_user_pages = AddEndUserPages(driver)
@@ -472,13 +471,13 @@ def i_choose_to_make_minor_edits(driver):
     application_edit_type_page.click_change_application_button()
 
 
-@when(parsers.parse('I leave a note for the "{reasoning}"'))
+@when(parsers.parse('I leave a note for the "{reasoning}"'))  # noqa
 def i_leave_a_note(driver, reasoning):
     text_area = driver.find_element_by_id(reasoning)
     text_area.clear()
     text_area.send_keys(reasoning)
 
 
-@when("I click the back link")
+@when("I click the back link")  # noqa
 def click_back_link(driver):
     functions.click_back_link(driver)

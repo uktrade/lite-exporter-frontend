@@ -124,25 +124,6 @@ def click_add_to_application_button(driver, no, context):
     driver.find_elements_by_css_selector('a.govuk-button')[num].click()
 
 
-@when(parsers.parse(
-    'I add an end user of sub_type: "{type}", name: "{name}", website: "{website}", address: "{address}" and country "{'
-    'country}"'))
-def add_new_end_user(driver, type, name, website, address, country, context):
-    add_end_user_pages = AddEndUserPages(driver)
-    add_end_user_pages.select_type(type)
-    context.type_end_user = type
-    functions.click_submit(driver)
-    add_end_user_pages.enter_name(name)
-    context.name_end_user = name
-    functions.click_submit(driver)
-    add_end_user_pages.enter_website(website)
-    functions.click_submit(driver)
-    add_end_user_pages.enter_address(address)
-    context.address_end_user = address
-    add_end_user_pages.enter_country(country)
-    functions.click_submit(driver)
-
-
 @when('I click on end user')
 def i_click_on_end_user(driver):
     app = ApplicationOverviewPage(driver)
