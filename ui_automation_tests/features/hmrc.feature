@@ -11,7 +11,7 @@ Feature: I want to be able to perform actions as a HMRC user
       And I click continue
       And I click on link with id "describe_your_goods"
       When I add a good or good type with description "M4" controlled "Yes" control code "ML1a" incorporated "No" and part number "not needed"
-      And I click on link with id "attach-doc"
+      And I click on link with id "attach_doc"
       And I upload a file "file_for_doc_upload_test_1.txt"
       And I click on link with id "back-link"
       And I click on link with id "goods_locations"
