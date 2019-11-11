@@ -40,11 +40,11 @@ class SelectAnOrganisation(TemplateView):
         organisation = request.POST.get('organisation')
 
         if action == 'continue':
-            # Return an error if the user hasn't selected an organisation
             if organisation:
                 organisation = get_organisation(request, request.POST.get('organisation'))
                 return form_page(request, confirm_organisation_form(organisation))
             else:
+                # Return an error if the user hasn't selected an organisation
                 return self.get(request, show_error=True, *args, **kwargs)
         else:
             # Create a draft HMRC application

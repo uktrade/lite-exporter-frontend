@@ -62,4 +62,4 @@ def document_switch(path):
             'has_description': False
         }
     else:
-        raise NotImplementedError('document_switch doesn\'t support this document type')
+        raise NotImplementedError("document_switch doesn't support this document type")
