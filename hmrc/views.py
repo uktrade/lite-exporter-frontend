@@ -6,14 +6,14 @@ from applications.forms.hmrc import confirm_organisation_form
 from applications.services import post_applications
 from conf.constants import HMRC_QUERY
 from core.helpers import convert_dict_to_query_params
-from core.permissions import is_in_organisation_type
+from core.permissions import validate_is_in_organisation_type
 from core.services import get_organisations, get_organisation
 from lite_forms.generators import form_page
 
 
 class SelectAnOrganisation(TemplateView):
     def dispatch(self, request, *args, **kwargs):
-        is_in_organisation_type(request, 'hmrc')
+        validate_is_in_organisation_type(request, 'hmrc')
         return super(SelectAnOrganisation, self).dispatch(request, *args, **kwargs)
 
     def get(self, request, *args, **kwargs):

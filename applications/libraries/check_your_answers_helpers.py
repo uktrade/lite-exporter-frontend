@@ -6,6 +6,9 @@ from core.helpers import convert_to_link
 
 
 def convert_application_to_check_your_answers(application):
+    """
+    Returns a correctly formatted check your answers page for each application type
+    """
     if application['application_type']['key'] == STANDARD_LICENCE:
         return _convert_standard_application(application)
     elif application['application_type']['key'] == OPEN_LICENCE:
@@ -74,7 +77,7 @@ def _convert_end_user(end_user, application_id):
     return {
         'Name': end_user['name'],
         'Type': end_user['sub_type']['value'],
-        'Address': end_user['address'] + '\n' + end_user['country']['name'],
+        'Address': end_user['address'] + NEWLINE + end_user['country']['name'],
         'Website': convert_to_link(end_user['website']),
         'Document': document
     }

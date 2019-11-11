@@ -53,6 +53,11 @@ def group_notifications(notifications: list):
 
 
 def convert_value_to_query_param(key: str, value):
+    """
+    Convert key/value pairs to a string suitable for query parameters
+    eg {'type': 'organisation'} becomes type=organisation
+    eg {'type': ['organisation', 'organisation']} becomes type=organisation&type=organisation
+    """
     if isinstance(value, list):
         return_value = ''
         for item in value:

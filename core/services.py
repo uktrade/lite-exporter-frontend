@@ -5,7 +5,7 @@ from lite_forms.components import Option
 
 from conf.client import get, post, put, delete
 from conf.constants import UNITS_URL, APPLICATIONS_URL, COUNTRIES_URL, EXTERNAL_LOCATIONS_URL, NOTIFICATIONS_URL, \
-    ORGANISATIONS_URL, CASES_URL, CONTROL_LIST_ENTRIES_URL
+    ORGANISATIONS_URL, CASES_URL, CONTROL_LIST_ENTRIES_URL, NEWLINE
 
 
 def get_units(request):
@@ -41,7 +41,7 @@ def get_external_locations(request, pk, formatted=False):
         for external_location in data.json().get('external_locations'):
             external_location_id = external_location.get('id')
             external_location_name = external_location.get('name')
-            external_location_address = external_location.get('address') + '\n' + \
+            external_location_address = external_location.get('address') + NEWLINE + \
                                         external_location.get('country').get('name')
 
             external_locations_options.append(

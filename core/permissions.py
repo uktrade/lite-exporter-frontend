@@ -3,7 +3,7 @@ from django.http import Http404
 from core.services import get_organisation
 
 
-def is_in_organisation_type(request, organisation_types):
+def validate_is_in_organisation_type(request, organisation_types):
     """
     Raises an exception if the user's organisation is not inside of
     organisation_types

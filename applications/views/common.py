@@ -11,7 +11,7 @@ from applications.libraries.task_lists import get_application_task_list
 from applications.services import get_applications, get_case_notes, \
     get_application_ecju_queries, get_ecju_query, put_ecju_query, post_application_case_notes, get_draft_applications, \
     submit_application, get_application, delete_application, set_application_status
-from conf.constants import HMRC_QUERY, APPLICANT_EDITING
+from conf.constants import HMRC_QUERY, APPLICANT_EDITING, NEWLINE
 from core.helpers import group_notifications
 from core.services import get_notifications, get_organisation
 from lite_forms.components import HiddenField
@@ -186,7 +186,7 @@ class ApplicationDetail(TemplateView):
                 error_list = []
                 for key in errors:
                     error_list.append('{field}: {error}'.format(field=key, error=errors[key][0]))
-                error = '\n'.join(error_list)
+                error = NEWLINE.join(error_list)
             return error_page(request, error)
 
         return redirect(reverse_lazy('applications:application', kwargs={'pk': self.application_id}))
