@@ -23,7 +23,7 @@ from goods.services import get_goods, get_good, validate_good, post_good, post_g
 class DraftGoodsList(TemplateView):
     def get(self, request, **kwargs):
         """
-        List all goods related to the draft
+        List all goods relating to the draft
         """
         draft_id = str(kwargs['pk'])
         application = get_application(request, draft_id)

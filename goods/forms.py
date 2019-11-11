@@ -11,8 +11,8 @@ from core.services import get_control_list_entries
 from goods.helpers import good_summary
 
 
-def add_goods_questions(clc=True, back_link=BackLink(), prefix=""):
-    if clc:
+def add_goods_questions(allow_query=True, back_link=BackLink(), prefix=""):
+    if allow_query:
         description = get_const_string('GOODS_CREATE_CONTROL_CODE_REQUIRED_DESC')
         is_your_good_controlled_options = [Option(key='yes',
                                                   value=get_const_string('GOODS_CREATE_CONTROL_CODE_YES'),
