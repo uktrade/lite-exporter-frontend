@@ -3,6 +3,7 @@ from lite_forms.components import Form, Filter, Checkboxes, BackLink
 
 from core.builtins.custom_tags import get_string
 from core.services import get_countries
+from core.builtins.custom_tags import get_string
 
 
 def countries_form(draft_id):
@@ -14,5 +15,5 @@ def countries_form(draft_id):
                 ],
                 javascript_imports=['/assets/javascripts/filter-checkbox-list.js'],
                 default_button_name='Save',
-                back_link=BackLink('Back to task list', reverse('applications:task_list',
-                                                               kwargs={'pk': draft_id})))
+                back_link=BackLink(get_string('common.back_to_task_list'), reverse('applications:task_list',
+                                                                                   kwargs={'pk': draft_id})))

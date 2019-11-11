@@ -22,7 +22,7 @@ def third_parties_standard_form(opening_title=None):
                               ]),
              ],
              default_button_name='Continue',
-             back_link=BackLink('Back to task list')),
+             back_link=BackLink(get_string('common.back_to_task_list'))),
         Form(title='Enter the final recipient\'s name',
              questions=[
                  TextInput('name'),

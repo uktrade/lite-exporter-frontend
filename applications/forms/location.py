@@ -15,8 +15,8 @@ def which_location_form(draft_id):
                     ])
                 ],
                 default_button_name='Continue',
-                back_link=BackLink('Back to task list', reverse('applications:task_list',
-                                                                kwargs={'pk': draft_id})))
+                back_link=BackLink(get_string('common.back_to_task_list'), reverse('applications:task_list',
+                                                                                   kwargs={'pk': draft_id})))
 
 
 def add_external_location():
