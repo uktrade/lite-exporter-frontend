@@ -1,3 +1,5 @@
+from http import HTTPStatus
+
 from django.http import Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
@@ -154,7 +156,7 @@ class DraftAddGood(TemplateView):
     def post(self, request, **kwargs):
         data, status_code = post_good(request, request.POST)
 
-        if status_code == 400:
+        if status_code == HTTPStatus.BAD_REQUEST:
             return form_page(request, forms.form, request.POST, errors=data['errors'])
 
         return redirect(reverse_lazy('applications:edit'), kwargs['pk'])

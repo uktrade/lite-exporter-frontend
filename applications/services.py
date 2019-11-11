@@ -53,10 +53,7 @@ def get_application_goods(request, pk):
 
 
 def validate_application_good(request, pk, json):
-    if json.get('good_on_app_value') or json.get('good_on_app_value') == "":
-        post_data = remove_prefix(json, 'good_on_app_')
-    else:
-        post_data = json
+    post_data = get_data_from_post_good_on_app(json)
     post_data['validate_only'] = True
     return post(request, APPLICATIONS_URL + pk + '/goods/', post_data)
 
@@ -67,13 +64,18 @@ def get_application_goods_types(request, pk):
 
 
 def post_good_on_application(request, pk, json):
-    if json.get('good_on_app_value') or json.get('good_on_app_value') == "":
-        post_data = remove_prefix(json, 'good_on_app_')
-        post_data['good_id'] = json['good_id']
-    else:
-        post_data = json
+    post_data = get_data_from_post_good_on_app(json)
+    post_data['good_id'] = json['good_id']
     data = post(request, APPLICATIONS_URL + pk + '/goods/', post_data)
     return data.json(), data.status_code
+
+
+def get_data_from_post_good_on_app(json):
+    if json.get('good_on_app_value') or json.get('good_on_app_value') == "":
+        post_data = remove_prefix(json, 'good_on_app_')
+    else:
+        post_data = json
+    return post_data
 
 
 # Countries

@@ -95,8 +95,8 @@ def i_click_to_manage_goods_on_a_standard_application(driver):
 
 
 @then("I see there are no goods on the application")
-def i_see_there_are_no_goods_on_the_application():
-    pass
+def i_see_there_are_no_goods_on_the_application(driver):
+    assert ApplicationGoodsList(driver).get_goods_count() == 0
 
 
 @when("I click Add a new good")

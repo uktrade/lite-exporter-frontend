@@ -1,3 +1,5 @@
+from http import HTTPStatus
+
 from django.http import Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
@@ -113,7 +115,7 @@ class AddNewGood(TemplateView):
 
                 validated_data, status_code = post_good(request, post_data)
 
-                if status_code != 201:
+                if status_code != HTTPStatus.CREATED:
                     raise Http404
 
                 # attach document
@@ -151,7 +153,7 @@ class AddNewGood(TemplateView):
         else:
             data = self.validation_function[form_num](request, json=post)
 
-        if data.status_code != 200:
+        if data.status_code != HTTPStatus.OK:
             self.data = post
             self.generate_form(request, form_num)
             self.errors = self.add_prefix_to_errors(data.json()['errors'], self.prefix[form_num])
@@ -209,7 +211,7 @@ class AddPreexistingGood(TemplateView):
         draft_id = str(kwargs['pk'])
         data, status_code = post_good_on_application(request, draft_id, request.POST)
 
-        if status_code != 201:
+        if status_code != HTTPStatus.CREATED:
             good, status_code = get_good(request, str(kwargs['good_pk']))
 
             title = get_const_string('APPLICATION_GOODS_ADD_PREEXISTING_TITLE')
