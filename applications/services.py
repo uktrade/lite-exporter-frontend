@@ -65,7 +65,8 @@ def get_application_goods_types(request, pk):
 
 def post_good_on_application(request, pk, json):
     post_data = get_data_from_post_good_on_app(json)
-    post_data['good_id'] = json['good_id']
+    if 'good_id' not in post_data:
+        post_data['good_id'] = json['good_id']
     data = post(request, APPLICATIONS_URL + pk + '/goods/', post_data)
     return data.json(), data.status_code
 
