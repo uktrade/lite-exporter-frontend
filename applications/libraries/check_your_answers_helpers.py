@@ -173,7 +173,8 @@ def _convert_document(document, document_type, application_id):
     if not document:
         return default_na(None)
 
-    return convert_to_link(f'/applications/{application_id}/{document_type}/document/download/', document['name'])
+    return convert_to_link(f'/applications/{application_id}/{document_type}/document/download', 'Download', include_br=True) + \
+           convert_to_link(f'/applications/{application_id}/{document_type}/document/delete', 'Delete')
 
 
 def _convert_attachable_document(address, attach_address, document):

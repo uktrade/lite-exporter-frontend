@@ -85,7 +85,7 @@ def convert_parameters_to_query_params(dictionary: dict):
     return '?' + convert_dict_to_query_params({key: value for key, value in dictionary.items() if value is not None})
 
 
-def convert_to_link(address, name=None, classes=''):
+def convert_to_link(address, name=None, classes='', include_br=False):
     """
     Returns a correctly formatted, safe link to an address
     Returns default_na if no address is provided
@@ -99,4 +99,6 @@ def convert_to_link(address, name=None, classes=''):
     address = escape(address)
     name = escape(name)
 
-    return safe(f'<a href="{address}" class="govuk-link govuk-link--no-visited-state {classes}">{name}</a>')
+    br = '<br>' if include_br else ''
+
+    return safe(f'<a href="{address}" class="govuk-link govuk-link--no-visited-state {classes}">{name}</a>{br}')
