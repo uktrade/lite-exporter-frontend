@@ -3,7 +3,6 @@ from pytest_bdd import when, scenarios
 from pages.application_overview_page import ApplicationOverviewPage
 from pages.exporter_hub_page import ExporterHubPage
 from pages.hmrc_query_page import HMRCQueryPage
-from pages.shared import Shared
 
 scenarios('../features/hmrc.feature', strict_gherkin=False)
 
