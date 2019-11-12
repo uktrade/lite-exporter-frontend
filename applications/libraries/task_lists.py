@@ -8,6 +8,9 @@ from core.services import get_sites_on_draft, get_external_locations_on_draft
 
 
 def get_application_task_list(request, application, errors=None):
+    """
+    Returns a correctly formatted task list page for the supplied application
+    """
     if application['application_type']['key'] == STANDARD_LICENCE:
         return _get_standard_application_task_list(request, application, errors)
     elif application['application_type']['key'] == OPEN_LICENCE:
@@ -146,9 +149,9 @@ def _get_hmrc_query_task_list(request, application):
     }
 
     context['show_submit_button'] = context['goods_types_status'] == 'done' and \
-                                    context['goods_locations_status'] == 'done' and \
-                                    context['end_user_status'] == 'done' and \
-                                    context['ultimate_end_users_status'] != 'in_progress'
+        context['goods_locations_status'] == 'done' and \
+        context['end_user_status'] == 'done' and \
+        context['ultimate_end_users_status'] != 'in_progress'
 
     return render(request, 'hmrc/task-list.html', context)
 

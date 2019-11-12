@@ -7,7 +7,7 @@ from core.helpers import convert_to_link
 
 def convert_application_to_check_your_answers(application):
     """
-    Returns a correctly formatted check your answers page for each application type
+    Returns a correctly formatted check your answers page for the supplied application
     """
     if application['application_type']['key'] == STANDARD_LICENCE:
         return _convert_standard_application(application)
