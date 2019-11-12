@@ -7,7 +7,7 @@ class ApplicationGoodsList:
         self.driver = driver
         self.prefix = prefix
         self.add_from_org_goods_button = 'a.govuk-button[href*="add_preexisting"]'   # CSS
-        self.add_new_good_button = 'a.govuk-button[href*="add-new"]'  # CSS
+        self.add_new_good_button = 'add-new'  # ID
         self.add_to_application = 'a.govuk-button'
         self.overview_link = '.govuk-back-link'   # CSS
         self.quantity_field = 'quantity'   # ID
@@ -75,7 +75,7 @@ class ApplicationGoodsList:
         return self.driver.find_elements_by_id(self.control_code)
 
     def click_add_new_good_button(self):
-        return self.driver.find_element_by_css_selector(self.add_new_good_button).click()
+        return self.driver.find_element_by_id(self.add_new_good_button).click()
 
     def get_goods_count(self):
         return len(self.driver.find_elements_by_css_selector(self.good_entry))

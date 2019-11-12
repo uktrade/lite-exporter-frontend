@@ -33,24 +33,24 @@ def add_goods_questions(allow_query=True, back_link=BackLink(), prefix=""):
                 questions=[
                     TextArea(title='Description of good',
                              description='This can make it easier to find your good later',
-                             name=prefix+'description',
+                             name=prefix + 'description',
                              extras={
                                  'max_length': 280,
                              }),
                     RadioButtons(title='Is your good controlled?',
                                  description=description,
-                                 name=prefix+'is_good_controlled',
+                                 name=prefix + 'is_good_controlled',
                                  options=is_your_good_controlled_options,
                                  classes=['govuk-radios--inline']),
                     control_list_entry_question(control_list_entries=get_control_list_entries(None, convert_to_options=True),
                                                 title='What\'s your good\'s control list entry?',
                                                 description='<noscript>If your good is controlled, enter its '
                                                             'control list entry. </noscript>For example, ML1a.',
-                                                name=prefix+'control_code',
+                                                name=prefix + 'control_code',
                                                 inset_text=False),
                     RadioButtons(title='Is your good intended to be incorporated into an end product?',
                                  description='',
-                                 name=prefix+'is_good_end_product',
+                                 name=prefix + 'is_good_end_product',
                                  options=[
                                      Option(key='no',
                                             value='Yes'),
@@ -59,7 +59,7 @@ def add_goods_questions(allow_query=True, back_link=BackLink(), prefix=""):
                                  ],
                                  classes=['govuk-radios--inline']),
                     TextInput(title='Part Number',
-                              name=prefix+'part_number',
+                              name=prefix + 'part_number',
                               optional=True),
                 ],
                 back_link=back_link
