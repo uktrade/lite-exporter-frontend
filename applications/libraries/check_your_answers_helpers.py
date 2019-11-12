@@ -31,11 +31,11 @@ def _convert_hmrc_query(application):
     return {
         'On behalf of': application['organisation']['name'],
         'Goods': _convert_goods_types(application['goods_types']),
+        'Goods locations': _convert_goods_locations(application['goods_locations']),
         'End user': _convert_end_user(application['end_user'], application['id']),
         'Ultimate end users': _convert_ultimate_end_users(application['ultimate_end_users'], application['id']),
         'Third parties': _convert_third_parties(application['third_parties'], application['id']),
         'Consignee': _convert_consignee(application['consignee'], application['id']),
-        'Goods locations': _convert_goods_locations(application['goods_locations']),
         'Supporting documentation': _get_supporting_documentation(application['supporting_documentation'],
                                                                   application['id']),
         'Optional note': application['reasoning'],
