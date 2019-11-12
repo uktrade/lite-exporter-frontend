@@ -38,11 +38,11 @@ urlpatterns = [
     path('<uuid:pk>/goods-types/add/', goods_types.ApplicationAddGoodsType.as_view(), name='add_goods_type'),
     path('<uuid:pk>/goods-types/remove/<uuid:goods_type_pk>/', goods_types.ApplicationRemoveGoodsType.as_view(),
          name='remove_goods_type'),
-    path('<uuid:pk>/goods-types/<uuid:obj_pk>/document/attach/', documents.AttachDocuments.as_view(),
+    path('<uuid:pk>/goods-types/<uuid:obj_pk>/document/attach', documents.AttachDocuments.as_view(),
          name='goods_type_attach_document'),
-    path('<uuid:pk>/goods-types/<uuid:obj_pk>/document/download/', documents.DownloadDocument.as_view(),
+    path('<uuid:pk>/goods-types/<uuid:obj_pk>/document/download', documents.DownloadDocument.as_view(),
          name='goods_type_download_document'),
-    path('<uuid:pk>/goods-types/<uuid:obj_pk>/document/delete/', documents.DeleteDocument.as_view(),
+    path('<uuid:pk>/goods-types/<uuid:obj_pk>/document/delete', documents.DeleteDocument.as_view(),
          name="goods_type_delete_document"),
 
     # Goods locations
@@ -63,26 +63,26 @@ urlpatterns = [
     path('<uuid:pk>/end-user/', end_users.EndUser.as_view(), name='end_user'),
     path('<uuid:pk>/end-user/set/', end_users.SetEndUser.as_view(), name='set_end_user'),
     path('<uuid:pk>/end-user/remove/', end_users.RemoveEndUser.as_view(), name='remove_end_user'),
-    path('<uuid:pk>/end-user/document/attach/', documents.AttachDocuments.as_view(), name='end_user_attach_document'),
-    path('<uuid:pk>/end-user/document/download/', documents.DownloadDocument.as_view(), name='end_user_download_document'),
-    path('<uuid:pk>/end-user/document/delete/', documents.DeleteDocument.as_view(), name="end_user_delete_document"),
+    path('<uuid:pk>/end-user/document/attach', documents.AttachDocuments.as_view(), name='end_user_attach_document'),
+    path('<uuid:pk>/end-user/document/download', documents.DownloadDocument.as_view(), name='end_user_download_document'),
+    path('<uuid:pk>/end-user/document/delete', documents.DeleteDocument.as_view(), name="end_user_delete_document"),
 
     # Consignee
     path('<uuid:pk>/consignee/', third_parties.Consignee.as_view(), name='consignee'),
     path('<uuid:pk>/consignee/set/', third_parties.SetConsignee.as_view(), name='set_consignee'),
     path('<uuid:pk>/consignee/remove/', third_parties.RemoveConsignee.as_view(), name='remove_consignee'),
-    path('<uuid:pk>/consignee/document/attach/', documents.AttachDocuments.as_view(), name='consignee_attach_document'),
-    path('<uuid:pk>/consignee/document/download/', documents.DownloadDocument.as_view(),
+    path('<uuid:pk>/consignee/document/attach', documents.AttachDocuments.as_view(), name='consignee_attach_document'),
+    path('<uuid:pk>/consignee/document/download', documents.DownloadDocument.as_view(),
          name='consignee_download_document'),
-    path('<uuid:pk>/consignee/document/delete/', documents.DeleteDocument.as_view(), name="consignee_delete_document"),
+    path('<uuid:pk>/consignee/document/delete', documents.DeleteDocument.as_view(), name="consignee_delete_document"),
 
     # Ultimate end users
     path('<uuid:pk>/ultimate-end-users/', end_users.UltimateEndUsers.as_view(), name='ultimate_end_users'),
-    path('<uuid:pk>/ultimate-end-user/<uuid:obj_pk>/document/attach/', documents.AttachDocuments.as_view(),
+    path('<uuid:pk>/ultimate-end-user/<uuid:obj_pk>/document/attach', documents.AttachDocuments.as_view(),
          name='ultimate_end_user_attach_document'),
-    path('<uuid:pk>/ultimate-end-user/<uuid:obj_pk>/document/download/', documents.DownloadDocument.as_view(),
+    path('<uuid:pk>/ultimate-end-user/<uuid:obj_pk>/document/download', documents.DownloadDocument.as_view(),
          name='ultimate_end_user_download_document'),
-    path('<uuid:pk>/ultimate-end-user/<uuid:obj_pk>/document/delete/', documents.DeleteDocument.as_view(),
+    path('<uuid:pk>/ultimate-end-user/<uuid:obj_pk>/document/delete', documents.DeleteDocument.as_view(),
          name="ultimate_end_user_delete_document"),
     path('<uuid:pk>/ultimate-end-users/add/', end_users.AddUltimateEndUser.as_view(), name='add_ultimate_end_user'),
     path('<uuid:pk>/ultimate-end-users/<uuid:obj_pk>/remove/', end_users.RemoveUltimateEndUser.as_view(),
@@ -103,13 +103,13 @@ urlpatterns = [
     # Supporting documentation
     path('<uuid:pk>/additional-documents/',
          additional_documents.AdditionalDocuments.as_view(), name='additional_documents'),
-    path('<uuid:pk>/additional-document/attach/', documents.AttachDocuments.as_view(),
+    path('<uuid:pk>/additional-document/attach', documents.AttachDocuments.as_view(),
          name='attach_additional_document'),
     path('<uuid:pk>/additional-document/<uuid:obj_pk>/download', documents.DownloadDocument.as_view(),
          name='download_additional_document'),
     path('<uuid:pk>/additional-document/<uuid:obj_pk>/delete', documents.DeleteDocument.as_view(),
          name='delete_additional_document'),
 
-    # This HAS to be at the bottom, otherwise it'll swallow other url calls
+    # This HAS to be at the bottom, otherwise it will swallow other url calls
     path('<uuid:pk>/<str:type>/', common.ApplicationDetail.as_view(), name='application-detail'),
 ]
