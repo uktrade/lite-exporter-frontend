@@ -8,13 +8,11 @@
 				<div class="lite-tag lite-tag--blue">
 					Done
 				</div>
-			{% endif %}
-			{% if status == 'in_progress' %}
+			{% elif status == 'in_progress' %}
 				<div class="lite-tag lite-tag--orange">
 					In progress
 				</div>
-			{% endif %}
-			{% if not status %}
+			{% else %}
 				<div class="lite-tag lite-tag--hollow">
 					<span class="govuk-visually-hidden">This section is </span>
 					{% if optional %}
