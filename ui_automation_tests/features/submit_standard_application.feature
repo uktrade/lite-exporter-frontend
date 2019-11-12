@@ -43,7 +43,7 @@ Feature: I want to indicate the standard licence I want
     And I click applications
     Then I see submitted application
 
-  @LT_1091_external
+  @LT_1091_external @AT
   Scenario: Submit standard application with external locations
     Given I go to exporter homepage and choose Test Org
     When I create a standard application

@@ -391,7 +391,7 @@ def application_is_submitted(driver, context):
     assert utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'" + context.app_time_id + "')]]")
 
     elements = driver.find_elements_by_css_selector('tr')
-    element_number = utils.get_element_index_by_text(elements, context.app_time_id)
+    element_number = utils.get_element_index_by_text(elements, context.app_time_id, complete_match=False)
     element_row = elements[element_number].text
     assert "Submitted" in element_row
     assert utils.search_for_correct_date_regex_in_element(element_row)
