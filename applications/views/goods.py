@@ -3,15 +3,10 @@ from http import HTTPStatus
 from django.http import Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
-
-from core.builtins.custom_tags import get_const_string
-from lite_content.lite_exporter_frontend import strings
-from lite_forms.components import HiddenField
-from lite_forms.generators import error_page, form_page
 from s3chunkuploader.file_handler import S3FileUploadHandler
-from django.utils.decorators import method_decorator
 
 from applications.forms.goods import good_on_application_form, add_new_good_forms
 from applications.services import get_application, get_application_goods, get_application_goods_types, \
@@ -19,6 +14,9 @@ from applications.services import get_application, get_application_goods, get_ap
     add_document_data
 from core.services import get_units
 from goods.services import get_goods, get_good, validate_good, post_good, post_good_documents
+from lite_content.lite_exporter_frontend import strings
+from lite_forms.components import HiddenField
+from lite_forms.generators import error_page, form_page
 
 
 class DraftGoodsList(TemplateView):
