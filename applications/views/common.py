@@ -277,6 +277,7 @@ class WithdrawApplication(SingleFormView):
                                  yes_label=strings.APPLICATION_WITHDRAW_YES_LABEL,
                                  no_label=strings.APPLICATION_WITHDRAW_NO_LABEL,
                                  submit_button_text=strings.APPLICATION_WITHDRAW_SUBMIT_BUTTON,
-                                 back_url=reverse_lazy('applications:application', kwargs={'pk': self.object_pk}))
+                                 back_url=reverse_lazy('applications:application', kwargs={'pk': self.object_pk}),
+                                 side_by_side=True)
         self.action = validate_withdraw_application
         self.success_url = reverse_lazy('applications:application', kwargs={'pk': self.object_pk})
