@@ -5,20 +5,19 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
+from applications.forms.common import respond_to_query_form, ecju_query_respond_confirmation_form, edit_type_form
+from applications.libraries.get_licence_overview import get_licence_overview
 from applications.libraries.summaries import application_summary
+from applications.services import get_applications, get_case_notes, \
+    get_application_ecju_queries, get_ecju_query, put_ecju_query, post_application_case_notes, get_draft_applications, \
+    submit_application, get_application, delete_application, set_application_status
 from applications.validators import validate_withdraw_application
+from conf import constants
+from core.helpers import group_notifications
+from core.services import get_notifications
 from lite_content.lite_exporter_frontend import strings
 from lite_forms.components import HiddenField
 from lite_forms.generators import error_page, form_page, success_page, confirm_form
-
-from applications.forms.common import respond_to_query_form, ecju_query_respond_confirmation_form, edit_type_form
-from applications.libraries.get_licence_overview import get_licence_overview
-from applications.services import get_applications, get_case_notes, \
-    get_application_ecju_queries, get_ecju_query, put_ecju_query, post_application_case_notes, get_draft_applications, \
-    submit_application, get_application, delete_application, set_application_status, put_application
-from core.helpers import group_notifications
-from core.services import get_notifications
-from conf import constants
 from lite_forms.views import SingleFormView
 
 
