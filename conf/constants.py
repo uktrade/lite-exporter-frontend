@@ -48,3 +48,7 @@ HMRC_QUERY = 'hmrc_query'
 READ_ONLY_STATUSES = ['finalised', 'under final review', 'under review', 'withdrawn']
 
 APPLICANT_EDITING = 'applicant_editing'
+
+NOT_STARTED = 'not_started'
+IN_PROGRESS = 'in_progress'
+DONE = 'done'

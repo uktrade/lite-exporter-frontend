@@ -3,7 +3,7 @@ from django.shortcuts import render
 from applications.libraries.validate_status import check_all_parties_have_a_document
 from applications.services import get_application_countries, get_application_goods_types, get_ultimate_end_users, \
     get_third_parties, get_application_goods, get_end_user_document, get_consignee_document, get_additional_documents
-from conf.constants import HMRC_QUERY, OPEN_LICENCE, STANDARD_LICENCE, APPLICANT_EDITING
+from conf.constants import HMRC_QUERY, OPEN_LICENCE, STANDARD_LICENCE, APPLICANT_EDITING, NOT_STARTED, DONE, IN_PROGRESS
 from core.services import get_sites_on_draft, get_external_locations_on_draft
 
 
@@ -138,20 +138,20 @@ def _get_open_application_task_list(request, application, errors=None):
 def _get_hmrc_query_task_list(request, application):
     context = {
         'application': application,
-        'goods_types_status': 'done' if application['goods_types'] else None,
-        'goods_locations_status': 'done' if application['goods_locations'] else None,
+        'goods_types_status': DONE if application['goods_types'] else NOT_STARTED,
+        'goods_locations_status': DONE if application['goods_locations'] else NOT_STARTED,
         'end_user_status': check_all_parties_have_a_document([application['end_user']]),
         'ultimate_end_users_status': check_all_parties_have_a_document(application['ultimate_end_users']),
-        'third_parties_status': 'done' if application['third_parties'] else None,
-        'consignee_status': 'done' if application['consignee'] else None,
-        'supporting_documentation_status': 'done' if application['supporting_documentation'] else None,
-        'optional_note_status': 'done' if application['reasoning'] else None,
+        'third_parties_status': DONE if application['third_parties'] else NOT_STARTED,
+        'consignee_status': DONE if application['consignee'] else NOT_STARTED,
+        'supporting_documentation_status': DONE if application['supporting_documentation'] else NOT_STARTED,
+        'optional_note_status': DONE if application['reasoning'] else NOT_STARTED,
     }
 
-    context['show_submit_button'] = context['goods_types_status'] == 'done' and \
-        context['goods_locations_status'] == 'done' and \
-        context['end_user_status'] == 'done' and \
-        context['ultimate_end_users_status'] != 'in_progress'
+    context['show_submit_button'] = context['goods_types_status'] == DONE and \
+        context['goods_locations_status'] == DONE and \
+        context['end_user_status'] == DONE and \
+        context['ultimate_end_users_status'] != IN_PROGRESS
 
     return render(request, 'hmrc/task-list.html', context)
 

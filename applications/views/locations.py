@@ -72,8 +72,6 @@ class SelectAddExternalLocation(SingleFormView):
         else:
             return reverse_lazy('applications:add_preexisting_external_location', kwargs={'pk': self.object_pk})
 
-# Existing Sites
-
 
 class ExistingSites(TemplateView):
     def get(self, request, **kwargs):

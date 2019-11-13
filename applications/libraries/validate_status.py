@@ -1,12 +1,15 @@
+from conf.constants import NOT_STARTED, IN_PROGRESS, DONE
+
+
 def check_all_parties_have_a_document(parties):
     if not parties:
-        return None
+        return NOT_STARTED
 
     for party in parties:
         if not party:
-            return None
+            return NOT_STARTED
 
         if not party['document']:
-            return 'in_progress'
+            return IN_PROGRESS
 
-    return 'done'
+    return DONE
