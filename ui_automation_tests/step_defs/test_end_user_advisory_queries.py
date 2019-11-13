@@ -8,6 +8,8 @@ from pages.shared import Shared
 from shared.seed_data.seed_data import SeedData
 from ui_automation_tests.pages.application_page import ApplicationPage
 from ui_automation_tests.pages.submitted_applications_page import SubmittedApplicationsPages
+import shared.tools.helpers as utils
+
 
 scenarios('../features/end_user_advisory_queries.feature', strict_gherkin=False)
 
@@ -87,7 +89,8 @@ def confirm_submitted_page_code(driver):
 
 @when("I click copy on an existing end user advisory")
 def click_copy(driver):
-    driver.find_elements_by_link_text('Copy')[0].click()
+    no = utils.get_element_index_by_text(Shared(driver).get_table_rows(), 'Commercial')
+    Shared(driver).get_table_row(no).find_element_by_link_text('Copy').click()
 
 
 @when(parsers.parse('I enter "{name}" for the name and continue'))
