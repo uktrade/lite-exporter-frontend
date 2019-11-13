@@ -11,7 +11,7 @@ from applications.libraries.summaries import application_summary
 from applications.services import get_applications, get_case_notes, \
     get_application_ecju_queries, get_ecju_query, put_ecju_query, post_application_case_notes, get_draft_applications, \
     submit_application, get_application, delete_application, set_application_status
-from applications.validators import validate_withdraw_application
+from applications.libraries.validators import validate_withdraw_application
 from conf import constants
 from core.helpers import group_notifications
 from core.services import get_notifications

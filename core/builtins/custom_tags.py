@@ -19,6 +19,10 @@ register = template.Library()
 
 @register.simple_tag(name='lcs')
 def get_const_string(value):
+    """
+    Template tag for accessing constants from LITE content library (not for Python use - only HTML)
+    """
+    warnings.warn('Reference constants from strings directly, only use LCS in HTML files', Warning)
     try:
         return getattr(strings, value)
     except AttributeError:

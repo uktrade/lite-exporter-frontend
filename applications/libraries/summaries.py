@@ -5,7 +5,7 @@ from lite_forms.components import Summary
 
 def application_summary(application):
     if not application:
-        return
+        return None
 
     return Summary(
         values={

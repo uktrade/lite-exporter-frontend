@@ -7,6 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
 
 from core.builtins.custom_tags import get_const_string
+from lite_content.lite_exporter_frontend import strings
 from lite_forms.components import HiddenField
 from lite_forms.generators import error_page, form_page
 from s3chunkuploader.file_handler import S3FileUploadHandler
@@ -138,7 +139,7 @@ class AddNewGood(TemplateView):
                 # Error is thrown if a document is not attached
                 self.data = request.POST.copy()
                 self.generate_form(request, form_num)
-                self.errors = {'documents': [get_const_string('APPLICATION_GOODS_ADD_DOCUMENT_MISSING')]}
+                self.errors = {'documents': [strings.APPLICATION_GOODS_ADD_DOCUMENT_MISSING]}
 
         return form_page(request, self.form, self.data, self.errors, {'form_pk': self.form_num})
 
@@ -199,7 +200,7 @@ class AddPreexistingGood(TemplateView):
     def get(self, request, **kwargs):
         good, _ = get_good(request, str(kwargs['good_pk']))
 
-        title = get_const_string('APPLICATION_GOODS_ADD_PREEXISTING_TITLE')
+        title = strings.APPLICATION_GOODS_ADD_PREEXISTING_TITLE
 
         context = {
             'title': title,
@@ -214,7 +215,7 @@ class AddPreexistingGood(TemplateView):
         if status_code != HTTPStatus.CREATED:
             good, status_code = get_good(request, str(kwargs['good_pk']))
 
-            title = get_const_string('APPLICATION_GOODS_ADD_PREEXISTING_TITLE')
+            title = strings.APPLICATION_GOODS_ADD_PREEXISTING_TITLE
 
             context = {
                 'title': title,
