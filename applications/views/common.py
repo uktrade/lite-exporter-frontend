@@ -4,17 +4,22 @@ from django.http import Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
+
+from applications.libraries.summaries import application_summary
+from applications.validators import validate_withdraw_application
+from lite_content.lite_exporter_frontend import strings
 from lite_forms.components import HiddenField
-from lite_forms.generators import error_page, form_page, success_page
+from lite_forms.generators import error_page, form_page, success_page, confirm_form
 
 from applications.forms.common import respond_to_query_form, ecju_query_respond_confirmation_form, edit_type_form
 from applications.libraries.get_licence_overview import get_licence_overview
 from applications.services import get_applications, get_case_notes, \
     get_application_ecju_queries, get_ecju_query, put_ecju_query, post_application_case_notes, get_draft_applications, \
-    submit_application, get_application, delete_application, set_application_status
+    submit_application, get_application, delete_application, set_application_status, put_application
 from core.helpers import group_notifications
 from core.services import get_notifications
 from conf import constants
+from lite_forms.views import SingleFormView
 
 
 class ApplicationsList(TemplateView):
@@ -48,7 +53,7 @@ class ApplicationDetailEmpty(TemplateView):
         if data.get('status').get('key') == 'applicant_editing':
             return redirect(reverse_lazy('applications:edit', kwargs={'pk': application_id}))
 
-        return redirect(reverse_lazy('applications:application-detail', kwargs={'pk': application_id,
+        return redirect(reverse_lazy('applications:detail', kwargs={'pk': application_id,
                                                                                 'type': 'case-notes'}))
 
 
@@ -198,7 +203,7 @@ class RespondToQuery(TemplateView):
         self.ecju_query = get_ecju_query(request, str(kwargs['pk']), str(kwargs['query_pk']))
 
         if self.ecju_query['response']:
-            return redirect(reverse_lazy('applications:application-detail', kwargs={'pk': self.application_id,
+            return redirect(reverse_lazy('applications:detail', kwargs={'pk': self.application_id,
                                                                                     'type': 'ecju-queries'}))
 
         return super(RespondToQuery, self).dispatch(request, *args, **kwargs)
@@ -244,7 +249,7 @@ class RespondToQuery(TemplateView):
                                      data=request.POST,
                                      errors=data['errors'])
 
-                return redirect(reverse_lazy('applications:application-detail', kwargs={'pk': self.application_id,
+                return redirect(reverse_lazy('applications:detail', kwargs={'pk': self.application_id,
                                                                                         'type': 'ecju-queries'}))
             elif request.POST.get('confirm_response') == 'no':
                 return form_page(request, respond_to_query_form(self.application_id, self.ecju_query),
@@ -259,3 +264,19 @@ class RespondToQuery(TemplateView):
         else:
             # Submitted data does not contain an expected form field - return an error
             return error_page(None, 'We had an issue creating your response. Try again later.')
+
+
+class WithdrawApplication(SingleFormView):
+    def init(self, request, **kwargs):
+        self.object_pk = kwargs['pk']
+        application = get_application(request, self.object_pk)
+        self.form = confirm_form(title=strings.APPLICATION_WITHDRAW_TITLE,
+                                 confirmation_name='choice',
+                                 summary=application_summary(application),
+                                 back_link_text=strings.APPLICATION_WITHDRAW_BACK_TEXT,
+                                 yes_label=strings.APPLICATION_WITHDRAW_YES_LABEL,
+                                 no_label=strings.APPLICATION_WITHDRAW_NO_LABEL,
+                                 submit_button_text=strings.APPLICATION_WITHDRAW_SUBMIT_BUTTON,
+                                 back_url=reverse_lazy('applications:application', kwargs={'pk': self.object_pk}))
+        self.action = validate_withdraw_application
+        self.success_url = reverse_lazy('applications:application', kwargs={'pk': self.object_pk})

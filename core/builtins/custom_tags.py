@@ -11,7 +11,7 @@ from conf.constants import ISO8601_FMT
 from conf.settings import env
 from core import strings
 
-from lite_content.lite_exporter_frontend import constants
+from lite_content.lite_exporter_frontend import strings
 
 register = template.Library()
 
@@ -19,7 +19,7 @@ register = template.Library()
 @register.simple_tag(name='lcs')
 def get_const_string(value):
     try:
-        return getattr(constants, value)
+        return getattr(strings, value)
     except AttributeError:
         return ''
 

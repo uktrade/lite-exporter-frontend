@@ -22,7 +22,7 @@ def get_applications(request):
 
 
 def get_application(request, pk):
-    data = get(request, APPLICATIONS_URL + pk)
+    data = get(request, APPLICATIONS_URL + str(pk))
     return data.json().get('application') if data.status_code == HTTPStatus.OK else None
 
 
@@ -32,7 +32,7 @@ def post_application(request, json):
 
 
 def put_application(request, pk, json):
-    data = put(request, APPLICATIONS_URL + pk + '/', json)
+    data = put(request, APPLICATIONS_URL + str(pk) + '/', json)
     return data.json(), data.status_code
 
 
@@ -266,7 +266,7 @@ def get_application_ecju_queries(request, pk):
 
 def set_application_status(request, pk, status):
     json = {'status': status}
-    data = put(request, APPLICATIONS_URL + pk + MANAGE_STATUS_URL, json)
+    data = put(request, APPLICATIONS_URL + str(pk) + MANAGE_STATUS_URL, json)
     return data.json(), data.status_code
 
 

@@ -88,5 +88,7 @@ urlpatterns = [
     path('<uuid:pk>/additional-document/<uuid:doc_pk>/delete', documents.DeleteDocument.as_view(),
          name='delete_additional_document'),
 
-    path('<uuid:pk>/<str:type>/', common.ApplicationDetail.as_view(), name='application-detail'),
+    path('<uuid:pk>/withdraw/', common.WithdrawApplication.as_view(), name='withdraw'),
+
+    path('<uuid:pk>/<str:type>/', common.ApplicationDetail.as_view(), name='detail'),
 ]
