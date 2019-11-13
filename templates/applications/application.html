@@ -24,11 +24,11 @@
     <div class="lite-information-board">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-one-quarter">
-                <p class="lite-heading-s">Licence Type</p>
+                <p class="lite-heading-s">{% lcs 'APPLICATION_TYPE' %}</p>
                 <p class="govuk-label">{{ application.licence_type.value }}</p>
             </div>
             <div class="govuk-grid-column-one-quarter">
-                <p class="lite-heading-s">Export Type</p>
+                <p class="lite-heading-s">{% lcs 'APPLICATION_EXPORT_TYPE' %}</p>
                 <p class="govuk-label">
                     {{ application.export_type.value }}
                 </p>
@@ -40,9 +40,9 @@
                 </p>
             </div>
             <div class="govuk-grid-column-one-quarter">
-                <p class="lite-heading-s">Export Type</p>
+                <p class="lite-heading-s">{% lcs 'APPLICATION_SUBMITTED_AT' %}</p>
                 <p class="govuk-label">
-                    {{ application.export_type.value }}
+                    {{ application.submitted_at|str_date }}
                 </p>
             </div>
         </div>
