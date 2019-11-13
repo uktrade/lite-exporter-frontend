@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
 from applications.forms.end_user import new_end_user_forms
-from applications.libraries.check_your_answers_helpers import _convert_end_user
+from applications.libraries.check_your_answers_helpers import convert_end_user
 from applications.libraries.validate_status import check_all_parties_have_a_document
 from applications.services import get_application, post_end_user, get_ultimate_end_users, \
     post_ultimate_end_user, delete_ultimate_end_user, delete_end_user
@@ -23,7 +23,7 @@ class EndUser(TemplateView):
                 'title': 'End user',
                 'edit_url': reverse_lazy('applications:set_end_user', kwargs={'pk': application_id}),
                 'remove_url': reverse_lazy('applications:remove_end_user', kwargs={'pk': application_id}),
-                'answers': _convert_end_user(application['end_user'], application_id),
+                'answers': convert_end_user(application['end_user'], application_id),
                 'highlight': ['Document'] if not application['end_user']['document'] else {}
             }
             return render(request, 'applications/check-your-answer.html', context)

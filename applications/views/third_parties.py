@@ -4,7 +4,7 @@ from django.views.generic import TemplateView
 
 from applications.forms.end_user import new_consignee_forms
 from applications.forms.third_party import third_party_forms
-from applications.libraries.check_your_answers_helpers import _convert_consignee
+from applications.libraries.check_your_answers_helpers import convert_consignee
 from applications.services import post_third_party, delete_third_party, post_consignee, \
     get_application, delete_consignee
 from lite_forms.generators import form_page, error_page
@@ -41,10 +41,6 @@ class ThirdParties(TemplateView):
         application_id = str(kwargs['pk'])
         application = get_application(request, application_id)
 
-        # This is going to get added back in a future story
-        # if not application['third_parties']:
-        #     return redirect(reverse_lazy('applications:add_third_party', kwargs={'pk': application_id}))
-
         context = {
             'application': application,
             'third_parties': application['third_parties'],
@@ -71,7 +67,7 @@ class Consignee(TemplateView):
                 'title': 'Consignee',
                 'edit_url': reverse_lazy('applications:set_consignee', kwargs={'pk': application_id}),
                 'remove_url': reverse_lazy('applications:remove_consignee', kwargs={'pk': application_id}),
-                'answers': _convert_consignee(application['consignee'], application_id),
+                'answers': convert_consignee(application['consignee'], application_id),
             }
             return render(request, 'applications/check-your-answer.html', context)
         else:

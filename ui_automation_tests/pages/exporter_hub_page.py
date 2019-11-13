@@ -42,6 +42,7 @@ class ExporterHubPage:
         email_tb.send_keys(email)
 
     def enter_add_user_email(self, email):
+        # hidden fields may be added which means that you can not look for name.
         email_tb = self.driver.find_element_by_id("email")
         email_tb.clear()
         email_tb.send_keys(email)

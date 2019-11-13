@@ -102,3 +102,12 @@ def convert_to_link(address, name=None, classes='', include_br=False):
     br = '<br>' if include_br else ''
 
     return safe(f'<a href="{address}" class="govuk-link govuk-link--no-visited-state {classes}">{name}</a>{br}')
+
+
+def remove_prefix(json, prefix):
+    post_data = {}
+    for k in json:
+        if k.startswith(prefix):
+            field = k[len(prefix):]
+            post_data[field] = json[k]
+    return post_data

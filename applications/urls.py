@@ -21,11 +21,12 @@ urlpatterns = [
     path('<uuid:pk>/edit/told-by-an-official/', told_by_an_official.ApplicationEditToldByAnOfficial.as_view(),
          name='edit_told_by_an_official'),
 
-    # HMRC
+    # HMRC Query
     path('<uuid:pk>/optional-note/', optional_note.ApplicationOptionalNote.as_view(), name='optional_note'),
 
     # Goods
     path('<uuid:pk>/goods/', goods.DraftGoodsList.as_view(), name='goods'),
+    path('<uuid:pk>/goods/add-new/', goods.AddNewGood.as_view(), name='new_good'),
     path('<uuid:pk>/goods/add-preexisting/', goods.GoodsList.as_view(), name='preexisting_good'),
     path('<uuid:pk>/goods/add-preexisting/<uuid:good_pk>/add/', goods.AddPreexistingGood.as_view(),
          name='add_preexisting_good'),
