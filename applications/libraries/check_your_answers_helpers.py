@@ -140,11 +140,11 @@ def _convert_goods_locations(goods_locations):
             {
                 'Site': site['name'],
                 'Address': site['address']['address_line_1'] + NEWLINE +
-                           site['address']['address_line_2'] + NEWLINE +
-                           site['address']['city'] + NEWLINE +
-                           site['address']['region'] + NEWLINE +
-                           site['address']['postcode'] + NEWLINE +
-                           site['address']['country']['name']
+                site['address']['address_line_2'] + NEWLINE +
+                site['address']['city'] + NEWLINE +
+                site['address']['region'] + NEWLINE +
+                site['address']['postcode'] + NEWLINE +
+                site['address']['country']['name']
             } for site in goods_locations['data']
         ]
     else:
@@ -152,7 +152,7 @@ def _convert_goods_locations(goods_locations):
             {
                 'Site': external_location['name'],
                 'Address': external_location['address'] + NEWLINE +
-                           external_location['country']['name']
+                external_location['country']['name']
             } for external_location in goods_locations['data']
         ]
 
@@ -176,8 +176,8 @@ def _convert_document(document, document_type, application_id):
     return convert_to_link(f'/applications/{application_id}/{document_type}/document/download',
                            'Download',
                            include_br=True) + \
-           convert_to_link(f'/applications/{application_id}/{document_type}/document/delete',
-                           'Delete')
+        convert_to_link(f'/applications/{application_id}/{document_type}/document/delete',
+                        'Delete')
 
 
 def _convert_attachable_document(address, attach_address, document):
