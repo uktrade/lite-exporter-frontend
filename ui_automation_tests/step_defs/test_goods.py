@@ -2,17 +2,16 @@ import os
 
 from pytest_bdd import scenarios, when, then, parsers
 
-from shared import functions
-from pages.goods_list import GoodsList
-from pages.exporter_hub_page import ExporterHubPage
+from conftest import i_click_continue
 from pages.add_goods_page import AddGoodPage
+from pages.application_goods_list import ApplicationGoodsList
+from pages.application_overview_page import ApplicationOverviewPage
+from pages.attach_document_page import AttachDocumentPage
+from pages.exporter_hub_page import ExporterHubPage
+from pages.goods_list import GoodsList
 from pages.goods_page import GoodsPage
 from pages.shared import Shared
-from pages.application_overview_page import ApplicationOverviewPage
-
-from ui_automation_tests.conftest import i_click_continue
-from ui_automation_tests.pages.application_goods_list import ApplicationGoodsList
-
+from shared import functions
 
 scenarios('../features/clc_queries_and_goods.feature', strict_gherkin=False)
 
@@ -126,7 +125,7 @@ def i_attach_a_document_to_the_good(driver, description):
     attach_document_page = AttachDocumentPage(driver)
     attach_document_page.choose_file(file_to_upload_abs_path)
     attach_document_page.enter_description(description)
-    Shared(driver).click_continue()
+    functions.click_submit(driver)
 
 
 @then("A new good has been added to the application")
@@ -142,10 +141,10 @@ def create_a_new_good_in_application(driver, description, controlled, control_co
     add_goods_page.select_is_your_good_controlled(controlled)
     add_goods_page.select_is_your_good_intended_to_be_incorporated_into_an_end_product(incorporated)
     add_goods_page.enter_control_code(control_code)
-    Shared(driver).click_continue()
+    functions.click_submit(driver)
 
 
 @when(parsers.parse('I enter details for the new good on an application with value "{value}", quantity "{quantity}" and unit of measurement "{unit}" and I click Continue"'))  # noqa
 def i_enter_detail_for_the_good_on_the_application(driver, value, quantity, unit):
     ApplicationGoodsList(driver, prefix="good_on_app_").add_values_to_good(value, quantity, unit)
-    Shared(driver).click_continue()
+    functions.click_submit(driver)

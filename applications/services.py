@@ -167,17 +167,17 @@ def delete_third_party(request, pk, obj_pk):
 
 # Third party Documents
 def get_third_party_document(request, pk, obj_pk):
-    data = get(request, APPLICATIONS_URL + pk + THIRD_PARTIES_URL + obj_pk + DOCUMENT_URL)
+    data = get(request, APPLICATIONS_URL + str(pk) + THIRD_PARTIES_URL + str(obj_pk) + DOCUMENT_URL)
     return data.json(), data.status_code
 
 
 def post_third_party_document(request, pk, obj_pk, json):
-    data = post(request, APPLICATIONS_URL + pk + THIRD_PARTIES_URL + obj_pk + DOCUMENT_URL, json)
+    data = post(request, APPLICATIONS_URL + str(pk) + THIRD_PARTIES_URL + str(obj_pk) + DOCUMENT_URL, json)
     return data.json(), data.status_code
 
 
 def delete_third_party_document(request, pk, obj_pk):
-    data = delete(request, APPLICATIONS_URL + pk + THIRD_PARTIES_URL + obj_pk + DOCUMENT_URL)
+    data = delete(request, APPLICATIONS_URL + str(pk) + THIRD_PARTIES_URL + str(obj_pk) + DOCUMENT_URL)
     return data.status_code
 
 
