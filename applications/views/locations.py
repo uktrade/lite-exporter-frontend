@@ -8,7 +8,7 @@ from applications.forms.location import which_location_form, new_location_form, 
     add_external_location
 from applications.forms.sites import sites_form
 from applications.services import get_application, get_application_countries, post_application_countries
-from applications.validators import validate_external_location_choice
+from applications.libraries.validators import validate_external_location_choice
 from core.services import get_sites_on_draft, post_sites_on_draft, post_external_locations, \
     get_external_locations_on_draft, post_external_locations_on_draft, \
     delete_external_locations_from_draft
