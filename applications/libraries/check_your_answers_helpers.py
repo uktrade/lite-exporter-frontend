@@ -173,6 +173,9 @@ def _convert_document(document, document_type, application_id):
     if not document:
         return default_na(None)
 
+    if document['safe'] is None:
+        return 'Processing'
+
     return convert_to_link(f'/applications/{application_id}/{document_type}/document/download',
                            'Download',
                            include_br=True) + \
