@@ -6,6 +6,7 @@ from selenium.webdriver.common.by import By
 
 from pages.application_edit_type_page import ApplicationEditTypePage
 from pages.application_page import ApplicationPage
+from shared import functions
 from ui_automation_tests.fixtures.register_organisation import register_organisation, register_organisation_for_switching_organisation  # noqa
 from ui_automation_tests.fixtures.env import environment # noqa
 from ui_automation_tests.fixtures.add_goods import add_an_incorporated_good_to_application, add_a_non_incorporated_good_to_application, create_non_incorporated_good  # noqa
@@ -451,3 +452,8 @@ def i_choose_to_make_minor_edits(driver):
     application_edit_type_page = ApplicationEditTypePage(driver)
     application_edit_type_page.click_major_edits_radio_button()
     application_edit_type_page.click_change_application_button()
+
+
+@when('I click submit')  # noqa
+def i_click_submit(driver):
+    functions.click_submit(driver)
