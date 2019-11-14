@@ -12,8 +12,9 @@ from applications.forms.goods import good_on_application_form, add_new_good_form
 from applications.services import get_application, get_application_goods, get_application_goods_types, \
     post_good_on_application, delete_application_preexisting_good, validate_application_good, \
     add_document_data
+from core.builtins.custom_tags import get_const_string
 from core.services import get_units
-from goods.services import get_goods, get_good, validate_good, post_good, post_good_documents
+from goods.services import get_goods, get_good, validate_good, post_goods, post_good_documents
 from lite_content.lite_exporter_frontend import strings
 from lite_forms.components import HiddenField
 from lite_forms.generators import error_page, form_page
@@ -73,7 +74,8 @@ class AddNewGood(TemplateView):
     application_id = None
     prefix = ['good_', 'good_on_app_']
     fields = [
-        ['good_description', 'good_control_code', 'good_part_number', 'good_is_good_controlled', 'good_is_good_end_product'],
+        ['good_description', 'good_control_code', 'good_part_number', 'good_is_good_controlled',
+         'good_is_good_end_product'],
         ['good_on_app_value', 'good_on_app_quantity', 'good_on_app_unit'],
         []
     ]
@@ -112,7 +114,7 @@ class AddNewGood(TemplateView):
                 # post good
                 post_data = request.POST.copy()
 
-                validated_data, status_code = post_good(request, post_data)
+                validated_data, status_code = post_goods(request, post_data)
 
                 if status_code != HTTPStatus.CREATED:
                     raise Http404
