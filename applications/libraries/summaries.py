@@ -10,7 +10,7 @@ def application_summary(application):
     return Summary(
         values={
             strings.APPLICATION_REFERENCE_NAME: application['name'],
-            strings.APPLICATION_TYPE: application['licence_type']['value'],
+            strings.APPLICATION_TYPE: application['application_type']['value'],
             strings.APPLICATION_EXPORT_TYPE: application['export_type']['value'],
             strings.APPLICATION_SUBMITTED_AT: str_date(application['submitted_at'])
         },

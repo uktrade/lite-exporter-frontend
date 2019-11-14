@@ -37,7 +37,7 @@
 			{% endif %}
 			<div class="govuk-grid-column-one-quarter">
 				<p class="lite-heading-s">{% lcs 'APPLICATION_STATUS' %}</p>
-				<p class="govuk-label">
+				<p class="govuk-label" id="label-application-status">
 					{{ application.status.value }}
 				</p>
 			</div>
@@ -53,7 +53,7 @@
 	{% if application.application_type.key != 'hmrc_query' %}
 	    <div class="lite-tabs--fade">
 	        <div class="lite-tabs">
-	            <a href="{% url 'applications:application-detail' application.id 'case-notes' %}"
+	            <a href="{% url 'applications:detail' application.id 'case-notes' %}"
 	               class="lite-tabs__tab {% if type == 'case-notes' %}lite-tabs__tab--selected{% endif %}"
 	               id="case-notes-tab">
 	                Notes
@@ -63,7 +63,7 @@
 	                    </div>
 	                {% endif %}
 	            </a>
-	            <a href="{% url 'applications:application-detail' application.id 'ecju-queries' %}"
+	            <a href="{% url 'applications:detail' application.id 'ecju-queries' %}"
 	               class="lite-tabs__tab {% if type == 'ecju-queries' %}lite-tabs__tab--selected{% endif %}"
 	               id="ecju-queries-tab">
 	                ECJU Queries
