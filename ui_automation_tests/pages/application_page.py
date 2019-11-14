@@ -3,12 +3,12 @@ from shared.BasePage import BasePage
 
 class ApplicationPage(BasePage):
     BUTTON_WITHDRAW_APPLICATION_ID = "button-withdraw-application"
-    LABEL_STATUS = "label-application-status"
+    BUTTON_EDIT_APPLICATION_ID = "button-edit-application"
+    LABEL_APPLICATION_STATUS_ID = "label-application-status"
     ecju_query_tab = "ecju-queries-tab"  # ID
     ecju_query_response_text = 'Respond to query'  # text
     ecju_queries_closed = "closed-ecju-query"  # ID
     edit_application_link = "a[href*='/edit-type/']"
-    edit_application_button = "edit-application-button"  # ID
 
     def click_withdraw_application_button(self):
         self.driver.find_element_by_id(self.BUTTON_WITHDRAW_APPLICATION_ID).click()
@@ -27,7 +27,7 @@ class ApplicationPage(BasePage):
         self.driver.find_elements_by_xpath(response)[no].click()
 
     def find_edit_application_button(self):
-        return self.driver.find_elements_by_id(self.edit_application_button)
+        return self.driver.find_elements_by_id(self.BUTTON_EDIT_APPLICATION_ID)
 
     def get_status(self):
-        return self.driver.find_element_by_id(self.LABEL_STATUS).text
+        return self.driver.find_element_by_id(self.LABEL_APPLICATION_STATUS_ID).text
