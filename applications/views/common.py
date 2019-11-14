@@ -7,16 +7,21 @@ from django.views.generic import TemplateView
 
 from applications.forms.common import respond_to_query_form, ecju_query_respond_confirmation_form, edit_type_form
 from applications.libraries.check_your_answers_helpers import convert_application_to_check_your_answers
+from applications.libraries.summaries import application_summary
 from applications.libraries.task_lists import get_application_task_list
+from applications.libraries.validators import validate_withdraw_application
 from applications.services import get_applications, get_case_notes, \
     get_application_ecju_queries, get_ecju_query, put_ecju_query, post_application_case_notes, get_draft_applications, \
     submit_application, get_application, delete_application, set_application_status
+from conf import constants
 from conf.constants import HMRC_QUERY, APPLICANT_EDITING, NEWLINE
 from core.helpers import group_notifications
 from core.services import get_notifications, get_organisation
+from lite_content.lite_exporter_frontend import strings
 from lite_forms.components import HiddenField
+from lite_forms.generators import confirm_form
 from lite_forms.generators import error_page, form_page, success_page
-from conf import constants
+from lite_forms.views import SingleFormView
 
 
 class ApplicationsList(TemplateView):
@@ -281,6 +286,7 @@ class WithdrawApplication(SingleFormView):
                                  side_by_side=True)
         self.action = validate_withdraw_application
         self.success_url = reverse_lazy('applications:application', kwargs={'pk': self.object_pk})
+
 
 class CheckYourAnswers(TemplateView):
     def get(self, request, **kwargs):
