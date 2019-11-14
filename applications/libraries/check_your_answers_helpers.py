@@ -176,6 +176,10 @@ def _convert_document(document, document_type, application_id):
     if document['safe'] is None:
         return 'Processing'
 
+    if not document['safe']:
+        return convert_to_link(f'/applications/{application_id}/{document_type}/document/attach',
+                               'Attach another')
+
     return convert_to_link(f'/applications/{application_id}/{document_type}/document/download',
                            'Download',
                            include_br=True) + \
