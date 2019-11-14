@@ -4,7 +4,7 @@ from pages.application_page import ApplicationPage
 from shared import selectors
 from shared.functions import element_with_id_exists
 
-scenarios("../features/withdraw_application.feature")
+scenarios("../features/withdraw_application.feature", strict_gherkin=False)
 
 
 @when("I click the button 'Withdraw Application'")
@@ -17,7 +17,7 @@ def i_should_see_a_confirmation_page(driver):
     assert len(driver.find_elements_by_css_selector(selectors.RADIO_BUTTONS)) == 2
 
 
-@then("I select the yes radiobutton")
+@when("I select the yes radiobutton")
 def i_select_the_yes_radiobutton(driver):
     driver.find_element_by_id("choice-yes").click()
 

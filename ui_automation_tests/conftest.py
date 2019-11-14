@@ -479,7 +479,7 @@ def i_choose_to_make_minor_edits(driver):
 
 
 @when("I click continue")  # noqa
-@then("I click submit")  # noqa
+@when("I click submit")  # noqa
 def i_click_submit_button(driver):
     functions.click_submit(driver)
 
