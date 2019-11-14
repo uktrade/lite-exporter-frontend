@@ -2,7 +2,6 @@ import time
 
 
 class ExporterHubPage:
-
     def __init__(self, driver):
         self.driver = driver
 
@@ -53,7 +52,9 @@ class ExporterHubPage:
 
     def login(self, email, password):
         if "logout" in self.driver.current_url:
-            self.driver.find_element_by_xpath("//a[text()[contains(.,'Log In')]]").click()
+            self.driver.find_element_by_xpath(
+                "//a[text()[contains(.,'Log In')]]"
+            ).click()
         self.enter_email(email)
         self.enter_password(password)
         self.driver.find_element_by_class_name("button").click()
@@ -66,13 +67,23 @@ class ExporterHubPage:
         self.driver.find_element_by_css_selector(self.my_goods_btn).click()
 
     def click_save_and_continue(self):
-        self.driver.find_element_by_css_selector("button[type*='submit'][value='submit']").click()
+        self.driver.find_element_by_css_selector(
+            "button[type*='submit'][value='submit']"
+        ).click()
 
     def verify_good_is_in_goods_list(self, description, part_number, control_code):
-        goods_row = self.driver.find_element_by_xpath("//*[text()[contains(.,'" + description + "')]]")
+        goods_row = self.driver.find_element_by_xpath(
+            "//*[text()[contains(.,'" + description + "')]]"
+        )
         assert goods_row.is_displayed()
-        assert goods_row.find_element_by_xpath(".//following-sibling::td").text == part_number
-        assert goods_row.find_element_by_xpath(".//following-sibling::td[2]").text == control_code
+        assert (
+            goods_row.find_element_by_xpath(".//following-sibling::td").text
+            == part_number
+        )
+        assert (
+            goods_row.find_element_by_xpath(".//following-sibling::td[2]").text
+            == control_code
+        )
 
     def click_users(self):
         self.driver.find_element_by_css_selector(self.users_btn).click()
@@ -102,7 +113,7 @@ class ExporterHubPage:
     def logout(self):
         self.driver.get("https://great.uat.uktrade.io/sso/accounts/")
         self.driver.find_element_by_id("header-sign-out-link").click()
-        self.driver.find_element_by_css_selector('.button').click()
+        self.driver.find_element_by_css_selector(".button").click()
 
     def click_user_profile(self):
         self.driver.find_element_by_css_selector("a[href*='/users/profile/']").click()
@@ -114,7 +125,9 @@ class ExporterHubPage:
         self.driver.find_element_by_css_selector("a[href*='/sites/new/']").click()
 
     def get_text_of_site(self, int):
-        return self.driver.find_elements_by_css_selector(".govuk-checkboxes__label")[int].text
+        return self.driver.find_elements_by_css_selector(".govuk-checkboxes__label")[
+            int
+        ].text
 
     def enter_name_for_application(self, name):
         self.driver.find_element_by_id("name").clear()

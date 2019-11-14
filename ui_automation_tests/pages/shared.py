@@ -1,5 +1,4 @@
 class Shared:
-
     def __init__(self, driver):
         self.driver = driver
         self.heading = ".govuk-heading-xl"  # CSS
@@ -29,7 +28,9 @@ class Shared:
         self.driver.find_element_by_css_selector(self.back_link).click()
 
     def is_error_message_displayed(self):
-        return self.driver.find_element_by_css_selector(self.error_messages).is_displayed()
+        return self.driver.find_element_by_css_selector(
+            self.error_messages
+        ).is_displayed()
 
     def get_text_of_body(self):
         return self.driver.find_element_by_tag_name("body").text
@@ -62,7 +63,9 @@ class Shared:
         return self.driver.find_elements_by_css_selector(self.gov_table_row)[no]
 
     def get_links_of_table_row(self, no):
-        return self.get_table_row(no).find_elements_by_css_selector(self.gov_table_cell_links)
+        return self.get_table_row(no).find_elements_by_css_selector(
+            self.gov_table_cell_links
+        )
 
     def get_text_of_h2(self):
         return self.driver.find_element_by_tag_name(self.h2).text
@@ -78,4 +81,3 @@ class Shared:
 
     def click_on_application_name(self):
         return self.driver.find_element_by_css_selector(self.application_name).click()
-

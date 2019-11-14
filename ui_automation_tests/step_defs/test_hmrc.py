@@ -4,7 +4,7 @@ from pages.exporter_hub_page import ExporterHubPage
 from pages.hmrc_query_page import HMRCQueryPage
 from pages.shared import Shared
 
-scenarios('../features/hmrc.feature', strict_gherkin=False)
+scenarios("../features/hmrc.feature", strict_gherkin=False)
 
 
 @when("I select to raise a query for my first organisation")

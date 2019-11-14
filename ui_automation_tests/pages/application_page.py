@@ -1,9 +1,8 @@
 class ApplicationPage:
-
     def __init__(self, driver):
         self.driver = driver
         self.ecju_query_tab = "ecju-queries-tab"  # ID
-        self.ecju_query_response_text = 'Respond to query'  # text
+        self.ecju_query_response_text = "Respond to query"  # text
         self.ecju_queries_closed = "closed-ecju-query"  # ID
         self.edit_application_link = "a[href*='/edit/']"
         self.edit_application_button = "edit-application-button"  # ID

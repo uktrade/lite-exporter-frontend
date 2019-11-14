@@ -2,21 +2,20 @@ from selenium.common.exceptions import NoSuchElementException
 
 
 class ApplicationOverviewPage:
-
     def __init__(self, driver):
         self.driver = driver
         self.location_link = "location"
         self.countries_link = "countries"
         self.standard_goods_link = "standard-goods"
         self.open_goods_link = "open-goods"
-        self.end_user_link = "end_users"   # ID
+        self.end_user_link = "end_users"  # ID
         self.consignees_link = "consignees"
-        self.ultimate_end_user_link = "ultimate_end_users"   # ID
+        self.ultimate_end_user_link = "ultimate_end_users"  # ID
         self.third_parties = "third_parties"  # ID
         self.sites_link = "a[href*='sites']"
         self.goods_on_application = "[id^=good-on-application-row]"  # CSS
-        self.ultimate_end_users = "[id^=ultimate-end-user-row]" # CSS
-        self.gov_tables = ".govuk-table__body"   # CSS
+        self.ultimate_end_users = "[id^=ultimate-end-user-row]"  # CSS
+        self.gov_tables = ".govuk-table__body"  # CSS
         self.back_to_overview_text = "Back to Application"  # link text
         self.submit_button = "button[type*='submit']"  # CSS
         self.attach_end_user_document_link = "attach_doc"  # ID
@@ -35,7 +34,9 @@ class ApplicationOverviewPage:
         self.remove_third_party_link = "a[href*='remove']"
         self.remove_additional_document_link = "document_delete"  # ID
         self.lite_task_list_items = ".lite-task-list__items"
-        self.delete_additional_doc_confirm_yes = "delete_document_confirmation-yes"  # ID
+        self.delete_additional_doc_confirm_yes = (
+            "delete_document_confirmation-yes"  # ID
+        )
 
     def find_remove_goods_type_link(self):
         try:
@@ -63,7 +64,9 @@ class ApplicationOverviewPage:
 
     def find_remove_third_party_link(self):
         try:
-            return self.driver.find_element_by_css_selector(self.remove_third_party_link)
+            return self.driver.find_element_by_css_selector(
+                self.remove_third_party_link
+            )
         except NoSuchElementException:
             return None
 
@@ -81,16 +84,28 @@ class ApplicationOverviewPage:
         self.driver.find_element_by_id(self.third_parties).click()
 
     def click_application_locations_link(self):
-        self.driver.execute_script("document.getElementById('" + self.location_link + "').scrollIntoView(true);")
+        self.driver.execute_script(
+            "document.getElementById('"
+            + self.location_link
+            + "').scrollIntoView(true);"
+        )
         self.driver.find_element_by_id(self.location_link).click()
 
     def click_standard_goods_link(self):
-        self.driver.execute_script("document.getElementById('" + self.standard_goods_link + "').scrollIntoView(true);")
+        self.driver.execute_script(
+            "document.getElementById('"
+            + self.standard_goods_link
+            + "').scrollIntoView(true);"
+        )
         element = self.driver.find_element_by_id(self.standard_goods_link)
         self.driver.execute_script("arguments[0].click();", element)
 
     def click_open_goods_link(self):
-        self.driver.execute_script("document.getElementById('" + self.open_goods_link + "').scrollIntoView(true);")
+        self.driver.execute_script(
+            "document.getElementById('"
+            + self.open_goods_link
+            + "').scrollIntoView(true);"
+        )
         element = self.driver.find_element_by_id(self.open_goods_link)
         self.driver.execute_script("arguments[0].click();", element)
 
@@ -107,21 +122,33 @@ class ApplicationOverviewPage:
         self.driver.find_element_by_id(self.consignees_link).click()
 
     def click_countries_link(self):
-        self.driver.execute_script("document.getElementById('" + self.countries_link + "').scrollIntoView(true);")
+        self.driver.execute_script(
+            "document.getElementById('"
+            + self.countries_link
+            + "').scrollIntoView(true);"
+        )
         self.driver.find_element_by_id(self.countries_link).click()
 
     def click_goods_countries_link(self):
-        self.driver.execute_script("document.getElementById('" + self.goods_countries_link + "').scrollIntoView(true);")
+        self.driver.execute_script(
+            "document.getElementById('"
+            + self.goods_countries_link
+            + "').scrollIntoView(true);"
+        )
         self.driver.find_element_by_id(self.goods_countries_link).click()
 
     def click_on_back_to_overview_text(self):
         self.driver.find_element_by_link_text(self.back_to_overview_text).click()
 
     def get_text_of_end_user_table(self):
-        return self.driver.find_elements_by_css_selector(self.gov_tables)[len(self.driver.find_elements_by_css_selector(self.gov_tables))-1].text
+        return self.driver.find_elements_by_css_selector(self.gov_tables)[
+            len(self.driver.find_elements_by_css_selector(self.gov_tables)) - 1
+        ].text
 
     def get_text_of_good(self, index=0):
-        return self.driver.find_elements_by_css_selector(self.goods_on_application)[index].text
+        return self.driver.find_elements_by_css_selector(self.goods_on_application)[
+            index
+        ].text
 
     def get_ultimate_end_users(self):
         return self.driver.find_elements_by_css_selector(self.ultimate_end_users)

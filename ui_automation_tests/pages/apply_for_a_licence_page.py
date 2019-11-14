@@ -1,11 +1,11 @@
 import logging
+
 log = logging.getLogger()
 console = logging.StreamHandler()
 log.addHandler(console)
 
 
 class ApplyForALicencePage:
-
     def __init__(self, driver):
         self.driver = driver
         self.name_or_reference_input_id = "name"
@@ -16,8 +16,8 @@ class ApplyForALicencePage:
         self.export_licence_yes_or_no = "have_you_been_informed-"
         self.reference_number = "reference_number_on_information_form"
         self.success_message = ".govuk-panel__title"
-        self.application_is_submitted = '.govuk-panel__title'
-        self.delete_application_button = '.govuk-link[href*="/delete"]'   # CSS
+        self.application_is_submitted = ".govuk-panel__title"
+        self.delete_application_button = '.govuk-link[href*="/delete"]'  # CSS
 
     def enter_name_or_reference_for_application(self, name):
         element = self.driver.find_element_by_id(self.name_or_reference_input_id)
@@ -33,17 +33,25 @@ class ApplyForALicencePage:
     def click_delete_application(self):
         self.driver.find_element_by_css_selector(self.delete_application_button).click()
         self.driver.implicitly_wait(10)
-        self.driver.execute_script("document.querySelectorAll('.govuk-button--warning')[0].click()")
+        self.driver.execute_script(
+            "document.querySelectorAll('.govuk-button--warning')[0].click()"
+        )
 
     def click_submit_application(self):
-        self.driver.execute_script("document.querySelectorAll(\"button[type*='submit']\")[0].click()")
+        self.driver.execute_script(
+            "document.querySelectorAll(\"button[type*='submit']\")[0].click()"
+        )
 
     def click_export_licence(self, type):
         logging.info(type)
         if type == "standard":
-            return self.driver.find_element_by_css_selector(self.standard_licence_button).click()
+            return self.driver.find_element_by_css_selector(
+                self.standard_licence_button
+            ).click()
         elif type == "open":
-            return self.driver.find_element_by_css_selector(self.open_licence_button).click()
+            return self.driver.find_element_by_css_selector(
+                self.open_licence_button
+            ).click()
 
     def click_permanent_or_temporary_button(self, string):
         self.driver.find_element_by_id(self.export_button + string).click()
@@ -59,4 +67,6 @@ class ApplyForALicencePage:
         self.driver.find_element_by_id(self.reference_number).send_keys(string)
 
     def application_submitted_text(self):
-        return self.driver.find_element_by_css_selector(self.application_is_submitted).text
+        return self.driver.find_element_by_css_selector(
+            self.application_is_submitted
+        ).text
