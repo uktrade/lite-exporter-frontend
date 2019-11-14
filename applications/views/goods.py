@@ -12,7 +12,6 @@ from applications.forms.goods import good_on_application_form, add_new_good_form
 from applications.services import get_application, get_application_goods, get_application_goods_types, \
     post_good_on_application, delete_application_preexisting_good, validate_application_good, \
     add_document_data
-from core.builtins.custom_tags import get_const_string
 from core.services import get_units
 from goods.services import get_goods, get_good, validate_good, post_goods, post_good_documents
 from lite_content.lite_exporter_frontend import strings
