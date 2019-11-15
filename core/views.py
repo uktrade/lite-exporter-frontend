@@ -1,7 +1,8 @@
-from django.http import Http404
-from django.shortcuts import render, redirect
+from django.http import Http404, HttpResponseRedirect
+from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
+
 from lite_forms.generators import form_page
 
 from core.builtins.custom_tags import get_string
@@ -14,9 +15,12 @@ from users.services import get_user
 class Hub(TemplateView):
     def get(self, request, **kwargs):
         user, _ = get_user(request)
+        organisation_pk = request.get_signed_cookie('organisation')
+        print(organisation_pk)
 
         notifications = get_notifications(request, unviewed=True)
-        organisation = get_organisation(request, str(request.user.organisation))
+        organisation = get_organisation(request, organisation_pk)
+
         if organisation.get('type').get('key') == 'hmrc':
             sections = [
                 Section('', [
@@ -77,7 +81,7 @@ class PickOrganisation(TemplateView):
 
     def get(self, request, **kwargs):
         data = {
-            'organisation': str(request.user.organisation)
+            'organisation': request.get_signed_cookie('organisation', None)
         }
 
         return form_page(request, self.form, data=data)
@@ -87,7 +91,7 @@ class PickOrganisation(TemplateView):
         if not request.POST.get('organisation'):
             return form_page(request, self.form, errors={'organisation': ['Select an organisation to use']})
 
-        request.user.organisation = request.POST['organisation']
-        request.user.save()
+        response = HttpResponseRedirect('/')
+        response.set_signed_cookie('organisation', request.POST.get('organisation'))
 
-        return redirect('/')
+        return response

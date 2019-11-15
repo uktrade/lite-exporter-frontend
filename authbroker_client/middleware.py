@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AnonymousUser
 from django.shortcuts import redirect
 from django.urls import resolve
+
 from lite_forms.generators import error_page
 
 from users.services import get_user
@@ -21,7 +22,7 @@ class ProtectAllViewsMiddleware:
             return redirect('authbroker:login')
 
         if resolve(request.path).url_name != 'pick_organisation' and not isinstance(request.user, AnonymousUser):
-            if not request.user.organisation:
+            if not request.get_signed_cookie('organisation', None):
                 user_dict, _ = get_user(request)
 
                 if len(user_dict['user']['organisations']) == 0:

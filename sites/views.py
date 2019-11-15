@@ -11,7 +11,7 @@ from sites.services import get_sites, get_site, post_sites, put_site
 
 class Sites(TemplateView):
     def get(self, request, **kwargs):
-        organisation_id = str(request.user.organisation)
+        organisation_id = str(request.get_signed_cookie('organisation'))
         sites = get_sites(request, organisation_id)
         organisation = get_organisation(request, organisation_id)
 
@@ -35,7 +35,7 @@ class NewSite(TemplateView):
         return form_page(request, self.form)
 
     def post(self, request, **kwargs):
-        organisation_id = str(request.user.organisation)
+        organisation_id = str(request.get_signed_cookie('organisation'))
         validated_data, _ = post_sites(request, organisation_id, nest_data(request.POST))
 
         if 'errors' in validated_data:
@@ -51,7 +51,7 @@ class EditSite(TemplateView):
     form = None
 
     def dispatch(self, request, *args, **kwargs):
-        self.organisation_id = str(request.user.organisation)
+        self.organisation_id = str(request.get_signed_cookie('organisation'))
         self.site, _ = get_site(request, self.organisation_id, str(kwargs['pk']))
         self.site['site']['address']['country'] = self.site['site']['address']['country']['id']
         self.form = edit_site_form('Edit ' + self.site['site']['name'])

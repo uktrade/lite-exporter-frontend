@@ -8,7 +8,7 @@ def sites_form(request):
                 description='Select all sites that apply.',
                 questions=[
                     Filter(),
-                    Checkboxes('sites', get_sites(request, request.user.organisation, True))
+                    Checkboxes('sites', get_sites(request, request.get_signed_cookie('organisation'), True))
                 ],
                 javascript_imports=['/assets/javascripts/filter-checkbox-list.js'],
                 default_button_name='Save and continue')

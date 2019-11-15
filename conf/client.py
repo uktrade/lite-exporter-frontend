@@ -8,7 +8,7 @@ def get(request, appended_address):
         return requests.get(env('LITE_API_URL') + appended_address,
                             headers={'EXPORTER-USER-TOKEN': str(request.user.user_token),
                                      'X-Correlation-Id': str(request.correlation),
-                                     'ORGANISATION-ID': str(request.user.organisation)})
+                                     'ORGANISATION-ID': str(request.get_signed_cookie('organisation', None))})
 
     return requests.get(env('LITE_API_URL') + appended_address)
 
@@ -18,7 +18,7 @@ def post(request, appended_address, json):
                          json=json,
                          headers={'EXPORTER-USER-TOKEN': str(request.user.user_token),
                                   'X-Correlation-Id': str(request.correlation),
-                                  'ORGANISATION-ID': str(request.user.organisation)})
+                                  'ORGANISATION-ID': str(request.get_signed_cookie('organisation', None))})
 
 
 def put(request, appended_address: str, json):
@@ -29,11 +29,11 @@ def put(request, appended_address: str, json):
                         json=json,
                         headers={'EXPORTER-USER-TOKEN': str(request.user.user_token),
                                  'X-Correlation-Id': str(request.correlation),
-                                 'ORGANISATION-ID': str(request.user.organisation)})
+                                 'ORGANISATION-ID': str(request.get_signed_cookie('organisation', None))})
 
 
 def delete(request, appended_address):
     return requests.delete(env('LITE_API_URL') + appended_address,
                            headers={'EXPORTER-USER-TOKEN': str(request.user.user_token),
                                     'X-Correlation-Id': str(request.correlation),
-                                    'ORGANISATION-ID': str(request.user.organisation)})
+                                    'ORGANISATION-ID': str(request.get_signed_cookie('organisation', None))})

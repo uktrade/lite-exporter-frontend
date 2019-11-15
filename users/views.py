@@ -10,8 +10,8 @@ from users.services import post_users, update_user, get_user
 
 class Users(TemplateView):
     def get(self, request, **kwargs):
-        users, _ = get_organisation_users(request, str(request.user.organisation))
-        organisation = get_organisation(request, str(request.user.organisation))
+        users, _ = get_organisation_users(request, str(request.get_signed_cookie('organisation')))
+        organisation = get_organisation(request, str(request.get_signed_cookie('organisation')))
 
         if organisation['type']['key'] == 'individual':
             raise Http404
@@ -49,7 +49,7 @@ class AddUser(TemplateView):
 
 class ViewUser(TemplateView):
     def get(self, request, **kwargs):
-        user = get_organisation_user(request, str(request.user.organisation), str(kwargs['pk']))['user']
+        user = get_organisation_user(request, str(request.get_signed_cookie('organisation')), str(kwargs['pk']))['user']
 
         context = {
             'profile': user
@@ -117,6 +117,6 @@ class ChangeUserStatus(TemplateView):
         if status != 'deactivate' and status != 'reactivate':
             raise Http404
 
-        put_organisation_user(request, str(request.user.organisation), str(kwargs['pk']), request.POST)
+        put_organisation_user(request, str(request.get_signed_cookie('organisation')), str(kwargs['pk']), request.POST)
 
         return redirect('/users/')

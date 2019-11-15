@@ -85,7 +85,7 @@ class ExternalLocations(TemplateView):
     def get(self, request, **kwargs):
         application_id = str(kwargs['pk'])
         application = get_application(request, application_id)
-        org_external_locations, _ = get_external_locations(request, request.user.organisation)
+        org_external_locations, _ = get_external_locations(request, request.get_signed_cookie('organisation'))
         data, _ = get_external_locations_on_draft(request, application_id)
 
         if application['status'].get('key') == 'submitted' and not data['external_locations']:
@@ -111,7 +111,7 @@ class AddExternalLocation(TemplateView):
     def post(self, request, **kwargs):
         draft_id = str(kwargs['pk'])
         response, response_data = submit_single_form(request, new_location_form(), post_external_locations,
-                                                     object_pk=str(request.user.organisation))
+                                                     object_pk=str(request.get_signed_cookie('organisation')))
 
         if response:
             return response
