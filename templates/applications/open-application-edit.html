@@ -198,7 +198,7 @@
 					<li class="lite-task-list__item">
 						<div class="lite-task-list__item-header">
 							<a id="goods_country_assignments" href="{% url 'applications:goods_countries' application.id %}" class="lite-overview-section-header govuk-link govuk-link--no-visited-state">
-			                    Explain where each good is going (optional)
+			                    Explain where each good is going
 			                </a>
 							{% if countries_on_goods_types %}
 				                <div class="lite-tag lite-tag--blue">
@@ -206,7 +206,7 @@
 				                </div>
 				            {% else %}
 				                <div class="lite-tag lite-tag--hollow">
-				                    Not started
+				                    Optional
 				                </div>
 				            {% endif %}
 						</div>
@@ -217,7 +217,7 @@
 				<li class="lite-task-list__item">
 					<div class="lite-task-list__item-header">
 						<a id="third_parties" href="{% url 'applications:additional_documents' application.id %}" class="lite-overview-section-header govuk-link govuk-link--no-visited-state">
-							Additional documentation (optional)
+							Additional documentation
 						</a>
 						{% if additional_documents %}
 							<div class="lite-tag lite-tag--blue">
@@ -225,7 +225,7 @@
 							</div>
 						{% else %}
 							<div class="lite-tag lite-tag--hollow">
-								Not started
+								Optional
 							</div>
 						{% endif %}
 					</div>
