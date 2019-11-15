@@ -94,9 +94,6 @@ def _get_open_application_task_list(request, application, errors=None):
         if is_editing:
             edit_type = 'minor_edit' if application['status']['key'] == 'submitted' else 'major_edit'
 
-    reference_number_description = _get_reference_number_description(
-        application['have_you_been_informed'], application['reference_number_on_information_form'])
-
     sites, _ = get_sites_on_draft(request, application_id)
     external_locations, _ = get_external_locations_on_draft(request, application_id)
     additional_documents, _ = get_additional_documents(request, application_id)
@@ -118,7 +115,6 @@ def _get_open_application_task_list(request, application, errors=None):
         'application': application,
         'is_editing': is_editing,
         'edit_type': edit_type,
-        'reference_number_description': reference_number_description,
         'countries': countries,
         'goodstypes': goodstypes,
         'sites': sites,
