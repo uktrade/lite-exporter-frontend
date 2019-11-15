@@ -27,7 +27,7 @@ from lite_forms.views import SingleFormView
 class ApplicationsList(TemplateView):
     def get(self, request, **kwargs):
         drafts = request.GET.get('drafts')
-        organisation = get_organisation(request, request.user.organisation)
+        organisation = get_organisation(request, request.get_signed_cookie('organisation'))
 
         if drafts and drafts.lower() == 'true':
             drafts = get_draft_applications(request)
@@ -58,7 +58,7 @@ class ApplicationDetailEmpty(TemplateView):
             return redirect(reverse_lazy('applications:task_list', kwargs={'pk': application_id}))
 
         return redirect(reverse_lazy('applications:detail', kwargs={'pk': application_id,
-                                                                                'type': 'case-notes'}))
+                                                                    'type': 'case-notes'}))
 
 
 class DeleteApplication(TemplateView):
@@ -209,7 +209,7 @@ class RespondToQuery(TemplateView):
 
         if self.ecju_query['response']:
             return redirect(reverse_lazy('applications:detail', kwargs={'pk': self.application_id,
-                                                                                    'type': 'ecju-queries'}))
+                                                                        'type': 'ecju-queries'}))
 
         return super(RespondToQuery, self).dispatch(request, *args, **kwargs)
 
@@ -255,7 +255,7 @@ class RespondToQuery(TemplateView):
                                      errors=data['errors'])
 
                 return redirect(reverse_lazy('applications:detail', kwargs={'pk': self.application_id,
-                                                                                        'type': 'ecju-queries'}))
+                                                                            'type': 'ecju-queries'}))
             elif request.POST.get('confirm_response') == 'no':
                 return form_page(request, respond_to_query_form(self.application_id, self.ecju_query),
                                  data=request.POST)
