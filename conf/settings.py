@@ -202,7 +202,7 @@ MAX_UPLOAD_SIZE = 100*1024*1024
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-if 'test' in sys.argv:
+if 'test' in sys.argv or env('ENVIRONMENT') == 'test':
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
