@@ -11,7 +11,7 @@
 	<div class="lite-app-bar">
 		<div class="lite-app-bar__content">
 			<h2 class="govuk-heading-l">
-				{% block title %}Describe your goods{% endblock%}
+				{% block title %}Add goods{% endblock%}
 			</h2>
 		</div>
         {% if not application.status.value or application.status.key == 'applicant_editing' %}
@@ -31,7 +31,7 @@
 		<table class="govuk-table">
 			<thead class="govuk-table__head">
 				<tr class="govuk-table__row">
-					<th scope="col" class="govuk-table__header">Name</th>
+					<th scope="col" class="govuk-table__header">Description</th>
 					<th scope="col" class="govuk-table__header">Part Number</th>
 					<th scope="col" class="govuk-table__header">Control List Entry</th>
 					{% if application.application_type.key == 'hmrc_query' %}
