@@ -69,8 +69,9 @@
 				{% endif %}
 			</h2>
 			<ul class="lite-task-list__items {% if is_editing %}govuk-!-padding-0{% endif %}">
+				{% lcs 'ENTER_A_REFERENCE_NAME_SHORT_TITLE' as reference_name_title %}
 				{% url 'applications:edit_reference_name' application.id as reference_name_url %}
-				{% include "includes/task-list-item.html" with title="Reference name" url=reference_name_url status='done' description=application.name %}
+				{% include "includes/task-list-item.html" with title=reference_name_title url=reference_name_url status='done' description=application.name %}
 			</ul>
 		</li>
 	</ol>
