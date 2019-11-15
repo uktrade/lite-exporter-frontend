@@ -9,11 +9,15 @@ jobs:
       # specify the version you desire here
       # use `-browsers` prefix for selenium tests, e.g. `3.6.1-browsers`
       - image: circleci/python:3.7
-      - image: circleci/postgres:11
+        environment:
+          DEBUG: 'True'
+          PIPENV_VENV_IN_PROJECT: 'enabled'
+          DATABASE_URL: postgresql://root@localhost/circle_test?sslmode=disable
 
-    environment:
-      DEBUG: 'True'
-      PIPENV_VENV_IN_PROJECT: 'enabled'
+      - image: circleci/postgres:11
+        environment:
+          POSTGRES_USER: root
+          POSTGRES_DB: circle_test
 
     working_directory: ~/lite-exporter-frontend
 
@@ -65,7 +69,7 @@ jobs:
       - run:
           name: Check migrations are made
           command: pipenv run ./manage.py makemigrations --check
-          
+
       - run:
           name: Run tests
           command: pipenv run ./manage.py test --parallel
