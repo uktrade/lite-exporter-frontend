@@ -1,13 +1,12 @@
 from applications.components import back_to_task_list
-from core.builtins.custom_tags import get_string
 from core.services import get_countries
 from lite_content.lite_exporter_frontend import strings
 from lite_forms.components import Form, Filter, Checkboxes
 
 
 def countries_form(application_id):
-    return Form(title=get_string('licences.countries.title'),
-                description=get_string('licences.countries.description'),
+    return Form(title=strings.WHERE_ARE_YOUR_GOODS_GOING_TITLE,
+                description=strings.WHERE_ARE_YOUR_GOODS_GOING_DESCRIPTION,
                 questions=[
                     Filter(),
                     Checkboxes(name='countries',

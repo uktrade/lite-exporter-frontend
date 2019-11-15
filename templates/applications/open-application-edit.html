@@ -188,31 +188,10 @@
 				</li>
 
 				<!-- Destination -->
-				<li class="lite-task-list__item">
-					<div class="lite-task-list__item-header">
-						<a id="countries" href="{% url 'applications:countries' application.id %}" class="lite-overview-section-header govuk-link govuk-link--no-visited-state">
-							Where are your goods going?
-						</a>
-						{% if countries %}
-						<div class="lite-tag lite-tag--blue">
-							Done
-						</div>
-						{% else %}
-						<div class="lite-tag lite-tag--hollow">
-							Not started
-						</div>
-						{% endif %}
-					</div>
-					<div class="lite-task-list__item-details">
-						<div class="display-none-inline_style">
-							<div id="countries-data">
-								{% for country in countries %}
-									<p class="govuk-label">{{ country.name }}</p>
-								{% endfor %}
-							</div>
-						</div>
-				   </div>
-				</li>
+				{% lcs 'WHERE_ARE_YOUR_GOODS_GOING_SHORT_TITLE' as countries_title %}
+				{% url 'applications:countries' application.id as countries_url %}
+				{% tld countries 'country' 'countries' as countries_description %}
+				{% include "includes/task-list-item.html" with title=countries_title url=countries_url status=countries|task_list_item_status description=countries_description %}
 
 				<!-- Good/country mapping -->
 				{% if application.application_type.key == 'open_licence' and goodstypes and countries %}
