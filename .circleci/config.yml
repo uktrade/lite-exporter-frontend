@@ -9,15 +9,10 @@ jobs:
       # specify the version you desire here
       # use `-browsers` prefix for selenium tests, e.g. `3.6.1-browsers`
       - image: circleci/python:3.7
-        environment:
-          DEBUG: 'True'
-          PIPENV_VENV_IN_PROJECT: 'enabled'
-          DATABASE_URL: postgresql://root@localhost/circle_test?sslmode=disable
 
-      - image: circleci/postgres:latest
-        environment:
-          POSTGRES_USER: root
-          POSTGRES_DB: circle_test
+    environment:
+      DEBUG: 'True'
+      PIPENV_VENV_IN_PROJECT: 'enabled'
 
     working_directory: ~/lite-exporter-frontend
 
@@ -48,7 +43,6 @@ jobs:
             fi
             exit $VULNERABILITY_COUNT
 
-
       - run:
           name: Create environment file
           command: cp local.env .env
@@ -67,14 +61,9 @@ jobs:
           key: dependencies-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
 
       - run:
-          name: Check migrations are made
-          command: pipenv run ./manage.py makemigrations --check
-
-      - run:
           name: Run tests
           command: pipenv run ./manage.py test --parallel
 
-      # Linting: dodgy, mccabe, pep8, profile-validator, pyflakes, pylint
       - run:
           name: Run Linting
           command: pipenv run prospector
