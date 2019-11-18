@@ -60,7 +60,7 @@ def _convert_goods(goods):
     return [
         {
             'Description': good['good']['description'],
-            'Part number': good['good']['part_number'],
+            'Part number': default_na(good['good']['part_number']),
             'Controlled': friendly_boolean(good['good']['is_good_controlled']),
             'Control list entry': default_na(good['good']['control_code']),
             'Quantity': intcomma(good['quantity']) + ' ' + pluralise_unit(good['unit']['value'], good['quantity']),
