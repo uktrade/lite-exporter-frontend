@@ -10,7 +10,7 @@ class EndUserAdvisoryPage:
 
         self.apply_for_advisory = "apply"  # id
         self.table_row = ".govuk-table__row"  # css
-        self.case_notes_tab = "case-notes-tab"  # id
+        self.case_notes_tab = "link-case-notes"  # id
         self.notification_bubble = ".lite-notification-bubble"  # css
         self.case_note = ".lite-application-note"  # css
 

@@ -492,3 +492,15 @@ def i_leave_a_note(driver, reasoning):
 @when('I click the back link')  # noqa
 def click_back_link(driver):
     functions.click_back_link(driver)
+
+
+@when("I click the notes tab")
+def click_notes_tab(driver):
+    application_page = ApplicationPage(driver)
+    application_page.click_notes_tab()
+
+
+@when('I click the ECJU Queries tab')
+def click_ecju_query_tab(driver):
+    application_page = ApplicationPage(driver)
+    application_page.click_ecju_query_tab()

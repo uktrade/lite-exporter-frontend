@@ -18,12 +18,6 @@ def click_on_an_application(driver, context):
     driver.find_element_by_partial_link_text(context.app_name).click()
 
 
-@when("I click the notes tab")
-def click_notes_tab(driver):
-    application_page = ApplicationPage(driver)
-    application_page.click_notes_tab()
-
-
 @when(parsers.parse('I enter "{text}" for case note'))
 def enter_case_note_text(driver, text, context):
     application_page = SubmittedApplicationsPages(driver)
