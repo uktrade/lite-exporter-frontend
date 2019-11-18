@@ -39,6 +39,8 @@ def _convert_standard_application(application, editable=False):
 def _convert_open_application(application, editable=False):
     return {
         "Goods": _convert_goods_types(application["goods_types"]),
+        "Goods locations": _convert_goods_locations(application["goods_locations"]),
+        "Countries": _convert_countries(application["destinations"]["data"]),
         "Supporting documentation": _get_supporting_documentation(
             application["additional_documents"], application["id"]
         ),
@@ -86,6 +88,10 @@ def _convert_goods_types(goods_types):
         }
         for good in goods_types
     ]
+
+
+def _convert_countries(countries):
+    return [{"Name": country["name"]} for country in countries]
 
 
 def convert_end_user(end_user, application_id, editable):
@@ -191,7 +197,7 @@ def _convert_goods_locations(goods_locations):
     else:
         return [
             {
-                "Site": external_location["name"],
+                "Name": external_location["name"],
                 "Address": external_location["address"] + NEWLINE + external_location["country"]["name"],
             }
             for external_location in goods_locations["data"]
