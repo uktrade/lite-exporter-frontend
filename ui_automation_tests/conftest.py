@@ -8,42 +8,42 @@ from pages.add_end_user_pages import AddEndUserPages
 from pages.application_edit_type_page import ApplicationEditTypePage
 from pages.application_page import ApplicationPage
 from shared import functions
-from ui_automation_tests.fixtures.register_organisation import (
+from ui_automation_tests.fixtures.register_organisation import (  # noqa
     register_organisation,
     register_organisation_for_switching_organisation,
-)  # noqa
+)
 from ui_automation_tests.fixtures.env import environment  # noqa
-from ui_automation_tests.fixtures.add_goods import (
+from ui_automation_tests.fixtures.add_goods import (  # noqa
     add_an_incorporated_good_to_application,
     add_a_non_incorporated_good_to_application,
     create_non_incorporated_good,
-)  # noqa
+)
 from ui_automation_tests.fixtures.add_clc_query import add_clc_query  # noqa
 from ui_automation_tests.fixtures.add_end_user_advisory import add_end_user_advisory  # noqa
-from ui_automation_tests.fixtures.internal_ecju_query import (
+from ui_automation_tests.fixtures.internal_ecju_query import (  # noqa
     internal_ecju_query,
     internal_ecju_query_end_user_advisory,
-)  # noqa
+)
 from ui_automation_tests.fixtures.sso_sign_in import sso_sign_in  # noqa
-from ui_automation_tests.fixtures.internal_case_note import (
+from ui_automation_tests.fixtures.internal_case_note import (  # noqa
     internal_case_note,
     internal_case_note_end_user_advisory,
-)  # noqa
+)
 from ui_automation_tests.fixtures.manage_case import manage_case_status_to_withdrawn  # noqa
 
-from ui_automation_tests.shared.fixtures.apply_for_application import (
+from ui_automation_tests.shared.fixtures.apply_for_application import (  # noqa
     apply_for_standard_application,
     add_an_ecju_query,
     apply_for_open_application,
-)  # noqa
+)
 from ui_automation_tests.shared.fixtures.driver import driver  # noqa
-from ui_automation_tests.shared.fixtures.core import (
+from ui_automation_tests.shared.fixtures.core import (  # noqa
     context,
     invalid_username,
     exporter_info,
     internal_info,
     seed_data_config,
-)  # noqa
+)
 from ui_automation_tests.shared.fixtures.urls import exporter_url, api_url  # noqa
 
 import shared.tools.helpers as utils
@@ -209,11 +209,11 @@ def enter_permanent_or_temporary(driver, permanent_or_temporary, context):
     functions.click_submit(driver)
 
 
-@when(
+@when(  # noqa
     parsers.parse(
         'I select "{yes_or_no}" for whether I have an export licence and "{reference}" if I have a reference and continue'
     )
-)  # noqa
+)
 def enter_export_licence(driver, yes_or_no, reference, context):
     apply = ApplyForALicencePage(driver)
     apply.click_export_licence_yes_or_no(yes_or_no)
@@ -233,9 +233,9 @@ def i_click_on_link_with_id(driver, link_id):
     driver.find_element_by_id(link_id).click()
 
 
-@when(
+@when(  # noqa
     parsers.parse(
-        'I add an end user of sub_type: "{type}", name: "{name}", website: "{website}", address: "{address}" and country "{'  # noqa
+        'I add an end user of sub_type: "{type}", name: "{name}", website: "{website}", address: "{address}" and country "{'
         'country}"'
     )
 )
@@ -269,11 +269,11 @@ def choose_location_type(driver, choice):
     functions.click_submit(driver)
 
 
-@when(
+@when(  # noqa
     parsers.parse(
         'I fill in new external location form with name: "{name}", address: "{address}" and country: "{country}" and continue'
     )
-)  # noqa
+)
 def add_new_external_location(driver, name, address, country):
     add_new_external_location_form_page = AddNewExternalLocationFormPage(driver)
     add_new_external_location_form_page.enter_external_location_name(name)
@@ -282,9 +282,9 @@ def add_new_external_location(driver, name, address, country):
     functions.click_submit(driver)
 
 
-@when(
+@when(  # noqa
     parsers.parse('I select the location at position "{position_number}" in external locations list and continue')
-)  # noqa
+)
 def assert_checkbox_at_position(driver, position_number):
     preexisting_locations_page = PreexistingLocationsPage(driver)
     preexisting_locations_page.click_external_locations_checkbox(int(position_number) - 1)
@@ -362,11 +362,12 @@ def click_add_from_organisation_button(driver):
     add_goods_page.click_add_a_good()
 
 
-@when(
+@when(  # noqa
     parsers.parse(
-        'I add a good or good type with description "{description}" controlled "{controlled}" control code "{control_code}" incorporated "{incorporated}" and part number "{part}"'
+        'I add a good or good type with description "{description}" controlled "{controlled}" control code '
+        '"{control_code}" incorporated "{incorporated}" and part number "{part}"'
     )
-)  # noqa
+)
 def add_new_good(driver, description, controlled, control_code, incorporated, part, context):
     good_part_needed = True
     add_goods_page = AddGoodPage(driver)
