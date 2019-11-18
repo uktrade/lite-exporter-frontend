@@ -14,5 +14,5 @@ class InitialQuestions(MultiFormView):
         self.forms = initial_questions(request.POST.copy().get('application_type'))
 
     def get_success_url(self):
-        pk = self.get_validated_data()['id']
-        return reverse_lazy('applications:task_list', kwargs={'pk': pk})
+        pk = self.get_validated_data()["id"]
+        return reverse_lazy("applications:task_list", kwargs={"pk": pk})

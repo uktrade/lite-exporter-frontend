@@ -10,11 +10,11 @@ def convert_application_to_check_your_answers(application, editable=False):
     """
     Returns a correctly formatted check your answers page for the supplied application
     """
-    if application['application_type']['key'] == STANDARD_LICENCE:
+    if application["application_type"]["key"] == STANDARD_LICENCE:
         return _convert_standard_application(application)
-    elif application['application_type']['key'] == OPEN_LICENCE:
+    elif application["application_type"]["key"] == OPEN_LICENCE:
         return _convert_open_application(application)
-    elif application['application_type']['key'] == HMRC_QUERY:
+    elif application["application_type"]["key"] == HMRC_QUERY:
         return _convert_hmrc_query(application)
     else:
         raise NotImplementedError()
@@ -72,10 +72,11 @@ def _convert_goods(goods):
 def _convert_goods_types(goods_types):
     return [
         {
-            'Description': good['description'],
-            'Controlled': friendly_boolean(good['is_good_controlled']),
-            'Control list entry': default_na(good['control_code']),
-        } for good in goods_types
+            "Description": good["description"],
+            "Controlled": friendly_boolean(good["is_good_controlled"]),
+            "Control list entry": default_na(good["control_code"]),
+        }
+        for good in goods_types
     ]
 
 
@@ -86,14 +87,15 @@ def convert_end_user(end_user, application_id, editable):
     if end_user.get('document'):
         document = _convert_document(end_user['document'], 'end-user', application_id, editable)
     else:
-        document = convert_to_link(reverse_lazy('applications:end_user_attach_document',
-                                                kwargs={'pk': application_id}), 'Attach document')
+        document = convert_to_link(
+            reverse_lazy("applications:end_user_attach_document", kwargs={"pk": application_id}), "Attach document"
+        )
     return {
-        'Name': end_user['name'],
-        'Type': end_user['sub_type']['value'],
-        'Address': end_user['address'] + NEWLINE + end_user['country']['name'],
-        'Website': convert_to_link(end_user['website']),
-        'Document': document
+        "Name": end_user["name"],
+        "Type": end_user["sub_type"]["value"],
+        "Address": end_user["address"] + NEWLINE + end_user["country"]["name"],
+        "Website": convert_to_link(end_user["website"]),
+        "Document": document,
     }
 
 
@@ -120,15 +122,16 @@ def convert_consignee(consignee, application_id, editable):
     if consignee['document']:
         document = _convert_document(consignee['document'], 'consignee', application_id, editable)
     else:
-        document = convert_to_link(reverse_lazy('applications:consignee_attach_document',
-                                                kwargs={'pk': application_id}), 'Attach document')
+        document = convert_to_link(
+            reverse_lazy("applications:consignee_attach_document", kwargs={"pk": application_id}), "Attach document"
+        )
 
     return {
-        'Name': consignee['name'],
-        'Type': consignee['sub_type']['value'],
-        'Address': consignee['address'] + NEWLINE + consignee['country']['name'],
-        'Website': convert_to_link(consignee['website']),
-        'Document': document,
+        "Name": consignee["name"],
+        "Type": consignee["sub_type"]["value"],
+        "Address": consignee["address"] + NEWLINE + consignee["country"]["name"],
+        "Website": convert_to_link(consignee["website"]),
+        "Document": document,
     }
 
 
@@ -151,37 +154,46 @@ def _convert_third_parties(third_parties, application_id, editable):
 
 
 def _convert_goods_locations(goods_locations):
-    if goods_locations['type'] == 'sites':
+    if goods_locations["type"] == "sites":
         return [
             {
-                'Site': site['name'],
-                'Address': site['address']['address_line_1'] + NEWLINE +
-                site['address']['address_line_2'] + NEWLINE +
-                site['address']['city'] + NEWLINE +
-                site['address']['region'] + NEWLINE +
-                site['address']['postcode'] + NEWLINE +
-                site['address']['country']['name']
-            } for site in goods_locations['data']
+                "Site": site["name"],
+                "Address": site["address"]["address_line_1"]
+                + NEWLINE
+                + site["address"]["address_line_2"]
+                + NEWLINE
+                + site["address"]["city"]
+                + NEWLINE
+                + site["address"]["region"]
+                + NEWLINE
+                + site["address"]["postcode"]
+                + NEWLINE
+                + site["address"]["country"]["name"],
+            }
+            for site in goods_locations["data"]
         ]
     else:
         return [
             {
-                'Site': external_location['name'],
-                'Address': external_location['address'] + NEWLINE +
-                external_location['country']['name']
-            } for external_location in goods_locations['data']
+                "Site": external_location["name"],
+                "Address": external_location["address"] + NEWLINE + external_location["country"]["name"],
+            }
+            for external_location in goods_locations["data"]
         ]
 
 
 def _get_supporting_documentation(supporting_documentation, application_id):
     return [
         {
-            'File name': convert_to_link(reverse_lazy('applications:download_additional_document',
-                                                      kwargs={'pk': application_id,
-                                                              'obj_pk': document['id']}
-                                                      ), document['name']),
-            'Description': default_na(document['description']),
-        } for document in supporting_documentation
+            "File name": convert_to_link(
+                reverse_lazy(
+                    "applications:download_additional_document", kwargs={"pk": application_id, "obj_pk": document["id"]}
+                ),
+                document["name"],
+            ),
+            "Description": default_na(document["description"]),
+        }
+        for document in supporting_documentation
     ]
 
 
@@ -189,12 +201,11 @@ def _convert_document(document, document_type, application_id, editable):
     if not document:
         return default_na(None)
 
-    if document['safe'] is None:
-        return 'Processing'
+    if document["safe"] is None:
+        return "Processing"
 
-    if not document['safe']:
-        return convert_to_link(f'/applications/{application_id}/{document_type}/document/attach',
-                               'Attach another')
+    if not document["safe"]:
+        return convert_to_link(f"/applications/{application_id}/{document_type}/document/attach", "Attach another")
 
     if editable:
         return convert_to_link(f'/applications/{application_id}/{document_type}/document/download',

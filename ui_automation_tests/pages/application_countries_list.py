@@ -1,5 +1,4 @@
 class ApplicationCountriesList:
-
     def __init__(self, driver):
         self.driver = driver
         self.countries_checkboxes = ".govuk-checkboxes__input"
