@@ -494,13 +494,13 @@ def click_back_link(driver):
     functions.click_back_link(driver)
 
 
-@when("I click the notes tab")
+@when("I click the notes tab")  # noqa
 def click_notes_tab(driver):
     application_page = ApplicationPage(driver)
     application_page.click_notes_tab()
 
 
-@when('I click the ECJU Queries tab')
+@when('I click the ECJU Queries tab')  # noqa
 def click_ecju_query_tab(driver):
     application_page = ApplicationPage(driver)
     application_page.click_ecju_query_tab()
