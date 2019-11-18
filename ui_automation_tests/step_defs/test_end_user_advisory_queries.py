@@ -132,7 +132,7 @@ def enter_case_note_text(driver, text):
     application_page.click_post_note_btn()
 
 
-@when('I select to view ecju queries')
+@when('I click the ECJU Queries tab')
 def click_ecju_query_tab(driver):
     application_page = ApplicationPage(driver)
     application_page.click_ecju_query_tab()

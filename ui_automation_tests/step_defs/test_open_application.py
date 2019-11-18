@@ -1,6 +1,5 @@
 from pytest_bdd import scenarios, when, then, parsers
 
-from shared import functions
 import shared.tools.helpers as utils
 from pages.application_countries_list import ApplicationCountriesList
 from pages.application_goods_list import ApplicationGoodsList
@@ -8,7 +7,6 @@ from pages.application_goods_type_list import ApplicationGoodsTypeList
 from pages.application_overview_page import ApplicationOverviewPage
 from pages.goods_countries_page import GoodsCountriesPage
 from pages.shared import Shared
-
 
 scenarios('../features/submit_open_application.feature', strict_gherkin=False)
 

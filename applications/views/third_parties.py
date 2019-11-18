@@ -67,7 +67,7 @@ class Consignee(TemplateView):
                 'title': 'Consignee',
                 'edit_url': reverse_lazy('applications:set_consignee', kwargs={'pk': application_id}),
                 'remove_url': reverse_lazy('applications:remove_consignee', kwargs={'pk': application_id}),
-                'answers': convert_consignee(application['consignee'], application_id),
+                'answers': convert_consignee(application['consignee'], application_id, True),
             }
             return render(request, 'applications/check-your-answer.html', context)
         else:

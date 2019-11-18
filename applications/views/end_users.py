@@ -23,7 +23,7 @@ class EndUser(TemplateView):
                 'title': 'End user',
                 'edit_url': reverse_lazy('applications:set_end_user', kwargs={'pk': application_id}),
                 'remove_url': reverse_lazy('applications:remove_end_user', kwargs={'pk': application_id}),
-                'answers': convert_end_user(application['end_user'], application_id),
+                'answers': convert_end_user(application['end_user'], application_id, True),
                 'highlight': ['Document'] if not application['end_user']['document'] else {}
             }
             return render(request, 'applications/check-your-answer.html', context)

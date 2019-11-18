@@ -1,5 +1,7 @@
 {% extends 'layouts/base.html' %}
 
+{% load static %}
+
 {% block back_link %}
     <a href="{% url 'applications:applications' %}" id="back-link" class="govuk-back-link">Back</a>
 {% endblock %}
@@ -44,7 +46,7 @@
 			<dt class="govuk-summary-list__key">
 				{% lcs 'APPLICATION_STATUS' %}
 			</dt>
-			<dd class="govuk-summary-list__value">
+			<dd id="label-application-status" class="govuk-summary-list__value">
 				{{ application.status.value }}
 			</dd>
 		</div>
@@ -140,4 +142,8 @@
         {% include "applications/tabs/ecju-queries.html" %}
     {% endif %}
 
+{% endblock %}
+
+{% block javascript %}
+	<script src="{% static 'javascripts/case-notes.js' %}"></script>
 {% endblock %}

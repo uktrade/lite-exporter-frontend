@@ -33,7 +33,11 @@ def _convert_standard_application(application, editable=False):
 
 
 def _convert_open_application(application, editable=False):
-    raise NotImplementedError()
+    return {
+        'Goods': _convert_goods_types(application['goods_types']),
+        'Supporting documentation': _get_supporting_documentation(application['additional_documents'],
+                                                                  application['id']),
+    }
 
 
 def _convert_hmrc_query(application, editable=False):

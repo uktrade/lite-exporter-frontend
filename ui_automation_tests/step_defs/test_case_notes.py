@@ -1,5 +1,6 @@
 from pytest_bdd import when, then, parsers, scenarios, given
 
+from pages.application_page import ApplicationPage
 from pages.submitted_applications_page import SubmittedApplicationsPages
 
 import shared.tools.helpers as utils
@@ -15,6 +16,12 @@ def application_exists_case_note_added(apply_for_standard_application, add_an_ec
 @when('I click on application previously created')
 def click_on_an_application(driver, context):
     driver.find_element_by_partial_link_text(context.app_name).click()
+
+
+@when("I click the notes tab")
+def click_notes_tab(driver):
+    application_page = ApplicationPage(driver)
+    application_page.click_notes_tab()
 
 
 @when(parsers.parse('I enter "{text}" for case note'))

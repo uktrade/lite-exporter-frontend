@@ -50,18 +50,6 @@ class ApplicationsList(TemplateView):
             return render(request, 'applications/applications.html', context)
 
 
-class ApplicationDetailEmpty(TemplateView):
-    def get(self, request, **kwargs):
-        application_id = str(kwargs['pk'])
-        data = get_application(request, application_id)
-
-        if data.get('status') and data.get('status').get('key') == APPLICANT_EDITING:
-            return redirect(reverse_lazy('applications:task_list', kwargs={'pk': application_id}))
-
-        return redirect(reverse_lazy('applications:application', kwargs={'pk': application_id,
-                                                                                'type': 'case-notes'}))
-
-
 class DeleteApplication(TemplateView):
     def get(self, request, **kwargs):
         application_id = str(kwargs['pk'])
@@ -190,7 +178,7 @@ class ApplicationDetail(TemplateView):
                 error = NEWLINE.join(error_list)
             return error_page(request, error)
 
-        return redirect(reverse_lazy('applications:application', kwargs={'pk': self.application_id}))
+        return redirect(reverse_lazy('applications:application', kwargs={'pk': self.application_id, 'type': 'case-notes'}))
 
 
 class RespondToQuery(TemplateView):

@@ -12,7 +12,7 @@ class ApplicationOverviewPage:
         self.hmrc_describe_your_goods = "describe_your_goods"
         self.hmrc_set_end_user = "set_end_user"
         self.hmrc_explain_your_reasoning = "explain_the_reason_behind_your_query"
-        self.countries_link = "countries"
+        self.LINK_COUNTRIES_ID = "set_countries"
         self.standard_goods_link = "standard-goods"
         self.open_goods_link = "open-goods"
         self.end_user_link = "end_users"   # ID
@@ -123,8 +123,8 @@ class ApplicationOverviewPage:
         self.driver.find_element_by_id(self.consignees_link).click()
 
     def click_countries_link(self):
-        self.driver.execute_script("document.getElementById('" + self.countries_link + "').scrollIntoView(true);")
-        self.driver.find_element_by_id(self.countries_link).click()
+        self.driver.execute_script("document.getElementById('" + self.LINK_COUNTRIES_ID + "').scrollIntoView(true);")
+        self.driver.find_element_by_id(self.LINK_COUNTRIES_ID).click()
 
     def click_goods_countries_link(self):
         self.driver.execute_script("document.getElementById('" + self.goods_countries_link + "').scrollIntoView(true);")

@@ -11,7 +11,6 @@ Feature: I want to indicate the open licence I want
     And I select "open" application and continue
     And I enter in name for application and continue
     And I select "permanent" option and continue
-    And I select "yes" for whether I have an export licence and "123456" if I have a reference and continue
     Then I see the application overview
     When I delete the application
 
@@ -22,7 +21,6 @@ Feature: I want to indicate the open licence I want
     And I select "open" application and continue
     And I enter in name for application and continue
     And I select "permanent" option and continue
-    And I select "yes" for whether I have an export licence and "123456" if I have a reference and continue
     And I click on application locations link
     And I select "organisation" for where my goods are located
     And I select the site at position "1"
@@ -62,7 +60,6 @@ Feature: I want to indicate the open licence I want
     And I select "open" application and continue
     And I enter in name for application and continue
     And I select "permanent" option and continue
-    And I select "yes" for whether I have an export licence and "123456" if I have a reference and continue
     And I click on countries
     And I search for country "Canada"
     Then only "Canada" is displayed in country list
@@ -75,7 +72,6 @@ Feature: I want to indicate the open licence I want
     And I select "open" application and continue
     And I enter in name for application and continue
     And I select "permanent" option and continue
-    And I select "yes" for whether I have an export licence and "123456" if I have a reference and continue
     And I click on the goods link from overview
     And I click Add goods type button
     And I add a good or good type with description "Sniper" controlled "Yes" control code "ML1a" incorporated "Yes" and part number "not needed"
