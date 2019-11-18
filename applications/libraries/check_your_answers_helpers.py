@@ -1,7 +1,7 @@
 from django.urls import reverse_lazy
 
 from conf.constants import NEWLINE, STANDARD_LICENCE, OPEN_LICENCE, HMRC_QUERY
-from core.builtins.custom_tags import default_na, friendly_boolean
+from core.builtins.custom_tags import default_na, friendly_boolean, pluralise_unit
 from core.helpers import convert_to_link
 
 
@@ -62,8 +62,8 @@ def _convert_goods(goods):
             'Part number': good['good']['part_number'],
             'Controlled': friendly_boolean(good['good']['is_good_controlled']),
             'Control list entry': default_na(good['good']['control_code']),
-            'Quantity': '?',  # TODO for when we bring this feature to standard/open apps
-            'Monetary value': '£',  # TODO for when we bring this feature to standard/open apps
+            'Quantity': str(good['quantity']) + ' ' + pluralise_unit(good['unit']['value'], good['quantity']),
+            'Monetary value': '£' + good['value'],
         } for good in goods
     ]
 
