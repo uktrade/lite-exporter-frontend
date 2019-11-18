@@ -5,8 +5,12 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
-from applications.forms.common import respond_to_query_form, ecju_query_respond_confirmation_form, edit_type_form, \
-    application_success_page
+from applications.forms.common import (
+    respond_to_query_form,
+    ecju_query_respond_confirmation_form,
+    edit_type_form,
+    application_success_page,
+)
 from applications.libraries.check_your_answers_helpers import convert_application_to_check_your_answers
 from applications.libraries.summaries import application_summary
 from applications.libraries.task_lists import get_application_task_list
@@ -135,8 +139,8 @@ class ApplicationDetail(TemplateView):
     def dispatch(self, request, *args, **kwargs):
         self.application_id = str(kwargs["pk"])
         self.application = get_application(request, self.application_id)
-        self.case_id = self.application['case']
-        self.view_type = kwargs.get('type')
+        self.case_id = self.application["case"]
+        self.view_type = kwargs.get("type")
 
         return super(ApplicationDetail, self).dispatch(request, *args, **kwargs)
 
@@ -151,14 +155,12 @@ class ApplicationDetail(TemplateView):
         )
 
         context = {
-            'application': self.application,
-            'title': self.application['name'],
-            'type': self.view_type,
-            'case_note_notifications': case_note_notifications,
-            'ecju_query_notifications': ecju_query_notifications,
-            'answers': {
-                **convert_application_to_check_your_answers(self.application)
-            }
+            "application": self.application,
+            "title": self.application["name"],
+            "type": self.view_type,
+            "case_note_notifications": case_note_notifications,
+            "ecju_query_notifications": ecju_query_notifications,
+            "answers": {**convert_application_to_check_your_answers(self.application)},
         }
 
         if self.application["application_type"]["key"] != HMRC_QUERY:
@@ -192,7 +194,9 @@ class ApplicationDetail(TemplateView):
                 error = NEWLINE.join(error_list)
             return error_page(request, error)
 
-        return redirect(reverse_lazy('applications:application', kwargs={'pk': self.application_id, 'type': 'case-notes'}))
+        return redirect(
+            reverse_lazy("applications:application", kwargs={"pk": self.application_id, "type": "case-notes"})
+        )
 
 
 class RespondToQuery(TemplateView):
@@ -205,9 +209,10 @@ class RespondToQuery(TemplateView):
         self.ecju_query_id = str(kwargs["query_pk"])
         self.ecju_query = get_ecju_query(request, str(kwargs["pk"]), str(kwargs["query_pk"]))
 
-        if self.ecju_query['response']:
-            return redirect(reverse_lazy('applications:application', kwargs={'pk': self.application_id,
-                                                                                    'type': 'ecju-queries'}))
+        if self.ecju_query["response"]:
+            return redirect(
+                reverse_lazy("applications:application", kwargs={"pk": self.application_id, "type": "ecju-queries"})
+            )
 
         return super(RespondToQuery, self).dispatch(request, *args, **kwargs)
 
@@ -245,21 +250,25 @@ class RespondToQuery(TemplateView):
                 )
                 form.questions.append(HiddenField("response", request.POST.get("response")))
                 return form_page(request, form)
-        elif form_name == 'ecju_query_response_confirmation':
-            if request.POST.get('confirm_response') == 'yes':
-                data, status_code = put_ecju_query(request, self.application_id, self.ecju_query_id,
-                                                   request.POST)
+        elif form_name == "ecju_query_response_confirmation":
+            if request.POST.get("confirm_response") == "yes":
+                data, status_code = put_ecju_query(request, self.application_id, self.ecju_query_id, request.POST)
 
-                if 'errors' in data:
-                    return form_page(request, respond_to_query_form(self.application_id, self.ecju_query),
-                                     data=request.POST,
-                                     errors=data['errors'])
+                if "errors" in data:
+                    return form_page(
+                        request,
+                        respond_to_query_form(self.application_id, self.ecju_query),
+                        data=request.POST,
+                        errors=data["errors"],
+                    )
 
-                return redirect(reverse_lazy('applications:application', kwargs={'pk': self.application_id,
-                                                                                        'type': 'ecju-queries'}))
-            elif request.POST.get('confirm_response') == 'no':
-                return form_page(request, respond_to_query_form(self.application_id, self.ecju_query),
-                                 data=request.POST)
+                return redirect(
+                    reverse_lazy("applications:application", kwargs={"pk": self.application_id, "type": "ecju-queries"})
+                )
+            elif request.POST.get("confirm_response") == "no":
+                return form_page(
+                    request, respond_to_query_form(self.application_id, self.ecju_query), data=request.POST
+                )
             else:
                 error = {"required": ["This field is required"]}
                 form = ecju_query_respond_confirmation_form(

@@ -5,15 +5,19 @@ from lite_forms.components import Form, Filter, Checkboxes
 
 
 def countries_form(application_id):
-    return Form(title=strings.WHERE_ARE_YOUR_GOODS_GOING_TITLE,
-                description=strings.WHERE_ARE_YOUR_GOODS_GOING_DESCRIPTION,
-                questions=[
-                    Filter(),
-                    Checkboxes(name='countries',
-                               options=get_countries(None, True),
-                               classes=['govuk-checkboxes--small'],
-                               show_select_links=True),
-                ],
-                javascript_imports=['/assets/javascripts/filter-checkbox-list.js'],
-                default_button_name=strings.SAVE,
-                back_link=back_to_task_list(application_id))
+    return Form(
+        title=strings.WHERE_ARE_YOUR_GOODS_GOING_TITLE,
+        description=strings.WHERE_ARE_YOUR_GOODS_GOING_DESCRIPTION,
+        questions=[
+            Filter(),
+            Checkboxes(
+                name="countries",
+                options=get_countries(None, True),
+                classes=["govuk-checkboxes--small"],
+                show_select_links=True,
+            ),
+        ],
+        javascript_imports=["/assets/javascripts/filter-checkbox-list.js"],
+        default_button_name=strings.SAVE,
+        back_link=back_to_task_list(application_id),
+    )

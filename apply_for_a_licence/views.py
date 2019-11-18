@@ -11,7 +11,7 @@ class InitialQuestions(MultiFormView):
         self.action = post_applications
 
     def on_submission(self, request, **kwargs):
-        self.forms = initial_questions(request.POST.copy().get('application_type'))
+        self.forms = initial_questions(request.POST.copy().get("application_type"))
 
     def get_success_url(self):
         pk = self.get_validated_data()["id"]

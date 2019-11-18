@@ -19,7 +19,7 @@ def click_on_an_application(driver, exporter_url, context, apply_for_standard_ap
     driver.get(exporter_url.rstrip("/") + "/applications/" + context.app_id)
 
 
-@when('I click to view goods page')
+@when("I click to view goods page")
 def click_on_goods_page(driver):
     exporter_hub = ExporterHubPage(driver)
     exporter_hub.click_my_goods()

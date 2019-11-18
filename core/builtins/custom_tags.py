@@ -211,7 +211,7 @@ def task_list_item_status(data):
     return DONE
 
 
-@register.simple_tag(name='tld')
+@register.simple_tag(name="tld")
 def task_list_item_list_description(data, singular, plural):
     """
     Returns a description for a task list item depending on how many
@@ -220,6 +220,6 @@ def task_list_item_list_description(data, singular, plural):
     if len(data) == 0:
         return None
     elif len(data) == 1:
-        return f'1 {singular} added'
+        return f"1 {singular} added"
     else:
-        return f'{len(data)} {plural} added'
+        return f"{len(data)} {plural} added"

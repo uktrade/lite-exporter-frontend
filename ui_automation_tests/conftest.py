@@ -485,8 +485,9 @@ def submit_the_application(driver, context):
     apply = ApplyForALicencePage(driver)
     functions.click_submit(driver)
     assert apply.get_text_of_success_message() == "Application sent successfully"
-    context.time_date_submitted = datetime.datetime.now().strftime("%I:%M%p").lstrip("0").replace(" 0", " ").lower() \
-                                  + datetime.datetime.now().strftime(" %d %B %Y")
+    context.time_date_submitted = datetime.datetime.now().strftime("%I:%M%p").lstrip("0").replace(
+        " 0", " "
+    ).lower() + datetime.datetime.now().strftime(" %d %B %Y")
 
 
 @when("I click on the manage my organisation link")  # noqa
@@ -550,7 +551,7 @@ def click_notes_tab(driver):
     application_page.click_notes_tab()
 
 
-@when('I click the ECJU Queries tab')  # noqa
+@when("I click the ECJU Queries tab")  # noqa
 def click_ecju_query_tab(driver):
     application_page = ApplicationPage(driver)
     application_page.click_ecju_query_tab()

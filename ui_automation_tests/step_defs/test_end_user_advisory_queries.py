@@ -138,7 +138,7 @@ def enter_case_note_text(driver, text):
     application_page.click_post_note_btn()
 
 
-@when('I click to respond to the ecju query')
+@when("I click to respond to the ecju query")
 def click_to_respond_to_ecju_query(driver):
     application_page = ApplicationPage(driver)
     application_page.respond_to_ecju_query(0)

@@ -7,7 +7,7 @@ class ApplicationPage(BasePage):
     LABEL_APPLICATION_STATUS_ID = "label-application-status"
     LINK_NOTES_TAB_ID = "link-case-notes"  # ID
     LINK_ECJU_QUERY_TAB_ID = "link-ecju-queries"  # ID
-    ECJU_QUERY_RESPONSE_TEXT = 'Respond to query'  # text
+    ECJU_QUERY_RESPONSE_TEXT = "Respond to query"  # text
     ECJU_QUERIES_CLOSED = "closed-ecju-query"  # ID
     LINK_EDIT_APPLICATION = "a[href*='/edit-type/']"
 

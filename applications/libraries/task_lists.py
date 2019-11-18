@@ -126,21 +126,21 @@ def _get_open_application_task_list(request, application, errors=None):
             countries_on_goods_types = True
 
     context = {
-        'application': application,
-        'is_editing': is_editing,
-        'edit_type': edit_type,
-        'countries': countries,
-        'goodstypes': goodstypes,
-        'sites': sites,
-        'external_locations': external_locations['external_locations'],
-        'ultimate_end_users': ultimate_end_users,
-        'ultimate_end_users_required': ultimate_end_users_required,
-        'end_user_document': end_user_document,
-        'consignee_document': consignee_document,
-        'countries_on_goods_types': countries_on_goods_types,
-        'third_parties': third_parties,
-        'additional_documents': additional_documents['documents'],
-        'errors': errors
+        "application": application,
+        "is_editing": is_editing,
+        "edit_type": edit_type,
+        "countries": countries,
+        "goodstypes": goodstypes,
+        "sites": sites,
+        "external_locations": external_locations["external_locations"],
+        "ultimate_end_users": ultimate_end_users,
+        "ultimate_end_users_required": ultimate_end_users_required,
+        "end_user_document": end_user_document,
+        "consignee_document": consignee_document,
+        "countries_on_goods_types": countries_on_goods_types,
+        "third_parties": third_parties,
+        "additional_documents": additional_documents["documents"],
+        "errors": errors,
     }
     return render(request, "applications/open-application-edit.html", context)
 

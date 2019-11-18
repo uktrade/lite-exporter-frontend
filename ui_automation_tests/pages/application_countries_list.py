@@ -3,7 +3,7 @@ class ApplicationCountriesList:
         self.driver = driver
         self.countries_checkboxes = ".govuk-checkboxes__input"
         self.countries_labels = ".govuk-checkboxes__label"
-        self.countries_search_box = "filter-box"   # ID
+        self.countries_search_box = "filter-box"  # ID
         self.COUNTRIES_LIST_SELECTOR = "#pane_countries .govuk-checkboxes"
         self.title = ".govuk-fieldset__heading"
 

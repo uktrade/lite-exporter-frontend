@@ -17,14 +17,13 @@ from applications.views import (
 app_name = "applications"
 urlpatterns = [
     # Common
-    path('', common.ApplicationsList.as_view(), name='applications'),
-    path('<uuid:pk>/delete/', common.DeleteApplication.as_view(), name='delete'),
-    path('<uuid:pk>/task-list/', common.ApplicationTaskList.as_view(), name='task_list'),
-    path('<uuid:pk>/edit-type/', common.ApplicationEditType.as_view(), name='edit_type'),
-    path('<uuid:pk>/check-your-answers/', common.CheckYourAnswers.as_view(), name='check_your_answers'),
-    path('<uuid:pk>/submit/', common.Submit.as_view(), name='submit'),
-    path('<uuid:pk>/ecju-queries/<uuid:query_pk>/', common.RespondToQuery.as_view(), name='respond_to_query'),
-
+    path("", common.ApplicationsList.as_view(), name="applications"),
+    path("<uuid:pk>/delete/", common.DeleteApplication.as_view(), name="delete"),
+    path("<uuid:pk>/task-list/", common.ApplicationTaskList.as_view(), name="task_list"),
+    path("<uuid:pk>/edit-type/", common.ApplicationEditType.as_view(), name="edit_type"),
+    path("<uuid:pk>/check-your-answers/", common.CheckYourAnswers.as_view(), name="check_your_answers"),
+    path("<uuid:pk>/submit/", common.Submit.as_view(), name="submit"),
+    path("<uuid:pk>/ecju-queries/<uuid:query_pk>/", common.RespondToQuery.as_view(), name="respond_to_query"),
     # Standard and Open Licence
     path(
         "<uuid:pk>/edit/reference-name/",
@@ -187,8 +186,7 @@ urlpatterns = [
         name="delete_additional_document",
     ),
     path("<uuid:pk>/withdraw/", common.WithdrawApplication.as_view(), name="withdraw"),
-	
     # This HAS to be at the bottom, otherwise it will swallow other url calls
-    path('<uuid:pk>/', common.ApplicationDetail.as_view(), name='application'),
-    path('<uuid:pk>/<str:type>/', common.ApplicationDetail.as_view(), name='application'),
+    path("<uuid:pk>/", common.ApplicationDetail.as_view(), name="application"),
+    path("<uuid:pk>/<str:type>/", common.ApplicationDetail.as_view(), name="application"),
 ]
