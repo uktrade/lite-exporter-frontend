@@ -419,7 +419,7 @@
 				<li class="lite-task-list__item">
 					<div class="lite-task-list__item-header">
                         <a id="third_parties" href="{% url 'applications:third_parties' application.id %}" class="lite-overview-section-header govuk-link govuk-link--no-visited-state">
-                        Third Parties (optional)
+                        Third Parties
                         </a>
 				        {% if third_parties %}
 				            <div class="lite-tag lite-tag--blue">
@@ -427,7 +427,7 @@
 							</div>
 						{% else %}
 							<div class="lite-tag lite-tag--hollow">
-								Not started
+								Optional
 							</div>
 						{% endif %}
 					</div>
@@ -464,7 +464,7 @@
 				<li class="lite-task-list__item">
 					<div class="lite-task-list__item-header">
 						<a id="third_parties" href="{% url 'applications:additional_documents' application.id %}" class="lite-overview-section-header govuk-link govuk-link--no-visited-state">
-							Additional documentation (optional)
+							Supporting documentation
 						</a>
 						{% if additional_documents %}
 							<div class="lite-tag lite-tag--blue">
@@ -472,7 +472,7 @@
 							</div>
 						{% else %}
 							<div class="lite-tag lite-tag--hollow">
-								Not started
+								Optional
 							</div>
 						{% endif %}
 					</div>

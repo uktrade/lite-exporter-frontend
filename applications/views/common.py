@@ -5,7 +5,8 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
-from applications.forms.common import respond_to_query_form, ecju_query_respond_confirmation_form, edit_type_form
+from applications.forms.common import respond_to_query_form, ecju_query_respond_confirmation_form, edit_type_form, \
+    application_success_page
 from applications.libraries.check_your_answers_helpers import convert_application_to_check_your_answers
 from applications.libraries.summaries import application_summary
 from applications.libraries.task_lists import get_application_task_list
@@ -20,7 +21,7 @@ from core.services import get_notifications, get_organisation
 from lite_content.lite_exporter_frontend import strings
 from lite_forms.components import HiddenField
 from lite_forms.generators import confirm_form
-from lite_forms.generators import error_page, form_page, success_page
+from lite_forms.generators import error_page, form_page
 from lite_forms.views import SingleFormView
 
 
@@ -57,7 +58,7 @@ class ApplicationDetailEmpty(TemplateView):
         if data.get('status') and data.get('status').get('key') == APPLICANT_EDITING:
             return redirect(reverse_lazy('applications:task_list', kwargs={'pk': application_id}))
 
-        return redirect(reverse_lazy('applications:detail', kwargs={'pk': application_id,
+        return redirect(reverse_lazy('applications:application', kwargs={'pk': application_id,
                                                                                 'type': 'case-notes'}))
 
 
@@ -122,12 +123,7 @@ class ApplicationTaskList(TemplateView):
         if status_code != HTTPStatus.OK:
             return get_application_task_list(request, application, errors=data.get('errors'))
 
-        return success_page(request,
-                            title='Application submitted',
-                            secondary_title='',
-                            description='',
-                            what_happens_next=[],
-                            links={'Go to applications': reverse_lazy('applications:applications')})
+        return application_success_page(request, application_id)
 
 
 class ApplicationDetail(TemplateView):
@@ -140,10 +136,7 @@ class ApplicationDetail(TemplateView):
         self.application_id = str(kwargs['pk'])
         self.application = get_application(request, self.application_id)
         self.case_id = self.application['case']
-        self.view_type = kwargs['type']
-
-        if self.view_type != 'case-notes' and self.view_type != 'ecju-queries':
-            return Http404
+        self.view_type = kwargs.get('type')
 
         return super(ApplicationDetail, self).dispatch(request, *args, **kwargs)
 
@@ -161,6 +154,9 @@ class ApplicationDetail(TemplateView):
             'type': self.view_type,
             'case_note_notifications': case_note_notifications,
             'ecju_query_notifications': ecju_query_notifications,
+            'answers': {
+                **convert_application_to_check_your_answers(self.application)
+            }
         }
 
         if self.application['application_type']['key'] != HMRC_QUERY:
@@ -208,7 +204,7 @@ class RespondToQuery(TemplateView):
         self.ecju_query = get_ecju_query(request, str(kwargs['pk']), str(kwargs['query_pk']))
 
         if self.ecju_query['response']:
-            return redirect(reverse_lazy('applications:detail', kwargs={'pk': self.application_id,
+            return redirect(reverse_lazy('applications:application', kwargs={'pk': self.application_id,
                                                                                     'type': 'ecju-queries'}))
 
         return super(RespondToQuery, self).dispatch(request, *args, **kwargs)
@@ -254,7 +250,7 @@ class RespondToQuery(TemplateView):
                                      data=request.POST,
                                      errors=data['errors'])
 
-                return redirect(reverse_lazy('applications:detail', kwargs={'pk': self.application_id,
+                return redirect(reverse_lazy('applications:application', kwargs={'pk': self.application_id,
                                                                                         'type': 'ecju-queries'}))
             elif request.POST.get('confirm_response') == 'no':
                 return form_page(request, respond_to_query_form(self.application_id, self.ecju_query),

@@ -2,7 +2,7 @@ from django.urls import reverse_lazy
 
 from lite_content.lite_exporter_frontend import strings
 from lite_forms.components import HiddenField, Form, BackLink, TextArea, HTMLBlock, RadioButtons, Option
-from lite_forms.generators import confirm_form
+from lite_forms.generators import confirm_form, success_page
 
 from core.builtins.custom_tags import get_string
 
@@ -22,7 +22,7 @@ def respond_to_query_form(application_id, ecju_query):
                              }),
                     HiddenField(name='form_name', value='respond_to_query')
                 ],
-                back_link=BackLink(strings.BACK_TO_APPLICATION, reverse_lazy('applications:detail',
+                back_link=BackLink(strings.BACK_TO_APPLICATION, reverse_lazy('applications:application',
                                                                              kwargs={'pk': application_id,
                                                                                      'type': 'ecju-queries'})),
                 default_button_name='Submit response')
@@ -52,7 +52,21 @@ def edit_type_form(application_id):
                                             value=get_string('applications.edit.major.title'),
                                             description=get_string('applications.edit.major.description')),
                                  ])],
-                back_link=BackLink(strings.BACK_TO_APPLICATION, reverse_lazy('applications:detail',
+                back_link=BackLink(strings.BACK_TO_APPLICATION, reverse_lazy('applications:application',
                                                                              kwargs={'pk': application_id,
                                                                                      'type': 'ecju-queries'})),
                 default_button_name='Continue')
+
+
+def application_success_page(request, application_id):
+    return success_page(request=request,  # TODO get content for this!
+                        title='Application sent successfully',
+                        secondary_title='Your reference code: ' + application_id,
+                        description='The Department for International Trade usually takes two '
+                                    'working days to check an importer.',
+                        what_happens_next=['You\'ll receive an email from DIT when your check is finished.'],
+                        links={
+                            'View your list of applications': reverse_lazy('applications:applications'),
+                            'Apply for another export licence': reverse_lazy('apply_for_a_licence:start'),
+                            'Return to Exporter Hub': reverse_lazy('core:hub'),
+                        })
