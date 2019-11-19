@@ -12,7 +12,7 @@ class Hub(BasePage):
     FIRST_NAME_FIELD = "first_name"  # ID
     LAST_NAME_FIELD = "last_name"  # ID
     EMAIL_FIELD = "email"  # ID
-    PASSWORD_FIELD = "password"  # ID
+    PASSWORD_FIELD = "password"  # ID  # noqa
     APPLICATIONS_TILE = '.app-tiles [href="/applications/"] p'  # ID
 
     def click_drafts(self):
