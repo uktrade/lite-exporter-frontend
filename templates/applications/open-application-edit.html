@@ -281,9 +281,9 @@
 						</form>
 						{% if not application.status.value %}
 							<div class="lite-vertical-align">
-								<a href="{% url 'applications:delete' application.id %}" class="govuk-link lite-link--icon">
+								<a id="link-delete-draft" href="{% url 'applications:delete' application.id %}?return_to=application" class="govuk-link lite-link--icon">
 									{% svg 'close' %}
-									Delete <span class="govuk-visually-hidden">draft</span>
+									{% lcs 'DRAFT_DELETE_LINK' %}
 								</a>
 							</div>
 						{% endif %}

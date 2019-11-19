@@ -12,9 +12,9 @@ from applications.forms.common import (
     application_success_page,
 )
 from applications.libraries.check_your_answers_helpers import convert_application_to_check_your_answers
-from applications.libraries.summaries import application_summary
+from applications.libraries.summaries import application_summary, draft_summary
 from applications.libraries.task_lists import get_application_task_list
-from applications.libraries.validators import validate_withdraw_application
+from applications.libraries.validators import validate_withdraw_application, validate_delete_draft
 from applications.services import (
     get_applications,
     get_case_notes,
@@ -64,24 +64,30 @@ class ApplicationsList(TemplateView):
             return render(request, "applications/applications.html", context)
 
 
-class DeleteApplication(TemplateView):
-    def get(self, request, **kwargs):
-        application_id = str(kwargs["pk"])
-        application = get_application(request, application_id)
+class DeleteApplication(SingleFormView):
+    def init(self, request, **kwargs):
+        self.object_pk = kwargs["pk"]
+        application = get_application(request, self.object_pk)
+        self.form = confirm_form(
+            title=strings.DRAFT_DELETE_TITLE,
+            confirmation_name="choice",
+            summary=draft_summary(application),
+            back_link_text=strings.DRAFT_DELETE_BACK_TEXT,
+            yes_label=strings.DRAFT_DELETE_YES_LABEL,
+            no_label=strings.DRAFT_DELETE_NO_LABEL,
+            submit_button_text=strings.DRAFT_DELETE_SUBMIT_BUTTON,
+            back_url=reverse_lazy("applications:application", kwargs={"pk": self.object_pk}),
+            side_by_side=True,
+        )
+        self.return_to = request.GET.get('return_to')
+        self.action = validate_delete_draft
+        self.success_url = reverse_lazy("applications:applications") + "?drafts=True"
 
-        context = {
-            "title": "Are you sure you want to delete this application?",
-            "application": application,
-            "page": "applications/modals/cancel_application.html",
-        }
-        return render(request, "core/static.html", context)
-
-    def post(self, request, **kwargs):
-        draft_id = str(kwargs["pk"])
-        _, status = delete_application(request, draft_id)
-
-        url_with_query_params = f"?application_deleted={(str(status == HTTPStatus.OK)).lower()}"
-        return redirect(reverse_lazy("applications:applications") + "?drafts=True" + url_with_query_params)
+    def get_success_url(self):
+        if self.return_to == 'application' and self.get_validated_data().get('choice') == 'no':
+            return reverse_lazy("applications:task_list", kwargs={"pk": self.object_pk})
+        else:
+            return reverse_lazy("applications:applications") + "?drafts=True"
 
 
 class ApplicationEditType(TemplateView):
