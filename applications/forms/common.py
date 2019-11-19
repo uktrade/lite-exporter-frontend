@@ -9,7 +9,6 @@ from lite_forms.generators import confirm_form, success_page
 def respond_to_query_form(application_id, ecju_query):
     return Form(
         title="Respond to query",
-        description="",
         questions=[
             HTMLBlock(
                 '<div class="app-ecju-query__text" style="display: block; max-width: 100%;">'
@@ -41,7 +40,7 @@ def ecju_query_respond_confirmation_form(edit_response_url):
         no_label="No, change my response",
         back_link_text="Back to edit response",
         back_url=edit_response_url,
-        submit_button_text="Continue",
+        submit_button_text=strings.CONTINUE,
     )
 
 
@@ -70,7 +69,7 @@ def edit_type_form(application_id):
             strings.BACK_TO_APPLICATION,
             reverse_lazy("applications:application", kwargs={"pk": application_id, "type": "ecju-queries"}),
         ),
-        default_button_name="Continue",
+        default_button_name=strings.CONTINUE,
     )
 
 
