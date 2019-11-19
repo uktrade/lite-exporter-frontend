@@ -132,7 +132,7 @@ class ApplicationOverviewPage(BasePage):
     def get_text_of_end_user_table(self):
         return self.driver.find_elements_by_css_selector(self.GOV_TABLES)[
             len(self.driver.find_elements_by_css_selector(self.GOV_TABLES)) - 1
-            ].text
+        ].text
 
     def get_text_of_good(self, index=0):
         return self.driver.find_elements_by_css_selector(self.GOODS_ON_APPLICATION)[index].text
