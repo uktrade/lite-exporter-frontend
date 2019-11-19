@@ -6,7 +6,7 @@ parallel_option=''
 # run py.test ($@ to derive parameters from commandline)
 if [ $NO_OF_PARALLEL_RUNNERS -gt 1 ]
 then
-    $parallel_option="-n=$NO_OF_PARALLEL_RUNNERS"
+    parallel_option="-n=$NO_OF_PARALLEL_RUNNERS"
 fi
 py.test -k "$TESTS_TO_RUN" "$parallel_option" --dist=loadscope --ignore=core --alluredir=ui_automation_tests/allure-results &
 pid="$!"
