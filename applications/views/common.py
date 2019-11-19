@@ -25,7 +25,6 @@ from applications.services import (
     get_draft_applications,
     submit_application,
     get_application,
-    delete_application,
     set_application_status,
 )
 from conf import constants
@@ -79,12 +78,12 @@ class DeleteApplication(SingleFormView):
             back_url=reverse_lazy("applications:application", kwargs={"pk": self.object_pk}),
             side_by_side=True,
         )
-        self.return_to = request.GET.get('return_to')
+        self.return_to = request.GET.get("return_to")
         self.action = validate_delete_draft
         self.success_url = reverse_lazy("applications:applications") + "?drafts=True"
 
     def get_success_url(self):
-        if self.return_to == 'application' and self.get_validated_data().get('choice') == 'no':
+        if self.return_to == "application" and self.get_validated_data().get("choice") == "no":
             return reverse_lazy("applications:task_list", kwargs={"pk": self.object_pk})
         else:
             return reverse_lazy("applications:applications") + "?drafts=True"

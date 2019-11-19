@@ -1,11 +1,9 @@
 from django.urls import reverse_lazy
 
-from applications.libraries.summaries import application_summary
+from core.builtins.custom_tags import get_string
 from lite_content.lite_exporter_frontend import strings
 from lite_forms.components import HiddenField, Form, BackLink, TextArea, HTMLBlock, RadioButtons, Option
 from lite_forms.generators import confirm_form, success_page
-
-from core.builtins.custom_tags import get_string
 
 
 def respond_to_query_form(application_id, ecju_query):
