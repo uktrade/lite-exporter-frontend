@@ -4,7 +4,7 @@ from django.views.generic import TemplateView
 
 from applications.forms.end_user import new_consignee_forms
 from applications.forms.third_party import third_party_forms
-from applications.libraries.check_your_answers_helpers import convert_consignee
+from applications.helpers.check_your_answers import convert_consignee
 from applications.services import (
     post_third_party,
     delete_third_party,

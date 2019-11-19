@@ -1,3 +1,5 @@
+from _decimal import Decimal
+
 from django.contrib.humanize.templatetags.humanize import intcomma
 from django.urls import reverse_lazy
 
@@ -244,3 +246,10 @@ def _convert_attachable_document(address, attach_address, document, editable):
         return convert_to_link(attach_address, "Attach document")
 
     return convert_to_link(address, "Download")
+
+
+def get_total_goods_value(goods: list):
+    total_value = 0
+    for good in goods:
+        total_value += Decimal(good["value"]).quantize(Decimal(".01"))
+    return total_value

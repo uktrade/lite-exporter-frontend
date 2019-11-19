@@ -11,10 +11,10 @@ from applications.forms.common import (
     edit_type_form,
     application_success_page,
 )
-from applications.libraries.check_your_answers_helpers import convert_application_to_check_your_answers
-from applications.libraries.summaries import application_summary, draft_summary
-from applications.libraries.task_lists import get_application_task_list
-from applications.libraries.validators import validate_withdraw_application, validate_delete_draft
+from applications.helpers.check_your_answers import convert_application_to_check_your_answers
+from applications.helpers.summaries import application_summary, draft_summary
+from applications.helpers.task_lists import get_application_task_list
+from applications.helpers.validators import validate_withdraw_application, validate_delete_draft
 from applications.services import (
     get_applications,
     get_case_notes,

@@ -9,7 +9,7 @@ from django.views.generic import TemplateView
 from s3chunkuploader.file_handler import S3FileUploadHandler
 
 from applications.forms.goods import good_on_application_form, add_new_good_forms
-from applications.libraries.helpers import get_total_goods_value
+from applications.helpers.check_your_answers import get_total_goods_value
 from applications.services import (
     get_application,
     get_application_goods,

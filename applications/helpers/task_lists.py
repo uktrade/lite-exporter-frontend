@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
-from applications.libraries.helpers import get_total_goods_value
-from applications.libraries.validate_status import check_all_parties_have_a_document
+from applications.helpers.check_your_answers import get_total_goods_value
+from applications.helpers.validate_status import check_all_parties_have_a_document
 from applications.services import (
     get_application_countries,
     get_application_goods_types,
