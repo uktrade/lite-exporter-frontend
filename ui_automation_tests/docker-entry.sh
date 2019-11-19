@@ -2,7 +2,7 @@
 
 set -x
 
-parallel_option=
+parallel_option=''
 # run py.test ($@ to derive parameters from commandline)
 if [ $NO_OF_PARALLEL_RUNNERS -gt 1 ]
 then
