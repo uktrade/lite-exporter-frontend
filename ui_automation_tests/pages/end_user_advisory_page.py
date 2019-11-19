@@ -22,7 +22,7 @@ class EndUserAdvisoryPage:
 
     def confirm_advisory_displayed_by_reference_code(self, id):
         elements, no = self.get_table_rows_and_position(id)
-        return elements[no].find_element_by_css_selector(Shared(self.driver).notification).is_displayed()
+        return elements[no].find_element_by_css_selector(Shared(self.driver).NOTIFICATION).is_displayed()
 
     def get_table_rows_and_position(self, id):
         elements = self.driver.find_elements_by_css_selector(self.table_row)
