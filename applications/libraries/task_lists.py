@@ -1,5 +1,3 @@
-from _decimal import Decimal
-
 from django.shortcuts import render
 
 from applications.libraries.helpers import get_total_goods_value
