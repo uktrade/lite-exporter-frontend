@@ -25,7 +25,6 @@ from applications.services import (
     get_draft_applications,
     submit_application,
     get_application,
-    delete_application,
     set_application_status,
 )
 from conf import constants
