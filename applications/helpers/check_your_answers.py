@@ -31,7 +31,9 @@ def _convert_standard_application(application, editable=False):
         strings.APPLICATION_ULTIMATE_END_USERS: _convert_ultimate_end_users(
             application["ultimate_end_users"], application["id"], editable
         ),
-        strings.APPLICATION_THIRD_PARTIES: _convert_third_parties(application["third_parties"], application["id"], editable),
+        strings.APPLICATION_THIRD_PARTIES: _convert_third_parties(
+            application["third_parties"], application["id"], editable
+        ),
         strings.APPLICATION_CONSIGNEE: convert_consignee(application["consignee"], application["id"], editable),
         strings.APPLICATION_SUPPORTING_DOCUMENTATION: _get_supporting_documentation(
             application["additional_documents"], application["id"]
@@ -59,7 +61,9 @@ def _convert_hmrc_query(application, editable=False):
         strings.APPLICATION_ULTIMATE_END_USERS: _convert_ultimate_end_users(
             application["ultimate_end_users"], application["id"], editable
         ),
-        strings.APPLICATION_THIRD_PARTIES: _convert_third_parties(application["third_parties"], application["id"], editable),
+        strings.APPLICATION_THIRD_PARTIES: _convert_third_parties(
+            application["third_parties"], application["id"], editable
+        ),
         strings.APPLICATION_CONSIGNEE: convert_consignee(application["consignee"], application["id"], editable),
         strings.APPLICATION_SUPPORTING_DOCUMENTATION: _get_supporting_documentation(
             application["supporting_documentation"], application["id"]
