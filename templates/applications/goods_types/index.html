@@ -35,7 +35,6 @@
 			<thead class="govuk-table__head">
 				<tr class="govuk-table__row">
 					<th scope="col" class="govuk-table__header govuk-!-width-one-half">Description</th>
-					<th scope="col" class="govuk-table__header">Part Number</th>
 					<th scope="col" class="govuk-table__header">Control List Entry</th>
 					{% if application.application_type.key == 'hmrc_query' %}
 						<th scope="col" class="govuk-table__header">Document</th>
@@ -49,10 +48,6 @@
 						<td class="govuk-table__cell">
 							<span class="lite-responsive-table__header">Description</span>
 							{{ good_on_application.description }}
-						</td>
-						<td class="govuk-table__cell">
-							<span class="lite-responsive-table__header">Part number</span>
-							{{ good_on_application.part_number|default_na }}
 						</td>
 						<td class="govuk-table__cell">
 							<span class="lite-responsive-table__header">Control list entry</span>
