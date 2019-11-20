@@ -75,10 +75,10 @@ def edit_type_form(application_id):
 
 def application_success_page(request, application_id):
     return success_page(
-        request=request,  # TODO get content for this!
+        request=request,
         title="Application sent successfully",
         secondary_title="Your reference code: " + application_id,
-        description="The Department for International Trade usually takes two " "working days to check an importer.",
+        description="",
         what_happens_next=["You'll receive an email from DIT when your check is finished."],
         links={
             "View your list of applications": reverse_lazy("applications:applications"),
