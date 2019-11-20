@@ -6,6 +6,7 @@ from django.urls import reverse_lazy
 from conf.constants import NEWLINE, STANDARD_LICENCE, OPEN_LICENCE, HMRC_QUERY
 from core.builtins.custom_tags import default_na, friendly_boolean, pluralise_unit
 from core.helpers import convert_to_link
+from lite_content.lite_exporter_frontend import strings
 
 
 def convert_application_to_check_your_answers(application, editable=False):
@@ -13,26 +14,26 @@ def convert_application_to_check_your_answers(application, editable=False):
     Returns a correctly formatted check your answers page for the supplied application
     """
     if application["application_type"]["key"] == STANDARD_LICENCE:
-        return _convert_standard_application(application)
+        return _convert_standard_application(application, editable)
     elif application["application_type"]["key"] == OPEN_LICENCE:
-        return _convert_open_application(application)
+        return _convert_open_application(application, editable)
     elif application["application_type"]["key"] == HMRC_QUERY:
-        return _convert_hmrc_query(application)
+        return _convert_hmrc_query(application, editable)
     else:
         raise NotImplementedError()
 
 
 def _convert_standard_application(application, editable=False):
     return {
-        "Goods": _convert_goods(application["goods"]),
-        "Goods locations": _convert_goods_locations(application["goods_locations"]),
-        "End user": convert_end_user(application["end_user"], application["id"], editable),
-        "Ultimate end users": _convert_ultimate_end_users(
+        strings.APPLICATION_GOODS: _convert_goods(application["goods"]),
+        strings.APPLICATION_GOODS_LOCATIONS: _convert_goods_locations(application["goods_locations"]),
+        strings.APPLICATION_END_USER: convert_end_user(application["end_user"], application["id"], editable),
+        strings.APPLICATION_ULTIMATE_END_USERS: _convert_ultimate_end_users(
             application["ultimate_end_users"], application["id"], editable
         ),
-        "Third parties": _convert_third_parties(application["third_parties"], application["id"], editable),
-        "Consignee": convert_consignee(application["consignee"], application["id"], editable),
-        "Supporting documentation": _get_supporting_documentation(
+        strings.APPLICATION_THIRD_PARTIES: _convert_third_parties(application["third_parties"], application["id"], editable),
+        strings.APPLICATION_CONSIGNEE: convert_consignee(application["consignee"], application["id"], editable),
+        strings.APPLICATION_SUPPORTING_DOCUMENTATION: _get_supporting_documentation(
             application["additional_documents"], application["id"]
         ),
     }
@@ -40,10 +41,10 @@ def _convert_standard_application(application, editable=False):
 
 def _convert_open_application(application, editable=False):
     return {
-        "Goods": _convert_goods_types(application["goods_types"]),
-        "Goods locations": _convert_goods_locations(application["goods_locations"]),
-        "Countries": _convert_countries(application["destinations"]["data"]),
-        "Supporting documentation": _get_supporting_documentation(
+        strings.APPLICATION_GOODS: _convert_goods_types(application["goods_types"]),
+        strings.APPLICATION_GOODS_LOCATIONS: _convert_goods_locations(application["goods_locations"]),
+        strings.APPLICATION_COUNTRIES: _convert_countries(application["destinations"]["data"]),
+        strings.APPLICATION_SUPPORTING_DOCUMENTATION: _get_supporting_documentation(
             application["additional_documents"], application["id"]
         ),
     }
@@ -51,19 +52,19 @@ def _convert_open_application(application, editable=False):
 
 def _convert_hmrc_query(application, editable=False):
     return {
-        "On behalf of": application["organisation"]["name"],
-        "Goods": _convert_goods_types(application["goods_types"]),
-        "Goods locations": _convert_goods_locations(application["goods_locations"]),
-        "End user": convert_end_user(application["end_user"], application["id"], editable),
-        "Ultimate end users": _convert_ultimate_end_users(
+        strings.APPLICATION_ON_BEHALF_OF: application["organisation"]["name"],
+        strings.APPLICATION_GOODS: _convert_goods_types(application["goods_types"]),
+        strings.APPLICATION_GOODS_LOCATIONS: _convert_goods_locations(application["goods_locations"]),
+        strings.APPLICATION_END_USER: convert_end_user(application["end_user"], application["id"], editable),
+        strings.APPLICATION_ULTIMATE_END_USERS: _convert_ultimate_end_users(
             application["ultimate_end_users"], application["id"], editable
         ),
-        "Third parties": _convert_third_parties(application["third_parties"], application["id"], editable),
-        "Consignee": convert_consignee(application["consignee"], application["id"], editable),
-        "Supporting documentation": _get_supporting_documentation(
+        strings.APPLICATION_THIRD_PARTIES: _convert_third_parties(application["third_parties"], application["id"], editable),
+        strings.APPLICATION_CONSIGNEE: convert_consignee(application["consignee"], application["id"], editable),
+        strings.APPLICATION_SUPPORTING_DOCUMENTATION: _get_supporting_documentation(
             application["supporting_documentation"], application["id"]
         ),
-        "Optional note": application["reasoning"],
+        strings.APPLICATION_OPTIONAL_NOTE: application["reasoning"],
     }
 
 
