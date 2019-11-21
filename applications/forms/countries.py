@@ -13,8 +13,7 @@ def countries_form(application_id):
             Checkboxes(
                 name="countries",
                 options=get_countries(None, True),
-                classes=["govuk-checkboxes--small"],
-                show_select_links=True,
+                classes=["govuk-checkboxes--small"]
             ),
         ],
         javascript_imports=["/assets/javascripts/filter-checkbox-list.js"],

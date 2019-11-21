@@ -31,7 +31,7 @@ class ProtectAllViewsMiddleware:
                 elif len(user_dict["user"]["organisations"]) == 1:
                     user = request.user
                     user.organisation = user_dict["user"]["organisations"][0]["id"]
-                    organisation = get_organisation(user.organisation)
+                    organisation = get_organisation(request, user.organisation)
                     user.organisation_name = organisation.name
                     user.save()
                 elif len(user_dict["user"]["organisations"]) > 1:

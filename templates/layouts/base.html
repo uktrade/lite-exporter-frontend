@@ -67,7 +67,7 @@
 				{% block header_title %}
 					<div class="govuk-header__content">
 						<a href="/" class="govuk-header__link govuk-header__link--service-name">
-							{{ SERVICE_NAME }} - {{ user.organisation_name }}
+							{{ SERVICE_NAME }} {% if user.organisation_name  %} - {{ user.organisation_name }}{%  endif %}
 						</a>
 					</div>
 				{% endblock %}
