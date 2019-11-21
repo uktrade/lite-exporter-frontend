@@ -1,75 +1,42 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
-from core.services import get_organisation
-from lite_forms.generators import form_page
-from lite_forms.helpers import flatten_data, nest_data
-from roles.services import get_roles
-from sites.forms import new_site_form, edit_site_form
-from sites.services import get_site, post_sites, put_site
+from conf.constants import SUPER_USER_ROLE_ID, DEFAULT_USER_ROLE_ID
+from core.helpers import println
+from lite_forms.views import SingleFormView
+from roles.forms import add_role, edit_role
+from roles.services import get_roles, put_role, get_role, post_role, get_permissions, get_user_permissions
 
 
 class Roles(TemplateView):
     def get(self, request, **kwargs):
         organisation_id = str(request.user.organisation)
-        sites = get_roles(request, organisation_id)
-        organisation = get_organisation(request, organisation_id)
+        roles = get_roles(request, organisation_id)
+        all_permissions = get_permissions(request)
+        permissions = get_user_permissions(request)
 
         context = {
-            'title': 'Sites - ' + organisation['name'],
-            'sites': sites,
-            'organisation': organisation,
+            "all_permissions": all_permissions,
+            "roles": roles,
+            "user_permissions": permissions,
+            "immutable_roles": [SUPER_USER_ROLE_ID, DEFAULT_USER_ROLE_ID],
         }
-        return render(request, 'roles/index.html', context)
+        return render(request, "roles/index.html", context)
 
 
-class NewRole(TemplateView):
-    form = None
-
-    def dispatch(self, request, *args, **kwargs):
-        self.form = new_site_form()
-
-        return super(NewRole, self).dispatch(request, *args, **kwargs)
-
-    def get(self, request, **kwargs):
-        return form_page(request, self.form)
-
-    def post(self, request, **kwargs):
-        organisation_id = str(request.user.organisation)
-        validated_data, _ = post_sites(request, organisation_id, nest_data(request.POST))
-
-        if 'errors' in validated_data:
-            validated_data['errors'] = flatten_data(validated_data['errors'])
-            return form_page(request, self.form, data=request.POST, errors=validated_data['errors'])
-
-        return redirect(reverse_lazy('sites:sites'))
+class AddRole(SingleFormView):
+    def init(self, request, **kwargs):
+        self.form = add_role(request)
+        self.action = post_role
+        self.success_url = reverse_lazy('roles:roles')
 
 
-class EditRole(TemplateView):
-    organisation_id = None
-    site = None
-    form = None
-
-    def dispatch(self, request, *args, **kwargs):
-        self.organisation_id = str(request.user.organisation)
-        self.site, _ = get_site(request, self.organisation_id, str(kwargs['pk']))
-        self.site['site']['address']['country'] = self.site['site']['address']['country']['id']
-        self.form = edit_site_form('Edit ' + self.site['site']['name'])
-
-        return super(EditRole, self).dispatch(request, *args, **kwargs)
-
-    def get(self, request, **kwargs):
-        return form_page(request, self.form, data=flatten_data(self.site.get('site')))
-
-    def post(self, request, **kwargs):
-        validated_data, _ = put_site(request,
-                                               self.organisation_id,
-                                               str(kwargs['pk']),
-                                               json=nest_data(request.POST))
-
-        if 'errors' in validated_data:
-            validated_data['errors'] = flatten_data(validated_data['errors'])
-            return form_page(request, self.form, data=request.POST, errors=validated_data['errors'])
-
-        return redirect(reverse_lazy('sites:sites'))
+class EditRole(SingleFormView):
+    def init(self, request, **kwargs):
+        self.object_pk = kwargs["pk"]
+        self.data = get_role(request, self.object_pk)
+        println(self.data)
+        self.form = edit_role(request)
+        self.action = put_role
+        self.success_url = reverse_lazy('roles:roles')
