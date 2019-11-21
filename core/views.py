@@ -89,7 +89,7 @@ class PickOrganisation(TemplateView):
         if not request.POST.get('organisation'):
             return form_page(request, self.form, errors={'organisation': ['Select an organisation to use']})
 
-        response = HttpResponseRedirect('/')
-        response.set_signed_cookie('organisation', request.POST.get('organisation'))
-
-        return response
+        request.user.organisation = request.POST["organisation"]
+        organisation = get_organisation(request, request.user.organisation)
+        request.user.organisation_name = organisation['name']
+        request.user.save()

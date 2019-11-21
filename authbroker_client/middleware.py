@@ -2,6 +2,7 @@ from django.contrib.auth.models import AnonymousUser
 from django.shortcuts import redirect
 from django.urls import resolve
 
+from core.services import get_organisation
 from lite_forms.generators import error_page
 
 from users.services import get_user
@@ -29,7 +30,9 @@ class ProtectAllViewsMiddleware:
                     return error_page(request, 'You don\'t belong to any organisations', show_back_link=False)
                 elif len(user_dict['user']['organisations']) == 1:
                     user = request.user
-                    user.organisation = user_dict['user']['organisations'][0]['id']
+                    user.organisation = user_dict["user"]["organisations"][0]["id"]
+                    organisation = get_organisation(user.organisation)
+                    user.organisation_name = organisation.name
                     user.save()
                 elif len(user_dict['user']['organisations']) > 1:
                     return redirect('core:pick_organisation')
