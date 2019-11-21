@@ -101,7 +101,7 @@ class PickOrganisation(TemplateView):
 
         request.user.organisation = request.POST["organisation"]
         organisation = get_organisation(request, request.user.organisation)
-        request.user.organisation_name = organisation['name']
+        request.user.organisation_name = organisation["name"]
         request.user.save()
 
         return redirect("/")
