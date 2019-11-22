@@ -10,7 +10,12 @@ def countries_form(application_id):
         description=strings.WHERE_ARE_YOUR_GOODS_GOING_DESCRIPTION,
         questions=[
             Filter(),
-            Checkboxes(name="countries", options=get_countries(None, True), classes=["govuk-checkboxes--small"]),
+            Checkboxes(
+                name="countries",
+                options=get_countries(None, True),
+                classes=["govuk-checkboxes--small"],
+                show_select_links=True,
+            ),
         ],
         javascript_imports=["/assets/javascripts/filter-checkbox-list.js"],
         default_button_name=strings.SAVE,
