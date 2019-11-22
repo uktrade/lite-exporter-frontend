@@ -12,10 +12,12 @@
 		<div class="lite-tabs--fade">
 			<div class="lite-tabs">
                 {% if organisation.sub_type.key != 'individual' %}
-				    <a href="{% url 'users:users' %}" class="lite-tabs__tab">Members</a>
+                    {% if can_administer_users %}
+				        <a href="{% url 'users:users' %}" class="lite-tabs__tab">Members</a>
+                    {% endif %}
                 {% endif %}
 				<a href="{% url 'sites:sites' %}" class="lite-tabs__tab lite-tabs__tab--selected">Sites</a>
-                <a href="{% url 'roles:roles' %}" class="lite-tabs__tab lite-tabs__tab">Roles</a>
+                {% if can_administer_roles %}<a href="{% url 'roles:roles' %}" class="lite-tabs__tab lite-tabs__tab">Roles</a>{% endif %}
 			</div>
 		</div>
 		<div class="lite-app-bar__controls">

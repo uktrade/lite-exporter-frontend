@@ -3,8 +3,9 @@ from django.shortcuts import render
 from applications.libraries.validate_status import check_all_parties_have_a_document
 from applications.services import get_application_countries, get_application_goods_types, get_ultimate_end_users, \
     get_third_parties, get_application_goods, get_end_user_document, get_consignee_document, get_additional_documents
-from conf.constants import HMRC_QUERY, OPEN_LICENCE, STANDARD_LICENCE, APPLICANT_EDITING, NOT_STARTED, DONE, IN_PROGRESS
+from conf.constants import HMRC_QUERY, OPEN_LICENCE, STANDARD_LICENCE, APPLICANT_EDITING, NOT_STARTED, DONE, IN_PROGRESS, Permissions
 from core.services import get_sites_on_draft, get_external_locations_on_draft
+from roles.services import get_user_permissions
 
 
 def get_application_task_list(request, application, errors=None):
@@ -27,6 +28,9 @@ def _get_standard_application_task_list(request, application, errors=None):
     # Add the editing type (if possible) to the context to make it easier to read/change in the future
     is_editing = False
     edit_type = None
+
+    user_permissions = get_user_permissions(request)
+    submit = True if Permissions.SUBMIT_LICENCE_APPLICATION in user_permissions else False
 
     reference_number_description = _get_reference_number_description(
         application['have_you_been_informed'], application['reference_number_on_information_form'])
@@ -78,7 +82,8 @@ def _get_standard_application_task_list(request, application, errors=None):
         'countries_on_goods_types': countries_on_goods_types,
         'third_parties': third_parties,
         'additional_documents': additional_documents['documents'],
-        'errors': errors
+        'errors': errors,
+        'can_submit': submit
     }
     return render(request, 'applications/standard-application-edit.html', context)
 
