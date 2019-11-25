@@ -12,8 +12,9 @@ from applications.services import (
     get_consignee_document,
     get_additional_documents,
 )
-from conf.constants import HMRC_QUERY, OPEN_LICENCE, STANDARD_LICENCE, APPLICANT_EDITING, NOT_STARTED, DONE, IN_PROGRESS
+from conf.constants import HMRC_QUERY, OPEN_LICENCE, STANDARD_LICENCE, APPLICANT_EDITING, NOT_STARTED, DONE, IN_PROGRESS, Permissions
 from core.services import get_sites_on_draft, get_external_locations_on_draft
+from roles.services import get_user_permissions
 
 
 def get_application_task_list(request, application, errors=None):
@@ -73,6 +74,9 @@ def _get_standard_application_task_list(request, application, errors=None):
         if not good["good"]["is_good_end_product"]:
             ultimate_end_users_required = True
 
+    user_permissions = get_user_permissions(request)
+    submit = Permissions.SUBMIT_LICENCE_APPLICATION in user_permissions
+
     context = {
         "application": application,
         "is_editing": is_editing,
@@ -90,6 +94,7 @@ def _get_standard_application_task_list(request, application, errors=None):
         "third_parties": third_parties,
         "additional_documents": additional_documents["documents"],
         "errors": errors,
+        'can_submit': submit
     }
     return render(request, "applications/standard-application-edit.html", context)
 
@@ -122,6 +127,9 @@ def _get_open_application_task_list(request, application, errors=None):
         if good["countries"]:
             countries_on_goods_types = True
 
+    user_permissions = get_user_permissions(request)
+    submit = Permissions.SUBMIT_LICENCE_APPLICATION in user_permissions
+
     context = {
         "application": application,
         "is_editing": is_editing,
@@ -138,6 +146,7 @@ def _get_open_application_task_list(request, application, errors=None):
         "third_parties": third_parties,
         "additional_documents": additional_documents["documents"],
         "errors": errors,
+        'can_submit': submit
     }
     return render(request, "applications/open-application-edit.html", context)
 
