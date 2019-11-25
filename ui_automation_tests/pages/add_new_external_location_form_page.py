@@ -1,8 +1,9 @@
-class AddNewExternalLocationFormPage:
+from shared.BasePage import BasePage
 
-    def __init__(self, driver):
-        self.driver = driver
-        self.add_new_address_button = 'a[href*="add"]'
+
+class AddNewExternalLocationFormPage(BasePage):
+
+    ADD_NEW_ADDRESS_BUTTON = 'a[href*="add"]'
 
     def enter_external_location_name(self, name):
         name_tb = self.driver.find_element_by_id("name")

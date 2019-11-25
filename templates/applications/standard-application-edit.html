@@ -1,6 +1,6 @@
 {% extends 'layouts/two_pane.html' %}
 
-{% load svg %}
+{% load svg humanize %}
 
 {% block back_link %}
 	{% if application.status %}
@@ -69,8 +69,9 @@
 				{% endif %}
 			</h2>
 			<ul class="lite-task-list__items {% if is_editing %}govuk-!-padding-0{% endif %}">
+				{% lcs 'ENTER_A_REFERENCE_NAME_SHORT_TITLE' as reference_name_title %}
 				{% url 'applications:edit_reference_name' application.id as reference_name_url %}
-				{% include "includes/task-list-item.html" with title="Reference name" url=reference_name_url status="done" description=application.name %}
+				{% include "includes/task-list-item.html" with title=reference_name_title url=reference_name_url status="done" description=application.name %}
 
 				{% url 'applications:edit_told_by_an_official' application.id as told_by_an_official_url %}
 				{% include "includes/task-list-item.html" with title="Told by an official that you need an export licence" url=told_by_an_official_url status="done" description=reference_number_description %}
@@ -123,11 +124,12 @@
 											<td class="govuk-table__cell" scope="row">{{ good.good.part_number|default_na }}</td>
 											<td class="govuk-table__cell" scope="row">{{ good.quantity }}</td>
 											<td class="govuk-table__cell" scope="row">{{ good.unit.value }}</td>
-											<td class="govuk-table__cell" scope="row">£{{ good.value }}</td>
+											<td class="govuk-table__cell" scope="row">£{{ good.value|intcomma }}</td>
 										</tr>
 									{% endfor %}
 								</tbody>
 							</table>
+                            <p class="govuk-!-font-weight-bold">Total value: £{{ goods_value|intcomma }}</p>
 						{% endif %}
 					</div>
 		        </li>
@@ -418,7 +420,7 @@
 				<li class="lite-task-list__item">
 					<div class="lite-task-list__item-header">
                         <a id="third_parties" href="{% url 'applications:third_parties' application.id %}" class="lite-overview-section-header govuk-link govuk-link--no-visited-state">
-                        Third Parties (optional)
+                        Third Parties
                         </a>
 				        {% if third_parties %}
 				            <div class="lite-tag lite-tag--blue">
@@ -426,7 +428,7 @@
 							</div>
 						{% else %}
 							<div class="lite-tag lite-tag--hollow">
-								Not started
+								Optional
 							</div>
 						{% endif %}
 					</div>
@@ -463,7 +465,7 @@
 				<li class="lite-task-list__item">
 					<div class="lite-task-list__item-header">
 						<a id="third_parties" href="{% url 'applications:additional_documents' application.id %}" class="lite-overview-section-header govuk-link govuk-link--no-visited-state">
-							Additional documentation (optional)
+							Supporting documentation
 						</a>
 						{% if additional_documents %}
 							<div class="lite-tag lite-tag--blue">
@@ -471,7 +473,7 @@
 							</div>
 						{% else %}
 							<div class="lite-tag lite-tag--hollow">
-								Not started
+								Optional
 							</div>
 						{% endif %}
 					</div>
@@ -515,28 +517,29 @@
 
 				<br><br>
 
-                {% if can_submit %}
-                    <li>
-                        <div class="app-submit-bar">
-                            <form method="post">
-                                {% csrf_token %}
-                                {% if not application.status.value or application.status.key == 'applicant_editing' %}
-                                    <button type="submit" value="submit" class="govuk-button" data-prevent-double-click="true" style="margin-bottom: 0;">Submit application</button>
-                                {% else %}
-                                    <a href="{% url 'applications:application' application.id %}" class="govuk-button" draggable="false" role="button">Done</a>
-                                {% endif %}
-                            </form>
-                            {% if not application.status.value %}
-                                <div class="lite-vertical-align">
-                                    <a href="{% url 'applications:delete' application.id %}" class="govuk-link lite-link--icon">
-                                        {% svg 'close' %}
-                                        Delete <span class="govuk-visually-hidden">draft</span>
-                                    </a>
-                                </div>
-                            {% endif %}
-                        </div>
-                    </li>
-                {% endif %}
+				{% if can_submit %}
+					<li>
+						<div class="app-submit-bar">
+							<form method="post">
+								{% csrf_token %}
+								{% if not application.status.value or application.status.key == 'applicant_editing' %}
+									<button type="submit" value="submit" class="govuk-button" data-prevent-double-click="true" style="margin-bottom: 0;">Submit application</button>
+								{% else %}
+									<a href="{% url 'applications:application' application.id %}" class="govuk-button" draggable="false" role="button">Done</a>
+								{% endif %}
+							</form>
+							{% if not application.status.value %}
+								<div class="lite-vertical-align">
+									<a id="link-delete-draft" href="{% url 'applications:delete' application.id %}?return_to=application" class="govuk-link lite-link--icon">
+										{% svg 'close' %}
+										{% lcs 'DRAFT_DELETE_LINK' %}
+									</a>
+								</div>
+							{% endif %}
+						</div>
+					</li>
+				{% endif %}
+
 			</ul>
 		</li>
 	</ol>

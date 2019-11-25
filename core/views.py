@@ -32,34 +32,45 @@ class Hub(TemplateView):
         notifications = get_notifications(request, unviewed=True)
         organisation = get_organisation(request, str(request.user.organisation))
 
-        if organisation.get('type').get('key') == 'hmrc':
+        if organisation.get("type").get("key") == "hmrc":
             sections = [
-                Section('', [
-                    Tile('Make a Customs enquiry', '',
-                         reverse_lazy('hmrc:raise_a_query')),
-                ]),
-                Section('Manage', [
-                    Tile(get_string('applications.title'), '',
-                         reverse_lazy('applications:applications')),
-                    Tile(get_string('drafts.title'), '',
-                         reverse_lazy('applications:applications') + '?drafts=true'),
-                ])
+                Section("", [Tile("Make a Customs enquiry", "", reverse_lazy("hmrc:raise_a_query")),]),
+                Section(
+                    "Manage",
+                    [
+                        Tile(get_string("applications.title"), "", reverse_lazy("applications:applications")),
+                        Tile(
+                            get_string("drafts.title"), "", reverse_lazy("applications:applications") + "?drafts=true"
+                        ),
+                    ],
+                ),
             ]
         else:
             sections = [
-                Section('', [
-                    Tile(get_string('licences.apply_for_a_licence'), '',
-                         reverse_lazy('apply_for_a_licence:start')),
-                ]),
-                Section('Manage', [
-                    Tile(get_string('applications.title'), generate_notification_string(notifications,
-                                                                                        'base_application'),
-                         reverse_lazy('applications:applications')),
-                    Tile('Goods', generate_notification_string(notifications, 'control_list_classification_query'),
-                         reverse_lazy('goods:goods')),
-                    Tile('End User Advisories', generate_notification_string(notifications, 'end_user_advisory_query'),
-                         reverse_lazy('end_users:end_users')),
-                ]),
+                Section(
+                    "",
+                    [Tile(get_string("licences.apply_for_a_licence"), "", reverse_lazy("apply_for_a_licence:start")),],
+                ),
+                Section(
+                    "Manage",
+                    [
+                        Tile(
+                            get_string("applications.title"),
+                            generate_notification_string(notifications, "base_application"),
+                            reverse_lazy("applications:applications"),
+                        ),
+                        Tile(
+                            "Goods",
+                            generate_notification_string(notifications, "control_list_classification_query"),
+                            reverse_lazy("goods:goods"),
+                        ),
+                        Tile(
+                            "End User Advisories",
+                            generate_notification_string(notifications, "end_user_advisory_query"),
+                            reverse_lazy("end_users:end_users"),
+                        ),
+                    ],
+                ),
             ]
 
             if organisation.get('type').get('key') == 'individual':
@@ -74,14 +85,14 @@ class Hub(TemplateView):
                 sections[1].tiles.append(Tile(title, '', manage_organisation_section_link))
 
         context = {
-            'organisation': organisation,
-            'sections': sections,
-            'application_deleted': request.GET.get('application_deleted'),
-            'user_data': user['user'],
-            'notifications': notifications
+            "organisation": organisation,
+            "sections": sections,
+            "application_deleted": request.GET.get("application_deleted"),
+            "user_data": user["user"],
+            "notifications": notifications,
         }
 
-        return render(request, 'core/hub.html', context)
+        return render(request, "core/hub.html", context)
 
 
 class PickOrganisation(TemplateView):
@@ -90,7 +101,7 @@ class PickOrganisation(TemplateView):
 
     def dispatch(self, request, *args, **kwargs):
         user, _ = get_user(request)
-        self.organisations = user['user']['organisations']
+        self.organisations = user["user"]["organisations"]
         self.form = select_your_organisation_form(self.organisations)
 
         if len(self.organisations) == 1:
@@ -99,18 +110,18 @@ class PickOrganisation(TemplateView):
         return super(PickOrganisation, self).dispatch(request, *args, **kwargs)
 
     def get(self, request, **kwargs):
-        data = {
-            'organisation': str(request.user.organisation)
-        }
+        data = {"organisation": str(request.user.organisation)}
 
         return form_page(request, self.form, data=data)
 
     def post(self, request, **kwargs):
         # If no data is given, error
-        if not request.POST.get('organisation'):
-            return form_page(request, self.form, errors={'organisation': ['Select an organisation to use']})
+        if not request.POST.get("organisation"):
+            return form_page(request, self.form, errors={"organisation": ["Select an organisation to use"]})
 
-        request.user.organisation = request.POST['organisation']
+        request.user.organisation = request.POST["organisation"]
+        organisation = get_organisation(request, request.user.organisation)
+        request.user.organisation_name = organisation["name"]
         request.user.save()
 
-        return redirect('/')
+        return redirect("/")
