@@ -22,7 +22,6 @@ def post_sites(request, organisation_id, json):
 
 def get_roles(request, organisation_id, convert_to_options=False):
     data = get(request, ORGANISATIONS_URL + str(organisation_id) + ROLES_URL)
-    print(data)
     data = data.json()['results']
 
     if convert_to_options:
@@ -70,7 +69,6 @@ def get_permissions(request, convert_to_options=False):
 
 def get_user_permissions(request):
     user, _ = get_user(request)
-    print(user)
     return user["user"]["role"]["permissions"]
 
 

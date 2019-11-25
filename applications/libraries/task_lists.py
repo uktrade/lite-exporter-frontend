@@ -30,7 +30,7 @@ def _get_standard_application_task_list(request, application, errors=None):
     edit_type = None
 
     user_permissions = get_user_permissions(request)
-    submit = True if Permissions.SUBMIT_LICENCE_APPLICATION in user_permissions else False
+    submit = Permissions.SUBMIT_LICENCE_APPLICATION in user_permissions
 
     reference_number_description = _get_reference_number_description(
         application['have_you_been_informed'], application['reference_number_on_information_form'])
