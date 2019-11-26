@@ -56,6 +56,11 @@ def _get_standard_application_task_list(request, application, errors=None):
     countries_on_goods_types = False
 
     ultimate_end_users = get_ultimate_end_users(request, application_id)
+    ultimate_end_users_documents_complete = True
+    for ueu in ultimate_end_users:
+        if not ueu.get("document"):
+            ultimate_end_users_documents_complete = False
+            break
     third_parties = get_third_parties(request, application_id)
     end_user = application.get("end_user")
     consignee = application.get("consignee")
@@ -84,6 +89,7 @@ def _get_standard_application_task_list(request, application, errors=None):
         "external_locations": external_locations["external_locations"],
         "ultimate_end_users": ultimate_end_users,
         "ultimate_end_users_required": ultimate_end_users_required,
+        "ultimate_end_users_documents_complete": ultimate_end_users_documents_complete,
         "end_user_document": end_user_document,
         "consignee_document": consignee_document,
         "countries_on_goods_types": countries_on_goods_types,
