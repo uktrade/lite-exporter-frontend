@@ -26,13 +26,12 @@ class Sites(TemplateView):
         if Permissions.EXPORTER_ADMINISTER_ROLES in user_permissions:
             roles = True
 
-
         context = {
             "title": "Sites - " + organisation["name"],
             "sites": sites,
             "organisation": organisation,
             "can_administer_roles": roles,
-            "can_administer_users": users
+            "can_administer_users": users,
         }
         return render(request, "sites/index.html", context)
 

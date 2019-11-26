@@ -73,8 +73,8 @@ class Hub(TemplateView):
                 ),
             ]
 
-            if organisation.get('type').get('key') == 'individual':
-                sections[1].tiles.append(Tile('Manage my sites', '', reverse_lazy('sites:sites')))
+            if organisation.get("type").get("key") == "individual":
+                sections[1].tiles.append(Tile("Manage my sites", "", reverse_lazy("sites:sites")))
             elif manage_organisation_section_link:
                 number_permissions = 0
                 for permission in user_permissions:
@@ -82,7 +82,7 @@ class Hub(TemplateView):
                         number_permissions += 1
                 if number_permissions > 1:
                     title = "Manage my organisation"
-                sections[1].tiles.append(Tile(title, '', manage_organisation_section_link))
+                sections[1].tiles.append(Tile(title, "", manage_organisation_section_link))
 
         context = {
             "organisation": organisation,

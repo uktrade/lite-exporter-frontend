@@ -10,7 +10,7 @@ def get_site(request, organisation_id, pk):
 
 
 def put_site(request, organisation_id, pk, json):
-    data = put(request, ORGANISATIONS_URL + organisation_id + SITES_URL + pk + '/', json=json)
+    data = put(request, ORGANISATIONS_URL + organisation_id + SITES_URL + pk + "/", json=json)
     return data.json(), data.status_code
 
 
@@ -21,7 +21,7 @@ def post_sites(request, organisation_id, json):
 
 def get_roles(request, organisation_id, convert_to_options=False):
     data = get(request, ORGANISATIONS_URL + str(organisation_id) + ROLES_URL)
-    data = data.json()['results']
+    data = data.json()["results"]
 
     if convert_to_options:
         converted = []
@@ -37,7 +37,7 @@ def get_roles(request, organisation_id, convert_to_options=False):
 def get_role(request, pk):
     organisation_id = str(request.user.organisation)
     data = get(request, ORGANISATIONS_URL + str(organisation_id) + ROLES_URL + str(pk))
-    return data.json()['role']
+    return data.json()["role"]
 
 
 def post_role(request, json):

@@ -29,7 +29,7 @@ class Roles(TemplateView):
             "user_permissions": user_permissions,
             "immutable_roles": [SUPER_USER_ROLE_ID, DEFAULT_USER_ROLE_ID],
             "can_administer_sites": sites,
-            "can_administer_users": users
+            "can_administer_users": users,
         }
         return render(request, "roles/index.html", context)
 
@@ -38,7 +38,7 @@ class AddRole(SingleFormView):
     def init(self, request, **kwargs):
         self.form = add_role(request)
         self.action = post_role
-        self.success_url = reverse_lazy('roles:roles')
+        self.success_url = reverse_lazy("roles:roles")
 
 
 class EditRole(SingleFormView):
@@ -48,4 +48,4 @@ class EditRole(SingleFormView):
         println(self.data)
         self.form = edit_role(request)
         self.action = put_role
-        self.success_url = reverse_lazy('roles:roles')
+        self.success_url = reverse_lazy("roles:roles")

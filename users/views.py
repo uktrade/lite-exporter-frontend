@@ -31,7 +31,7 @@ class Users(TemplateView):
             "users": users["users"],
             "organisation": organisation,
             "can_administer_roles": roles,
-            "can_administer_sites": sites
+            "can_administer_sites": sites,
         }
         return render(request, "users/index.html", context)
 

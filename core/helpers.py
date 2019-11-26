@@ -115,7 +115,7 @@ def remove_prefix(json, prefix):
 
 
 def println(content=None, no=1):
-    print('\n'*no)
+    print("\n" * no)
     if content:
         print(content)
-        print('\n'*no)
+        print("\n" * no)
