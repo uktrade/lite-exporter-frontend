@@ -50,8 +50,8 @@
     <table class="govuk-table">
         <thead class="govuk-table__head">
             <tr class="govuk-table__row">
-                <th class="govuk-table__header" scope="col">Role</th>
-                <th class="govuk-table__header" scope="col">Users with this role <span aria-hidden="true">can</span></th>
+                <th class="govuk-table__header" scope="col">{% lcs "ROLE_INDEX_TABLE_HEADER_ROLE" %}</th>
+                <th class="govuk-table__header" scope="col">{% lcs "ROLE_INDEX_TABLE_HEADER_PERMISSIONS" %}<span aria-hidden="true">can</span></th>
                 <th class="govuk-table__header" scope="col"></th>
             </tr>
         </thead>
@@ -85,7 +85,7 @@
                     <td class="govuk-table__cell">
                         {% if not role.id in immutable_roles %}
                             {% if 'EXPORTER_ADMINISTER_ROLES' in user_permissions %}
-                                <a href="{% url 'roles:edit' role.id %}" class="govuk-link govuk-link--no-visited-state">Edit</a>
+                                <a href="{% url 'roles:edit' role.id %}" class="govuk-link govuk-link--no-visited-state">{% lcs "ROLE_INDEX_TABLE_EDIT_ROLE" %}</a>
                             {% endif %}
                         {% endif %}
                     </td>
