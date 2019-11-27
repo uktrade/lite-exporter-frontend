@@ -7,9 +7,8 @@ from conf.constants import Permissions, SUPER_USER_ROLE_ID
 from core.services import get_organisation_users, get_organisation, get_organisation_user, put_organisation_user
 from lite_forms.views import SingleFormView
 from roles.services import get_user_permissions
-from users import forms
 from users.forms import add_user_form, edit_user_form
-from users.services import post_users, update_user, get_user, is_super_user
+from users.services import post_users, get_user, is_super_user
 
 
 class Users(TemplateView):
