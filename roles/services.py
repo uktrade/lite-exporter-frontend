@@ -20,13 +20,12 @@ def post_sites(request, organisation_id, json):
 
 
 def get_roles(request, organisation_id, convert_to_options=False):
-    data = get(request, ORGANISATIONS_URL + str(organisation_id) + ROLES_URL)
-    data = data.json()["results"]
+    data = get(request, ORGANISATIONS_URL + str(organisation_id) + ROLES_URL).json()["results"]
 
     if convert_to_options:
         converted = []
 
-        for item in data.json().get("roles"):
+        for item in data:
             converted.append(Option(key=item["id"], value=item["name"]))
 
         return converted
@@ -53,17 +52,17 @@ def put_role(request, pk, json):
 
 
 def get_permissions(request, convert_to_options=False):
-    data = get(request, EXPORTER_USERS_PERMISSIONS_URL)
+    data = get(request, EXPORTER_USERS_PERMISSIONS_URL).json().get("permissions")
 
     if convert_to_options:
         converted = []
 
-        for item in data.json().get("permissions"):
+        for item in data:
             converted.append(Option(key=item["id"], value=item["name"]))
 
         return converted
 
-    return data.json()["permissions"]
+    return data
 
 
 def get_user_permissions(request):
