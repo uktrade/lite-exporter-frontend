@@ -11,7 +11,7 @@
 	<h2 class="govuk-heading-l">{{ organisation.name }}</h2>
 
 	<div style="display: grid; grid-template-columns: 1fr auto; grid-gap: 30px;">
-		<div class="lite-tabs--fade">
+		<div class="lite-tabs__container">
 			<div class="lite-tabs">
                 {% if organisation.sub_type.key != 'individual' %}
                     {% if can_administer_users %}

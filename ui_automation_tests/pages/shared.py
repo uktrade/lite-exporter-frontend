@@ -17,7 +17,6 @@ class Shared(BasePage):
     H1 = "h1"
     LITE_SECTION = ".lite-section"
     NOTIFICATION = ".app-icon-label__notification"  # CSS
-    SUBMIT_BUTTON = '.govuk-button[type*="submit"]'
 
     def get_text_of_error_messages(self):
         return self.driver.find_element_by_css_selector(self.ERROR_MESSAGES).text
@@ -75,6 +74,3 @@ class Shared(BasePage):
 
     def get_cells_in_gov_table(self):
         return self.driver.find_elements_by_css_selector(self.GOV_TABLE_CELL)
-
-    def click_submit(self):
-        self.driver.find_element_by_css_selector(self.SUBMIT_BUTTON).click()

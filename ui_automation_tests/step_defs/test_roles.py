@@ -3,7 +3,7 @@ from pytest_bdd import scenarios, when, parsers, then
 from pages.roles_pages import RolesPages
 from pages.shared import Shared
 import shared.tools.helpers as utils
-
+from shared import functions
 
 scenarios("../features/roles.feature", strict_gherkin=False)
 
@@ -38,10 +38,9 @@ def see_role_in_list(driver, context):
 @when("I add an existing role name")
 def add_existing_flag(driver, context):
     roles_pages = RolesPages(driver)
-    shared = Shared(driver)
     roles_pages.click_add_a_role_button()
     roles_pages.enter_role_name(context.role_name)
-    shared.click_submit()
+    functions.click_submit(driver)
 
 
 @when("I edit my role")
@@ -52,4 +51,4 @@ def edit_existing_role(driver, context):
     roles_pages = RolesPages(driver)
     context.flag_name = str(context.role_name)[:12] + "edited"
     roles_pages.enter_role_name(context.role_name)
-    Shared(driver).click_submit()
+    functions.click_submit(driver)
