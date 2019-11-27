@@ -6,16 +6,18 @@ class Shared(BasePage):
     RADIO_BUTTONS = ".govuk-radios__label"  # CSS
     ERROR_MESSAGES = ".govuk-error-summary__body"
     ERROR_MESSAGE = ".govuk-error-message"
-    GOV_BODY = ".govuk-body"
+    GOV_BODY = ".govuk-table__body"
     GOV_GRID_ROW = ".govuk-grid-row"
     GOV_TABLE = ".govuk-table"
     GOV_TABLE_ROW = ".govuk-table__row"
     GOV_TABLE_CELL_LINKS = ".govuk-table__cell a"
+    GOV_TABLE_CELL = ".govuk-table__cell"
     APPLICATION_NAME = "a[href*='overview']"
     H2 = "h2"
     H1 = "h1"
     LITE_SECTION = ".lite-section"
     NOTIFICATION = ".app-icon-label__notification"  # CSS
+    SUBMIT_BUTTON = '.govuk-button[type*="submit"]'
 
     def get_text_of_error_messages(self):
         return self.driver.find_element_by_css_selector(self.ERROR_MESSAGES).text
@@ -70,3 +72,9 @@ class Shared(BasePage):
 
     def click_on_application_name(self):
         return self.driver.find_element_by_css_selector(self.APPLICATION_NAME).click()
+
+    def get_cells_in_gov_table(self):
+        return self.driver.find_elements_by_css_selector(self.GOV_TABLE_CELL)
+
+    def click_submit(self):
+        self.driver.find_element_by_css_selector(self.SUBMIT_BUTTON).click()
