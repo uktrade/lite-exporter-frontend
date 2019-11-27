@@ -45,7 +45,6 @@ class EditRole(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
         self.data = get_role(request, self.object_pk)
-        println(self.data)
         self.form = edit_role(request)
         self.action = put_role
         self.success_url = reverse_lazy("roles:roles")
