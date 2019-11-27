@@ -38,24 +38,6 @@ class Users(TemplateView):
         return render(request, "users/index.html", context)
 
 
-# class AddUser(TemplateView):
-#     def get(self, request, **kwargs):
-#         context = {
-#             "title": "Add User",
-#             "page": forms.form,
-#         }
-#         return render(request, "form.html", context)
-#
-#     def post(self, request, **kwargs):
-#         data, status_code = post_users(request, request.POST)
-#
-#         if status_code == 400:
-#             context = {"title": "Add User", "page": forms.form, "data": request.POST, "errors": data.get("errors")}
-#             return render(request, "form.html", context)
-#
-#         return redirect(reverse_lazy("users:users"))
-
-
 class AddUser(SingleFormView):
     def init(self, request, **kwargs):
         self.form = add_user_form(request)
