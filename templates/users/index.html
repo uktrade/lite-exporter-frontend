@@ -17,12 +17,12 @@
 	<div style="display: grid; grid-template-columns: 1fr auto; grid-gap: 30px;">
 		<div class="lite-tabs__container">
 			<div class="lite-tabs">
-				<a href="{% url 'users:users' %}" class="lite-tabs__tab lite-tabs__tab--selected">Members</a>
+				<a href="{% url 'users:users' %}" class="lite-tabs__tab lite-tabs__tab--selected">{% lcs "MANAGE_ORGANISATIONS_MEMBERS_TAB" %}</a>
                 {% if can_administer_sites %}
-				    <a href="{% url 'sites:sites' %}" class="lite-tabs__tab">Sites</a>
+				    <a href="{% url 'sites:sites' %}" class="lite-tabs__tab">{% lcs "MANAGE_ORGANISATIONS_SITES_TAB" %}</a>
                 {% endif %}
                 {% if can_administer_roles %}
-                    <a href="{% url 'roles:roles' %}" class="lite-tabs__tab">Roles</a>
+                    <a href="{% url 'roles:roles' %}" class="lite-tabs__tab">{% lcs "MANAGE_ORGANISATIONS_ROLES_TAB" %}</a>
                 {% endif %}
 			</div>
 		</div>

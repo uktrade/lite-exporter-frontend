@@ -15,11 +15,11 @@
 			<div class="lite-tabs">
                 {% if organisation.sub_type.key != 'individual' %}
                     {% if can_administer_users %}
-				        <a href="{% url 'users:users' %}" class="lite-tabs__tab">Members</a>
+				        <a href="{% url 'users:users' %}" class="lite-tabs__tab">{% lcs "MANAGE_ORGANISATIONS_MEMBERS_TAB" %}</a>
                     {% endif %}
                 {% endif %}
-				{% if can_administer_sites %}<a href="{% url 'sites:sites' %}" class="lite-tabs__tab lite-tabs__tab">Sites</a>{% endif %}
-				<a href="{% url 'roles:roles' %}" class="lite-tabs__tab lite-tabs__tab--selected">Roles</a>
+				{% if can_administer_sites %}<a href="{% url 'sites:sites' %}" class="lite-tabs__tab lite-tabs__tab">{% lcs "MANAGE_ORGANISATIONS_SITES_TAB" %}</a>{% endif %}
+				<a href="{% url 'roles:roles' %}" class="lite-tabs__tab lite-tabs__tab--selected">{% lcs "MANAGE_ORGANISATIONS_ROLES_TAB" %}</a>
 			</div>
 		</div>
 		{% if 'EXPORTER_ADMINISTER_ROLES' in user_permissions %}
