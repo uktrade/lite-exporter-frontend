@@ -42,9 +42,6 @@ class Shared(BasePage):
     def click_on_radio_buttons(self, no):
         return self.driver.find_elements_by_css_selector(self.RADIO_BUTTONS)[no].click()
 
-    def get_text_of_gov_body(self):
-        return self.driver.find_element_by_css_selector(self.GOV_BODY).text
-
     def get_text_of_gov_grid_row(self):
         return self.driver.find_element_by_css_selector(self.GOV_GRID_ROW).text
 
@@ -74,3 +71,6 @@ class Shared(BasePage):
 
     def get_cells_in_gov_table(self):
         return self.driver.find_elements_by_css_selector(self.GOV_TABLE_CELL)
+
+    def get_text_of_govuk_table_body(self):
+        return self.driver.find_element_by_css_selector(self.GOV_TABLE_BODY).text
