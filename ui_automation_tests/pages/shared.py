@@ -6,7 +6,7 @@ class Shared(BasePage):
     RADIO_BUTTONS = ".govuk-radios__label"  # CSS
     ERROR_MESSAGES = ".govuk-error-summary__body"
     ERROR_MESSAGE = ".govuk-error-message"
-    GOV_BODY = ".govuk-table__body"
+    GOV_TABLE_BODY = ".govuk-table__body"
     GOV_GRID_ROW = ".govuk-grid-row"
     GOV_TABLE = ".govuk-table"
     GOV_TABLE_ROW = ".govuk-table__row"
