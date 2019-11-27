@@ -27,7 +27,7 @@ def add_a_role(driver, role_name, permissions, context):
 
     roles_page.enter_role_name(context.role_name)
     roles_page.select_permissions(permissions)
-    Shared(driver).click_submit()
+    functions.click_submit(driver)
 
 
 @then("I see the role in the roles list")
