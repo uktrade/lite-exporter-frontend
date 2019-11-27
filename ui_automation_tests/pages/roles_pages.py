@@ -5,7 +5,7 @@ class RolesPages(BasePage):
 
     ADD_ROLE_TEXT_FIELD = "name"  # ID
     ADD_ROLE = "button_add_role"  # ID
-    MANAGE_ROLES_BUTTON = 'a[href="/roles/"]'
+    MANAGE_ROLES_BUTTON = "tab-roles"  # ID
 
     def enter_role_name(self, text):
         self.driver.find_element_by_id(self.ADD_ROLE_TEXT_FIELD).clear()
@@ -18,4 +18,4 @@ class RolesPages(BasePage):
         self.driver.find_element_by_id(self.ADD_ROLE).click()
 
     def click_on_manage_roles(self):
-        self.driver.find_element_by_css_selector(self.MANAGE_ROLES_BUTTON).click()
+        self.driver.find_element_by_id(self.MANAGE_ROLES_BUTTON).click()
