@@ -1,5 +1,6 @@
 from conf.client import get, post, put
 from conf.constants import SITES_URL, ORGANISATIONS_URL, ROLES_URL, EXPORTER_USERS_PERMISSIONS_URL, SUPER_USER_ROLE_ID
+from core.helpers import println
 from lite_forms.components import Option
 from users.services import get_user
 
@@ -27,7 +28,6 @@ def get_roles(request, organisation_id, convert_to_options=False):
 
         for item in data:
             converted.append(Option(key=item["id"], value=item["name"]))
-
         return converted
 
     return data
@@ -68,7 +68,3 @@ def get_permissions(request, convert_to_options=False):
 def get_user_permissions(request):
     user, _ = get_user(request)
     return user["user"]["role"]["permissions"]
-
-
-def is_super_user(user):
-    return user["user"]["role"]["id"] == SUPER_USER_ROLE_ID

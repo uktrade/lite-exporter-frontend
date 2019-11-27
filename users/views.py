@@ -3,11 +3,13 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
-from conf.constants import Permissions
+from conf.constants import Permissions, SUPER_USER_ROLE_ID
 from core.services import get_organisation_users, get_organisation, get_organisation_user, put_organisation_user
+from lite_forms.views import SingleFormView
 from roles.services import get_user_permissions
 from users import forms
-from users.services import post_users, update_user, get_user
+from users.forms import add_user_form, edit_user_form
+from users.services import post_users, update_user, get_user, is_super_user
 
 
 class Users(TemplateView):
@@ -36,29 +38,44 @@ class Users(TemplateView):
         return render(request, "users/index.html", context)
 
 
-class AddUser(TemplateView):
-    def get(self, request, **kwargs):
-        context = {
-            "title": "Add User",
-            "page": forms.form,
-        }
-        return render(request, "form.html", context)
+# class AddUser(TemplateView):
+#     def get(self, request, **kwargs):
+#         context = {
+#             "title": "Add User",
+#             "page": forms.form,
+#         }
+#         return render(request, "form.html", context)
+#
+#     def post(self, request, **kwargs):
+#         data, status_code = post_users(request, request.POST)
+#
+#         if status_code == 400:
+#             context = {"title": "Add User", "page": forms.form, "data": request.POST, "errors": data.get("errors")}
+#             return render(request, "form.html", context)
+#
+#         return redirect(reverse_lazy("users:users"))
 
-    def post(self, request, **kwargs):
-        data, status_code = post_users(request, request.POST)
 
-        if status_code == 400:
-            context = {"title": "Add User", "page": forms.form, "data": request.POST, "errors": data.get("errors")}
-            return render(request, "form.html", context)
-
-        return redirect(reverse_lazy("users:users"))
+class AddUser(SingleFormView):
+    def init(self, request, **kwargs):
+        self.form = add_user_form(request)
+        self.success_url = reverse_lazy("users:users")
+        self.action = post_users
 
 
 class ViewUser(TemplateView):
     def get(self, request, **kwargs):
-        user = get_organisation_user(request, str(request.user.organisation), str(kwargs["pk"]))["user"]
+        user = get_organisation_user(request, str(request.user.organisation), str(kwargs["pk"]))
+        request_user, _ = get_user(request)
+        super_user = is_super_user(request_user)
+        can_deactivate = not is_super_user(user)
 
-        context = {"profile": user}
+        context = {
+            "profile": user["user"],
+            "super_user": super_user,
+            "super_user_role_id": SUPER_USER_ROLE_ID,
+            "can_deactivate": can_deactivate,
+        }
         return render(request, "users/profile.html", context)
 
 
@@ -68,15 +85,13 @@ class ViewProfile(TemplateView):
         return redirect(reverse_lazy("users:user", kwargs={"pk": user.lite_api_user_id}))
 
 
-class EditUser(TemplateView):
-    def get(self, request, **kwargs):
-        data, _ = get_user(request, str(kwargs["pk"]))
-        context = {
-            "data": data.get("user"),
-            "title": "Edit User",
-            "page": forms.edit_form,
-        }
-        return render(request, "form.html", context)
+class EditUser(SingleFormView):
+    def init(self, request, **kwargs):
+        self.object_pk = kwargs["pk"]
+        user = get_organisation_user(request, str(request.user.organisation), str(self.object_pk))
+        super_user = is_super_user(user) and request.user.lite_api_user_id == str(kwargs["pk"])
+        self.form = edit_user_form(request, self.object_pk, super_user)
+        self.data = user["user"]
 
     def post(self, request, **kwargs):
         data, status_code = update_user(request, str(kwargs["pk"]), request.POST)
