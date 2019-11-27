@@ -40,7 +40,7 @@
 		</div>
         {% if 'ADMINISTER_ROLES' in user_permissions %}
             <div class="lite-app-bar__controls">
-                <a id="button_add_role" href="{% url 'users:add_role' %}" class="govuk-button" draggable="false" role="button">
+                <a id="button-add-role" href="{% url 'users:add_role' %}" class="govuk-button" draggable="false" role="button">
                     {% lcs 'ROLES_LIST_PAGE_CREATE' %}
                 </a>
             </div>

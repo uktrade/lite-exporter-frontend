@@ -4,7 +4,7 @@ from shared.BasePage import BasePage
 class RolesPages(BasePage):
 
     ADD_ROLE_TEXT_FIELD = "name"  # ID
-    ADD_ROLE = "button_add_role"  # ID
+    ADD_ROLE = "button-add-role"  # ID
     MANAGE_ROLES_BUTTON = "tab-roles"  # ID
 
     def enter_role_name(self, text):

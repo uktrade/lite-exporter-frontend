@@ -1,6 +1,6 @@
 @exporter @roles
 Feature: I want to create roles
-  As a logged in government user
+  As a logged in exporter user with permission to administer roles
   I want to create roles with permissions
   So that I can restrict access to functionality
 
