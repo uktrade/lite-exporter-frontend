@@ -74,14 +74,8 @@ class EditUser(SingleFormView):
         super_user = is_super_user(user) and request.user.lite_api_user_id == str(kwargs["pk"])
         self.form = edit_user_form(request, self.object_pk, super_user)
         self.data = user["user"]
-
-    def post(self, request, **kwargs):
-        data, status_code = update_user(request, str(kwargs["pk"]), request.POST)
-        if status_code == 400:
-            context = {"title": "Add User", "page": forms.form, "data": request.POST, "errors": data.get("errors")}
-            return render(request, "form.html", context)
-
-        return redirect(reverse_lazy("users:user", kwargs={"pk": str(kwargs["pk"])}))
+        self.action = put_organisation_user
+        self.success_url = reverse_lazy("users:user", kwargs={"pk": self.object_pk})
 
 
 class ChangeUserStatus(TemplateView):
@@ -116,6 +110,6 @@ class ChangeUserStatus(TemplateView):
         if status != "deactivate" and status != "reactivate":
             raise Http404
 
-        put_organisation_user(request, str(request.user.organisation), str(kwargs["pk"]), request.POST)
+        put_organisation_user(request, str(kwargs["pk"]), request.POST)
 
         return redirect("/users/")
