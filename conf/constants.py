@@ -48,7 +48,6 @@ HMRC_QUERY = "hmrc_query"
 
 # Case statuses
 READ_ONLY_STATUSES = ["finalised", "under final review", "under review", "withdrawn"]
-FINALISED_STATUSES = ["finalised", "withdrawn"]
 
 APPLICANT_EDITING = "applicant_editing"
 
