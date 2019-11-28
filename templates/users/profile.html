@@ -50,11 +50,11 @@
         {% if can_deactivate %}
             {% if request.user.lite_api_user_id|stringformat:"s" != profile.id|stringformat:"s" %}
                 {% if profile.status == 'Active' %}
-                    <a href="{% url 'users:change_status' profile.id 'deactivate' %}" role="button" draggable="false" class="govuk-button govuk-button--warning govuk-!-margin-right-2">
+                    <a href="{% url 'users:change_status' profile.id 'deactivate' %}" id="btn-deactivate" role="button" draggable="false" class="govuk-button govuk-button--warning govuk-!-margin-right-2">
                         {% lcs 'USER_DEACTIVATE' %}
                     </a>
                 {% elif profile.status == 'Deactivated' %}
-                    <a href="{% url 'users:change_status' profile.id 'reactivate' %}" role="button" draggable="false" class="govuk-button govuk-!-margin-right-2">
+                    <a href="{% url 'users:change_status' profile.id 'reactivate' %}" id="btn-reactivate" role="button" draggable="false" class="govuk-button govuk-!-margin-right-2">
                         {% lcs 'USER_REACTIVATE' %}
                     </a>
                 {% endif %}

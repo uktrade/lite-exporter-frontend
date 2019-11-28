@@ -28,9 +28,6 @@ def edit_user_form(request, user_id, super_user: bool):
     return Form(
         title=strings.USER_EDIT_TITLE,
         questions=[
-            TextInput(title=strings.USER_EMAIL_QUESTION, name="email"),
-            TextInput(title=strings.USER_FIRST_NAME_QUESTION, name="first_name"),
-            TextInput(title=strings.USER_LAST_NAME_QUESTION, name="last_name"),
             conditional(
                 not super_user,
                 Select(
