@@ -27,16 +27,16 @@
 
 	<div class="lite-tabs--fade">
 		<div class="lite-tabs">
-			<a href="{% url 'applications:applications' %}?drafts=false" class="lite-tabs__tab">
+			<a href="{% url 'applications:applications' %}?submitted=True" class="lite-tabs__tab">
 				In Progress
 			</a>
-			<a href="{% url 'applications:applications' %}?drafts=true" class="lite-tabs__tab lite-tabs__tab--selected">
+			<a href="{% url 'applications:applications' %}?submitted=False" class="lite-tabs__tab lite-tabs__tab--selected">
 				Drafts
 			</a>
 		</div>
 	</div>
 
-	{% if drafts.results %}
+	{% if applications.results %}
 		<table class="govuk-table">
 			<thead class="govuk-table__head">
 				<tr class="govuk-table__row">
@@ -57,7 +57,7 @@
 				</tr>
 			</thead>
 			<tbody class="govuk-table__head">
-				{% for draft in drafts.results %}
+				{% for draft in applications.results %}
 					<tr class="govuk-table__row">
 						<td class="govuk-table__cell">
 							<a class="govuk-link govuk-link--no-visited-state" href="{% url 'applications:task_list' draft.id %}">
@@ -85,6 +85,17 @@
 				{% endfor %}
 			</tbody>
 		</table>
+
+		{% if applications.total_pages > 1 %}
+			<div class="lite-pagination__container">
+				{% for i in applications.total_pages|times %}
+					<a href="{% url 'applications:applications' %}?{{ params_str }}&page={{ i }}" class="lite-pagination__item {% if page == i %}lite-pagination__item--selected{% endif %}" id="page-{{ i }}">
+						{{ i }}
+					</a>
+				{% endfor %}
+			</div>
+		{% endif %}
+
 	{% else %}
 		<br>
 		<div class="lite-information-text">
