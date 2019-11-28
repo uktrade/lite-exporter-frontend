@@ -12,7 +12,7 @@
             <h1 class="govuk-heading-l">{{ title }}</h1>
         </div>
         <div class="lite-app-bar__controls">
-			{% if application.status.value|lower not in read_only_statuses and application.application_type.key != 'hmrc_query' %}
+			{% if application.status.value|lower not in finalised_statuses and application.application_type.key != 'hmrc_query' %}
 				<a href="{% url 'applications:withdraw' application.id %}" id="button-withdraw-application" class="govuk-button govuk-button--secondary">
 					{% lcs 'APPLICATION_WITHDRAW_ACCESS_BUTTON' %}
 				</a>

@@ -175,7 +175,7 @@ class ApplicationDetail(TemplateView):
             if self.view_type == "ecju-queries":
                 context["open_queries"], context["closed_queries"] = get_application_ecju_queries(request, self.case_id)
 
-        context["read_only_statuses"] = constants.READ_ONLY_STATUSES
+        context["finalised_statuses"] = constants.FINALISED_STATUSES
 
         return render(request, "applications/application.html", context)
 
