@@ -39,8 +39,7 @@ from lite_forms.views import SingleFormView
 
 class ApplicationsList(TemplateView):
     def get(self, request, **kwargs):
-        params = {"page": int(request.GET.get("page", 1)),
-                  "submitted": str_to_bool(request.GET.get("submitted", True))}
+        params = {"page": int(request.GET.get("page", 1)), "submitted": str_to_bool(request.GET.get("submitted", True))}
         organisation = get_organisation(request, request.user.organisation)
         applications = get_applications(request, **params)
         notifications = get_notifications(request, unviewed=True)
@@ -51,9 +50,11 @@ class ApplicationsList(TemplateView):
             "organisation": organisation,
             "params": params,
             "page": params.pop("page"),
-            "params_str": convert_dict_to_query_params(params)
+            "params_str": convert_dict_to_query_params(params),
         }
-        return render(request, "applications/applications.html" if params['submitted'] else "applications/drafts.html", context)
+        return render(
+            request, "applications/applications.html" if params["submitted"] else "applications/drafts.html", context
+        )
 
 
 class DeleteApplication(SingleFormView):
