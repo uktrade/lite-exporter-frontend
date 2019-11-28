@@ -48,7 +48,7 @@
 						Created On
 					</th>
 					{% if organisation.type.key != 'hmrc' %}
-						<th class="govuk-table__header">
+						<th class="govuk-table__header govuk-table__cell--nowrap">
 							Export Type
 						</th>
 					{% endif %}
@@ -67,7 +67,7 @@
 						<td class="govuk-table__cell">
 							{{ draft.application_type.value }}
 						</td>
-						<td class="govuk-table__cell">
+						<td class="govuk-table__cell govuk-table__cell--nowrap">
 							{{ draft.last_modified_at|str_date }}
 						</td>
 						{% if organisation.type.key != 'hmrc' %}
@@ -75,7 +75,7 @@
 								{{ draft.export_type.value }}
 							</td>
 						{% endif %}
-						<td class="govuk-table__cell govuk-table__cell--numeric">
+						<td class="govuk-table__cell govuk-table__cell--numeric govuk-table__cell--nowrap">
 							<a id="link-delete-draft" href="{% url 'applications:delete' draft.id %}" class="govuk-link lite-link--icon">
                                 {% svg 'close' %}
                                 {% lcs 'DRAFT_DELETE_LINK' %}
