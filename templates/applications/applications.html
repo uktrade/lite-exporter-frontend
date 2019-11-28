@@ -83,15 +83,7 @@
 			</tbody>
 		</table>
 
-		{% if applications.total_pages > 1 %}
-			<div class="lite-pagination__container">
-				{% for i in applications.total_pages|times %}
-					<a href="{% url 'applications:applications' %}?{{ params_str }}&page={{ i }}" class="lite-pagination__item {% if page == i %}lite-pagination__item--selected{% endif %}" id="page-{{ i }}">
-						{{ i }}
-					</a>
-				{% endfor %}
-			</div>
-		{% endif %}
+		{% include "includes/pagination.html" with data=applications %}
 
 	{% else %}
 		<br>
