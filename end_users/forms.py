@@ -163,7 +163,7 @@ def copy_end_user_advisory_form(individual, commercial):
                 back_link=BackLink(
                     strings.COPY_END_USER_ADVISORY_BACK_TO_END_USER_ADVISORIES, reverse_lazy("end_users:end_users")
                 ),
-                default_button_name="Continue",
+                default_button_name=strings.CONTINUE,
             ),
             Form(
                 title="More information about this advisory",
