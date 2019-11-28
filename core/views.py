@@ -26,7 +26,9 @@ class Hub(TemplateView):
                     [
                         Tile(get_string("applications.title"), "", reverse_lazy("applications:applications")),
                         Tile(
-                            get_string("drafts.title"), "", reverse_lazy("applications:applications") + "?submitted=False"
+                            get_string("drafts.title"),
+                            "",
+                            reverse_lazy("applications:applications") + "?submitted=False",
                         ),
                     ],
                 ),
