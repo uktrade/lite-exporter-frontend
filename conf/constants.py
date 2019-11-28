@@ -35,6 +35,7 @@ END_USER_ADVISORIES_URL = QUERIES_URL + "end-user-advisories/"
 
 # Static URLs
 STATIC_URL = "/static/"
+STATUS_PROPERTIES_URL = STATIC_URL + "statuses/properties/"
 UNITS_URL = STATIC_URL + "units/"
 COUNTRIES_URL = STATIC_URL + "countries/"
 CONTROL_LIST_ENTRIES_URL = STATIC_URL + "control-list-entries/"
@@ -43,10 +44,6 @@ CONTROL_LIST_ENTRIES_URL = STATIC_URL + "control-list-entries/"
 STANDARD_LICENCE = "standard_licence"
 OPEN_LICENCE = "open_licence"
 HMRC_QUERY = "hmrc_query"
-
-# Case statuses
-READ_ONLY_STATUSES = ["finalised", "under final review", "under review", "withdrawn"]
-FINALISED_STATUSES = ["closed", "finalised", "withdrawn"]
 
 APPLICANT_EDITING = "applicant_editing"
 

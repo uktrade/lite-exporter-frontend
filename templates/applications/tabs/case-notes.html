@@ -6,7 +6,7 @@
 
 	<form method="post" action="{{ post_url }}">
 		{% csrf_token %}
-        {% if application.status.value|lower not in terminal_statuses%}
+        {% if not status_is_terminal %}
 		    <div class="lite-expandable-textarea lite-case-note-no-transition">
 			    <textarea id="case_note" name="text" cols="80" class="govuk-textarea" placeholder="Add note to application"></textarea>
 			    <div class="lite-expandable-textarea-controls">
