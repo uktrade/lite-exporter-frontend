@@ -19,9 +19,9 @@ class Hub(TemplateView):
     def get(self, request, **kwargs):
         try:
             user, _ = get_user(request)
+            user_permissions = user["user"]["role"]["permissions"]
         except JSONDecodeError:
             return redirect("authbroker:login")
-        user_permissions = user["user"]["role"]["permissions"]
 
         if Permissions.ADMINISTER_USERS in user_permissions:
             manage_organisation_section_link = reverse_lazy("users:users")
