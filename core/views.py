@@ -1,3 +1,5 @@
+from json import JSONDecodeError
+
 from django.http import Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
@@ -13,7 +15,10 @@ from users.services import get_user
 
 class Hub(TemplateView):
     def get(self, request, **kwargs):
-        user, _ = get_user(request)
+        try:
+            user, _ = get_user(request)
+        except JSONDecodeError:
+            return redirect("authbroker:login")
 
         notifications = get_notifications(request, unviewed=True)
         organisation = get_organisation(request, str(request.user.organisation))
