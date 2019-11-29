@@ -26,7 +26,8 @@ from applications.services import (
     submit_application,
     get_application,
     set_application_status,
-    get_status_properties)
+    get_status_properties,
+)
 from conf import constants
 from conf.constants import HMRC_QUERY, APPLICANT_EDITING, NEWLINE
 from core.helpers import group_notifications
@@ -159,7 +160,7 @@ class ApplicationDetail(TemplateView):
             [x for x in notifications if x["parent"] == self.application_id and x["object_type"] == "ecju_query"]
         )
 
-        status_props, _ = get_status_properties(request, self.application['status']['key'])
+        status_props, _ = get_status_properties(request, self.application["status"]["key"])
 
         context = {
             "application": self.application,
@@ -169,7 +170,7 @@ class ApplicationDetail(TemplateView):
             "ecju_query_notifications": ecju_query_notifications,
             "answers": {**convert_application_to_check_your_answers(self.application)},
             "status_is_read_only": status_props["is_read_only"],
-            "status_is_terminal": status_props["is_terminal"]
+            "status_is_terminal": status_props["is_terminal"],
         }
 
         if self.application["application_type"]["key"] != HMRC_QUERY:

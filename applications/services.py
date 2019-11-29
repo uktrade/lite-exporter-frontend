@@ -18,8 +18,7 @@ from conf.constants import (
     GOODSTYPE_URL,
     GOODSTYPES_URL,
     GOODSTYPE_COUNTRY_URL,
-    STATUS_PROPERTIES_URL
-
+    STATUS_PROPERTIES_URL,
 )
 from conf.settings import AWS_STORAGE_BUCKET_NAME, STREAMING_CHUNK_SIZE
 from django.http import StreamingHttpResponse
