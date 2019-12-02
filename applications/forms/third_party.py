@@ -25,11 +25,10 @@ def _third_party_type_form(application, title, button, options):
 
 
 def third_party_forms(application):
+    form_options = option_list.copy()
     if application["export_type"] and application["export_type"]["key"] == "permanent":
-        form_options = option_list.copy()
         del form_options["additional_end_user"]
-    else:
-        form_options = option_list.copy()
+
     options = [Option(key, value) for key, value in form_options.items()]
     options.append(Option("other", PartyForm.Options.OTHER, show_or=True))
 
