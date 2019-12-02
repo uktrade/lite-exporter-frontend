@@ -8,43 +8,51 @@ from lite_forms.components import RadioButtons, Form, Option, TextArea, TextInpu
 from lite_forms.generators import confirm_form
 
 
-def third_parties_standard_form(application, opening_title):
-    return [
-        Form(
-            title=opening_title,
-            questions=[
-                RadioButtons(
-                    "sub_type",
-                    options=[
-                        Option("government", "A Government Organisation"),
-                        Option("commercial", "A Commercial Organisation"),
-                        Option("individual", "An Individual"),
-                        Option("other", "Other", show_or=True),
-                    ],
-                ),
-            ],
-            default_button_name="Continue",
-            back_link=back_to_task_list(application["id"]),
-        ),
-        Form(title="Enter the final recipient's name", questions=[TextInput("name"),], default_button_name="Continue"),
-        Form(
-            title="Enter the final recipient's web address (URL)",
-            questions=[TextInput("website", optional=True),],
-            default_button_name="Continue",
-        ),
-        Form(
-            title="Where's the final recipient based?",
-            questions=[
-                TextArea("address", "Address"),
-                country_question(countries=get_countries(None, True), prefix=""),
-            ],
-            default_button_name="Save and continue",
-        ),
-    ]
+def _party_type_form(application, title):
+    return Form(
+        title=title,
+        questions=[
+            RadioButtons(
+                "sub_type",
+                options=[
+                    Option("government", "A Government Organisation"),
+                    Option("commercial", "A Commercial Organisation"),
+                    Option("individual", "An Individual"),
+                    Option("other", "Other", show_or=True),
+                ],
+            ),
+        ],
+        default_button_name="Continue",
+        back_link=back_to_task_list(application["id"]),
+    )
+
+
+def _party_name_form():
+    return Form(
+        title="Enter the final recipient's name", questions=[TextInput("name"),], default_button_name="Continue"
+    )
+
+
+def _party_website_form():
+    return Form(
+        title="Enter the final recipient's web address (URL)",
+        questions=[TextInput("website", optional=True),],
+        default_button_name="Continue",
+    )
+
+
+def _party_address_form():
+    return Form(
+        title="Where's the final recipient based?",
+        questions=[TextArea("address", "Address"), country_question(countries=get_countries(None, True), prefix=""),],
+        default_button_name="Save and continue",
+    )
 
 
 def new_end_user_forms(application, title):
-    return FormGroup(third_parties_standard_form(application, title))
+    return FormGroup(
+        [_party_type_form(application, title), _party_name_form(), _party_website_form(), _party_address_form()]
+    )
 
 
 def attach_document_form(application_id, title, return_later_text, description_text=None):
