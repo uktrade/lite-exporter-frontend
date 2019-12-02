@@ -50,9 +50,9 @@ def _party_address_form():
     )
 
 
-def new_end_user_forms(application, title):
+def new_end_user_forms(application, strings):
     return FormGroup(
-        [_party_type_form(application, title), _party_name_form(), _party_website_form(), _party_address_form()]
+        [_party_type_form(application, strings.TITLE), _party_name_form(), _party_website_form(), _party_address_form()]
     )
 
 
