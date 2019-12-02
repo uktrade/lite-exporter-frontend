@@ -42,11 +42,11 @@ def _party_website_form(title, button):
     )
 
 
-def _party_address_form():
+def _party_address_form(title, button):
     return Form(
-        title="Where's the final recipient based?",
+        title=title,
         questions=[TextArea("address", "Address"), country_question(countries=get_countries(None, True), prefix=""),],
-        default_button_name="Save and continue",
+        default_button_name=button,
     )
 
 
@@ -56,7 +56,7 @@ def new_end_user_forms(application, strings):
             _party_type_form(application, strings.TITLE, strings.BUTTON),
             _party_name_form(strings.NAME_FORM_TITLE, strings.BUTTON),
             _party_website_form(strings.WEBSITE_FORM_TITLE, strings.BUTTON),
-            _party_address_form()
+            _party_address_form(strings.ADDRESS_FORM_TITLE, strings.SUBMIT_BUTTON)
         ]
     )
 
