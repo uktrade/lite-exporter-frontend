@@ -28,9 +28,9 @@ def _party_type_form(application, title, button):
     )
 
 
-def _party_name_form():
+def _party_name_form(title, button):
     return Form(
-        title="Enter the final recipient's name", questions=[TextInput("name"),], default_button_name="Continue"
+        title=title, questions=[TextInput("name"),], default_button_name=button
     )
 
 
@@ -54,7 +54,7 @@ def new_end_user_forms(application, strings):
     return FormGroup(
         [
             _party_type_form(application, strings.TITLE, strings.BUTTON),
-            _party_name_form(),
+            _party_name_form(strings.NAME_TITLE, strings.BUTTON),
             _party_website_form(),
             _party_address_form()
         ]
