@@ -2,6 +2,7 @@ from lite_forms.components import RadioButtons, Form, Option, FormGroup
 
 from lite_content.lite_exporter_frontend.applications import ThirdPartyForm
 from applications.forms.end_user import _party_name_form, _party_website_form, _party_address_form
+from applications.components import back_to_task_list
 
 option_list = {
     "agent": ThirdPartyForm.Options.AGENT,
@@ -14,8 +15,13 @@ option_list = {
 }
 
 
-def _third_party_type_form(title, options):
-    return Form(title=title, questions=[RadioButtons("sub_type", options=options)], default_button_name="Continue",)
+def _third_party_type_form(application, title, button, options):
+    return Form(
+        title=title,
+        questions=[RadioButtons("sub_type", options=options)],
+        default_button_name=button,
+        back_link=back_to_task_list(application["id"]),
+    )
 
 
 def third_party_forms(application):
@@ -29,7 +35,7 @@ def third_party_forms(application):
 
     return FormGroup(
         [
-            _third_party_type_form(ThirdPartyForm.TITLE, options),
+            _third_party_type_form(application, ThirdPartyForm.TITLE, ThirdPartyForm.BUTTON, options),
             _party_name_form(),
             _party_website_form(),
             _party_address_form(),

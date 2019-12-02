@@ -9,7 +9,7 @@ from lite_forms.generators import confirm_form
 from lite_content.lite_exporter_frontend.applications import PartyForm
 
 
-def _party_type_form(application, title):
+def _party_type_form(application, title, button):
     return Form(
         title=title,
         questions=[
@@ -23,7 +23,7 @@ def _party_type_form(application, title):
                 ],
             ),
         ],
-        default_button_name="Continue",
+        default_button_name=button,
         back_link=back_to_task_list(application["id"]),
     )
 
@@ -52,7 +52,12 @@ def _party_address_form():
 
 def new_end_user_forms(application, strings):
     return FormGroup(
-        [_party_type_form(application, strings.TITLE), _party_name_form(), _party_website_form(), _party_address_form()]
+        [
+            _party_type_form(application, strings.TITLE, strings.BUTTON),
+            _party_name_form(),
+            _party_website_form(),
+            _party_address_form()
+        ]
     )
 
 
