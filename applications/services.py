@@ -18,21 +18,23 @@ from conf.constants import (
     GOODSTYPE_URL,
     GOODSTYPES_URL,
     GOODSTYPE_COUNTRY_URL,
+    STATUS_PROPERTIES_URL,
 )
 from conf.settings import AWS_STORAGE_BUCKET_NAME, STREAMING_CHUNK_SIZE
 from django.http import StreamingHttpResponse
 from s3chunkuploader.file_handler import s3_client
 
-from core.helpers import remove_prefix
+from core.helpers import remove_prefix, convert_parameters_to_query_params
 
 
-def get_draft_applications(request):
-    data = get(request, APPLICATIONS_URL + "?submitted=false")
-    return data.json()
-
-
-def get_applications(request):
-    data = get(request, APPLICATIONS_URL + "?submitted=true")
+def get_applications(request, page: int = 1, submitted: bool = True):
+    """
+    Returns a list of applications
+    :param request: Standard HttpRequest object
+    :param page: Returns n page of page results
+    :param submitted: Returns submitted applications if True, else returns draft applications if False
+    """
+    data = get(request, APPLICATIONS_URL + convert_parameters_to_query_params(locals()))
     return data.json()
 
 
@@ -277,6 +279,11 @@ def get_application_ecju_queries(request, pk):
     closed_queries = [x for x in data if x["response"]]
 
     return open_queries, closed_queries
+
+
+def get_status_properties(request, status):
+    data = get(request, STATUS_PROPERTIES_URL + status)
+    return data.json(), data.status_code
 
 
 def set_application_status(request, pk, status):

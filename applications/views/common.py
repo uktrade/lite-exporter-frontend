@@ -22,14 +22,13 @@ from applications.services import (
     get_ecju_query,
     put_ecju_query,
     post_application_case_notes,
-    get_draft_applications,
     submit_application,
     get_application,
     set_application_status,
+    get_status_properties,
 )
-from conf import constants
 from conf.constants import HMRC_QUERY, APPLICANT_EDITING, NEWLINE
-from core.helpers import group_notifications
+from core.helpers import group_notifications, str_to_bool, convert_dict_to_query_params
 from core.services import get_notifications, get_organisation
 from lite_content.lite_exporter_frontend import strings
 from lite_forms.components import HiddenField
@@ -40,27 +39,22 @@ from lite_forms.views import SingleFormView
 
 class ApplicationsList(TemplateView):
     def get(self, request, **kwargs):
-        drafts = request.GET.get("drafts")
+        params = {"page": int(request.GET.get("page", 1)), "submitted": str_to_bool(request.GET.get("submitted", True))}
         organisation = get_organisation(request, request.user.organisation)
+        applications = get_applications(request, **params)
+        notifications = get_notifications(request, unviewed=True)
 
-        if drafts and drafts.lower() == "true":
-            drafts = get_draft_applications(request)
-
-            context = {
-                "drafts": drafts,
-                "organisation": organisation,
-            }
-            return render(request, "applications/drafts.html", context)
-        else:
-            applications = get_applications(request)
-            notifications = get_notifications(request, unviewed=True)
-
-            context = {
-                "applications": applications,
-                "notifications": group_notifications(notifications),
-                "organisation": organisation,
-            }
-            return render(request, "applications/applications.html", context)
+        context = {
+            "applications": applications,
+            "notifications": group_notifications(notifications),
+            "organisation": organisation,
+            "params": params,
+            "page": params.pop("page"),
+            "params_str": convert_dict_to_query_params(params),
+        }
+        return render(
+            request, "applications/applications.html" if params["submitted"] else "applications/drafts.html", context
+        )
 
 
 class DeleteApplication(SingleFormView):
@@ -80,13 +74,13 @@ class DeleteApplication(SingleFormView):
         )
         self.return_to = request.GET.get("return_to")
         self.action = validate_delete_draft
-        self.success_url = reverse_lazy("applications:applications") + "?drafts=True"
+        self.success_url = reverse_lazy("applications:applications") + "?submitted=False"
 
     def get_success_url(self):
         if self.return_to == "application" and self.get_validated_data().get("choice") == "no":
             return reverse_lazy("applications:task_list", kwargs={"pk": self.object_pk})
         else:
-            return reverse_lazy("applications:applications") + "?drafts=True"
+            return reverse_lazy("applications:applications") + "?submitted=False"
 
 
 class ApplicationEditType(TemplateView):
@@ -159,6 +153,8 @@ class ApplicationDetail(TemplateView):
             [x for x in notifications if x["parent"] == self.application_id and x["object_type"] == "ecju_query"]
         )
 
+        status_props, _ = get_status_properties(request, self.application["status"]["key"])
+
         context = {
             "application": self.application,
             "title": self.application["name"],
@@ -166,6 +162,8 @@ class ApplicationDetail(TemplateView):
             "case_note_notifications": case_note_notifications,
             "ecju_query_notifications": ecju_query_notifications,
             "answers": {**convert_application_to_check_your_answers(self.application)},
+            "status_is_read_only": status_props["is_read_only"],
+            "status_is_terminal": status_props["is_terminal"],
         }
 
         if self.application["application_type"]["key"] != HMRC_QUERY:
@@ -174,8 +172,6 @@ class ApplicationDetail(TemplateView):
 
             if self.view_type == "ecju-queries":
                 context["open_queries"], context["closed_queries"] = get_application_ecju_queries(request, self.case_id)
-
-        context["read_only_statuses"] = constants.READ_ONLY_STATUSES
 
         return render(request, "applications/application.html", context)
 
