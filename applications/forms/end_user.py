@@ -8,7 +8,7 @@ from lite_forms.components import RadioButtons, Form, Option, TextArea, TextInpu
 from lite_forms.generators import confirm_form
 
 
-def third_parties_standard_form(application, opening_title=None):
+def third_parties_standard_form(application, opening_title):
     return [
         Form(
             title=opening_title,
@@ -43,8 +43,8 @@ def third_parties_standard_form(application, opening_title=None):
     ]
 
 
-def new_end_user_forms(application):
-    return FormGroup(third_parties_standard_form(application, get_string("end_user.title")))
+def new_end_user_forms(application, title):
+    return FormGroup(third_parties_standard_form(application, title))
 
 
 def attach_document_form(application_id, title, return_later_text, description_text=None):
@@ -74,7 +74,3 @@ def delete_document_confirmation_form(overview_url, back_link_text):
         back_link_text=back_link_text,
         back_url=overview_url,
     )
-
-
-def new_consignee_forms(application):
-    return FormGroup(third_parties_standard_form(application, get_string("consignee.title")))
