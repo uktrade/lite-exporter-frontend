@@ -28,7 +28,6 @@ from applications.services import (
     set_application_status,
     get_status_properties,
 )
-from conf import constants
 from conf.constants import HMRC_QUERY, APPLICANT_EDITING, NEWLINE
 from core.helpers import group_notifications
 from core.services import get_notifications, get_organisation
