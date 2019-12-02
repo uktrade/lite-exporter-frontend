@@ -34,11 +34,11 @@ def _party_name_form(title, button):
     )
 
 
-def _party_website_form():
+def _party_website_form(title, button):
     return Form(
-        title="Enter the final recipient's web address (URL)",
+        title=title,
         questions=[TextInput("website", optional=True),],
-        default_button_name="Continue",
+        default_button_name=button,
     )
 
 
@@ -54,8 +54,8 @@ def new_end_user_forms(application, strings):
     return FormGroup(
         [
             _party_type_form(application, strings.TITLE, strings.BUTTON),
-            _party_name_form(strings.NAME_TITLE, strings.BUTTON),
-            _party_website_form(),
+            _party_name_form(strings.NAME_FORM_TITLE, strings.BUTTON),
+            _party_website_form(strings.WEBSITE_FORM_TITLE, strings.BUTTON),
             _party_address_form()
         ]
     )

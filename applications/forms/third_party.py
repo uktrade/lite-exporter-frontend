@@ -36,8 +36,8 @@ def third_party_forms(application):
     return FormGroup(
         [
             _third_party_type_form(application, ThirdPartyForm.TITLE, ThirdPartyForm.BUTTON, options),
-            _party_name_form(ThirdPartyForm.NAME_TITLE, ThirdPartyForm.BUTTON),
-            _party_website_form(),
+            _party_name_form(ThirdPartyForm.NAME_FORM_TITLE, ThirdPartyForm.BUTTON),
+            _party_website_form(ThirdPartyForm.WEBSITE_FORM_TITLE, ThirdPartyForm.BUTTON),
             _party_address_form(),
         ]
     )
