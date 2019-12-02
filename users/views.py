@@ -50,13 +50,12 @@ class ViewUser(TemplateView):
         request_user, _ = get_user(request)
         super_user = is_super_user(request_user)
         can_deactivate = not is_super_user(user)
-        edit = not user["user"]["role"]["id"] == SUPER_USER_ROLE_ID
         context = {
             "profile": user["user"],
             "super_user": super_user,
             "super_user_role_id": SUPER_USER_ROLE_ID,
             "can_deactivate": can_deactivate,
-            "can_edit": edit,
+            "can_edit": can_deactivate,
         }
         return render(request, "users/profile.html", context)
 
