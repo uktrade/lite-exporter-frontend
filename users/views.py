@@ -55,7 +55,6 @@ class ViewUser(TemplateView):
             "super_user": super_user,
             "super_user_role_id": SUPER_USER_ROLE_ID,
             "can_deactivate": can_deactivate,
-            "can_edit": can_deactivate,
         }
         return render(request, "users/profile.html", context)
 
