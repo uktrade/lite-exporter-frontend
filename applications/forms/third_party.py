@@ -4,13 +4,13 @@ from applications.forms.end_user import third_parties_standard_form
 from lite_content.lite_exporter_frontend.applications import ThirdPartyForm
 
 option_list = {
-    "agent": "Agent or broker",
-    "additional_end_user": "Additional end user",
-    "intermediate_consignee": "Intermediate consignee",
-    "submitter": "Authorised submitter",
-    "consultant": "Consultant",
-    "contact": "Contact",
-    "exporter": "Exporter",
+    "agent": ThirdPartyForm.Options.AGENT,
+    "additional_end_user": ThirdPartyForm.Options.ADDITIONAL_END_USER,
+    "intermediate_consignee": ThirdPartyForm.Options.INTERMEDIATE_CONSIGNEE,
+    "submitter": ThirdPartyForm.Options.SUBMITTER,
+    "consultant": ThirdPartyForm.Options.CONSULTANT,
+    "contact": ThirdPartyForm.Options.CONTACT,
+    "exporter": ThirdPartyForm.Options.EXPORTER,
 }
 
 
