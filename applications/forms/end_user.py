@@ -29,17 +29,11 @@ def _party_type_form(application, title, button):
 
 
 def _party_name_form(title, button):
-    return Form(
-        title=title, questions=[TextInput("name"),], default_button_name=button
-    )
+    return Form(title=title, questions=[TextInput("name"),], default_button_name=button)
 
 
 def _party_website_form(title, button):
-    return Form(
-        title=title,
-        questions=[TextInput("website", optional=True),],
-        default_button_name=button,
-    )
+    return Form(title=title, questions=[TextInput("website", optional=True),], default_button_name=button,)
 
 
 def _party_address_form(title, button):
@@ -56,7 +50,7 @@ def new_end_user_forms(application, strings):
             _party_type_form(application, strings.TITLE, strings.BUTTON),
             _party_name_form(strings.NAME_FORM_TITLE, strings.BUTTON),
             _party_website_form(strings.WEBSITE_FORM_TITLE, strings.BUTTON),
-            _party_address_form(strings.ADDRESS_FORM_TITLE, strings.SUBMIT_BUTTON)
+            _party_address_form(strings.ADDRESS_FORM_TITLE, strings.SUBMIT_BUTTON),
         ]
     )
 
