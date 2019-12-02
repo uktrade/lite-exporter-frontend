@@ -6,6 +6,7 @@ from core.services import get_countries
 from lite_forms.common import country_question
 from lite_forms.components import RadioButtons, Form, Option, TextArea, TextInput, FormGroup, FileUpload, Label
 from lite_forms.generators import confirm_form
+from lite_content.lite_exporter_frontend.applications import PartyForm
 
 
 def _party_type_form(application, title):
@@ -15,10 +16,10 @@ def _party_type_form(application, title):
             RadioButtons(
                 "sub_type",
                 options=[
-                    Option("government", "A Government Organisation"),
-                    Option("commercial", "A Commercial Organisation"),
-                    Option("individual", "An Individual"),
-                    Option("other", "Other", show_or=True),
+                    Option("government", PartyForm.Options.GOVERNMENT),
+                    Option("commercial", PartyForm.Options.COMMERCIAL),
+                    Option("individual", PartyForm.Options.INDIVIDUAL),
+                    Option("other", PartyForm.Options.OTHER, show_or=True),
                 ],
             ),
         ],
