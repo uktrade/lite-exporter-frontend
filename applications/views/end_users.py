@@ -2,7 +2,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
-from applications.forms.end_user import new_end_user_forms
+from applications.forms.end_user import new_party_form_group
 from applications.helpers.check_your_answers import convert_end_user
 from applications.helpers.validate_status import check_all_parties_have_a_document
 from applications.services import (
@@ -43,7 +43,7 @@ class SetEndUser(MultiFormView):
         self.object_pk = kwargs["pk"]
         application = get_application(request, self.object_pk)
         self.data = application["end_user"]
-        self.forms = new_end_user_forms(application, EndUserForm)
+        self.forms = new_party_form_group(application, EndUserForm)
         self.action = post_end_user
         self.success_url = reverse_lazy("applications:end_user_attach_document", kwargs={"pk": self.object_pk})
 
@@ -80,7 +80,7 @@ class AddUltimateEndUser(TemplateView):
     def dispatch(self, request, *args, **kwargs):
         self.draft_id = str(kwargs["pk"])
         application = get_application(request, self.draft_id)
-        self.form = new_end_user_forms(application, UltimateEndUserForm)
+        self.form = new_party_form_group(application, UltimateEndUserForm)
 
         return super(AddUltimateEndUser, self).dispatch(request, *args, **kwargs)
 

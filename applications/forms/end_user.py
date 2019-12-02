@@ -44,7 +44,7 @@ def _party_address_form(title, button):
     )
 
 
-def new_end_user_forms(application, strings):
+def new_party_form_group(application, strings):
     return FormGroup(
         [
             _party_type_form(application, strings.TITLE, strings.BUTTON),
