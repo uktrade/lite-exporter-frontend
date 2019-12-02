@@ -50,7 +50,6 @@ class ViewUser(TemplateView):
         request_user, _ = get_user(request)
         super_user = is_super_user(request_user)
         can_deactivate = not is_super_user(user)
-
         context = {
             "profile": user["user"],
             "super_user": super_user,
@@ -71,7 +70,8 @@ class EditUser(SingleFormView):
         self.object_pk = kwargs["pk"]
         user = get_organisation_user(request, str(request.user.organisation), str(self.object_pk))
         super_user = is_super_user(user) and request.user.lite_api_user_id == str(kwargs["pk"])
-        self.form = edit_user_form(request, self.object_pk, super_user)
+        cannot_edit_role = user["user"]["id"] == request.user.lite_api_user_id or super_user
+        self.form = edit_user_form(request, self.object_pk, cannot_edit_role)
         self.data = user["user"]
         self.action = put_organisation_user
         self.success_url = reverse_lazy("users:user", kwargs={"pk": self.object_pk})
