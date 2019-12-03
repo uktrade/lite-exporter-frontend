@@ -1,3 +1,4 @@
+from authbroker_client.utils import get_client, AUTHORISATION_URL, TOKEN_SESSION_KEY, get_profile, TOKEN_URL
 from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseBadRequest, HttpResponseServerError
@@ -7,7 +8,6 @@ from lite_forms.generators import error_page
 from raven.contrib.django.raven_compat.models import client
 
 from auth.services import authenticate_exporter_user
-from authbroker_client.utils import get_client, AUTHORISATION_URL, TOKEN_URL, TOKEN_SESSION_KEY, get_profile
 from conf.settings import LOGOUT_URL
 from core.builtins.custom_tags import get_string
 from users.services import get_user
@@ -18,12 +18,11 @@ class AuthView(RedirectView):
     Auth wrapper which connects to api
     """
 
-    permanent = False
-
     def get_redirect_url(self, *args, **kwargs):
 
         authorization_url, state = get_client(self.request).authorization_url(AUTHORISATION_URL)
 
+        print(AUTHORISATION_URL)
         print(authorization_url)
 
         self.request.session[TOKEN_SESSION_KEY + "_oauth_state"] = state

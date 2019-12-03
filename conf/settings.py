@@ -100,7 +100,7 @@ AUTHENTICATION_BACKENDS = [
     "authbroker_client.backends.AuthbrokerBackend",
 ]
 
-LOGIN_URL = reverse_lazy("authbroker_client:login")
+LOGIN_URL = reverse_lazy("auth:login")
 LOGIN_REDIRECT_URL = reverse_lazy("core:hub")
 LOGOUT_URL = AUTHBROKER_URL + "/sso/accounts/logout/?next="
 AUTH_USER_MODEL = "core.User"
