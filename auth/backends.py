@@ -11,15 +11,11 @@ class AuthbrokerBackend:
 
             profile = get_profile(client)
 
-            print('\n')
-            print(profile)
-            print('\n')
-
             user, created = User.objects.get_or_create(
                 email=profile['email'],
                 defaults={
-                    'first_name': "profile['first_name']",
-                    'last_name': "profile['last_name']"
+                    'first_name': profile['user_profile']['first_name'],
+                    'last_name': profile['user_profile']['last_name']
                 })
             if created:
                 user.username = profile['email']
