@@ -4,7 +4,7 @@ from applications.forms.end_user import third_parties_standard_form
 
 option_list = {
     "agent": "Agent or broker",
-    "additional_end_user": "Additional end user",
+    "additional_end_user": "End user",
     "intermediate_consignee": "Intermediate consignee",
     "submitter": "Authorised submitter",
     "consultant": "Consultant",
@@ -24,9 +24,9 @@ def third_party_forms(application):
     options = [Option(key, value) for key, value in form_options.items()]
     options.append(Option("other", "Other", show_or=True))
     third_party_type = Form(
-        title="What type of third party would you like to add?",
+        title="Select the type of third party",
         questions=[RadioButtons("sub_type", options=options)],
-        default_button_name="Continue",
+        default_button_name="Save and continue",
     )
     third_party_form[0] = third_party_type
     return FormGroup(third_party_form)
