@@ -101,11 +101,8 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 LOGIN_URL = reverse_lazy("authbroker_client:login")
-
-LOGIN_REDIRECT_URL = "/"
-
+LOGIN_REDIRECT_URL = reverse_lazy("core:hub")
 LOGOUT_URL = AUTHBROKER_URL + "/sso/accounts/logout/?next="
-
 AUTH_USER_MODEL = "core.User"
 
 WSGI_APPLICATION = "conf.wsgi.application"

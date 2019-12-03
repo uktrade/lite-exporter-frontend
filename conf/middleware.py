@@ -4,6 +4,8 @@ import uuid
 
 from django.shortcuts import redirect
 from django.urls import resolve
+
+from conf import settings
 from lite_forms.generators import error_page
 from s3chunkuploader.file_handler import UploadFailed
 
@@ -16,7 +18,7 @@ class ProtectAllViewsMiddleware:
 
     def __call__(self, request):
         if resolve(request.path).app_name != "authbroker_client" and not request.user.is_authenticated:
-            return redirect("authbroker_client:login")
+            return redirect(settings.LOGIN_URL)
 
         response = self.get_response(request)
 

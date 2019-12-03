@@ -24,6 +24,8 @@ class AuthView(RedirectView):
 
         authorization_url, state = get_client(self.request).authorization_url(AUTHORISATION_URL)
 
+        print(authorization_url)
+
         self.request.session[TOKEN_SESSION_KEY + "_oauth_state"] = state
 
         return authorization_url
