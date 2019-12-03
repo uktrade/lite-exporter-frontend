@@ -1,9 +1,10 @@
-from authbroker_client.utils import get_client, AUTHORISATION_URL, TOKEN_SESSION_KEY, get_profile, TOKEN_URL
 from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseBadRequest, HttpResponseServerError
 from django.shortcuts import redirect
 from django.views.generic.base import RedirectView, View, TemplateView
+
+from auth.utils import get_client, AUTHORISATION_URL, TOKEN_SESSION_KEY, TOKEN_URL, get_profile
 from lite_forms.generators import error_page
 from raven.contrib.django.raven_compat.models import client
 
@@ -19,11 +20,7 @@ class AuthView(RedirectView):
     """
 
     def get_redirect_url(self, *args, **kwargs):
-
         authorization_url, state = get_client(self.request).authorization_url(AUTHORISATION_URL)
-
-        print(AUTHORISATION_URL)
-        print(authorization_url)
 
         self.request.session[TOKEN_SESSION_KEY + "_oauth_state"] = state
 
