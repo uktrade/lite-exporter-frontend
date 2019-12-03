@@ -19,7 +19,7 @@ SCOPE = "profile"
 
 
 def get_client(request, **kwargs):
-    callback_url = reverse("authbroker_client:callback")
+    callback_url = reverse("auth:callback")
     redirect_uri = request.build_absolute_uri(callback_url)
 
     return OAuth2Session(
@@ -49,7 +49,7 @@ def authbroker_login_required(func):
     @functools.wraps(func)
     def decorated(request):
         if not has_valid_token(get_client(request)):
-            return redirect("authbroker:login")
+            return redirect("auth:login")
 
         return func(request)
 

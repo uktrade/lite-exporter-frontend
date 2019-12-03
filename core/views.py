@@ -21,7 +21,7 @@ class Hub(TemplateView):
             user, _ = get_user(request)
             user_permissions = user["user"]["role"]["permissions"]
         except JSONDecodeError:
-            return redirect("authbroker:login")
+            return redirect("auth:login")
 
         if Permissions.ADMINISTER_USERS in user_permissions:
             manage_organisation_section_link = reverse_lazy("users:users")

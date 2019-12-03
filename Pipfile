@@ -34,7 +34,6 @@ django-csp = "*"
 bandit = "*"
 gunicorn = "*"
 whitenoise = "*"
-django-staff-sso-client = "*"
 
 [requires]
 python_version = "3.7"

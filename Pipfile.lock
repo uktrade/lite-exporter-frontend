@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "a58593707d5da4b8b2e5bdd50be78a9cad6ec7fb4f066ba3cd1fe61b57e58bb3"
+            "sha256": "2dc0ffaf1ed6090e9302b7af0e58faf44a905554b8defabe2c1ae9eb9729df50"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -119,13 +119,6 @@
             ],
             "index": "pypi",
             "version": "==0.7.2"
-        },
-        "django-staff-sso-client": {
-            "hashes": [
-                "sha256:5a3cc397faecdce40c9ae2031df6f5bb3d2996fa2269c94188b9f9f9a0527c11"
-            ],
-            "index": "pypi",
-            "version": "==1.0.0"
         },
         "django-storages": {
             "hashes": [
