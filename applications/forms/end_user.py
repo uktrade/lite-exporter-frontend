@@ -16,9 +16,9 @@ def third_parties_standard_form(application, opening_title=None):
                 RadioButtons(
                     "sub_type",
                     options=[
-                        Option("government", "A Government Organisation"),
-                        Option("commercial", "A Commercial Organisation"),
-                        Option("individual", "An Individual"),
+                        Option("government", "Government organisation"),
+                        Option("commercial", "Commercial organisation"),
+                        Option("individual", "An individual"),
                         Option("other", "Other", show_or=True),
                     ],
                 ),
@@ -26,16 +26,16 @@ def third_parties_standard_form(application, opening_title=None):
             default_button_name="Continue",
             back_link=back_to_task_list(application["id"]),
         ),
-        Form(title="Enter the final recipient's name", questions=[TextInput("name"),], default_button_name="Continue"),
+        Form(title="Name", questions=[TextInput("name"),], default_button_name="Continue"),
         Form(
-            title="Enter the final recipient's web address (URL)",
+            title="Website address (optional)",
             questions=[TextInput("website", optional=True),],
             default_button_name="Continue",
         ),
         Form(
-            title="Where's the final recipient based?",
+            title="Address",
             questions=[
-                TextArea("address", "Address"),
+                TextArea("address", ""),
                 country_question(countries=get_countries(None, True), prefix=""),
             ],
             default_button_name="Save and continue",
