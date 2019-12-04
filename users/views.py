@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
-from conf.constants import Permissions, SUPER_USER_ROLE_ID
+from conf.constants import Permissions
 from core.services import get_organisation_users, get_organisation, get_organisation_user, put_organisation_user
 from lite_content.lite_exporter_frontend import strings
 from lite_forms.views import SingleFormView
