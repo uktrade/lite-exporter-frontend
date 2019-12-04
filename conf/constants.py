@@ -27,6 +27,7 @@ CLC_NOTIFICATIONS_URL = USERS_URL + "clc-notifications/"
 AUTHENTICATION_URL = USERS_URL + "authenticate/"
 CASE_NOTES_URL = "/case-notes/"
 ECJU_QUERIES_URL = "/ecju-queries/"
+GENERATED_DOCUMENTS_URL = "/generated-documents/"
 ADDITIONAL_DOCUMENT_URL = "/documents/"
 MANAGE_STATUS_URL = "/status/"
 

@@ -26,6 +26,7 @@ from applications.services import (
     get_application,
     set_application_status,
     get_status_properties,
+    get_application_generated_documents,
 )
 from conf.constants import HMRC_QUERY, APPLICANT_EDITING, NEWLINE
 from core.helpers import group_notifications, str_to_bool, convert_dict_to_query_params
@@ -152,6 +153,13 @@ class ApplicationDetail(TemplateView):
         ecju_query_notifications = len(
             [x for x in notifications if x["parent"] == self.application_id and x["object_type"] == "ecju_query"]
         )
+        generated_documents_notifications = len(
+            [
+                x
+                for x in notifications
+                if x["parent"] == self.application_id and x["object_type"] == "generated_documents"
+            ]
+        )
 
         status_props, _ = get_status_properties(request, self.application["status"]["key"])
 
@@ -161,6 +169,7 @@ class ApplicationDetail(TemplateView):
             "type": self.view_type,
             "case_note_notifications": case_note_notifications,
             "ecju_query_notifications": ecju_query_notifications,
+            "generated_documents_notifications": generated_documents_notifications,
             "answers": {**convert_application_to_check_your_answers(self.application)},
             "status_is_read_only": status_props["is_read_only"],
             "status_is_terminal": status_props["is_terminal"],
@@ -172,6 +181,9 @@ class ApplicationDetail(TemplateView):
 
             if self.view_type == "ecju-queries":
                 context["open_queries"], context["closed_queries"] = get_application_ecju_queries(request, self.case_id)
+
+        if self.view_type == "generated-documents":
+            context["generated_documents"] = get_application_generated_documents(request, self.application_id)
 
         return render(request, "applications/application.html", context)
 
