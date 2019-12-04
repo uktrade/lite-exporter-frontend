@@ -11,8 +11,6 @@ def add_user_form(request):
         title=strings.USER_ADD_TITLE,
         questions=[
             TextInput(title=strings.USER_EMAIL_QUESTION, name="email"),
-            TextInput(title=strings.USER_FIRST_NAME_QUESTION, name="first_name"),
-            TextInput(title=strings.USER_LAST_NAME_QUESTION, name="last_name"),
             Select(
                 name="role",
                 options=get_roles(request, request.user.organisation, True),
