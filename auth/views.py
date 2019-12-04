@@ -83,14 +83,14 @@ class AuthCallbackView(View):
         if user is not None:
             login(request, user)
 
-            user_dict, _ = get_user(request)
+            user_dict = get_user(request)
 
-            if len(user_dict["user"]["organisations"]) == 0:
+            if len(user_dict["organisations"]) == 0:
                 return error_page(request, "You don't belong to any organisations", show_back_link=False)
-            elif len(user_dict["user"]["organisations"]) == 1:
-                user.organisation = user_dict["user"]["organisations"][0]["id"]
+            elif len(user_dict["organisations"]) == 1:
+                user.organisation = user_dict["organisations"][0]["id"]
                 user.save()
-            elif len(user_dict["user"]["organisations"]) > 1:
+            elif len(user_dict["organisations"]) > 1:
                 return redirect("core:pick_organisation")
 
         return redirect(getattr(settings, "LOGIN_REDIRECT_URL", "/"))

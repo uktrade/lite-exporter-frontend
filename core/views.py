@@ -18,8 +18,8 @@ from users.services import get_user
 class Hub(TemplateView):
     def get(self, request, **kwargs):
         try:
-            user, _ = get_user(request)
-            user_permissions = user["user"]["role"]["permissions"]
+            user = get_user(request)
+            user_permissions = user["role"]["permissions"]
         except JSONDecodeError:
             return redirect("auth:login")
 
@@ -96,7 +96,7 @@ class Hub(TemplateView):
             "organisation": organisation,
             "sections": sections,
             "application_deleted": request.GET.get("application_deleted"),
-            "user_data": user["user"],
+            "user_data": user,
             "notifications": notifications,
         }
 
@@ -108,8 +108,8 @@ class PickOrganisation(TemplateView):
     organisations = None
 
     def dispatch(self, request, *args, **kwargs):
-        user, _ = get_user(request)
-        self.organisations = user["user"]["organisations"]
+        user = get_user(request)
+        self.organisations = user["organisations"]
         self.form = select_your_organisation_form(self.organisations)
 
         if len(self.organisations) == 1:
