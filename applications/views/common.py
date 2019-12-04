@@ -153,11 +153,11 @@ class ApplicationDetail(TemplateView):
         ecju_query_notifications = len(
             [x for x in notifications if x["parent"] == self.application_id and x["object_type"] == "ecju_query"]
         )
-        generated_documents_notifications = len(
+        generated_case_document_notifications = len(
             [
                 x
                 for x in notifications
-                if x["parent"] == self.application_id and x["object_type"] == "generated_documents"
+                if x["parent"] == self.application_id and x["object_type"] == "generated_case_document"
             ]
         )
 
@@ -169,7 +169,7 @@ class ApplicationDetail(TemplateView):
             "type": self.view_type,
             "case_note_notifications": case_note_notifications,
             "ecju_query_notifications": ecju_query_notifications,
-            "generated_documents_notifications": generated_documents_notifications,
+            "generated_case_document_notifications": generated_case_document_notifications,
             "answers": {**convert_application_to_check_your_answers(self.application)},
             "status_is_read_only": status_props["is_read_only"],
             "status_is_terminal": status_props["is_terminal"],
