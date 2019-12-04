@@ -26,4 +26,7 @@ def update_user(request, pk, json):
 
 
 def is_super_user(user):
-    return user["user"]["role"]["id"] == SUPER_USER_ROLE_ID
+    if "user" in user:
+        return user["user"]["role"]["id"] == SUPER_USER_ROLE_ID
+    else:
+        return user["role"]["id"] == SUPER_USER_ROLE_ID
