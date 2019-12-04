@@ -74,7 +74,6 @@ class EditUser(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
         user = get_organisation_user(request, str(request.user.organisation), str(self.object_pk))
-        super_user = is_super_user(user) and request.user.lite_api_user_id == str(kwargs["pk"])
         self.form = edit_user_form(request, user)
         self.data = user
         self.action = put_organisation_user
