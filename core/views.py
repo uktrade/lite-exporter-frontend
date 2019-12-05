@@ -119,8 +119,7 @@ class PickOrganisation(TemplateView):
 
     def get(self, request, **kwargs):
         data = {"organisation": str(request.user.organisation)}
-
-        return form_page(request, self.form, data=data)
+        return form_page(request, self.form, data=data, extra_data={"user_in_limbo": data["organisation"] == "None"})
 
     def post(self, request, **kwargs):
         # If no data is given, error
