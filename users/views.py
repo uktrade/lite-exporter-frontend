@@ -114,4 +114,4 @@ class ChangeUserStatus(TemplateView):
 
         put_organisation_user(request, str(kwargs["pk"]), request.POST)
 
-        return redirect("/users/")
+        return redirect(reverse_lazy("users:users"))
