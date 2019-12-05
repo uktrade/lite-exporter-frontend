@@ -288,7 +288,7 @@ def get_application_generated_documents(request, pk):
 
 
 def get_generated_document(request, pk, doc_pk):
-    data = get(request, APPLICATIONS_URL + pk + GENERATED_DOCUMENTS_URL + str(doc_pk) + DOCUMENT_URL)
+    data = get(request, APPLICATIONS_URL + pk + GENERATED_DOCUMENTS_URL + str(doc_pk) + "/")
     return data.json(), data.status_code
 
 
