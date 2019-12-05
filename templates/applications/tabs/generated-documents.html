@@ -13,7 +13,7 @@
                     <th scope="row" class="govuk-table__header">{{ document.name }}</th>
                     <td class="govuk-table__cell">{{ document.created_at|str_date }}</td>
                     <td class="govuk-table__cell">
-                        <a href="{% url 'applications:download_generated_document' pk=application.id obj_pk=document.id %}" id="generated_document_download" class='govuk-link govuk-link--no-visited-state'>
+                        <a href="{% url 'applications:download_generated_document' pk=application.id obj_pk=document.id %}" id="generated-document-download" class='govuk-link govuk-link--no-visited-state'>
                             {% lcs 'APPLICATION_GENERATED_DOCUMENTS_DOWNLOAD_LINK' %}
                         </a>
                     </td>
