@@ -31,7 +31,6 @@ def edit_user_form(request, user):
                 title=strings.USER_ROLE_QUESTION,
                 include_default_select=False,
             ),
-
         ],
         back_link=BackLink(strings.USER_EDIT_FORM_BACK_TO_USER, reverse_lazy("users:user", kwargs={"pk": user["id"]})),
         default_button_name=strings.USER_EDIT_FORM_SAVE,

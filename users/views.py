@@ -59,7 +59,7 @@ class ViewUser(TemplateView):
         context = {
             "profile": request_user,
             "show_change_status": show_change_status,
-            "show_change_role": show_change_role
+            "show_change_role": show_change_role,
         }
         return render(request, "users/profile.html", context)
 

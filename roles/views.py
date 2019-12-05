@@ -33,7 +33,7 @@ class Roles(TemplateView):
             "immutable_roles": [SUPER_USER_ROLE_ID, DEFAULT_USER_ROLE_ID],
             "can_administer_sites": sites,
             "can_administer_users": users,
-            "organisation": organisation
+            "organisation": organisation,
         }
         return render(request, "roles/index.html", context)
 
