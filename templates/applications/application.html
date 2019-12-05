@@ -88,7 +88,7 @@
 	            </a>
 			{% endif %}
             <a href="{% url 'applications:application' application.id 'generated-documents' %}" class="lite-tabs__tab {% if type == 'generated-documents' %}lite-tabs__tab--selected{% endif %}" id="link-generated-documents">
-                Generated Documents
+                {% lcs 'APPLICATION_GENERATED_DOCUMENTS_TAB' %}
                 {% if generated_case_document_notifications %}
                     <div class="lite-notification-bubble">
                         {{ generated_case_document_notifications }}
