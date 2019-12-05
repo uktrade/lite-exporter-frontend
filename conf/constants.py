@@ -48,6 +48,11 @@ STANDARD_LICENCE = "standard_licence"
 OPEN_LICENCE = "open_licence"
 HMRC_QUERY = "hmrc_query"
 
+# Notification constants
+CASE_NOTE = "case_note"
+ECJU_QUERY = "ecju_query"
+GENERATED_CASE_DOCUMENT = "generated_case_document"
+
 APPLICANT_EDITING = "applicant_editing"
 
 NOT_STARTED = "not_started"

@@ -28,7 +28,7 @@ from applications.services import (
     get_status_properties,
     get_application_generated_documents,
 )
-from conf.constants import HMRC_QUERY, APPLICANT_EDITING, NEWLINE
+from conf.constants import HMRC_QUERY, APPLICANT_EDITING, NEWLINE, CASE_NOTE, ECJU_QUERY, GENERATED_CASE_DOCUMENT
 from core.helpers import group_notifications, str_to_bool, convert_dict_to_query_params
 from core.services import get_notifications, get_organisation
 from lite_content.lite_exporter_frontend import strings
@@ -147,19 +147,11 @@ class ApplicationDetail(TemplateView):
     def get(self, request, **kwargs):
         # add application number to next query
         notifications = get_notifications(request, unviewed=True)
-        case_note_notifications = len(
-            [x for x in notifications if x["parent"] == self.application_id and x["object_type"] == "case_note"]
-        )
-        ecju_query_notifications = len(
-            [x for x in notifications if x["parent"] == self.application_id and x["object_type"] == "ecju_query"]
-        )
-        generated_case_document_notifications = len(
-            [
-                x
-                for x in notifications
-                if x["parent"] == self.application_id and x["object_type"] == "generated_case_document"
-            ]
-        )
+        (
+            case_note_notifications,
+            ecju_query_notifications,
+            generated_case_document_notifications,
+        ) = _get_separate_notifications(notifications, self.application_id)
 
         status_props, _ = get_status_properties(request, self.application["status"]["key"])
 
@@ -334,3 +326,20 @@ class Submit(TemplateView):
             "application": application,
         }
         return render(request, "applications/submit.html", context)
+
+
+def _get_separate_notifications(notifications, application_id):
+    case_note_notifications = 0
+    ecju_query_notifications = 0
+    generated_case_document_notifications = 0
+
+    for notification in notifications:
+        if notification["parent"] == application_id:
+            if notification["object_type"] == CASE_NOTE:
+                case_note_notifications += 1
+            elif notification["object_type"] == ECJU_QUERY:
+                ecju_query_notifications += 1
+            elif notification["object_type"] == GENERATED_CASE_DOCUMENT:
+                generated_case_document_notifications += 1
+
+    return case_note_notifications, ecju_query_notifications, generated_case_document_notifications
