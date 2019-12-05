@@ -31,7 +31,7 @@
 			{% endif %}
 			{% if show_change_role %}
 				<a href="{% url 'users:edit' profile.id %}" type="submit" class="govuk-button govuk-button--secondary">
-					Change role
+					{% lcs 'USER_EDIT_TITLE' %}
 				</a>
 			{% endif %}
 		</div>

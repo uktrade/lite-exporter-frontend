@@ -23,7 +23,7 @@ def add_user_form(request):
 
 def edit_user_form(request, user):
     return Form(
-        title="Change user role",
+        title=strings.USER_EDIT_TITLE,
         questions=[
             Select(
                 name="role",
