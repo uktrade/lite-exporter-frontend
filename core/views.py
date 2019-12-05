@@ -20,7 +20,7 @@ class Hub(TemplateView):
         try:
             user = get_user(request)
             user_permissions = user["role"]["permissions"]
-        except JSONDecodeError:
+        except (JSONDecodeError, TypeError):
             return redirect("auth:login")
 
         if Permissions.ADMINISTER_USERS in user_permissions:
