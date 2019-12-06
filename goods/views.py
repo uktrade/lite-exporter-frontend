@@ -6,6 +6,8 @@ from django.urls import reverse_lazy, reverse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
+
+from lite_content.lite_exporter_frontend import strings
 from lite_forms.components import HiddenField
 from lite_forms.generators import error_page, form_page
 from s3chunkuploader.file_handler import S3FileUploadHandler
@@ -18,6 +20,7 @@ from applications.services import (
     put_ecju_query,
     add_document_data,
     download_document_from_s3,
+    get_status_properties,
 )
 from core.builtins.custom_tags import get_string
 from core.helpers import group_notifications
@@ -95,6 +98,11 @@ class GoodsDetail(TemplateView):
             "case_note_notifications": case_note_notifications,
             "ecju_query_notifications": ecju_query_notifications,
         }
+
+        if self.good["query_id"]:
+            status_props, _ = get_status_properties(request, self.good["case_status"]["key"])
+            context["status_is_read_only"] = status_props["is_read_only"]
+            context["status_is_terminal"] = status_props["is_terminal"]
 
         if self.view_type == "case-notes":
             if self.good.get("case_id"):
@@ -228,7 +236,7 @@ class AttachDocuments(TemplateView):
         data, error = add_document_data(request)
 
         if error:
-            return error_page(None, error)
+            return error_page(request, error)
 
         if "description" not in data:
             data["description"] = ""
@@ -238,7 +246,7 @@ class AttachDocuments(TemplateView):
         good_documents, _ = post_good_documents(request, good_id, data)
 
         if "errors" in good_documents:
-            return error_page(None, "We had an issue uploading your files. Try again later.")
+            return error_page(request, strings.UPLOAD_FAILURE_ERROR)
 
         if good["is_good_controlled"] == "unsure":
             return redirect(reverse("goods:raise_clc_query", kwargs={"pk": good_id}))
@@ -370,4 +378,4 @@ class RespondToQuery(TemplateView):
                 return form_page(request, form, errors=error)
         else:
             # Submitted data does not contain an expected form field - return an error
-            return error_page(None, "We had an issue creating your response. Try again later.")
+            return error_page(request, strings.UPLOAD_GENERIC_ERROR)
