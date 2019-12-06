@@ -3,7 +3,7 @@ from functools import wraps
 from lite_forms.generators import error_page
 
 
-def acceptable_status(statuses: [int]):
+def acceptable_statuses(statuses: [int]):
     """ Check if an application is in an editable state. """
 
     def decorator(func):
