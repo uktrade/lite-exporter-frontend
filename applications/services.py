@@ -20,6 +20,7 @@ from conf.constants import (
     GOODSTYPE_COUNTRY_URL,
     STATUS_PROPERTIES_URL,
 )
+from conf.decorators import acceptable_statuses
 from conf.settings import AWS_STORAGE_BUCKET_NAME, STREAMING_CHUNK_SIZE
 from django.http import StreamingHttpResponse
 from s3chunkuploader.file_handler import s3_client
@@ -27,6 +28,7 @@ from s3chunkuploader.file_handler import s3_client
 from core.helpers import remove_prefix, convert_parameters_to_query_params
 
 
+@acceptable_statuses([200])
 def get_applications(request, page: int = 1, submitted: bool = True):
     """
     Returns a list of applications
@@ -38,41 +40,49 @@ def get_applications(request, page: int = 1, submitted: bool = True):
     return data.json()
 
 
+@acceptable_statuses([200, 403])
 def get_application(request, pk):
     data = get(request, APPLICATIONS_URL + str(pk))
     return data.json()
 
 
+@acceptable_statuses([201, 400])
 def post_applications(request, json):
     data = post(request, APPLICATIONS_URL, json)
     return data.json(), data.status_code
 
 
+@acceptable_statuses([200, 400, 403])
 def put_application(request, pk, json):
     data = put(request, APPLICATIONS_URL + str(pk), json)
     return data.json(), data.status_code
 
 
+@acceptable_statuses([200, 400])
 def delete_application(request, pk):
     data = delete(request, APPLICATIONS_URL + str(pk))
     return data.json(), data.status_code
 
 
+@acceptable_statuses([200, 400, 403])
 def submit_application(request, pk):
     data = put(request, APPLICATIONS_URL + str(pk) + APPLICATION_SUBMIT_URL, json={})
     return data.json(), data.status_code
 
 
 # Goods
+@acceptable_statuses([200, 400, 403])
 def get_application_goods(request, pk):
     data = get(request, APPLICATIONS_URL + pk + "/goods/")
-    return data.json().get("goods") if data.status_code == HTTPStatus.OK else None
+    return data.json().get("goods"), data.status_code
 
 
+@acceptable_statuses([200, 400])
 def validate_application_good(request, pk, json):
     post_data = get_data_from_post_good_on_app(json)
     post_data["validate_only"] = True
-    return post(request, APPLICATIONS_URL + pk + "/goods/", post_data)
+    data = post(request, APPLICATIONS_URL + pk + "/goods/", post_data)
+    return data.json(), data.status_code
 
 
 def get_application_goods_types(request, pk):

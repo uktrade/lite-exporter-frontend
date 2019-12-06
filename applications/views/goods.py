@@ -159,14 +159,14 @@ class AddNewGood(TemplateView):
 
         # Call the relevant validation function for the form that posted.
         if pk:
-            data = self.validation_function[form_num](request, pk, json=post)
+            data, status_code = self.validation_function[form_num](request, pk, json=post)
         else:
-            data = self.validation_function[form_num](request, json=post)
+            data, status_code = self.validation_function[form_num](request, json=post)
 
-        if data.status_code != HTTPStatus.OK:
+        if status_code != HTTPStatus.OK:
             self.data = post
             self.generate_form(request, form_num)
-            self.errors = self.add_prefix_to_errors(data.json()["errors"], self.prefix[form_num])
+            self.errors = self.add_prefix_to_errors(data["errors"], self.prefix[form_num])
         else:
             self.data = post
             generate_form_num = form_num + 1

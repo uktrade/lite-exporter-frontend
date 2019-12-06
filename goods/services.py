@@ -42,7 +42,7 @@ def validate_good(request, json):
         post_data = json
     post_data["validate_only"] = True
     data = post(request, GOODS_URL, post_data)
-    return data
+    return data.json(), data.status_code
 
 
 @acceptable_statuses([200, 400, 404])
