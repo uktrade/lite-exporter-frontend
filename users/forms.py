@@ -22,12 +22,12 @@ def add_user_form(request):
     )
 
 
-def edit_user_form(request, user_id, cannot_edit_role: bool):
+def edit_user_form(request, user_id, can_edit_role: bool):
     return Form(
         title=strings.USER_EDIT_TITLE,
         questions=[
             conditional(
-                not cannot_edit_role,
+                can_edit_role,
                 Select(
                     name="role",
                     options=get_roles(request, request.user.organisation, True),
