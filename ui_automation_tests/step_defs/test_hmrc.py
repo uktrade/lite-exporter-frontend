@@ -47,7 +47,7 @@ def wait_for_document(driver):
     document_is_found = False
     while not document_is_found:
         if "Processing" in driver.find_element_by_id("document").text:
-            time.sleep(0.1)
+            time.sleep(1)
             driver.refresh()
         else:
             document_is_found = True
