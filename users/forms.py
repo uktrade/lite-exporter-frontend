@@ -1,4 +1,5 @@
 from django.urls import reverse_lazy
+from lite_forms.helpers import conditional
 
 from lite_content.lite_exporter_frontend import strings
 from lite_forms.components import Form, Select, TextInput, BackLink
@@ -35,6 +36,6 @@ def edit_user_form(request, user_id, cannot_edit_role: bool):
                 ),
             ),
         ],
-        back_link=BackLink(strings.USER_EDIT_FORM_BACK_TO_USER, reverse_lazy("users:user", kwargs={"pk": user["id"]})),
+        back_link=BackLink(strings.USER_EDIT_FORM_BACK_TO_USER, reverse_lazy("users:user", kwargs={"pk": user_id})),
         default_button_name=strings.USER_EDIT_FORM_SAVE,
     )
