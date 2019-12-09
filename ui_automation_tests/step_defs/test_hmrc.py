@@ -51,4 +51,3 @@ def wait_for_document(driver):
             driver.refresh()
         else:
             document_is_found = True
-
