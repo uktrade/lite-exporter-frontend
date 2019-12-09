@@ -17,7 +17,7 @@ class Roles(TemplateView):
         organisation = get_organisation(request, organisation_id)
         roles = get_roles(request, organisation_id)
         all_permissions = get_permissions(request)
-        user = get_user(request)["user"]
+        user = get_user(request)
         user_permissions = user["role"]["permissions"]
         user_role_id = user["role"]["id"]
 
