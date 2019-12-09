@@ -47,7 +47,7 @@ class AddUser(SingleFormView):
 
 class ViewUser(TemplateView):
     def get(self, request, **kwargs):
-        request_user, _ = get_user(request)
+        request_user = get_user(request)
         user = get_user(request)
         is_user_super_user = is_super_user(user)
 
