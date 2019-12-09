@@ -3,8 +3,9 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
-from conf.constants import Permissions, SUPER_USER_ROLE_ID
+from conf.constants import Permissions
 from core.services import get_organisation_users, get_organisation, get_organisation_user, put_organisation_user
+from lite_content.lite_exporter_frontend import strings
 from lite_forms.views import SingleFormView
 from roles.services import get_user_permissions
 from users.forms import add_user_form, edit_user_form
@@ -28,13 +29,13 @@ class Users(TemplateView):
             raise Http404
 
         context = {
-            "title": "Users - " + organisation["name"],
+            "title": strings.MANAGE_ORGANISATIONS_MEMBERS_TAB + " - " + organisation["name"],
             "users": users["users"],
             "organisation": organisation,
             "can_administer_roles": roles,
             "can_administer_sites": sites,
         }
-        return render(request, "users/index.html", context)
+        return render(request, "users/users.html", context)
 
 
 class AddUser(SingleFormView):
@@ -51,10 +52,9 @@ class ViewUser(TemplateView):
         super_user = is_super_user(request_user)
         can_deactivate = not is_super_user(user)
         context = {
-            "profile": user["user"],
-            "super_user": super_user,
-            "super_user_role_id": SUPER_USER_ROLE_ID,
-            "can_deactivate": can_deactivate,
+            "profile": request_user,
+            "show_change_status": show_change_status,
+            "show_change_role": show_change_role,
         }
         return render(request, "users/profile.html", context)
 
@@ -111,4 +111,4 @@ class ChangeUserStatus(TemplateView):
 
         put_organisation_user(request, str(kwargs["pk"]), request.POST)
 
-        return redirect("/users/")
+        return redirect(reverse_lazy("users:users"))
