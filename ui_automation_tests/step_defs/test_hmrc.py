@@ -46,7 +46,7 @@ def i_click_on_hmrc_explain_your_reasoning(driver):
 def wait_for_document(driver):
     document_is_found = False
     while not document_is_found:
-        if 'Processing' in driver.find_element_by_id('document').text:
+        if "Processing" in driver.find_element_by_id('document').text:
             time.sleep(0.1)
             driver.refresh()
         else:
