@@ -41,13 +41,13 @@ def add_goods_questions(allow_query=True, back_link=BackLink, prefix=""):
         title=strings.GOODS_CREATE_TITLE,
         questions=[
             TextArea(
-                title="Description of good",
-                description="This can make it easier to find your good later",
+                title="Description",
+                description="",
                 name=prefix + "description",
                 extras={"max_length": 280,},
             ),
             RadioButtons(
-                title="Is your good controlled?",
+                title="Is the product controlled?",
                 description=description,
                 name=prefix + "is_good_controlled",
                 options=is_your_good_controlled_options,
@@ -55,20 +55,20 @@ def add_goods_questions(allow_query=True, back_link=BackLink, prefix=""):
             ),
             control_list_entry_question(
                 control_list_entries=get_control_list_entries(None, convert_to_options=True),
-                title="What's your good's control list entry?",
-                description="<noscript>If your good is controlled, enter its "
-                "control list entry. </noscript>For example, ML1a.",
+                title="Control list classification",
+                description="<noscript>If your product is controlled, enter its "
+                "control list classification. </noscript>For example, ML1a.",
                 name=prefix + "control_code",
                 inset_text=False,
             ),
             RadioButtons(
-                title="Is your good intended to be incorporated into an end product?",
+                title="Will the product be incorporated into another product?",
                 description="",
                 name=prefix + "is_good_end_product",
                 options=[Option(key="no", value="Yes"), Option(key="yes", value="No")],
                 classes=["govuk-radios--inline"],
             ),
-            TextInput(title="Part Number", name=prefix + "part_number", optional=True),
+            TextInput(title="Part number (optional)", name=prefix + "part_number", optional=True),
         ],
         back_link=back_link,
     )
@@ -82,34 +82,34 @@ def are_you_sure(good_id):
         description=get_string("clc.clc_form.description"),
         questions=[
             TextInput(
-                title="What do you think is your good's control list entry?",
+                title="What do you think is your product's control list entry?",
                 description="For example, ML1a.",
                 optional=True,
                 name="not_sure_details_control_code",
             ),
             TextArea(
-                title="Further details about your goods",
-                description="Please enter details of why you don't know if your good is controlled",
+                title="Further details about your product",
+                description="Please enter details of why you don't know if your product is controlled",
                 optional=True,
                 name="not_sure_details_details",
             ),
         ],
-        back_link=BackLink("Back to good", reverse("goods:good", kwargs={"pk": good_id})),
+        back_link=BackLink("Back to product", reverse("goods:good", kwargs={"pk": good_id})),
     )
 
 
 def edit_form(good_id):
     return Form(
-        title="Edit Good",
+        title="Edit product",
         questions=[
             TextArea(
-                title="Description of good",
-                description="This can make it easier to find your good later",
+                title="Description",
+                description="",
                 name="description",
                 extras={"max_length": 280,},
             ),
             RadioButtons(
-                title="Is your good controlled?",
+                title="Is the product controlled?",
                 description='If you don\'t know you can use <a class="govuk-link" href="'
                 + env("PERMISSIONS_FINDER_URL")
                 + '">Permissions Finder</a>.',
@@ -123,24 +123,24 @@ def edit_form(good_id):
             ),
             control_list_entry_question(
                 control_list_entries=get_control_list_entries(None, convert_to_options=True),
-                title="What's your good's control list entry?",
-                description="<noscript>If your good is controlled, enter its control list entry. </noscript>For example, ML1a.",
+                title="Control list classification",
+                description="<noscript>If your product is controlled, enter its control list classification. </noscript>For example, ML1a.",
                 name="control_code",
                 inset_text=False,
             ),
             RadioButtons(
-                title="Is your good intended to be incorporated into an end product?",
+                title="Will the product be incorporated into another product?",
                 description="",
                 name="is_good_end_product",
                 options=[Option(key=True, value="Yes"), Option(key=False, value="No")],
                 classes=["govuk-radios--inline"],
             ),
-            TextInput(title="Part Number", name="part_number", optional=True),
+            TextInput(title="Part number (optional)", name="part_number", optional=True),
         ],
         buttons=[
             Button("Save", "submit", ButtonStyle.DEFAULT),
             Button(
-                value="Delete good",
+                value="Delete product",
                 action="",
                 style=ButtonStyle.WARNING,
                 link=reverse_lazy("goods:delete", kwargs={"pk": good_id}),
@@ -187,7 +187,7 @@ def respond_to_query_form(good_id, ecju_query):
             HiddenField(name="form_name", value="respond_to_query"),
         ],
         back_link=BackLink(
-            "Back to good", reverse_lazy("goods:good_detail", kwargs={"pk": good_id, "type": "ecju-queries"})
+            "Back to product", reverse_lazy("goods:good_detail", kwargs={"pk": good_id, "type": "ecju-queries"})
         ),
         default_button_name="Submit response",
     )
@@ -207,10 +207,10 @@ def ecju_query_respond_confirmation_form(edit_response_url):
 
 def delete_good_form(good):
     return Form(
-        title="Are you sure you want to delete this good?",
+        title="Are you sure you want to delete this product?",
         questions=[good_summary(good)],
         buttons=[
-            Button(value="Yes, delete the good", action="submit", style=ButtonStyle.WARNING),
+            Button(value="Yes, delete the product", action="submit", style=ButtonStyle.WARNING),
             Button(
                 value="Cancel",
                 action="",
