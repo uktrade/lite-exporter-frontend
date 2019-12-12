@@ -12,8 +12,11 @@ def goods_type_form():
             TextArea(title="Description", name="description", extras={"max_length": 2000,}),
             RadioButtons(
                 title="Are your products controlled?",
-                description='Products that aren't on the <a class="govuk-link" target="_blank" '
-                'href="https://permissions-finder.service.trade.gov.uk/">control list</a> may be affected by military end use controls, current trade sanctions and embargoes or weapons of mass destruction controls. If your products aren't subject to any controls, you'll get a no licence required (NLR) document from ECJU.',
+                description="Products that aren't on the <a class='govuk-link' target='_blank' "
+                "href='https://permissions-finder.service.trade.gov.uk/'>control list</a> "
+                "may be affected by military end use controls, current trade sanctions and embargoes or weapons of "
+                "mass destruction controls. If your products aren't subject to any controls, you'll get a no licence "
+                "required (NLR) document from ECJU.",
                 name="is_good_controlled",
                 options=[Option(key="yes", value="Yes", show_pane="pane_control_code"), Option(key="no", value="No")],
                 classes=["govuk-radios--inline"],
