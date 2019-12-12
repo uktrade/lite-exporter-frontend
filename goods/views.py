@@ -33,6 +33,7 @@ from goods.forms import (
     ecju_query_respond_confirmation_form,
     delete_good_form,
     add_goods_questions,
+    document_grading_form,
 )
 from goods.services import (
     get_goods,
@@ -212,6 +213,13 @@ class DeleteGood(TemplateView):
     def post(self, request, **kwargs):
         delete_good(request, str(kwargs["pk"]))
         return redirect(reverse_lazy("goods:goods"))
+
+
+class CheckDocumentGrading(TemplateView):
+    def get(self, request, **kwargs):
+        good_id = str(kwargs["pk"])
+        form = document_grading_form()
+        return form_page(request, form, extra_data={"good_id": good_id})
 
 
 @method_decorator(csrf_exempt, "dispatch")

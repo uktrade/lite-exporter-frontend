@@ -17,6 +17,8 @@ from lite_forms.components import (
     HTMLBlock,
     HiddenField,
     Button,
+    Label,
+    HiddenPane,
 )
 from lite_forms.generators import confirm_form
 from lite_forms.styles import ButtonStyle
@@ -147,6 +149,22 @@ def edit_form(good_id):
                 float_right=True,
             ),
         ],
+    )
+
+
+def document_grading_form():
+    return Form(
+        title="Does your good meet the following criteria?",
+        description="I have a document for my good\nThe document is below official-sensitive in rating\nThe document is not commercially sensitive",
+        questions=[
+            RadioButtons(
+                name="abc",
+                options=[Option(key="yes", value="Yes"), Option(key="no", value="No", show_pane="ecju_contact"),],
+                classes=["govuk-radios--inline"],
+            ),
+            HiddenPane(pane_items=[Label(text="You need to contact ECJU...")], name="ecju_contact",),
+        ],
+        default_button_name="Continue",
     )
 
 
