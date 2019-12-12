@@ -40,12 +40,7 @@ def add_goods_questions(allow_query=True, back_link=BackLink, prefix=""):
     form = Form(
         title=strings.GOODS_CREATE_TITLE,
         questions=[
-            TextArea(
-                title="Description",
-                description="",
-                name=prefix + "description",
-                extras={"max_length": 280,},
-            ),
+            TextArea(title="Description", description="", name=prefix + "description", extras={"max_length": 280,},),
             RadioButtons(
                 title="Is the product controlled?",
                 description=description,
@@ -102,12 +97,7 @@ def edit_form(good_id):
     return Form(
         title="Edit product",
         questions=[
-            TextArea(
-                title="Description",
-                description="",
-                name="description",
-                extras={"max_length": 280,},
-            ),
+            TextArea(title="Description", description="", name="description", extras={"max_length": 280,},),
             RadioButtons(
                 title="Is the product controlled?",
                 description='If you don\'t know you can use <a class="govuk-link" href="'
