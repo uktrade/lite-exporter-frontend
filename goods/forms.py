@@ -5,6 +5,7 @@ from core.builtins.custom_tags import get_string
 from core.services import get_control_list_entries
 from goods.helpers import good_summary
 from lite_content.lite_exporter_frontend import strings
+from lite_content.lite_exporter_frontend.goods import DocumentSensitivityForm
 from lite_forms.common import control_list_entry_question
 from lite_forms.components import (
     Form,
@@ -154,15 +155,17 @@ def edit_form(good_id):
 
 def document_grading_form():
     return Form(
-        title="Does your good meet the following criteria?",
-        description="I have a document for my good\nThe document is below official-sensitive in rating\nThe document is not commercially sensitive",
+        title=DocumentSensitivityForm.TITLE,
+        description=DocumentSensitivityForm.DESCRIPTION,
         questions=[
             RadioButtons(
-                name="abc",
-                options=[Option(key="yes", value="Yes"), Option(key="no", value="No", show_pane="ecju_contact"),],
-                classes=["govuk-radios--inline"],
+                name="sensitive",
+                options=[
+                    Option(key="yes", value=DocumentSensitivityForm.Options.YES),
+                    Option(key="no", value=DocumentSensitivityForm.Options.NO, show_pane="ecju_contact"),
+                ],
             ),
-            HiddenPane(pane_items=[Label(text="You need to contact ECJU...")], name="ecju_contact",),
+            HiddenPane(pane_items=[Label(text=DocumentSensitivityForm.ECJU_HELPLINE)], name="ecju_contact",),
         ],
         default_button_name="Continue",
     )
