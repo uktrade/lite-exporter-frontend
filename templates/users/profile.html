@@ -1,5 +1,7 @@
 {% extends 'layouts/two_pane.html' %}
 
+{% load static %}
+
 {% block back_link %}
     <a href="{% url 'users:users' %}" id="back-link" class="govuk-back-link">{% lcs "USER_PROFILE_BACK_TO_USERS" %}</a>
 {% endblock %}
@@ -18,22 +20,29 @@
 			</h1>
 		</div>
 		<div class="lite-app-bar__controls">
-			{% if show_change_status %}
-				{% if profile.status == 'Active' %}
-					<a href="{% url 'users:change_status' profile.id 'deactivate' %}" id="btn-deactivate" role="button" draggable="false" class="govuk-button govuk-button--secondary">
-						{% lcs 'USER_DEACTIVATE' %}
-					</a>
-				{% elif profile.status == 'Deactivated' %}
-					<a href="{% url 'users:change_status' profile.id 'reactivate' %}" id="btn-reactivate" role="button" draggable="false" class="govuk-button govuk-button--secondary">
-						{% lcs 'USER_REACTIVATE' %}
+			<div class="lite-more-actions__container lite-more-actions__container--secondary">
+				{% if show_change_status %}
+					{% if profile.status == 'Active' %}
+						<a href="{% url 'users:change_status' profile.id 'deactivate' %}" id="btn-deactivate" role="button" draggable="false" class="govuk-button">
+							{% lcs 'USER_DEACTIVATE' %}
+						</a>
+					{% elif profile.status == 'Deactivated' %}
+						<a href="{% url 'users:change_status' profile.id 'reactivate' %}" id="btn-reactivate" role="button" draggable="false" class="govuk-button">
+							{% lcs 'USER_REACTIVATE' %}
+						</a>
+					{% endif %}
+				{% endif %}
+				{% if show_change_role %}
+					<a href="{% url 'users:edit' profile.id %}" type="submit" class="govuk-button">
+						{% lcs 'USER_EDIT_TITLE' %}
 					</a>
 				{% endif %}
-			{% endif %}
-			{% if show_change_role %}
-				<a href="{% url 'users:edit' profile.id %}" type="submit" class="govuk-button govuk-button--secondary">
-					{% lcs 'USER_EDIT_TITLE' %}
-				</a>
-			{% endif %}
+				{% if show_change_role %}
+					<a href="{% url 'users:edit' profile.id %}" type="submit" class="govuk-button">
+						Assign user to sites
+					</a>
+				{% endif %}
+			</div>
 		</div>
 	</div>
 {% endblock %}
@@ -92,4 +101,20 @@
 			</dd>
 		</div>
 	</dl>
+
+	<hr class="lite-horizontal-separator">
+
+	<h2 class="govuk-heading-m">Sites</h2>
+	<dl class="govuk-summary-list govuk-summary-list--no-border">
+		<div class="govuk-summary-list__row">
+			<dd class="govuk-summary-list__value">
+				<span class="govuk-!-font-weight-bold">HQ</span>
+				<span class="govuk-hint">asdads ads asdads asd</span>
+			</dd>
+		</div>
+	</dl>
+{% endblock %}
+
+{% block javascript %}
+	<script src="{% static 'javascripts/more-actions.js' %}"></script>
 {% endblock %}
