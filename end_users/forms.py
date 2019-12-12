@@ -27,11 +27,11 @@ def apply_for_an_end_user_advisory_form(individual, commercial):
                 title="Confirm how your products will be used",
                 questions=[
                     HTMLBlock(
-                        '<ul class="govuk-list govuk-list--bullet">'
-                        '<li class="govuk-!-margin-bottom-5">I've checked the <a class="govuk-link" href="https://scsanctions.un.org/fop/fop?xml=htdocs/resources/xml/en/consolidated.xml&xslt=htdocs/resources/xsl/en/consolidated.xsl">UN Security Council Committee’s list</a> and my products will not be used by anyone named on this list</li>'  # noqa
-                        '<li class="govuk-!-margin-bottom-5">I've checked the <a class="govuk-link" href="https://permissions-finder.service.trade.gov.uk/">Department for International Trade’s list of controlled goods</a> and my products are not controlled</li>'  # noqa
-                        '<li class="govuk-!-margin-bottom-5">I've previously not been informed by the Export Control Joint Unit (ECJU) that my products could be used to make chemical, biological or nuclear weapons</li>'  # noqa
-                        "<li>I do not have any reason to suspect that my products could be used to make chemical, biological or nuclear weapons</li>"
+                        "<ul class='govuk-list govuk-list--bullet'>"
+                        "<li class='govuk-!-margin-bottom-5'>I've checked the <a class='govuk-link' href='https://scsanctions.un.org/fop/fop?xml=htdocs/resources/xml/en/consolidated.xml&xslt=htdocs/resources/xsl/en/consolidated.xsl'>UN Security Council Committee's list</a> and my products will not be used by anyone named on this list</li>"  # noqa
+                        "<li class='govuk-!-margin-bottom-5'>I've checked the <a class='govuk-link' href='https://permissions-finder.service.trade.gov.uk/'>Department for International Trade's list of controlled goods</a> and my products are not controlled</li>"  # noqa
+                        "<li class='govuk-!-margin-bottom-5'>I've previously not been informed by the Export Control Joint Unit (ECJU) that my products could be used to make chemical, biological or nuclear weapons</li>"  # noqa
+                        "<li>I do not have any reason to suspect that my products could be used to make chemical, biological or nuclear weapons</li>"  # noqa
                         "</ul>"
                     ),
                 ],
@@ -57,31 +57,15 @@ def apply_for_an_end_user_advisory_form(individual, commercial):
                 title="End user details",
                 questions=[
                     TextInput(title="Organisation name", name="end_user.name"),
+                    conditional(individual, TextInput(title="Email address", name="contact_email")),
+                    conditional(individual, TextInput(title="Telephone number", name="contact_telephone")),
                     conditional(
-                        individual, TextInput(title="Email address", name="contact_email")
+                        commercial, TextInput(title="Nature of the end user's business", name="nature_of_business"),
                     ),
-                    conditional(
-                        individual, TextInput(title="Telephone number", name="contact_telephone")
-                    ),
-                    conditional(
-                        commercial,
-                        TextInput(title="Nature of the end user's business", name="nature_of_business"),
-                    ),
-                    conditional(
-                        not individual, TextInput(title="Contact's name", name="contact_name")
-                    ),
-                    conditional(
-                        not individual,
-                        TextInput(title="Job title", name="contact_job_title"),
-                    ),
-                    conditional(
-                        not individual,
-                        TextInput(title="Email address", name="contact_email"),
-                    ),
-                    conditional(
-                        not individual,
-                        TextInput(title="Telephone number", name="contact_telephone"),
-                    ),
+                    conditional(not individual, TextInput(title="Contact's name", name="contact_name")),
+                    conditional(not individual, TextInput(title="Job title", name="contact_job_title"),),
+                    conditional(not individual, TextInput(title="Email address", name="contact_email"),),
+                    conditional(not individual, TextInput(title="Telephone number", name="contact_telephone"),),
                     TextInput(title="Website address", name="end_user.website", optional=True),
                     TextArea(
                         title="Address",
@@ -101,14 +85,14 @@ def apply_for_an_end_user_advisory_form(individual, commercial):
                         title="What's your reasoning behind this query? (optional)",
                         optional=True,
                         name="reasoning",
-                        extras={"max_length": 2000,},
+                        extras={"max_length": 2000},
                     ),
                     TextArea(
                         title="Is there any other information you can provide about this end user? (optional)",
                         description="This may help provide a quicker response from ECJU.",
                         optional=True,
                         name="note",
-                        extras={"max_length": 2000,},
+                        extras={"max_length": 2000},
                     ),
                     HiddenField("validate_only", False),
                 ],
@@ -125,31 +109,15 @@ def copy_end_user_advisory_form(individual, commercial):
                 title="End user details",
                 questions=[
                     TextInput(title="Organisation name", name="end_user.name"),
+                    conditional(individual, TextInput(title="Email address", name="contact_email")),
+                    conditional(individual, TextInput(title="Telephone number", name="contact_telephone")),
                     conditional(
-                        individual, TextInput(title="Email address", name="contact_email")
+                        commercial, TextInput(title="Nature of the end user's business", name="nature_of_business"),
                     ),
-                    conditional(
-                        individual, TextInput(title="Telephone number", name="contact_telephone")
-                    ),
-                    conditional(
-                        commercial,
-                        TextInput(title="Nature of the end user's business", name="nature_of_business"),
-                    ),
-                    conditional(
-                        not individual, TextInput(title="Contact's name", name="contact_name")
-                    ),
-                    conditional(
-                        not individual,
-                        TextInput(title="Job title", name="contact_job_title"),
-                    ),
-                    conditional(
-                        not individual,
-                        TextInput(title="Email address", name="contact_email"),
-                    ),
-                    conditional(
-                        not individual,
-                        TextInput(title="Telephone number", name="contact_telephone"),
-                    ),
+                    conditional(not individual, TextInput(title="Contact's name", name="contact_name")),
+                    conditional(not individual, TextInput(title="Job title", name="contact_job_title"),),
+                    conditional(not individual, TextInput(title="Email address", name="contact_email"),),
+                    conditional(not individual, TextInput(title="Telephone number", name="contact_telephone"),),
                     TextInput(title="Website address", name="end_user.website", optional=True),
                     TextArea(
                         title="Address",
@@ -179,7 +147,7 @@ def copy_end_user_advisory_form(individual, commercial):
                         description="This may help provide a quicker response from ECJU.",
                         optional=True,
                         name="note",
-                        extras={"max_length": 2000,},
+                        extras={"max_length": 2000},
                     ),
                     HiddenField("validate_only", False),
                 ],
@@ -217,12 +185,13 @@ def respond_to_query_form(query_id, ecju_query):
                 name="response",
                 title="Your response",
                 description="You can't edit this once it's submitted.",
-                extras={"max_length": 2200,},
+                extras={"max_length": 2200},
             ),
             HiddenField(name="form_name", value="respond_to_query"),
         ],
         back_link=BackLink(
-            "Back to product", reverse_lazy("end_users:end_user_detail", kwargs={"pk": query_id, "type": "ecju-queries"})
+            "Back to product",
+            reverse_lazy("end_users:end_user_detail", kwargs={"pk": query_id, "type": "ecju-queries"}),
         ),
         default_button_name="Submit response",
     )
