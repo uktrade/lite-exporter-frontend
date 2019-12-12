@@ -17,8 +17,7 @@ def told_by_an_official_form(application_id):
             ),
             TextInput(
                 title="Reference number (optional)",
-                description="The reference number is on the letter or "
-                "email.",
+                description="The reference number is on the letter or email.",
                 name="reference_number_on_information_form",
                 optional=True,
             ),
