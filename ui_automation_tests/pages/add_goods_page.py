@@ -1,4 +1,6 @@
 class AddGoodPage:
+    DOCUMENT_VALID_YES = "has_document_to_upload-yes"  # ID
+
     def __init__(self, driver, prefix=""):
         self.driver = driver
         self.add_a_good_btn = "#add-a-good"
@@ -48,3 +50,6 @@ class AddGoodPage:
         part_number_tb = self.driver.find_element_by_id(self.prefix + "part_number")
         part_number_tb.clear()
         part_number_tb.send_keys(part_number)
+
+    def confirm_can_upload_good_document(self):
+        self.driver.find_element_by_id(self.DOCUMENT_VALID_YES).click()

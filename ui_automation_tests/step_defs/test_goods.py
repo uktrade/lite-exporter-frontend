@@ -161,3 +161,10 @@ def create_a_new_good_in_application(driver, description, controlled, control_co
 def i_enter_detail_for_the_good_on_the_application(driver, value, quantity, unit):
     ApplicationGoodsList(driver, prefix="good_on_app_").add_values_to_good(value, quantity, unit)
     functions.click_submit(driver)
+
+
+@when("I confirm I can upload a document")
+def confirm_can_upload_document(driver):
+    # Confirm you have a document that is not sensitive
+    AddGoodPage(driver).confirm_can_upload_good_document()
+    functions.click_submit(driver)

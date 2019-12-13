@@ -46,6 +46,7 @@ def add_a_non_incorporated_good_to_application(driver, context, request, exporte
 
 @fixture(scope="function")
 def create_non_incorporated_good(driver, request, context):
+    # TODO: Change this fixture to a seed operation for efficiency
     good_name = "Modifiable Good " + utils.get_formatted_date_time_m_d_h_s()
     context.goods_name = good_name
     exporter_hub = ExporterHubPage(driver)
@@ -59,6 +60,12 @@ def create_non_incorporated_good(driver, request, context):
     add_goods_page.select_is_your_good_intended_to_be_incorporated_into_an_end_product("No")
     add_goods_page.enter_control_code("ML1a")
     functions.click_submit(driver)
+
+    # Confirm you have a document that is not sensitive
+    AddGoodPage(driver).confirm_can_upload_good_document()
+    functions.click_submit(driver)
+
+    # Upload file
     context.file_to_be_deleted_name = "file_for_doc_upload_test_2.txt"
     # Path gymnastics to get the absolute path for $PWD/../resources/(file_to_upload_x) that works everywhere
     file_to_upload_abs_path = os.path.abspath(
