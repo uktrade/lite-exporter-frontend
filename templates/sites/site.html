@@ -82,8 +82,19 @@
 		{% for user in site.users %}
 			<div class="govuk-summary-list__row">
 				<dd class="govuk-summary-list__value">
-					<span class="govuk-!-font-weight-bold">{{ user.first_name }} {{ user.last_name }}</span>
+					{% if user.first_name %}
+						<span class="govuk-!-font-weight-bold">{{ user.first_name }} {{ user.last_name }}</span>
+					{% else %}
+						<strong class="govuk-tag govuk-phase-banner__content__tag ">
+							{% lcs "USER_PENDING" %}
+						</strong>
+					{% endif %}
 					<span class="govuk-hint">{{ user.email }}</span>
+				</dd>
+				<dd class="govuk-summary-list__actions">
+					<a class="govuk-link" href="{% url 'users:user' user.id %}">
+						View
+					</a>
 				</dd>
 			</div>
 		{% endfor %}

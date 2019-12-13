@@ -66,7 +66,7 @@
 							{% endfor %}
 						</ul>
 					</td>
-                    <td class="govuk-table__cell">
+                    <td class="govuk-table__cell govuk-table__cell--numeric">
                         {% if not role.id in immutable_roles %}
                             {% if 'EXPORTER_ADMINISTER_ROLES' in user_permissions %}
                                 {% if role.id != user_role_id %}
