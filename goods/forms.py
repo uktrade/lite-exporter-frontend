@@ -162,7 +162,7 @@ def document_grading_form(request):
         description=DocumentSensitivityForm.DESCRIPTION,
         questions=[
             RadioButtons(
-                name="sensitive",
+                name="has_document_to_upload",
                 options=[
                     Option(key="yes", value=DocumentSensitivityForm.Options.YES),
                     Option(key="no", value=DocumentSensitivityForm.Options.NO, show_pane="ecju_contact"),
@@ -170,7 +170,7 @@ def document_grading_form(request):
             ),
             HiddenPane(pane_items=[
                 Label(text=DocumentSensitivityForm.ECJU_HELPLINE),
-                Select(name="missing_doc_reason", options=select_options),
+                Select(name="missing_document_reason", options=select_options),
             ], name="ecju_contact",),
         ],
         default_button_name="Continue",
