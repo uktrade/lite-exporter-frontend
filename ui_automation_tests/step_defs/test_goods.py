@@ -12,7 +12,7 @@ from pages.goods_page import GoodsPage
 from pages.shared import Shared
 from shared import functions
 
-scenarios("../features/clc_queries_and_goods.feature", strict_gherkin=False)
+scenarios("../features/goods.feature", strict_gherkin=False)
 
 
 @then("I see good in goods list")
