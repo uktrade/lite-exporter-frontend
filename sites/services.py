@@ -1,7 +1,7 @@
 from lite_forms.components import Option
 
 from conf.client import get, post, put
-from conf.constants import SITES_URL, ORGANISATIONS_URL, NEWLINE
+from conf.constants import SITES_URL, ORGANISATIONS_URL, NEWLINE, USERS_URL
 from core.services import get_organisation
 
 
@@ -39,8 +39,8 @@ def get_sites(request, organisation_id, convert_to_options=False):
 
 
 def get_site(request, organisation_id, pk):
-    data = get(request, ORGANISATIONS_URL + organisation_id + SITES_URL + pk)
-    return data.json(), data.status_code
+    data = get(request, ORGANISATIONS_URL + str(organisation_id) + SITES_URL + str(pk))
+    return data.json()["site"]
 
 
 def put_site(request, organisation_id, pk, json):
@@ -50,4 +50,10 @@ def put_site(request, organisation_id, pk, json):
 
 def post_sites(request, organisation_id, json):
     data = post(request, ORGANISATIONS_URL + organisation_id + SITES_URL, json)
+    return data.json(), data.status_code
+
+
+def put_assign_sites(request, pk, json):
+    # TODO stop hardcoding sites!
+    data = put(request, USERS_URL + str(pk) + "/sites/", json)
     return data.json(), data.status_code

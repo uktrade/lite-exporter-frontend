@@ -38,7 +38,7 @@
 					</a>
 				{% endif %}
 				{% if show_change_role %}
-					<a href="{% url 'users:edit' profile.id %}" type="submit" class="govuk-button">
+					<a href="{% url 'users:assign_sites' profile.id %}" type="submit" class="govuk-button">
 						Assign user to sites
 					</a>
 				{% endif %}
@@ -106,12 +106,22 @@
 
 	<h2 class="govuk-heading-m">Sites</h2>
 	<dl class="govuk-summary-list govuk-summary-list--no-border">
-		<div class="govuk-summary-list__row">
-			<dd class="govuk-summary-list__value">
-				<span class="govuk-!-font-weight-bold">HQ</span>
-				<span class="govuk-hint">asdads ads asdads asd</span>
-			</dd>
-		</div>
+		{% for site in profile.sites %}
+			<div class="govuk-summary-list__row">
+				<dd class="govuk-summary-list__value">
+					<span class="govuk-!-font-weight-bold">{{ site.name }}</span>
+					<span class="govuk-hint">
+						{{ site.address.address_line_1 }}<br/>
+						{% if site.address.address_line_2 %}
+							{{ site.address.address_line_2 }}<br/>
+						{% endif %}
+						{{ site.address.city }}<br/>
+						{{ site.address.postcode }}<br/>
+						{{ site.address.country.name }}
+					</span>
+				</dd>
+			</div>
+		{% endfor %}
 	</dl>
 {% endblock %}
 

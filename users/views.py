@@ -8,7 +8,8 @@ from core.services import get_organisation_users, get_organisation, get_organisa
 from lite_content.lite_exporter_frontend import strings
 from lite_forms.views import SingleFormView
 from roles.services import get_user_permissions
-from users.forms import add_user_form, edit_user_form
+from sites.services import put_assign_sites
+from users.forms import add_user_form, edit_user_form, assign_sites
 from users.services import post_users, get_user, is_super_user
 
 
@@ -116,3 +117,12 @@ class ChangeUserStatus(TemplateView):
         put_organisation_user(request, str(kwargs["pk"]), request.POST)
 
         return redirect(reverse_lazy("users:users"))
+
+
+class AssignSites(SingleFormView):
+    def init(self, request, **kwargs):
+        self.object_pk = kwargs["pk"]
+        self.data = get_user(request, self.object_pk)
+        self.form = assign_sites(request)
+        self.action = put_assign_sites
+        self.success_url = reverse_lazy("users:user", kwargs={"pk": self.object_pk})

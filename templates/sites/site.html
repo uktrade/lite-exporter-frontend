@@ -1,0 +1,91 @@
+{% extends 'layouts/two_pane.html' %}
+
+{% load static %}
+
+{% block back_link %}
+    <a href="{% url 'sites:sites' %}" id="back-link" class="govuk-back-link">Back to sites</a>
+{% endblock %}
+
+{% block full_width %}
+	<div class="lite-app-bar">
+		<div class="lite-app-bar__content">
+			<h1 class="govuk-heading-xl">
+				{% block title %}
+					{{ site.name }}
+				{% endblock %}
+			</h1>
+		</div>
+		<div class="lite-app-bar__controls">
+			<a class="govuk-button govuk-button--secondary">
+				Edit site
+			</a>
+		</div>
+	</div>
+{% endblock %}
+
+{% block two_thirds %}
+	<dl class="govuk-summary-list govuk-summary-list--no-border">
+		<div class="govuk-summary-list__row">
+			<dt class="govuk-summary-list__key">
+				Building and street
+			</dt>
+			<dd class="govuk-summary-list__value">
+				{{ site.address.address_line_1 }}
+			</dd>
+		</div>
+		{% if site.address.address_line_2 %}
+			<div class="govuk-summary-list__row">
+				<dt class="govuk-summary-list__key"></dt>
+				<dd class="govuk-summary-list__value">
+					{{ site.address.address_line_2 }}
+				</dd>
+			</div>
+		{% endif %}
+		<div class="govuk-summary-list__row">
+			<dt class="govuk-summary-list__key">
+				Town or city
+			</dt>
+			<dd class="govuk-summary-list__value">
+				{{ site.address.city }}
+			</dd>
+		</div>
+		<div class="govuk-summary-list__row">
+			<dt class="govuk-summary-list__key">
+				County/State
+			</dt>
+			<dd class="govuk-summary-list__value">
+				{{ site.address.region }}
+			</dd>
+		</div>
+		<div class="govuk-summary-list__row">
+			<dt class="govuk-summary-list__key">
+				Postal Code
+			</dt>
+			<dd class="govuk-summary-list__value">
+				{{ site.address.postcode }}
+			</dd>
+		</div>
+		<div class="govuk-summary-list__row">
+			<dt class="govuk-summary-list__key">
+				Country
+			</dt>
+			<dd class="govuk-summary-list__value">
+				{{ site.address.country.name }}
+			</dd>
+		</div>
+	</dl>
+
+	<hr class="lite-horizontal-separator">
+
+	<h2 class="govuk-heading-m">Users</h2>
+	<dl class="govuk-summary-list govuk-summary-list--no-border">
+		{% for user in site.users %}
+			<div class="govuk-summary-list__row">
+				<dd class="govuk-summary-list__value">
+					<span class="govuk-!-font-weight-bold">{{ user.first_name }} {{ user.last_name }}</span>
+					<span class="govuk-hint">{{ user.email }}</span>
+				</dd>
+			</div>
+		{% endfor %}
+	</dl>
+{% endblock %}
