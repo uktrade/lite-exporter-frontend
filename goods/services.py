@@ -2,8 +2,13 @@ from http import HTTPStatus
 from urllib.parse import urlencode
 
 from conf.client import get, post, put, delete
-from conf.constants import GOODS_URL, DOCUMENTS_URL, CONTROL_LIST_CLASSIFICATIONS_URL, DOCUMENT_SENSITIVITY_URL, \
-    MISSING_DOCUMENT_REASONS_URL
+from conf.constants import (
+    GOODS_URL,
+    DOCUMENTS_URL,
+    CONTROL_LIST_CLASSIFICATIONS_URL,
+    DOCUMENT_SENSITIVITY_URL,
+    MISSING_DOCUMENT_REASONS_URL,
+)
 from core.helpers import remove_prefix
 
 

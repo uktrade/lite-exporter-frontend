@@ -46,7 +46,7 @@ from goods.services import (
     delete_good_document,
     post_good_documents,
     raise_clc_query,
-    post_good_document_sensitivity
+    post_good_document_sensitivity,
 )
 from lite_forms.views import SingleFormView
 

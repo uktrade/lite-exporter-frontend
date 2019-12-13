@@ -21,7 +21,8 @@ from lite_forms.components import (
     Button,
     Label,
     HiddenPane,
-    Select)
+    Select,
+)
 from lite_forms.generators import confirm_form
 from lite_forms.styles import ButtonStyle
 
@@ -168,10 +169,13 @@ def document_grading_form(request):
                     Option(key="no", value=DocumentSensitivityForm.Options.NO, show_pane="ecju_contact"),
                 ],
             ),
-            HiddenPane(pane_items=[
-                Label(text=DocumentSensitivityForm.ECJU_HELPLINE),
-                Select(name="missing_document_reason", options=select_options),
-            ], name="ecju_contact",),
+            HiddenPane(
+                pane_items=[
+                    Label(text=DocumentSensitivityForm.ECJU_HELPLINE),
+                    Select(name="missing_document_reason", options=select_options),
+                ],
+                name="ecju_contact",
+            ),
         ],
         default_button_name="Continue",
     )
