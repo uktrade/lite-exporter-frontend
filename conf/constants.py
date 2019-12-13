@@ -43,6 +43,7 @@ STATUS_PROPERTIES_URL = STATIC_URL + "statuses/properties/"
 UNITS_URL = STATIC_URL + "units/"
 COUNTRIES_URL = STATIC_URL + "countries/"
 CONTROL_LIST_ENTRIES_URL = STATIC_URL + "control-list-entries/"
+MISSING_DOCUMENT_REASONS_URL = STATIC_URL + "missing-document-reasons/"
 
 # Applications constants
 STANDARD_LICENCE = "standard_licence"

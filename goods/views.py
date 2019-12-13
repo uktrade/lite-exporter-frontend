@@ -219,7 +219,7 @@ class DeleteGood(TemplateView):
 class CheckDocumentGrading(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
-        self.form = document_grading_form()
+        self.form = document_grading_form(request)
         self.action = post_good_document_sensitivity
 
     def get_success_url(self):

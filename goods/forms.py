@@ -4,6 +4,7 @@ from conf.settings import env
 from core.builtins.custom_tags import get_string
 from core.services import get_control_list_entries
 from goods.helpers import good_summary
+from goods.services import get_document_missing_reasons
 from lite_content.lite_exporter_frontend import strings
 from lite_content.lite_exporter_frontend.goods import DocumentSensitivityForm
 from lite_forms.common import control_list_entry_question
@@ -20,7 +21,7 @@ from lite_forms.components import (
     Button,
     Label,
     HiddenPane,
-)
+    Select)
 from lite_forms.generators import confirm_form
 from lite_forms.styles import ButtonStyle
 
@@ -153,7 +154,9 @@ def edit_form(good_id):
     )
 
 
-def document_grading_form():
+def document_grading_form(request):
+    select_options = get_document_missing_reasons(request)[0]["reasons"]
+
     return Form(
         title=DocumentSensitivityForm.TITLE,
         description=DocumentSensitivityForm.DESCRIPTION,
@@ -165,7 +168,10 @@ def document_grading_form():
                     Option(key="no", value=DocumentSensitivityForm.Options.NO, show_pane="ecju_contact"),
                 ],
             ),
-            HiddenPane(pane_items=[Label(text=DocumentSensitivityForm.ECJU_HELPLINE)], name="ecju_contact",),
+            HiddenPane(pane_items=[
+                Label(text=DocumentSensitivityForm.ECJU_HELPLINE),
+                Select(name="missing_doc_reason", options=select_options),
+            ], name="ecju_contact",),
         ],
         default_button_name="Continue",
     )
