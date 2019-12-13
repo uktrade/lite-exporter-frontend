@@ -1,8 +1,8 @@
 from django.urls import reverse_lazy
-from lite_forms.helpers import conditional
 
 from lite_content.lite_exporter_frontend import strings
-from lite_forms.components import Form, Select, TextInput, BackLink, Checkboxes, Option
+from lite_forms.components import Form, Select, TextInput, BackLink, Checkboxes
+from lite_forms.helpers import conditional
 from roles.services import get_roles
 from sites.services import get_sites
 
