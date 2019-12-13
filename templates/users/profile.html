@@ -7,6 +7,12 @@
 {% endblock %}
 
 {% block full_width %}
+	{% if profile.status == 'Deactivated' %}
+		<div class="lite-info-bar lite-info-bar--error lite-info-bar--no-animation">
+			This user is deactivated
+		</div>
+	{% endif %}
+
 	<div class="lite-app-bar">
 		<div class="lite-app-bar__content">
 			<h1 class="govuk-heading-xl">
@@ -20,7 +26,7 @@
 			</h1>
 		</div>
 		<div class="lite-app-bar__controls">
-			{% if show_change_status and show_change_role and show_assign_sites %}
+			{% if show_change_status or show_change_role or show_assign_sites %}
 				<div class="lite-more-actions__container lite-more-actions__container--secondary">
 					{% if show_change_status %}
 						{% if profile.status == 'Active' %}
@@ -34,12 +40,12 @@
 						{% endif %}
 					{% endif %}
 					{% if show_change_role %}
-						<a href="{% url 'users:edit' profile.id %}" type="submit" class="govuk-button">
+						<a href="{% url 'users:edit' profile.id %}" class="govuk-button">
 							{% lcs 'USER_EDIT_TITLE' %}
 						</a>
 					{% endif %}
 					{% if show_assign_sites %}
-						<a href="{% url 'users:assign_sites' profile.id %}" type="submit" class="govuk-button">
+						<a href="{% url 'users:assign_sites' profile.id %}" class="govuk-button">
 							Assign user to sites
 						</a>
 					{% endif %}

@@ -57,10 +57,12 @@ class ViewUser(TemplateView):
 
         show_change_status = not is_request_user_super_user
         show_change_role = is_user_super_user and user["id"] != request_user["id"]
+        show_assign_sites = user["id"] != request_user["id"]
         context = {
             "profile": request_user,
             "show_change_status": show_change_status,
             "show_change_role": show_change_role,
+            "show_assign_sites": show_assign_sites,
         }
         return render(request, "users/profile.html", context)
 
@@ -116,7 +118,7 @@ class ChangeUserStatus(TemplateView):
 
         put_organisation_user(request, str(kwargs["pk"]), request.POST)
 
-        return redirect(reverse_lazy("users:users"))
+        return redirect(reverse_lazy("users:user", kwargs={"pk": kwargs["pk"]}))
 
 
 class AssignSites(SingleFormView):
