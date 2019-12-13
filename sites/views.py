@@ -102,4 +102,4 @@ class EditSite(TemplateView):
             validated_data["errors"] = flatten_data(validated_data["errors"])
             return form_page(request, self.form, data=request.POST, errors=validated_data["errors"])
 
-        return redirect(reverse_lazy("sites:sites"))
+        return redirect(reverse_lazy("sites:site", kwargs={"pk": kwargs["pk"]}))
