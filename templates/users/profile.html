@@ -20,29 +20,31 @@
 			</h1>
 		</div>
 		<div class="lite-app-bar__controls">
-			<div class="lite-more-actions__container lite-more-actions__container--secondary">
-				{% if show_change_status %}
-					{% if profile.status == 'Active' %}
-						<a href="{% url 'users:change_status' profile.id 'deactivate' %}" id="btn-deactivate" role="button" draggable="false" class="govuk-button">
-							{% lcs 'USER_DEACTIVATE' %}
-						</a>
-					{% elif profile.status == 'Deactivated' %}
-						<a href="{% url 'users:change_status' profile.id 'reactivate' %}" id="btn-reactivate" role="button" draggable="false" class="govuk-button">
-							{% lcs 'USER_REACTIVATE' %}
+			{% if show_change_status and show_change_role and show_assign_sites %}
+				<div class="lite-more-actions__container lite-more-actions__container--secondary">
+					{% if show_change_status %}
+						{% if profile.status == 'Active' %}
+							<a href="{% url 'users:change_status' profile.id 'deactivate' %}" id="btn-deactivate" role="button" draggable="false" class="govuk-button">
+								{% lcs 'USER_DEACTIVATE' %}
+							</a>
+						{% elif profile.status == 'Deactivated' %}
+							<a href="{% url 'users:change_status' profile.id 'reactivate' %}" id="btn-reactivate" role="button" draggable="false" class="govuk-button">
+								{% lcs 'USER_REACTIVATE' %}
+							</a>
+						{% endif %}
+					{% endif %}
+					{% if show_change_role %}
+						<a href="{% url 'users:edit' profile.id %}" type="submit" class="govuk-button">
+							{% lcs 'USER_EDIT_TITLE' %}
 						</a>
 					{% endif %}
-				{% endif %}
-				{% if show_change_role %}
-					<a href="{% url 'users:edit' profile.id %}" type="submit" class="govuk-button">
-						{% lcs 'USER_EDIT_TITLE' %}
-					</a>
-				{% endif %}
-				{% if show_change_role %}
-					<a href="{% url 'users:assign_sites' profile.id %}" type="submit" class="govuk-button">
-						Assign user to sites
-					</a>
-				{% endif %}
-			</div>
+					{% if show_assign_sites %}
+						<a href="{% url 'users:assign_sites' profile.id %}" type="submit" class="govuk-button">
+							Assign user to sites
+						</a>
+					{% endif %}
+				</div>
+			{% endif %}
 		</div>
 	</div>
 {% endblock %}
