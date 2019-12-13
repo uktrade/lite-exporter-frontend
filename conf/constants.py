@@ -30,6 +30,7 @@ ECJU_QUERIES_URL = "/ecju-queries/"
 GENERATED_DOCUMENTS_URL = "/generated-documents/"
 ADDITIONAL_DOCUMENT_URL = "/documents/"
 MANAGE_STATUS_URL = "/status/"
+DOCUMENT_SENSITIVITY_URL = "/document-sensitivity/"
 
 # Queries URLs
 QUERIES_URL = "/queries/"
