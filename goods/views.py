@@ -223,7 +223,12 @@ class CheckDocumentGrading(SingleFormView):
         self.action = post_good_document_sensitivity
 
     def get_success_url(self):
-        return reverse_lazy("goods:attach_documents", kwargs={"pk": self.object_pk})
+        good = self.get_validated_data()["good"]
+        if good["missing_document_reason"]:
+            url = "goods:good"
+        else:
+            url = "goods:attach_documents"
+        return reverse_lazy(url, kwargs={"pk": self.object_pk})
 
 
 @method_decorator(csrf_exempt, "dispatch")
