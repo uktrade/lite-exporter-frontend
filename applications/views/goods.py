@@ -56,7 +56,7 @@ class GoodsList(TemplateView):
 
         filtered_data = []
         for good in goods_list:
-            if good["documents"] and not good["is_good_controlled"] == "unsure":
+            if (good["documents"] or good["missing_document_reason"]) and not good["is_good_controlled"] == "unsure":
                 filtered_data.append(good)
 
         context = {
