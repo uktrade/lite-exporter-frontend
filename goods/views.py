@@ -46,6 +46,7 @@ from goods.services import (
     delete_good_document,
     post_good_documents,
     raise_clc_query,
+    post_good_document_sensitivity
 )
 from lite_forms.views import SingleFormView
 
@@ -149,7 +150,7 @@ class AddGood(SingleFormView):
         self.action = post_goods
 
     def get_success_url(self):
-        return reverse_lazy("goods:attach_documents", kwargs={"pk": self.get_validated_data()["good"]["id"]})
+        return reverse_lazy("goods:add_document", kwargs={"pk": self.get_validated_data()["good"]["id"]})
 
 
 class RaiseCLCQuery(TemplateView):
@@ -215,11 +216,14 @@ class DeleteGood(TemplateView):
         return redirect(reverse_lazy("goods:goods"))
 
 
-class CheckDocumentGrading(TemplateView):
-    def get(self, request, **kwargs):
-        good_id = str(kwargs["pk"])
-        form = document_grading_form()
-        return form_page(request, form, extra_data={"good_id": good_id})
+class CheckDocumentGrading(SingleFormView):
+    def init(self, request, **kwargs):
+        self.object_pk = kwargs["pk"]
+        self.form = document_grading_form()
+        self.action = post_good_document_sensitivity
+
+    def get_success_url(self):
+        return reverse_lazy("goods:attach_documents", kwargs={"pk": self.object_pk})
 
 
 @method_decorator(csrf_exempt, "dispatch")
