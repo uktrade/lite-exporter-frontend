@@ -187,7 +187,7 @@ def document_grading_form(request):
                 name="ecju_contact",
             ),
         ],
-        default_button_name="Continue",
+        default_button_name=DocumentSensitivityForm.BUTTON,
     )
 
 
