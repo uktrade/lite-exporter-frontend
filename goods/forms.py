@@ -6,7 +6,7 @@ from core.services import get_control_list_entries
 from goods.helpers import good_summary
 from goods.services import get_document_missing_reasons
 from lite_content.lite_exporter_frontend import strings
-from lite_content.lite_exporter_frontend.goods import DocumentSensitivityForm, CreateGoodForm
+from lite_content.lite_exporter_frontend.goods import DocumentSensitivityForm, CreateGoodForm, CLCQuery
 from lite_forms.common import control_list_entry_question
 from lite_forms.components import (
     Form,
@@ -85,23 +85,23 @@ def add_goods_questions(allow_query=True, back_link=BackLink, prefix=""):
 
 def are_you_sure(good_id):
     return Form(
-        title=get_string("clc.clc_form.title"),
-        description=get_string("clc.clc_form.description"),
+        title=CLCQuery.TITLE,
+        description=CLCQuery.DESCRIPTION,
         questions=[
             TextInput(
-                title="What do you think is your good's control list entry?",
-                description="For example, ML1a.",
+                title=CLCQuery.CLCCode.TITLE,
+                description=CLCQuery.CLCCode.DESCRIPTION,
                 optional=True,
                 name="not_sure_details_control_code",
             ),
             TextArea(
-                title="Further details about your goods",
-                description="Please enter details of why you don't know if your good is controlled",
+                title=CLCQuery.Additional.TITLE,
+                description=CLCQuery.Additional.DESCRIPTION,
                 optional=True,
                 name="not_sure_details_details",
             ),
         ],
-        back_link=BackLink("Back to good", reverse("goods:good", kwargs={"pk": good_id})),
+        back_link=BackLink(CLCQuery.BACK_LINK, reverse("goods:good", kwargs={"pk": good_id})),
     )
 
 
