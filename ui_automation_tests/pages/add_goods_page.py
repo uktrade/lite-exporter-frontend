@@ -1,5 +1,12 @@
+from selenium.webdriver.support.select import Select
+
+
 class AddGoodPage:
     DOCUMENT_VALID_YES = "has_document_to_upload-yes"  # ID
+    DOCUMENT_VALID_NO = "has_document_to_upload-no"  # ID
+    ECJU_HELPLINE = "ecju_contact"  # ID
+    MISSING_DOCUMENT_REASON = "missing_document_reason"  # ID
+    GOOD_SUMMARY = ".govuk-summary-list"  # CSS
 
     def __init__(self, driver, prefix=""):
         self.driver = driver
@@ -53,3 +60,15 @@ class AddGoodPage:
 
     def confirm_can_upload_good_document(self):
         self.driver.find_element_by_id(self.DOCUMENT_VALID_YES).click()
+
+    def confirm_cannot_upload_good_document(self):
+        self.driver.find_element_by_id(self.DOCUMENT_VALID_NO).click()
+
+    def get_ecju_help(self):
+        return self.driver.find_element_by_id(self.ECJU_HELPLINE).is_displayed()
+
+    def select_valid_missing_document_reason(self):
+        Select(self.driver.find_element_by_id(self.MISSING_DOCUMENT_REASON)).select_by_index(1)
+
+    def get_good_summary_text(self):
+        return self.driver.find_element_by_css_selector(self.GOOD_SUMMARY).text

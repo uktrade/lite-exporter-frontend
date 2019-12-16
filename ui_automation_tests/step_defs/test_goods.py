@@ -173,3 +173,27 @@ def confirm_can_upload_document(driver):
 @when("I go to my good")
 def go_to_good(driver, context, exporter_url):
     driver.get(f"{exporter_url}/goods/{context.good_id}")
+
+
+@when("I select that I cannot attach a document")
+def select_cannot_attach_a_document(driver):
+    AddGoodPage(driver).confirm_cannot_upload_good_document()
+
+
+@then("I see ECJU helpline details")
+def ecju_helpline(driver):
+    assert AddGoodPage(driver).get_ecju_help()
+
+
+@when("I select a valid missing document reason")
+def select_missing_document_reason(driver):
+    AddGoodPage(driver).select_valid_missing_document_reason()
+    functions.click_submit(driver)
+
+
+@then("My good is created")
+def good_created(driver, context):
+    summary = AddGoodPage(driver).get_good_summary_text()
+    assert context.good_description in summary
+    assert context.part in summary
+    assert context.control_code in summary

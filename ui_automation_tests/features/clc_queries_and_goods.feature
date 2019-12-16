@@ -46,3 +46,14 @@ Feature: I want to edit and remove goods on the goods list
     And I enter details for the new good on an application with value "99.98", quantity "13" and unit of measurement "Kilogram(s)" and I click Continue"
     And I attach a document to the good with description "Test good spec 01"
     Then A new good has been added to the application
+
+  @LT_1262_add_good_without_document @BAA
+  Scenario: Add a new good without a document for a valid reason
+    Given I go to exporter homepage and choose Test Org
+    When I click on goods link
+    And I click add a good button
+    And I add a good or good type with description "Hand pistol" controlled "Unsure" control code " " incorporated "No" and part number "321"
+    And I select that I cannot attach a document
+    Then I see ECJU helpline details
+    When I select a valid missing document reason
+    Then My good is created
