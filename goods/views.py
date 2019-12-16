@@ -6,10 +6,6 @@ from django.urls import reverse_lazy, reverse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
-
-from lite_content.lite_exporter_frontend import strings
-from lite_forms.components import HiddenField
-from lite_forms.generators import error_page, form_page
 from s3chunkuploader.file_handler import S3FileUploadHandler
 
 from applications.services import (
@@ -22,7 +18,6 @@ from applications.services import (
     download_document_from_s3,
     get_status_properties,
 )
-from core.builtins.custom_tags import get_string
 from core.helpers import group_notifications
 from core.services import get_notifications
 from goods import forms
@@ -48,6 +43,9 @@ from goods.services import (
     raise_clc_query,
     post_good_document_sensitivity,
 )
+from lite_content.lite_exporter_frontend import strings
+from lite_forms.components import HiddenField
+from lite_forms.generators import error_page, form_page
 from lite_forms.views import SingleFormView
 
 
