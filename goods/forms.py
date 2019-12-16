@@ -1,17 +1,15 @@
 from django.urls import reverse, reverse_lazy
 
-from conf.settings import env
 from core.builtins.custom_tags import get_string
 from core.services import get_control_list_entries
 from goods.helpers import good_summary
 from goods.services import get_document_missing_reasons
-from lite_content.lite_exporter_frontend import strings
 from lite_content.lite_exporter_frontend.goods import (
     DocumentSensitivityForm,
     CreateGoodForm,
     CLCQueryForm,
     EditGoodForm,
-)
+    AttachDocumentForm)
 from lite_forms.common import control_list_entry_question
 from lite_forms.components import (
     Form,
@@ -192,21 +190,21 @@ def document_grading_form(request):
     )
 
 
-def attach_documents_form(back_url, description):
+def attach_documents_form(back_url):
     return Form(
-        get_string("goods.documents.attach_documents.title"),
-        description,
-        [
+        title=AttachDocumentForm.TITLE,
+        description=AttachDocumentForm.DESCRIPTION,
+        questions=[
             FileUpload("documents"),
             TextArea(
-                title=get_string("goods.documents.attach_documents.description_field_title"),
+                title=AttachDocumentForm.Description.TITLE,
                 optional=True,
                 name="description",
                 extras={"max_length": 280,},
             ),
         ],
-        buttons=[Button("Save", "submit", disable_double_click=True)],
-        back_link=BackLink(get_string("goods.documents.attach_documents.back_to_good"), back_url),
+        buttons=[Button(AttachDocumentForm.BUTTON, "submit", disable_double_click=True)],
+        back_link=BackLink(AttachDocumentForm.BACK_LINK, back_url),
     )
 
 

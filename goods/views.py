@@ -237,9 +237,7 @@ class AttachDocuments(TemplateView):
         good_id = str(kwargs["pk"])
         # get_good(request, good_id)
 
-        form = attach_documents_form(
-            reverse("goods:good", kwargs={"pk": good_id}), get_string("goods.documents.attach_documents.description")
-        )
+        form = attach_documents_form(reverse("goods:good", kwargs={"pk": good_id}))
 
         return form_page(request, form, extra_data={"good_id": good_id})
 
