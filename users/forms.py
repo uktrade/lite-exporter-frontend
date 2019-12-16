@@ -18,9 +18,11 @@ def add_user_form(request):
                 title=strings.USER_ROLE_QUESTION,
                 include_default_select=False,
             ),
-            Checkboxes(title="What sites should the user be assigned to?",
-                       name="sites[]",
-                       options=get_sites(request, request.user.organisation, True))
+            Checkboxes(
+                title="What sites should the user be assigned to?",
+                name="sites[]",
+                options=get_sites(request, request.user.organisation, True),
+            ),
         ],
         back_link=BackLink(strings.USER_ADD_FORM_BACK_TO_USERS, reverse_lazy("users:users")),
     )
@@ -49,9 +51,6 @@ def assign_sites(request):
     return Form(
         title="Assign user to sites",
         description="Select all sites that apply.",
-        questions=[
-            Checkboxes(name="sites[]",
-                       options=get_sites(request, request.user.organisation, True))
-        ],
-        default_button_name="Save"
+        questions=[Checkboxes(name="sites[]", options=get_sites(request, request.user.organisation, True))],
+        default_button_name="Save",
     )
