@@ -238,12 +238,12 @@ def respond_to_query_form(good_id, ecju_query):
 
 def ecju_query_respond_confirmation_form(edit_response_url):
     return confirm_form(
-        title="Are you sure you want to send this response?",
+        title=RespondToQueryForm.ConfirmationForm.TITLE,
         confirmation_name="confirm_response",
         hidden_field="ecju_query_response_confirmation",
-        yes_label="Yes, send the response",
-        no_label="No, change my response",
-        back_link_text="Back to edit response",
+        yes_label=RespondToQueryForm.ConfirmationForm.YES,
+        no_label=RespondToQueryForm.ConfirmationForm.NO,
+        back_link_text=RespondToQueryForm.ConfirmationForm.BACK_LINK,
         back_url=edit_response_url,
     )
 
