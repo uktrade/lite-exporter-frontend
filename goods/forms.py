@@ -6,7 +6,7 @@ from core.services import get_control_list_entries
 from goods.helpers import good_summary
 from goods.services import get_document_missing_reasons
 from lite_content.lite_exporter_frontend import strings
-from lite_content.lite_exporter_frontend.goods import DocumentSensitivityForm
+from lite_content.lite_exporter_frontend.goods import DocumentSensitivityForm, CreateGoodForm
 from lite_forms.common import control_list_entry_question
 from lite_forms.components import (
     Form,
@@ -29,30 +29,30 @@ from lite_forms.styles import ButtonStyle
 
 def add_goods_questions(allow_query=True, back_link=BackLink, prefix=""):
     if allow_query:
-        description = strings.GOODS_CREATE_CONTROL_CODE_REQUIRED_DESC
+        description = CreateGoodForm.IsControlled.GET_CONTROL_CODE
         is_your_good_controlled_options = [
-            Option(key="yes", value=strings.GOODS_CREATE_CONTROL_CODE_YES, show_pane="pane_" + prefix + "control_code"),
-            Option(key="no", value=strings.GOODS_CREATE_CONTROL_CODE_NO),
-            Option(key="unsure", value=strings.GOODS_CREATE_CONTROL_CODE_UNSURE),
+            Option(key="yes", value=CreateGoodForm.IsControlled.YES, show_pane="pane_" + prefix + "control_code"),
+            Option(key="no", value=CreateGoodForm.IsControlled.NO),
+            Option(key="unsure", value=CreateGoodForm.IsControlled.UNSURE),
         ]
     else:
         description = strings.APPLICATION_GOODS_CONTROL_CODE_REQUIRED_DESCRIPTION
         is_your_good_controlled_options = [
-            Option(key="yes", value=strings.GOODS_CREATE_CONTROL_CODE_YES, show_pane="pane_" + prefix + "control_code"),
-            Option(key="no", value=strings.GOODS_CREATE_CONTROL_CODE_NO),
+            Option(key="yes", value=CreateGoodForm.IsControlled.YES, show_pane="pane_" + prefix + "control_code"),
+            Option(key="no", value=CreateGoodForm.IsControlled.NO),
         ]
 
     form = Form(
-        title=strings.GOODS_CREATE_TITLE,
+        title=CreateGoodForm.TITLE,
         questions=[
             TextArea(
-                title="Description of good",
-                description="This can make it easier to find your good later",
+                title=CreateGoodForm.Description.TITLE,
+                description=CreateGoodForm.Description.DESCRIPTION,
                 name=prefix + "description",
                 extras={"max_length": 280,},
             ),
             RadioButtons(
-                title="Is your good controlled?",
+                title=CreateGoodForm.IsControlled.TITLE,
                 description=description,
                 name=prefix + "is_good_controlled",
                 options=is_your_good_controlled_options,
@@ -60,20 +60,22 @@ def add_goods_questions(allow_query=True, back_link=BackLink, prefix=""):
             ),
             control_list_entry_question(
                 control_list_entries=get_control_list_entries(None, convert_to_options=True),
-                title="What's your good's control list entry?",
-                description="<noscript>If your good is controlled, enter its "
-                "control list entry. </noscript>For example, ML1a.",
+                title=CreateGoodForm.ControlListEntry.TITLE,
+                description=CreateGoodForm.ControlListEntry.DESCRIPTION,
                 name=prefix + "control_code",
                 inset_text=False,
             ),
             RadioButtons(
-                title="Is your good intended to be incorporated into an end product?",
-                description="",
+                title=CreateGoodForm.Incorporated.TITLE,
+                description=CreateGoodForm.Incorporated.DESCRIPTION,
                 name=prefix + "is_good_end_product",
-                options=[Option(key="no", value="Yes"), Option(key="yes", value="No")],
+                options=[
+                    Option(key="no", value=CreateGoodForm.Incorporated.YES),
+                    Option(key="yes", value=CreateGoodForm.Incorporated.NO),
+                ],
                 classes=["govuk-radios--inline"],
             ),
-            TextInput(title="Part Number", name=prefix + "part_number", optional=True),
+            TextInput(title=CreateGoodForm.PartNumber.TITLE, name=prefix + "part_number", optional=True),
         ],
         back_link=back_link,
     )
