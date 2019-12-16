@@ -5,7 +5,7 @@ from conf.constants import GOODS_URL, DOCUMENTS_URL, CONTROL_LIST_CLASSIFICATION
 from core.helpers import remove_prefix, convert_parameters_to_query_params
 
 
-def get_goods(request, page: int = 1, description=None, part_number=None, control_rating=None):
+def get_goods(request, page: int = 1, description=None, part_number=None, control_rating=None, for_application=None):
     data = get(request, GOODS_URL + convert_parameters_to_query_params(locals()))
 
     return data.json(), data.status_code
