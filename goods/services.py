@@ -1,17 +1,12 @@
 from http import HTTPStatus
-from urllib.parse import urlencode
 
 from conf.client import get, post, put, delete
 from conf.constants import GOODS_URL, DOCUMENTS_URL, CONTROL_LIST_CLASSIFICATIONS_URL
-from core.helpers import remove_prefix
+from core.helpers import remove_prefix, convert_parameters_to_query_params
 
 
-def get_goods(request, params=None):
-    if params:
-        query_params = urlencode(params)
-        data = get(request, GOODS_URL + "?" + query_params)
-    else:
-        data = get(request, GOODS_URL)
+def get_goods(request, page: int = 1, description=None, part_number=None, control_rating=None):
+    data = get(request, GOODS_URL + convert_parameters_to_query_params(locals()))
 
     return data.json(), data.status_code
 

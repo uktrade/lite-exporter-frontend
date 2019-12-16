@@ -65,7 +65,7 @@ class Goods(TemplateView):
             "control_rating": control_rating,
         }
 
-        goods, _ = get_goods(request, params)
+        goods, _ = get_goods(request, **params)
 
         context = {
             "goods": goods,
