@@ -6,7 +6,12 @@ from core.services import get_control_list_entries
 from goods.helpers import good_summary
 from goods.services import get_document_missing_reasons
 from lite_content.lite_exporter_frontend import strings
-from lite_content.lite_exporter_frontend.goods import DocumentSensitivityForm, CreateGoodForm, CLCQuery
+from lite_content.lite_exporter_frontend.goods import (
+    DocumentSensitivityForm,
+    CreateGoodForm,
+    CLCQueryForm,
+    EditGoodForm,
+)
 from lite_forms.common import control_list_entry_question
 from lite_forms.components import (
     Form,
@@ -29,14 +34,14 @@ from lite_forms.styles import ButtonStyle
 
 def add_goods_questions(allow_query=True, back_link=BackLink, prefix=""):
     if allow_query:
-        description = CreateGoodForm.IsControlled.GET_CONTROL_CODE
+        description = CreateGoodForm.IsControlled.DESCRIPTION
         is_your_good_controlled_options = [
             Option(key="yes", value=CreateGoodForm.IsControlled.YES, show_pane="pane_" + prefix + "control_code"),
             Option(key="no", value=CreateGoodForm.IsControlled.NO),
             Option(key="unsure", value=CreateGoodForm.IsControlled.UNSURE),
         ]
     else:
-        description = strings.APPLICATION_GOODS_CONTROL_CODE_REQUIRED_DESCRIPTION
+        description = CreateGoodForm.IsControlled.CLC_REQUIRED
         is_your_good_controlled_options = [
             Option(key="yes", value=CreateGoodForm.IsControlled.YES, show_pane="pane_" + prefix + "control_code"),
             Option(key="no", value=CreateGoodForm.IsControlled.NO),
@@ -78,6 +83,7 @@ def add_goods_questions(allow_query=True, back_link=BackLink, prefix=""):
             TextInput(title=CreateGoodForm.PartNumber.TITLE, name=prefix + "part_number", optional=True),
         ],
         back_link=back_link,
+        default_button_name=CreateGoodForm.BUTTON
     )
 
     return form
@@ -85,69 +91,72 @@ def add_goods_questions(allow_query=True, back_link=BackLink, prefix=""):
 
 def are_you_sure(good_id):
     return Form(
-        title=CLCQuery.TITLE,
-        description=CLCQuery.DESCRIPTION,
+        title=CLCQueryForm.TITLE,
+        description=CLCQueryForm.DESCRIPTION,
         questions=[
             TextInput(
-                title=CLCQuery.CLCCode.TITLE,
-                description=CLCQuery.CLCCode.DESCRIPTION,
+                title=CLCQueryForm.CLCCode.TITLE,
+                description=CLCQueryForm.CLCCode.DESCRIPTION,
                 optional=True,
                 name="not_sure_details_control_code",
             ),
             TextArea(
-                title=CLCQuery.Additional.TITLE,
-                description=CLCQuery.Additional.DESCRIPTION,
+                title=CLCQueryForm.Additional.TITLE,
+                description=CLCQueryForm.Additional.DESCRIPTION,
                 optional=True,
                 name="not_sure_details_details",
             ),
         ],
-        back_link=BackLink(CLCQuery.BACK_LINK, reverse("goods:good", kwargs={"pk": good_id})),
+        back_link=BackLink(CLCQueryForm.BACK_LINK, reverse("goods:good", kwargs={"pk": good_id})),
+        default_button_name=CLCQueryForm.BUTTON
     )
 
 
 def edit_form(good_id):
     return Form(
-        title="Edit Good",
+        title=EditGoodForm.TITLE,
+        description=EditGoodForm.DESCRIPTION,
         questions=[
             TextArea(
-                title="Description of good",
-                description="This can make it easier to find your good later",
+                title=EditGoodForm.Description.TITLE,
+                description=EditGoodForm.Description.DESCRIPTION,
                 name="description",
                 extras={"max_length": 280,},
             ),
             RadioButtons(
-                title="Is your good controlled?",
-                description='If you don\'t know you can use <a class="govuk-link" href="'
-                + env("PERMISSIONS_FINDER_URL")
-                + '">Permissions Finder</a>.',
+                title=EditGoodForm.IsControlled.TITLE,
+                description=EditGoodForm.IsControlled.DESCRIPTION,
                 name="is_good_controlled",
                 options=[
-                    Option(key="yes", value="Yes", show_pane="pane_control_code"),
-                    Option(key="no", value="No"),
-                    Option(key="unsure", value="I don't know"),
+                    Option(key="yes", value=EditGoodForm.IsControlled.YES, show_pane="pane_control_code"),
+                    Option(key="no", value=EditGoodForm.IsControlled.NO),
+                    Option(key="unsure", value=EditGoodForm.IsControlled.UNSURE),
                 ],
                 classes=["govuk-radios--inline"],
             ),
             control_list_entry_question(
                 control_list_entries=get_control_list_entries(None, convert_to_options=True),
-                title="What's your good's control list entry?",
-                description="<noscript>If your good is controlled, enter its control list entry. </noscript>For example, ML1a.",
+                title=EditGoodForm.ControlListEntry.TITLE,
+                description=EditGoodForm.IsControlled.DESCRIPTION,
                 name="control_code",
                 inset_text=False,
             ),
             RadioButtons(
-                title="Is your good intended to be incorporated into an end product?",
-                description="",
+                title=EditGoodForm.Incorporated.TITLE,
+                description=EditGoodForm.Incorporated.DESCRIPTION,
                 name="is_good_end_product",
-                options=[Option(key=True, value="Yes"), Option(key=False, value="No")],
+                options=[
+                    Option(key=True, value=EditGoodForm.Incorporated.YES),
+                    Option(key=False, value=EditGoodForm.Incorporated.NO),
+                ],
                 classes=["govuk-radios--inline"],
             ),
-            TextInput(title="Part Number", name="part_number", optional=True),
+            TextInput(title=EditGoodForm.PartNumber.TITLE, name="part_number", optional=True),
         ],
         buttons=[
-            Button("Save", "submit", ButtonStyle.DEFAULT),
+            Button(EditGoodForm.Buttons.SAVE, "submit", ButtonStyle.DEFAULT),
             Button(
-                value="Delete good",
+                value=EditGoodForm.Buttons.DELETE,
                 action="",
                 style=ButtonStyle.WARNING,
                 link=reverse_lazy("goods:delete", kwargs={"pk": good_id}),
