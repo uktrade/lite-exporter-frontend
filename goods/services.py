@@ -13,7 +13,7 @@ def get_goods(request, params=None):
     else:
         data = get(request, GOODS_URL)
 
-    return data.json().get("goods"), data.status_code
+    return data.json(), data.status_code
 
 
 def get_good(request, pk):

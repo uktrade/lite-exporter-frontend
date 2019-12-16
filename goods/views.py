@@ -23,7 +23,7 @@ from applications.services import (
     get_status_properties,
 )
 from core.builtins.custom_tags import get_string
-from core.helpers import group_notifications
+from core.helpers import group_notifications, convert_dict_to_query_params
 from core.services import get_notifications
 from goods import forms
 from goods.forms import (
@@ -51,12 +51,34 @@ from lite_forms.views import SingleFormView
 
 class Goods(TemplateView):
     def get(self, request, **kwargs):
-        goods, _ = get_goods(request)
+        description = request.GET.get("description", "").strip()
+        part_number = request.GET.get("part_number", "").strip()
+        control_rating = request.GET.get("control_rating", "").strip()
         notifications = get_notifications(request, unviewed=True)
+
+        filtered = True if (description or part_number or control_rating) else False
+
+        params = {
+            "page": int(request.GET.get("page", 1)),
+            "description": description,
+            "part_number": part_number,
+            "control_rating": control_rating,
+        }
+
+        goods, _ = get_goods(
+            request, params
+        )
 
         context = {
             "goods": goods,
             "notifications": group_notifications(notifications),
+            "description": description,
+            "part_number": part_number,
+            "control_code": control_rating,
+            "filtered": filtered,
+            "params": params,
+            "page": params.pop("page"),
+            "params_str": convert_dict_to_query_params(params)
         }
         return render(request, "goods/goods.html", context)
 
@@ -182,7 +204,6 @@ class DraftAddGood(TemplateView):
 
 
 class EditGood(TemplateView):
-
     good_id = None
     form = None
 

@@ -60,7 +60,7 @@
 					</tr>
 				</thead>
 				<tbody class="govuk-table__body">
-					{% for good in data %}
+					{% for good in data.results %}
 						<tr class="govuk-table__row">
 							<td class="govuk-table__cell" id="good-description">
 								{{ good.description|highlight_text:description }}
@@ -81,6 +81,7 @@
 					{% endfor %}
 				</tbody>
 			</table>
+            {% include "includes/pagination.html" with data=data %}
 		{% else %}
 			<div class="lite-information-text">
 				<span class="lite-information-text__icon" aria-hidden="true">!</span>

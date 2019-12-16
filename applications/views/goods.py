@@ -19,6 +19,7 @@ from applications.services import (
     validate_application_good,
     add_document_data,
 )
+from core.helpers import convert_dict_to_query_params
 from core.services import get_units
 from goods.services import get_goods, get_good, validate_good, post_goods, post_good_documents
 from lite_content.lite_exporter_frontend import strings
@@ -50,22 +51,27 @@ class GoodsList(TemplateView):
         description = request.GET.get("description", "").strip()
         part_number = request.GET.get("part_number", "").strip()
         control_rating = request.GET.get("control_rating", "").strip()
+        params = {
+            "page": int(request.GET.get("page", 1)),
+            "description": description,
+            "part_number": part_number,
+            "control_rating": control_rating,
+            "for_application": "True",
+        }
         goods_list, _ = get_goods(
-            request, {"description": description, "part_number": part_number, "control_rating": control_rating}
+            request, params
         )
-
-        filtered_data = []
-        for good in goods_list:
-            if good["documents"] and not good["is_good_controlled"] == "unsure":
-                filtered_data.append(good)
 
         context = {
             "application": application,
-            "data": filtered_data,
+            "data": goods_list,
             "description": description,
             "part_number": part_number,
             "control_code": control_rating,
             "draft_id": application_id,
+            "params": params,
+            "page": params.pop("page"),
+            "params_str": convert_dict_to_query_params(params)
         }
         return render(request, "applications/goods/preexisting.html", context)
 
