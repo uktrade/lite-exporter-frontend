@@ -65,9 +65,7 @@ class Goods(TemplateView):
             "control_rating": control_rating,
         }
 
-        goods, _ = get_goods(
-            request, params
-        )
+        goods, _ = get_goods(request, params)
 
         context = {
             "goods": goods,
@@ -78,7 +76,7 @@ class Goods(TemplateView):
             "filtered": filtered,
             "params": params,
             "page": params.pop("page"),
-            "params_str": convert_dict_to_query_params(params)
+            "params_str": convert_dict_to_query_params(params),
         }
         return render(request, "goods/goods.html", context)
 
