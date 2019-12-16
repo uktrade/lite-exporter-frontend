@@ -250,12 +250,12 @@ def ecju_query_respond_confirmation_form(edit_response_url):
 
 def delete_good_form(good):
     return Form(
-        title="Are you sure you want to delete this good?",
+        title=EditGoodForm.DeleteConfirmationForm.TITLE,
         questions=[good_summary(good)],
         buttons=[
-            Button(value="Yes, delete the good", action="submit", style=ButtonStyle.WARNING),
+            Button(value=EditGoodForm.DeleteConfirmationForm.YES, action="submit", style=ButtonStyle.WARNING),
             Button(
-                value="Cancel",
+                value=EditGoodForm.DeleteConfirmationForm.NO,
                 action="",
                 style=ButtonStyle.SECONDARY,
                 link=reverse_lazy("goods:edit", kwargs={"pk": good["id"]}),
