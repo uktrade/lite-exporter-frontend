@@ -1,6 +1,5 @@
 from django.urls import reverse, reverse_lazy
 
-from core.builtins.custom_tags import get_string
 from core.services import get_control_list_entries
 from goods.helpers import good_summary
 from goods.services import get_document_missing_reasons
