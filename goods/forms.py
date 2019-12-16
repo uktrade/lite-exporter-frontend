@@ -9,7 +9,9 @@ from lite_content.lite_exporter_frontend.goods import (
     CreateGoodForm,
     CLCQueryForm,
     EditGoodForm,
-    AttachDocumentForm)
+    AttachDocumentForm,
+    RespondToQueryForm,
+)
 from lite_forms.common import control_list_entry_question
 from lite_forms.components import (
     Form,
@@ -81,7 +83,7 @@ def add_goods_questions(allow_query=True, back_link=BackLink, prefix=""):
             TextInput(title=CreateGoodForm.PartNumber.TITLE, name=prefix + "part_number", optional=True),
         ],
         back_link=back_link,
-        default_button_name=CreateGoodForm.BUTTON
+        default_button_name=CreateGoodForm.BUTTON,
     )
 
     return form
@@ -106,7 +108,7 @@ def are_you_sure(good_id):
             ),
         ],
         back_link=BackLink(CLCQueryForm.BACK_LINK, reverse("goods:good", kwargs={"pk": good_id})),
-        default_button_name=CLCQueryForm.BUTTON
+        default_button_name=CLCQueryForm.BUTTON,
     )
 
 
@@ -210,7 +212,7 @@ def attach_documents_form(back_url):
 
 def respond_to_query_form(good_id, ecju_query):
     return Form(
-        title="Respond to query",
+        title=RespondToQueryForm.TITLE,
         description="",
         questions=[
             HTMLBlock(
@@ -220,16 +222,17 @@ def respond_to_query_form(good_id, ecju_query):
             ),
             TextArea(
                 name="response",
-                title="Your response",
-                description="You won't be able to edit this once you've submitted it.",
+                title=RespondToQueryForm.Response.TITLE,
+                description=RespondToQueryForm.Response.DESCRIPTION,
                 extras={"max_length": 2200,},
             ),
             HiddenField(name="form_name", value="respond_to_query"),
         ],
         back_link=BackLink(
-            "Back to good", reverse_lazy("goods:good_detail", kwargs={"pk": good_id, "type": "ecju-queries"})
+            RespondToQueryForm.BACK_LINK,
+            reverse_lazy("goods:good_detail", kwargs={"pk": good_id, "type": "ecju-queries"}),
         ),
-        default_button_name="Submit response",
+        default_button_name=RespondToQueryForm.BUTTON,
     )
 
 
