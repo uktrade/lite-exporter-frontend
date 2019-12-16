@@ -74,7 +74,7 @@ def _get_standard_application_task_list(request, application, errors=None):
     third_parties = get_third_parties(request, application_id)
     end_user = application.get("end_user")
     consignee = application.get("consignee")
-    goods = get_application_goods(request, application_id)
+    goods = get_application_goods(request, application_id)[0]
 
     if end_user:
         end_user_document, _ = get_end_user_document(request, application_id)

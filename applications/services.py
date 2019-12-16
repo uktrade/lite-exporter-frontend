@@ -37,13 +37,13 @@ def get_applications(request, page: int = 1, submitted: bool = True):
     :param submitted: Returns submitted applications if True, else returns draft applications if False
     """
     data = get(request, APPLICATIONS_URL + convert_parameters_to_query_params(locals()))
-    return data.json()
+    return data.json(), data.status_code
 
 
 @acceptable_statuses([200, 403])
 def get_application(request, pk):
     data = get(request, APPLICATIONS_URL + str(pk))
-    return data.json()
+    return data.json(), data.status_code
 
 
 @acceptable_statuses([201, 400])
