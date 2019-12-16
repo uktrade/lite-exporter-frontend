@@ -178,7 +178,7 @@ def go_to_exporter(driver, register_organisation, sso_sign_in, exporter_url, con
 
 
 @when("I go to exporter homepage")  # noqa
-def go_to_exporter_when(driver, exporter_url): # noqa
+def go_to_exporter_when(driver, exporter_url):  # noqa
     driver.get(exporter_url)
 
 
@@ -207,7 +207,7 @@ def enter_type_of_application(driver, type, context):  # noqa
     functions.click_submit(driver)
 
 
-@when(parsers.parse('I select "{permanent_or_temporary}" option and continue'))   # noqa
+@when(parsers.parse('I select "{permanent_or_temporary}" option and continue'))  # noqa
 def enter_permanent_or_temporary(driver, permanent_or_temporary, context):  # noqa
     context.perm_or_temp = permanent_or_temporary
     # type needs to be permanent or temporary
