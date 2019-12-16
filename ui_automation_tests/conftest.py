@@ -513,7 +513,7 @@ def create_standard_application(driver, context):
 
 
 @given("I have a second set up organisation")  # noqa
-def set_up_second_organisation(register_organisation_for_switching_organisation):
+def set_up_second_organisation(register_organisation_for_switching_organisation):  # noqa
     pass
 
 
