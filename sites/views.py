@@ -88,7 +88,7 @@ class EditSite(TemplateView):
         self.organisation_id = str(request.user.organisation)
         self.site = get_site(request, self.organisation_id, str(kwargs["pk"]))
         self.site["address"]["country"] = self.site["address"]["country"]["id"]
-        self.form = edit_site_form("Edit " + self.site["name"])
+        self.form = edit_site_form(self.site)
 
         return super(EditSite, self).dispatch(request, *args, **kwargs)
 

@@ -36,6 +36,12 @@
 {% endblock %}
 
 {% block two_thirds %}
+	{% if site.id == organisation.primary_site.id %}
+		<div class="govuk-!-margin-bottom-8">
+			<span class="govuk-inset-text">This is your organisation's primary site</span>
+		</div>
+	{% endif %}
+
 	<dl class="govuk-summary-list govuk-summary-list--no-border">
 		<div class="govuk-summary-list__row">
 			<dt class="govuk-summary-list__key">
