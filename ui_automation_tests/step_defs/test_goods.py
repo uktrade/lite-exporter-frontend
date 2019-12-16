@@ -144,8 +144,7 @@ def a_new_good_has_been_added_to_the_application(driver):
     )
 )  # noqa
 def create_a_new_good_in_application(driver, description, controlled, control_code, incorporated, part_number):
-    prefix = "good_"
-    add_goods_page = AddGoodPage(driver, prefix=prefix)
+    add_goods_page = AddGoodPage(driver)
     add_goods_page.enter_description_of_goods(description)
     add_goods_page.select_is_your_good_controlled(controlled)
     add_goods_page.select_is_your_good_intended_to_be_incorporated_into_an_end_product(incorporated)

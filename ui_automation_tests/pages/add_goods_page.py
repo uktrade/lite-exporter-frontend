@@ -1,20 +1,19 @@
 from selenium.webdriver.support.select import Select
 
+from shared.BasePage import BasePage
 
-class AddGoodPage:
+
+class AddGoodPage(BasePage):
     DOCUMENT_VALID_YES = "has_document_to_upload-yes"  # ID
     DOCUMENT_VALID_NO = "has_document_to_upload-no"  # ID
     ECJU_HELPLINE = "ecju_contact"  # ID
     MISSING_DOCUMENT_REASON = "missing_document_reason"  # ID
     GOOD_SUMMARY = ".govuk-summary-list"  # CSS
-
-    def __init__(self, driver, prefix=""):
-        self.driver = driver
-        self.add_a_good_btn = "#add-a-good"
-        self.prefix = prefix
+    ADD_A_GOOD_BTN = "add-a-good"  # ID
+    prefix = "good_"
 
     def click_add_a_good(self):
-        self.driver.find_element_by_css_selector(self.add_a_good_btn).click()
+        self.driver.find_element_by_id(self.ADD_A_GOOD_BTN).click()
 
     def enter_description_of_goods(self, description):
         description_tb = self.driver.find_element_by_id(self.prefix + "description")
