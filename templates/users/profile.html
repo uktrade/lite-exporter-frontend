@@ -42,11 +42,11 @@
 				<div class="lite-more-actions__container lite-more-actions__container--secondary">
 					{% if show_change_status %}
 						{% if profile.status == 'Active' %}
-							<a href="{% url 'users:change_status' profile.id 'deactivate' %}" id="btn-deactivate" role="button" draggable="false" class="govuk-button">
+							<a href="{% url 'users:change_status' profile.id 'deactivate' %}" id="button-deactivate" role="button" draggable="false" class="govuk-button">
 								{% lcs 'USER_DEACTIVATE' %}
 							</a>
 						{% elif profile.status == 'Deactivated' %}
-							<a href="{% url 'users:change_status' profile.id 'reactivate' %}" id="btn-reactivate" role="button" draggable="false" class="govuk-button">
+							<a href="{% url 'users:change_status' profile.id 'reactivate' %}" id="button-reactivate" role="button" draggable="false" class="govuk-button">
 								{% lcs 'USER_REACTIVATE' %}
 							</a>
 						{% endif %}

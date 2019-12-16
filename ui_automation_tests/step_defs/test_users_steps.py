@@ -6,6 +6,7 @@ from selenium.webdriver.common.by import By
 import shared.tools.helpers as utils
 from pages.add_member import AddMemberPage
 from pages.exporter_hub_page import ExporterHubPage
+from pages.member_page import MemberPage
 from pages.members_page import MembersPage
 from pages.shared import Shared
 from shared import functions
@@ -108,29 +109,15 @@ def user_is_edited(driver, exporter_url, context, exporter_info):
 
 @when("I deactivate user then user is deactivated")
 def user_is_deactivated(driver, exporter_url, context, request):
-    exporter_hub = ExporterHubPage(driver)
-
-    exporter_hub.click_view_user_link(context.email_to_search)
-
-    exporter_hub.click_deactivate_button()
-
-    # And I can see that the user is now deactivated
-    elements = driver.find_elements_by_css_selector(".govuk-table__row")
-    # When I choose the option to manage users # Then I should see the current user for my company
-    no = utils.get_element_index_by_text(elements, context.email_to_search, complete_match=False)
-    assert "Deactivated" in elements[no].text, "user status was expected to be Deactivated"
+    MembersPage(driver).click_view_user_link(context.email_to_search)
+    MemberPage(driver).click_deactivate_button()
+    assert "Deactivated" in Shared(driver).get_text_of_body(), "user status was expected to be Deactivated"
 
 
 @when("I reactivate user then user is reactivated")
 def user_reactivate(driver, exporter_url, context):
-    exporter_hub = ExporterHubPage(driver)
-
-    exporter_hub.click_view_user_link(context.email_to_search)
-    exporter_hub.click_reactivate_btn()
-    elements = driver.find_elements_by_css_selector(".govuk-table__row")
-    # When I choose the option to manage users # Then I should see the current user for my company
-    no = utils.get_element_index_by_text(elements, context.email_to_search, complete_match=False)
-    assert "Active" in elements[no].text, "user should status was expected to be Active"
+    MemberPage(driver).click_reactivate_button()
+    assert "Active" in Shared(driver).get_text_of_body(), "user status was expected to be Deactivated"
 
 
 @when("I try to deactivate myself I cannot")
