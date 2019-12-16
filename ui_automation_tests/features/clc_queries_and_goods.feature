@@ -32,6 +32,7 @@ Feature: I want to edit and remove goods on the goods list
     Given I go to exporter homepage and choose Test Org
     When I click on goods link
     And I add a good and attach a document
+    And I go to my good
     Then I see the document has been attached
 
   @LT_886_add_new_good_to_app @regression

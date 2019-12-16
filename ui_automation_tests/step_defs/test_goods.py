@@ -76,8 +76,8 @@ def attach_document_to_modifiable_good(driver, context, create_non_incorporated_
 @then("I see the document has been attached")
 def i_see_the_attached_good(driver, context):
     added_doc = GoodsPage(driver).get_text_of_document_added_item()
-    assert context.file_to_be_deleted_name in added_doc, "file is not displayed"
-    assert context.document_description in added_doc, "file description is not displayed"
+    assert context.good_document["name"] in added_doc, "file is not displayed"
+    assert context.good_document["description"] in added_doc, "file description is not displayed"
 
 
 @then("I see my edited good details in the good page")
@@ -168,3 +168,8 @@ def confirm_can_upload_document(driver):
     # Confirm you have a document that is not sensitive
     AddGoodPage(driver).confirm_can_upload_good_document()
     functions.click_submit(driver)
+
+
+@when("I go to my good")
+def go_to_good(driver, context, exporter_url):
+    driver.get(f"{exporter_url}/goods/{context.good_id}")
