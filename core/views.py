@@ -35,8 +35,8 @@ class Hub(TemplateView):
         else:
             manage_organisation_section_link = None
 
-        notifications = get_notifications(request, unviewed=True)
         organisation = get_organisation(request, str(request.user.organisation))
+        notifications = get_notifications(request, count_only=True)
 
         if organisation.get("type").get("key") == "hmrc":
             sections = [
@@ -64,17 +64,21 @@ class Hub(TemplateView):
                     [
                         Tile(
                             get_string("applications.title"),
-                            generate_notification_string(notifications, "base_application"),
+                            generate_notification_string(
+                                notifications, content_types=["casenote", "ecjuquery", "generatedcasedocument"]
+                            ),
                             reverse_lazy("applications:applications"),
                         ),
                         Tile(
                             "Goods",
-                            generate_notification_string(notifications, "control_list_classification_query"),
+                            generate_notification_string(
+                                notifications, content_types=["controllistclassificationquery"]
+                            ),
                             reverse_lazy("goods:goods"),
                         ),
                         Tile(
                             "End User Advisories",
-                            generate_notification_string(notifications, "end_user_advisory_query"),
+                            generate_notification_string(notifications, content_types=["enduseradvisoryquery"]),
                             reverse_lazy("end_users:end_users"),
                         ),
                     ],

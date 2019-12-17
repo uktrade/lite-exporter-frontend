@@ -83,12 +83,13 @@ def post_external_locations(request, pk, json):
     return data.json(), data.status_code
 
 
-def get_notifications(request, unviewed):
-    url = NOTIFICATIONS_URL
-    if unviewed:
-        url = "%s?unviewed=True" % url
+def get_notifications(request, content_types=None, count_only=False):
+    url = f"{NOTIFICATIONS_URL}?count_only={count_only}"
+    if content_types:
+        content_types = ",".join(content_types)
+        url = f"{url}&content_types={content_types}"
     data = get(request, url)
-    return data.json().get("results")
+    return data.json()
 
 
 # Organisation
