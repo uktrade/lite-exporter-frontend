@@ -153,7 +153,7 @@ class AddGood(SingleFormView):
 
 class RaiseCLCQuery(TemplateView):
     def get(self, request, **kwargs):
-        return form_page(request, forms.are_you_sure(str(kwargs["pk"])))
+        return form_page(request, forms.raise_a_clc_query(str(kwargs["pk"])))
 
     def post(self, request, **kwargs):
         good_id = str(kwargs["pk"])
@@ -163,7 +163,7 @@ class RaiseCLCQuery(TemplateView):
         data, _ = raise_clc_query(request, request_data)
 
         if "errors" in data:
-            return form_page(request, forms.are_you_sure(str(kwargs["pk"])), data=request_data, errors=data["errors"])
+            return form_page(request, forms.raise_a_clc_query(str(kwargs["pk"])), data=request_data, errors=data["errors"])
 
         return redirect(reverse("goods:goods"))
 
