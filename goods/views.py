@@ -163,7 +163,9 @@ class RaiseCLCQuery(TemplateView):
         data, _ = raise_clc_query(request, request_data)
 
         if "errors" in data:
-            return form_page(request, forms.raise_a_clc_query(str(kwargs["pk"])), data=request_data, errors=data["errors"])
+            return form_page(
+                request, forms.raise_a_clc_query(str(kwargs["pk"])), data=request_data, errors=data["errors"]
+            )
 
         return redirect(reverse("goods:goods"))
 
