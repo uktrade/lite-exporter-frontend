@@ -25,7 +25,8 @@ from lite_forms.components import (
     Button,
     Label,
     Select,
-    Group)
+    Group,
+)
 from lite_forms.generators import confirm_form
 from lite_forms.styles import ButtonStyle
 
@@ -184,7 +185,7 @@ def document_grading_form(request):
                     Select(name="missing_document_reason", options=select_options),
                 ],
                 name="ecju_contact",
-                classes=["govuk-inset-text", "hidden"]
+                classes=["govuk-inset-text", "hidden"],
             ),
         ],
         default_button_name=DocumentSensitivityForm.BUTTON,
