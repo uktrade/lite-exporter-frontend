@@ -24,9 +24,8 @@ from lite_forms.components import (
     HiddenField,
     Button,
     Label,
-    HiddenPane,
     Select,
-)
+    Group)
 from lite_forms.generators import confirm_form
 from lite_forms.styles import ButtonStyle
 
@@ -176,15 +175,16 @@ def document_grading_form(request):
                 name="has_document_to_upload",
                 options=[
                     Option(key="yes", value=DocumentSensitivityForm.Options.YES),
-                    Option(key="no", value=DocumentSensitivityForm.Options.NO, show_pane="ecju_contact"),
+                    Option(key="no", value=DocumentSensitivityForm.Options.NO, show_pane="pane_ecju_contact"),
                 ],
             ),
-            HiddenPane(
-                pane_items=[
+            Group(
+                components=[
                     Label(text=DocumentSensitivityForm.ECJU_HELPLINE),
                     Select(name="missing_document_reason", options=select_options),
                 ],
                 name="ecju_contact",
+                classes=["govuk-inset-text", "hidden"]
             ),
         ],
         default_button_name=DocumentSensitivityForm.BUTTON,
