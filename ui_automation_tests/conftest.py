@@ -79,7 +79,7 @@ def pytest_addoption(parser):
     parser.addoption("--driver", action="store", default="chrome", help="Type in browser type")
     if env == "local":
         parser.addoption(
-            "--exporter_url", action="store", default="http://localhost:" + str(os.environ.get("PORT")), help="url"
+            "--exporter_url", action="store", default=f"http://localhost:{str(os.environ.get('PORT'))}/", help="url"
         )
 
         # Get LITE API URL.
@@ -92,16 +92,10 @@ def pytest_addoption(parser):
         raise Exception("This is the demo environment - Try another environment instead")
     else:
         parser.addoption(
-            "--exporter_url",
-            action="store",
-            default="https://exporter.lite.service." + env + ".uktrade.io/",
-            help="url",
+            "--exporter_url", action="store", default=f"https://exporter.lite.service.{env}.uktrade.io/", help="url",
         )
         parser.addoption(
-            "--lite_api_url",
-            action="store",
-            default="https://lite-api-" + env + ".london.cloudapps.digital/",
-            help="url",
+            "--lite_api_url", action="store", default=f"https://lite-api-{env}.london.cloudapps.digital/", help="url",
         )
     parser.addoption("--sso_sign_in_url", action="store", default="https://sso.trade.uat.uktrade.io/login/", help="url")
     parser.addoption("--email", action="store", default="test@mail.com")

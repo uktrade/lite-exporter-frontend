@@ -192,7 +192,7 @@ def confirm_can_upload_document(driver):
 
 @when("I go to my good")
 def go_to_good(driver, context, exporter_url):
-    driver.get(f"{exporter_url}/goods/{context.good_id}")
+    driver.get(f"{exporter_url}goods/{context.good_id}")
 
 
 @when("I select that I cannot attach a document")
