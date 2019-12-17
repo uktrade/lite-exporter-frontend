@@ -58,7 +58,7 @@ class GoodsList(TemplateView):
             "control_rating": control_rating,
             "for_application": "True",
         }
-        goods_list, _ = get_goods(request, **params)
+        goods_list = get_goods(request, **params)
 
         context = {
             "application": application,
