@@ -35,10 +35,10 @@ def str_date_only(value):
     return return_value.strftime("%d %B %Y")
 
 
-def generate_notification_string(notifications, content_types):
+def generate_notification_string(notifications, case_types):
     notifications_count = 0
-    for content_type in content_types:
-        notifications_count += notifications["notifications_count"].get(content_type, 0)
+    for case_type in case_types:
+        notifications_count += notifications["notifications_count"].get(case_type, 0)
 
     if notifications_count == 0:
         return ""

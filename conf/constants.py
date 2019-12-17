@@ -48,12 +48,10 @@ STANDARD_LICENCE = "standard_licence"
 OPEN_LICENCE = "open_licence"
 HMRC_QUERY = "hmrc_query"
 
-# Notification constants
-CASE_NOTE = "casenote"
-ECJU_QUERY = "ecjuquery"
-GENERATED_CASE_DOCUMENT = "generatedcasedocument"
-CLC_QUERY = "controllistclassificationquery"
-EUA_QUERY = "enduseradvisoryquery"
+# Case type constants
+APPLICATION = "application"
+CLC_QUERY = "clc_query"
+EUA_QUERY = "end_user_advisory_query"
 
 APPLICANT_EDITING = "applicant_editing"
 
