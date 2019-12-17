@@ -73,7 +73,7 @@ def i_should_see_a_list_of_countries(driver):
     assert len(page_countries) == 274
     #   assert len(page_countries) == len(api_data['countries'])
     assert (
-        application_countries_list.get_title() == "Where are your goods going?"
+        application_countries_list.get_title() == "Where are your products going?"
     ), "Failed to go to countries list page"
 
 
