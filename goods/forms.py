@@ -88,7 +88,7 @@ def add_goods_questions(allow_query=True, back_link=BackLink, prefix=""):
     return form
 
 
-def are_you_sure(good_id):
+def raise_a_clc_query(good_id):
     return Form(
         title=CLCQueryForm.TITLE,
         description=CLCQueryForm.DESCRIPTION,
