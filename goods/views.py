@@ -23,7 +23,6 @@ from applications.services import (
     get_status_properties,
 )
 from core.builtins.custom_tags import get_string
-from core.services import get_notifications
 from goods import forms
 from goods.forms import (
     edit_form,

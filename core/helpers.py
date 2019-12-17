@@ -1,5 +1,4 @@
 import datetime
-from collections import defaultdict
 from html import escape
 
 from django.template.defaultfilters import safe

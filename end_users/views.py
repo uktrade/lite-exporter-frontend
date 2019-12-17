@@ -15,7 +15,6 @@ from applications.services import (
     get_ecju_query,
     put_ecju_query,
 )
-from core.services import get_notifications
 from end_users.forms import (
     apply_for_an_end_user_advisory_form,
     copy_end_user_advisory_form,
