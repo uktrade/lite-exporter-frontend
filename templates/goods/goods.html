@@ -62,9 +62,12 @@
                         --
                     </label>
                     <div class="lite-buttons-row">
-                        <button type="submit" form="filters" class="govuk-button" style="margin: 0;" id="button-apply-filters">
-						{% lcs 'GOODS.GoodsList.Filter.APPLY' %}
+                        <button type="submit" form="filters" class="govuk-button" style="margin-bottom: 10px" id="button-apply-filters">
+						    {% lcs 'GOODS.GoodsList.Filter.APPLY' %}
                         </button>
+                        <a href="{% url 'goods:goods' %}" class="govuk-button govuk-button--secondary" id="button-clear-filters">
+	                        {% lcs 'GOODS.GoodsList.Filter.CLEAR' %}
+	                    </a>
                     </div>
 				</div>
             </div>
