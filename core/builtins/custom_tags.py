@@ -246,3 +246,8 @@ def task_list_item_list_description(data, singular, plural):
         return f"1 {singular} added"
     else:
         return f"{len(data)} {plural} added"
+
+
+@register.filter()
+def set_lcs_variable(value, arg):
+    return value % arg
