@@ -7,7 +7,7 @@ class AddGoodPage(BasePage):
     # Confirm has document
     DOCUMENT_VALID_YES = "has_document_to_upload-yes"  # ID
     DOCUMENT_VALID_NO = "has_document_to_upload-no"  # ID
-    ECJU_HELPLINE = "ecju_contact"  # ID
+    ECJU_HELPLINE = "pane_ecju_contact"  # ID
     MISSING_DOCUMENT_REASON = "missing_document_reason"  # ID
 
     # Good summary page
