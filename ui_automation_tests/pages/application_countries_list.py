@@ -14,10 +14,6 @@ class ApplicationCountriesList(BasePage):
             countries_names.append(country.text)
         return countries_names
 
-    def view_countries(self):
-        for checkbox in self.driver.find_elements_by_css_selector(self.COUNTRIES_CHECKBOX):
-            checkbox.click()
-
     def select_country(self, name):
         checkbox = self.driver.find_element_by_id(name)
         checkbox.click()
