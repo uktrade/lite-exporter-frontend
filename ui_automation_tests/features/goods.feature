@@ -42,12 +42,12 @@ Feature: I want to edit and remove goods on the goods list
     And I click to manage goods on a standard application
     Then I see there are no goods on the application
     When I click Add a new good
-    And I add a new good with description "New good for application" controlled "Yes" control code "ML8a25b" incorporated "No" and part number "P123"
+    And I add a new good with description "New good for application" controlled "Yes" control code "ML8a25b" incorporated "No" and part number "P123" to the application
     And I enter details for the new good on an application with value "99.98", quantity "13" and unit of measurement "Kilogram(s)" and I click Continue"
     And I attach a document to the good with description "Test good spec 01"
     Then A new good has been added to the application
 
-  @LT_1262_add_good_without_document @BAA
+  @LT_1262_add_good_without_document
   Scenario: Add a new good without a document for a valid reason
     Given I go to exporter homepage and choose Test Org
     When I click on goods link
