@@ -45,11 +45,11 @@
 					<tr class="govuk-table__row">
                         <td class="govuk-table__cell">
 							<a class="govuk-link govuk-link--no-visited-state app-icon-label" href="{% url 'goods:good' pk=good.id %}">
-								<p>{{ good.description }}</p>
-								{% if good.status.key == 'verified' %}<span class="app-verified__symbol">{% svg 'verified' %}</span>{% endif %}
-								{% if good.query_id and good.query_id in notifications %}
-									<span class="lite-notification-bubble">{{ notifications|key_value:good.query_id }} <span class="govuk-visually-hidden"> {% lcs "NOTIFICATIONS" %}</span></span>
+								{{ good.description }}
+								{% if good.query.exporter_user_notifications_count.total > 0 %}
+									<span class="lite-notification-bubble">{{ good.query.exporter_user_notifications_count.total }} <span class="govuk-visually-hidden"> {% lcs "NOTIFICATIONS" %}</span></span>
 								{% endif %}
+                                {% if good.status.key == 'verified' %}<span class="app-verified__symbol">{% svg 'verified' %}</span>{% endif %}
 							</a>
                         </td>
 						<td class="govuk-table__cell" style="{% if not good.control_code %}opacity: 0.4;{% endif %}">{{ good.control_code|default:"N/A" }}</td>

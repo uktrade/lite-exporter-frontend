@@ -28,9 +28,9 @@ from applications.services import (
     get_status_properties,
     get_application_generated_documents,
 )
-from conf.constants import HMRC_QUERY, APPLICANT_EDITING, NEWLINE, CASE_NOTE, ECJU_QUERY, GENERATED_CASE_DOCUMENT
+from conf.constants import HMRC_QUERY, APPLICANT_EDITING, NEWLINE
 from core.helpers import str_to_bool, convert_dict_to_query_params
-from core.services import get_notifications, get_organisation
+from core.services import get_organisation
 from lite_content.lite_exporter_frontend import strings
 from lite_forms.components import HiddenField
 from lite_forms.generators import confirm_form
@@ -43,12 +43,6 @@ class ApplicationsList(TemplateView):
         params = {"page": int(request.GET.get("page", 1)), "submitted": str_to_bool(request.GET.get("submitted", True))}
         organisation = get_organisation(request, request.user.organisation)
         applications = get_applications(request, **params)
-        for application in applications.get("results"):
-            total_count = 0
-            notifications_count = application.get("exporter_user_notifications_count")
-            for notification_type, count in notifications_count.items():
-                total_count += count
-            notifications_count["total"] = total_count
 
         context = {
             "applications": applications,

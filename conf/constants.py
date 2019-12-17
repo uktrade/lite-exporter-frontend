@@ -49,9 +49,11 @@ OPEN_LICENCE = "open_licence"
 HMRC_QUERY = "hmrc_query"
 
 # Notification constants
-CASE_NOTE = "case_note"
-ECJU_QUERY = "ecju_query"
-GENERATED_CASE_DOCUMENT = "generated_case_document"
+CASE_NOTE = "casenote"
+ECJU_QUERY = "ecjuquery"
+GENERATED_CASE_DOCUMENT = "generatedcasedocument"
+CLC_QUERY = "controllistclassificationquery"
+EUA_QUERY = "enduseradvisoryquery"
 
 APPLICANT_EDITING = "applicant_editing"
 

@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
-from conf.constants import Permissions
+from conf.constants import Permissions, CASE_NOTE, ECJU_QUERY, GENERATED_CASE_DOCUMENT, CLC_QUERY, EUA_QUERY
 from core.builtins.custom_tags import get_string
 from core.forms import select_your_organisation_form
 from core.helpers import Section, Tile, generate_notification_string
@@ -65,20 +65,18 @@ class Hub(TemplateView):
                         Tile(
                             get_string("applications.title"),
                             generate_notification_string(
-                                notifications, content_types=["casenote", "ecjuquery", "generatedcasedocument"]
+                                notifications, content_types=[CASE_NOTE, ECJU_QUERY, GENERATED_CASE_DOCUMENT]
                             ),
                             reverse_lazy("applications:applications"),
                         ),
                         Tile(
                             "Goods",
-                            generate_notification_string(
-                                notifications, content_types=["controllistclassificationquery"]
-                            ),
+                            generate_notification_string(notifications, content_types=[CLC_QUERY]),
                             reverse_lazy("goods:goods"),
                         ),
                         Tile(
                             "End User Advisories",
-                            generate_notification_string(notifications, content_types=["enduseradvisoryquery"]),
+                            generate_notification_string(notifications, content_types=[EUA_QUERY]),
                             reverse_lazy("end_users:end_users"),
                         ),
                     ],
