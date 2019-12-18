@@ -21,7 +21,6 @@ from applications.services import (
 )
 from core.helpers import convert_dict_to_query_params
 from core.services import get_units
-from conf.constants import UNSURE
 from goods.services import get_goods, get_good, validate_good, post_goods, post_good_documents
 from lite_content.lite_exporter_frontend import strings
 from lite_forms.components import HiddenField
