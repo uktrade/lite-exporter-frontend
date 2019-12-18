@@ -35,6 +35,8 @@ django-csp = "*"
 bandit = "*"
 gunicorn = "*"
 whitenoise = "*"
+pytest-rerunfailures = "*"
+markdown = "*"
 
 [requires]
 python_version = "3.7"
