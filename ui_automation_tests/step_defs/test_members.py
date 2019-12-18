@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from faker import Faker
 from pytest_bdd import scenarios, when, then
 from selenium.webdriver.support.select import Select
@@ -10,37 +8,12 @@ from pages.member_page import MemberPage
 from pages.members_page import MembersPage
 from pages.shared import Shared
 from shared import functions
-from shared.seed_data.make_requests import post
+from shared.api.organisations import add_site
 from shared.tools.helpers import scroll_to_element_by_id
 
 scenarios("../features/members.feature", strict_gherkin=False)
 
 fake = Faker()
-
-
-def strip_special_characters(string):
-    return ''.join(e for e in string if e.isalnum())
-
-
-def get_current_date_time(format_date_time=True):
-    date_time = datetime.now()
-    if not format_date_time:
-        return date_time
-    return strip_special_characters(str(date_time))
-
-
-def add_site(organisation_id, headers):
-    data = {
-        "name": strip_special_characters(fake.company()) + get_current_date_time(),
-        "address": {
-            "address_line_1": fake.street_address(),
-            "city": fake.city(),
-            "postcode": fake.postcode(),
-            "region": fake.state(),
-            "country": "GB",
-        },
-    }
-    return post(f"/organisations/{organisation_id}/sites/", json=data, headers=headers).json()["site"]
 
 
 @when("I add a member to the organisation")
