@@ -36,7 +36,7 @@ class Hub(TemplateView):
             manage_organisation_section_link = None
 
         organisation = get_organisation(request, str(request.user.organisation))
-        notifications = get_notifications(request)
+        notifications, _ = get_notifications(request)
 
         if organisation.get("type").get("key") == "hmrc":
             sections = [

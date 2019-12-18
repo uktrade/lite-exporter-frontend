@@ -72,7 +72,7 @@
 			{% if application.application_type.key != 'hmrc_query' %}
 				<a href="{% url 'applications:application' application.id 'case-notes' %}" class="lite-tabs__tab {% if type == 'case-notes' %}lite-tabs__tab--selected{% endif %}" id="link-case-notes">
 					Notes
-					{% if application.exporter_user_notifications_count.casenote > 0 %}
+					{% if application.exporter_user_notifications_count.casenote %}
 						<div class="lite-notification-bubble">
 							{{ application.exporter_user_notifications_count.casenote }}
 						</div>
@@ -80,7 +80,7 @@
 				</a>
 	            <a href="{% url 'applications:application' application.id 'ecju-queries' %}" class="lite-tabs__tab {% if type == 'ecju-queries' %}lite-tabs__tab--selected{% endif %}" id="link-ecju-queries">
 	                ECJU Queries
-	                {% if application.exporter_user_notifications_count.ecjuquery > 0 %}
+	                {% if application.exporter_user_notifications_count.ecjuquery %}
 	                    <div class="lite-notification-bubble">
 	                        {{ application.exporter_user_notifications_count.ecjuquery }}
 	                    </div>
@@ -89,7 +89,7 @@
 			{% endif %}
             <a href="{% url 'applications:application' application.id 'generated-documents' %}" class="lite-tabs__tab {% if type == 'generated-documents' %}lite-tabs__tab--selected{% endif %}" id="link-generated-documents">
                 {% lcs 'APPLICATIONS.GeneratedDocuments.TAB' %}
-                {% if application.exporter_user_notifications_count.generatedcasedocument > 0 %}
+                {% if application.exporter_user_notifications_count.generatedcasedocument %}
                     <div class="lite-notification-bubble">
                         {{ application.exporter_user_notifications_count.generatedcasedocument }}
                     </div>

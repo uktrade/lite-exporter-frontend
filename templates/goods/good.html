@@ -193,7 +193,7 @@
 		        <div class="lite-tabs__container">
 		            <a href="{% url 'goods:good_detail' good.id 'case-notes' %}" class="lite-tabs__tab {% if type == 'case-notes' %}lite-tabs__tab--selected{% endif %}" id="link-case-notes">
 					    Notes
-		                {% if good.query.exporter_user_notifications_count.casenote > 0 %}
+		                {% if good.query.exporter_user_notifications_count.casenote %}
 		                    <div class="lite-notification-bubble">
 		                        {{ good.query.exporter_user_notifications_count.casenote }}
 		                    </div>
@@ -201,7 +201,7 @@
 				    </a>
 		            <a href="{% url 'goods:good_detail' good.id 'ecju-queries' %}" class="lite-tabs__tab {% if type == 'ecju-queries' %}lite-tabs__tab--selected{% endif %}" id="link-ecju-queries">
 		                ECJU Queries
-		                {% if good.query.exporter_user_notifications_count.ecjuquery > 0  %}
+		                {% if good.query.exporter_user_notifications_count.ecjuquery  %}
 		                    <div class="lite-notification-bubble">
 		                        {{ good.query.exporter_user_notifications_count.ecjuquery }}
 		                    </div>

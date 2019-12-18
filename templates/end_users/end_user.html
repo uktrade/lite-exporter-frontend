@@ -153,7 +153,7 @@
             <div class="lite-tabs__container">
                 <a href="{% url 'end_users:end_user_detail' end_user_advisory.id 'case-notes' %}" class="lite-tabs__tab {% if type == 'case-notes' %}lite-tabs__tab--selected{% endif %}" id="link-case-notes">
                     Notes
-                    {% if end_user_advisory.exporter_user_notifications_count.casenote > 0 %}
+                    {% if end_user_advisory.exporter_user_notifications_count.casenote %}
                         <div class="lite-notification-bubble">
                             {{  end_user_advisory.exporter_user_notifications_count.casenote }}
                         </div>
@@ -161,7 +161,7 @@
                 </a>
                 <a href="{% url 'end_users:end_user_detail' end_user_advisory.id 'ecju-queries' %}" class="lite-tabs__tab {% if type == 'ecju-queries' %}lite-tabs__tab--selected{% endif %}" id="link-ecju-queries">
                     ECJU queries
-                    {% if  end_user_advisory.exporter_user_notifications_count.ecjuquery > 0 %}
+                    {% if  end_user_advisory.exporter_user_notifications_count.ecjuquery %}
                         <div class="lite-notification-bubble">
                             {{ end_user_advisory.exporter_user_notifications_count.ecjuquery }}
                         </div>

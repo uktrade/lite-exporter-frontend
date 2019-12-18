@@ -84,13 +84,16 @@ def post_external_locations(request, pk, json):
 
 
 def get_notifications(request, case_types=None, count_only=True):
+    """
+        :param count_only: query parameter to only return the number of notifcations; ignoring all other data
+    """
     url = f"{NOTIFICATIONS_URL}?count_only={count_only}"
 
     if case_types:
         url = f"{url}&{convert_value_to_query_param(key='case_type', value=case_types)}"
 
     data = get(request, url)
-    return data.json()
+    return data.json(), data.status_code
 
 
 # Organisation
