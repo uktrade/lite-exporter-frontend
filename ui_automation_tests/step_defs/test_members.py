@@ -8,7 +8,6 @@ from pages.member_page import MemberPage
 from pages.members_page import MembersPage
 from pages.shared import Shared
 from shared import functions
-from shared.api.organisations import add_site
 from shared.tools.helpers import scroll_to_element_by_id
 
 scenarios("../features/members.feature", strict_gherkin=False)
@@ -30,7 +29,7 @@ def add_member(driver, context):
     functions.click_submit(driver)
 
 
-@then("I select the member that was just added")
+@when("I select the member that was just added")
 def select_the_member_that_was_just_added(driver, context):
     MembersPage(driver).click_view_member_link(context.email_to_search)
 

@@ -8,7 +8,7 @@ Feature: I want to manage my organisation's members
   Scenario: Add a new member to my organisation
     Given I go to exporter homepage and choose Test Org
     When I click on the manage my organisation link
-    Then I add a member to the organisation
+    And I add a member to the organisation
     And I select the member that was just added
     # Edit the user
     And I deactivate them, then the member is deactivated
