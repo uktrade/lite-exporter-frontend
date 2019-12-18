@@ -13,7 +13,7 @@ from shared import functions
 from shared.seed_data.make_requests import post
 from shared.tools.helpers import scroll_to_element_by_id
 
-scenarios("../features/users.feature", strict_gherkin=False)
+scenarios("../features/members.feature", strict_gherkin=False)
 
 fake = Faker()
 
