@@ -81,7 +81,7 @@
         {% elif goods.count == 0 and filtered %}
             {% lcs 'GOODS.GoodsList.Count.FILTERED_NO_GOODS' %}
         {% elif goods.count == 1 and not filtered %}
-            {% lcs 'GOODS.GoodsList.Count.ORGANISATION_SINGLULAR_GOOD'%}
+            {% lcs 'GOODS.GoodsList.Count.ORGANISATION_SINGULAR_GOOD' %}
         {% elif goods.count == 1 and filtered %}
             {% lcs 'GOODS.GoodsList.Count.FILTERED_SINGULAR_GOOD' %}
         {% elif goods.count and not filtered %}
@@ -92,7 +92,7 @@
             {{  text|set_lcs_variable:goods.count }}
         {% endif %}
     </p>
-    
+
     {% if goods.count %}
         <table class="govuk-table">
             <thead class="govuk-table__head">
