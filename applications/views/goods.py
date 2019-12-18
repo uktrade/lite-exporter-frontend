@@ -21,6 +21,7 @@ from applications.services import (
 )
 from core.helpers import convert_dict_to_query_params
 from core.services import get_units
+from conf.constants import UNSURE
 from goods.services import get_goods, get_good, validate_good, post_goods, post_good_documents
 from lite_content.lite_exporter_frontend import strings
 from lite_forms.components import HiddenField
@@ -51,6 +52,7 @@ class GoodsList(TemplateView):
         description = request.GET.get("description", "").strip()
         part_number = request.GET.get("part_number", "").strip()
         control_rating = request.GET.get("control_rating", "").strip()
+
         params = {
             "page": int(request.GET.get("page", 1)),
             "description": description,
