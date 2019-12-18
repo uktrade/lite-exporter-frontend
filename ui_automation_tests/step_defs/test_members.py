@@ -33,17 +33,17 @@ def add_site(organisation_id, headers):
     data = {
         "name": strip_special_characters(fake.company()) + get_current_date_time(),
         "address": {
-            "address_line_1": "a street",
-            "city": "london",
-            "postcode": "E14GH",
-            "region": "Hertfordshire",
+            "address_line_1": fake.street_address(),
+            "city": fake.city(),
+            "postcode": fake.postcode(),
+            "region": fake.state(),
             "country": "GB",
         },
     }
     return post(f"/organisations/{organisation_id}/sites/", json=data, headers=headers).json()["site"]
 
 
-@then("I add a member to the organisation")
+@when("I add a member to the organisation")
 def add_member(driver, context):
     members_page = MembersPage(driver)
     add_member_page = AddMemberPage(driver)
@@ -97,16 +97,6 @@ def change_members_role(driver):
     functions.click_submit(driver)
 
     assert "Super User" in Shared(driver).get_text_of_body(), "user role was expected to be Super User"
-
-
-@when("I add self")
-def add_self(driver, exporter_info):
-    ExporterHubPage(driver).click_users()
-    MembersPage(driver).click_add_a_member_button()
-    add_members_page = AddMemberPage(driver)
-    add_members_page.enter_email(exporter_info["email"])
-    add_members_page.check_all_sites()
-    functions.click_submit(driver)
 
 
 @when("I try to deactivate myself I cannot")
