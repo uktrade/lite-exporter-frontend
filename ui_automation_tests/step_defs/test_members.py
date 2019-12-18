@@ -47,7 +47,7 @@ def user_reactivate(driver):
     assert "Active" in Shared(driver).get_text_of_body(), "user status was expected to be Deactivated"
 
 
-@then("I change what sites they're assigned to")
+@when("I change what sites they're assigned to")
 def change_members_role(driver, context, user_details):
     site = add_site(context.org_id, context.exporter_headers)
 
