@@ -3,7 +3,7 @@ from shared.BasePage import BasePage
 
 class MemberPage(BasePage):
 
-    PANE_MORE_ACTIONS_HIDDEN_SELECTOR = "lite-more-actions__container--hidden"
+    PANE_MORE_ACTIONS_HIDDEN_CLASS = "lite-more-actions__container--hidden"
     BUTTON_REACTIVATE_ID = "button-reactivate"
     BUTTON_DEACTIVATE_ID = "button-deactivate"
     BUTTON_REACTIVATE_CONFIRM_ID = "reactivate-confirm"
@@ -13,7 +13,7 @@ class MemberPage(BasePage):
     BUTTON_ASSIGN_SITES_ID = "button-assign-sites"
 
     def try_click_more_actions_button(self):
-        if self.driver.find_elements_by_class_name(self.PANE_MORE_ACTIONS_HIDDEN_SELECTOR):
+        if self.driver.find_elements_by_class_name(self.PANE_MORE_ACTIONS_HIDDEN_CLASS):
             self.driver.find_element_by_id(self.BUTTON_MORE_ACTIONS_ID).click()
 
     def click_deactivate_button(self):
