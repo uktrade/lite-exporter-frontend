@@ -52,9 +52,7 @@ class Hub(TemplateView):
             ]
         else:
             sections = [
-                Section(
-                    "", [Tile(strings.HUB.Tile.APPLY_FOR_LICENCE, "", reverse_lazy("apply_for_a_licence:start")),],
-                ),
+                Section("", [Tile(strings.HUB.Tile.APPLY_FOR_LICENCE, "", reverse_lazy("apply_for_a_licence:start"))],),
                 Section(
                     strings.HUB.Header.MANAGE,
                     [
