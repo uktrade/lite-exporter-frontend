@@ -20,7 +20,6 @@ def user_details(driver, request, context, seed_data_config):
     lite_client = get_lite_client(context, seed_data_config=seed_data_config)
     context.exporter_headers = lite_client.context["exporter_headers"]
     context.export_user_token = lite_client.context["export_user_token"]
-    print('user details have been set :)')
 
 
 @fixture(scope="session")
