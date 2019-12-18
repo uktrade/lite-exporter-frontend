@@ -41,7 +41,7 @@
 				<br>
 			{% endif %}
 
-			{% if good.query.id %}
+			{% if good.query %}
 				<h3 class="govuk-heading-m">Your Query</h3>
 				<dl class="govuk-summary-list">
 					<div class="govuk-summary-list__row">
@@ -188,7 +188,7 @@
 				</div>
 		    {% endif %}
 
-		    {% if good.query.id %}
+		    {% if good.query %}
 				<br><br>
 		        <div class="lite-tabs__container">
 		            <a href="{% url 'goods:good_detail' good.id 'case-notes' %}" class="lite-tabs__tab {% if type == 'case-notes' %}lite-tabs__tab--selected{% endif %}" id="link-case-notes">
