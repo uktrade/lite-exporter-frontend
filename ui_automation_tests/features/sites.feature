@@ -18,7 +18,7 @@ Feature: I  want to add and rename my sites
   Scenario: Edit a site
     Given I go to exporter homepage and choose Test Org
     When I click on the manage my organisation link
-    When I click sites link
+    And I click sites link
     And I click the first view link
     And I click the edit button
     And I clear the fields for the site

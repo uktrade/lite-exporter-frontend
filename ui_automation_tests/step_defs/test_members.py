@@ -8,6 +8,7 @@ from pages.member_page import MemberPage
 from pages.members_page import MembersPage
 from pages.shared import Shared
 from shared import functions
+from shared.api.organisations import add_site
 from shared.tools.helpers import scroll_to_element_by_id
 
 scenarios("../features/members.feature", strict_gherkin=False)
@@ -34,13 +35,13 @@ def select_the_member_that_was_just_added(driver, context):
     MembersPage(driver).click_view_member_link(context.email_to_search)
 
 
-@then("I deactivate them, then the member is deactivated")
+@when("I deactivate them, then the member is deactivated")
 def user_deactivate(driver):
     MemberPage(driver).click_deactivate_button()
     assert "Deactivated" in Shared(driver).get_text_of_body(), "user status was expected to be Deactivated"
 
 
-@then("I reactivate them, then the member is reactivated")
+@when("I reactivate them, then the member is reactivated")
 def user_reactivate(driver):
     MemberPage(driver).click_reactivate_button()
     assert "Active" in Shared(driver).get_text_of_body(), "user status was expected to be Deactivated"
