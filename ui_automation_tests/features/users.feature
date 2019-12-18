@@ -4,25 +4,17 @@ Feature: I want to manage users
   I want to manage users
   So that an application/query can be managed by only active members of staff and new members of staff can be added and their details can be kept up to date
 
-  @LT_937_setup @smoke
-  Scenario: Set up user
+  @LT_937_setup @add_and_edit_member @smoke
+  Scenario: Add a new member to my organisation
     Given I go to exporter homepage and choose Test Org
     When I click on the manage my organisation link
-    Then I add a user
-
-  @add_user @regression
-  Scenario: Add user, then deactivate and reactivate them
-    Given I go to exporter homepage and choose Test Org
-    When I add user
-    Then user is added
-    When I deactivate user then user is deactivated
-    And I reactivate user then user is reactivated
-
-  @cant_add_self @regression
-  Scenario: Can't add own user
-    Given I go to exporter homepage and choose Test Org
-    When I add self
-    Then error message is "is already a member of this organisation"
+    Then I add a member to the organisation
+    And I select the member that was just added
+    # Edit the user
+    And I deactivate them, then the member is deactivated
+    And I reactivate them, then the member is reactivated
+    And I change what sites they're assigned to
+    Then I change their role
 
   @reactivate_oneself @regression
   Scenario: Reactivate oneself

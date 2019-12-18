@@ -11,6 +11,7 @@ from shared import functions
 from ui_automation_tests.fixtures.register_organisation import (  # noqa
     register_organisation,
     register_organisation_for_switching_organisation,
+    user_details,
 )
 from ui_automation_tests.fixtures.env import environment  # noqa
 from ui_automation_tests.fixtures.add_goods import (  # noqa
@@ -108,9 +109,6 @@ def pytest_addoption(parser):
     parser.addoption("--password", action="store", default="password")
     parser.addoption("--first_name", action="store", default="Test")
     parser.addoption("--last_name", action="store", default="User")
-    # Load in content strings
-    # with open('../../lite-content/lite-exporter-frontend/strings.json') as json_file:
-    #     strings.constants = json.load(json_file)
 
 
 def pytest_exception_interact(node, report):

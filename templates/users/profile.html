@@ -52,12 +52,12 @@
 						{% endif %}
 					{% endif %}
 					{% if show_change_role %}
-						<a href="{% url 'users:edit' profile.id %}" class="govuk-button">
+						<a id="button-edit" href="{% url 'users:edit' profile.id %}" class="govuk-button">
 							{% lcs 'USER_EDIT_TITLE' %}
 						</a>
 					{% endif %}
 					{% if show_assign_sites %}
-						<a href="{% url 'users:assign_sites' profile.id %}" class="govuk-button">
+						<a id="button-assign-sites" href="{% url 'users:assign_sites' profile.id %}" class="govuk-button">
 							Assign user to sites
 						</a>
 					{% endif %}
