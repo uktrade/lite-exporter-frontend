@@ -68,8 +68,6 @@ from pages.shared import Shared
 from pages.sites_page import SitesPage
 from pages.which_location_form_page import WhichLocationFormPage
 
-# from core import strings
-
 strict_gherkin = False
 
 
