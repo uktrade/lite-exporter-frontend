@@ -2,7 +2,6 @@ from shared.BasePage import BasePage
 
 
 class AddMemberPage(BasePage):
-
     def enter_email(self, email):
         email_tb = self.driver.find_element_by_id("email")
         email_tb.send_keys(email)
