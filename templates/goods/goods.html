@@ -74,6 +74,7 @@
             </div>
         </form>
     {% endif %}
+
     <p class="govuk-caption-m">
         {% if goods.count == 0 and not filtered %}
             {% lcs 'GOODS.GoodsList.Count.ORGANISATION_NO_GOODS' %}
@@ -91,6 +92,7 @@
             {{  text|set_lcs_variable:goods.count }}
         {% endif %}
     </p>
+    
     {% if goods.count %}
         <table class="govuk-table">
             <thead class="govuk-table__head">
