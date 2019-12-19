@@ -123,6 +123,6 @@ class DeleteDocument(TemplateView):
                 if status_code == 204:
                     return get_homepage(request, draft_id)
                 else:
-                    return error_page(request, strings.DOCUMENT_DELETE_GENERIC_ERROR)
+                    return error_page(request, strings.applications.DeleteDocument.DOCUMENT_DELETE_GENERIC_ERROR)
             else:
                 return get_homepage(request, draft_id)
