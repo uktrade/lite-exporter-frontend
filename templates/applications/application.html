@@ -15,7 +15,7 @@
 			{% if application.application_type.key != 'hmrc_query' %}
                 {%  if not status_is_terminal %}
 				    <a href="{% url 'applications:withdraw' application.id %}" id="button-withdraw-application" class="govuk-button govuk-button--secondary">
-					    {% lcs 'APPLICATION_WITHDRAW_ACCESS_BUTTON' %}
+					    {% lcs 'APPLICATIONS.ApplicationSummaryPage.Buttons.WITHDRAW_ACCESS_BUTTON' %}
 				    </a>
                 {% endif %}
                 {%  if not status_is_read_only %}
