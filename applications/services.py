@@ -89,9 +89,10 @@ def validate_application_good(request, pk, json):
 @acceptable_statuses([200, 400, 403, 404])
 def get_application_goods_types(request, pk):
     data = get(request, APPLICATIONS_URL + pk + "/goodstypes/")
-    return data.json().get("goods") if data.status_code == HTTPStatus.OK else None
+    return data.json().get("goods") if data.status_code == HTTPStatus.OK else None, data.status_code
 
 
+@acceptable_statuses([201, 400, 403, 404])
 def post_good_on_application(request, pk, json):
     post_data = get_data_from_post_good_on_app(json)
     if "good_id" not in post_data:
@@ -109,181 +110,215 @@ def get_data_from_post_good_on_app(json):
 
 
 # Countries
+@acceptable_statuses([200, 400, 403, 404])
 def get_application_countries(request, pk):
     data = get(request, APPLICATIONS_URL + pk + "/countries/")
-    return data.json()["countries"]
+    return data.json()["countries"], data.status_code
 
 
+@acceptable_statuses([201, 400, 403, 404])
 def post_application_countries(request, pk, json):
     data = post(request, APPLICATIONS_URL + pk + "/countries/", json)
     return data.json(), data.status_code
 
 
 # End User
+@acceptable_statuses([201, 400, 403, 404])
 def post_end_user(request, pk, json):
     data = post(request, APPLICATIONS_URL + str(pk) + "/end-user/", json)
     return data.json(), data.status_code
 
 
 # End user Documents
+@acceptable_statuses([200, 400, 403, 404])
 def get_end_user_document(request, pk):
     data = get(request, APPLICATIONS_URL + pk + END_USER_DOCUMENT_URL)
     return data.json(), data.status_code
 
 
+@acceptable_statuses([201, 400, 403, 404])
 def post_end_user_document(request, pk, json):
     data = post(request, APPLICATIONS_URL + pk + END_USER_DOCUMENT_URL, json)
     return data.json(), data.status_code
 
 
+@acceptable_statuses([204, 400, 403, 404])
 def delete_end_user(request, pk):
     data = delete(request, APPLICATIONS_URL + pk + "/end-user/")
-    return data.status_code
+    return None, data.status_code
 
 
+@acceptable_statuses([204, 400, 403, 404])
 def delete_end_user_document(request, pk):
     data = delete(request, APPLICATIONS_URL + pk + END_USER_DOCUMENT_URL)
-    return data.status_code
+    return None, data.status_code
 
 
 # Ultimate End Users
+@acceptable_statuses([200, 400, 403, 404])
 def get_ultimate_end_users(request, pk):
     data = get(request, APPLICATIONS_URL + pk + "/ultimate-end-users/")
-    return data.json()["ultimate_end_users"]
+    return data.json()["ultimate_end_users"], data.status_code
 
 
+@acceptable_statuses([201, 400, 403, 404])
 def post_ultimate_end_user(request, pk, json):
     data = post(request, APPLICATIONS_URL + pk + "/ultimate-end-users/", json)
     return data.json(), data.status_code
 
 
+@acceptable_statuses([200, 400, 403, 404])
 def delete_ultimate_end_user(request, pk, obj_pk):
     data = delete(request, APPLICATIONS_URL + pk + "/ultimate-end-users/" + obj_pk)
     return data.json(), data.status_code
 
 
 # Ultimate end user Documents
+@acceptable_statuses([200, 400, 403, 404])
 def get_ultimate_end_user_document(request, pk, obj_pk):
     data = get(request, APPLICATIONS_URL + pk + ULTIMATE_END_USER_URL + str(obj_pk) + DOCUMENT_URL)
     return data.json(), data.status_code
 
 
+@acceptable_statuses([201, 400, 403, 404])
 def post_ultimate_end_user_document(request, pk, obj_pk, json):
     data = post(request, APPLICATIONS_URL + pk + ULTIMATE_END_USER_URL + str(obj_pk) + DOCUMENT_URL, json)
     return data.json(), data.status_code
 
 
+@acceptable_statuses([204, 400, 403, 404])
 def delete_ultimate_end_user_document(request, pk, obj_pk):
     data = delete(request, APPLICATIONS_URL + pk + ULTIMATE_END_USER_URL + str(obj_pk) + DOCUMENT_URL)
-    return data.status_code
+    return None, data.status_code
 
 
 # Third parties
+@acceptable_statuses([200, 400, 403, 404])
 def get_third_parties(request, pk):
     data = get(request, APPLICATIONS_URL + pk + THIRD_PARTIES_URL)
-    return data.json()["third_parties"]
+    return data.json()["third_parties"], data.status_code
 
 
+@acceptable_statuses([201, 400, 403, 404])
 def post_third_party(request, pk, json):
     data = post(request, APPLICATIONS_URL + pk + THIRD_PARTIES_URL, json)
     return data.json(), data.status_code
 
 
+@acceptable_statuses([200, 400, 403, 404])
 def delete_third_party(request, pk, obj_pk):
     data = delete(request, APPLICATIONS_URL + pk + THIRD_PARTIES_URL + obj_pk)
     return data.status_code
 
 
 # Third party Documents
+@acceptable_statuses([200, 400, 403, 404])
 def get_third_party_document(request, pk, obj_pk):
     data = get(request, APPLICATIONS_URL + str(pk) + THIRD_PARTIES_URL + str(obj_pk) + DOCUMENT_URL)
     return data.json(), data.status_code
 
 
+@acceptable_statuses([201, 400, 403, 404])
 def post_third_party_document(request, pk, obj_pk, json):
     data = post(request, APPLICATIONS_URL + str(pk) + THIRD_PARTIES_URL + str(obj_pk) + DOCUMENT_URL, json)
     return data.json(), data.status_code
 
 
+@acceptable_statuses([204, 400, 403, 404])
 def delete_third_party_document(request, pk, obj_pk):
     data = delete(request, APPLICATIONS_URL + str(pk) + THIRD_PARTIES_URL + str(obj_pk) + DOCUMENT_URL)
     return data.status_code
 
 
 # Consignee
+@acceptable_statuses([201, 400, 403, 404])
 def post_consignee(request, pk, json):
     data = post(request, APPLICATIONS_URL + str(pk) + CONSIGNEE_URL, json)
     return data.json(), data.status_code
 
 
+@acceptable_statuses([204, 400, 403, 404])
 def delete_consignee(request, pk):
     data = delete(request, APPLICATIONS_URL + pk + CONSIGNEE_URL)
     return data.status_code
 
 
 # Consignee Documents
+@acceptable_statuses([200, 400, 403, 404])
 def get_consignee_document(request, pk):
     data = get(request, APPLICATIONS_URL + pk + CONSIGNEE_DOCUMENT_URL)
     return data.json(), data.status_code
 
 
+@acceptable_statuses([201, 400, 403, 404])
 def post_consignee_document(request, pk, json):
     data = post(request, APPLICATIONS_URL + pk + CONSIGNEE_DOCUMENT_URL, json)
     return data.json(), data.status_code
 
 
+@acceptable_statuses([204, 400, 403, 404])
 def delete_consignee_document(request, pk):
     data = delete(request, APPLICATIONS_URL + pk + CONSIGNEE_DOCUMENT_URL)
-    return data.status_code
+    return None, data.status_code
 
 
 # Additional Documents
+@acceptable_statuses([201, 403])
 def post_additional_document(request, pk, json):
     data = post(request, APPLICATIONS_URL + pk + ADDITIONAL_DOCUMENT_URL, json)
     return data.json(), data.status_code
 
 
+@acceptable_statuses([200, 403])
 def get_additional_documents(request, pk):
     data = get(request, APPLICATIONS_URL + pk + ADDITIONAL_DOCUMENT_URL)
     return data.json(), data.status_code
 
 
+@acceptable_statuses([200, 400, 403])
 def get_additional_document(request, pk, doc_pk):
     data = get(request, APPLICATIONS_URL + pk + ADDITIONAL_DOCUMENT_URL + str(doc_pk) + "/")
     return data.json(), data.status_code
 
 
+@acceptable_statuses([204, 400, 403, 404])
 def delete_additional_party_document(request, pk, doc_pk):
     data = delete(request, APPLICATIONS_URL + pk + ADDITIONAL_DOCUMENT_URL + str(doc_pk) + "/")
-    return data.status_code
+    return None, data.status_code
 
 
+@acceptable_statuses([200, 400, 403])
 def delete_application_preexisting_good(request, good_on_application_pk):
-    response = delete(request, APPLICATIONS_URL + "good-on-application/" + good_on_application_pk)
-    return response.status_code
+    data = delete(request, APPLICATIONS_URL + "good-on-application/" + good_on_application_pk)
+    return None, data.status_code
 
 
 # Case related
+@acceptable_statuses([200, 404])
 def get_case_notes(request, pk):
     data = get(request, CASES_URL + pk + CASE_NOTES_URL)
-    return data.json()
+    return data.json(), data.status_code
 
 
+@acceptable_statuses([201, 400, 404])
 def post_application_case_notes(request, pk, json):
     data = post(request, CASES_URL + pk + CASE_NOTES_URL, json)
     return data.json(), data.status_code
 
 
+@acceptable_statuses([200, 401, 404])
 def get_ecju_query(request, pk, query_pk):
-    data = get(request, CASES_URL + pk + ECJU_QUERIES_URL + query_pk).json()["ecju_query"]
-    return data
+    data = get(request, CASES_URL + pk + ECJU_QUERIES_URL + query_pk)
+    return data.json()["ecju_query"], data.status_code
 
 
+@acceptable_statuses([200, 201, 400, 401, 404])
 def put_ecju_query(request, pk, query_pk, json):
     data = put(request, CASES_URL + pk + ECJU_QUERIES_URL + query_pk + "/", json)
     return data.json(), data.status_code
 
 
+# TODO: move the open/closed processing to backend and have them passed forwards
 def get_application_ecju_queries(request, pk):
     data = get(request, CASES_URL + pk + ECJU_QUERIES_URL).json()["ecju_queries"]
 
@@ -293,21 +328,25 @@ def get_application_ecju_queries(request, pk):
     return open_queries, closed_queries
 
 
+@acceptable_statuses([200, 401, 403])
 def get_application_generated_documents(request, pk):
-    data = get(request, APPLICATIONS_URL + pk + GENERATED_DOCUMENTS_URL).json()["generated_documents"]
-    return data
+    data = get(request, APPLICATIONS_URL + pk + GENERATED_DOCUMENTS_URL)
+    return data.json()["generated_documents"], data.status_code
 
 
+@acceptable_statuses([200, 400, 401, 403, 404])
 def get_generated_document(request, pk, doc_pk):
     data = get(request, APPLICATIONS_URL + pk + GENERATED_DOCUMENTS_URL + str(doc_pk) + "/")
     return data.json(), data.status_code
 
 
+@acceptable_statuses([200])
 def get_status_properties(request, status):
     data = get(request, STATUS_PROPERTIES_URL + status)
     return data.json(), data.status_code
 
 
+@acceptable_statuses([200, 400, 401, 403, 404])
 def set_application_status(request, pk, status):
     json = {"status": status}
     data = put(request, APPLICATIONS_URL + str(pk) + MANAGE_STATUS_URL, json)
@@ -368,7 +407,7 @@ def post_goods_type(request, app_pk, json):
 
 def delete_goods_type(request, app_pk, good_pk):
     data = delete(request, APPLICATIONS_URL + app_pk + GOODSTYPE_URL + good_pk + "/")
-    return data.status_code
+    return None, data.status_code
 
 
 def post_goods_type_countries(request, app_pk, good_pk, json):
@@ -388,4 +427,4 @@ def post_goods_type_document(request, pk, good_pk, json):
 
 def delete_goods_type_document(request, pk, good_pk):
     data = delete(request, APPLICATIONS_URL + pk + GOODSTYPE_URL + str(good_pk) + DOCUMENT_URL)
-    return data.status_code
+    return None, data.status_code
