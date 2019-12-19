@@ -48,16 +48,14 @@ class AddUser(SingleFormView):
 
 class ViewUser(TemplateView):
     def get(self, request, **kwargs):
-        request_user = get_user(request)
+        request_user = get_organisation_user(request, str(request.user.organisation), str(kwargs["pk"]))
         user = get_user(request)
+        is_request_user_super_user = is_super_user(request_user)
         is_user_super_user = is_super_user(user)
 
-        request_user = get_organisation_user(request, str(request.user.organisation), str(kwargs["pk"]))
-        is_request_user_super_user = is_super_user(request_user)
-
-        show_change_status = not is_request_user_super_user
+        show_change_status = is_user_super_user and not is_request_user_super_user and user["id"] != request_user["id"]
         show_change_role = is_user_super_user and user["id"] != request_user["id"]
-        show_assign_sites = user["id"] != request_user["id"]
+        show_assign_sites = not is_request_user_super_user and user["id"] != request_user["id"]
         context = {
             "profile": request_user,
             "show_change_status": show_change_status,
