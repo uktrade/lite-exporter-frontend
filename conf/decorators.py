@@ -10,7 +10,7 @@ def acceptable_statuses(statuses: [int]):
             data = func(request, *args, **kwargs)
 
             if data[1] not in statuses:
-                raise Exception("Status code was not expected during '" + str(func.__name__) + "()'")
+                raise Exception(f"Status code: {data[1]} was not expected during ' {func.__name__}()'")
 
             return data
 

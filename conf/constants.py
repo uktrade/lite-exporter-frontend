@@ -27,8 +27,10 @@ CLC_NOTIFICATIONS_URL = USERS_URL + "clc-notifications/"
 AUTHENTICATION_URL = USERS_URL + "authenticate/"
 CASE_NOTES_URL = "/case-notes/"
 ECJU_QUERIES_URL = "/ecju-queries/"
+GENERATED_DOCUMENTS_URL = "/generated-documents/"
 ADDITIONAL_DOCUMENT_URL = "/documents/"
 MANAGE_STATUS_URL = "/status/"
+DOCUMENT_SENSITIVITY_URL = "/document-sensitivity/"
 
 # Queries URLs
 QUERIES_URL = "/queries/"
@@ -41,11 +43,17 @@ STATUS_PROPERTIES_URL = STATIC_URL + "statuses/properties/"
 UNITS_URL = STATIC_URL + "units/"
 COUNTRIES_URL = STATIC_URL + "countries/"
 CONTROL_LIST_ENTRIES_URL = STATIC_URL + "control-list-entries/"
+MISSING_DOCUMENT_REASONS_URL = STATIC_URL + "missing-document-reasons/"
 
 # Applications constants
 STANDARD_LICENCE = "standard_licence"
 OPEN_LICENCE = "open_licence"
 HMRC_QUERY = "hmrc_query"
+
+# Notification constants
+CASE_NOTE = "case_note"
+ECJU_QUERY = "ecju_query"
+GENERATED_CASE_DOCUMENT = "generated_case_document"
 
 APPLICANT_EDITING = "applicant_editing"
 
@@ -55,6 +63,9 @@ DONE = "done"
 
 SUPER_USER_ROLE_ID = "00000000-0000-0000-0000-000000000003"
 DEFAULT_USER_ROLE_ID = "00000000-0000-0000-0000-000000000004"
+
+# CLC
+UNSURE = "unsure"
 
 
 class Permissions:

@@ -54,7 +54,7 @@ def i_see_the_goods_types_list_overview(driver, context):
     goods_type_page = ApplicationGoodsTypeList(driver)
     good_type_table_overview = goods_type_page.get_text_of_goods_type_info_overview()
     assert "Description" in good_type_table_overview
-    assert "Control List Classification" in good_type_table_overview
+    assert "Control list classification" in good_type_table_overview
     assert context.good_description in good_type_table_overview
     assert context.control_code in good_type_table_overview
 
@@ -69,12 +69,7 @@ def i_click_on_countries(driver):
 def i_should_see_a_list_of_countries(driver):
     application_countries_list = ApplicationCountriesList(driver)
     page_countries = application_countries_list.get_countries_names()
-    #   api_data, status_code = get_countries(None)
     assert len(page_countries) == 274
-    #   assert len(page_countries) == len(api_data['countries'])
-    assert (
-        application_countries_list.get_title() == "Where are your goods going?"
-    ), "Failed to go to countries list page"
 
 
 @when(parsers.parse('I select "{country}" from the country list'))
