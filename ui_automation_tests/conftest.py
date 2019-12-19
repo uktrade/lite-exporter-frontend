@@ -47,7 +47,6 @@ from ui_automation_tests.shared.fixtures.add_a_generated_document import add_a_g
 from ui_automation_tests.shared.fixtures.driver import driver  # noqa
 from ui_automation_tests.shared.fixtures.core import (  # noqa
     context,
-    invalid_username,
     exporter_info,
     internal_info,
     seed_data_config,
