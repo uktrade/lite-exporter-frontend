@@ -1,7 +1,7 @@
 {% extends 'layouts/two_pane.html' %}
 
 {% block back_link %}
-    <a href="{% url 'users:users' %}" id="back-link" class="govuk-back-link">{% lcs "USER_PROFILE_BACK_TO_USERS" %}</a>
+    <a href="{% url 'users:users' %}" id="back-link" class="govuk-back-link">{% lcs "USERS.ProfilePage.BACK_TO_USERS" %}</a>
 {% endblock %}
 
 {% block full_width %}
@@ -31,7 +31,7 @@
 			{% endif %}
 			{% if show_change_role %}
 				<a href="{% url 'users:edit' profile.id %}" type="submit" class="govuk-button govuk-button--secondary">
-					{% lcs 'USER_EDIT_TITLE' %}
+					{% lcs 'USERS.ProfilePage.EDIT_USER_BUTTON' %}
 				</a>
 			{% endif %}
 		</div>
