@@ -63,14 +63,6 @@ class ViewSite(TemplateView):
         organisation_id = str(request.user.organisation)
         site = get_site(request, organisation_id, kwargs["pk"])
         organisation = get_organisation(request, organisation_id)
-        # user_permissions = get_user_permissions(request)
-        #
-        # users, roles = False, False
-        # if Permissions.ADMINISTER_USERS in user_permissions:
-        #     users = True
-        #
-        # if Permissions.EXPORTER_ADMINISTER_ROLES in user_permissions:
-        #     roles = True
 
         context = {
             "site": site,
