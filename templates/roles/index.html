@@ -18,8 +18,8 @@
 				        <a href="{% url 'users:users' %}" class="lite-tabs__tab" id="tab-users">{% lcs "MANAGE_ORGANISATIONS_MEMBERS_TAB" %}</a>
                     {% endif %}
                 {% endif %}
-				{% if can_administer_sites %}<a href="{% url 'sites:sites' %}" class="lite-tabs__tab lite-tabs__tab" id="tab-sites">{% lcs "MANAGE_ORGANISATIONS_SITES_TAB" %}</a>{% endif %}
-				<a href="{% url 'roles:roles' %}" class="lite-tabs__tab lite-tabs__tab--selected" id="tab-roles">{% lcs "MANAGE_ORGANISATIONS_ROLES_TAB" %}</a>
+				{% if can_administer_sites %}<a href="{% url 'sites:sites' %}" class="lite-tabs__tab lite-tabs__tab" id="tab-sites">{% lcs "SITES.SitesPage.TAB" %}</a>{% endif %}
+				<a href="{% url 'roles:roles' %}" class="lite-tabs__tab lite-tabs__tab--selected" id="tab-roles">{% lcs "ROLES.ManageRolesPage.TAB" %}</a>
 			</div>
 		</div>
 		{% if 'EXPORTER_ADMINISTER_ROLES' in user_permissions %}

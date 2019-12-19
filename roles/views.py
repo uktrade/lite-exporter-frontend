@@ -29,7 +29,7 @@ class Roles(TemplateView):
             sites = True
 
         context = {
-            "title": strings.MANAGE_ORGANISATIONS_ROLES_TAB + " - " + organisation["name"],
+            "title": strings.roles.ManageRolesPage.TAB + " - " + organisation["name"],
             "all_permissions": all_permissions,
             "roles": roles,
             "user_permissions": user_permissions,
