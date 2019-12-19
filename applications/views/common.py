@@ -63,13 +63,13 @@ class DeleteApplication(SingleFormView):
         self.object_pk = kwargs["pk"]
         application = get_application(request, self.object_pk)
         self.form = confirm_form(
-            title=strings.DRAFT_DELETE_TITLE,
+            title=strings.applications.DeleteApplicationPage.TITLE,
             confirmation_name="choice",
             summary=draft_summary(application),
-            back_link_text=strings.DRAFT_DELETE_BACK_TEXT,
-            yes_label=strings.DRAFT_DELETE_YES_LABEL,
-            no_label=strings.DRAFT_DELETE_NO_LABEL,
-            submit_button_text=strings.DRAFT_DELETE_SUBMIT_BUTTON,
+            back_link_text=strings.applications.DeleteApplicationPage.BACK_TEXT,
+            yes_label=strings.applications.DeleteApplicationPage.YES_LABEL,
+            no_label=strings.applications.DeleteApplicationPage.NO_LABEL,
+            submit_button_text=strings.applications.DeleteApplicationPage.SUBMIT_BUTTON,
             back_url=reverse_lazy("applications:application", kwargs={"pk": self.object_pk}),
             side_by_side=True,
         )
