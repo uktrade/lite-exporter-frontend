@@ -75,20 +75,10 @@
     {% endif %}
 
     <p class="govuk-caption-m">
-        {% if goods.count == 0 and not filtered %}
-            {% lcs 'GOODS.GoodsList.Count.ORGANISATION_NO_GOODS' %}
-        {% elif goods.count == 0 and filtered %}
-            {% lcs 'GOODS.GoodsList.Count.FILTERED_NO_GOODS' %}
-        {% elif goods.count == 1 and not filtered %}
-            {% lcs 'GOODS.GoodsList.Count.ORGANISATION_SINGULAR_GOOD' %}
-        {% elif goods.count == 1 and filtered %}
-            {% lcs 'GOODS.GoodsList.Count.FILTERED_SINGULAR_GOOD' %}
-        {% elif goods.count and not filtered %}
-            {% lcs 'GOODS.GoodsList.Count.ORGANISATION_GOODS' as text %}
-            {{  text|set_lcs_variable:goods.count }}
-        {% elif goods.count and filtered %}
-            {% lcs 'GOODS.GoodsList.Count.FILTERED_GOODS' as text %}
-            {{  text|set_lcs_variable:goods.count }}
+        {% if not filtered %}
+            {% include 'includes/pluralise.html' with count=goods.count base_constant='GOODS.GoodsList.Count.ORGANISATION' %}
+        {% else %}
+            {% include 'includes/pluralise.html' with count=goods.count base_constant='GOODS.GoodsList.Count.FILTERED' %}
         {% endif %}
     </p>
 

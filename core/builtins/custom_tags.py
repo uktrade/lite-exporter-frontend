@@ -250,4 +250,7 @@ def task_list_item_list_description(data, singular, plural):
 
 @register.filter()
 def set_lcs_variable(value, arg):
-    return value % arg
+    try:
+        return value % arg
+    except TypeError:
+        return value
