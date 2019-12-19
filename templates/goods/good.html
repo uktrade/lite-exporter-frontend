@@ -46,7 +46,7 @@
 				<dl class="govuk-summary-list">
 					<div class="govuk-summary-list__row">
 						<dt class="govuk-summary-list__key">
-							Reference
+							{% lcs 'GOODS.Good.Query.REFERENCE' %}
 						</dt>
 						<dd class="govuk-summary-list__value">
 							{{ good.query.id|reference_code }}
@@ -192,7 +192,7 @@
 				<br><br>
 		        <div class="lite-tabs__container">
 		            <a href="{% url 'goods:good_detail' good.id 'case-notes' %}" class="lite-tabs__tab {% if type == 'case-notes' %}lite-tabs__tab--selected{% endif %}" id="link-case-notes">
-					    Notes
+					    {% lcs 'GOODS.Good.Tabs.NOTES' %}
 		                {% if good.query.exporter_user_notifications_count.casenote %}
 		                    <div class="lite-notification-bubble">
 		                        {{ good.query.exporter_user_notifications_count.casenote }}
@@ -200,7 +200,7 @@
 		                {% endif %}
 				    </a>
 		            <a href="{% url 'goods:good_detail' good.id 'ecju-queries' %}" class="lite-tabs__tab {% if type == 'ecju-queries' %}lite-tabs__tab--selected{% endif %}" id="link-ecju-queries">
-		                ECJU Queries
+		                {% lcs 'GOODS.Good.Tabs.ECJU_QUERIES' %}
 		                {% if good.query.exporter_user_notifications_count.ecjuquery  %}
 		                    <div class="lite-notification-bubble">
 		                        {{ good.query.exporter_user_notifications_count.ecjuquery }}

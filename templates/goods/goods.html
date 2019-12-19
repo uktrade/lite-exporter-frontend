@@ -47,7 +47,7 @@
 							<a class="govuk-link govuk-link--no-visited-state app-icon-label" href="{% url 'goods:good' pk=good.id %}">
 								{{ good.description }}
 								{% if good.query.exporter_user_notifications_count.total %}
-									<span class="lite-notification-bubble">{{ good.query.exporter_user_notifications_count.total }} <span class="govuk-visually-hidden"> {% lcs "HUB.Tile.NOTIFICATIONS" %}</span></span>
+									<span class="lite-notification-bubble">{{ good.query.exporter_user_notifications_count.total }} <span class="govuk-visually-hidden"> {% lcs "HUB.TILES.NOTIFICATIONS" %}</span></span>
 								{% endif %}
                                 {% if good.status.key == 'verified' %}<span class="app-verified__symbol">{% svg 'verified' %}</span>{% endif %}
 							</a>
