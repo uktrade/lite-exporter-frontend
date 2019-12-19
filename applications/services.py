@@ -86,6 +86,7 @@ def validate_application_good(request, pk, json):
     return data.json(), data.status_code
 
 
+@acceptable_statuses([200, 400, 403, 404])
 def get_application_goods_types(request, pk):
     data = get(request, APPLICATIONS_URL + pk + "/goodstypes/")
     return data.json().get("goods") if data.status_code == HTTPStatus.OK else None
