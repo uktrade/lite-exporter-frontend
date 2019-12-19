@@ -96,13 +96,13 @@
                 {% for good in goods.results %}
                     <tr class="govuk-table__row">
                         <td class="govuk-table__cell">
-                            <a class="govuk-link govuk-link--no-visited-state app-icon-label" href="{% url 'goods:good' pk=good.id %}" id="good-description">
-                                <p>{{ good.description|highlight_text:description }}</p>
-                                {% if good.status.key == 'verified' %}<span class="app-verified__symbol">{% svg 'verified' %}</span>{% endif %}
-                                {% if good.query_id and good.query_id in notifications %}
-                                    <span class="lite-notification-bubble">{{ notifications|key_value:good.query_id }} <span class="govuk-visually-hidden"> {% lcs "NOTIFICATIONS" %}</span></span>
-                                {% endif %}
-                            </a>
+							<a class="govuk-link govuk-link--no-visited-state app-icon-label" href="{% url 'goods:good' pk=good.id %}">
+								<p>{{ good.description }}</p>
+								{% if good.status.key == 'verified' %}<span class="app-verified__symbol">{% svg 'verified' %}</span>{% endif %}
+								{% if good.query_id and good.query_id in notifications %}
+									<span class="lite-notification-bubble">{{ notifications|key_value:good.query_id }} <span class="govuk-visually-hidden"> {% lcs "goods.GoodsPage.NOTIFICATIONS" %}</span></span>
+								{% endif %}
+							</a>
                         </td>
                         <td class="govuk-table__cell" style="{% if not good.control_code %}opacity: 0.4;{% endif %}" id="good-control_code">{{ good.control_code|highlight_text:control_code|default:"N/A" }}</td>
                         <td class="govuk-table__cell" style="{% if not good.part_number %}opacity: 0.4;{% endif %}" id="good-part-number">{{ good.part_number|highlight_text:part_number|default:"N/A" }}</td>

@@ -1,3 +1,4 @@
+from django.utils.http import urlencode
 from pytest_bdd import when, then, parsers, scenarios
 from pages.application_goods_list import ApplicationGoodsList
 from shared.tools.utils import get_lite_client
@@ -39,7 +40,10 @@ def see_all_goods(driver, context):
 )
 def add_a_good(context, description, control_code, part_number, seed_data_config):
     lite_client = get_lite_client(context, seed_data_config=seed_data_config)
-    goods = lite_client.seed_good.get_goods()
+    params = {
+        "description": description, "control_rating": control_code, "part_number": part_number
+    }
+    goods = lite_client.seed_good.get_goods(urlencode(params))
     total_goods = 0
     for good in goods:
         if good["is_good_controlled"] != "unsure":
