@@ -43,11 +43,7 @@ class Hub(TemplateView):
                 Section(
                     strings.HUB.Header.MANAGE,
                     [
-                        Tile(
-                            strings.HUB.Tiles.APPLICATIONS,
-                            generate_notification_string(notifications, case_types=[CaseType.HMRC_QUERY]),
-                            reverse_lazy("applications:applications"),
-                        ),
+                        Tile(strings.HUB.Tiles.APPLICATIONS, "", reverse_lazy("applications:applications"),),
                         Tile(
                             strings.HUB.Tiles.DRAFTS,
                             "",
