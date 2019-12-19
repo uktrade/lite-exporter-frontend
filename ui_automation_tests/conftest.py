@@ -13,7 +13,6 @@ from ui_automation_tests.fixtures.register_organisation import (  # noqa
     register_organisation_for_switching_organisation,
     user_details,
 )
-from ui_automation_tests.fixtures.env import environment  # noqa
 from ui_automation_tests.fixtures.add_goods import (  # noqa
     add_an_incorporated_good_to_application,
     add_a_non_incorporated_good_to_application,
