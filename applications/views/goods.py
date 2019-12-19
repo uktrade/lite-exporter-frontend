@@ -209,8 +209,9 @@ class DraftOpenGoodsTypeList(TemplateView):
 class AddPreexistingGood(TemplateView):
     def get(self, request, **kwargs):
         good, _ = get_good(request, str(kwargs["good_pk"]))
+        title = strings.goods.AddPrexistingGoodToApplicationForm.TITLE
         context = {
-            "title": strings.goods.AddPrexistingGoodToApplicationForm.TITLE,
+            "title": title,
             "page": good_on_application_form(good, get_units(request), title),
         }
         return render(request, "form.html", context)
@@ -221,9 +222,9 @@ class AddPreexistingGood(TemplateView):
 
         if status_code != HTTPStatus.CREATED:
             good, status_code = get_good(request, str(kwargs["good_pk"]))
-
+            title = strings.goods.AddPrexistingGoodToApplicationForm.TITLE
             context = {
-                "title": strings.goods.AddPrexistingGoodToApplicationForm.TITLE,
+                "title": title,
                 "page": good_on_application_form(good, get_units(request), title),
                 "data": request.POST,
                 "errors": data.get("errors"),
