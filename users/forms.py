@@ -36,6 +36,8 @@ def edit_user_form(request, user_id, can_edit_role: bool):
                 ),
             ),
         ],
-        back_link=BackLink(strings.users.EditUserForm.USER_EDIT_FORM_BACK_TO_USER, reverse_lazy("users:user", kwargs={"pk": user_id})),
+        back_link=BackLink(
+            strings.users.EditUserForm.USER_EDIT_FORM_BACK_TO_USER, reverse_lazy("users:user", kwargs={"pk": user_id})
+        ),
         default_button_name=strings.users.EditUserForm.USER_EDIT_FORM_SAVE,
     )

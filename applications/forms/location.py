@@ -12,8 +12,7 @@ def which_location_form(application_id):
             RadioButtons(
                 "organisation_or_external",
                 [
-                    Option("organisation",
-                           strings.goods.GoodsLocationForm.ONE_OF_MY_REGISTERED_SITES),
+                    Option("organisation", strings.goods.GoodsLocationForm.ONE_OF_MY_REGISTERED_SITES),
                     Option("external", strings.goods.GoodsLocationForm.NOT_AT_MY_REGISTERED_SITES),
                 ],
             )
@@ -31,8 +30,7 @@ def add_external_location():
                 "choice",
                 [
                     Option("new", strings.goods.GoodsLocationForm.EXTERNAL_LOCATION_NEW_LOCATION),
-                    Option("preexisting",
-                           strings.goods.GoodsLocationForm.EXTERNAL_LOCATION_PREEXISTING_LOCATION),
+                    Option("preexisting", strings.goods.GoodsLocationForm.EXTERNAL_LOCATION_PREEXISTING_LOCATION),
                 ],
             )
         ],
