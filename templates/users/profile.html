@@ -128,17 +128,17 @@
 	<dl class="govuk-summary-list govuk-summary-list--no-border">
 		{% for site in profile.sites %}
 			<div class="govuk-summary-list__row">
-				<dd class="govuk-summary-list__value">
-					<span class="govuk-!-font-weight-bold">{{ site.name }}</span>
-					<span class="govuk-hint">
-						{{ site.address.address_line_1 }}<br/>
-						{% if site.address.address_line_2 %}
-							{{ site.address.address_line_2 }}<br/>
-						{% endif %}
-						{{ site.address.city }}<br/>
-						{{ site.address.postcode }}<br/>
-						{{ site.address.country.name }}
-					</span>
+				<dd class="govuk-summary-list__key">
+					{{ site.name }}
+				</dd>
+				<dd class="govuk-summary-list__value govuk-hint">
+					{{ site.address.address_line_1 }}<br/>
+					{% if site.address.address_line_2 %}
+						{{ site.address.address_line_2 }}<br/>
+					{% endif %}
+					{{ site.address.city }}<br/>
+					{{ site.address.postcode }}<br/>
+					{{ site.address.country.name }}
 				</dd>
 				<dd class="govuk-summary-list__actions">
 					<a class="govuk-link" href="{% url 'sites:site' site.id %}">
