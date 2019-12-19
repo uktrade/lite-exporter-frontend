@@ -72,26 +72,26 @@
 			{% if application.application_type.key != 'hmrc_query' %}
 				<a href="{% url 'applications:application' application.id 'case-notes' %}" class="lite-tabs__tab {% if type == 'case-notes' %}lite-tabs__tab--selected{% endif %}" id="link-case-notes">
                     {% lcs 'APPLICATIONS.Application.Tabs.NOTES' %}
-					{% if application.exporter_user_notifications_count.casenote %}
+					{% if application.exporter_user_notification_count.casenote %}
 						<div class="lite-notification-bubble">
-							{{ application.exporter_user_notifications_count.casenote }}
+							{{ application.exporter_user_notification_count.casenote }}
 						</div>
 					{% endif %}
 				</a>
 	            <a href="{% url 'applications:application' application.id 'ecju-queries' %}" class="lite-tabs__tab {% if type == 'ecju-queries' %}lite-tabs__tab--selected{% endif %}" id="link-ecju-queries">
 	                {% lcs 'APPLICATIONS.Application.Tabs.ECJU_QUERIES' %}
-	                {% if application.exporter_user_notifications_count.ecjuquery %}
+	                {% if application.exporter_user_notification_count.ecjuquery %}
 	                    <div class="lite-notification-bubble">
-	                        {{ application.exporter_user_notifications_count.ecjuquery }}
+	                        {{ application.exporter_user_notification_count.ecjuquery }}
 	                    </div>
 	                {% endif %}
 	            </a>
 			{% endif %}
             <a href="{% url 'applications:application' application.id 'generated-documents' %}" class="lite-tabs__tab {% if type == 'generated-documents' %}lite-tabs__tab--selected{% endif %}" id="link-generated-documents">
                 {% lcs 'APPLICATIONS.Application.Tabs.GENERATED_DOCUMENTS' %}
-                {% if application.exporter_user_notifications_count.generatedcasedocument %}
+                {% if application.exporter_user_notification_count.generatedcasedocument %}
                     <div class="lite-notification-bubble">
-                        {{ application.exporter_user_notifications_count.generatedcasedocument }}
+                        {{ application.exporter_user_notification_count.generatedcasedocument }}
                     </div>
                 {% endif %}
             </a>

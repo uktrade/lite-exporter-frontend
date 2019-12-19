@@ -153,17 +153,17 @@
             <div class="lite-tabs__container">
                 <a href="{% url 'end_users:end_user_detail' end_user_advisory.id 'case-notes' %}" class="lite-tabs__tab {% if type == 'case-notes' %}lite-tabs__tab--selected{% endif %}" id="link-case-notes">
                     {% lcs 'END_USER_ADVISORIES.EndUserAdvisory.Tabs.NOTES' %}
-                    {% if end_user_advisory.exporter_user_notifications_count.casenote %}
+                    {% if end_user_advisory.exporter_user_notification_count.casenote %}
                         <div class="lite-notification-bubble">
-                            {{  end_user_advisory.exporter_user_notifications_count.casenote }}
+                            {{  end_user_advisory.exporter_user_notification_count.casenote }}
                         </div>
                     {% endif %}
                 </a>
                 <a href="{% url 'end_users:end_user_detail' end_user_advisory.id 'ecju-queries' %}" class="lite-tabs__tab {% if type == 'ecju-queries' %}lite-tabs__tab--selected{% endif %}" id="link-ecju-queries">
                     {% lcs 'END_USER_ADVISORIES.EndUserAdvisory.Tabs.ECJU_QUERIES' %}
-                    {% if  end_user_advisory.exporter_user_notifications_count.ecjuquery %}
+                    {% if  end_user_advisory.exporter_user_notification_count.ecjuquery %}
                         <div class="lite-notification-bubble">
-                            {{ end_user_advisory.exporter_user_notifications_count.ecjuquery }}
+                            {{ end_user_advisory.exporter_user_notification_count.ecjuquery }}
                         </div>
                     {% endif %}
                 </a>
