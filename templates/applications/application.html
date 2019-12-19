@@ -30,7 +30,7 @@
 	<dl class="govuk-summary-list govuk-summary-list--no-border">
 		<div class="govuk-summary-list__row">
 			<dt class="govuk-summary-list__key">
-				{% lcs 'APPLICATION_TYPE' %}
+				{% lcs 'APPLICATIONS.ApplicationSummaryPage.TYPE' %}
 			</dt>
 			<dd class="govuk-summary-list__value">
 				{{ application.application_type.value }}
@@ -39,7 +39,7 @@
 		{% if application.application_type.key != 'hmrc_query' %}
 		<div class="govuk-summary-list__row">
 			<dt class="govuk-summary-list__key">
-				{% lcs 'APPLICATION_EXPORT_TYPE' %}
+				{% lcs 'APPLICATIONS.ApplicationSummaryPage.EXPORT_TYPE' %}
 			</dt>
 			<dd class="govuk-summary-list__value">
 				{{ application.export_type.value }}
@@ -48,7 +48,7 @@
 		{% endif %}
 		<div class="govuk-summary-list__row">
 			<dt class="govuk-summary-list__key">
-				{% lcs 'APPLICATION_STATUS' %}
+				{% lcs 'APPLICATIONS.ApplicationSummaryPage.STATUS' %}
 			</dt>
 			<dd id="label-application-status" class="govuk-summary-list__value">
 				{{ application.status.value }}
@@ -56,7 +56,7 @@
 		</div>
 		<div class="govuk-summary-list__row">
 			<dt class="govuk-summary-list__key">
-				{% lcs 'APPLICATION_SUBMITTED_AT' %}
+				{% lcs 'APPLICATIONS.ApplicationSummaryPage.SUBMITTED_AT' %}
 			</dt>
 			<dd class="govuk-summary-list__value">
 				{{ application.submitted_at|str_date }}
