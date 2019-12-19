@@ -21,11 +21,11 @@
 			{% if show_change_status %}
 				{% if profile.status == 'Active' %}
 					<a href="{% url 'users:change_status' profile.id 'deactivate' %}" id="btn-deactivate" role="button" draggable="false" class="govuk-button govuk-button--secondary">
-						{% lcs 'USER_DEACTIVATE' %}
+						{% lcs 'USERS.ProfilePage.USER_DEACTIVATE' %}
 					</a>
 				{% elif profile.status == 'Deactivated' %}
 					<a href="{% url 'users:change_status' profile.id 'reactivate' %}" id="btn-reactivate" role="button" draggable="false" class="govuk-button govuk-button--secondary">
-						{% lcs 'USER_REACTIVATE' %}
+						{% lcs 'USERS.ProfilePage.USER_REACTIVATE' %}
 					</a>
 				{% endif %}
 			{% endif %}
