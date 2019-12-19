@@ -39,13 +39,17 @@ class Hub(TemplateView):
 
         if organisation.get("type").get("key") == "hmrc":
             sections = [
-                Section("", [Tile(strings.HUB.TILES.CUSTOMS_ENQUIRY, "", reverse_lazy("hmrc:raise_a_query")),]),
+                Section("", [Tile(strings.HUB.Tiles.CUSTOMS_ENQUIRY, "", reverse_lazy("hmrc:raise_a_query")),]),
                 Section(
                     strings.HUB.Header.MANAGE,
                     [
-                        Tile(strings.HUB.TILES.APPLICATIONS, "", reverse_lazy("applications:applications")),
                         Tile(
-                            strings.HUB.TILES.DRAFTS,
+                            strings.HUB.Tiles.APPLICATIONS,
+                            generate_notification_string(notifications, case_types=[CaseType.HMRC_QUERY]),
+                            reverse_lazy("applications:applications"),
+                        ),
+                        Tile(
+                            strings.HUB.Tiles.DRAFTS,
                             "",
                             reverse_lazy("applications:applications") + "?submitted=False",
                         ),
@@ -55,23 +59,23 @@ class Hub(TemplateView):
         else:
             sections = [
                 Section(
-                    "", [Tile(strings.HUB.TILES.APPLY_FOR_LICENCE, "", reverse_lazy("apply_for_a_licence:start"))],
+                    "", [Tile(strings.HUB.Tiles.APPLY_FOR_LICENCE, "", reverse_lazy("apply_for_a_licence:start"))],
                 ),
                 Section(
                     strings.HUB.Header.MANAGE,
                     [
                         Tile(
-                            strings.HUB.TILES.APPLICATIONS,
+                            strings.HUB.Tiles.APPLICATIONS,
                             generate_notification_string(notifications, case_types=[CaseType.APPLICATION]),
                             reverse_lazy("applications:applications"),
                         ),
                         Tile(
-                            strings.HUB.TILES.GOODS,
+                            strings.HUB.Tiles.GOODS,
                             generate_notification_string(notifications, case_types=[CaseType.CLC_QUERY]),
                             reverse_lazy("goods:goods"),
                         ),
                         Tile(
-                            strings.HUB.TILES.END_USER_ADVISORIES,
+                            strings.HUB.Tiles.END_USER_ADVISORIES,
                             generate_notification_string(notifications, case_types=[CaseType.EUA_QUERY]),
                             reverse_lazy("end_users:end_users"),
                         ),
@@ -80,7 +84,7 @@ class Hub(TemplateView):
             ]
 
             if organisation.get("type").get("key") == "individual":
-                sections[1].tiles.append(Tile(strings.HUB.TILES.SITES, "", reverse_lazy("sites:sites")))
+                sections[1].tiles.append(Tile(strings.HUB.Tiles.SITES, "", reverse_lazy("sites:sites")))
             elif manage_organisation_section_link:
                 number_permissions = 0
                 for permission in user_permissions:
