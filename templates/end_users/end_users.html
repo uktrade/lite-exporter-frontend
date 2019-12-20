@@ -35,7 +35,7 @@
                             <a class="govuk-link govuk-link--no-visited-state app-icon-label" href="{% url 'end_users:end_user' pk=advisory.id %}">
 							    {{ advisory.end_user.name }}
                                 {% if advisory.exporter_user_notification_count.total %}
-                                    <span class="lite-notification-bubble">{{ advisory.exporter_user_notification_count.total }} <span class="govuk-visually-hidden"> {% lcs "NOTIFICATIONS" %}</span></span>
+                                    <span class="lite-notification-bubble">{{ advisory.exporter_user_notification_count.total }} <span class="govuk-visually-hidden"> {% lcs "end_users.EndUsersPage.NOTIFICATIONS" %}</span></span>
                                 {% endif %}
                             </a>
 						</td>

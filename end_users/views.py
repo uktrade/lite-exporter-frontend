@@ -266,4 +266,4 @@ class RespondToQuery(TemplateView):
                 return form_page(request, form, errors=error)
         else:
             # Submitted data does not contain an expected form field - return an error
-            return error_page(request, strings.UPLOAD_GENERIC_ERROR)
+            return error_page(request, strings.end_users.AttachDocumentPage.UPLOAD_GENERIC_ERROR)

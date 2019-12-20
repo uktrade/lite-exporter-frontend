@@ -45,9 +45,10 @@
 					<tr class="govuk-table__row">
                         <td class="govuk-table__cell">
 							<a class="govuk-link govuk-link--no-visited-state app-icon-label" href="{% url 'goods:good' pk=good.id %}">
-								{{ good.description }}
+								<p>{{ good.description }}</p>
+								{% if good.status.key == 'verified' %}<span class="app-verified__symbol">{% svg 'verified' %}</span>{% endif %}
 								{% if good.query.exporter_user_notification_count.total %}
-									<span class="lite-notification-bubble">{{ good.query.exporter_user_notification_count.total }} <span class="govuk-visually-hidden"> {% lcs "HUB.TILES.NOTIFICATIONS" %}</span></span>
+									<span class="lite-notification-bubble">{{ good.query.exporter_user_notification_count.total }} <span class="govuk-visually-hidden"> {% lcs "goods.GoodsPage.NOTIFICATIONS" %}</span></span>
 								{% endif %}
                                 {% if good.status.key == 'verified' %}<span class="app-verified__symbol">{% svg 'verified' %}</span>{% endif %}
 							</a>
