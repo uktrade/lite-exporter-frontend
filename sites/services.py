@@ -14,7 +14,11 @@ def get_sites(request, organisation_id, convert_to_options=False):
         sites_options = []
 
         for site in data:
-            primary_site = " " + strings.sites.SitesPage.PRIMARY_SITE if site.get("id") == organisation["primary_site"]["id"] else ""
+            primary_site = (
+                " " + strings.sites.SitesPage.PRIMARY_SITE
+                if site.get("id") == organisation["primary_site"]["id"]
+                else ""
+            )
             site_id = site.get("id")
             site_name = site.get("name") + primary_site
             address = site.get("address")

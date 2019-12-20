@@ -30,6 +30,7 @@ def edit_site_form(site):
             Heading("Where is the site based?", HeadingStyle.M),
             *address_questions(get_countries(None, True)),
         ],
-        back_link=BackLink(strings.sites.SitesPage.BACK_TO + site["name"],
-                           reverse_lazy("sites:site", kwargs={"pk": site["id"]})),
+        back_link=BackLink(
+            strings.sites.SitesPage.BACK_TO + site["name"], reverse_lazy("sites:site", kwargs={"pk": site["id"]})
+        ),
     )
