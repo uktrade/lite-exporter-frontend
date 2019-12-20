@@ -42,6 +42,7 @@ STATUS_PROPERTIES_URL = STATIC_URL + "statuses/properties/"
 UNITS_URL = STATIC_URL + "units/"
 COUNTRIES_URL = STATIC_URL + "countries/"
 CONTROL_LIST_ENTRIES_URL = STATIC_URL + "control-list-entries/"
+PV_GRADINGS_URL = STATIC_URL + "private-venture-gradings/"
 
 # Applications constants
 STANDARD_LICENCE = "standard_licence"

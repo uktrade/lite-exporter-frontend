@@ -26,7 +26,15 @@ def post_goods(request, json):
         post_data = remove_prefix(json, "good_")
     else:
         post_data = json
+
+    # Convert date
+    year = json.get("year", "")
+    month = json.get("month", "")
+    day = json.get("day", "")
+    post_data["pv_grading_date_of_issue"] = f"{year}-{month}-{day}"
+
     data = post(request, GOODS_URL, post_data)
+
     return data.json(), data.status_code
 
 
@@ -50,7 +58,7 @@ def delete_good(request, pk):
     return data.json(), data.status_code
 
 
-def raise_clc_query(request, json):
+def raise_clc_query(request, _, json):
     data = post(request, CONTROL_LIST_CLASSIFICATIONS_URL, json)
     return data.json(), data.status_code
 

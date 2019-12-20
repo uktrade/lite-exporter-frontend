@@ -14,6 +14,7 @@ from conf.constants import (
     CASES_URL,
     CONTROL_LIST_ENTRIES_URL,
     NEWLINE,
+    PV_GRADINGS_URL,
 )
 
 
@@ -154,3 +155,22 @@ def get_control_list_entries(request, convert_to_options=False):
 
     data = get(request, CONTROL_LIST_ENTRIES_URL)
     return data.json().get("control_list_entries")
+
+
+# PV gradings
+def get_pv_gradings(request, convert_to_options=False):
+    if convert_to_options:
+        data = get(request, PV_GRADINGS_URL)
+
+        converted_units = []
+        for pvg in data.json().get("pv-gradings"):
+            converted_units.append(
+                Option(
+                    key=pvg[0],
+                    value=pvg[1],
+                )
+            )
+        return converted_units
+
+    data = get(request, PV_GRADINGS_URL)
+    return data.json().get("pv-gradings")

@@ -8,7 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
 
 from lite_content.lite_exporter_frontend import strings
-from lite_forms.components import HiddenField
+from lite_forms.components import HiddenField, FormGroup
 from lite_forms.generators import error_page, form_page
 from s3chunkuploader.file_handler import S3FileUploadHandler
 
@@ -33,7 +33,7 @@ from goods.forms import (
     ecju_query_respond_confirmation_form,
     delete_good_form,
     add_goods_questions,
-)
+    pv_query, are_you_sure)
 from goods.services import (
     get_goods,
     post_goods,
@@ -46,7 +46,7 @@ from goods.services import (
     post_good_documents,
     raise_clc_query,
 )
-from lite_forms.views import SingleFormView
+from lite_forms.views import SingleFormView, MultiFormView
 
 
 class Goods(TemplateView):
@@ -168,6 +168,25 @@ class RaiseCLCQuery(TemplateView):
         return redirect(reverse("goods:goods"))
 
 
+class RaiseCLCPVQuery(MultiFormView):
+    def init(self, request, **kwargs):
+
+        self.object_pk = str(kwargs["pk"])
+        good, _ = get_good(request, self.object_pk)
+        form_list = []
+        print("GOOOOOOOOOD", good)
+        print(good.get("is_good_controlled"))
+        if "unsure" == good["is_good_controlled"]:
+            form_list.append(are_you_sure(self.object_pk))
+        if "grading_required" == good["holds_pv_grading"]:
+            form_list.append(pv_query(self.object_pk))
+        if not forms:
+            return 404
+        self.forms=FormGroup(form_list)
+        self.action=raise_clc_query
+        self.success_url=reverse_lazy("goods:goods", kwargs={"pk": self.object_pk})
+
+
 class DraftAddGood(TemplateView):
     def get(self, request, **kwargs):
         return form_page(request, forms.form)
@@ -250,6 +269,8 @@ class AttachDocuments(TemplateView):
 
         if good["is_good_controlled"] == "unsure":
             return redirect(reverse("goods:raise_clc_query", kwargs={"pk": good_id}))
+
+        # if good[""]
 
         return redirect(reverse("goods:good", kwargs={"pk": good_id}))
 

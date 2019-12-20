@@ -102,6 +102,74 @@
 						</dd>
 					</div>
 				{% endif %}
+				{% if good.holds_pv_grading %}
+					<div class="govuk-summary-list__row">
+						<dt class="govuk-summary-list__key">
+							PV grading
+						</dt>
+						<dd class="govuk-summary-list__value">
+							{% if good.pv_grading == 'other' %}
+								{{ good.pv_grading_custom }}
+							{% else %}
+								{{ good.pv_grading }}
+							{% endif %}
+						</dd>
+					</div>
+					{% if good.pv_grading_prefix %}
+					<div class="govuk-summary-list__row">
+						<dt class="govuk-summary-list__key">
+							PV grading prefix
+						</dt>
+						<dd class="govuk-summary-list__value">
+							{{ good.pv_grading_prefix }}
+						</dd>
+					</div>
+					{% endif %}
+					{% if good.pv_grading_suffix %}
+					<div class="govuk-summary-list__row">
+						<dt class="govuk-summary-list__key">
+							PV grading suffix
+						</dt>
+						<dd class="govuk-summary-list__value">
+							{{ good.pv_grading_suffix }}
+						</dd>
+					</div>
+					{% endif %}
+					<div class="govuk-summary-list__row">
+						<dt class="govuk-summary-list__key">
+							PV grading reference
+						</dt>
+						<dd class="govuk-summary-list__value">
+							{{ good.pv_grading_reference }}
+						</dd>
+					</div>
+					<div class="govuk-summary-list__row">
+						<dt class="govuk-summary-list__key">
+							PV grading issuing authority
+						</dt>
+						<dd class="govuk-summary-list__value">
+							{{ good.pv_grading_issuing_authority }}
+						</dd>
+					</div>
+					<div class="govuk-summary-list__row">
+						<dt class="govuk-summary-list__key">
+							PV grading date of issue
+						</dt>
+						<dd class="govuk-summary-list__value">
+							{{ good.pv_grading_date_of_issue }}
+						</dd>
+					</div>
+					{% if good.pv_grading_comment %}
+					<div class="govuk-summary-list__row">
+						<dt class="govuk-summary-list__key">
+							PV grading comment
+						</dt>
+						<dd class="govuk-summary-list__value">
+							{{ good.pv_grading_comment }}
+						</dd>
+					</div>
+					{% endif %}
+				{% endif %}
 				<div class="govuk-summary-list__row">
 					<dt class="govuk-summary-list__key">
 						Part Number
