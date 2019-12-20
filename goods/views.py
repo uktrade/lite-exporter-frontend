@@ -18,11 +18,7 @@ from applications.services import (
     download_document_from_s3,
     get_status_properties,
 )
-<<<<<<< HEAD
-from core.helpers import group_notifications, convert_dict_to_query_params
-from core.services import get_notifications
-=======
->>>>>>> 2c607d260952b47f42da49765b5dbed7e919d516
+from core.helpers import convert_dict_to_query_params
 from goods import forms
 from goods.forms import (
     edit_form,
@@ -57,7 +53,6 @@ class Goods(TemplateView):
         description = request.GET.get("description", "").strip()
         part_number = request.GET.get("part_number", "").strip()
         control_rating = request.GET.get("control_rating", "").strip()
-        notifications = get_notifications(request, unviewed=True)
 
         filtered = True if (description or part_number or control_rating) else False
 
