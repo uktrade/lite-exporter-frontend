@@ -1,11 +1,10 @@
 import datetime
-from collections import defaultdict
-from conf import decorators
 from html import escape
 
 from django.template.defaultfilters import safe
 from django.templatetags.tz import do_timezone
 
+from conf import decorators
 from conf.constants import ISO8601_FMT
 from core.builtins.custom_tags import default_na
 from roles.services import get_user_permissions
