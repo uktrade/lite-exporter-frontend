@@ -43,17 +43,17 @@
 					{% if show_change_status %}
 						{% if profile.status == 'Active' %}
 							<a href="{% url 'users:change_status' profile.id 'deactivate' %}" id="button-deactivate" role="button" draggable="false" class="govuk-button">
-								{% lcs 'USER_DEACTIVATE' %}
+								{% lcs 'users.ProfilePage.USER_DEACTIVATE' %}
 							</a>
 						{% elif profile.status == 'Deactivated' %}
 							<a href="{% url 'users:change_status' profile.id 'reactivate' %}" id="button-reactivate" role="button" draggable="false" class="govuk-button">
-								{% lcs 'USER_REACTIVATE' %}
+								{% lcs 'users.ProfilePage.USER_REACTIVATE' %}
 							</a>
 						{% endif %}
 					{% endif %}
 					{% if show_change_role %}
 						<a id="button-edit" href="{% url 'users:edit' profile.id %}" class="govuk-button">
-							{% lcs 'USER_EDIT_TITLE' %}
+							{% lcs 'users.ProfilePage.EDIT_USER_BUTTON' %}
 						</a>
 					{% endif %}
 					{% if show_assign_sites %}
@@ -73,7 +73,7 @@
 			<span class="govuk-warning-text__icon" aria-hidden="true">!</span>
 			<strong class="govuk-warning-text__text">
 				<span class="govuk-warning-text__assistive">Warning</span>
-				{% lcs "USER_NOT_ACTIVATED_YET" %}
+				{% lcs "users.ProfilePage.USER_NOT_ACTIVATED_YET" %}
 			</strong>
 		</div>
 	{% endif %}
@@ -81,7 +81,7 @@
 		{% if profile.first_name and profile.last_name %}
 			<div class="govuk-summary-list__row">
 				<dt class="govuk-summary-list__key">
-					{% lcs "USER_FIRST_NAME" %}
+					{% lcs "users.ProfilePage.USER_FIRST_NAME" %}
 				</dt>
 				<dd class="govuk-summary-list__value">
 					{{ profile.first_name }}
@@ -89,7 +89,7 @@
 			</div>
 			<div class="govuk-summary-list__row">
 				<dt class="govuk-summary-list__key">
-					{% lcs "USER_LAST_NAME" %}
+					{% lcs "users.ProfilePage.USER_LAST_NAME" %}
 				</dt>
 				<dd class="govuk-summary-list__value">
 					{{ profile.last_name }}
@@ -98,7 +98,7 @@
 		{% endif %}
 		<div class="govuk-summary-list__row">
 			<dt class="govuk-summary-list__key">
-				{% lcs "USER_EMAIL" %}
+				{% lcs "users.ProfilePage.USER_EMAIL" %}
 			</dt>
 			<dd class="govuk-summary-list__value">
 				{{ profile.email }}
@@ -106,7 +106,7 @@
 		</div>
 		<div class="govuk-summary-list__row">
 			<dt class="govuk-summary-list__key">
-				{% lcs "USER_ROLE" %}
+				{% lcs "users.ProfilePage.USER_ROLE" %}
 			</dt>
 			<dd class="govuk-summary-list__value">
 				{{ profile.role.name }}
@@ -114,7 +114,7 @@
 		</div>
 		<div class="govuk-summary-list__row">
 			<dt class="govuk-summary-list__key">
-				{% lcs "USER_STATUS" %}
+				{% lcs "users.ProfilePage.USER_STATUS" %}
 			</dt>
 			<dd class="govuk-summary-list__value">
 				{{ profile.status }}
