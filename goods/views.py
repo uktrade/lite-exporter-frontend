@@ -18,8 +18,11 @@ from applications.services import (
     download_document_from_s3,
     get_status_properties,
 )
+<<<<<<< HEAD
 from core.helpers import group_notifications, convert_dict_to_query_params
 from core.services import get_notifications
+=======
+>>>>>>> 2c607d260952b47f42da49765b5dbed7e919d516
 from goods import forms
 from goods.forms import (
     edit_form,
@@ -69,7 +72,6 @@ class Goods(TemplateView):
 
         context = {
             "goods": goods,
-            "notifications": group_notifications(notifications),
             "description": description,
             "part_number": part_number,
             "control_code": control_rating,
@@ -102,24 +104,15 @@ class GoodsDetail(TemplateView):
         return super(GoodsDetail, self).dispatch(request, *args, **kwargs)
 
     def get(self, request, **kwargs):
-        notifications = get_notifications(request, unviewed=True)
         documents = get_good_documents(request, str(self.good_id))
-        case_note_notifications = len(
-            [x for x in notifications if str(x["parent"]) == self.good_id and x["object_type"] == "case_note"]
-        )
-        ecju_query_notifications = len(
-            [x for x in notifications if str(x["parent"]) == self.good_id and x["object_type"] == "ecju_query"]
-        )
 
         context = {
             "good": self.good,
             "documents": documents,
             "type": self.view_type,
-            "case_note_notifications": case_note_notifications,
-            "ecju_query_notifications": ecju_query_notifications,
         }
 
-        if self.good["query_id"]:
+        if self.good["query"]:
             status_props, _ = get_status_properties(request, self.good["case_status"]["key"])
             context["status_is_read_only"] = status_props["is_read_only"]
             context["status_is_terminal"] = status_props["is_terminal"]
