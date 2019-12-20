@@ -40,9 +40,7 @@ def see_all_goods(driver, context):
 )
 def add_a_good(context, description, control_code, part_number, seed_data_config):
     lite_client = get_lite_client(context, seed_data_config=seed_data_config)
-    params = {
-        "description": description, "control_rating": control_code, "part_number": part_number
-    }
+    params = {"description": description, "control_rating": control_code, "part_number": part_number}
     goods = lite_client.seed_good.get_goods(urlencode(params))
     total_goods = 0
     for good in goods:
