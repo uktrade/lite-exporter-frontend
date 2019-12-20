@@ -9,9 +9,8 @@ from django.views.generic import TemplateView
 from s3chunkuploader.file_handler import S3FileUploadHandler
 
 from applications.forms.end_user import attach_document_form, delete_document_confirmation_form
-from applications.helpers.reverse_documents import document_switch
+from applications.helpers.reverse_documents import document_switch, get_const_string_value_by_path
 from applications.services import add_document_data, download_document_from_s3
-from core.builtins.custom_tags import get_string
 from lite_content.lite_exporter_frontend import strings
 from lite_forms.generators import form_page, error_page
 
@@ -20,15 +19,17 @@ def get_upload_page(path, draft_id):
     paths = document_switch(path)
 
     if paths["has_description"]:
-        description_text = get_string(paths["strings"] + ".attach_documents.description_field_title")
+        description_text = get_const_string_value_by_path(
+            "strings." + paths["strings"] + ".AttachDocuments.DESCRIPTION_FIELD_TITLE"
+        )
     else:
         description_text = None
 
+    title = get_const_string_value_by_path("strings." + paths["strings"] + ".AttachDocuments.TITLE")
+    return_later_text = get_const_string_value_by_path("strings." + paths["strings"] + ".SAVE_END_USER")
+
     return attach_document_form(
-        application_id=draft_id,
-        title=get_string(paths["strings"] + ".attach_documents.title"),
-        return_later_text=get_string(paths["strings"] + ".save_end_user"),
-        description_text=description_text,
+        application_id=draft_id, title=title, return_later_text=return_later_text, description_text=description_text,
     )
 
 
@@ -40,7 +41,9 @@ def get_delete_confirmation_page(path, pk):
     paths = document_switch(path)
     return delete_document_confirmation_form(
         overview_url=reverse(paths["homepage"], kwargs={"pk": pk}),
-        back_link_text=get_string(paths["strings"] + ".attach_documents.back_to_application_overview"),
+        back_link_text=get_const_string_value_by_path(
+            "strings." + paths["strings"] + ".AttachDocuments.BACK_TO_APPLICATION_OVERVIEW"
+        ),
     )
 
 
