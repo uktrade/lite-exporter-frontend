@@ -1,3 +1,4 @@
+from lite_content.lite_exporter_frontend import strings
 from lite_forms.components import Option
 
 from conf.client import get, post, put
@@ -13,7 +14,7 @@ def get_sites(request, organisation_id, convert_to_options=False):
         sites_options = []
 
         for site in data:
-            primary_site = " (Primary Site)" if site.get("id") == organisation["primary_site"]["id"] else ""
+            primary_site = " " + strings.sites.SitesPage.PRIMARY_SITE if site.get("id") == organisation["primary_site"]["id"] else ""
             site_id = site.get("id")
             site_name = site.get("name") + primary_site
             address = site.get("address")
@@ -54,6 +55,5 @@ def post_sites(request, organisation_id, json):
 
 
 def put_assign_sites(request, pk, json):
-    # TODO stop hardcoding sites!
-    data = put(request, USERS_URL + str(pk) + "/sites/", json)
+    data = put(request, USERS_URL + str(pk) + SITES_URL, json)
     return data.json(), data.status_code

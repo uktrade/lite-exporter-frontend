@@ -19,7 +19,7 @@ def add_user_form(request):
                 include_default_select=False,
             ),
             Checkboxes(
-                title="What sites should the user be assigned to?",
+                title=strings.users.AddUserForm.ASSIGN_USER_QUESTION,
                 name="sites[]",
                 options=get_sites(request, request.user.organisation, True),
             ),
@@ -51,8 +51,8 @@ def edit_user_form(request, user_id, can_edit_role: bool):
 
 def assign_sites(request):
     return Form(
-        title="Assign user to sites",
-        description="Select all sites that apply.",
+        title=strings.users.AssignToSitesForm.ASSIGN_USER_TO_SITES_TITLE,
+        description=strings.users.AssignToSitesForm.ASSIGN_USER_TO_SITES_DESCRIPTION,
         questions=[Checkboxes(name="sites[]", options=get_sites(request, request.user.organisation, True))],
-        default_button_name="Save",
+        default_button_name=strings.SAVE,
     )
