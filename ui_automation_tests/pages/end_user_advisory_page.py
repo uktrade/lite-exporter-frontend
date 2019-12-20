@@ -15,11 +15,11 @@ class EndUserAdvisoryPage(BasePage):
         self.driver.find_element_by_id(self.APPLY_FOR_ADVISORY).click()
 
     def open_advisory_by_reference_code(self, _id):
-        elements, no = self.get_table_rows_and_position(id)
+        elements, no = self.get_table_rows_and_position(_id)
         elements[no].find_elements_by_css_selector("a")[0].click()
 
     def confirm_advisory_displayed_by_reference_code(self, _id):
-        elements, no = self.get_table_rows_and_position(id)
+        elements, no = self.get_table_rows_and_position(_id)
         return elements[no].find_element_by_css_selector(Shared(self.driver).NOTIFICATION).is_displayed()
 
     def get_table_rows_and_position(self, _id: str):
