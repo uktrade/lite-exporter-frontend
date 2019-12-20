@@ -52,10 +52,11 @@ class ViewUser(TemplateView):
         user = get_user(request)
         is_request_user_super_user = is_super_user(request_user)
         is_user_super_user = is_super_user(user)
+        is_self_editing = user["id"] == request_user["id"]
 
-        show_change_status = is_user_super_user and not is_request_user_super_user and user["id"] != request_user["id"]
-        show_change_role = is_user_super_user and user["id"] != request_user["id"]
-        show_assign_sites = not is_request_user_super_user and user["id"] != request_user["id"]
+        show_change_status = not is_self_editing and is_user_super_user and not is_request_user_super_user
+        show_change_role = not is_self_editing and is_user_super_user
+        show_assign_sites = not is_self_editing and not is_request_user_super_user
         context = {
             "profile": request_user,
             "show_change_status": show_change_status,
