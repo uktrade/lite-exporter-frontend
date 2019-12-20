@@ -17,7 +17,7 @@
 	<div style="display: grid; grid-template-columns: 1fr auto; grid-gap: 30px;">
 		<div class="lite-tabs__container">
 			<div class="lite-tabs">
-				<a href="{% url 'users:users' %}" class="lite-tabs__tab lite-tabs__tab--selected" id="tab-users">{% lcs "MANAGE_ORGANISATIONS_MEMBERS_TAB" %}</a>
+				<a href="{% url 'users:users' %}" class="lite-tabs__tab lite-tabs__tab--selected" id="tab-users">{% lcs "users.UsersPage.MANAGE_ORGANISATIONS_MEMBERS_TAB" %}</a>
                 {% if can_administer_sites %}
 				    <a href="{% url 'sites:sites' %}" class="lite-tabs__tab" id="tab-sites">{% lcs "sites.SitesPage.TAB" %}</a>
                 {% endif %}
