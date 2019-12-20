@@ -88,7 +88,7 @@
 	            </a>
 			{% endif %}
             <a href="{% url 'applications:application' application.id 'generated-documents' %}" class="lite-tabs__tab {% if type == 'generated-documents' %}lite-tabs__tab--selected{% endif %}" id="link-generated-documents">
-                {% lcs 'APPLICATIONS.GeneratedDocuments.TAB' %}
+                {% lcs 'APPLICATIONS.Application.Tab.GENERATED_DOCUMENTS' %}
                 {% if generated_case_document_notifications %}
                     <div class="lite-notification-bubble">
                         {{ generated_case_document_notifications }}
@@ -96,7 +96,7 @@
                 {% endif %}
             </a>
 			<a href="{% url 'applications:application' application.id 'activity' %}" class="lite-tabs__tab {% if type == 'activity' %}lite-tabs__tab--selected{% endif %}" id="link-activity">
-                {% lcs 'APPLICATIONS.Activity.TAB' %}
+                {% lcs 'APPLICATIONS.Application.Tab.ACTIVITY' %}
                 {% if activity_notifications %}
                     <div class="lite-notification-bubble">
                         {{ activity_notifications }}
