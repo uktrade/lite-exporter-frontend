@@ -20,6 +20,7 @@ from applications.services import (
     add_document_data,
 )
 from core.services import get_units
+from conf.constants import UNSURE
 from goods.services import get_goods, get_good, validate_good, post_goods, post_good_documents
 from lite_content.lite_exporter_frontend import strings
 from lite_forms.components import HiddenField
@@ -56,7 +57,7 @@ class GoodsList(TemplateView):
 
         filtered_data = []
         for good in goods_list:
-            if good["documents"] and not good["is_good_controlled"] == "unsure":
+            if (good["documents"] or good["missing_document_reason"]) and not good["is_good_controlled"] == UNSURE:
                 filtered_data.append(good)
 
         context = {
@@ -148,7 +149,7 @@ class AddNewGood(TemplateView):
                 # Error is thrown if a document is not attached
                 self.data = request.POST.copy()
                 self.generate_form(request, form_num)
-                self.errors = {"documents": [strings.APPLICATION_GOODS_ADD_DOCUMENT_MISSING]}
+                self.errors = {"documents": [strings.goods.CreateGoodOnApplicationForm.DOCUMENT_MISSING]}
 
         return form_page(request, self.form, self.data, self.errors, {"form_pk": self.form_num})
 
@@ -208,10 +209,11 @@ class DraftOpenGoodsTypeList(TemplateView):
 class AddPreexistingGood(TemplateView):
     def get(self, request, **kwargs):
         good, _ = get_good(request, str(kwargs["good_pk"]))
-
-        title = strings.APPLICATION_GOODS_ADD_PREEXISTING_TITLE
-
-        context = {"title": title, "page": good_on_application_form(good, get_units(request), title)}
+        title = strings.goods.AddPrexistingGoodToApplicationForm.TITLE
+        context = {
+            "title": title,
+            "page": good_on_application_form(good, get_units(request), title),
+        }
         return render(request, "form.html", context)
 
     def post(self, request, **kwargs):
@@ -220,9 +222,7 @@ class AddPreexistingGood(TemplateView):
 
         if status_code != HTTPStatus.CREATED:
             good, status_code = get_good(request, str(kwargs["good_pk"]))
-
-            title = strings.APPLICATION_GOODS_ADD_PREEXISTING_TITLE
-
+            title = strings.goods.AddPrexistingGoodToApplicationForm.TITLE
             context = {
                 "title": title,
                 "page": good_on_application_form(good, get_units(request), title),

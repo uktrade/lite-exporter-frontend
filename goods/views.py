@@ -6,7 +6,6 @@ from django.urls import reverse_lazy, reverse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
-
 from lite_content.lite_exporter_frontend import strings
 from lite_forms.components import HiddenField, FormGroup
 from lite_forms.generators import error_page, form_page
@@ -22,9 +21,6 @@ from applications.services import (
     download_document_from_s3,
     get_status_properties,
 )
-from core.builtins.custom_tags import get_string
-from core.helpers import group_notifications
-from core.services import get_notifications
 from goods import forms
 from goods.forms import (
     edit_form,
@@ -33,7 +29,9 @@ from goods.forms import (
     ecju_query_respond_confirmation_form,
     delete_good_form,
     add_goods_questions,
-    pv_query, are_you_sure)
+    pv_query, are_you_sure,
+    document_grading_form,
+)
 from goods.services import (
     get_goods,
     post_goods,
@@ -45,19 +43,19 @@ from goods.services import (
     delete_good_document,
     post_good_documents,
     raise_clc_query,
+    post_good_document_sensitivity,
 )
 from lite_forms.views import SingleFormView, MultiFormView
+from lite_content.lite_exporter_frontend import strings
+from lite_forms.components import HiddenField
+from lite_forms.generators import error_page, form_page
 
 
 class Goods(TemplateView):
     def get(self, request, **kwargs):
         goods, _ = get_goods(request)
-        notifications = get_notifications(request, unviewed=True)
 
-        context = {
-            "goods": goods,
-            "notifications": group_notifications(notifications),
-        }
+        context = {"goods": goods}
         return render(request, "goods/goods.html", context)
 
 
@@ -82,24 +80,15 @@ class GoodsDetail(TemplateView):
         return super(GoodsDetail, self).dispatch(request, *args, **kwargs)
 
     def get(self, request, **kwargs):
-        notifications = get_notifications(request, unviewed=True)
         documents = get_good_documents(request, str(self.good_id))
-        case_note_notifications = len(
-            [x for x in notifications if str(x["parent"]) == self.good_id and x["object_type"] == "case_note"]
-        )
-        ecju_query_notifications = len(
-            [x for x in notifications if str(x["parent"]) == self.good_id and x["object_type"] == "ecju_query"]
-        )
 
         context = {
             "good": self.good,
             "documents": documents,
             "type": self.view_type,
-            "case_note_notifications": case_note_notifications,
-            "ecju_query_notifications": ecju_query_notifications,
         }
 
-        if self.good["query_id"]:
+        if self.good["query"]:
             status_props, _ = get_status_properties(request, self.good["case_status"]["key"])
             context["status_is_read_only"] = status_props["is_read_only"]
             context["status_is_terminal"] = status_props["is_terminal"]
@@ -148,12 +137,12 @@ class AddGood(SingleFormView):
         self.action = post_goods
 
     def get_success_url(self):
-        return reverse_lazy("goods:attach_documents", kwargs={"pk": self.get_validated_data()["good"]["id"]})
+        return reverse_lazy("goods:add_document", kwargs={"pk": self.get_validated_data()["good"]["id"]})
 
 
 class RaiseCLCQuery(TemplateView):
     def get(self, request, **kwargs):
-        return form_page(request, forms.are_you_sure(str(kwargs["pk"])))
+        return form_page(request, forms.raise_a_clc_query(str(kwargs["pk"])))
 
     def post(self, request, **kwargs):
         good_id = str(kwargs["pk"])
@@ -163,7 +152,9 @@ class RaiseCLCQuery(TemplateView):
         data, _ = raise_clc_query(request, request_data)
 
         if "errors" in data:
-            return form_page(request, forms.are_you_sure(str(kwargs["pk"])), data=request_data, errors=data["errors"])
+            return form_page(
+                request, forms.raise_a_clc_query(str(kwargs["pk"])), data=request_data, errors=data["errors"]
+            )
 
         return redirect(reverse("goods:goods"))
 
@@ -233,15 +224,28 @@ class DeleteGood(TemplateView):
         return redirect(reverse_lazy("goods:goods"))
 
 
+class CheckDocumentGrading(SingleFormView):
+    def init(self, request, **kwargs):
+        self.object_pk = kwargs["pk"]
+        self.form = document_grading_form(request)
+        self.action = post_good_document_sensitivity
+
+    def get_success_url(self):
+        good = self.get_validated_data()["good"]
+        if good["missing_document_reason"]:
+            url = "goods:good"
+        else:
+            url = "goods:attach_documents"
+        return reverse_lazy(url, kwargs={"pk": self.object_pk})
+
+
 @method_decorator(csrf_exempt, "dispatch")
 class AttachDocuments(TemplateView):
     def get(self, request, **kwargs):
         good_id = str(kwargs["pk"])
         # get_good(request, good_id)
 
-        form = attach_documents_form(
-            reverse("goods:good", kwargs={"pk": good_id}), get_string("goods.documents.attach_documents.description")
-        )
+        form = attach_documents_form(reverse("goods:good", kwargs={"pk": good_id}))
 
         return form_page(request, form, extra_data={"good_id": good_id})
 
@@ -265,7 +269,7 @@ class AttachDocuments(TemplateView):
         good_documents, _ = post_good_documents(request, good_id, data)
 
         if "errors" in good_documents:
-            return error_page(request, strings.UPLOAD_FAILURE_ERROR)
+            return error_page(request, strings.goods.AttachDocumentPage.UPLOAD_FAILURE_ERROR)
 
         if good["is_good_controlled"] == "unsure":
             return redirect(reverse("goods:raise_clc_query", kwargs={"pk": good_id}))
@@ -399,4 +403,4 @@ class RespondToQuery(TemplateView):
                 return form_page(request, form, errors=error)
         else:
             # Submitted data does not contain an expected form field - return an error
-            return error_page(request, strings.UPLOAD_GENERIC_ERROR)
+            return error_page(request, strings.goods.AttachDocumentPage.UPLOAD_GENERIC_ERROR)
