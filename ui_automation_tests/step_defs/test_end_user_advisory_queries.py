@@ -107,17 +107,15 @@ def open_already_created_end_user_advisory(driver, context):
 
 @then("I see a notification on end user advisory list")
 def notification_on_end_user_advisory_list(driver, context):
-    # Commenting out due to bug LT-1433
-    # assert EndUserAdvisoryPage(driver).confirm_advisory_displayed_by_reference_code(context.end_user_advisory_id)
+    assert EndUserAdvisoryPage(driver).confirm_advisory_displayed_by_reference_code(context.end_user_advisory_id)
     pass
 
 
 @then("I see a notification for case note and can view the case note")
 def notification_on_notes_tab(driver, context):
-    enduseradvisorypage = EndUserAdvisoryPage(driver)
-    # Commenting out due to bug LT-1433
-    # assert '1' in enduseradvisorypage.case_note_notification_bubble_text()
-    assert context.case_note_text in enduseradvisorypage.latest_case_note_text()
+    end_user_advisory_page = EndUserAdvisoryPage(driver)
+    assert '1' in end_user_advisory_page.case_note_notification_bubble_text()
+    assert context.case_note_text in end_user_advisory_page.latest_case_note_text()
 
 
 @then(parsers.parse('I can view "{text}" in case notes'))

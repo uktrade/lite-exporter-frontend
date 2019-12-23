@@ -22,13 +22,9 @@ class ApplicationOverviewPage(BasePage):
     GOODS_ON_APPLICATION = "[id^=good-on-application-row]"  # CSS
     ULTIMATE_END_USERS = "[id^=ultimate-end-user-row]"  # CSS
     GOV_TABLES = ".govuk-table__body"  # CSS
-    ATTACH_END_USER_DOCUMENT_LINK = "attach_doc"  # ID
-    DOWNLOAD_END_USER_DOCUMENT = "end_user_document_download"  # ID
     DELETE_END_USER_DOCUMENT = "end_user_document_delete"  # ID
-    END_USER_DOCUMENT_STATE = "end_user_document_state"  # ID
     ATTACH_END_USER_DOCUMENT = "end_user_attach_doc"  # ID
     ATTACH_CONSIGNEE_DOCUMENT = "consignee_attach_doc"  # ID
-    DOWNLOAD_CONSIGNEE_DOCUMENT = "consignee_document_download"  # ID
     DELETE_CONSIGNEE_DOCUMENT = "consignee_document_delete"  # ID
     GOODS_COUNTRIES_LINK = "goods_country_assignments"  # ID
     REMOVE_GOOD_LINK = "a[href*='good-on-application']"
@@ -139,9 +135,6 @@ class ApplicationOverviewPage(BasePage):
 
     def get_ultimate_end_users(self):
         return self.driver.find_elements_by_css_selector(self.ULTIMATE_END_USERS)
-
-    def get_end_user_document_state_text(self):
-        return self.driver.find_element_by_id(self.END_USER_DOCUMENT_STATE).text
 
     def click_attach_end_user_document(self):
         self.driver.find_element_by_id(self.ATTACH_END_USER_DOCUMENT).click()
