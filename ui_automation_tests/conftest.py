@@ -56,14 +56,11 @@ from ui_automation_tests.shared.fixtures.urls import exporter_url, api_url  # no
 
 import shared.tools.helpers as utils
 from pages.add_goods_page import AddGoodPage
-from pages.add_new_external_location_form_page import AddNewExternalLocationFormPage
 from pages.application_overview_page import ApplicationOverviewPage
 from pages.apply_for_a_licence_page import ApplyForALicencePage
 from pages.attach_document_page import AttachDocumentPage
 from pages.exporter_hub_page import ExporterHubPage
-from pages.external_locations_page import ExternalLocationsPage
 from pages.hub_page import Hub
-from pages.preexisting_locations_page import PreexistingLocationsPage
 from pages.shared import Shared
 from pages.sites_page import SitesPage
 from pages.which_location_form_page import WhichLocationFormPage
@@ -398,39 +395,39 @@ def click_notes_tab(driver):  # noqa
 
 
 @when("I click the ECJU Queries tab")  # noqa
-def click_ecju_query_tab(driver):  # noqa
+def click_the_ecju_query_tab(driver):  # noqa
     application_page = ApplicationPage(driver)
     application_page.click_ecju_query_tab()
 
 
-@when("I click to respond to the ecju query")
-def click_ecju_query_tab(driver):
+@when("I click to respond to the ecju query")  # noqa
+def respond_to_ecju_click(driver):  # noqa
     application_page = ApplicationPage(driver)
     application_page.respond_to_ecju_query(0)
 
 
-@when(parsers.parse('I enter "{response}" for ecju query and click submit'))
-def respond_to_query(driver, response):
+@when(parsers.parse('I enter "{response}" for ecju query and click submit'))  # noqa
+def respond_to_query(driver, response):  # noqa
     response_page = RespondToEcjuQueryPage(driver)
     response_page.enter_form_response(response)
     functions.click_submit(driver)
 
 
-@then("I see my ecju query is closed")
-def determine_that_there_is_a_closed_query(driver):
+@then("I see my ecju query is closed")  # noqa
+def determine_that_there_is_a_closed_query(driver):  # noqa
     application_page = ApplicationPage(driver)
     closed_queries = application_page.get_count_of_closed_ecju_queries()
     assert closed_queries > 0
 
 
-@when(parsers.parse('I select "{value}" for submitting response and click submit'))
-def submit_response_confirmation(driver, value):
+@when(parsers.parse('I select "{value}" for submitting response and click submit'))  # noqa
+def submit_response_confirmation(driver, value):  # noqa
     driver.find_element_by_xpath('//input[@value="' + value + '"]').click()
     driver.find_element_by_xpath('//button[@type="submit"]').click()
 
 
-@when(parsers.parse('I enter "{text}" for case note'))
-def enter_case_note_text(driver, text, context):
+@when(parsers.parse('I enter "{text}" for case note'))  # noqa
+def enter_case_note_text(driver, text, context):  # noqa
     application_page = SubmittedApplicationsPages(driver)
     if text == "the maximum limit with spaces":
         text = " " * 2200
@@ -442,8 +439,8 @@ def enter_case_note_text(driver, text, context):
     application_page.enter_case_note(text)
 
 
-@when("I click post note")
-def click_post_note(driver, context):
+@when("I click post note")  # noqa
+def click_post_note(driver, context):  # noqa
     application_page = SubmittedApplicationsPages(driver)
     application_page.click_post_note_btn()
 
@@ -456,7 +453,7 @@ def upload_a_file(driver, filename):  # noqa
     functions.click_submit(driver)
 
 
-@when("I create an open application")
+@when("I create an open application")  # noqa
 def create_open_app(driver, context):  # noqa
     click_apply_licence(driver)
     enter_type_of_application(driver, "open", context)
