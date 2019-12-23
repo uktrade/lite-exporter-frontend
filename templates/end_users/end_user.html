@@ -32,7 +32,7 @@
                             Reasoning behind query
                         </dt>
                         <dd class="govuk-summary-list__value">
-                            {{ end_user_advisory.reasoning|default:'N/A' }}
+                            {{ end_user_advisory.reasoning|default_na }}
                         </dd>
                     </div>
                     <div class="govuk-summary-list__row">
@@ -40,7 +40,7 @@
                             Notes about end user
                         </dt>
                         <dd class="govuk-summary-list__value">
-                            {{ end_user_advisory.note|default:'N/A' }}
+                            {{ end_user_advisory.note|default_na }}
                         </dd>
                     </div>
             </dl>

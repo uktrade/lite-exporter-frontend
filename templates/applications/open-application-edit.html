@@ -194,7 +194,7 @@
 				{% include "includes/task-list-item.html" with title=countries_title url=countries_url status=countries|task_list_item_status description=countries_description %}
 
 				<!-- Good/country mapping -->
-				{% if application.application_type.key == 'open_licence' and goodstypes and countries %}
+				{% if goodstypes and countries and edit_type != "minor_edit" %}
 					<li class="lite-task-list__item">
 						<div class="lite-task-list__item-header">
 							<a id="goods_country_assignments" href="{% url 'applications:goods_countries' application.id %}" class="lite-overview-section-header govuk-link govuk-link--no-visited-state">
