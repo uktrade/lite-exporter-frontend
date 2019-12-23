@@ -1,5 +1,11 @@
 from pytest_bdd import scenarios, when, then, parsers
 
+from conftest import get_file_upload_path
+from pages.add_new_external_location_form_page import AddNewExternalLocationFormPage
+from pages.attach_document_page import AttachDocumentPage
+from pages.external_locations_page import ExternalLocationsPage
+from pages.preexisting_locations_page import PreexistingLocationsPage
+from pages.which_location_form_page import WhichLocationFormPage
 from shared import functions
 from shared.tools.helpers import scroll_to_element_by_id
 from shared.tools.wait import wait_for_download_button, wait_for_element
@@ -210,3 +216,57 @@ def i_click_on_consignees(driver):
 @then("The consignee document has been deleted")
 def document_has_been_deleted(driver):
     assert ApplicationOverviewPage(driver).attach_consignee_document_is_present()
+
+
+@when(parsers.parse('I select "{choice}" for whether or not I want a new or existing location to be added'))  # noqa
+def choose_location_type(driver, choice):  # noqa
+    which_location_form = WhichLocationFormPage(driver)
+    which_location_form.click_on_choice_radio_button(choice)
+    functions.click_submit(driver)
+
+
+@when(  # noqa
+    parsers.parse(
+        'I fill in new external location form with name: "{name}", address: "{address}" and country: "{country}" and continue'
+    )
+)
+def add_new_external_location(driver, name, address, country):  # noqa
+    add_new_external_location_form_page = AddNewExternalLocationFormPage(driver)
+    add_new_external_location_form_page.enter_external_location_name(name)
+    add_new_external_location_form_page.enter_external_location_address(address)
+    add_new_external_location_form_page.enter_external_location_country(country)
+    functions.click_submit(driver)
+
+
+@when(  # noqa
+    parsers.parse('I select the location at position "{position_number}" in external locations list and continue')
+)
+def assert_checkbox_at_position(driver, position_number):  # noqa
+    preexisting_locations_page = PreexistingLocationsPage(driver)
+    preexisting_locations_page.click_external_locations_checkbox(int(position_number) - 1)
+    functions.click_submit(driver)
+
+
+@then(parsers.parse('I see "{number_of_locations}" locations'))  # noqa
+def i_see_a_number_of_locations(driver, number_of_locations):  # noqa
+    assert len(driver.find_elements_by_css_selector("tbody tr")) == int(number_of_locations)
+
+
+@when("I click on add new address")  # noqa
+def i_click_on_add_new_address(driver):  # noqa
+    external_locations_page = ExternalLocationsPage(driver)
+    external_locations_page.click_add_new_address()
+
+
+@when("I click on preexisting locations")  # noqa
+def i_click_add_preexisting_locations(driver):  # noqa
+    external_locations_page = ExternalLocationsPage(driver)
+    external_locations_page.click_preexisting_locations()
+
+
+@when(parsers.parse('I upload a file "{filename}"'))  # noqa
+def upload_a_file(driver, filename):  # noqa
+    attach_document_page = AttachDocumentPage(driver)
+    file_path = get_file_upload_path(filename)
+    attach_document_page.choose_file(file_path)
+    functions.click_submit(driver)

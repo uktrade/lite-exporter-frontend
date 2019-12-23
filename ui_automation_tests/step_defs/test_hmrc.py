@@ -1,6 +1,6 @@
 import time
 
-from pytest_bdd import when, scenarios
+from pytest_bdd import when, scenarios, parsers
 
 from pages.application_overview_page import ApplicationOverviewPage
 from pages.exporter_hub_page import ExporterHubPage
@@ -51,3 +51,10 @@ def wait_for_document(driver):
             driver.refresh()
         else:
             document_is_found = True
+
+
+@when(parsers.parse('I leave a note for the "{reasoning}"'))  # noqa
+def i_leave_a_note(driver, reasoning):  # noqa
+    text_area = driver.find_element_by_id(reasoning)
+    text_area.clear()
+    text_area.send_keys(reasoning)

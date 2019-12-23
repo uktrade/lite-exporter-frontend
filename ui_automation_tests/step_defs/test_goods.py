@@ -2,6 +2,7 @@ import os
 
 from pytest_bdd import scenarios, when, then, parsers
 
+from conftest import get_file_upload_path
 from pages.add_goods_page import AddGoodPage
 from pages.application_goods_list import ApplicationGoodsList
 from pages.application_overview_page import ApplicationOverviewPage
@@ -217,3 +218,26 @@ def good_created(driver, context):
     assert context.good_description in summary
     assert context.part in summary
     assert context.control_code in summary
+
+
+@when("I click add a good button")  # noqa
+def click_add_from_organisation_button(driver):  # noqa
+    add_goods_page = AddGoodPage(driver)
+    add_goods_page.click_add_a_good()
+
+
+@when(parsers.parse('I upload file "{filename}" with description "{description}"'))  # noqa
+def upload_a_file_with_description(driver, filename, description):  # noqa
+    attach_document_page = AttachDocumentPage(driver)
+    file_path = get_file_upload_path(filename)
+    attach_document_page.choose_file(file_path)
+    attach_document_page.enter_description(description)
+    functions.click_submit(driver)
+
+
+@when(parsers.parse('I raise a clc query control code "{control_code}" description "{description}"'))  # noqa
+def raise_clc_query(driver, control_code, description):  # noqa
+    raise_clc_query_page = AddGoodPage(driver)
+    raise_clc_query_page.enter_control_code_unsure(control_code)
+    raise_clc_query_page.enter_control_unsure_details(description)
+    functions.click_submit(driver)

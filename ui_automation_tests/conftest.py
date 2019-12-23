@@ -7,6 +7,8 @@ from selenium.webdriver.common.by import By
 from pages.add_end_user_pages import AddEndUserPages
 from pages.application_edit_type_page import ApplicationEditTypePage
 from pages.application_page import ApplicationPage
+from pages.respond_to_ecju_query_page import RespondToEcjuQueryPage
+from pages.submitted_applications_page import SubmittedApplicationsPages
 from shared import functions
 from ui_automation_tests.fixtures.env import environment  # noqa
 from ui_automation_tests.fixtures.register_organisation import (  # noqa
@@ -96,10 +98,6 @@ def pytest_addoption(parser):
             "--lite_api_url", action="store", default=f"https://lite-api-{env}.london.cloudapps.digital/", help="url",
         )
     parser.addoption("--sso_sign_in_url", action="store", default="https://sso.trade.uat.uktrade.io/login/", help="url")
-    parser.addoption("--email", action="store", default="test@mail.com")
-    parser.addoption("--password", action="store", default="password")
-    parser.addoption("--first_name", action="store", default="Test")
-    parser.addoption("--last_name", action="store", default="User")
 
 
 def pytest_exception_interact(node, report):
@@ -110,26 +108,6 @@ def pytest_exception_interact(node, report):
             utils.save_screenshot(node.funcargs.get("driver"), name)
         except Exception:  # noqa
             pass
-
-
-@pytest.fixture(scope="module")
-def email(request):
-    return request.config.getoption("--email")
-
-
-@pytest.fixture(scope="module")
-def password(request):
-    return request.config.getoption("--password")
-
-
-@pytest.fixture(scope="module")
-def first_name(request):
-    return request.config.getoption("--first_name")
-
-
-@pytest.fixture(scope="module")
-def last_name(request):
-    return request.config.getoption("--last_name")
 
 
 @given("I create a standard application via api")  # noqa
@@ -253,52 +231,6 @@ def choose_location_type(driver, organisation_or_external):  # noqa
     functions.click_submit(driver)
 
 
-@when(parsers.parse('I select "{choice}" for whether or not I want a new or existing location to be added'))  # noqa
-def choose_location_type(driver, choice):  # noqa
-    which_location_form = WhichLocationFormPage(driver)
-    which_location_form.click_on_choice_radio_button(choice)
-    functions.click_submit(driver)
-
-
-@when(  # noqa
-    parsers.parse(
-        'I fill in new external location form with name: "{name}", address: "{address}" and country: "{country}" and continue'
-    )
-)
-def add_new_external_location(driver, name, address, country):  # noqa
-    add_new_external_location_form_page = AddNewExternalLocationFormPage(driver)
-    add_new_external_location_form_page.enter_external_location_name(name)
-    add_new_external_location_form_page.enter_external_location_address(address)
-    add_new_external_location_form_page.enter_external_location_country(country)
-    functions.click_submit(driver)
-
-
-@when(  # noqa
-    parsers.parse('I select the location at position "{position_number}" in external locations list and continue')
-)
-def assert_checkbox_at_position(driver, position_number):  # noqa
-    preexisting_locations_page = PreexistingLocationsPage(driver)
-    preexisting_locations_page.click_external_locations_checkbox(int(position_number) - 1)
-    functions.click_submit(driver)
-
-
-@then(parsers.parse('I see "{number_of_locations}" locations'))  # noqa
-def i_see_a_number_of_locations(driver, number_of_locations):  # noqa
-    assert len(driver.find_elements_by_css_selector("tbody tr")) == int(number_of_locations)
-
-
-@when("I click on add new address")  # noqa
-def i_click_on_add_new_address(driver):  # noqa
-    external_locations_page = ExternalLocationsPage(driver)
-    external_locations_page.click_add_new_address()
-
-
-@when("I click on preexisting locations")  # noqa
-def i_click_add_preexisting_locations(driver):  # noqa
-    external_locations_page = ExternalLocationsPage(driver)
-    external_locations_page.click_preexisting_locations()
-
-
 @when(parsers.parse('I select the site at position "{no}"'))  # noqa
 def select_the_site_at_position(driver, no):  # noqa
     sites = SitesPage(driver)
@@ -321,29 +253,6 @@ def click_my_goods_link(driver):  # noqa
 def click_my_goods_link(driver):  # noqa
     exporter_hub = ApplicationOverviewPage(driver)
     exporter_hub.click_standard_goods_link()
-
-
-@when("I click on open goods tile")  # noqa
-def click_my_goods_link(driver):  # noqa
-    exporter_hub = ApplicationOverviewPage(driver)
-    exporter_hub.click_open_goods_link()
-
-
-@when("I click on end user advisories")  # noqa
-def click_my_end_user_advisory_link(driver):  # noqa
-    exporter_hub = ExporterHubPage(driver)
-    exporter_hub.click_end_user_advisories()
-
-
-@when("I click the add from organisations goods button")  # noqa
-def click_add_from_organisation_button(driver):  # noqa
-    driver.find_element_by_css_selector('a[href*="add-preexisting"]').click()
-
-
-@when("I click add a good button")  # noqa
-def click_add_from_organisation_button(driver):  # noqa
-    add_goods_page = AddGoodPage(driver)
-    add_goods_page.click_add_a_good()
 
 
 @when(  # noqa
@@ -385,37 +294,6 @@ def get_file_upload_path(filename):  # noqa
             os.path.join(os.path.dirname(__file__), os.pardir, "ui_automation_tests/resources", filename)
         )
     return file_to_upload_abs_path
-
-
-@when(parsers.parse('I upload a file "{filename}"'))  # noqa
-def upload_a_file(driver, filename):  # noqa
-    attach_document_page = AttachDocumentPage(driver)
-    file_path = get_file_upload_path(filename)
-    attach_document_page.choose_file(file_path)
-    functions.click_submit(driver)
-
-
-@when(parsers.parse('I upload file "{filename}" with description "{description}"'))  # noqa
-def upload_a_file_with_description(driver, filename, description):  # noqa
-    attach_document_page = AttachDocumentPage(driver)
-    file_path = get_file_upload_path(filename)
-    attach_document_page.choose_file(file_path)
-    attach_document_page.enter_description(description)
-    functions.click_submit(driver)
-
-
-@when(parsers.parse('I raise a clc query control code "{control_code}" description "{description}"'))  # noqa
-def raise_clc_query(driver, control_code, description):  # noqa
-    raise_clc_query_page = AddGoodPage(driver)
-    raise_clc_query_page.enter_control_code_unsure(control_code)
-    raise_clc_query_page.enter_control_unsure_details(description)
-    functions.click_submit(driver)
-
-
-@when("I click on the goods link from overview")  # noqa
-def click_goods_link_overview(driver):  # noqa
-    overview_page = ApplicationOverviewPage(driver)
-    overview_page.click_open_goods_link()
 
 
 @then("application is submitted")  # noqa
@@ -480,15 +358,6 @@ def click_users_link(driver):  # noqa
     exporter_hub.click_users()
 
 
-@when("I create a standard application")  # noqa
-def create_standard_application(driver, context):  # noqa
-    click_apply_licence(driver)
-    enter_type_of_application(driver, "standard", context)
-    enter_application_name(driver, context)
-    enter_permanent_or_temporary(driver, "permanent", context)
-    enter_export_licence(driver, "yes", "123456", context)
-
-
 @given("I have a second set up organisation")  # noqa
 def set_up_second_organisation(register_organisation_for_switching_organisation):  # noqa
     pass
@@ -517,13 +386,6 @@ def i_click_submit_button(driver):  # noqa
     functions.click_submit(driver)
 
 
-@when(parsers.parse('I leave a note for the "{reasoning}"'))  # noqa
-def i_leave_a_note(driver, reasoning):  # noqa
-    text_area = driver.find_element_by_id(reasoning)
-    text_area.clear()
-    text_area.send_keys(reasoning)
-
-
 @when("I click the back link")  # noqa
 def click_back_link(driver):  # noqa
     functions.click_back_link(driver)
@@ -539,3 +401,43 @@ def click_notes_tab(driver):  # noqa
 def click_ecju_query_tab(driver):  # noqa
     application_page = ApplicationPage(driver)
     application_page.click_ecju_query_tab()
+
+
+@when("I click to respond to the ecju query")
+def click_ecju_query_tab(driver):
+    application_page = ApplicationPage(driver)
+    application_page.respond_to_ecju_query(0)
+
+
+@when(parsers.parse('I enter "{response}" for ecju query and click submit'))
+def respond_to_query(driver, response):
+    response_page = RespondToEcjuQueryPage(driver)
+    response_page.enter_form_response(response)
+    functions.click_submit(driver)
+
+
+@then("I see my ecju query is closed")
+def determine_that_there_is_a_closed_query(driver):
+    application_page = ApplicationPage(driver)
+    closed_queries = application_page.get_count_of_closed_ecju_queries()
+    assert closed_queries > 0
+
+
+@when(parsers.parse('I select "{value}" for submitting response and click submit'))
+def submit_response_confirmation(driver, value):
+    driver.find_element_by_xpath('//input[@value="' + value + '"]').click()
+    driver.find_element_by_xpath('//button[@type="submit"]').click()
+
+
+@when(parsers.parse('I enter "{text}" for case note'))
+def enter_case_note_text(driver, text, context):
+    application_page = SubmittedApplicationsPages(driver)
+    if text == "the maximum limit with spaces":
+        text = " " * 2200
+    elif text == "the maximum limit":
+        text = "T" * 2200
+    elif text == "the maximum limit plus 1":
+        text = "T" * 2201
+    context.text = text
+    application_page.enter_case_note(text)
+
