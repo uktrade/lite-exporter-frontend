@@ -14,9 +14,10 @@ class ApplicationGoodsList:
         self.filter_description_search_box = "description"  # ID
         self.filter_part_number_search_box = "part_number"  # ID
         self.filter_control_rating_search_box = "control_rating"  # ID
-        self.filter_button = "button-apply-filters"  # xpath
+        self.filter_button = "button-apply-filters"  # ID
         self.card_label = ".lite-card .govuk-label"
         self.part_number = "good-part-number"
+        self.show_filters_link = "show-filters-link"  # ID
         self.description = "good-description"
         self.control_code = "good-control_code"
         self.good_entry = ".govuk-table__body .govuk-table__row"

@@ -56,7 +56,7 @@ Feature: I want to indicate the open licence I want
     When I go to exporter homepage
     When I create an open application
     And I click on the goods link from overview
-    And I click add a good button
+    And I click Add goods type button
     And I add a good or good type with description "Sniper" controlled "Yes" control code "ML1a" incorporated "Yes" and part number "not needed"
     When I click the back link
     And I click on countries
