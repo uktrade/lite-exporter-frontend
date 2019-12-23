@@ -8,7 +8,11 @@ class ApplicationEditTypes:
 
 def get_application_edit_type(application: dict):
     """
-    TODO
+    Returns the application status type
+    Possible return values are:
+    * "minor_edit" - This application is in a minor edit state
+    * "major_edit" - This application is in a major edit state
+    * None - This application isn't being edited
     """
     if application["status"]:
         is_editing = application["status"]["key"] == "submitted" or application["status"]["key"] == APPLICANT_EDITING

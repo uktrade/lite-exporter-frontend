@@ -44,7 +44,7 @@
 
 	<h1 class="govuk-heading-l govuk-!-margin-bottom-2">
 		{% block title %}
-			{% if is_editing %}
+			{% if edit_type %}
 				Edit the application
 			{% else %}
 				Apply for an open export licence
@@ -54,7 +54,7 @@
 
 	<!-- Details that can't be edited -->
 	<p class="govuk-hint govuk-!-margin-bottom-9">
-		{% if is_editing %}Licence type: {{ application.application_type.value }} - {% endif %}
+		{% if edit_type %}Licence type: {{ application.application_type.value }} - {% endif %}
 		Export type: {{ application.export_type.value }}
 	</p>
 
@@ -62,13 +62,13 @@
 	<ol class="lite-task-list">
 		<li>
 			<h2 class="lite-task-list__section">
-				{% if is_editing %}
+				{% if edit_type %}
 					Basic details
 				{% else %}
 					<span class="lite-task-list__section-number">1. </span> Prepare application
 				{% endif %}
 			</h2>
-			<ul class="lite-task-list__items {% if is_editing %}govuk-!-padding-0{% endif %}">
+			<ul class="lite-task-list__items {% if edit_type %}govuk-!-padding-0{% endif %}">
 				{% lcs 'applications.TaskListPage.ENTER_A_REFERENCE_NAME_SHORT_TITLE' as reference_name_title %}
 				{% url 'applications:edit_reference_name' application.id as reference_name_url %}
 				{% include "includes/task-list-item.html" with title=reference_name_title url=reference_name_url status='done' description=application.name %}
@@ -80,13 +80,13 @@
 	<ol class="lite-task-list">
 		<li>
 			<h2 class="lite-task-list__section">
-				{% if is_editing %}
+				{% if edit_type %}
 					More information
 				{% else %}
 					<span class="lite-task-list__section-number">2. </span> Complete application
 				{% endif %}
 			</h2>
-		    <ul class="lite-task-list__items {% if is_editing %}govuk-!-padding-0{% endif %}">
+		    <ul class="lite-task-list__items {% if edit_type %}govuk-!-padding-0{% endif %}">
 		        <!-- Goods -->
 		        <li class="lite-task-list__item">
 					<div class="lite-task-list__item-header">
