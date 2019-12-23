@@ -1,5 +1,7 @@
 import datetime
 import os
+import time
+
 import pytest
 from pytest_bdd import given, when, then, parsers
 from selenium.webdriver.common.by import By
@@ -571,3 +573,24 @@ def i_click_on_end_user(driver):  # noqa
 def i_click_on_consignees(driver):  # noqa
     utils.scroll_to_element_by_id(Shared(driver).driver, "consignees")
     ApplicationOverviewPage(driver).click_consignee_link()
+
+
+@when("I click on activity tab")
+def activity_tab(driver):
+    ApplicationPage(driver).click_activity_tab()
+
+
+@then(parsers.parse('"{expected_text}" is shown as position "{no}" in the audit trail'))
+def latest_audit_trail(driver, expected_text, no):
+    assert expected_text in ApplicationPage(driver).get_text_of_audit_trail_item(int(no) - 1)
+
+
+@when("I wait for document to upload")
+def wait_for_document(driver):
+    document_is_found = False
+    while not document_is_found:
+        if "Processing" in driver.find_element_by_id("document").text:
+            time.sleep(1)
+            driver.refresh()
+        else:
+            document_is_found = True

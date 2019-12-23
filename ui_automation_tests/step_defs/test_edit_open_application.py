@@ -21,13 +21,3 @@ def i_remove_a_good_from_the_application(driver):
 @then("no goods types are left on the application")
 def no_goods_types_are_left_on_the_application(driver):
     assert (ApplicationGoodsTypeList(driver).find_remove_goods_type_link(), None)
-
-
-@then(parsers.parse('"{expected_text}" is shown as position "{no}" in the audit trail'))
-def latest_audit_trail(driver, expected_text, no):
-    assert expected_text in ApplicationPage(driver).get_text_of_audit_trail_item(int(no) - 1)
-
-
-@when("I click on activity tab")
-def activity_tab(driver):
-    ApplicationPage(driver).click_activity_tab()
