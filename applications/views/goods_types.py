@@ -12,9 +12,10 @@ from applications.services import (
     get_application,
 )
 from lite_forms.generators import form_page, error_page
+from lite_forms.views import SingleFormView
 
 
-class DraftOpenGoodsTypeList(TemplateView):
+class GoodsTypeList(TemplateView):
     def get(self, request, **kwargs):
         application_id = str(kwargs["pk"])
         application = get_application(request, application_id)
@@ -30,21 +31,15 @@ class DraftOpenGoodsTypeList(TemplateView):
         return render(request, "applications/goods_types/index.html", context)
 
 
-class ApplicationAddGoodsType(TemplateView):
-    def get(self, request, **kwargs):
-        return form_page(request, goods_type_form())
-
-    def post(self, request, **kwargs):
-        copied_post = request.POST.copy()
-        data, status_code = post_goods_type(request, str(kwargs.get("pk")), copied_post)
-
-        if status_code == 400:
-            return form_page(request, goods_type_form(), request.POST, errors=data["errors"])
-
-        return redirect(reverse_lazy("applications:goods_types", args=[kwargs["pk"]]))
+class GoodsTypeAdd(SingleFormView):
+    def init(self, request, **kwargs):
+        self.object_pk = kwargs["pk"]
+        self.form = goods_type_form()
+        self.action = post_goods_type
+        self.success_url = reverse_lazy("applications:goods_types", kwargs={"pk": self.object_pk})
 
 
-class ApplicationRemoveGoodsType(TemplateView):
+class GoodsTypeRemove(TemplateView):
     def get(self, request, **kwargs):
         application_id = str(kwargs["pk"])
         good_type_id = str(kwargs["goods_type_pk"])

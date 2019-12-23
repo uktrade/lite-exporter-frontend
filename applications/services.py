@@ -351,7 +351,7 @@ def get_goods_type(request, app_pk, good_pk):
 
 
 def post_goods_type(request, app_pk, json):
-    data = post(request, APPLICATIONS_URL + app_pk + GOODSTYPES_URL, json)
+    data = post(request, APPLICATIONS_URL + str(app_pk) + GOODSTYPES_URL, json)
     return data.json(), data.status_code
 
 
