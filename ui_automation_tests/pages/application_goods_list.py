@@ -15,8 +15,6 @@ class ApplicationGoodsList:
         self.filter_part_number_search_box = "part_number"  # ID
         self.filter_control_rating_search_box = "control_rating"  # ID
         self.filter_button = "button-apply-filters"  # xpath
-        self.show_filters_link = "show-filters-link"  # xpath
-        self.card_heading = ".lite-card .govuk-heading-s"
         self.card_label = ".lite-card .govuk-label"
         self.part_number = "good-part-number"
         self.description = "good-description"
@@ -44,12 +42,6 @@ class ApplicationGoodsList:
     def type_into_filter_control_rating_search_box_and_filter(self, value):
         self.driver.find_element_by_id(self.filter_control_rating_search_box).send_keys(value)
         self.driver.find_element_by_id(self.filter_button).click()
-
-    def get_text_of_gov_heading_within_card(self, num):
-        return self.driver.find_elements_by_css_selector(self.card_heading)[num].text
-
-    def get_text_of_part_number(self, num):
-        return self.driver.find_elements_by_css_selector(self.card_label)[num].text
 
     def get_good_descriptions(self):
         return self.driver.find_elements_by_id(self.description)
