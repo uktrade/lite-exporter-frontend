@@ -7,20 +7,14 @@ Feature: I want to indicate the open licence I want
   @LT_1091_draft @regression
   Scenario: Apply for a licence to draft and delete
     Given I go to exporter homepage and choose Test Org
-    When I click on apply for a license button
-    And I select "open" application and continue
-    And I enter in name for application and continue
-    And I select "permanent" option and continue
+    When I create an open application
     Then I see the application overview
     When I delete the application
 
   @LT_1114 @submit_open_application @LT_1092_search @smoke
   Scenario: Submit open application
     Given I go to exporter homepage and choose Test Org
-    When I click on apply for a license button
-    And I select "open" application and continue
-    And I enter in name for application and continue
-    And I select "permanent" option and continue
+    When I create an open application
     And I click on application locations link
     And I select "organisation" for where my goods are located
     And I select the site at position "1"
@@ -56,15 +50,11 @@ Feature: I want to indicate the open licence I want
     And I click applications
     Then I see submitted application
 
-
   @LT_1363_set_countries_on_goods @regression
   Scenario: Set countries on goods types
     Given I go to exporter homepage and choose Test Org
     When I go to exporter homepage
-    And I click on apply for a license button
-    And I select "open" application and continue
-    And I enter in name for application and continue
-    And I select "permanent" option and continue
+    When I create an open application
     And I click on the goods link from overview
     And I click Add goods type button
     And I add a good or good type with description "Sniper" controlled "Yes" control code "ML1a" incorporated "Yes" and part number "not needed"

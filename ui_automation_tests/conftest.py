@@ -1,6 +1,5 @@
 import datetime
 import os
-import pytest
 from pytest_bdd import given, when, then, parsers
 from selenium.webdriver.common.by import By
 
@@ -154,7 +153,6 @@ def click_apply_licence(driver):  # noqa
     ExporterHubPage(driver).click_apply_for_a_licence()
 
 
-@when("I enter in name for application and continue")  # noqa
 def enter_application_name(driver, context):  # noqa
     apply = ApplyForALicencePage(driver)
     app_time_id = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -165,7 +163,6 @@ def enter_application_name(driver, context):  # noqa
     functions.click_submit(driver)
 
 
-@when(parsers.parse('I select "{type}" application and continue'))  # noqa
 def enter_type_of_application(driver, type, context):  # noqa
     context.type = type
     # type needs to be standard or open
@@ -174,7 +171,6 @@ def enter_type_of_application(driver, type, context):  # noqa
     functions.click_submit(driver)
 
 
-@when(parsers.parse('I select "{permanent_or_temporary}" option and continue'))  # noqa
 def enter_permanent_or_temporary(driver, permanent_or_temporary, context):  # noqa
     context.perm_or_temp = permanent_or_temporary
     # type needs to be permanent or temporary
@@ -183,17 +179,21 @@ def enter_permanent_or_temporary(driver, permanent_or_temporary, context):  # no
     functions.click_submit(driver)
 
 
-@when(  # noqa
-    parsers.parse(
-        'I select "{yes_or_no}" for whether I have an export licence and "{reference}" if I have a reference and continue'
-    )
-)
 def enter_export_licence(driver, yes_or_no, reference, context):  # noqa
     apply = ApplyForALicencePage(driver)
     apply.click_export_licence_yes_or_no(yes_or_no)
     context.ref = reference
     apply.type_into_reference_number(reference)
     functions.click_submit(driver)
+
+
+@when("I create a standard application")  # noqa
+def create_standard_application(driver, context):  # noqa
+    click_apply_licence(driver)
+    enter_type_of_application(driver, "standard", context)
+    enter_application_name(driver, context)
+    enter_permanent_or_temporary(driver, "permanent", context)
+    enter_export_licence(driver, "yes", "123456", context)
 
 
 @when("I click on application locations link")  # noqa
@@ -441,3 +441,19 @@ def enter_case_note_text(driver, text, context):
     context.text = text
     application_page.enter_case_note(text)
 
+
+@when(parsers.parse('I upload a file "{filename}"'))  # noqa
+def upload_a_file(driver, filename):  # noqa
+    attach_document_page = AttachDocumentPage(driver)
+    file_path = get_file_upload_path(filename)
+    attach_document_page.choose_file(file_path)
+    functions.click_submit(driver)
+
+
+@when("I create an open application")
+def create_open_app(driver, context):  # noqa
+    click_apply_licence(driver)
+    enter_type_of_application(driver, "open", context)
+    enter_application_name(driver, context)
+    enter_permanent_or_temporary(driver, "permanent", context)
+    enter_export_licence(driver, "yes", "123456", context)

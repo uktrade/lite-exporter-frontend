@@ -1,6 +1,8 @@
 from pytest_bdd import scenarios, when, then, parsers
 
 import shared.tools.helpers as utils
+from conftest import click_apply_licence, enter_type_of_application, enter_application_name, \
+    enter_permanent_or_temporary, enter_export_licence
 from pages.application_countries_list import ApplicationCountriesList
 from pages.application_goods_list import ApplicationGoodsList
 from pages.application_goods_type_list import ApplicationGoodsTypeList
@@ -10,16 +12,6 @@ from pages.shared import Shared
 
 
 scenarios("../features/submit_open_application.feature", strict_gherkin=False)
-
-
-@then("I see no sites good types or countries attached error message")
-def i_see_open_licence_error(driver):
-    shared = Shared(driver)
-    assert "Cannot create an application with no good descriptions attached" in shared.get_text_of_error_messages()
-    assert (
-        "Cannot create an application with no sites or external sites attached" in shared.get_text_of_error_messages()
-    )
-    assert "Cannot create an application without countries being set" in shared.get_text_of_error_messages()
 
 
 @then("I see good types error messages")

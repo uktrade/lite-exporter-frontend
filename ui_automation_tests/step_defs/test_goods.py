@@ -40,7 +40,6 @@ def assert_clc_is_in_list(driver, context, exporter_url):
     )
 )
 def edit_good(driver, description, controlled, control_code, incorporated, part, context):
-    exporter_hub = ExporterHubPage(driver)
     add_goods_page = AddGoodPage(driver)
     goods_list = GoodsList(driver)
     goods_list.select_a_draft_good()
@@ -49,11 +48,6 @@ def edit_good(driver, description, controlled, control_code, incorporated, part,
     context.edited_description = context.good_description + " " + description
     add_goods_page.enter_description_of_goods(context.edited_description)
     functions.click_submit(driver)
-
-
-@then("I see my edited good in the goods list")
-def see_my_edited_good_in_list(driver, context):
-    assert context.edited_description in Shared(driver).get_text_of_gov_table()
 
 
 @when("I delete my good")
@@ -107,16 +101,6 @@ def i_see_there_are_no_goods_on_the_application(driver):
 @when("I click Add a new good")
 def i_click_add_a_new_good(driver):
     ApplicationGoodsList(driver).click_add_new_good_button()
-
-
-@when(
-    parsers.parse(
-        'I enter details for a good on an application with value "{value}", quantity "{quantity}" and unit of measurement "{unit}" and I click Continue"'
-    )
-)  # noqa
-def i_enter_detail_for_the_good_on_the_application(driver, value, quantity, unit):
-    ApplicationGoodsList(driver).add_values_to_good(value, quantity, unit)
-    functions.click_submit(driver)
 
 
 @when(parsers.parse('I attach a document to the good with description "{description}"'))  # noqa
