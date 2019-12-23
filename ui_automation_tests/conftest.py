@@ -543,31 +543,31 @@ def click_ecju_query_tab(driver):  # noqa
     application_page.click_ecju_query_tab()
 
 
-@when("I click Add goods type button")
-def click_goods_type_button(driver):
+@when("I click Add goods type button")  # noqa
+def click_goods_type_button(driver):  # noqa
     goods_type_page = ApplicationGoodsTypeList(driver)
     goods_type_page.click_goods_type_button()
 
 
-@when("I click overview")
-def click_overview(driver):
+@when("I click overview")  # noqa
+def click_overview(driver):  # noqa
     application_goods_list = ApplicationGoodsList(driver)
     application_goods_list.click_on_overview()
 
 
-@when("I add a non incorporated good to application")
-def add_a_non_incorporated_good(driver, add_a_non_incorporated_good_to_application):
+@when("I add a non incorporated good to application")  # noqa
+def add_a_non_incorporated_good(driver, add_a_non_incorporated_good_to_application):  # noqa
     pass
 
 
-@when("I click on end user")
-def i_click_on_end_user(driver):
+@when("I click on end user")  # noqa
+def i_click_on_end_user(driver):  # noqa
     app = ApplicationOverviewPage(driver)
     utils.scroll_to_element_by_id(Shared(driver).driver, app.END_USER_LINK)
     app.click_end_user_link()
 
 
-@when("I click on consignees")
-def i_click_on_consignees(driver):
+@when("I click on consignees")  # noqa
+def i_click_on_consignees(driver):  # noqa
     utils.scroll_to_element_by_id(Shared(driver).driver, "consignees")
     ApplicationOverviewPage(driver).click_consignee_link()
