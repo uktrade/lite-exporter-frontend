@@ -113,7 +113,7 @@ def notification_on_end_user_advisory_list(driver, context):
 @then("I see a notification for case note and can view the case note")
 def notification_on_notes_tab(driver, context):
     end_user_advisory_page = EndUserAdvisoryPage(driver)
-    assert '1' in end_user_advisory_page.case_note_notification_bubble_text()
+    assert "1" in end_user_advisory_page.case_note_notification_bubble_text()
     assert context.case_note_text in end_user_advisory_page.latest_case_note_text()
 
 
@@ -126,4 +126,3 @@ def notification_on_notes_tab(driver, text):
 def click_my_end_user_advisory_link(driver):  # noqa
     exporter_hub = ExporterHubPage(driver)
     exporter_hub.click_end_user_advisories()
-

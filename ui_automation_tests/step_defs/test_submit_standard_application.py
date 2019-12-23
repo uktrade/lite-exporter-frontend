@@ -173,4 +173,3 @@ def i_click_on_add_new_address(driver):  # noqa
 def i_click_add_preexisting_locations(driver):  # noqa
     external_locations_page = ExternalLocationsPage(driver)
     external_locations_page.click_preexisting_locations()
-

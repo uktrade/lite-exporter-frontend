@@ -1,8 +1,13 @@
 from pytest_bdd import scenarios, when, then, parsers
 
 import shared.tools.helpers as utils
-from conftest import click_apply_licence, enter_type_of_application, enter_application_name, \
-    enter_permanent_or_temporary, enter_export_licence
+from conftest import (
+    click_apply_licence,
+    enter_type_of_application,
+    enter_application_name,
+    enter_permanent_or_temporary,
+    enter_export_licence,
+)
 from pages.application_countries_list import ApplicationCountriesList
 from pages.application_goods_list import ApplicationGoodsList
 from pages.application_goods_type_list import ApplicationGoodsTypeList
