@@ -442,6 +442,12 @@ def enter_case_note_text(driver, text, context):
     application_page.enter_case_note(text)
 
 
+@when("I click post note")
+def click_post_note(driver, context):
+    application_page = SubmittedApplicationsPages(driver)
+    application_page.click_post_note_btn()
+
+
 @when(parsers.parse('I upload a file "{filename}"'))  # noqa
 def upload_a_file(driver, filename):  # noqa
     attach_document_page = AttachDocumentPage(driver)
@@ -456,4 +462,3 @@ def create_open_app(driver, context):  # noqa
     enter_type_of_application(driver, "open", context)
     enter_application_name(driver, context)
     enter_permanent_or_temporary(driver, "permanent", context)
-    enter_export_licence(driver, "yes", "123456", context)

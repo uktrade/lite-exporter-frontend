@@ -6,12 +6,6 @@ from pages.submitted_applications_page import SubmittedApplicationsPages
 scenarios("../features/case_notes.feature", strict_gherkin=False)
 
 
-@when("I click post note")
-def click_post_note(driver, context):
-    application_page = SubmittedApplicationsPages(driver)
-    application_page.click_post_note_btn()
-
-
 @then("note is displayed")
 def note_is_displayed(driver, context):
     application_page = SubmittedApplicationsPages(driver)
