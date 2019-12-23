@@ -31,6 +31,24 @@ Feature: I want to be able to edit and update an active application
     And I remove an additional document
     And I confirm I want to delete the document
     Then the document is removed from the application
+    When I add a non incorporated good to application
+    And I click on end user
+    And I add an end user of sub_type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
+    And I upload a file "file_for_doc_upload_test_1.txt"
+    And I click overview
+    And I click on consignees
+    And I add an end user of sub_type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
+    And I upload a file "file_for_doc_upload_test_1.txt"
+    And I click overview
+    And I submit the application
+    And I go to exporter homepage
+    And I click on applications
+    And I click on application previously created
+    And I click on activity tab
+    Then "updated the status to: submitted" is shown as position "1" in the audit trail
+    And "added good type:" is shown as position "2" in the audit trail
+    And "removed good type:" is shown as position "3" in the audit trail
+
 
   @LT_1099_prohibit_edit_application @regression
   Scenario: Cannot edit a read only application

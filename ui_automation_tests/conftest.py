@@ -6,6 +6,8 @@ from selenium.webdriver.common.by import By
 
 from pages.add_end_user_pages import AddEndUserPages
 from pages.application_edit_type_page import ApplicationEditTypePage
+from pages.application_goods_list import ApplicationGoodsList
+from pages.application_goods_type_list import ApplicationGoodsTypeList
 from pages.application_page import ApplicationPage
 from shared import functions
 from ui_automation_tests.fixtures.register_organisation import (  # noqa
@@ -556,3 +558,33 @@ def click_notes_tab(driver):  # noqa
 def click_ecju_query_tab(driver):  # noqa
     application_page = ApplicationPage(driver)
     application_page.click_ecju_query_tab()
+
+
+@when("I click Add goods type button")
+def click_goods_type_button(driver):
+    goods_type_page = ApplicationGoodsTypeList(driver)
+    goods_type_page.click_goods_type_button()
+
+
+@when("I click overview")
+def click_overview(driver):
+    application_goods_list = ApplicationGoodsList(driver)
+    application_goods_list.click_on_overview()
+
+
+@when("I add a non incorporated good to application")
+def add_a_non_incorporated_good(driver, add_a_non_incorporated_good_to_application):
+    pass
+
+
+@when("I click on end user")
+def i_click_on_end_user(driver):
+    app = ApplicationOverviewPage(driver)
+    utils.scroll_to_element_by_id(Shared(driver).driver, app.END_USER_LINK)
+    app.click_end_user_link()
+
+
+@when("I click on consignees")
+def i_click_on_consignees(driver):
+    utils.scroll_to_element_by_id(Shared(driver).driver, "consignees")
+    ApplicationOverviewPage(driver).click_consignee_link()
