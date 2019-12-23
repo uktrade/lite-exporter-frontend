@@ -38,7 +38,7 @@ Feature: I want to edit and remove goods on the goods list
   @LT_886_add_new_good_to_app @regression
   Scenario: Add a new good directly to a standard application
     Given I go to exporter homepage and choose Test Org
-    And I create a standard application via api
+    And I create a standard application
     When I click to manage goods on a standard application
     Then I see there are no goods on the application
     When I click Add a new good
