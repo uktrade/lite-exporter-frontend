@@ -8,8 +8,12 @@
 
 {% block body %}
     <h1 class="govuk-heading-xl">
-		{% block title %}Select the countries each product is going to (optional){% endblock %}
+		{% block title %}Select the countries each product is going to{% endblock %}
 	</h1>
+
+	<span class="govuk-hint govuk-!-margin-bottom-7">
+		This is optional.
+	</span>
 
     <form method="post">
         <div class="lite-buttons-row govuk-!-margin-bottom-7">
