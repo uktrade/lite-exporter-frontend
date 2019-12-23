@@ -1,8 +1,8 @@
 from http import HTTPStatus
-from urllib.parse import urlencode
 
 from conf.client import get, post, put, delete
 from conf.decorators import acceptable_statuses
+from core.helpers import convert_parameters_to_query_params
 from conf.constants import (
     GOODS_URL,
     DOCUMENTS_URL,
@@ -14,14 +14,10 @@ from core.helpers import remove_prefix
 
 
 @acceptable_statuses([200])
-def get_goods(request, params=None):
-    if params:
-        query_params = urlencode(params)
-        data = get(request, GOODS_URL + "?" + query_params)
-    else:
-        data = get(request, GOODS_URL)
+def get_goods(request, page: int = 1, description=None, part_number=None, control_rating=None, for_application=None):
+    data = get(request, GOODS_URL + convert_parameters_to_query_params(locals()))
 
-    return data.json().get("goods"), data.status_code
+    return data.json()
 
 
 @acceptable_statuses([200, 404])

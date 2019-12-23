@@ -18,8 +18,7 @@ from applications.services import (
     download_document_from_s3,
     get_status_properties,
 )
-from core.helpers import group_notifications
-from core.services import get_notifications
+from core.helpers import convert_dict_to_query_params
 from goods import forms
 from goods.forms import (
     edit_form,
@@ -51,12 +50,30 @@ from lite_forms.views import SingleFormView
 
 class Goods(TemplateView):
     def get(self, request, **kwargs):
-        goods, _ = get_goods(request)
-        notifications = get_notifications(request, unviewed=True)
+        description = request.GET.get("description", "").strip()
+        part_number = request.GET.get("part_number", "").strip()
+        control_rating = request.GET.get("control_rating", "").strip()
+
+        filtered = True if (description or part_number or control_rating) else False
+
+        params = {
+            "page": int(request.GET.get("page", 1)),
+            "description": description,
+            "part_number": part_number,
+            "control_rating": control_rating,
+        }
+
+        goods = get_goods(request, **params)
 
         context = {
             "goods": goods,
-            "notifications": group_notifications(notifications),
+            "description": description,
+            "part_number": part_number,
+            "control_code": control_rating,
+            "filtered": filtered,
+            "params": params,
+            "page": params.pop("page"),
+            "params_str": convert_dict_to_query_params(params),
         }
         return render(request, "goods/goods.html", context)
 
@@ -82,24 +99,15 @@ class GoodsDetail(TemplateView):
         return super(GoodsDetail, self).dispatch(request, *args, **kwargs)
 
     def get(self, request, **kwargs):
-        notifications = get_notifications(request, unviewed=True)
         documents = get_good_documents(request, str(self.good_id))
-        case_note_notifications = len(
-            [x for x in notifications if str(x["parent"]) == self.good_id and x["object_type"] == "case_note"]
-        )
-        ecju_query_notifications = len(
-            [x for x in notifications if str(x["parent"]) == self.good_id and x["object_type"] == "ecju_query"]
-        )
 
         context = {
             "good": self.good,
             "documents": documents,
             "type": self.view_type,
-            "case_note_notifications": case_note_notifications,
-            "ecju_query_notifications": ecju_query_notifications,
         }
 
-        if self.good["query_id"]:
+        if self.good["query"]:
             status_props, _ = get_status_properties(request, self.good["case_status"]["key"])
             context["status_is_read_only"] = status_props["is_read_only"]
             context["status_is_terminal"] = status_props["is_terminal"]
@@ -184,7 +192,6 @@ class DraftAddGood(TemplateView):
 
 
 class EditGood(TemplateView):
-
     good_id = None
     form = None
 
@@ -261,7 +268,7 @@ class AttachDocuments(TemplateView):
         good_documents, _ = post_good_documents(request, good_id, data)
 
         if "errors" in good_documents:
-            return error_page(request, strings.UPLOAD_FAILURE_ERROR)
+            return error_page(request, strings.goods.AttachDocumentPage.UPLOAD_FAILURE_ERROR)
 
         if good["is_good_controlled"] == "unsure":
             return redirect(reverse("goods:raise_clc_query", kwargs={"pk": good_id}))
@@ -393,4 +400,4 @@ class RespondToQuery(TemplateView):
                 return form_page(request, form, errors=error)
         else:
             # Submitted data does not contain an expected form field - return an error
-            return error_page(request, strings.UPLOAD_GENERIC_ERROR)
+            return error_page(request, strings.goods.AttachDocumentPage.UPLOAD_GENERIC_ERROR)
