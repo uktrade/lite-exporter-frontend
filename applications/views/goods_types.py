@@ -1,8 +1,10 @@
+from django.http import Http404
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
 from applications.forms.goods_types import goods_type_form
+from applications.helpers.get_application_edit_type import get_application_edit_type, ApplicationEditTypes
 from applications.services import (
     delete_goods_type,
     post_goods_type,
@@ -11,7 +13,7 @@ from applications.services import (
     get_application_countries,
     get_application,
 )
-from lite_forms.generators import form_page, error_page
+from lite_forms.generators import error_page
 from lite_forms.views import SingleFormView
 
 
@@ -53,14 +55,20 @@ class GoodsTypeRemove(TemplateView):
 
 
 class GoodsTypeCountries(TemplateView):
+    application_id = None
+    application = None
     goods = None
     countries = None
-    draft_id = None
 
     def dispatch(self, request, *args, **kwargs):
-        self.draft_id = str(kwargs["pk"])
-        self.goods = get_application_goods_types(request, self.draft_id)
-        self.countries = get_application_countries(request, self.draft_id)
+        self.application_id = str(kwargs["pk"])
+        self.application = get_application(request, self.application_id)
+        self.goods = get_application_goods_types(request, self.application_id)
+        self.countries = get_application_countries(request, self.application_id)
+
+        # Prevent minor edits from accessing this page
+        if get_application_edit_type(self.application) == ApplicationEditTypes.MINOR_EDIT:
+            raise Http404
 
         return super(GoodsTypeCountries, self).dispatch(request, *args, **kwargs)
 
@@ -68,7 +76,7 @@ class GoodsTypeCountries(TemplateView):
         context = {
             "countries": self.countries,
             "goods": self.goods,
-            "draft_id": self.draft_id,
+            "draft_id": self.application_id,
             "select": request.GET.get("all", None),
         }
         return render(request, "applications/goods_types/countries.html", context)
@@ -89,6 +97,6 @@ class GoodsTypeCountries(TemplateView):
             if good["id"] not in str(data):
                 post_data[good["id"]] = []
 
-        post_goods_type_countries(request, self.draft_id, list(post_data.keys())[0], post_data)
+        post_goods_type_countries(request, self.application_id, list(post_data.keys())[0], post_data)
 
-        return redirect(reverse_lazy("applications:task_list", kwargs={"pk": self.draft_id}))
+        return redirect(reverse_lazy("applications:task_list", kwargs={"pk": self.application_id}))
