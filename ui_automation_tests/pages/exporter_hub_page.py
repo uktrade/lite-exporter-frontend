@@ -1,3 +1,4 @@
+import os
 import time
 
 from shared.BasePage import BasePage
@@ -63,11 +64,6 @@ class ExporterHubPage(BasePage):
 
     def click_users(self):
         self.driver.find_element_by_css_selector(self.USERS_BTN).click()
-
-    def logout(self):
-        self.driver.get("https://great.uat.uktrade.io/sso/accounts/")
-        self.driver.find_element_by_id("header-sign-out-link").click()
-        self.driver.find_element_by_css_selector(".button").click()
 
     def click_user_profile(self):
         self.driver.find_element_by_css_selector("a[href*='/users/profile/']").click()
