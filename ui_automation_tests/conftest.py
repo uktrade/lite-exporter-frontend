@@ -455,14 +455,6 @@ def upload_a_file(driver, filename):  # noqa
     functions.click_submit(driver)
 
 
-@when("I create an open application")  # noqa
-def create_open_app(driver, context):  # noqa
-    click_apply_licence(driver)
-    enter_type_of_application(driver, "open", context)
-    enter_application_name(driver, context)
-    enter_permanent_or_temporary(driver, "permanent", context)
-
-
 @when("I add a non incorporated good to application")  # noqa
 def add_a_non_incorporated_good(driver, add_a_non_incorporated_good_to_application):  # noqa
     pass

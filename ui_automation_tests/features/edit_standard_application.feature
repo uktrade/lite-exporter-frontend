@@ -37,12 +37,12 @@ Feature: I want to be able to edit and update an active application
     And I add an end user of sub_type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
     And I upload a file "file_for_doc_upload_test_1.txt"
     And I wait for document to upload
-    And I click overview
+    And I click the back link
     And I click on consignees
     And I add an end user of sub_type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
     And I upload a file "file_for_doc_upload_test_1.txt"
     And I wait for document to upload
-    And I click overview
+    And I click the back link
     And I submit the application
     And I go to exporter homepage
     And I click on applications

@@ -107,12 +107,6 @@ def document_has_been_deleted(driver):
     assert ApplicationOverviewPage(driver).attach_end_user_document_is_present()
 
 
-@when("I click on consignees")
-def i_click_on_consignees(driver):
-    scroll_to_element_by_id(Shared(driver).driver, "consignees")
-    ApplicationOverviewPage(driver).click_consignee_link()
-
-
 @when(parsers.parse('I select "{choice}" for whether or not I want a new or existing location to be added'))  # noqa
 def choose_location_type(driver, choice):  # noqa
     which_location_form = WhichLocationFormPage(driver)
