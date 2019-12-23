@@ -1,16 +1,12 @@
 from pytest_bdd import scenarios, when, then, parsers
 
-from conftest import get_file_upload_path
 from pages.add_new_external_location_form_page import AddNewExternalLocationFormPage
-from pages.attach_document_page import AttachDocumentPage
 from pages.external_locations_page import ExternalLocationsPage
 from pages.preexisting_locations_page import PreexistingLocationsPage
 from pages.which_location_form_page import WhichLocationFormPage
 from shared import functions
 from shared.tools.helpers import scroll_to_element_by_id
 from shared.tools.wait import wait_for_download_button, wait_for_element
-from pages.add_end_user_pages import AddEndUserPages
-from pages.application_goods_list import ApplicationGoodsList
 from pages.application_overview_page import ApplicationOverviewPage
 from pages.shared import Shared
 from pages.ultimate_end_users_list_page import ThirdPartyListPage
@@ -66,18 +62,6 @@ def end_user_on_overview(driver, context):
     assert context.type_end_user.capitalize() in app.get_text_of_end_user_table()
     assert context.name_end_user in app.get_text_of_end_user_table()
     assert context.address_end_user in app.get_text_of_end_user_table()
-
-
-@when("I click on end user")
-def i_click_on_end_user(driver):
-    app = ApplicationOverviewPage(driver)
-    scroll_to_element_by_id(Shared(driver).driver, app.END_USER_LINK)
-    app.click_end_user_link()
-
-
-@when("I add a non incorporated good to application")
-def add_a_non_incorporated_good(driver, add_a_non_incorporated_good_to_application):
-    pass
 
 
 @then(parsers.parse('"{button}" link is present'))

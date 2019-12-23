@@ -1,5 +1,7 @@
 import datetime
 import os
+import time
+
 from pytest_bdd import given, when, then, parsers
 from selenium.webdriver.common.by import By
 
@@ -459,3 +461,42 @@ def create_open_app(driver, context):  # noqa
     enter_type_of_application(driver, "open", context)
     enter_application_name(driver, context)
     enter_permanent_or_temporary(driver, "permanent", context)
+
+
+@when("I add a non incorporated good to application")  # noqa
+def add_a_non_incorporated_good(driver, add_a_non_incorporated_good_to_application):  # noqa
+    pass
+
+
+@when("I click on end user")  # noqa
+def i_click_on_end_user(driver):  # noqa
+    app = ApplicationOverviewPage(driver)
+    utils.scroll_to_element_by_id(Shared(driver).driver, app.END_USER_LINK)
+    app.click_end_user_link()
+
+
+@when("I click on consignees")  # noqa
+def i_click_on_consignees(driver):  # noqa
+    utils.scroll_to_element_by_id(Shared(driver).driver, "consignees")
+    ApplicationOverviewPage(driver).click_consignee_link()
+
+
+@when("I click on activity tab")  # noqa
+def activity_tab(driver):  # noqa
+    ApplicationPage(driver).click_activity_tab()
+
+
+@then(parsers.parse('"{expected_text}" is shown as position "{no}" in the audit trail'))  # noqa
+def latest_audit_trail(driver, expected_text, no):  # noqa
+    assert expected_text in ApplicationPage(driver).get_text_of_audit_trail_item(int(no) - 1)
+
+
+@when("I wait for document to upload")  # noqa
+def wait_for_document(driver):  # noqa
+    document_is_found = False
+    while not document_is_found:
+        if "Processing" in driver.find_element_by_id("document").text:
+            time.sleep(1)
+            driver.refresh()
+        else:
+            document_is_found = True
