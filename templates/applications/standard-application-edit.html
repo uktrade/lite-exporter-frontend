@@ -530,7 +530,7 @@
 							</form>
 							{% if application.status.key == 'draft' %}
 								<div class="lite-vertical-align">
-									<a id="link-delete-draft" href="{% url 'applications:delete' application.id %}?return_to=application" class="govuk-link lite-link--icon">
+									<a id="link-delete-draft" href="{% url 'applications:delete' application.id %}?return_to={{ CURRENT_PATH }}" class="govuk-link lite-link--icon">
 										{% svg 'close' %}
 										{% lcs 'applications.EditStandardApplicationPage.DRAFT_DELETE_LINK' %}
 									</a>

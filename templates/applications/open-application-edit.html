@@ -4,7 +4,7 @@
 
 {% block back_link %}
 	{% if application.status %}
-    	<a href="{% url 'applications:applications' %}" id="back-link" class="govuk-back-link">Back to application</a>
+    	<a href="{% url 'applications:applications' %}" id="back-link" class="govuk-back-link">Back to applications</a>
 	{% endif %}
 {% endblock %}
 
@@ -281,7 +281,7 @@
 						</form>
                         {% if application.status.key == 'draft' %}
 							<div class="lite-vertical-align">
-								<a id="link-delete-draft" href="{% url 'applications:delete' application.id %}?return_to=application" class="govuk-link lite-link--icon">
+								<a id="link-delete-draft" href="{% url 'applications:delete' application.id %}?return_to={{ CURRENT_PATH }}" class="govuk-link lite-link--icon">
 									{% svg 'close' %}
 									{% lcs 'applications.EditOpenApplicationPage.DRAFT_DELETE_LINK' %}
 								</a>
