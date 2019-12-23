@@ -22,9 +22,9 @@
         <table class="govuk-table" id="countries_list">
             <thead class="govuk-table__head">
                 <tr class="govuk-table__row">
-                    <th class="govuk-table__header" scope="col">Control list classification</th>
-                    <th class="govuk-table__header" scope="col">Description</th>
-                    <th class="govuk-table__header" scope="col">Countries</th>
+                    <th class="govuk-table__header" scope="col">{% lcs "goods.GoodsList.Table.CONTROL_LIST_ENTRY" %}</th>
+                    <th class="govuk-table__header" scope="col">{% lcs "goods.GoodsList.Table.DESCRIPTION" %}</th>
+                    <th class="govuk-table__header" scope="col">{% lcs "goods.GoodsList.Table.COUNTRIES" %}</th>
                 </tr>
             </thead>
             {% for good in goods %}
