@@ -9,7 +9,7 @@ scenarios("../features/case_notes.feature", strict_gherkin=False)
 @then("note is displayed")
 def note_is_displayed(driver, context):
     application_page = SubmittedApplicationsPages(driver)
-    assert context.text not in application_page.get_text_of_case_note(0)
+    assert context.text in application_page.get_text_of_case_note(0)
     assert utils.search_for_correct_date_regex_in_element(
         application_page.get_text_of_case_note_date_time(0)
     ), "incorrect time of post on case note"
