@@ -9,6 +9,7 @@ then
 else
     py.test -k "abc"  --reruns 1 --ignore=core --alluredir=ui_automation_tests/allure-results &
     if [ $? -eq 0 ]
+    then
         py.test -k "def"  --reruns 1 --ignore=core --alluredir=ui_automation_tests/allure-results &
     fi
 fi
