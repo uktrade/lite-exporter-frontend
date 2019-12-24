@@ -3,7 +3,7 @@
 set -x
 
 # run py.test ($@ to derive parameters from commandline)
-if [ -z $TESTS_TO_RUN ]
+if [ -n "$TESTS_TO_RUN" ]
 then
     py.test -k "$TESTS_TO_RUN"  --reruns 1 --ignore=core --alluredir=ui_automation_tests/allure-results &
 else
