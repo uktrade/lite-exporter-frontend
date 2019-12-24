@@ -4,7 +4,7 @@ Feature: I want to add a note to an application and view notes
   I want to add a note to an application and view existing notes
   So that I can record my findings and comments and others users can see these
 
-  @LT_1119_add_cancel @smoke
+  @LT_1119_add_cancel @smoke @abc
   Scenario: Add a new valid case note
     Given I go to exporter homepage and choose Test Org
     And I create a standard application via api
@@ -32,7 +32,7 @@ Feature: I want to add a note to an application and view notes
     And post note is disabled
 
   @LT_920_prohibit_adding_case_note_in_terminal_status @regression
-  Scenario: Unable to add case note
+  Scenario: Unable to add case note @def
     Given I go to exporter homepage and choose Test Org
     And I create a standard application via api
     When I click on applications
