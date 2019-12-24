@@ -114,7 +114,7 @@ class ApplicationEditType(TemplateView):
 
 class ApplicationTaskList(TemplateView):
     def get(self, request, **kwargs):
-        application = get_application(request, kwargs["pk"])[0]
+        application = get_application(request, kwargs["pk"])
         return get_application_task_list(request, application)
 
     def post(self, request, **kwargs):

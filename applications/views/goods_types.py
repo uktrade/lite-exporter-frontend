@@ -94,6 +94,6 @@ class GoodsTypeCountries(TemplateView):
             if good["id"] not in str(data):
                 post_data[good["id"]] = []
 
-        post_goods_type_countries(request, self.draft_id, list(post_data.keys())[0], post_data)
+        post_goods_type_countries(request, self.draft_id, list(post_data.keys()), post_data)
 
         return redirect(reverse_lazy("applications:task_list", kwargs={"pk": self.draft_id}))

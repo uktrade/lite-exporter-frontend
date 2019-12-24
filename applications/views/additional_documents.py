@@ -8,7 +8,7 @@ class AdditionalDocuments(TemplateView):
     def get(self, request, **kwargs):
         application_id = str(kwargs["pk"])
         application = get_application(request, application_id)
-        data, _ = get_additional_documents(request, application_id)
+        data = get_additional_documents(request, application_id)
 
         context = {"additional_documents": data["documents"], "application": application}
 

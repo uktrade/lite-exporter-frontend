@@ -92,7 +92,7 @@ def get_application_goods_types(request, pk):
     return data.json().get("goods") if data.status_code == HTTPStatus.OK else None, data.status_code
 
 
-@acceptable_statuses([201, 400, 403, 404])
+@acceptable_statuses([201, 400, 403, 404], with_status=True)
 def post_good_on_application(request, pk, json):
     post_data = get_data_from_post_good_on_app(json)
     if "good_id" not in post_data:
@@ -136,7 +136,7 @@ def get_end_user_document(request, pk):
     return data.json(), data.status_code
 
 
-@acceptable_statuses([201, 400, 403, 404])
+@acceptable_statuses([201, 400, 403, 404], with_status=True)
 def post_end_user_document(request, pk, json):
     data = post(request, APPLICATIONS_URL + pk + END_USER_DOCUMENT_URL, json)
     return data.json(), data.status_code
@@ -180,7 +180,7 @@ def get_ultimate_end_user_document(request, pk, obj_pk):
     return data.json(), data.status_code
 
 
-@acceptable_statuses([201, 400, 403, 404])
+@acceptable_statuses([201, 400, 403, 404], with_status=True)
 def post_ultimate_end_user_document(request, pk, obj_pk, json):
     data = post(request, APPLICATIONS_URL + pk + ULTIMATE_END_USER_URL + str(obj_pk) + DOCUMENT_URL, json)
     return data.json(), data.status_code
@@ -218,7 +218,7 @@ def get_third_party_document(request, pk, obj_pk):
     return data.json(), data.status_code
 
 
-@acceptable_statuses([201, 400, 403, 404])
+@acceptable_statuses([201, 400, 403, 404], with_status=True)
 def post_third_party_document(request, pk, obj_pk, json):
     data = post(request, APPLICATIONS_URL + str(pk) + THIRD_PARTIES_URL + str(obj_pk) + DOCUMENT_URL, json)
     return data.json(), data.status_code
@@ -250,7 +250,7 @@ def get_consignee_document(request, pk):
     return data.json(), data.status_code
 
 
-@acceptable_statuses([201, 400, 403, 404])
+@acceptable_statuses([201, 400, 403, 404], with_status=True)
 def post_consignee_document(request, pk, json):
     data = post(request, APPLICATIONS_URL + pk + CONSIGNEE_DOCUMENT_URL, json)
     return data.json(), data.status_code
@@ -263,7 +263,7 @@ def delete_consignee_document(request, pk):
 
 
 # Additional Documents
-@acceptable_statuses([201, 403])
+@acceptable_statuses([201, 403], with_status=True)
 def post_additional_document(request, pk, json):
     data = post(request, APPLICATIONS_URL + pk + ADDITIONAL_DOCUMENT_URL, json)
     return data.json(), data.status_code
@@ -395,36 +395,43 @@ def download_document_from_s3(s3_key, original_file_name):
 
 
 # Goods Types
+@acceptable_statuses([200, 400, 401, 403, 404])
 def get_goods_type(request, app_pk, good_pk):
     data = get(request, APPLICATIONS_URL + app_pk + GOODSTYPE_URL + good_pk + "/")
     return data.json(), data.status_code
 
 
+@acceptable_statuses([201, 400, 401, 403, 404])
 def post_goods_type(request, app_pk, json):
     data = post(request, APPLICATIONS_URL + app_pk + GOODSTYPES_URL, json)
     return data.json(), data.status_code
 
 
+@acceptable_statuses([200, 400, 401, 403, 404])
 def delete_goods_type(request, app_pk, good_pk):
     data = delete(request, APPLICATIONS_URL + app_pk + GOODSTYPE_URL + good_pk + "/")
     return None, data.status_code
 
 
+@acceptable_statuses([200, 400, 403, 404])
 def post_goods_type_countries(request, app_pk, good_pk, json):
     data = put(request, APPLICATIONS_URL + app_pk + GOODSTYPE_URL + good_pk + GOODSTYPE_COUNTRY_URL, json)
     return data.json(), data.status_code
 
 
+@acceptable_statuses([200, 400, 403, 404])
 def get_goods_type_document(request, pk, good_pk):
     data = get(request, APPLICATIONS_URL + pk + GOODSTYPE_URL + str(good_pk) + DOCUMENT_URL)
     return data.json(), data.status_code
 
 
+@acceptable_statuses([201, 400, 403, 404], with_status=True)
 def post_goods_type_document(request, pk, good_pk, json):
     data = post(request, APPLICATIONS_URL + pk + GOODSTYPE_URL + str(good_pk) + DOCUMENT_URL, json)
     return data.json(), data.status_code
 
 
+@acceptable_statuses([204, 400, 403, 404])
 def delete_goods_type_document(request, pk, good_pk):
     data = delete(request, APPLICATIONS_URL + pk + GOODSTYPE_URL + str(good_pk) + DOCUMENT_URL)
     return None, data.status_code

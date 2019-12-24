@@ -73,7 +73,7 @@ class SelectAddExternalLocation(SingleFormView):
         self.action = validate_external_location_choice
 
     def get_success_url(self):
-        choice = self.get_validated_data()["choice"]
+        choice = self.get_validated_data()[0]["choice"]
         if choice == "new":
             return reverse_lazy("applications:add_external_location", kwargs={"pk": self.object_pk})
         else:
@@ -84,7 +84,7 @@ class ExistingSites(TemplateView):
     def get(self, request, **kwargs):
         application_id = str(kwargs["pk"])
         application = get_application(request, application_id)
-        response, _ = get_sites_on_draft(request, application_id)
+        response = get_sites_on_draft(request, application_id)
 
         if application["status"] and application["status"].get("key") == "submitted" and not response["sites"]:
             raise Http404
@@ -109,7 +109,7 @@ class ExistingSites(TemplateView):
 class AddExternalLocation(TemplateView):
     def get(self, request, **kwargs):
         draft_id = str(kwargs["pk"])
-        response, _ = get_sites_on_draft(request, draft_id)
+        response = get_sites_on_draft(request, draft_id)
 
         return form_page(request, new_location_form(), data=response)
 
@@ -146,7 +146,7 @@ class RemoveExternalLocation(TemplateView):
 class AddExistingExternalLocation(TemplateView):
     def get(self, request, **kwargs):
         draft_id = str(kwargs["pk"])
-        data, _ = get_external_locations_on_draft(request, draft_id)
+        data = get_external_locations_on_draft(request, draft_id)
 
         return form_page(request, external_locations_form(request), data=data)
 

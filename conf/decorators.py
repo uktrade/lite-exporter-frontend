@@ -4,7 +4,7 @@ from conf.exceptions import PermissionDeniedError
 from core import helpers
 
 
-def acceptable_statuses(statuses: [int]):
+def acceptable_statuses(statuses: [int], with_status: bool = False):
     """ Check if an application is in an editable state. """
 
     def decorator(func):
@@ -15,7 +15,11 @@ def acceptable_statuses(statuses: [int]):
             if data[1] not in statuses:
                 raise Exception(f"Status code: {data[1]} was not expected during ' {func.__name__}()'")
 
-            return data
+            if with_status:
+                return data
+
+            else:
+                return data[0]
 
         return inner
 

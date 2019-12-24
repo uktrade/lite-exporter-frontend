@@ -90,7 +90,7 @@ class GoodsDetail(TemplateView):
 
     def dispatch(self, request, *args, **kwargs):
         self.good_id = str(kwargs["pk"])
-        self.good = get_good(request, self.good_id)[0]
+        self.good = get_good(request, self.good_id)
         self.view_type = kwargs["type"]
 
         if self.view_type != "case-notes" and self.view_type != "ecju-queries":
@@ -168,7 +168,7 @@ class RaiseCLCQuery(TemplateView):
         request_data = request.POST.copy()
         request_data["good_id"] = good_id
 
-        data, _ = raise_clc_query(request, request_data)
+        data = raise_clc_query(request, request_data)
 
         if "errors" in data:
             return form_page(

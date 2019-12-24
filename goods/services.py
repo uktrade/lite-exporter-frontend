@@ -17,7 +17,7 @@ from core.helpers import remove_prefix
 def get_goods(request, page: int = 1, description=None, part_number=None, control_rating=None, for_application=None):
     data = get(request, GOODS_URL + convert_parameters_to_query_params(locals()))
 
-    return data.json()
+    return data.json(), data.status_code
 
 
 @acceptable_statuses([200, 404])
@@ -69,13 +69,13 @@ def raise_clc_query(request, json):
 @acceptable_statuses([200, 400, 404])
 def get_good_document(request, pk, doc_pk):
     data = get(request, GOODS_URL + pk + DOCUMENTS_URL + doc_pk)
-    return data.json().get("document") if data.status_code == HTTPStatus.OK else None
+    return data.json().get("document") if data.status_code == HTTPStatus.OK else None, data.status_code
 
 
 @acceptable_statuses([200, 404])
 def get_good_documents(request, pk):
     data = get(request, GOODS_URL + pk + DOCUMENTS_URL)
-    return data.json().get("documents") if data.status_code == HTTPStatus.OK else None
+    return data.json().get("documents") if data.status_code == HTTPStatus.OK else None, data.status_code
 
 
 @acceptable_statuses([200, 404])

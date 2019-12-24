@@ -56,9 +56,9 @@ def _get_standard_application_task_list(request, application, errors=None):
         if is_editing:
             edit_type = "minor_edit" if application["status"]["key"] == "submitted" else "major_edit"
 
-    sites, _ = get_sites_on_draft(request, application_id)
-    external_locations, _ = get_external_locations_on_draft(request, application_id)
-    additional_documents, _ = get_additional_documents(request, application_id)
+    sites = get_sites_on_draft(request, application_id)
+    external_locations = get_external_locations_on_draft(request, application_id)
+    additional_documents = get_additional_documents(request, application_id)
 
     ultimate_end_users_required = False
     end_user_document = None
@@ -74,14 +74,14 @@ def _get_standard_application_task_list(request, application, errors=None):
     third_parties = get_third_parties(request, application_id)
     end_user = application.get("end_user")
     consignee = application.get("consignee")
-    goods = get_application_goods(request, application_id)[0]
+    goods = get_application_goods(request, application_id)
 
     if end_user:
-        end_user_document, _ = get_end_user_document(request, application_id)
+        end_user_document = get_end_user_document(request, application_id)
         end_user_document = end_user_document.get("document")
 
     if consignee:
-        consignee_document, _ = get_consignee_document(request, application_id)
+        consignee_document = get_consignee_document(request, application_id)
         consignee_document = consignee_document.get("document")
 
     for good in goods:
@@ -125,9 +125,9 @@ def _get_open_application_task_list(request, application, errors=None):
         if is_editing:
             edit_type = "minor_edit" if application["status"]["key"] == "submitted" else "major_edit"
 
-    sites, _ = get_sites_on_draft(request, application_id)
-    external_locations, _ = get_external_locations_on_draft(request, application_id)
-    additional_documents, _ = get_additional_documents(request, application_id)
+    sites = get_sites_on_draft(request, application_id)
+    external_locations = get_external_locations_on_draft(request, application_id)
+    additional_documents = get_additional_documents(request, application_id)
 
     ultimate_end_users = []
     ultimate_end_users_required = False

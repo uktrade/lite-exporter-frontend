@@ -1,5 +1,6 @@
 from http import HTTPStatus
 
+from conf.decorators import acceptable_statuses
 from core.helpers import convert_parameters_to_query_params, convert_value_to_query_param
 from lite_forms.components import Option
 
@@ -31,6 +32,7 @@ def get_countries(request, convert_to_options=False):
     return data
 
 
+@acceptable_statuses([200, 403, 404])
 def get_sites_on_draft(request, pk):
     data = get(request, APPLICATIONS_URL + pk + "/sites/")
     return data.json(), data.status_code
@@ -63,6 +65,7 @@ def get_external_locations(request, pk, formatted=False):
     return data.json(), data.status_code
 
 
+@acceptable_statuses([200, 403, 404])
 def get_external_locations_on_draft(request, pk):
     data = get(request, APPLICATIONS_URL + pk + "/external_locations/")
     return data.json(), data.status_code
