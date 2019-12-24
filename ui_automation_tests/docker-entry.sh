@@ -10,7 +10,7 @@ else
     py.test -k "abc"  --reruns 1 --ignore=core --disable-pytest-warnings --alluredir=ui_automation_tests/allure-results
     if [ $? -eq 0 ]
     then
-        py.test -k "def"  --reruns 1 --ignore=core --disable-pytest-warnings --alluredir=ui_automation_tests/allure-results
+        py.test -k "LT_996_clc"  --reruns 1 --ignore=core --disable-pytest-warnings --alluredir=ui_automation_tests/allure-results
     fi
 fi
 pid="$!"
