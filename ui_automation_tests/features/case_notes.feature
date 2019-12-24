@@ -31,7 +31,7 @@ Feature: I want to add a note to an application and view notes
     Then case note warning is "You have 1 character too many"
     And post note is disabled
 
-  @LT_920_prohibit_adding_case_note_in_terminal_status @regression  @def
+  @LT_920_prohibit_adding_case_note_in_terminal_status @regression @def
   Scenario: Unable to add case note
     Given I go to exporter homepage and choose Test Org
     And I create a standard application via api
