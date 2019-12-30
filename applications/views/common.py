@@ -75,7 +75,7 @@ class DeleteApplication(SingleFormView):
         self.action = validate_delete_draft
 
     def get_success_url(self):
-        if self.get_validated_data().get("choice") == "yes":
+        if self.get_validated_data().get("status"):
             return reverse_lazy("applications:applications") + "?submitted=False"
         else:
             return self.request.GET.get("return_to")

@@ -6,15 +6,12 @@ from conftest import (
     enter_type_of_application,
     enter_application_name,
     enter_permanent_or_temporary,
-    enter_export_licence,
 )
 from pages.application_countries_list import ApplicationCountriesList
-from pages.application_goods_list import ApplicationGoodsList
 from pages.application_goods_type_list import ApplicationGoodsTypeList
 from pages.application_overview_page import ApplicationOverviewPage
 from pages.goods_countries_page import GoodsCountriesPage
 from pages.shared import Shared
-
 
 scenarios("../features/submit_open_application.feature", strict_gherkin=False)
 
