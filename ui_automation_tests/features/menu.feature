@@ -8,9 +8,12 @@ Feature: Go to each item from the homepage
     Then I get a 200
     When I click on applications
     Then I get a 200
-    When I click on goods link
+    When I go to exporter homepage
+    And I click on goods link
     Then I get a 200
-    When I click on end user advisories
+    When I go to exporter homepage
+    And I click on end user advisories
     Then I get a 200
-    When I click on the manage my organisation link
+    When I go to exporter homepage
+    And I click on the manage my organisation link
     Then I get a 200
