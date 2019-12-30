@@ -97,6 +97,20 @@ class GoodsTypeCountries(TemplateView):
             if good["id"] not in str(data):
                 post_data[good["id"]] = []
 
-        put_goods_type_countries(request, self.application_id, post_data)
+        data, status_code = put_goods_type_countries(request, self.application_id, post_data)
+
+        if "errors" in data:
+            # Merge post data and goods
+            for good in self.goods:
+                good["countries"] = [{"id": x} for x in post_data[good["id"]]]
+
+            context = {
+                "countries": self.countries,
+                "goods": self.goods,
+                "draft_id": self.application_id,
+                "select": request.GET.get("all", None),
+                "errors": data["errors"]
+            }
+            return render(request, "applications/goods-types/countries.html", context)
 
         return redirect(reverse_lazy("applications:task_list", kwargs={"pk": self.application_id}))

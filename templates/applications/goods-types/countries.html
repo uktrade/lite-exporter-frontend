@@ -7,6 +7,21 @@
 {% endblock %}
 
 {% block body %}
+	{% if errors %}
+		<div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
+			<h2 class="govuk-error-summary__title" id="error-summary-title">
+				There is a problem
+			</h2>
+			<div class="govuk-error-summary__body">
+				<ul class="govuk-list govuk-error-summary__list">
+					<li>
+						<a href="#passport-issued-error">Select at least one country for each good</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	{% endif %}
+
     <h1 class="govuk-heading-xl govuk-!-margin-bottom-5">
 		{% block title %}Select the countries each product is going to{% endblock %}
 	</h1>
@@ -39,9 +54,8 @@
                         {% for country in countries %}
                             <div class="govuk-checkboxes govuk-checkboxes--small">
                                 <div class="govuk-checkboxes__item">
-                                    <input class="govuk-checkboxes__input" {% if country in good.countries and select != 'False' or select == 'True' %}checked{% endif %} type="checkbox" name="{{ good.id }}.{{ country.id }}" id="{{ good.id }}.{{ country.id }}" value="{{ country.id }}">
-                                    <label class="govuk-label govuk-checkboxes__label" for="{{ good.id }}.{{ country.id }}">{{ country.name }}
-                                    </label>
+                                    <input class="govuk-checkboxes__input" {% if good.countries|key_in_array:country.id and select != 'False' or select == 'True' %}checked{% endif %} type="checkbox" name="{{ good.id }}.{{ country.id }}" id="{{ good.id }}.{{ country.id }}" value="{{ country.id }}">
+                                    <label class="govuk-label govuk-checkboxes__label {% if not good.countries %}govuk-checkboxes__label--error{% endif %}" for="{{ good.id }}.{{ country.id }}">{{ country.name }}</label>
                                 </div>
                             </div>
                         {% endfor %}
