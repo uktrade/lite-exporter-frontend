@@ -30,7 +30,7 @@ class GoodsTypeList(TemplateView):
             "goods": goods,
             "application": application,
         }
-        return render(request, "applications/goods_types/index.html", context)
+        return render(request, "applications/goods-types/index.html", context)
 
 
 class GoodsTypeAdd(SingleFormView):
@@ -79,7 +79,7 @@ class GoodsTypeCountries(TemplateView):
             "draft_id": self.application_id,
             "select": request.GET.get("all", None),
         }
-        return render(request, "applications/goods_types/countries.html", context)
+        return render(request, "applications/goods-types/countries.html", context)
 
     def post(self, request, **kwargs):
         data = request.POST.copy()

@@ -55,7 +55,7 @@ class ThirdParties(TemplateView):
             "application": application,
             "third_parties": application["third_parties"],
         }
-        return render(request, "applications/parties/third_parties.html", context)
+        return render(request, "applications/parties/third-parties.html", context)
 
 
 class RemoveThirdParty(TemplateView):
