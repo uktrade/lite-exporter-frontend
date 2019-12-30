@@ -95,6 +95,9 @@
                     </div>
                 {% endif %}
             </a>
+			<a href="{% url 'applications:application' application.id 'activity' %}" class="lite-tabs__tab {% if type == 'activity' %}lite-tabs__tab--selected{% endif %}" id="link-activity">
+                {% lcs 'applications.ApplicationSummaryPage.Tabs.ACTIVITY' %}
+            </a>
         </div>
     </div>
 
@@ -155,5 +158,7 @@
         {% include "applications/tabs/ecju-queries.html" %}
     {% elif type == 'generated-documents' %}
           {% include "applications/tabs/generated-documents.html" %}
+    {% elif type == 'activity' %}
+		{% include "applications/tabs/activity.html" %}
     {% endif %}
 {% endblock %}
