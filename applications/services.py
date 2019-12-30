@@ -360,8 +360,8 @@ def delete_goods_type(request, app_pk, good_pk):
     return data.status_code
 
 
-def post_goods_type_countries(request, app_pk, good_pk, json):
-    data = put(request, APPLICATIONS_URL + app_pk + GOODSTYPE_URL + good_pk + GOODSTYPE_COUNTRY_URL, json)
+def put_goods_type_countries(request, app_pk, json):
+    data = put(request, APPLICATIONS_URL + app_pk + GOODSTYPE_URL + GOODSTYPE_COUNTRY_URL, json)
     return data.json(), data.status_code
 
 

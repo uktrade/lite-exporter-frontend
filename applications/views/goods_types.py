@@ -8,7 +8,7 @@ from applications.helpers.get_application_edit_type import get_application_edit_
 from applications.services import (
     delete_goods_type,
     post_goods_type,
-    post_goods_type_countries,
+    put_goods_type_countries,
     get_application_goods_types,
     get_application_countries,
     get_application,
@@ -97,6 +97,6 @@ class GoodsTypeCountries(TemplateView):
             if good["id"] not in str(data):
                 post_data[good["id"]] = []
 
-        post_goods_type_countries(request, self.application_id, list(post_data.keys())[0], post_data)
+        put_goods_type_countries(request, self.application_id, post_data)
 
         return redirect(reverse_lazy("applications:task_list", kwargs={"pk": self.application_id}))
