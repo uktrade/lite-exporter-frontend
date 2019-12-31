@@ -199,15 +199,9 @@
 							<a id="goods_country_assignments" href="{% url 'applications:goods_countries' application.id %}" class="lite-overview-section-header govuk-link govuk-link--no-visited-state">
 			                    Explain where each product is going
 			                </a>
-							{% if countries_on_goods_types %}
-				                <div class="lite-tag lite-tag--blue">
-				                    Done
-				                </div>
-				            {% else %}
-				                <div class="lite-tag lite-tag--hollow">
-				                    Optional
-				                </div>
-				            {% endif %}
+                            <div class="lite-tag lite-tag--hollow">
+                                Optional
+                            </div>
 						</div>
 					</li>
 				{% endif %}
