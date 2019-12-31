@@ -97,10 +97,10 @@ class GoodsTypeCountries(TemplateView):
             if good["id"] not in str(data):
                 post_data[good["id"]] = []
 
-        data, status_code = put_goods_type_countries(request, self.application_id, post_data)
+        data, _ = put_goods_type_countries(request, self.application_id, post_data)
 
         if "errors" in data:
-            # Merge post data and goods
+            # Merge post data and existing goods
             for good in self.goods:
                 good["countries"] = [{"id": x} for x in post_data[good["id"]]]
 
