@@ -92,4 +92,4 @@ def get_const_string_value_by_path(path):
     """
     path_elements = path.rsplit(".", 1)
 
-    return getattr(eval(path_elements[0]), path_elements[1])
+    return getattr(eval(path_elements[0]), path_elements[1])  # noqa
