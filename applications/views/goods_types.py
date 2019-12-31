@@ -109,7 +109,7 @@ class GoodsTypeCountries(TemplateView):
                 "goods": self.goods,
                 "draft_id": self.application_id,
                 "select": request.GET.get("all", None),
-                "errors": data["errors"]
+                "errors": data["errors"],
             }
             return render(request, "applications/goods-types/countries.html", context)
 
