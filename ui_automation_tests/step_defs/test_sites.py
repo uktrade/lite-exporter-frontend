@@ -5,6 +5,7 @@ from pytest_bdd import scenarios, when, then, parsers
 from pages.hub_page import Hub
 from pages.new_site_page import NewSite
 from pages.site_list_overview_page import SitesListOverview
+from pages.site_page import SitePage
 from pages.sites_page import SitesPage
 from pages.goods_locations_page import GoodsLocationsPage
 
@@ -22,13 +23,6 @@ def click_new_site(driver):
 @when("I click sites link")
 def click_new_site(driver):
     hub = Hub(driver)
-    hub.click_sites_link()
-
-
-@when("I click sites link from overview")
-def click_new_site(driver):
-    hub = Hub(driver)
-    driver.execute_script("document.getElementById('goods').scrollIntoView(true);")
     hub.click_sites_link()
 
 
@@ -52,10 +46,15 @@ def i_see_sites_list(driver, context):
     )
 
 
-@when("I click the first edit link")
-def click_first_edit_link(driver):
+@when("I click the first view link")
+def click_first_view_link(driver):
     site_list_overview_page = SitesListOverview(driver)
-    site_list_overview_page.click_on_the_edit_button_at_first_position()
+    site_list_overview_page.click_on_the_view_button_at_first_position()
+
+
+@when("I click the edit button")
+def click_edit_button(driver):
+    SitePage(driver).click_edit_button()
 
 
 @when("I clear the fields for the site")
@@ -66,7 +65,7 @@ def clear_site(driver):
 
 @then("I see last site name as edited")
 def last_site_name_edited(driver, context):
-    assert context.new_site_name in Shared(driver).get_text_of_gov_table()
+    assert context.new_site_name in Shared(driver).get_text_of_body()
 
 
 @then(parsers.parse('the checkbox I have selected at position "{no}" is "{checked}"'))
