@@ -1,3 +1,5 @@
+from http import HTTPStatus
+
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
@@ -99,7 +101,7 @@ class RemoveConsignee(TemplateView):
         application_id = str(kwargs["pk"])
         status_code = delete_consignee(request, application_id)
 
-        if status_code != 204:
+        if status_code != HTTPStatus.NO_CONTENT:
             return error_page(request, "Unexpected error removing consignee")
 
         return redirect(reverse_lazy("applications:task_list", kwargs={"pk": application_id}))
