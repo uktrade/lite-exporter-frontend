@@ -1,3 +1,5 @@
+from ast import literal_eval
+
 from lite_content.lite_exporter_frontend import strings  # noqa
 from applications.services import (
     post_ultimate_end_user_document,
@@ -92,4 +94,4 @@ def get_const_string_value_by_path(path):
     """
     path_elements = path.rsplit(".", 1)
 
-    return getattr(eval(path_elements[0]), path_elements[1])  # noqa
+    return getattr(literal_eval(path_elements[0]), path_elements[1])
