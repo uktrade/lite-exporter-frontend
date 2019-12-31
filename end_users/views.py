@@ -142,8 +142,6 @@ class EndUserDetail(TemplateView):
 
         if self.view_type == "case-notes":
             case_notes = get_case_notes(request, self.case_id)["case_notes"]
-            # This shouldn't be filtered locally!
-            # context["notes"] = filter(lambda note: note["is_visible_to_exporter"], case_notes)
             context["notes"] = case_notes
 
         if self.view_type == "ecju-queries":
