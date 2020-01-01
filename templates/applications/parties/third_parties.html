@@ -15,7 +15,7 @@
         {% if application.status.key in 'applicant_editing,draft' %}
 		<div class="lite-app-bar__controls">
 			<a href="{% url 'applications:add_third_party' application.id %}" class="govuk-button" draggable="false" role="button">
-				{% get_string 'third_parties.add' %}
+				{% lcs 'ThirdParties.ADD' %}
 			</a>
 		</div>
         {% endif %}
@@ -71,7 +71,7 @@
 		</tbody>
 	</table>
 	{% else %}
-		<p class="govuk-caption-l">{% get_string 'third_parties.no_results' %}</p>
+		<p class="govuk-caption-l">{% lcs 'ThirdParties.NO_RESULTS' %}</p>
 	{% endif %}
 
 {% endblock %}
