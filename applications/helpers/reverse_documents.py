@@ -1,5 +1,3 @@
-from ast import literal_eval
-
 from lite_content.lite_exporter_frontend import strings  # noqa
 from applications.services import (
     post_ultimate_end_user_document,
