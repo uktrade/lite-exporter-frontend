@@ -58,6 +58,7 @@ class GoodsTypeCountries(TemplateView):
     """
     View to control which goods are going to which countries (goods/countries matrix)
     """
+
     application_id = None
     application = None
     goods = None
