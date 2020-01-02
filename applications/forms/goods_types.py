@@ -1,4 +1,4 @@
-from core.builtins.custom_tags import get_string
+from lite_content.lite_exporter_frontend import strings
 from lite_forms.common import control_list_entry_question
 from lite_forms.components import TextArea, RadioButtons, Option, Form
 
@@ -7,7 +7,7 @@ from core.services import get_control_list_entries
 
 def goods_type_form():
     return Form(
-        title=get_string("good_types.overview.title"),
+        title=strings.GoodTypes.Overview.TITLE,
         questions=[
             TextArea(title="Description", name="description", extras={"max_length": 2000,}),
             RadioButtons(

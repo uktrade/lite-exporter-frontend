@@ -1,3 +1,4 @@
+from lite_content.lite_exporter_frontend import strings
 from django.urls import reverse_lazy
 
 from lite_content.lite_exporter_frontend import strings
@@ -5,13 +6,12 @@ from lite_forms.common import address_questions
 from lite_forms.components import Heading, BackLink, Form, TextInput
 from lite_forms.styles import HeadingStyle
 
-from core.builtins.custom_tags import get_string
 from core.services import get_countries
 
 
 def new_site_form():
     return Form(
-        title=get_string("sites.create"),
+        title=strings.Sites.CREATE,
         description="",
         questions=[
             TextInput(title="Name of site", name="name"),
