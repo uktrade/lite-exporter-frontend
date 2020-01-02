@@ -11,7 +11,11 @@ def log_out_link_displayed_and_success_status_code(driver):
     assert conn.getcode() == 200
     assert driver.find_element_by_id(
         "link-sign-out"
+<<<<<<< HEAD
     ).is_displayed(), "Log out button is displayed. User may have the service unavailable screen."
+=======
+    ).is_displayed(), "Log out button is not displayed. User may have the service unavailable screen."
+>>>>>>> origin/master
 
 
 @when("I refresh the page")
