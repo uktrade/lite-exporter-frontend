@@ -6,12 +6,6 @@
 
 {% block body %}
 
-	{% if userDeactivated == "true" %}
-		<div class="information information-animated">
-			{% lcs 'Users.DELETED' %}
-		</div>
-	{% endif %}
-
 	<h2 class="govuk-heading-l">{{ organisation.name }}</h2>
 
 	<div style="display: grid; grid-template-columns: 1fr auto; grid-gap: 30px;">
