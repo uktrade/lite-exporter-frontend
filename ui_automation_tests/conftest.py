@@ -127,12 +127,6 @@ def click_on_an_application(driver, context):  # noqa
     driver.find_element_by_css_selector('a[href*="' + context.app_id + '"]').click()
 
 
-@when("I click on application previously created")  # noqa
-def click_on_an_application(driver, context):  # noqa
-    # Works on both the Drafts list and Applications list
-    driver.find_element_by_css_selector('a[href*="' + context.app_id + '"]').click()
-
-
 @when("I go to application previously created")  # noqa
 def click_on_an_application(driver, exporter_url, context):  # noqa
     driver.get(exporter_url.rstrip("/") + "/applications/" + context.app_id)
