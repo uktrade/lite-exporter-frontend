@@ -135,7 +135,7 @@ def click_on_an_application(driver, context):  # noqa
 
 @when("I go to application previously created")  # noqa
 def click_on_an_application(driver, exporter_url, context):  # noqa
-    driver.get(exporter_url.rstrip('/') + "/applications/" + context.app_id)
+    driver.get(exporter_url.rstrip("/") + "/applications/" + context.app_id)
 
 
 @when("I click edit application")  # noqa
