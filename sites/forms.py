@@ -1,7 +1,6 @@
 from lite_content.lite_exporter_frontend import strings
 from django.urls import reverse_lazy
 
-from lite_content.lite_exporter_frontend import strings
 from lite_forms.common import address_questions
 from lite_forms.components import Heading, BackLink, Form, TextInput
 from lite_forms.styles import HeadingStyle
