@@ -64,14 +64,7 @@ Feature: I want to indicate the open licence I want
     And I select "United Kingdom" from the country list
     And I click continue
     And I click on assign countries to goods
-    And I "assign" all countries to all goods
-    Then I see all countries are "assigned" to all goods
-    When I click on assign countries to goods
-    And I "unassign" all countries to all goods
+    When I "unassign" all countries to all goods with link
     Then I see all countries are "unassigned" to all goods
-    When I click on assign countries to goods
-    And I "assign" all countries to all goods with link
+    When I "assign" all countries to all goods with link
     Then I see all countries are "assigned" to all goods
-    When I click on assign countries to goods
-    And I "unassign" all countries to all goods with link
-    Then I see all countries are "unassigned" to all goods

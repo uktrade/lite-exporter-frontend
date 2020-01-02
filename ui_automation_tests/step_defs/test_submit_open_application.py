@@ -90,24 +90,14 @@ def all_selected(driver):
     assert page.get_number_of_checkboxes(checked=False) == page.get_number_of_checkboxes(checked=True)
 
 
-@when(parsers.parse('I "{assign_or_unassign}" all countries to all goods'))
-def assign_all(driver, assign_or_unassign):
-    countries_page = GoodsCountriesPage(driver)
-    if assign_or_unassign == "assign":
-        countries_page.select_all()
-    else:
-        countries_page.deselect_all()
-    countries_page.click_save()
-
-
 @when(parsers.parse('I "{assign_or_unassign}" all countries to all goods with link'))
 def assign_all_with_link(driver, assign_or_unassign):
     countries_page = GoodsCountriesPage(driver)
     if assign_or_unassign == "assign":
         countries_page.select_all_link()
+        countries_page.click_save()
     else:
         countries_page.deselect_all_link()
-    countries_page.click_save()
 
 
 @when("I click Add goods type button")
