@@ -83,22 +83,3 @@ def document_switch(path):
         }
     else:
         raise NotImplementedError("document_switch doesn't support this document type")
-
-
-def get_const_string_value_by_path(path):
-    """
-    Takes a path to a string constant in lite_content and returns the corresponding
-    string value
-    """
-
-    # Sadly eval is considered insecure because it would have been handy here.  Without it,
-    # we need to go recursively through the elements of the supplied path and use getattr
-    # to get the nested object at each stage before finally returning the string attribute of
-    # the innermost object
-    path_elements = path.split(".")
-    module = strings
-
-    for path_element in path_elements[1:-1]:
-        module = getattr(module, path_element)
-
-    return getattr(module, path_elements[-1])
