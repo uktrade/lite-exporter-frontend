@@ -2,6 +2,7 @@ from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseBadRequest, HttpResponseServerError
 from django.shortcuts import redirect
+from django.urls import reverse_lazy
 from django.views.generic.base import RedirectView, View, TemplateView
 
 from auth.utils import get_client, AUTHORISATION_URL, TOKEN_SESSION_KEY, TOKEN_URL, get_profile
@@ -36,7 +37,7 @@ class AuthCallbackView(View):
         auth_code = request.GET.get("code", None)
 
         if not auth_code:
-            return HttpResponseBadRequest()
+            return redirect(reverse_lazy("auth:login"))
 
         state = self.request.session.get(TOKEN_SESSION_KEY + "_oauth_state", None)
 
