@@ -4,7 +4,7 @@ Feature: I want to be able to edit and update an active application
   I want to be able to edit and update an active application
   So that any additional information and/or corrected details can be updated on my application
 
-  @LT_998_edit_standard_application_slow @regression @aa
+  @LT_998_edit_standard_application_slow @regression
   Scenario: Edit a standard application
     Given I go to exporter homepage and choose Test Org
     And I create a standard application via api
@@ -57,7 +57,7 @@ Feature: I want to be able to edit and update an active application
 #    And "updated the letter reference" is shown as position "12" in the audit trail
 #    And "updated the application name" is shown as position "13" in the audit trail
 
-  @LT_998_edit_standard_application_fast @regression @aa
+  @LT_998_edit_standard_application_fast @regression
   Scenario: Edit a standard application with audit
     Given I go to exporter homepage and choose Test Org
     And I create a standard application via api
