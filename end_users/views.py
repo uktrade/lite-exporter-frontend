@@ -134,7 +134,6 @@ class EndUserDetail(TemplateView):
 
     def get(self, request, **kwargs):
         context = {
-            "title": "End User Advisory",
             "case_id": self.case_id,
             "end_user_advisory": self.end_user_advisory,
             "type": self.view_type,
