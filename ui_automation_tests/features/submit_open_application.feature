@@ -4,12 +4,6 @@ Feature: I want to indicate the open licence I want
   I want to indicate the kind of licence I want
   So that I am more likely to get the correct kind of licence or the kind of licence I would like
 
-#  @LT_1091_draft @regression
-#  Scenario: Apply for a licence to draft and delete
-#    Given I go to exporter homepage and choose Test Org
-#    When I create an open application
-#    Then I see the application overview
-#    When I delete the application
 
   @LT_1114 @submit_open_application @LT_1092_search @smoke
   Scenario: Submit open application
