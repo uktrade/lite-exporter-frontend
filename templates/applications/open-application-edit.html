@@ -200,7 +200,7 @@
 			                    Explain where each product is going
 			                </a>
                             <div class="lite-tag lite-tag--hollow">
-                                Optional
+                                {% lcs 'OPTIONAL' %}
                             </div>
 						</div>
 					</li>
@@ -218,7 +218,7 @@
 							</div>
 						{% else %}
 							<div class="lite-tag lite-tag--hollow">
-								Optional
+								{% lcs 'OPTIONAL' %}
 							</div>
 						{% endif %}
 					</div>
@@ -267,7 +267,7 @@
 						<form method="post">
 							{% csrf_token %}
 							{% if application.status.key in 'applicant_editing,draft' %}
-								<button type="submit" value="submit" class="govuk-button" data-prevent-double-click="true">Submit application</button>
+								<button type="submit" value="submit" class="govuk-button" data-prevent-double-click="true">{% lcs 'applications.EditOpenApplicationPage.SUBMIT' %}</button>
 							{% else %}
 								<a href="{% url 'applications:application' application.id %}" class="govuk-button" draggable="false" role="button">Done</a>
 							{% endif %}
