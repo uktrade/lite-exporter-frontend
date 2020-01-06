@@ -1,6 +1,5 @@
 from http import HTTPStatus
 
-from django.http import Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
@@ -8,7 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
 from s3chunkuploader.file_handler import S3FileUploadHandler
 
-from applications.forms.goods import good_on_application_form, add_new_good_forms
+from applications.forms.goods import good_on_application_form
 from applications.helpers.check_your_answers import get_total_goods_value
 from applications.services import (
     get_application,
@@ -16,23 +15,19 @@ from applications.services import (
     get_application_goods_types,
     post_good_on_application,
     delete_application_preexisting_good,
-    validate_application_good,
     add_document_data,
 )
 from core.helpers import convert_dict_to_query_params
 from core.services import get_units
 from goods.forms import add_goods_questions, document_grading_form, attach_documents_form
+from goods.helpers import good_document_upload
 from goods.services import (
     get_goods,
     get_good,
-    validate_good,
     post_goods,
-    post_good_documents,
     post_good_document_sensitivity,
 )
-from goods.helpers import good_document_upload
 from lite_content.lite_exporter_frontend import strings
-from lite_forms.components import HiddenField
 from lite_forms.generators import error_page, form_page
 from lite_forms.views import SingleFormView
 
@@ -128,7 +123,6 @@ class AttachDocument(TemplateView):
 
         good_id = str(kwargs["good_pk"])
         draft_id = str(kwargs["pk"])
-        good, _ = get_good(request, good_id)
         data, error = add_document_data(request)
 
         if error:
