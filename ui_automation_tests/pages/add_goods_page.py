@@ -29,23 +29,23 @@ class AddGoodPage(BasePage):
     def click_add_a_good(self):
         self.driver.find_element_by_id(self.ADD_A_GOOD_BTN).click()
 
-    def enter_description_of_goods(self, description, prefix=""):
-        self.driver.find_element_by_id(prefix + self.DESCRIPTION).send_keys(description)
+    def enter_description_of_goods(self, description):
+        self.driver.find_element_by_id(self.DESCRIPTION).send_keys(description)
 
-    def select_is_your_good_controlled(self, option, prefix=""):
+    def select_is_your_good_controlled(self, option):
         # The only options accepted here are 'yes', 'no' and 'unsure'
-        self.driver.find_element_by_id(prefix + self.IS_CONTROLLED + option.lower()).click()
+        self.driver.find_element_by_id(self.IS_CONTROLLED + option.lower()).click()
 
-    def enter_control_code(self, code, prefix=""):
-        control_code_tb = self.driver.find_element_by_id(prefix + self.CONTROL_CODE)
+    def enter_control_code(self, code):
+        control_code_tb = self.driver.find_element_by_id(self.CONTROL_CODE)
         control_code_tb.clear()
         control_code_tb.send_keys(code)
 
         # This is done as control code textbox needs to lose focus
         self.driver.find_element_by_tag_name("body").click()
 
-    def enter_control_code_unsure(self, code, prefix=""):
-        control_code_tb = self.driver.find_element_by_id(prefix + self.NOT_SURE_CODE)
+    def enter_control_code_unsure(self, code):
+        control_code_tb = self.driver.find_element_by_id(self.NOT_SURE_CODE)
         control_code_tb.clear()
         control_code_tb.send_keys(code)
 
