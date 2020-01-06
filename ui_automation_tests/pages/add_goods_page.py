@@ -23,8 +23,8 @@ class AddGoodPage(BasePage):
     DESCRIPTION = "description"  # ID
 
     # Not sure form
-    NOT_SURE_CODE = "not_sure_details_control_code"  # ID
-    NOT_SURE_DETAILS = "not_sure_details_details"  # ID
+    UNSURE_CODE = "not_sure_details_control_code"  # ID
+    UNSURE_DETAILS = "not_sure_details_details"  # ID
 
     def click_add_a_good(self):
         self.driver.find_element_by_id(self.ADD_A_GOOD_BTN).click()
@@ -45,12 +45,12 @@ class AddGoodPage(BasePage):
         self.driver.find_element_by_tag_name("body").click()
 
     def enter_control_code_unsure(self, code):
-        control_code_tb = self.driver.find_element_by_id(self.NOT_SURE_CODE)
+        control_code_tb = self.driver.find_element_by_id(self.UNSURE_CODE)
         control_code_tb.clear()
         control_code_tb.send_keys(code)
 
     def enter_control_unsure_details(self, details):
-        unsure_details = self.driver.find_element_by_id(self.NOT_SURE_DETAILS)
+        unsure_details = self.driver.find_element_by_id(self.UNSURE_DETAILS)
         unsure_details.clear()
         unsure_details.send_keys(details)
 
