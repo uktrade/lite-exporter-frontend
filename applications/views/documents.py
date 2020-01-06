@@ -19,16 +19,13 @@ from lite_forms.generators import form_page, error_page
 def get_upload_page(path, draft_id):
     paths = document_switch(path)
 
-    # Note the use of get_const_string for getting content strings by path.  Under notmal circumstances,
-    # we refer to strings directly, since they are Python class properties, however in this case the paths are
-    # built dynamically, based on party type so this method is necessary
     if paths["has_description"]:
-        description_text = get_const_string(paths["strings"] + ".AttachDocuments.DESCRIPTION_FIELD_TITLE")
+        description_text = paths["attach_doc_description_field_string"]
     else:
         description_text = None
 
-    title = get_const_string(paths["strings"] + ".AttachDocuments.TITLE")
-    return_later_text = get_const_string(paths["strings"] + ".SAVE_END_USER")
+    title = paths["attach_doc_title_string"]
+    return_later_text = paths["attach_doc_return_later_string"]
 
     return attach_document_form(
         application_id=draft_id, title=title, return_later_text=return_later_text, description_text=description_text,
@@ -43,7 +40,7 @@ def get_delete_confirmation_page(path, pk):
     paths = document_switch(path)
     return delete_document_confirmation_form(
         overview_url=reverse(paths["homepage"], kwargs={"pk": pk}),
-        back_link_text=get_const_string(paths["strings"] + ".AttachDocuments.BACK_TO_APPLICATION_OVERVIEW"),
+        back_link_text=paths["delete_conf_back_link_string"],
     )
 
 
