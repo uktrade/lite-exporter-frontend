@@ -83,7 +83,7 @@ class GoodsList(TemplateView):
 class AddGood(SingleFormView):
     def init(self, request, **kwargs):
         self.draft_pk = kwargs["pk"]
-        self.form = add_goods_questions()
+        self.form = add_goods_questions(allow_query=False)
         self.action = post_goods
 
     def get_success_url(self):
