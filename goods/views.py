@@ -260,14 +260,7 @@ class AttachDocuments(TemplateView):
         if error:
             return error_page(request, error)
 
-        if "description" not in data:
-            data["description"] = ""
-        data = [data]
-
-        # Send LITE API the file information
-        good_documents, _ = post_good_documents(request, good_id, data)
-
-        if "errors" in good_documents:
+        if "errors" in good_document_upload(request, good_id, data):
             return error_page(request, strings.goods.AttachDocumentPage.UPLOAD_FAILURE_ERROR)
 
         if good["is_good_controlled"] == "unsure":
