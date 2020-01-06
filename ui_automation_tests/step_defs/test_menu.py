@@ -3,7 +3,7 @@ from pytest_bdd import scenarios, then, when
 scenarios("../features/menu.feature", strict_gherkin=False)
 
 
-@then("Log out link is displayed")
+@then("The log out link is displayed")
 def log_out_link_displayed(driver):
     assert driver.find_element_by_id(
         "link-sign-out"
