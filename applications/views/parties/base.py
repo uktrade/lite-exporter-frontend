@@ -66,7 +66,7 @@ class CopyExistingParty(TemplateView):
         List of existing parties
         """
         application_id = str(kwargs["pk"])
-        parties, status_code = get_existing_parties(request, application_id)
+        parties, _ = get_existing_parties(request, application_id)
 
         context = {
             "title": "Existing Parties",
