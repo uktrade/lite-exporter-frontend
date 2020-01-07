@@ -279,7 +279,6 @@ def add_new_good(driver, description, controlled, control_code, incorporated, pa
     context.control_code = control_code
     add_goods_page.enter_description_of_goods(good_description)
     add_goods_page.select_is_your_good_controlled(controlled)
-    add_goods_page.select_is_your_good_intended_to_be_incorporated_into_an_end_product(incorporated)
     if "not needed" in good_part:
         good_part_needed = False
     elif "empty" not in good_part:

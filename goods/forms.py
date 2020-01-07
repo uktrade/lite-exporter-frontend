@@ -126,16 +126,6 @@ def edit_form(good_id):
                 name="control_code",
                 inset_text=False,
             ),
-            RadioButtons(
-                title=EditGoodForm.Incorporated.TITLE,
-                description=EditGoodForm.Incorporated.DESCRIPTION,
-                name="is_good_end_product",
-                options=[
-                    Option(key=True, value=EditGoodForm.Incorporated.YES),
-                    Option(key=False, value=EditGoodForm.Incorporated.NO),
-                ],
-                classes=["govuk-radios--inline"],
-            ),
             TextInput(title=EditGoodForm.PartNumber.TITLE, name="part_number", optional=True),
         ],
         buttons=[
