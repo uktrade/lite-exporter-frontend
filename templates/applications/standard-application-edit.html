@@ -328,53 +328,10 @@
 
 				<!-- Ultimate End Users -->
 				{% if ultimate_end_users_required %}
-					<li class="lite-task-list__item">
-						<div class="lite-task-list__item-header">
-                            <a id="ultimate_end_users" href="{% url 'applications:ultimate_end_users' application.id %}" class="govuk-link govuk-link--no-visited-state">
-                                Ultimate End Users
-                            </a>
-							{% if ultimate_end_users and ultimate_end_users_documents_complete %}
-								<div class="lite-tag lite-tag--blue">
-									Done
-								</div>
-					        {% elif ultimate_end_users %}
-					            <div class="lite-tag lite-tag--orange">
-									In progress
-								</div>
-							{% else %}
-								<div class="lite-tag lite-tag--hollow">
-									Not started
-								</div>
-							{% endif %}
-						</div>
-						<div class="lite-task-list__item-details">
-							{% if ultimate_end_users %}
-								<table class="govuk-table">
-									<thead class="govuk-table__head">
-										<tr class="govuk-table__row">
-											<th class="govuk-table__header" scope="col">Name</th>
-						                    <th class="govuk-table__header" scope="col">Type</th>
-						                    <th class="govuk-table__header" scope="col">Website</th>
-											<th class="govuk-table__header" scope="col">Address</th>
-											<th class="govuk-table__header" scope="col">Country</th>
-											<th class="govuk-table__header" scope="col"></th>
-										</tr>
-									</thead>
-									<tbody class="govuk-table__body">
-										{% for ultimate_end_user in ultimate_end_users %}
-											<tr class="govuk-table__row" id="ultimate-end-user-row-{{ ultimate_end_user.id }}">
-												<td class="govuk-table__cell">{{ ultimate_end_user.name }}</td>
-						                        <td class="govuk-table__cell">{{ ultimate_end_user.sub_type.value }}</td>
-						                        <td class="govuk-table__cell">{{ ultimate_end_user.website|default_na }}</td>
-												<td class="govuk-table__cell">{{ ultimate_end_user.address }}</td>
-												<td class="govuk-table__cell">{{ ultimate_end_user.country.name }}</td>
-											</tr>
-										{% endfor %}
-									</tbody>
-								</table>
-							{% endif %}
-						</div>
-					</li>
+					{% lcs 'third_parties.UltimateEndUsers.TITLE' as ultimate_end_users_title %}
+					{% url 'applications:ultimate_end_users' application.id as ultimate_end_users_url %}
+					{% tld ultimate_end_users 'ultimate recipient' 'ultimate recipients' as ultimate_end_users_description %}
+					{% include "includes/task-list-item.html" with id='products' title=ultimate_end_users_title url=ultimate_end_users_url status=ultimate_end_users|task_list_item_status description=ultimate_end_users_description %}
 				{% endif %}
 
 				<!-- Third Parties -->
