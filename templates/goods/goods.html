@@ -3,7 +3,18 @@
 {% load svg static %}
 
 {% block back_link %}
-	{% include 'includes/breadcrumbs.html' %}
+	<div class="govuk-breadcrumbs">
+		<ol class="govuk-breadcrumbs__list">
+			<li class="govuk-breadcrumbs__list-item">
+				<a class="govuk-breadcrumbs__link" href="/">
+					Hub
+				</a>
+			</li>
+			<li class="govuk-breadcrumbs__list-item">
+				{% lcs 'goods.GoodsList.TITLE' %}
+			</li>
+		</ol>
+	</div>
 {% endblock %}
 
 {% block body %}
