@@ -26,30 +26,16 @@ from lite_forms.components import (
     Label,
     Select,
     Group,
-    Breadcrumbs)
+    Breadcrumbs,
+)
 from lite_forms.generators import confirm_form
+from lite_forms.helpers import conditional
 from lite_forms.styles import ButtonStyle
 
 
-def add_goods_questions(inside_application: bool):
-    if inside_application:
-        title = CreateGoodForm.TITLE
-        description = CreateGoodForm.IsControlled.CLC_REQUIRED
-        is_your_good_controlled_options = [
-            Option(key="yes", value=CreateGoodForm.IsControlled.YES, show_pane="pane_control_code"),
-            Option(key="no", value=CreateGoodForm.IsControlled.NO),
-        ]
-    else:
-        title = "Add a product to your organisation"
-        description = CreateGoodForm.IsControlled.DESCRIPTION
-        is_your_good_controlled_options = [
-            Option(key="yes", value=CreateGoodForm.IsControlled.YES, show_pane="pane_control_code"),
-            Option(key="no", value=CreateGoodForm.IsControlled.NO),
-            Option(key="unsure", value=CreateGoodForm.IsControlled.UNSURE),
-        ]
-
-    form = Form(
-        title=title,
+def add_goods_questions(is_application_flow: bool):
+    return Form(
+        title=conditional(is_application_flow, CreateGoodForm.TITLE, "Add a product to your organisation"),
         questions=[
             TextArea(
                 title=CreateGoodForm.Description.TITLE,
@@ -59,9 +45,17 @@ def add_goods_questions(inside_application: bool):
             ),
             RadioButtons(
                 title=CreateGoodForm.IsControlled.TITLE,
-                description=description,
+                description=conditional(
+                    is_application_flow,
+                    CreateGoodForm.IsControlled.CLC_REQUIRED,
+                    CreateGoodForm.IsControlled.DESCRIPTION,
+                ),
                 name="is_good_controlled",
-                options=is_your_good_controlled_options,
+                options=[
+                    Option(key="yes", value=CreateGoodForm.IsControlled.YES, show_pane="pane_control_code"),
+                    Option(key="no", value=CreateGoodForm.IsControlled.NO),
+                    conditional(not is_application_flow, Option(key="unsure", value=CreateGoodForm.IsControlled.UNSURE)),
+                ],
                 classes=["govuk-radios--inline"],
             ),
             control_list_entry_question(
@@ -73,17 +67,9 @@ def add_goods_questions(inside_application: bool):
             ),
             TextInput(title=CreateGoodForm.PartNumber.TITLE, name="part_number", optional=True),
         ],
-        back_link=Breadcrumbs(
-            [
-                BackLink("Hub", "/"),
-                BackLink("Products", "/goods"),
-                BackLink("Add a product")
-            ]
-        ),
+        back_link=Breadcrumbs([BackLink("Hub", "/"), BackLink("Products", "/goods"), BackLink("Add a product")]),
         default_button_name=CreateGoodForm.BUTTON,
     )
-
-    return form
 
 
 def raise_a_clc_query(good_id):
