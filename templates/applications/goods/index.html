@@ -25,9 +25,9 @@
 		<table class="govuk-table">
 			<thead class="govuk-table__head">
 				<tr class="govuk-table__row">
-					<th scope="col" class="govuk-table__header">Description</th>
-					<th scope="col" class="govuk-table__header">Part number</th>
-					<th scope="col" class="govuk-table__header">Control list classification</th>
+					<th scope="col" class="govuk-table__header">{% lcs 'goods.GoodsList.Table.DESCRIPTION' %}</th>
+					<th scope="col" class="govuk-table__header">{% lcs 'goods.GoodsList.Table.CONTROL_LIST_ENTRY' %}</th>
+					<th scope="col" class="govuk-table__header">{% lcs 'goods.GoodsList.Table.PART_NUMBER' %}</th>
 					<th scope="col" class="govuk-table__header">Quantity</th>
 					<th scope="col" class="govuk-table__header">Value</th>
 					<th scope="col" class="govuk-table__header">Incorporated</th>
@@ -42,10 +42,10 @@
 							{% if good_on_application.good.status.key == 'verified' %}<span class="app-verified__symbol">{% svg 'verified' %}</span><span class="govuk-visually-hidden"> (Verified product)</span>{% endif %}
 						</td>
 						<td class="govuk-table__cell">
-							{{ good_on_application.good.part_number|default_na }}
+							{{ good_on_application.good.control_code|default_na }}
 						</td>
 						<td class="govuk-table__cell">
-							{{ good_on_application.good.control_code|default_na }}
+							{{ good_on_application.good.part_number|default_na }}
 						</td>
 						<td class="govuk-table__cell">
 							{{ good_on_application.quantity }} {{ good_on_application.unit.value|units_pluralise:good_on_application.quantity }}
