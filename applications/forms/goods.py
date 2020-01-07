@@ -29,5 +29,5 @@ def good_on_application_form(good, units, title, prefix=""):
                 classes=["govuk-radios--inline"],
             )
         ],
-        javascript_imports=["/assets/javascripts/specific/add_good.js"],
+        javascript_imports=["/assets/javascripts/add_good.js"],
     )
