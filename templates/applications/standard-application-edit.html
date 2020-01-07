@@ -93,7 +93,7 @@
 				{% lcs 'goods.GoodsList.TITLE' as goods_title %}
 				{% url 'applications:goods' application.id as goods_url %}
 				{% tld goods 'product' 'products' as goods_description %}
-				{% include "includes/task-list-item.html" with title=goods_title url=goods_url status=goods|task_list_item_status description=goods_description %}
+				{% include "includes/task-list-item.html" with id='products' title=goods_title url=goods_url status=goods|task_list_item_status description=goods_description %}
 
 		        <!-- Add products -->
 		        <li class="lite-task-list__item">
