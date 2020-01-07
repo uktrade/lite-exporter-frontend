@@ -26,7 +26,7 @@ from lite_forms.components import (
     Label,
     Select,
     Group,
-)
+    Breadcrumbs)
 from lite_forms.generators import confirm_form
 from lite_forms.styles import ButtonStyle
 
@@ -69,19 +69,15 @@ def add_goods_questions(allow_query=True, back_link=BackLink):
                 name="control_code",
                 inset_text=False,
             ),
-            RadioButtons(
-                title=CreateGoodForm.Incorporated.TITLE,
-                description=CreateGoodForm.Incorporated.DESCRIPTION,
-                name="is_good_end_product",
-                options=[
-                    Option(key="no", value=CreateGoodForm.Incorporated.YES),
-                    Option(key="yes", value=CreateGoodForm.Incorporated.NO),
-                ],
-                classes=["govuk-radios--inline"],
-            ),
             TextInput(title=CreateGoodForm.PartNumber.TITLE, name="part_number", optional=True),
         ],
-        back_link=back_link,
+        back_link=Breadcrumbs(
+            [
+                BackLink("Hub", "/"),
+                BackLink("Products", "/goods"),
+                BackLink("Add a product")
+            ]
+        ),
         default_button_name=CreateGoodForm.BUTTON,
     )
 
