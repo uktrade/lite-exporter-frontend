@@ -31,23 +31,25 @@ from lite_forms.generators import confirm_form
 from lite_forms.styles import ButtonStyle
 
 
-def add_goods_questions(allow_query=True, back_link=BackLink):
-    if allow_query:
+def add_goods_questions(inside_application: bool):
+    if inside_application:
+        title = CreateGoodForm.TITLE
+        description = CreateGoodForm.IsControlled.CLC_REQUIRED
+        is_your_good_controlled_options = [
+            Option(key="yes", value=CreateGoodForm.IsControlled.YES, show_pane="pane_control_code"),
+            Option(key="no", value=CreateGoodForm.IsControlled.NO),
+        ]
+    else:
+        title = "Add a product to your organisation"
         description = CreateGoodForm.IsControlled.DESCRIPTION
         is_your_good_controlled_options = [
             Option(key="yes", value=CreateGoodForm.IsControlled.YES, show_pane="pane_control_code"),
             Option(key="no", value=CreateGoodForm.IsControlled.NO),
             Option(key="unsure", value=CreateGoodForm.IsControlled.UNSURE),
         ]
-    else:
-        description = CreateGoodForm.IsControlled.CLC_REQUIRED
-        is_your_good_controlled_options = [
-            Option(key="yes", value=CreateGoodForm.IsControlled.YES, show_pane="pane_control_code"),
-            Option(key="no", value=CreateGoodForm.IsControlled.NO),
-        ]
 
     form = Form(
-        title=CreateGoodForm.TITLE,
+        title=title,
         questions=[
             TextArea(
                 title=CreateGoodForm.Description.TITLE,
