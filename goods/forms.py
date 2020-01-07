@@ -41,7 +41,7 @@ def add_goods_questions(application_pk=None):
                 title=CreateGoodForm.Description.TITLE,
                 description=CreateGoodForm.Description.DESCRIPTION,
                 name="description",
-                extras={"max_length": 280, },
+                extras={"max_length": 280},
             ),
             RadioButtons(
                 title=CreateGoodForm.IsControlled.TITLE,
