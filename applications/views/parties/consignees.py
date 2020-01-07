@@ -35,7 +35,7 @@ class SetConsignee(SetParty):
             form=new_party_form_group,
             action=post_consignee,
             strings=ConsigneeForm,
-            multiple=False
+            multiple=False,
         )
 
 
@@ -46,5 +46,5 @@ class RemoveConsignee(DeleteParty):
             action=delete_consignee,
             error="Unexpected error removing consignee",
             multiple=False,
-            **kwargs
+            **kwargs,
         )

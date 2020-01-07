@@ -30,8 +30,7 @@ class SetParty(MultiFormView):
     def get_success_url(self):
         if self.multiple:
             return reverse_lazy(
-                self.url,
-                kwargs={"pk": self.object_pk, "obj_pk": self.get_validated_data()[self.name]["id"]}
+                self.url, kwargs={"pk": self.object_pk, "obj_pk": self.get_validated_data()[self.name]["id"]}
             )
         else:
             return reverse_lazy(self.url, kwargs={"pk": self.object_pk})

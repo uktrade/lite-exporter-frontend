@@ -138,7 +138,11 @@ urlpatterns = [
         documents.DeleteDocument.as_view(),
         name="ultimate_end_user_delete_document",
     ),
-    path("<uuid:pk>/ultimate-end-users/add/", ultimate_end_users.AddUltimateEndUser.as_view(), name="add_ultimate_end_user"),
+    path(
+        "<uuid:pk>/ultimate-end-users/add/",
+        ultimate_end_users.AddUltimateEndUser.as_view(),
+        name="add_ultimate_end_user",
+    ),
     path(
         "<uuid:pk>/ultimate-end-users/<uuid:obj_pk>/remove/",
         ultimate_end_users.RemoveUltimateEndUser.as_view(),

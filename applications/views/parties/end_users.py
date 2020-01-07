@@ -36,7 +36,7 @@ class SetEndUser(SetParty):
             form=new_party_form_group,
             action=post_end_user,
             strings=EndUserForm,
-            multiple=False
+            multiple=False,
         )
 
 
@@ -47,5 +47,5 @@ class RemoveEndUser(DeleteParty):
             action=delete_end_user,
             error="Unexpected error removing end user",
             multiple=False,
-            **kwargs
+            **kwargs,
         )

@@ -27,7 +27,7 @@ class AddThirdParty(SetParty):
             action=post_third_party,
             form=third_party_forms,
             strings=ThirdPartyForm,
-            multiple=True
+            multiple=True,
         )
 
 
@@ -38,5 +38,5 @@ class RemoveThirdParty(DeleteParty):
             action=delete_third_party,
             error="Unexpected error removing third party user",
             multiple=True,
-            **kwargs
+            **kwargs,
         )
