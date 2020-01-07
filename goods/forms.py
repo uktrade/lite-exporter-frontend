@@ -33,9 +33,9 @@ from lite_forms.helpers import conditional
 from lite_forms.styles import ButtonStyle
 
 
-def add_goods_questions(is_application_flow: bool):
+def add_goods_questions(application_pk=None):
     return Form(
-        title=conditional(is_application_flow, CreateGoodForm.TITLE, "Add a product to your organisation"),
+        title=conditional(application_pk, CreateGoodForm.TITLE, "Add a product to your organisation"),
         questions=[
             TextArea(
                 title=CreateGoodForm.Description.TITLE,
@@ -46,16 +46,16 @@ def add_goods_questions(is_application_flow: bool):
             RadioButtons(
                 title=CreateGoodForm.IsControlled.TITLE,
                 description=conditional(
-                    is_application_flow,
-                    CreateGoodForm.IsControlled.CLC_REQUIRED,
+                    application_pk,
                     CreateGoodForm.IsControlled.DESCRIPTION,
+                    CreateGoodForm.IsControlled.CLC_REQUIRED,
                 ),
                 name="is_good_controlled",
                 options=[
                     Option(key="yes", value=CreateGoodForm.IsControlled.YES, show_pane="pane_control_code"),
                     Option(key="no", value=CreateGoodForm.IsControlled.NO),
                     conditional(
-                        not is_application_flow, Option(key="unsure", value=CreateGoodForm.IsControlled.UNSURE)
+                        not application_pk, Option(key="unsure", value=CreateGoodForm.IsControlled.UNSURE)
                     ),
                 ],
                 classes=["govuk-radios--inline"],
@@ -69,8 +69,9 @@ def add_goods_questions(is_application_flow: bool):
             ),
             TextInput(title=CreateGoodForm.PartNumber.TITLE, name="part_number", optional=True),
         ],
-        back_link=conditional(is_application_flow,
-                              BackLink("Back", "#"),
+        back_link=conditional(application_pk,
+                              BackLink("Back", reverse_lazy("applications:goods",
+                                                            kwargs={"pk": application_pk})),
                               Breadcrumbs([BackLink("Hub", "/"),
                                            BackLink("Products", "/goods"),
                                            BackLink("Add a product")])),
