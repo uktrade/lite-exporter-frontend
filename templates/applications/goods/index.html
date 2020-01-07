@@ -30,6 +30,7 @@
 					<th scope="col" class="govuk-table__header">Control list classification</th>
 					<th scope="col" class="govuk-table__header">Quantity</th>
 					<th scope="col" class="govuk-table__header">Value</th>
+					<th scope="col" class="govuk-table__header">Incorporated</th>
 					<th scope="col" class="govuk-table__header"></th>
 				</tr>
 			</thead>
@@ -51,6 +52,9 @@
 						</td>
 						<td class="govuk-table__cell">
 							£{{ good_on_application.value|intcomma }}
+						</td>
+						<td class="govuk-table__cell">
+							{{ good_on_application.is_good_incorporated|friendly_boolean }}
 						</td>
 						<td class="govuk-table__cell govuk-table__cell--numeric">
 							<a class="govuk-link lite-link--icon" href="{% url 'applications:remove_preexisting_good' application.id good_on_application.id %}">
