@@ -34,46 +34,38 @@
             </a>
         </div>
         <form id="filters" action="{% url 'goods:goods'%}" method="get">
-
             <div class="govuk-grid-row lite-filter-bar">
-			<div method="get">
-				<div class="govuk-grid-column-one-quarter">
+				<div class="govuk-grid-column-one-third">
 					<label class="govuk-label" for="description">
 						{% lcs 'goods.GoodsList.Filter.DESCRIPTION' %}
 					</label>
 					<input class="govuk-input" id="description" name="description" type="text" autocomplete="off" autocorrect="off"  value="{{ description }}">
 				</div>
-                <div class="govuk-grid-column-one-quarter">
+                <div class="govuk-grid-column-one-third">
 					<label class="govuk-label" for="control_rating">
 						{% lcs 'goods.GoodsList.Filter.CONTROL_LIST_ENTRY' %}
 					</label>
 					<input class="govuk-input" id="control_rating" name="control_rating" type="text" autocomplete="off" autocorrect="off"  value="{{ control_code }}">
 				</div>
-				<div class="govuk-grid-column-one-quarter">
+				<div class="govuk-grid-column-one-third">
 					<label class="govuk-label" for="part_number">
 						{% lcs 'goods.GoodsList.Filter.PART_NUMBER' %}
 					</label>
 					<input class="govuk-input" id="part_number" name="part_number" type="text" autocomplete="off" autocorrect="off"  value="{{ part_number }}">
 				</div>
-				<div class="govuk-grid-column-one-quarter">
-                     <label class="govuk-label" for="filter">
-                        --
-                    </label>
-                    <div class="lite-buttons-row">
-                        <button type="submit" form="filters" class="govuk-button" id="button-apply-filters">
-						    {% lcs 'goods.GoodsList.Filter.APPLY' %}
-                        </button>
-                        <a href="{% url 'goods:goods' %}" class="govuk-button govuk-button--secondary" id="button-clear-filters">
-	                        {% lcs 'goods.GoodsList.Filter.CLEAR' %}
-	                    </a>
-                    </div>
-				</div>
-            </div>
+				<div class="govuk-grid-column-one-third govuk-!-margin-top-6">
+                    <button type="submit" form="filters" class="govuk-button govuk-!-margin-0" id="button-apply-filters">
+					    {% lcs 'goods.GoodsList.Filter.APPLY' %}
+                    </button>
+                    <a href="{% url 'goods:goods' %}" class="govuk-button govuk-!-margin-bottom-0 govuk-!-margin-left-3 govuk-button--secondary govuk-button--secondary-white" id="button-clear-filters">
+                        {% lcs 'goods.GoodsList.Filter.CLEAR' %}
+                    </a>
+                </div>
             </div>
         </form>
     {% endif %}
 
-    <p class="govuk-caption-m govuk-!-margin-top-0">
+    <p class="govuk-caption-m govuk-!-margin-top-1">
         {% if not filtered %}
             {% include 'includes/pluralise.html' with count=goods.count base_constant='goods.GoodsList.Count.ORGANISATION' %}
         {% else %}
