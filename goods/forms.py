@@ -54,7 +54,9 @@ def add_goods_questions(is_application_flow: bool):
                 options=[
                     Option(key="yes", value=CreateGoodForm.IsControlled.YES, show_pane="pane_control_code"),
                     Option(key="no", value=CreateGoodForm.IsControlled.NO),
-                    conditional(not is_application_flow, Option(key="unsure", value=CreateGoodForm.IsControlled.UNSURE)),
+                    conditional(
+                        not is_application_flow, Option(key="unsure", value=CreateGoodForm.IsControlled.UNSURE)
+                    ),
                 ],
                 classes=["govuk-radios--inline"],
             ),
