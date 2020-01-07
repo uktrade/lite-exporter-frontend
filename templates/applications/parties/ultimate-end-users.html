@@ -22,12 +22,11 @@
 	<div class="lite-app-bar">
 		<div class="lite-app-bar__content">
 			<h1 class="govuk-heading-l">{% block title %}{% lcs 'third_parties.UltimateEndUsers.TITLE' %}{% endblock%}</h1>
-			<p class="govuk-caption-m">{% lcs 'UltimateEndUser.OVERVIEW_DESCRIPTION' %}</p>
 		</div>
         {% if application.status.key in 'applicant_editing,draft' %}
 		<div class="lite-app-bar__controls">
 			<a href="{% url 'applications:add_ultimate_end_user' application.id %}" class="govuk-button" draggable="false" role="button">
-				Add an ultimate end user
+				{% lcs "third_parties.UltimateEndUsers.ADD_BUTTON" %}
 			</a>
 		</div>
         {% endif %}
@@ -84,6 +83,6 @@
 			</tbody>
 		</table>
 	{% else %}
-		<p class="govuk-caption-l">You haven't added any ultimate end users to the application</p>
+		{% include "includes/notice.html" with text="third_parties.UltimateEndUsers.NOTICE" help_title="third_parties.UltimateEndUsers.HELP" help="third_parties.UltimateEndUsers.DESCRIPTION" %}
 	{% endif %}
 {% endblock %}
