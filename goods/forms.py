@@ -72,8 +72,8 @@ def add_goods_questions(application_pk=None):
         back_link=conditional(application_pk,
                               BackLink("Back", reverse_lazy("applications:goods",
                                                             kwargs={"pk": application_pk})),
-                              Breadcrumbs([BackLink("Hub", "/"),
-                                           BackLink("Products", "/goods"),
+                              Breadcrumbs([BackLink("LITE", reverse_lazy("core:hub")),
+                                           BackLink("Products", reverse_lazy("goods:goods")),
                                            BackLink("Add a product")])),
         default_button_name=CreateGoodForm.BUTTON,
     )
