@@ -211,6 +211,12 @@ def delete_consignee(request, pk):
     return data.status_code
 
 
+# Existing Parties
+def get_existing_parties(request, pk):
+    data = get(request, APPLICATIONS_URL + str(pk) + "/existing-parties/")
+    return data.json(), data.status_code
+
+
 # Consignee Documents
 def get_consignee_document(request, pk):
     data = get(request, APPLICATIONS_URL + pk + CONSIGNEE_DOCUMENT_URL)

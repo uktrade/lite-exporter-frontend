@@ -1,9 +1,10 @@
-from django.urls import reverse_lazy
-from django.shortcuts import redirect
-from django.views.generic import TemplateView
 from http import HTTPStatus
 
-from applications.services import get_application
+from django.shortcuts import redirect, render
+from django.urls import reverse_lazy
+from django.views.generic import TemplateView
+
+from applications.services import get_application, get_existing_parties
 from lite_forms.generators import error_page
 from lite_forms.views import MultiFormView
 
@@ -57,3 +58,19 @@ class DeleteParty(TemplateView):
             return error_page(request, self.error)
 
         return redirect(reverse_lazy(self.url, kwargs={"pk": application_id}))
+
+
+class CopyExistingParty(TemplateView):
+    def get(self, request, **kwargs):
+        """
+        List of existing parties
+        """
+        application_id = str(kwargs["pk"])
+        parties, status_code = get_existing_parties(request, application_id)
+
+        context = {
+            "title": "Existing Parties",
+            "draft_id": application_id,
+            "data": parties["parties"],
+        }
+        return render(request, "applications/parties/preexisting.html", context)
