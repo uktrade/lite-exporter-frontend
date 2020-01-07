@@ -143,13 +143,13 @@ def get_ultimate_end_users(request, pk):
 
 
 def post_ultimate_end_user(request, pk, json):
-    data = post(request, APPLICATIONS_URL + pk + "/ultimate-end-users/", json)
+    data = post(request, APPLICATIONS_URL + str(pk) + "/ultimate-end-users/", json)
     return data.json(), data.status_code
 
 
 def delete_ultimate_end_user(request, pk, obj_pk):
     data = delete(request, APPLICATIONS_URL + pk + "/ultimate-end-users/" + obj_pk)
-    return data.json(), data.status_code
+    return data.status_code
 
 
 # Ultimate end user Documents
@@ -175,7 +175,7 @@ def get_third_parties(request, pk):
 
 
 def post_third_party(request, pk, json):
-    data = post(request, APPLICATIONS_URL + pk + THIRD_PARTIES_URL, json)
+    data = post(request, APPLICATIONS_URL + str(pk) + THIRD_PARTIES_URL, json)
     return data.json(), data.status_code
 
 

@@ -24,7 +24,7 @@ def _third_party_type_form(application, title, button, options):
     )
 
 
-def third_party_forms(application):
+def third_party_forms(application, strings):
     form_options = option_list.copy()
     if application["export_type"] and application["export_type"]["key"] == "permanent":
         del form_options["additional_end_user"]
@@ -34,9 +34,9 @@ def third_party_forms(application):
 
     return FormGroup(
         [
-            _third_party_type_form(application, ThirdPartyForm.TITLE, ThirdPartyForm.BUTTON, options),
-            _party_name_form(ThirdPartyForm.NAME_FORM_TITLE, ThirdPartyForm.BUTTON),
-            _party_website_form(ThirdPartyForm.WEBSITE_FORM_TITLE, ThirdPartyForm.BUTTON),
-            _party_address_form(ThirdPartyForm.ADDRESS_FORM_TITLE, ThirdPartyForm.SUBMIT_BUTTON),
+            _third_party_type_form(application, strings.TITLE, strings.BUTTON, options),
+            _party_name_form(strings.NAME_FORM_TITLE, strings.BUTTON),
+            _party_website_form(strings.WEBSITE_FORM_TITLE, strings.BUTTON),
+            _party_address_form(strings.ADDRESS_FORM_TITLE, strings.SUBMIT_BUTTON),
         ]
     )
