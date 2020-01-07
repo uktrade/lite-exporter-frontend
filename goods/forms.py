@@ -205,7 +205,7 @@ def respond_to_query_form(good_id, ecju_query):
                 name="response",
                 title=RespondToQueryForm.Response.TITLE,
                 description=RespondToQueryForm.Response.DESCRIPTION,
-                extras={"max_length": 2200, },
+                extras={"max_length": 2200},
             ),
             HiddenField(name="form_name", value="respond_to_query"),
         ],
