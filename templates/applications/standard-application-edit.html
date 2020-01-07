@@ -105,32 +105,6 @@
 							</div>
 						{% endif %}
 		            </div>
-					<div class="lite-task-list__item-details">
-						{% if goods %}
-							<table class="govuk-table">
-								<tbody class="govuk-table__body">
-									<tr class="govuk-table__row">
-										<th class="govuk-table__header" scope="row">Description</th>
-										<th class="govuk-table__header" scope="row">Part Number</th>
-										<th class="govuk-table__header" scope="row">Qty</th>
-										<th class="govuk-table__header" scope="row">Unit</th>
-										<th class="govuk-table__header" scope="row">Value</th>
-										<th class="govuk-table__header" scope="row"></th>
-									</tr>
-									{% for good in goods %}
-										<tr class="govuk-table__row" id="good-on-application-row-{{ good.id }}">
-											<td class="govuk-table__cell" scope="row">{{ good.good.description }}</td>
-											<td class="govuk-table__cell" scope="row">{{ good.good.part_number|default_na }}</td>
-											<td class="govuk-table__cell" scope="row">{{ good.quantity }}</td>
-											<td class="govuk-table__cell" scope="row">{{ good.unit.value }}</td>
-											<td class="govuk-table__cell" scope="row">£{{ good.value|intcomma }}</td>
-										</tr>
-									{% endfor %}
-								</tbody>
-							</table>
-                            <p class="govuk-!-font-weight-bold">Total value: £{{ goods_value|intcomma }}</p>
-						{% endif %}
-					</div>
 		        </li>
 
 		        <!-- Add products -->
