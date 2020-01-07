@@ -95,7 +95,7 @@
 				{% tld goods 'product' 'products' as goods_description %}
 				{% include "includes/task-list-item.html" with id='products' title=goods_title url=goods_url status=goods|task_list_item_status description=goods_description %}
 
-		        <!-- Add products -->
+		        <!-- Goods locations -->
 		        <li class="lite-task-list__item">
 					<div class="lite-task-list__item-header">
 						<a id="location" href="{% url 'applications:location' application.id %}" class="lite-overview-section-header govuk-link govuk-link--no-visited-state">
