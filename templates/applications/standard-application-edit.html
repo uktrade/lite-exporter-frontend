@@ -90,22 +90,10 @@
 			</h2>
 		    <ul class="lite-task-list__items {% if is_editing %}govuk-!-padding-0{% endif %}">
 		        <!-- Goods -->
-		        <li class="lite-task-list__item">
-					<div class="lite-task-list__item-header">
-                        <a id="standard-goods" href="{% url 'applications:goods' application.id %}" class="govuk-link govuk-link--no-visited-state">
-                            Goods
-                        </a>
-						{% if goods|length %}
-							<div class="lite-tag lite-tag--blue">
-								Done
-							</div>
-						{% else %}
-							<div class="lite-tag lite-tag--hollow">
-								Not started
-							</div>
-						{% endif %}
-		            </div>
-		        </li>
+				{% lcs 'goods.GoodsList.TITLE' as goods_title %}
+				{% url 'applications:goods' application.id as goods_url %}
+				{% tld goods 'product' 'products' as goods_description %}
+				{% include "includes/task-list-item.html" with title=goods_title url=goods_url status=goods|task_list_item_status description=goods_description %}
 
 		        <!-- Add products -->
 		        <li class="lite-task-list__item">
