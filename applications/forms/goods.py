@@ -11,7 +11,7 @@ def good_on_application_form(good, units, title, prefix=""):
         questions=[
             conditional(good, good_summary(good)),
             conditional(good, HiddenField(name="good_id", value=good.get("id"))),
-            CurrencyInput(title=strings.goods.CreateGoodOnApplicationForm.VALUE, name=prefix + "value"),
+            CurrencyInput(title=strings.goods.CreateGoodOnApplicationForm.TITLE, name=prefix + "value"),
             SideBySideSection(
                 questions=[
                     QuantityInput(title=strings.goods.CreateGoodOnApplicationForm.QUANTITY, name=prefix + "quantity"),
@@ -23,9 +23,10 @@ def good_on_application_form(good, units, title, prefix=""):
                 title="Is the good incorporated?",
                 description="Good incorporated description",
                 options=[
-                    Option("true", "Yes"),
-                    Option("false", "No")
-                ]
+                    Option(True, "Yes"),
+                    Option(False, "No")
+                ],
+                classes=["govuk-radios--inline"],
             )
         ],
         javascript_imports=["/assets/javascripts/specific/add_good.js"],

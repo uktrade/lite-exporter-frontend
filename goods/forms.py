@@ -41,7 +41,7 @@ def add_goods_questions(is_application_flow: bool):
                 title=CreateGoodForm.Description.TITLE,
                 description=CreateGoodForm.Description.DESCRIPTION,
                 name="description",
-                extras={"max_length": 280,},
+                extras={"max_length": 280, },
             ),
             RadioButtons(
                 title=CreateGoodForm.IsControlled.TITLE,
@@ -69,7 +69,11 @@ def add_goods_questions(is_application_flow: bool):
             ),
             TextInput(title=CreateGoodForm.PartNumber.TITLE, name="part_number", optional=True),
         ],
-        back_link=Breadcrumbs([BackLink("Hub", "/"), BackLink("Products", "/goods"), BackLink("Add a product")]),
+        back_link=conditional(is_application_flow,
+                              BackLink("Back", "#"),
+                              Breadcrumbs([BackLink("Hub", "/"),
+                                           BackLink("Products", "/goods"),
+                                           BackLink("Add a product")])),
         default_button_name=CreateGoodForm.BUTTON,
     )
 
@@ -106,7 +110,7 @@ def edit_form(good_id):
                 title=EditGoodForm.Description.TITLE,
                 description=EditGoodForm.Description.DESCRIPTION,
                 name="description",
-                extras={"max_length": 280,},
+                extras={"max_length": 280, },
             ),
             RadioButtons(
                 title=EditGoodForm.IsControlled.TITLE,
@@ -200,7 +204,7 @@ def respond_to_query_form(good_id, ecju_query):
                 name="response",
                 title=RespondToQueryForm.Response.TITLE,
                 description=RespondToQueryForm.Response.DESCRIPTION,
-                extras={"max_length": 2200,},
+                extras={"max_length": 2200, },
             ),
             HiddenField(name="form_name", value="respond_to_query"),
         ],
