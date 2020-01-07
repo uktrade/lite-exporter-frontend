@@ -46,17 +46,13 @@ def add_goods_questions(application_pk=None):
             RadioButtons(
                 title=CreateGoodForm.IsControlled.TITLE,
                 description=conditional(
-                    application_pk,
-                    CreateGoodForm.IsControlled.DESCRIPTION,
-                    CreateGoodForm.IsControlled.CLC_REQUIRED,
+                    application_pk, CreateGoodForm.IsControlled.DESCRIPTION, CreateGoodForm.IsControlled.CLC_REQUIRED,
                 ),
                 name="is_good_controlled",
                 options=[
                     Option(key="yes", value=CreateGoodForm.IsControlled.YES, show_pane="pane_control_code"),
                     Option(key="no", value=CreateGoodForm.IsControlled.NO),
-                    conditional(
-                        not application_pk, Option(key="unsure", value=CreateGoodForm.IsControlled.UNSURE)
-                    ),
+                    conditional(not application_pk, Option(key="unsure", value=CreateGoodForm.IsControlled.UNSURE)),
                 ],
                 classes=["govuk-radios--inline"],
             ),
@@ -69,12 +65,17 @@ def add_goods_questions(application_pk=None):
             ),
             TextInput(title=CreateGoodForm.PartNumber.TITLE, name="part_number", optional=True),
         ],
-        back_link=conditional(application_pk,
-                              BackLink("Back", reverse_lazy("applications:goods",
-                                                            kwargs={"pk": application_pk})),
-                              Breadcrumbs([BackLink("LITE", reverse_lazy("core:hub")),
-                                           BackLink("Products", reverse_lazy("goods:goods")),
-                                           BackLink("Add a product")])),
+        back_link=conditional(
+            application_pk,
+            BackLink("Back", reverse_lazy("applications:goods", kwargs={"pk": application_pk})),
+            Breadcrumbs(
+                [
+                    BackLink("LITE", reverse_lazy("core:hub")),
+                    BackLink("Products", reverse_lazy("goods:goods")),
+                    BackLink("Add a product"),
+                ]
+            ),
+        ),
         default_button_name=CreateGoodForm.BUTTON,
     )
 
@@ -111,7 +112,7 @@ def edit_form(good_id):
                 title=EditGoodForm.Description.TITLE,
                 description=EditGoodForm.Description.DESCRIPTION,
                 name="description",
-                extras={"max_length": 280, },
+                extras={"max_length": 280,},
             ),
             RadioButtons(
                 title=EditGoodForm.IsControlled.TITLE,

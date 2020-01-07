@@ -1,7 +1,15 @@
 from goods.helpers import good_summary
 from lite_content.lite_exporter_frontend import strings
-from lite_forms.components import Form, HiddenField, SideBySideSection, Select, QuantityInput, CurrencyInput, \
-    RadioButtons, Option
+from lite_forms.components import (
+    Form,
+    HiddenField,
+    SideBySideSection,
+    Select,
+    QuantityInput,
+    CurrencyInput,
+    RadioButtons,
+    Option,
+)
 from lite_forms.helpers import conditional
 
 
@@ -19,15 +27,12 @@ def good_on_application_form(good, units, title, prefix=""):
                 ]
             ),
             RadioButtons(
-                name='is_good_incorporated',
+                name="is_good_incorporated",
                 title="Is the good incorporated?",
                 description="Good incorporated description",
-                options=[
-                    Option(True, "Yes"),
-                    Option(False, "No")
-                ],
+                options=[Option(True, "Yes"), Option(False, "No")],
                 classes=["govuk-radios--inline"],
-            )
+            ),
         ],
         javascript_imports=["/assets/javascripts/add_good.js"],
     )
