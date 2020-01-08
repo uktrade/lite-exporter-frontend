@@ -1,8 +1,6 @@
-from lite_forms.components import RadioButtons, Form, Option, FormGroup
-
-from lite_content.lite_exporter_frontend.applications import ThirdPartyForm, PartyForm
 from applications.forms.parties import party_name_form, party_website_form, party_address_form
-from applications.components import back_to_task_list
+from lite_content.lite_exporter_frontend.applications import ThirdPartyForm, PartyForm
+from lite_forms.components import RadioButtons, Form, Option, FormGroup
 
 option_list = {
     "agent": ThirdPartyForm.Options.AGENT,
