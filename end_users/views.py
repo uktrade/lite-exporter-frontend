@@ -33,7 +33,7 @@ class EndUsersList(TemplateView):
         notifications = get_notifications(request, unviewed=True)
 
         context = {
-            "title": "End User Advisories",
+            "title": "End user advisories",
             "end_users": end_users,
             "notifications": group_notifications(notifications),
         }
@@ -154,7 +154,7 @@ class EndUserDetail(TemplateView):
         )
 
         context = {
-            "title": "End User Advisory",
+            "title": "End user advisory",
             "case_id": self.case_id,
             "end_user_advisory": self.end_user_advisory,
             "case_note_notifications": case_note_notifications,

@@ -72,7 +72,7 @@ class GoodsList(TemplateView):
 
 @method_decorator(csrf_exempt, "dispatch")
 class AddNewGood(TemplateView):
-    title = "Add Good"
+    title = "Add product"
     form = None
     form_num = None
     application_id = None

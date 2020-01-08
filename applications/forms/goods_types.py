@@ -11,7 +11,7 @@ def goods_type_form():
         questions=[
             TextArea(title="Description", name="description", extras={"max_length": 2000,}),
             RadioButtons(
-                title="Are your products controlled?",
+                title="Is the product on the control list?",
                 description="Products that aren't on the <a class='govuk-link' target='_blank' "
                 "href='https://permissions-finder.service.trade.gov.uk/'>control list</a> "
                 "may be affected by military end use controls, current trade sanctions and embargoes or weapons of "

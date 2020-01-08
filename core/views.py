@@ -40,7 +40,7 @@ class Hub(TemplateView):
 
         if organisation.get("type").get("key") == "hmrc":
             sections = [
-                Section("", [Tile("Make a Customs enquiry", "", reverse_lazy("hmrc:raise_a_query")),]),
+                Section("", [Tile("Make a customs enquiry", "", reverse_lazy("hmrc:raise_a_query")),]),
                 Section(
                     "Manage",
                     [
@@ -68,12 +68,12 @@ class Hub(TemplateView):
                             reverse_lazy("applications:applications"),
                         ),
                         Tile(
-                            "Goods",
+                            "Product list",
                             generate_notification_string(notifications, "control_list_classification_query"),
                             reverse_lazy("goods:goods"),
                         ),
                         Tile(
-                            "End User Advisories",
+                            "End user advisories",
                             generate_notification_string(notifications, "end_user_advisory_query"),
                             reverse_lazy("end_users:end_users"),
                         ),

@@ -13,7 +13,7 @@
 			<div class="lite-error-summary__body">
 				<ul class="govuk-list lite-error-summary__list">
 					<li>
-						<a href="#">You still need to attach a document to some ultimate end users</a>
+						<a href="#">You need to attach a document to some ultimate recipients</a>
 					</li>
 				</ul>
 			</div>
@@ -22,13 +22,13 @@
 
 	<div class="lite-app-bar">
 		<div class="lite-app-bar__content">
-			<h1 class="govuk-heading-l">{% block title %}Ultimate end users{% endblock%}</h1>
+			<h1 class="govuk-heading-l">{% block title %}Ultimate recipients{% endblock%}</h1>
 			<p class="govuk-caption-m">{% get_string 'ultimate_end_user.overview_description' %}</p>
 		</div>
         {% if application.status.key in 'applicant_editing,draft' %}
 		<div class="lite-app-bar__controls">
 			<a href="{% url 'applications:add_ultimate_end_user' application.id %}" class="govuk-button" draggable="false" role="button">
-				Add an ultimate end user
+				Add an ultimate recipient
 			</a>
 		</div>
         {% endif %}
@@ -85,7 +85,7 @@
 			</tbody>
 		</table>
 	{% else %}
-		<p class="govuk-caption-l">You haven't added any ultimate end users to the application</p>
+		<p class="govuk-caption-l">You haven't added any ultimate recipients to the application</p>
 	{% endif %}
 
 {% endblock %}

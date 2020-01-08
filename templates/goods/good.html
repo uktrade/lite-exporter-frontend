@@ -3,7 +3,7 @@
 {% load svg static %}
 
 {% block back_link %}
-	<a href="{% url 'goods:goods' %}" id="back-link" class="govuk-back-link">Back to goods</a>
+	<a href="{% url 'goods:goods' %}" id="back-link" class="govuk-back-link">Back to products</a>
 {% endblock %}
 
 {% block body %}
@@ -11,7 +11,7 @@
 	{% if good.status.key == 'verified' %}
 		<div class="lite-info-bar lite-info-bar--no-animation app-info-bar--verified">
 			{% svg 'verified' %}
-			This good has been verified by ECJU based on the information provided
+			This product has been verified by ECJU based on the information provided
 		</div>
 	{% endif %}
 
@@ -22,13 +22,13 @@
 				<div class="lite-app-bar__content">
 					<h2 class="govuk-heading-l">
 						{% block title %}
-							Good
+							Product
 						{% endblock %}
 					</h2>
 				</div>
 				{% if good.status.key == 'draft' %}
 					<div class="lite-app-bar__controls">
-						<a href="{% url 'goods:edit' good.id %}" id="edit-{{ good.id }}" class="govuk-button govuk-button--secondary" style="margin: 0;">Edit good</a>
+						<a href="{% url 'goods:edit' good.id %}" id="edit-{{ good.id }}" class="govuk-button govuk-button--secondary" style="margin: 0;">Edit product</a>
 					</div>
 				{% endif %}
 			</div>
@@ -36,13 +36,13 @@
 			<!-- Notify the user if their good has a special status -->
 			{% if good.status.key == 'clc_query' %}
 				<div class="govuk-inset-text">
-					Your good is currently being reviewed by ECJU. It'll have limited functionality until the review is complete.
+					Your product is currently being reviewed by ECJU. It has limited functionality until the review is complete.
 				</div>
 				<br>
 			{% endif %}
 
 			{% if good.query_id %}
-				<h3 class="govuk-heading-m">Your Query</h3>
+				<h3 class="govuk-heading-m">Your query</h3>
 				<dl class="govuk-summary-list">
 					<div class="govuk-summary-list__row">
 						<dt class="govuk-summary-list__key">
@@ -56,20 +56,19 @@
 
 				<br><br>
 
-				<h3 class="govuk-heading-m">Your Good</h3>
+				<h3 class="govuk-heading-m">Product</h3>
 			{% endif %}
 
 			{% if good.status.key == 'submitted' %}
 				<div class="govuk-inset-text">
-					Your good has been used in an application and can therefore no longer be changed.
+					Your product has been used in an application and can therefore no longer be changed.
 				</div>
 				<br>
 			{% endif %}
 
 			{% if good.status.key == 'draft' %}
 				<div class="govuk-inset-text">
-					If you're unsure about whether your good is controlled or not, you can <a href="{% url 'goods:raise_clc_query' good.id %}" class="govuk-link govuk-link--no-visited-state">raise a query</a> to
-					get help from ECJU.
+					If you're unsure the product is controlled or not, you can <a href="{% url 'goods:raise_clc_query' good.id %}" class="govuk-link govuk-link--no-visited-state">raise a control list classification (CLC) query</a>.
 				</div>
 				<br>
 			{% endif %}
@@ -86,7 +85,7 @@
 				</div>
 				<div class="govuk-summary-list__row">
 					<dt class="govuk-summary-list__key">
-						Is the good controlled?
+						Is the product on the control list?
 					</dt>
 					<dd class="govuk-summary-list__value">
 						{{ good.is_good_controlled|title }}
@@ -95,7 +94,7 @@
 				{% if good.control_code %}
 					<div class="govuk-summary-list__row">
 						<dt class="govuk-summary-list__key">
-							Control list entry
+							Control list classification
 						</dt>
 						<dd class="govuk-summary-list__value">
 							{{ good.control_code }}
@@ -104,7 +103,7 @@
 				{% endif %}
 				<div class="govuk-summary-list__row">
 					<dt class="govuk-summary-list__key">
-						Part Number
+						Part number
 					</dt>
 					<dd class="govuk-summary-list__value">
 						{{ good.part_number|default:"N/A" }}
@@ -112,7 +111,7 @@
 				</div>
 				<div class="govuk-summary-list__row">
 					<dt class="govuk-summary-list__key">
-						Is the good intended to be incorporated into an end product?
+						Will the product be incorporated into another product?
 					</dt>
 					<dd class="govuk-summary-list__value">
 						{{ good.is_good_end_product|friendly_boolean }}
@@ -183,7 +182,7 @@
 					<span class="lite-information-text__icon" aria-hidden="true">!</span>
 					<p class="lite-information-text__text">
 					<span class="govuk-visually-hidden">Information</span>
-						This good has no documents attached
+						The product has no documents attached
 					</p>
 				</div>
 		    {% endif %}
@@ -200,7 +199,7 @@
 		                {% endif %}
 				    </a>
 		            <a href="{% url 'goods:good_detail' good.id 'ecju-queries' %}" class="lite-tabs__tab {% if type == 'ecju-queries' %}lite-tabs__tab--selected{% endif %}" id="link-ecju-queries">
-		                ECJU Queries
+		                ECJU queries
 		                {% if ecju_query_notifications %}
 		                    <div class="lite-notification-bubble">
 		                        {{ ecju_query_notifications }}

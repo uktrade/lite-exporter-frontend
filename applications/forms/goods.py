@@ -14,7 +14,7 @@ def good_on_application_form(good, units, title, prefix=""):
         questions=[
             conditional(good, good_summary(good)),
             conditional(good, HiddenField(name="good_id", value=good.get("id"))),
-            CurrencyInput(title="What's the value of your products?", name=prefix + "value"),
+            CurrencyInput(title="Total value", name=prefix + "value"),
             SideBySideSection(
                 questions=[
                     QuantityInput(title="Quantity", name=prefix + "quantity"),

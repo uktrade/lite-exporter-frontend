@@ -42,7 +42,7 @@ def add_goods_questions(allow_query=True, back_link=BackLink, prefix=""):
         questions=[
             TextArea(title="Description", description="", name=prefix + "description", extras={"max_length": 280,},),
             RadioButtons(
-                title="Is the product controlled?",
+                title="Is the product on the control list?",
                 description=description,
                 name=prefix + "is_good_controlled",
                 options=is_your_good_controlled_options,
@@ -51,8 +51,7 @@ def add_goods_questions(allow_query=True, back_link=BackLink, prefix=""):
             control_list_entry_question(
                 control_list_entries=get_control_list_entries(None, convert_to_options=True),
                 title="Control list classification",
-                description="<noscript>If your product is controlled, enter its "
-                "control list classification. </noscript>For example, ML1a.",
+                description="For example, ML1a.",
                 name=prefix + "control_code",
                 inset_text=False,
             ),
@@ -77,14 +76,14 @@ def are_you_sure(good_id):
         description=get_string("clc.clc_form.description"),
         questions=[
             TextInput(
-                title="What do you think is your product's control list entry?",
+                title="What do you think is the product's control list classification? (optional)",
                 description="For example, ML1a.",
                 optional=True,
                 name="not_sure_details_control_code",
             ),
             TextArea(
-                title="Further details about your product",
-                description="Please enter details of why you don't know if your product is controlled",
+                title="Product details (optional)",
+                description="Include details of why you don't know if the product is controlled.",
                 optional=True,
                 name="not_sure_details_details",
             ),
@@ -99,10 +98,12 @@ def edit_form(good_id):
         questions=[
             TextArea(title="Description", description="", name="description", extras={"max_length": 280,},),
             RadioButtons(
-                title="Is the product controlled?",
-                description='If you don\'t know you can use <a class="govuk-link" href="'
+                title="Is the product on the control list?",
+                description='Products that aren\'t on the <a class="govuk-link" href="'
                 + env("PERMISSIONS_FINDER_URL")
-                + '">Permissions Finder</a>.',
+                + '">Permissions Finder</a> may be affected by military end use controls, current trade sanctions and embargoes or '
+                + 'weapons of mass destruction controls. If the product isn\'t subject to any controls, you\'ll get a no '
+                + 'licence required (NLR) document from ECJU.',
                 name="is_good_controlled",
                 options=[
                     Option(key="yes", value="Yes", show_pane="pane_control_code"),
@@ -114,7 +115,7 @@ def edit_form(good_id):
             control_list_entry_question(
                 control_list_entries=get_control_list_entries(None, convert_to_options=True),
                 title="Control list classification",
-                description="<noscript>If your product is controlled, enter its control list classification. </noscript>For example, ML1a.",
+                description="For example, ML1a.",
                 name="control_code",
                 inset_text=False,
             ),
@@ -171,7 +172,7 @@ def respond_to_query_form(good_id, ecju_query):
             TextArea(
                 name="response",
                 title="Your response",
-                description="You won't be able to edit this once you've submitted it.",
+                description="You won't be able to edit the response once it's submitted.",
                 extras={"max_length": 2200},
             ),
             HiddenField(name="form_name", value="respond_to_query"),
@@ -185,11 +186,11 @@ def respond_to_query_form(good_id, ecju_query):
 
 def ecju_query_respond_confirmation_form(edit_response_url):
     return confirm_form(
-        title="Are you sure you want to send this response?",
+        title="Confirm you want to send the response?",
         confirmation_name="confirm_response",
         hidden_field="ecju_query_response_confirmation",
-        yes_label="Yes, send the response",
-        no_label="No, change my response",
+        yes_label="Confirm and send the response",
+        no_label="Cancel and change the response",
         back_link_text="Back to edit response",
         back_url=edit_response_url,
     )
@@ -197,10 +198,10 @@ def ecju_query_respond_confirmation_form(edit_response_url):
 
 def delete_good_form(good):
     return Form(
-        title="Are you sure you want to delete this product?",
+        title="Confirm you want to delete this product",
         questions=[good_summary(good)],
         buttons=[
-            Button(value="Yes, delete the product", action="submit", style=ButtonStyle.WARNING),
+            Button(value="Confirm and delete the product", action="submit", style=ButtonStyle.WARNING),
             Button(
                 value="Cancel",
                 action="",

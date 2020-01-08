@@ -12,20 +12,20 @@
 		<div class="lite-app-bar__content">
 			<h2 class="govuk-heading-l">
 				{% block title %}
-					Goods
+					Products
 				{% endblock %}
 			</h2>
 			<p class="govuk-caption-m">
 				{% if goods|length == 0 %}
-					Your organisation doesn't have any goods.
+					Your organisation doesn't have any products.
 				{% else %}
-					Your organisation has {{ goods|length|apnumber }} good{{ goods|pluralize }}.
+					Your organisation has {{ goods|length|apnumber }} product{{ goods|pluralize }}.
 				{% endif %}
 			</p>
 		</div>
 		<div class="lite-app-bar__controls">
 			<a href="{% url 'goods:add' %}" id="add-a-good" class="govuk-button" draggable="false" role="button">
-				Add a good
+				Add a products
 			</a>
 		</div>
 	</div>
@@ -35,7 +35,7 @@
 			<thead class="govuk-table__head">
 				<tr class="govuk-table__row">
 					<th class="govuk-table__header" scope="col">Description</th>
-					<th class="govuk-table__header" scope="col" style="min-width: 150px">Control list entry</th>
+					<th class="govuk-table__header" scope="col" style="min-width: 150px">Control list classification</th>
 					<th class="govuk-table__header" scope="col">Part number</th>
 					<th class="govuk-table__header" scope="col">Status</th>
 				</tr>
