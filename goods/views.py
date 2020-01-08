@@ -111,7 +111,7 @@ class GoodsDetail(TemplateView):
             "good": self.good,
             "documents": documents,
             "type": self.view_type,
-            "control_list_entry_text": control_list_entry_text
+            "control_list_entry_text": control_list_entry_text,
         }
 
         if self.good["query"]:
