@@ -217,6 +217,7 @@ def i_click_application_locations_link(driver):  # noqa
 )
 def add_new_end_user(driver, type, name, website, address, country, context):  # noqa
     add_end_user_pages = AddEndUserPages(driver)
+    add_end_user_pages.create_new_or_copy_existing(copy_existing=False)
     add_end_user_pages.select_type(type)
     context.type_end_user = type
     functions.click_submit(driver)

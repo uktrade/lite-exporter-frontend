@@ -1,10 +1,18 @@
 from shared.BasePage import BasePage
+from shared import functions
 
 
 class AddEndUserPages(BasePage):
-
     ADD_NEW_ADDRESS_BUTTON = 'a[href*="add"]'
     TYPE_CHOICES = "sub_type-"
+    CREATE_NEW_CONFIRMATION = "copy_existing"  # ID
+
+    def create_new_or_copy_existing(self, copy_existing: bool):
+        if copy_existing:
+            self.driver.find_element_by_id(f"{self.CREATE_NEW_CONFIRMATION}-yes").click()
+        else:
+            self.driver.find_element_by_id(f"{self.CREATE_NEW_CONFIRMATION}-no").click()
+        functions.click_submit(self.driver)
 
     def enter_name(self, name):
         name_tb = self.driver.find_element_by_id("name")

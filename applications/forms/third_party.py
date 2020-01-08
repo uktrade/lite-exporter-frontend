@@ -15,16 +15,16 @@ option_list = {
 }
 
 
-def _third_party_type_form(application, title, button, options):
+def _third_party_type_form(application, title, button, options, back_url):
     return Form(
         title=title,
         questions=[RadioButtons("sub_type", options=options)],
         default_button_name=button,
-        back_link=back_to_task_list(application["id"]),
+        back_link=BackLink("Back", reverse_lazy(back_url, kwargs={"pk": application["id"]})),
     )
 
 
-def third_party_forms(application, strings):
+def third_party_forms(application, strings, back_link):
     form_options = option_list.copy()
     if application["export_type"] and application["export_type"]["key"] == "permanent":
         del form_options["additional_end_user"]
@@ -34,7 +34,7 @@ def third_party_forms(application, strings):
 
     return FormGroup(
         [
-            _third_party_type_form(application, strings.TITLE, strings.BUTTON, options),
+            _third_party_type_form(application, strings.TITLE, strings.BUTTON, options, back_url),
             party_name_form(strings.NAME_FORM_TITLE, strings.BUTTON),
             party_website_form(strings.WEBSITE_FORM_TITLE, strings.BUTTON),
             party_address_form(strings.ADDRESS_FORM_TITLE, strings.SUBMIT_BUTTON),
