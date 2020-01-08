@@ -194,18 +194,19 @@ def i_remove_a_third_party_from_the_application(driver):
 
 @then("the third party has been removed from the application")
 def no_third_parties_are_left_on_the_application(driver):
-    assert GenericApplicationTaskListPage(driver).find_remove_third_party_link(), None
+    assert not functions.element_with_css_selector_exists(driver,
+                                                          GenericApplicationTaskListPage(driver).REMOVE_THIRD_PARTY_LINK)
 
 
 @when("I remove a good from the application")
 def i_remove_a_good_from_the_application(driver):
-    remove_good_link = GenericApplicationTaskListPage(driver).find_remove_good_link()
-    driver.execute_script("arguments[0].click();", remove_good_link)
+    GenericApplicationTaskListPage(driver).get_remove_good_link().click()
 
 
 @then("the good has been removed from the application")
 def no_goods_are_left_on_the_application(driver):
-    assert GenericApplicationTaskListPage(driver).find_remove_good_link(), None
+    assert not functions.element_with_css_selector_exists(driver,
+                                                          GenericApplicationTaskListPage(driver).REMOVE_GOOD_LINK)
 
 
 @when("I remove the end user off the application")
@@ -252,13 +253,13 @@ def no_documents_are_set_on_the_application(driver):
 
 @when("I change my reference name")
 def change_ref_name(driver, context):
-    driver.find_element_by_id("reference_name").click()
+    driver.find_element_by_id("link-reference-name").click()
     enter_application_name(driver, context)
 
 
 @when("I change my reference number")
 def change_ref_num(driver, context):
-    driver.find_element_by_id("told_by_an_official_that_you_need_an_export_licence").click()
+    driver.find_element_by_id("link-told-by-an-official").click()
     enter_export_licence(driver, "yes", "12345678", context)
 
 

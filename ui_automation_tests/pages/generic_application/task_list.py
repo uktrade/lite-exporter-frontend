@@ -34,11 +34,8 @@ class GenericApplicationTaskListPage(BasePage):
         except NoSuchElementException:
             return None
 
-    def find_remove_good_link(self):
-        try:
-            return self.driver.find_element_by_css_selector(self.REMOVE_GOOD_LINK)
-        except NoSuchElementException:
-            return None
+    def get_remove_good_link(self):
+        return self.driver.find_element_by_css_selector(self.REMOVE_GOOD_LINK)
 
     def find_remove_end_user_link(self):
         try:

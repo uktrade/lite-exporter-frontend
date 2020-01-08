@@ -11,10 +11,45 @@ from pages.application_page import ApplicationPage
 from pages.respond_to_ecju_query_page import RespondToEcjuQueryPage
 from pages.submitted_applications_page import SubmittedApplicationsPages
 from shared import functions
-# from ui_automation_tests.fixtures.add_goods import (  # noqa
-#     add_an_incorporated_good_to_application,
-#     create_non_incorporated_good,
-# )
+from ui_automation_tests.fixtures.env import environment  # noqa
+from ui_automation_tests.fixtures.register_organisation import (  # noqa
+    register_organisation,
+    register_organisation_for_switching_organisation,
+    user_details,
+)
+from ui_automation_tests.fixtures.add_clc_query import add_clc_query  # noqa
+from ui_automation_tests.fixtures.add_end_user_advisory import add_end_user_advisory  # noqa
+from ui_automation_tests.fixtures.internal_ecju_query import (  # noqa
+    internal_ecju_query,
+    internal_ecju_query_end_user_advisory,
+)
+from ui_automation_tests.fixtures.sso_sign_in import sso_sign_in  # noqa
+from ui_automation_tests.fixtures.internal_case_note import (  # noqa
+    internal_case_note,
+    internal_case_note_end_user_advisory,
+)
+from ui_automation_tests.fixtures.manage_case import manage_case_status_to_withdrawn  # noqa
+
+from ui_automation_tests.shared.fixtures.apply_for_application import (  # noqa
+    apply_for_standard_application,
+    add_an_ecju_query,
+    apply_for_open_application,
+)
+from ui_automation_tests.shared.fixtures.add_a_document_template import (  # noqa
+    add_a_document_template,
+    get_paragraph_text,
+    get_template_id,
+    get_licence_template_id,
+)
+from ui_automation_tests.shared.fixtures.add_a_generated_document import add_a_generated_document  # noqa
+from ui_automation_tests.shared.fixtures.driver import driver  # noqa
+from ui_automation_tests.shared.fixtures.core import (  # noqa
+    context,
+    exporter_info,
+    internal_info,
+    seed_data_config,
+)
+from ui_automation_tests.shared.fixtures.urls import exporter_url, api_url  # noqa
 
 import shared.tools.helpers as utils
 from pages.add_goods_page import AddGoodPage
