@@ -7,8 +7,8 @@ from conftest import (
     enter_application_name,
     enter_permanent_or_temporary,
 )
-from pages.application_countries_list import ApplicationCountriesList
-from pages.open_application.application_goods_type_list import ApplicationGoodsTypeList
+from pages.open_application.countries import OpenApplicationCountriesPage
+from pages.open_application.goods_types import OpenApplicationGoodsTypesPage
 from pages.generic_application.task_list import GenericApplicationTaskListPage
 from pages.open_application.goods_countries_page import GoodsCountriesPage
 from pages.shared import Shared
@@ -25,7 +25,7 @@ def goods_type_errors(driver):
 
 @then(parsers.parse('I see my goods type added at position "{position}" with a description and a control code'))
 def i_see_the_goods_types_list(driver, position, context):
-    goods_type_page = ApplicationGoodsTypeList(driver)
+    goods_type_page = OpenApplicationGoodsTypesPage(driver)
     good_type = goods_type_page.get_text_of_goods_type_info(int(position))
     assert context.good_description in good_type
     assert context.control_code in good_type
@@ -33,7 +33,7 @@ def i_see_the_goods_types_list(driver, position, context):
 
 @then("I see my goods type added to the overview page with a description and a control code")
 def i_see_the_goods_types_list_overview(driver, context):
-    goods_type_page = ApplicationGoodsTypeList(driver)
+    goods_type_page = OpenApplicationGoodsTypesPage(driver)
     good_type_table_overview = goods_type_page.get_text_of_goods_type_info_overview()
     assert "Description" in good_type_table_overview
     assert "Control list classification" in good_type_table_overview
@@ -49,14 +49,14 @@ def i_click_on_countries(driver):
 
 @then("I should see a list of countries")
 def i_should_see_a_list_of_countries(driver):
-    application_countries_list = ApplicationCountriesList(driver)
+    application_countries_list = OpenApplicationCountriesPage(driver)
     page_countries = application_countries_list.get_countries_names()
     assert len(page_countries) == 274
 
 
 @when(parsers.parse('I select "{country}" from the country list'))
 def i_select_country_from_the_country_list(driver, country):
-    application_countries_list = ApplicationCountriesList(driver)
+    application_countries_list = OpenApplicationCountriesPage(driver)
     application_countries_list.select_country(country)
 
     assert utils.find_element_by_href(driver, "#" + country).is_displayed()
@@ -64,12 +64,12 @@ def i_select_country_from_the_country_list(driver, country):
 
 @when(parsers.parse('I search for country "{country}"'))
 def search_for_country(driver, country):
-    ApplicationCountriesList(driver).search_for_country(country)
+    OpenApplicationCountriesPage(driver).search_for_country(country)
 
 
 @then(parsers.parse('only "{country}" is displayed in country list'))
 def search_country_result(driver, country):
-    assert country == ApplicationCountriesList(driver).get_text_of_countries_list(), "Country not searched correctly"
+    assert country == OpenApplicationCountriesPage(driver).get_text_of_countries_list(), "Country not searched correctly"
 
 
 @when("I click on assign countries to goods")
@@ -80,13 +80,13 @@ def go_to_good_countries(driver):
 
 @when("I click select all countries")
 def select_all_countries(driver):
-    page = ApplicationCountriesList(driver)
+    page = OpenApplicationCountriesPage(driver)
     page.click_select_all()
 
 
 @then("all checkboxes are selected")
 def all_selected(driver):
-    page = ApplicationCountriesList(driver)
+    page = OpenApplicationCountriesPage(driver)
     assert page.get_number_of_checkboxes(checked=False) == page.get_number_of_checkboxes(checked=True)
 
 
@@ -102,7 +102,7 @@ def assign_all_with_link(driver, assign_or_unassign):
 
 @when("I click Add goods type button")
 def click_goods_type_button(driver):
-    goods_type_page = ApplicationGoodsTypeList(driver)
+    goods_type_page = OpenApplicationGoodsTypesPage(driver)
     goods_type_page.click_goods_type_button()
 
 
