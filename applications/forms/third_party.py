@@ -1,6 +1,6 @@
 from applications.forms.parties import party_name_form, party_website_form, party_address_form
 from lite_content.lite_exporter_frontend.applications import ThirdPartyForm, PartyForm
-from lite_forms.components import RadioButtons, Form, Option, FormGroup
+from lite_forms.components import BackLink, RadioButtons, Form, Option, FormGroup
 
 option_list = {
     "agent": ThirdPartyForm.Options.AGENT,
@@ -22,7 +22,7 @@ def _third_party_type_form(application, title, button, options, back_url):
     )
 
 
-def third_party_forms(application, strings, back_link):
+def third_party_forms(application, strings, back_url):
     form_options = option_list.copy()
     if application["export_type"] and application["export_type"]["key"] == "permanent":
         del form_options["additional_end_user"]
