@@ -1,6 +1,6 @@
 from django.urls import path
 
-from applications.views.parties import consignees, end_users, third_parties, ultimate_end_users, base
+from applications.views.parties import consignees, end_users, third_parties, ultimate_end_users
 from applications.views import (
     goods,
     documents,
