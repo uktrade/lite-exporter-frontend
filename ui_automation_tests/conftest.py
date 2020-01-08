@@ -263,8 +263,7 @@ def click_my_goods_link(driver):  # noqa
 
 @when(  # noqa
     parsers.parse(
-        'I add a good or good type with description "{description}" controlled "{controlled}" control code '
-        '"{control_code}" and part number "{part}"'
+        'I add a good or good type with description "{description}" controlled "{controlled}" control code "{control_code}" and part number "{part}"'
     )
 )
 def add_new_good(driver, description, controlled, control_code, part, context):  # noqa

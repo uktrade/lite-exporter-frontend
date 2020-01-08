@@ -1,7 +1,5 @@
 from selenium.webdriver.support.ui import Select
 
-from shared import functions
-
 
 class ApplicationGoodsList:
     def __init__(self, driver, prefix=""):
@@ -27,9 +25,6 @@ class ApplicationGoodsList:
         self.driver.find_element_by_id(self.prefix + self.quantity_field).send_keys(quantity)
         select = Select(self.driver.find_element_by_id(self.prefix + self.unit_dropdown))
         select.select_by_visible_text(unit)
-
-    def click_on_overview(self):
-        functions.click_back_link(self.driver)
 
     def type_into_filter_description_search_box_and_filter(self, value):
         self.driver.find_element_by_id(self.show_filters_link).click()

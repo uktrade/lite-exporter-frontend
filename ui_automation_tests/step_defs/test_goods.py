@@ -7,7 +7,7 @@ from pages.add_goods_page import AddGoodPage
 from pages.application_goods_list import ApplicationGoodsList
 from pages.application_overview_page import OpenApplicationOverviewPage
 from pages.attach_document_page import AttachDocumentPage
-from pages.goods_list import GoodsList
+from pages.goods_list import GoodsListPage
 from pages.goods_page import GoodsPage
 from shared import functions
 
@@ -16,7 +16,7 @@ scenarios("../features/goods.feature", strict_gherkin=False)
 
 @then("I see good in goods list")
 def assert_good_is_in_list(driver, context, exporter_url):
-    goods_list = GoodsList(driver)
+    goods_list = GoodsListPage(driver)
     driver.get(exporter_url.rstrip("/") + "/goods/")
     goods_list.assert_goods_are_displayed_of_good_name(
         driver, context.good_description, context.part, context.control_code
@@ -25,7 +25,7 @@ def assert_good_is_in_list(driver, context, exporter_url):
 
 @then("I see the clc query in goods list")
 def assert_clc_is_in_list(driver, context, exporter_url):
-    goods_list = GoodsList(driver)
+    goods_list = GoodsListPage(driver)
     goods_list.assert_clc_goods_are_displayed_of_good_name(
         driver, context.good_description, context.part, context.control_code
     )
@@ -39,7 +39,7 @@ def assert_clc_is_in_list(driver, context, exporter_url):
 )
 def edit_good(driver, description, controlled, control_code, part, context):
     add_goods_page = AddGoodPage(driver)
-    goods_list = GoodsList(driver)
+    goods_list = GoodsListPage(driver)
     goods_list.select_a_draft_good()
     goods_page = GoodsPage(driver)
     goods_page.click_on_goods_edit_link()
@@ -168,8 +168,7 @@ def good_created(driver, context):
 
 @when("I click add a good button")  # noqa
 def click_add_from_organisation_button(driver):  # noqa
-    add_goods_page = AddGoodPage(driver)
-    add_goods_page.click_add_a_good()
+    GoodsListPage(driver).click_add_a_good()
 
 
 @when(parsers.parse('I upload file "{filename}" with description "{description}"'))  # noqa

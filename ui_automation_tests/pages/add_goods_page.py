@@ -12,7 +12,6 @@ class AddGoodPage(BasePage):
 
     # Good summary page
     GOOD_SUMMARY = ".govuk-summary-list"  # CSS
-    ADD_A_GOOD_BTN = "add-a-good"  # ID
 
     # Add a good
     PART_NUMBER = "part_number"  # ID
@@ -23,9 +22,6 @@ class AddGoodPage(BasePage):
     # Not sure form
     UNSURE_CODE = "not_sure_details_control_code"  # ID
     UNSURE_DETAILS = "not_sure_details_details"  # ID
-
-    def click_add_a_good(self):
-        self.driver.find_element_by_id(self.ADD_A_GOOD_BTN).click()
 
     def enter_description_of_goods(self, description):
         self.driver.find_element_by_id(self.DESCRIPTION).send_keys(description)
