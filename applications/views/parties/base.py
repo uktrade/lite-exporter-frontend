@@ -36,10 +36,11 @@ class AddParty(TemplateView):
 
 
 class SetParty(MultiFormView):
-    def __init__(self, url, form, name, action, strings, multiple, **kwargs):
+    def __init__(self, url, form, name, back_url, action, strings, multiple, **kwargs):
         super().__init__(**kwargs)
         self.url = url
         self.name = name
+        self.back_url = back_url
         self.action = action
         self.strings = strings
         self.form = form
@@ -48,7 +49,7 @@ class SetParty(MultiFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
         application = get_application(request, self.object_pk)
-        self.forms = self.form(application, self.strings)
+        self.forms = self.form(application, self.strings, self.back_url)
         if self.multiple:
             self.data = None
         else:

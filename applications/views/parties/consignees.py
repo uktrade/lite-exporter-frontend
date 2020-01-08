@@ -40,6 +40,7 @@ class SetConsignee(SetParty):
             url="applications:consignee_attach_document",
             name="consignee",
             form=new_party_form_group,
+            back_url="applications:add_consignee",
             action=post_consignee,
             strings=ConsigneeForm,
             multiple=False,

@@ -41,6 +41,7 @@ class SetEndUser(SetParty):
             url="applications:end_user_attach_document",
             name="end_user",
             form=new_party_form_group,
+            back_url="applications:add_end_user",
             action=post_end_user,
             strings=EndUserForm,
             multiple=False,

@@ -33,6 +33,7 @@ class SetThirdParty(SetParty):
             name="third_party",
             action=post_third_party,
             form=third_party_forms,
+            back_url="applications:add_third_party",
             strings=ThirdPartyForm,
             multiple=True,
         )

@@ -41,6 +41,7 @@ class SetUltimateEndUser(SetParty):
             name="ultimate_end_user",
             action=post_ultimate_end_user,
             form=new_party_form_group,
+            back_url="applications:add_ultimate_end_user",
             strings=UltimateEndUserForm,
             multiple=True,
         )

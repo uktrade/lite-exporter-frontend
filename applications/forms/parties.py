@@ -4,7 +4,17 @@ from django.urls import reverse_lazy
 from applications.components import back_to_task_list
 from core.services import get_countries
 from lite_forms.common import country_question
-from lite_forms.components import RadioButtons, Form, Option, TextArea, TextInput, FormGroup, FileUpload, Label
+from lite_forms.components import (
+    BackLink,
+    RadioButtons,
+    Form,
+    Option,
+    TextArea,
+    TextInput,
+    FormGroup,
+    FileUpload,
+    Label,
+)
 from lite_forms.generators import confirm_form
 from lite_content.lite_exporter_frontend.applications import PartyForm
 
@@ -16,11 +26,11 @@ def party_create_new_or_existing_form(application_id):
         yes_label="Yes",
         no_label="No",
         back_link_text="Back to application",
-        back_url=back_to_task_list(application_id),
+        back_url=reverse_lazy("applications:task_list", kwargs={"pk": application_id}),
     )
 
 
-def party_type_form(application, title, button):
+def party_type_form(application, title, button, back_url):
     return Form(
         title=title,
         questions=[
@@ -35,7 +45,7 @@ def party_type_form(application, title, button):
             ),
         ],
         default_button_name=button,
-        back_link=back_to_task_list(application["id"]),
+        back_link=BackLink("Back", reverse_lazy(back_url, kwargs={"pk": application["id"]})),
     )
 
 
@@ -55,10 +65,10 @@ def party_address_form(title, button):
     )
 
 
-def new_party_form_group(application, strings):
+def new_party_form_group(application, strings, back_url):
     return FormGroup(
         [
-            party_type_form(application, strings.TITLE, strings.BUTTON),
+            party_type_form(application, strings.TITLE, strings.BUTTON, back_url),
             party_name_form(strings.NAME_FORM_TITLE, strings.BUTTON),
             party_website_form(strings.WEBSITE_FORM_TITLE, strings.BUTTON),
             party_address_form(strings.ADDRESS_FORM_TITLE, strings.SUBMIT_BUTTON),
