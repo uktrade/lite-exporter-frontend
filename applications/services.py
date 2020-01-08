@@ -212,8 +212,8 @@ def delete_consignee(request, pk):
 
 
 # Existing Parties
-def get_existing_parties(request, pk):
-    data = get(request, APPLICATIONS_URL + str(pk) + "/existing-parties/")
+def get_existing_parties(request, pk, params):
+    data = get(request, APPLICATIONS_URL + str(pk) + "/existing-parties" + params)
     return data.json(), data.status_code
 
 

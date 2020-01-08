@@ -5,6 +5,7 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
 from applications.services import get_application, get_existing_parties
+from core.helpers import convert_parameters_to_query_params
 from lite_forms.generators import error_page
 from lite_forms.views import MultiFormView
 
@@ -52,8 +53,6 @@ class DeleteParty(TemplateView):
         else:
             status_code = self.action(request, application_id)
 
-        print(status_code)
-
         if status_code != HTTPStatus.NO_CONTENT:
             return error_page(request, self.error)
 
@@ -66,11 +65,12 @@ class CopyExistingParty(TemplateView):
         List of existing parties
         """
         application_id = str(kwargs["pk"])
-        parties, _ = get_existing_parties(request, application_id)
+        params = convert_parameters_to_query_params(request.GET)
+        parties, _ = get_existing_parties(request, application_id, params)
 
         context = {
             "title": "Existing Parties",
             "draft_id": application_id,
-            "data": parties["parties"],
+            "data": parties,
         }
         return render(request, "applications/parties/preexisting.html", context)
