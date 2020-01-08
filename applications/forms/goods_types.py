@@ -7,7 +7,7 @@ from lite_forms.components import TextArea, RadioButtons, Option, Form
 from lite_forms.helpers import conditional
 
 
-def goods_type_form(application_type: str = None):
+def goods_type_form(application_type: str):
     return Form(
         title=strings.GoodTypes.Overview.TITLE,
         questions=[
