@@ -52,6 +52,4 @@ class RemoveEndUser(DeleteParty):
 
 class CopyExistingEndUser(CopyExistingParty):
     def __init__(self):
-        super().__init__(
-            destination_url="applications:set_end_user",
-        )
+        super().__init__(destination_url="applications:set_end_user",)

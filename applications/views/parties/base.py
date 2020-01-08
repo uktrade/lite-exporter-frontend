@@ -60,7 +60,7 @@ class DeleteParty(TemplateView):
 
 
 class CopyExistingParty(TemplateView):
-    def __int__(self, destination_url, **kwargs):
+    def __init__(self, destination_url, **kwargs):
         super().__init__(**kwargs)
         self.destination_url = destination_url
 
