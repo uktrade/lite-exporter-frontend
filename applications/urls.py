@@ -114,7 +114,9 @@ urlpatterns = [
     path("<uuid:pk>/end-user/document/delete", documents.DeleteDocument.as_view(), name="end_user_delete_document"),
     # Consignee
     path("<uuid:pk>/consignee/", consignees.Consignee.as_view(), name="consignee"),
+    path("<uuid:pk>/consignee/add/", consignees.AddConsignee.as_view(), name="add_consignee"),
     path("<uuid:pk>/consignee/set/", consignees.SetConsignee.as_view(), name="set_consignee"),
+    path("<uuid:pk>/consignee/copy/", consignees.CopyExistingConsignee.as_view(), name="copy_consignee"),
     path("<uuid:pk>/consignee/remove/", consignees.RemoveConsignee.as_view(), name="remove_consignee"),
     path("<uuid:pk>/consignee/document/attach", documents.AttachDocuments.as_view(), name="consignee_attach_document"),
     path(

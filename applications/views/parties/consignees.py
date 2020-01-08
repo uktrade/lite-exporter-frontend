@@ -5,7 +5,7 @@ from django.views.generic import TemplateView
 from applications.forms.parties import new_party_form_group
 from applications.helpers.check_your_answers import convert_consignee
 from applications.services import get_application, post_consignee, delete_consignee
-from applications.views.parties.base import SetParty, DeleteParty
+from applications.views.parties.base import AddParty, CopyExistingParty, SetParty, DeleteParty
 from lite_content.lite_exporter_frontend.applications import ConsigneeForm
 
 
@@ -24,7 +24,15 @@ class Consignee(TemplateView):
             }
             return render(request, "applications/check-your-answer.html", context)
         else:
-            return redirect(reverse_lazy("applications:set_consignee", kwargs={"pk": application_id}))
+            return redirect(reverse_lazy("applications:add_consignee", kwargs={"pk": application_id}))
+
+
+class AddConsignee(AddParty):
+    def __init__(self):
+        super().__init__(
+            new_url="applications:copy_consignee",
+            copy_url="applications:set_consignee",
+        )
 
 
 class SetConsignee(SetParty):
@@ -48,3 +56,8 @@ class RemoveConsignee(DeleteParty):
             multiple=False,
             **kwargs,
         )
+
+
+class CopyExistingConsignee(CopyExistingParty):
+    def __init__(self):
+        super().__init__(destination_url="applications:set_consignee",)
