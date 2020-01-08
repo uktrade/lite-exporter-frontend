@@ -100,6 +100,7 @@ class CopyExistingParty(TemplateView):
 
         context = {
             "title": "Existing Parties",
+            "filters": ["Name", "Address", "Country"],
             "draft_id": application_id,
             "data": parties,
             "url": self.destination_url,
