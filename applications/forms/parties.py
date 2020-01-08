@@ -9,7 +9,7 @@ from lite_forms.generators import confirm_form
 from lite_content.lite_exporter_frontend.applications import PartyForm
 
 
-def _party_type_form(application, title, button):
+def party_type_form(application, title, button):
     return Form(
         title=title,
         questions=[
@@ -28,15 +28,15 @@ def _party_type_form(application, title, button):
     )
 
 
-def _party_name_form(title, button):
+def party_name_form(title, button):
     return Form(title=title, questions=[TextInput("name"),], default_button_name=button)
 
 
-def _party_website_form(title, button):
+def party_website_form(title, button):
     return Form(title=title, questions=[TextInput("website", optional=True),], default_button_name=button,)
 
 
-def _party_address_form(title, button):
+def party_address_form(title, button):
     return Form(
         title=title,
         questions=[TextArea("address", "Address"), country_question(countries=get_countries(None, True), prefix=""),],
@@ -47,10 +47,10 @@ def _party_address_form(title, button):
 def new_party_form_group(application, strings):
     return FormGroup(
         [
-            _party_type_form(application, strings.TITLE, strings.BUTTON),
-            _party_name_form(strings.NAME_FORM_TITLE, strings.BUTTON),
-            _party_website_form(strings.WEBSITE_FORM_TITLE, strings.BUTTON),
-            _party_address_form(strings.ADDRESS_FORM_TITLE, strings.SUBMIT_BUTTON),
+            party_type_form(application, strings.TITLE, strings.BUTTON),
+            party_name_form(strings.NAME_FORM_TITLE, strings.BUTTON),
+            party_website_form(strings.WEBSITE_FORM_TITLE, strings.BUTTON),
+            party_address_form(strings.ADDRESS_FORM_TITLE, strings.SUBMIT_BUTTON),
         ]
     )
 

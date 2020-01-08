@@ -1,7 +1,7 @@
 from lite_forms.components import RadioButtons, Form, Option, FormGroup
 
 from lite_content.lite_exporter_frontend.applications import ThirdPartyForm, PartyForm
-from applications.forms.end_user import _party_name_form, _party_website_form, _party_address_form
+from applications.forms.parties import party_name_form, party_website_form, party_address_form
 from applications.components import back_to_task_list
 
 option_list = {
@@ -35,8 +35,8 @@ def third_party_forms(application, strings):
     return FormGroup(
         [
             _third_party_type_form(application, strings.TITLE, strings.BUTTON, options),
-            _party_name_form(strings.NAME_FORM_TITLE, strings.BUTTON),
-            _party_website_form(strings.WEBSITE_FORM_TITLE, strings.BUTTON),
-            _party_address_form(strings.ADDRESS_FORM_TITLE, strings.SUBMIT_BUTTON),
+            party_name_form(strings.NAME_FORM_TITLE, strings.BUTTON),
+            party_website_form(strings.WEBSITE_FORM_TITLE, strings.BUTTON),
+            party_address_form(strings.ADDRESS_FORM_TITLE, strings.SUBMIT_BUTTON),
         ]
     )

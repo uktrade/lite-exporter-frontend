@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
-from applications.forms.end_user import new_party_form_group
+from applications.forms.parties import new_party_form_group
 from applications.helpers.check_your_answers import convert_end_user
 from applications.services import get_application, post_end_user, delete_end_user
 from applications.views.parties.base import SetParty, DeleteParty, CopyExistingParty

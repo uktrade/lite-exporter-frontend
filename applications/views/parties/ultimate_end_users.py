@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
 
-from applications.forms.end_user import new_party_form_group
+from applications.forms.parties import new_party_form_group
 from applications.helpers.validate_status import check_all_parties_have_a_document
 from applications.services import (
     get_application,
