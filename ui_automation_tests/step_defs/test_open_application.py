@@ -16,9 +16,9 @@ from pages.open_application.task_list import OpenApplicationTaskListPage
 from pages.shared import Shared
 from shared import functions
 
-scenarios("../features/submit_open_application.feature",
-          "../features/edit_open_application.feature",
-          strict_gherkin=False)
+scenarios(
+    "../features/submit_open_application.feature", "../features/edit_open_application.feature", strict_gherkin=False
+)
 
 
 @then("I see good types error messages")
@@ -73,7 +73,9 @@ def search_for_country(driver, country):
 
 @then(parsers.parse('only "{country}" is displayed in country list'))
 def search_country_result(driver, country):
-    assert country == OpenApplicationCountriesPage(driver).get_text_of_countries_list(), "Country not searched correctly"
+    assert (
+        country == OpenApplicationCountriesPage(driver).get_text_of_countries_list()
+    ), "Country not searched correctly"
 
 
 @when("I click on assign countries to goods")
@@ -131,22 +133,6 @@ def create_open_app(driver, context):  # noqa
     enter_type_of_application(driver, "open", context)
     enter_application_name(driver, context)
     enter_permanent_or_temporary(driver, "permanent", context)
-
-@when(  # noqa
-    parsers.parse(
-        'I add a goods type with description "{description}" controlled "{controlled}" control code "{control_code}" incorporated "{incorporated}"'
-    )
-)
-def add_new_goods_type(driver, description, controlled, control_code, incorporated, context):  # noqa
-    OpenApplicationAddGoodsType(driver).enter_description(description)
-    OpenApplicationAddGoodsType(driver).select_is_your_good_controlled(controlled)
-    OpenApplicationAddGoodsType(driver).enter_control_code(control_code)
-    OpenApplicationAddGoodsType(driver).select_is_your_good_incorporated(incorporated)
-
-    context.good_description = description
-    context.control_code = control_code
-
-    functions.click_submit(driver)
 
 
 # Edit

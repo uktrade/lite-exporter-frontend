@@ -1,11 +1,13 @@
+from conf.constants import HMRC_QUERY
 from lite_content.lite_exporter_frontend import strings
 from core.services import get_control_list_entries
 from lite_content.lite_exporter_frontend.goods import PERMISSION_FINDER_LINK
 from lite_forms.common import control_list_entry_question
 from lite_forms.components import TextArea, RadioButtons, Option, Form
+from lite_forms.helpers import conditional
 
 
-def goods_type_form():
+def goods_type_form(application_type: str = None):
     return Form(
         title=strings.GoodTypes.Overview.TITLE,
         questions=[
@@ -26,11 +28,14 @@ def goods_type_form():
                 name="control_code",
                 inset_text=False,
             ),
-            RadioButtons(
-                title="Will the products be incorporated into other products",
-                name="is_good_end_product",
-                options=[Option(key="yes", value="Yes"), Option(key="no", value="No")],
-                classes=["govuk-radios--inline"],
+            conditional(
+                application_type != HMRC_QUERY,
+                RadioButtons(
+                    title="Will the products be incorporated into other products",
+                    name="is_good_end_product",
+                    options=[Option(key="yes", value="Yes"), Option(key="no", value="No")],
+                    classes=["govuk-radios--inline"],
+                ),
             ),
         ],
     )

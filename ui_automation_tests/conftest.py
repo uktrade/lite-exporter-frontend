@@ -8,6 +8,7 @@ from selenium.webdriver.common.by import By
 from pages.add_end_user_pages import AddEndUserPages
 from pages.application_edit_type_page import ApplicationEditTypePage
 from pages.application_page import ApplicationPage
+from pages.open_application.add_goods_type import OpenApplicationAddGoodsType
 from pages.respond_to_ecju_query_page import RespondToEcjuQueryPage
 from pages.submitted_applications_page import SubmittedApplicationsPages
 from shared import functions
@@ -488,3 +489,21 @@ def wait_for_document(driver):  # noqa
 def click_my_end_user_advisory_link(driver):  # noqa
     exporter_hub = ExporterHubPage(driver)
     exporter_hub.click_end_user_advisories()
+
+
+@when(  # noqa
+    parsers.parse(
+        'I add a goods type with description "{description}" controlled "{controlled}" control code "{control_code}" incorporated "{incorporated}"'
+    )
+)
+def add_new_goods_type(driver, description, controlled, control_code, incorporated, context):  # noqa
+    OpenApplicationAddGoodsType(driver).enter_description(description)
+    OpenApplicationAddGoodsType(driver).select_is_your_good_controlled(controlled)
+    OpenApplicationAddGoodsType(driver).enter_control_code(control_code)
+    if incorporated != "N/A":
+        OpenApplicationAddGoodsType(driver).select_is_your_good_incorporated(incorporated)
+
+    context.good_description = description
+    context.control_code = control_code
+
+    functions.click_submit(driver)

@@ -15,9 +15,11 @@ from shared import functions
 from shared.tools.helpers import scroll_to_element_by_id
 from shared.tools.wait import wait_for_download_button, wait_for_element
 
-scenarios("../features/submit_standard_application.feature",
-          "../features/edit_standard_application.feature",
-          strict_gherkin=False)
+scenarios(
+    "../features/submit_standard_application.feature",
+    "../features/edit_standard_application.feature",
+    strict_gherkin=False,
+)
 
 
 @when("I click on the add button")
@@ -194,8 +196,9 @@ def i_remove_a_third_party_from_the_application(driver):
 
 @then("the third party has been removed from the application")
 def no_third_parties_are_left_on_the_application(driver):
-    assert not functions.element_with_css_selector_exists(driver,
-                                                          GenericApplicationTaskListPage(driver).REMOVE_THIRD_PARTY_LINK)
+    assert not functions.element_with_css_selector_exists(
+        driver, GenericApplicationTaskListPage(driver).REMOVE_THIRD_PARTY_LINK
+    )
 
 
 @when("I remove a good from the application")
@@ -205,8 +208,9 @@ def i_remove_a_good_from_the_application(driver):
 
 @then("the good has been removed from the application")
 def no_goods_are_left_on_the_application(driver):
-    assert not functions.element_with_css_selector_exists(driver,
-                                                          GenericApplicationTaskListPage(driver).REMOVE_GOOD_LINK)
+    assert not functions.element_with_css_selector_exists(
+        driver, GenericApplicationTaskListPage(driver).REMOVE_GOOD_LINK
+    )
 
 
 @when("I remove the end user off the application")
