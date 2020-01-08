@@ -14,7 +14,7 @@
 <div id="filters" class="govuk-grid-row lite-filter-bar">
     <form method="get">
         {% for filter in filters %}
-            {% with filter|lower as name %}
+            {% with filter|idify as name %}
                 <div class="govuk-grid-column-one-quarter">
                     <label class="govuk-label" for="description">{{ filter }}</label>
                     <input class="govuk-input"
