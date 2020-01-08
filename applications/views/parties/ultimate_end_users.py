@@ -9,7 +9,7 @@ from applications.services import (
     post_ultimate_end_user,
     delete_ultimate_end_user,
 )
-from applications.views.parties.base import SetParty, DeleteParty
+from applications.views.parties.base import AddParty, CopyExistingParty, SetParty, DeleteParty
 from lite_content.lite_exporter_frontend.applications import UltimateEndUserForm
 
 
@@ -27,7 +27,14 @@ class UltimateEndUsers(TemplateView):
         return render(request, "applications/parties/ultimate-end-users.html", context)
 
 
-class AddUltimateEndUser(SetParty):
+class AddUltimateEndUser(AddParty):
+    def __init__(self):
+        super().__init__(
+            new_url="applications:set_ultimate_end_user", copy_url="applications:copy_ultimate_end_user",
+        )
+
+
+class SetUltimateEndUser(SetParty):
     def __init__(self):
         super().__init__(
             url="applications:ultimate_end_user_attach_document",
@@ -48,3 +55,8 @@ class RemoveUltimateEndUser(DeleteParty):
             multiple=True,
             **kwargs,
         )
+
+
+class CopyExistingUltimateEndUser(CopyExistingParty):
+    def __init__(self):
+        super().__init__(destination_url="applications:set_ultimate_end_user",)

@@ -148,6 +148,16 @@ urlpatterns = [
         name="add_ultimate_end_user",
     ),
     path(
+        "<uuid:pk>/ultimate-end-users/set/",
+        ultimate_end_users.SetUltimateEndUser.as_view(),
+        name="set_ultimate_end_user",
+    ),
+    path(
+        "<uuid:pk>/ultimate-end-users/copy/",
+        ultimate_end_users.CopyExistingUltimateEndUser.as_view(),
+        name="copy_ultimate_end_user",
+    ),
+    path(
         "<uuid:pk>/ultimate-end-users/<uuid:obj_pk>/remove/",
         ultimate_end_users.RemoveUltimateEndUser.as_view(),
         name="remove_ultimate_end_user",
