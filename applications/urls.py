@@ -155,6 +155,8 @@ urlpatterns = [
     # Third parties
     path("<uuid:pk>/third-parties/", third_parties.ThirdParties.as_view(), name="third_parties"),
     path("<uuid:pk>/third-parties/add/", third_parties.AddThirdParty.as_view(), name="add_third_party"),
+    path("<uuid:pk>/third-parties/set/", third_parties.SetThirdParty.as_view(), name="set_third_party"),
+    path("<uuid:pk>/third-parties/copy/", third_parties.CopyExistingThirdParty.as_view(), name="copy_third_party"),
     path(
         "<uuid:pk>/third-parties/<uuid:obj_pk>/document/attach",
         documents.AttachDocuments.as_view(),
