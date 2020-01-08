@@ -5,7 +5,7 @@ from django.views.generic import TemplateView
 from applications.forms.end_user import new_party_form_group
 from applications.helpers.check_your_answers import convert_end_user
 from applications.services import get_application, post_end_user, delete_end_user
-from applications.views.parties.base import SetParty, DeleteParty
+from applications.views.parties.base import SetParty, DeleteParty, CopyExistingParty
 from lite_content.lite_exporter_frontend.applications import EndUserForm
 
 
@@ -41,11 +41,17 @@ class SetEndUser(SetParty):
 
 
 class RemoveEndUser(DeleteParty):
-    def __init__(self, **kwargs):
+    def __init__(self):
         super().__init__(
             url="applications:set_end_user",
             action=delete_end_user,
             error="Unexpected error removing end user",
             multiple=False,
-            **kwargs,
+        )
+
+
+class CopyExistingEndUser(CopyExistingParty):
+    def __init__(self):
+        super().__init__(
+            destination_url="applications:set_end_user",
         )

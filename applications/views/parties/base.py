@@ -60,6 +60,10 @@ class DeleteParty(TemplateView):
 
 
 class CopyExistingParty(TemplateView):
+    def __int__(self, destination_url, **kwargs):
+        super().__init__(**kwargs)
+        self.destination_url = destination_url
+
     def get(self, request, **kwargs):
         """
         List of existing parties
@@ -72,5 +76,6 @@ class CopyExistingParty(TemplateView):
             "title": "Existing Parties",
             "draft_id": application_id,
             "data": parties,
+            "url": self.destination_url,
         }
         return render(request, "applications/parties/preexisting.html", context)

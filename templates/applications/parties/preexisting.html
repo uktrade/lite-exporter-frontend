@@ -34,9 +34,17 @@
                             {{ party.website }}
                         </td>
                         <td class="govuk-table__cell lite-!-text-align-right">
-                            <a href="" class="govuk-link govuk-link--no-visited-state" draggable="false">
-                                Add to application
-                            </a>
+                            <form action="{% url url draft_id %}" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="form_pk" value="0">
+                                <input type="hidden" name="name" value="{{ party.name }}">
+                                <input type="hidden" name="website" value="{{ party.website }}">
+                                <input type="hidden" name="address" value="{{ party.address }}">
+                                <input type="hidden" name="country" value="{{ party.country.id }}">
+                                <button type="submit" class="govuk-button--secondary">
+                                    Add to application
+                                </button>
+                            </form>
                         </td>
                     </tr>
                 {% endfor %}
