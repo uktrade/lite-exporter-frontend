@@ -7,11 +7,15 @@ from conftest import (
     enter_application_name,
     enter_permanent_or_temporary,
 )
+from pages.add_goods_page import AddGoodPage
+from pages.open_application.add_goods_type import OpenApplicationAddGoodsType
 from pages.open_application.countries import OpenApplicationCountriesPage
 from pages.open_application.goods_types import OpenApplicationGoodsTypesPage
 from pages.generic_application.task_list import GenericApplicationTaskListPage
 from pages.open_application.goods_countries_page import GoodsCountriesPage
+from pages.open_application.task_list import OpenApplicationTaskListPage
 from pages.shared import Shared
+from shared import functions
 
 scenarios("../features/submit_open_application.feature", strict_gherkin=False)
 
@@ -43,8 +47,7 @@ def i_see_the_goods_types_list_overview(driver, context):
 
 @when("I click on countries")
 def i_click_on_countries(driver):
-    page = GenericApplicationTaskListPage(driver)
-    page.click_countries_link()
+    OpenApplicationTaskListPage(driver).click_countries_link()
 
 
 @then("I should see a list of countries")
@@ -127,3 +130,19 @@ def create_open_app(driver, context):  # noqa
     enter_type_of_application(driver, "open", context)
     enter_application_name(driver, context)
     enter_permanent_or_temporary(driver, "permanent", context)
+
+@when(  # noqa
+    parsers.parse(
+        'I add a goods type with description "{description}" controlled "{controlled}" control code "{control_code}" incorporated "{incorporated}"'
+    )
+)
+def add_new_goods_type(driver, description, controlled, control_code, incorporated, context):  # noqa
+    OpenApplicationAddGoodsType(driver).enter_description(description)
+    OpenApplicationAddGoodsType(driver).select_is_your_good_controlled(controlled)
+    OpenApplicationAddGoodsType(driver).enter_control_code(control_code)
+    OpenApplicationAddGoodsType(driver).select_is_your_good_incorporated(incorporated)
+
+    context.good_description = description
+    context.control_code = control_code
+
+    functions.click_submit(driver)

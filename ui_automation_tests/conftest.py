@@ -253,7 +253,7 @@ def click_my_goods_link(driver):  # noqa
 
 @when(  # noqa
     parsers.parse(
-        'I add a good or good type with description "{description}" controlled "{controlled}" control code "{control_code}" and part number "{part}"'
+        'I add a good with description "{description}" controlled "{controlled}" control code "{control_code}" and part number "{part}"'
     )
 )
 def add_new_good(driver, description, controlled, control_code, part, context):  # noqa
@@ -453,7 +453,7 @@ def upload_a_file(driver, filename):  # noqa
 @when("I click on end user")  # noqa
 def i_click_on_end_user(driver):  # noqa
     app = GenericApplicationTaskListPage(driver)
-    utils.scroll_to_element_by_id(Shared(driver).driver, app.END_USER_LINK)
+    utils.scroll_to_element_by_id(driver, app.END_USER_LINK)
     app.click_end_user_link()
 
 
