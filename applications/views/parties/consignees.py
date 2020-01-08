@@ -30,8 +30,7 @@ class Consignee(TemplateView):
 class AddConsignee(AddParty):
     def __init__(self):
         super().__init__(
-            new_url="applications:copy_consignee",
-            copy_url="applications:set_consignee",
+            new_url="applications:set_consignee", copy_url="applications:copy_consignee",
         )
 
 

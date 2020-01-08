@@ -22,8 +22,7 @@ class ThirdParties(TemplateView):
 class AddThirdParty(AddParty):
     def __init__(self):
         super().__init__(
-            new_url="applications:copy_third_party",
-            copy_url="applications:set_third_party",
+            new_url="applications:set_third_party", copy_url="applications:copy_third_party",
         )
 
 
