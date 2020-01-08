@@ -11,53 +11,14 @@ from pages.application_page import ApplicationPage
 from pages.respond_to_ecju_query_page import RespondToEcjuQueryPage
 from pages.submitted_applications_page import SubmittedApplicationsPages
 from shared import functions
-from ui_automation_tests.fixtures.env import environment  # noqa
-from ui_automation_tests.fixtures.register_organisation import (  # noqa
-    register_organisation,
-    register_organisation_for_switching_organisation,
-    user_details,
-)
-from ui_automation_tests.fixtures.add_goods import (  # noqa
-    add_an_incorporated_good_to_application,
-    create_non_incorporated_good,
-)
-from ui_automation_tests.fixtures.add_clc_query import add_clc_query  # noqa
-from ui_automation_tests.fixtures.add_end_user_advisory import add_end_user_advisory  # noqa
-from ui_automation_tests.fixtures.internal_ecju_query import (  # noqa
-    internal_ecju_query,
-    internal_ecju_query_end_user_advisory,
-)
-from ui_automation_tests.fixtures.sso_sign_in import sso_sign_in  # noqa
-from ui_automation_tests.fixtures.internal_case_note import (  # noqa
-    internal_case_note,
-    internal_case_note_end_user_advisory,
-)
-from ui_automation_tests.fixtures.manage_case import manage_case_status_to_withdrawn  # noqa
-
-from ui_automation_tests.shared.fixtures.apply_for_application import (  # noqa
-    apply_for_standard_application,
-    add_an_ecju_query,
-    apply_for_open_application,
-)
-from ui_automation_tests.shared.fixtures.add_a_document_template import (  # noqa
-    add_a_document_template,
-    get_paragraph_text,
-    get_template_id,
-    get_licence_template_id,
-)
-from ui_automation_tests.shared.fixtures.add_a_generated_document import add_a_generated_document  # noqa
-from ui_automation_tests.shared.fixtures.driver import driver  # noqa
-from ui_automation_tests.shared.fixtures.core import (  # noqa
-    context,
-    exporter_info,
-    internal_info,
-    seed_data_config,
-)
-from ui_automation_tests.shared.fixtures.urls import exporter_url, api_url  # noqa
+# from ui_automation_tests.fixtures.add_goods import (  # noqa
+#     add_an_incorporated_good_to_application,
+#     create_non_incorporated_good,
+# )
 
 import shared.tools.helpers as utils
 from pages.add_goods_page import AddGoodPage
-from pages.application_overview_page import OpenApplicationOverviewPage
+from pages.generic_application.task_list import GenericApplicationTaskListPage
 from pages.apply_for_a_licence_page import ApplyForALicencePage
 from pages.attach_document_page import AttachDocumentPage
 from pages.exporter_hub_page import ExporterHubPage
@@ -204,7 +165,7 @@ def create_standard_application(driver, context):  # noqa
 
 @when("I click on application locations link")  # noqa
 def i_click_application_locations_link(driver):  # noqa
-    app = OpenApplicationOverviewPage(driver)
+    app = GenericApplicationTaskListPage(driver)
     app.click_application_locations_link()
 
 
@@ -253,12 +214,6 @@ def click_my_application_link(driver):  # noqa
 def click_my_goods_link(driver):  # noqa
     exporter_hub = ExporterHubPage(driver)
     exporter_hub.click_my_goods()
-
-
-@when("I click on standard goods tile")  # noqa
-def click_my_goods_link(driver):  # noqa
-    exporter_hub = OpenApplicationOverviewPage(driver)
-    exporter_hub.click_standard_goods_link()
 
 
 @when(  # noqa
@@ -323,7 +278,7 @@ def application_is_submitted(driver, context):  # noqa
 
 @then("I see the application overview")  # noqa
 def i_see_the_application_overview(driver, context):  # noqa
-    element = OpenApplicationOverviewPage(driver).get_text_of_lite_task_list_items()
+    element = GenericApplicationTaskListPage(driver).get_text_of_lite_task_list_items()
     assert "Reference name" in element
     assert context.app_name in element
 
@@ -462,7 +417,7 @@ def upload_a_file(driver, filename):  # noqa
 
 @when("I click on end user")  # noqa
 def i_click_on_end_user(driver):  # noqa
-    app = OpenApplicationOverviewPage(driver)
+    app = GenericApplicationTaskListPage(driver)
     utils.scroll_to_element_by_id(Shared(driver).driver, app.END_USER_LINK)
     app.click_end_user_link()
 
@@ -470,7 +425,7 @@ def i_click_on_end_user(driver):  # noqa
 @when("I click on consignees")  # noqa
 def i_click_on_consignees(driver):  # noqa
     utils.scroll_to_element_by_id(Shared(driver).driver, "consignees")
-    OpenApplicationOverviewPage(driver).click_consignee_link()
+    GenericApplicationTaskListPage(driver).click_consignee_link()
 
 
 @when("I click on activity tab")  # noqa

@@ -4,8 +4,8 @@ from pytest_bdd import scenarios, when, then, parsers
 
 from conftest import get_file_upload_path
 from pages.add_goods_page import AddGoodPage
-from pages.application_goods_list import ApplicationGoodsList
-from pages.application_overview_page import OpenApplicationOverviewPage
+from pages.standard_application.application_goods_list import ApplicationGoodsList
+from pages.generic_application.task_list import GenericApplicationTaskListPage
 from pages.attach_document_page import AttachDocumentPage
 from pages.goods_list import GoodsListPage
 from pages.goods_page import GoodsPage
@@ -73,7 +73,7 @@ def click_on_draft_good(driver):
 
 @when("I click to manage goods on a standard application")
 def i_click_to_manage_goods_on_a_standard_application(driver):
-    OpenApplicationOverviewPage(driver).click_standard_goods_link()
+    GenericApplicationTaskListPage(driver).click_standard_goods_link()
 
 
 @then("I see there are no goods on the application")

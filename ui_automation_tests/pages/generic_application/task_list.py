@@ -2,22 +2,16 @@ from selenium.common.exceptions import NoSuchElementException
 
 from shared import functions
 from shared.BasePage import BasePage
-from shared.tools.helpers import scroll_to_element_by_id
 
 
-class OpenApplicationOverviewPage(BasePage):
+class GenericApplicationTaskListPage(BasePage):
 
     LOCATION_LINK = "location"
-    HMRC_LOCATION_LINK = "goods_locations"
-    HMRC_DESCRIBE_YOUR_GOODS = "describe_your_goods"
-    HMRC_SET_END_USER = "set_end_user"
-    HMRC_EXPLAIN_YOUR_REASONING = "explain_the_reason_behind_your_query"
     LINK_COUNTRIES_ID = "set_countries"
     OPEN_GOODS_LINK = "open-goods"
     END_USER_LINK = "end_users"  # ID
     CONSIGNEES_LINK = "consignees"
     ULTIMATE_END_USER_LINK = "ultimate_end_users"  # ID
-    THIRD_PARTIES = "third_parties"  # ID
     SITES_LINK = "a[href*='sites']"
     GOODS_ON_APPLICATION = "[id^=good-on-application-row]"  # CSS
     ULTIMATE_END_USERS = "[id^=ultimate-end-user-row]"  # CSS
@@ -74,24 +68,9 @@ class OpenApplicationOverviewPage(BasePage):
         self.driver.find_element_by_id(self.DELETE_ADDITIONAL_DOC_CONFIRM_YES).click()
         functions.click_submit(self.driver)
 
-    def click_third_parties(self):
-        self.driver.find_element_by_id(self.THIRD_PARTIES).click()
-
     def click_application_locations_link(self):
         self.driver.execute_script("document.getElementById('" + self.LOCATION_LINK + "').scrollIntoView(true);")
         self.driver.find_element_by_id(self.LOCATION_LINK).click()
-
-    def click_hmrc_application_locations_link(self):
-        self.driver.find_element_by_id(self.HMRC_LOCATION_LINK).click()
-
-    def click_hmrc_describe_your_goods(self):
-        self.driver.find_element_by_id(self.HMRC_DESCRIBE_YOUR_GOODS).click()
-
-    def click_hmrc_set_end_user(self):
-        self.driver.find_element_by_id(self.HMRC_SET_END_USER).click()
-
-    def click_hmrc_explain_your_reasoning(self):
-        self.driver.find_element_by_id(self.HMRC_EXPLAIN_YOUR_REASONING).click()
 
     def click_open_goods_link(self):
         self.driver.execute_script("document.getElementById('" + self.OPEN_GOODS_LINK + "').scrollIntoView(true);")

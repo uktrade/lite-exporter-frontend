@@ -1,7 +1,7 @@
 from urllib.parse import urlencode
 
 from pytest_bdd import when, then, parsers, scenarios
-from pages.application_goods_list import ApplicationGoodsList
+from pages.standard_application.application_goods_list import ApplicationGoodsList
 from shared.tools.utils import get_lite_client
 from shared.seed_data.request_data import create_good
 

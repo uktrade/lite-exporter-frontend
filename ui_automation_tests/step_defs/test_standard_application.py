@@ -1,7 +1,8 @@
 from pytest_bdd import scenarios, when, then, parsers
 
+from conftest import enter_application_name, enter_export_licence
 from pages.add_new_external_location_form_page import AddNewExternalLocationFormPage
-from pages.application_overview_page import OpenApplicationOverviewPage
+from pages.generic_application.task_list import GenericApplicationTaskListPage
 from pages.external_locations_page import ExternalLocationsPage
 from pages.preexisting_locations_page import PreexistingLocationsPage
 from pages.shared import Shared
@@ -14,7 +15,9 @@ from shared import functions
 from shared.tools.helpers import scroll_to_element_by_id
 from shared.tools.wait import wait_for_download_button, wait_for_element
 
-scenarios("../features/submit_standard_application.feature", strict_gherkin=False)
+scenarios("../features/submit_standard_application.feature",
+          "../features/edit_standard_application.feature",
+          strict_gherkin=False)
 
 
 @when("I click on the add button")
@@ -33,13 +36,13 @@ def i_remove_an_ultimate_end_user(driver):
 
 @then("there is only one ultimate end user")
 def one_ultimate_end_user(driver):
-    elements = OpenApplicationOverviewPage(driver).get_ultimate_end_users()
+    elements = GenericApplicationTaskListPage(driver).get_ultimate_end_users()
     assert len(elements) == 1, "total on the application overview is incorrect after removing ultimate end user"
 
 
 @then("I see end user on overview")
 def end_user_on_overview(driver, context):
-    app = OpenApplicationOverviewPage(driver)
+    app = GenericApplicationTaskListPage(driver)
     assert "Type" in app.get_text_of_end_user_table()
     assert "Name" in app.get_text_of_end_user_table()
     assert "Address" in app.get_text_of_end_user_table()
@@ -81,14 +84,14 @@ def wait_for_element_to_be_present(driver, id):
 @when("I delete the end user document")
 def end_user_document_delete_is_present(driver):
     scroll_to_element_by_id(Shared(driver).driver, "end_user_document_delete")
-    OpenApplicationOverviewPage(driver).click_delete_end_user_document()
+    GenericApplicationTaskListPage(driver).click_delete_end_user_document()
     ThirdPartyListPage(driver).accept_delete_confirm()
     functions.click_submit(driver)
 
 
 @then("The end user document has been deleted")
 def document_has_been_deleted(driver):
-    assert OpenApplicationOverviewPage(driver).attach_end_user_document_is_present()
+    assert GenericApplicationTaskListPage(driver).attach_end_user_document_is_present()
 
 
 @when(parsers.parse('I select "{choice}" for whether or not I want a new or existing location to be added'))  # noqa
@@ -173,5 +176,97 @@ def the_good_is_added_to_the_application(driver):  # noqa
 
 
 @when("I click on ultimate end users")
-def i_click_on_application_overview(driver, add_an_incorporated_good_to_application):
+def i_click_on_application_overview(driver):
     StandardApplicationTaskListPage(driver).click_ultimate_recipients_link()
+
+
+# Edit all below
+@when("I click on the application third parties link")
+def i_click_on_application_third_parties_link(driver):
+    StandardApplicationTaskListPage(driver).click_third_parties_link()
+
+
+@when("I remove a third party from the application")
+def i_remove_a_third_party_from_the_application(driver):
+    remove_good_link = GenericApplicationTaskListPage(driver).find_remove_third_party_link()
+    driver.execute_script("arguments[0].click();", remove_good_link)
+
+
+@then("the third party has been removed from the application")
+def no_third_parties_are_left_on_the_application(driver):
+    assert GenericApplicationTaskListPage(driver).find_remove_third_party_link(), None
+
+
+@when("I remove a good from the application")
+def i_remove_a_good_from_the_application(driver):
+    remove_good_link = GenericApplicationTaskListPage(driver).find_remove_good_link()
+    driver.execute_script("arguments[0].click();", remove_good_link)
+
+
+@then("the good has been removed from the application")
+def no_goods_are_left_on_the_application(driver):
+    assert GenericApplicationTaskListPage(driver).find_remove_good_link(), None
+
+
+@when("I remove the end user off the application")
+def i_remove_the_end_user_off_the_application(driver):
+    remove_end_user_link = GenericApplicationTaskListPage(driver).find_remove_end_user_link()
+    driver.execute_script("arguments[0].click();", remove_end_user_link)
+
+
+@then("no end user is set on the application")
+def no_end_user_is_set_on_the_application(driver):
+    functions.click_back_link(driver)
+    assert (GenericApplicationTaskListPage(driver).find_remove_end_user_link(), None)
+
+
+@when("I remove the consignee off the application")
+def i_remove_the_consignee_off_the_application(driver):
+    remove_consignee_link = GenericApplicationTaskListPage(driver).find_remove_consignee_link()
+    driver.execute_script("arguments[0].click();", remove_consignee_link)
+
+
+@then("no consignee is set on the application")
+def no_consignee_is_set_on_the_application(driver):
+    functions.click_back_link(driver)
+    assert (GenericApplicationTaskListPage(driver).find_remove_consignee_link(), None)
+
+
+@when("I remove an additional document")
+def i_remove_an_additional_document(driver):
+    driver.set_timeout_to(0)
+    remove_consignee_link = GenericApplicationTaskListPage(driver).find_remove_additional_document_link()
+    driver.set_timeout_to(10)
+    driver.execute_script("arguments[0].click();", remove_consignee_link)
+
+
+@when("I confirm I want to delete the document")
+def i_click_confirm(driver):
+    GenericApplicationTaskListPage(driver).confirm_delete_additional_document()
+
+
+@then("the document is removed from the application")
+def no_documents_are_set_on_the_application(driver):
+    assert (GenericApplicationTaskListPage(driver).find_remove_additional_document_link(), None)
+
+
+@when("I change my reference name")
+def change_ref_name(driver, context):
+    driver.find_element_by_id("reference_name").click()
+    enter_application_name(driver, context)
+
+
+@when("I change my reference number")
+def change_ref_num(driver, context):
+    driver.find_element_by_id("told_by_an_official_that_you_need_an_export_licence").click()
+    enter_export_licence(driver, "yes", "12345678", context)
+
+
+@then("I see my edited reference name")
+def assert_ref_name(context, driver):
+    assert context.app_name in driver.find_element_by_css_selector(".lite-task-list").text
+
+
+@then("I see my edited reference number")
+def assert_ref_num(driver):
+    assert "12345678" in driver.find_element_by_css_selector(".lite-task-list").text

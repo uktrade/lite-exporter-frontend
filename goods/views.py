@@ -267,7 +267,7 @@ class AttachDocuments(TemplateView):
         if "errors" in good_document_upload(request, good_id, data):
             return error_page(request, strings.goods.AttachDocumentPage.UPLOAD_FAILURE_ERROR)
 
-        if good["is_good_controlled"] == "unsure":
+        if good["is_good_controlled"]["key"] == "unsure":
             return redirect(reverse("goods:raise_clc_query", kwargs={"pk": good_id}))
 
         return redirect(reverse("goods:good", kwargs={"pk": good_id}))
