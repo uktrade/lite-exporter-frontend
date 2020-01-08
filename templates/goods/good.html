@@ -50,7 +50,7 @@
 			<!-- Notify the user if their good has a special status -->
 			{% if good.status.key == 'clc_query' %}
 				<div class="govuk-inset-text">
-					Your good is currently being reviewed by ECJU. It'll have limited functionality until the review is complete.
+					Your product is currently being reviewed by ECJU. It'll have limited functionality until the review is complete.
 				</div>
 				<br>
 			{% endif %}
@@ -70,7 +70,7 @@
 
 				<br><br>
 
-				<h3 class="govuk-heading-m">Your Good</h3>
+				<h3 class="govuk-heading-m">Your Product</h3>
 			{% endif %}
 
 			{% if good.status.key == 'submitted' %}
@@ -92,7 +92,7 @@
 			<dl class="govuk-summary-list">
 				<div class="govuk-summary-list__row">
 					<dt class="govuk-summary-list__key">
-						Description
+						{% lcs "goods.GoodsList.Table.DESCRIPTION" %}
 					</dt>
 					<dd class="govuk-summary-list__value">
 						{{ good.description }}
@@ -100,16 +100,16 @@
 				</div>
 				<div class="govuk-summary-list__row">
 					<dt class="govuk-summary-list__key">
-						Is the product controlled?
+						{% lcs "goods.GoodsList.Table.IS_GOOD_CONTROLLED" %}
 					</dt>
 					<dd class="govuk-summary-list__value">
-						{{ good.is_good_controlled|title }}
+						{{ good.is_good_controlled.value }}
 					</dd>
 				</div>
 				{% if good.control_code %}
 					<div class="govuk-summary-list__row">
 						<dt class="govuk-summary-list__key">
-							Control list entry
+							{% lcs "goods.GoodsList.Table.CONTROL_LIST_ENTRY" %}
 						</dt>
 						<dd class="govuk-summary-list__value">
 							{{ good.control_code }}
@@ -120,7 +120,7 @@
 				{% endif %}
 				<div class="govuk-summary-list__row">
 					<dt class="govuk-summary-list__key">
-						Part Number
+						{% lcs "goods.GoodsList.Table.PART_NUMBER" %}
 					</dt>
 					<dd class="govuk-summary-list__value">
 						{{ good.part_number|default_na }}
