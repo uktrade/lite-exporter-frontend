@@ -59,7 +59,7 @@
                             {% if good.case_officer.first_name %}
                                 {{ good.case_officer.first_name }} {{ good.case_officer.last_name }}
                             {% else %}
-                                {% lcs 'goods.GoodPage.Query.NO_CASE_OFFICER' %}
+                                {% lcs 'goods.GoodPage.Query.NO_ASSIGNED_CASE_OFFICER' %}
                             {% endif %}
                         </dd>
                     </div>

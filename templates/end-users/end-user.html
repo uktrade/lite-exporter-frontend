@@ -35,7 +35,7 @@
                         {% if end_user_advisory.case_officer.first_name %}
                             {{ end_user_advisory.case_officer.first_name }} {{ end_user_advisory.case_officer.last_name }}
                         {% else %}
-                            {% lcs 'end_users.EndUserPage.NO_CASE_OFFICER' %}
+                            {% lcs 'end_users.EndUserPage.NO_ASSIGNED_CASE_OFFICER' %}
                         {% endif %}
                     </dd>
                 </div>

@@ -60,7 +60,7 @@
                 {% if application.case_officer.first_name %}
 				    {{ application.case_officer.first_name }} {{ application.case_officer.last_name }}
                 {% else %}
-                    {% lcs 'applications.ApplicationSummaryPage.NO_CASE_OFFICER' %}
+                    {% lcs 'applications.ApplicationSummaryPage.NO_ASSIGNED_CASE_OFFICER' %}
                 {% endif %}
 			</dd>
 		</div>
