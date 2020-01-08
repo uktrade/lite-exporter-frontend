@@ -4,10 +4,30 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
+from applications.forms.parties import party_create_new_or_existing_form
 from applications.services import get_application, get_existing_parties
 from core.helpers import convert_parameters_to_query_params
-from lite_forms.generators import error_page
+from lite_forms.generators import form_page, error_page
 from lite_forms.views import MultiFormView
+
+
+class AddParty(TemplateView):
+    def get(self, request, **kwargs):
+        return form_page(request, party_create_new_or_existing_form(kwargs["pk"]))
+
+    def post(self, request, **kwargs):
+        response = request.POST.get("copy_existing")
+        if response:
+            if response == "yes":
+                return redirect(reverse_lazy("applications:copy_end_user", kwargs=kwargs))
+            else:
+                return redirect(reverse_lazy("applications:set_end_user", kwargs=kwargs))
+        else:
+            return form_page(
+                request,
+                party_create_new_or_existing_form(kwargs["pk"]),
+                errors={"copy_existing": ["Please select an option"]},
+            )
 
 
 class SetParty(MultiFormView):

@@ -9,6 +9,17 @@ from lite_forms.generators import confirm_form
 from lite_content.lite_exporter_frontend.applications import PartyForm
 
 
+def party_create_new_or_existing_form(application_id):
+    return confirm_form(
+        title="Do you want to copy an existing party?",
+        confirmation_name="copy_existing",
+        yes_label="Yes",
+        no_label="No",
+        back_link_text="Back to application",
+        back_url=back_to_task_list(application_id),
+    )
+
+
 def party_type_form(application, title, button):
     return Form(
         title=title,

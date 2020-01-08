@@ -1,6 +1,6 @@
 from django.urls import path
 
-from applications.views.parties import consignees, end_users, third_parties, ultimate_end_users
+from applications.views.parties import consignees, end_users, third_parties, ultimate_end_users, base
 from applications.views import (
     goods,
     documents,
@@ -103,6 +103,7 @@ urlpatterns = [
     path("<uuid:pk>/goods-locations/countries/", locations.Countries.as_view(), name="countries"),
     # End User
     path("<uuid:pk>/end-user/", end_users.EndUser.as_view(), name="end_user"),
+    path("<uuid:pk>/end-user/add/", base.AddParty.as_view(), name="add_end_user"),
     path("<uuid:pk>/end-user/set/", end_users.SetEndUser.as_view(), name="set_end_user"),
     path("<uuid:pk>/end-user/copy/", end_users.CopyExistingEndUser.as_view(), name="copy_end_user"),
     path("<uuid:pk>/end-user/remove/", end_users.RemoveEndUser.as_view(), name="remove_end_user"),

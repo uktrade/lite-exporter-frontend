@@ -25,7 +25,7 @@ class EndUser(TemplateView):
             }
             return render(request, "applications/check-your-answer.html", context)
         else:
-            return redirect(reverse_lazy("applications:set_end_user", kwargs={"pk": application_id}))
+            return redirect(reverse_lazy("applications:add_end_user", kwargs={"pk": application_id}))
 
 
 class SetEndUser(SetParty):
