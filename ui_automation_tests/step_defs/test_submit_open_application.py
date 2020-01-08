@@ -121,7 +121,7 @@ def see_all_or_no_selected(driver, assigned_or_unassigned):
 @when("I click on the goods link from overview")  # noqa
 def click_goods_link_overview(driver):  # noqa
     overview_page = GenericApplicationTaskListPage(driver)
-    overview_page.click_open_goods_link()
+    overview_page.click_goods_type_link()
 
 
 @when("I create an open application")  # noqa

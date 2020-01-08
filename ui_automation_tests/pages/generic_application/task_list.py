@@ -7,12 +7,10 @@ from shared.BasePage import BasePage
 class GenericApplicationTaskListPage(BasePage):
 
     LOCATION_LINK = "location"
-    LINK_COUNTRIES_ID = "set_countries"
     OPEN_GOODS_LINK = "open-goods"
     END_USER_LINK = "end_users"  # ID
     CONSIGNEES_LINK = "consignees"
     ULTIMATE_END_USER_LINK = "ultimate_end_users"  # ID
-    SITES_LINK = "a[href*='sites']"
     GOODS_ON_APPLICATION = "[id^=good-on-application-row]"  # CSS
     ULTIMATE_END_USERS = "[id^=ultimate-end-user-row]"  # CSS
     GOV_TABLES = ".govuk-table__body"  # CSS
@@ -69,26 +67,16 @@ class GenericApplicationTaskListPage(BasePage):
         self.driver.execute_script("document.getElementById('" + self.LOCATION_LINK + "').scrollIntoView(true);")
         self.driver.find_element_by_id(self.LOCATION_LINK).click()
 
-    def click_open_goods_link(self):
+    def click_goods_type_link(self):
         self.driver.execute_script("document.getElementById('" + self.OPEN_GOODS_LINK + "').scrollIntoView(true);")
         element = self.driver.find_element_by_id(self.OPEN_GOODS_LINK)
         self.driver.execute_script("arguments[0].click();", element)
 
-    def click_sites_link(self):
-        self.driver.find_element_by_css_selector(self.SITES_LINK).click()
-
     def click_end_user_link(self):
         self.driver.find_element_by_id(self.END_USER_LINK).click()
 
-    def click_ultimate_end_user_link(self):
-        self.driver.find_element_by_id(self.ULTIMATE_END_USER_LINK).click()
-
     def click_consignee_link(self):
         self.driver.find_element_by_id(self.CONSIGNEES_LINK).click()
-
-    def click_countries_link(self):
-        self.driver.execute_script("document.getElementById('" + self.LINK_COUNTRIES_ID + "').scrollIntoView(true);")
-        self.driver.find_element_by_id(self.LINK_COUNTRIES_ID).click()
 
     def click_goods_countries_link(self):
         self.driver.execute_script("document.getElementById('" + self.GOODS_COUNTRIES_LINK + "').scrollIntoView(true);")
@@ -98,9 +86,6 @@ class GenericApplicationTaskListPage(BasePage):
         return self.driver.find_elements_by_css_selector(self.GOV_TABLES)[
             len(self.driver.find_elements_by_css_selector(self.GOV_TABLES)) - 1
         ].text
-
-    def get_text_of_good(self, index=0):
-        return self.driver.find_elements_by_css_selector(self.GOODS_ON_APPLICATION)[index].text
 
     def get_ultimate_end_users(self):
         return self.driver.find_elements_by_css_selector(self.ULTIMATE_END_USERS)

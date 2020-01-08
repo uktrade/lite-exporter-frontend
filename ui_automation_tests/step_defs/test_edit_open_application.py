@@ -25,4 +25,4 @@ def no_goods_types_are_left_on_the_application(driver):
 @when("I click on open goods tile")  # noqa
 def click_my_goods_link(driver):  # noqa
     exporter_hub = GenericApplicationTaskListPage(driver)
-    exporter_hub.click_open_goods_link()
+    exporter_hub.click_goods_type_link()
