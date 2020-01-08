@@ -5,12 +5,10 @@ from pytest_bdd import scenarios, when, then, parsers
 from conftest import get_file_upload_path
 from pages.add_goods_page import AddGoodPage
 from pages.application_goods_list import ApplicationGoodsList
-from pages.application_overview_page import ApplicationOverviewPage
+from pages.application_overview_page import OpenApplicationOverviewPage
 from pages.attach_document_page import AttachDocumentPage
-from pages.exporter_hub_page import ExporterHubPage
 from pages.goods_list import GoodsList
 from pages.goods_page import GoodsPage
-from pages.shared import Shared
 from shared import functions
 
 scenarios("../features/goods.feature", strict_gherkin=False)
@@ -36,10 +34,10 @@ def assert_clc_is_in_list(driver, context, exporter_url):
 @when(
     parsers.parse(
         'I edit a good to description "{description}" controlled "{controlled}" '
-        'control code "{control_code}" incorporated "{incorporated}" and part number "{part}"'
+        'control code "{control_code}" and part number "{part}"'
     )
 )
-def edit_good(driver, description, controlled, control_code, incorporated, part, context):
+def edit_good(driver, description, controlled, control_code, part, context):
     add_goods_page = AddGoodPage(driver)
     goods_list = GoodsList(driver)
     goods_list.select_a_draft_good()
@@ -70,13 +68,12 @@ def click_on_draft_good(driver):
     text = driver.find_element_by_css_selector(".govuk-summary-list").text
     assert "edited" in text
     assert "Yes" in text
-    assert "No" in text
     assert "321" in text
 
 
 @when("I click to manage goods on a standard application")
 def i_click_to_manage_goods_on_a_standard_application(driver):
-    ApplicationOverviewPage(driver).click_standard_goods_link()
+    OpenApplicationOverviewPage(driver).click_standard_goods_link()
 
 
 @then("I see there are no goods on the application")

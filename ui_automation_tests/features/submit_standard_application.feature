@@ -20,8 +20,9 @@ Feature: I want to indicate the standard licence I want
     And I select the site at position "1"
     And I click continue
     And I click the back link
-    And I add a non incorporated good to application
-    Then good is added to application
+    When I click on goods
+    And I add a non-incorporated good to the application
+    Then the good is added to the application
     When I click on end user
     And I add an end user of sub_type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
     And I upload a file "file_for_doc_upload_test_1.txt"

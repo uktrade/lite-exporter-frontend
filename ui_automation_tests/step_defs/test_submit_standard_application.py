@@ -1,36 +1,20 @@
 from pytest_bdd import scenarios, when, then, parsers
 
 from pages.add_new_external_location_form_page import AddNewExternalLocationFormPage
+from pages.application_overview_page import OpenApplicationOverviewPage
 from pages.external_locations_page import ExternalLocationsPage
 from pages.preexisting_locations_page import PreexistingLocationsPage
+from pages.shared import Shared
+from pages.standard_application.good_details import StandardApplicationGoodDetails
+from pages.standard_application.goods import StandardApplicationGoodsPage
+from pages.standard_application.task_list import StandardApplicationTaskListPage
+from pages.ultimate_end_users_list_page import ThirdPartyListPage
 from pages.which_location_form_page import WhichLocationFormPage
 from shared import functions
 from shared.tools.helpers import scroll_to_element_by_id
 from shared.tools.wait import wait_for_download_button, wait_for_element
-from pages.application_overview_page import ApplicationOverviewPage
-from pages.shared import Shared
-from pages.ultimate_end_users_list_page import ThirdPartyListPage
 
 scenarios("../features/submit_standard_application.feature", strict_gherkin=False)
-
-
-@then("good is added to application")
-def good_is_added(driver, context):
-    good = ApplicationOverviewPage(driver).get_text_of_good(index=0)
-    assert context.goods_name in good
-    # TODO put this back when bug is fixed - showing mtr instead of metres
-    # assert str(context.quantity) + ".0 " + context.unit in good
-    if "." not in context.value:
-        assert "£" + str(context.value) + ".00" in good
-    else:
-        assert "£" + str(context.value) in good
-
-
-@when("I click on ultimate end users")
-def i_click_on_application_overview(driver, add_an_incorporated_good_to_application):
-    app = ApplicationOverviewPage(driver)
-    scroll_to_element_by_id(Shared(driver).driver, app.ULTIMATE_END_USER_LINK)
-    app.click_ultimate_end_user_link()
 
 
 @when("I click on the add button")
@@ -49,13 +33,13 @@ def i_remove_an_ultimate_end_user(driver):
 
 @then("there is only one ultimate end user")
 def one_ultimate_end_user(driver):
-    elements = ApplicationOverviewPage(driver).get_ultimate_end_users()
+    elements = OpenApplicationOverviewPage(driver).get_ultimate_end_users()
     assert len(elements) == 1, "total on the application overview is incorrect after removing ultimate end user"
 
 
 @then("I see end user on overview")
 def end_user_on_overview(driver, context):
-    app = ApplicationOverviewPage(driver)
+    app = OpenApplicationOverviewPage(driver)
     assert "Type" in app.get_text_of_end_user_table()
     assert "Name" in app.get_text_of_end_user_table()
     assert "Address" in app.get_text_of_end_user_table()
@@ -97,14 +81,14 @@ def wait_for_element_to_be_present(driver, id):
 @when("I delete the end user document")
 def end_user_document_delete_is_present(driver):
     scroll_to_element_by_id(Shared(driver).driver, "end_user_document_delete")
-    ApplicationOverviewPage(driver).click_delete_end_user_document()
+    OpenApplicationOverviewPage(driver).click_delete_end_user_document()
     ThirdPartyListPage(driver).accept_delete_confirm()
     functions.click_submit(driver)
 
 
 @then("The end user document has been deleted")
 def document_has_been_deleted(driver):
-    assert ApplicationOverviewPage(driver).attach_end_user_document_is_present()
+    assert OpenApplicationOverviewPage(driver).attach_end_user_document_is_present()
 
 
 @when(parsers.parse('I select "{choice}" for whether or not I want a new or existing location to be added'))  # noqa
@@ -151,3 +135,43 @@ def i_click_on_add_new_address(driver):  # noqa
 def i_click_add_preexisting_locations(driver):  # noqa
     external_locations_page = ExternalLocationsPage(driver)
     external_locations_page.click_preexisting_locations()
+
+
+@when("I click on goods")  # noqa
+def i_click_on_goods(driver):  # noqa
+    StandardApplicationTaskListPage(driver).click_goods_link()
+
+
+@when("I add a non-incorporated good to the application")  # noqa
+def i_add_a_non_incorporated_good_to_the_application(driver):  # noqa
+    StandardApplicationGoodsPage(driver).click_add_preexisting_good_button()
+
+    # Click the "Add to application" link on the first good
+    driver.find_elements_by_css_selector(".govuk-table__row .govuk-link")[0].click()
+
+    # Enter good details
+    StandardApplicationGoodDetails(driver).enter_value("1")
+    StandardApplicationGoodDetails(driver).enter_quantity("2")
+    StandardApplicationGoodDetails(driver).select_unit("Number of articles")
+    StandardApplicationGoodDetails(driver).check_is_good_incorporated_false()
+
+    functions.click_submit(driver)
+
+
+@then("the good is added to the application")  # noqa
+def the_good_is_added_to_the_application(driver):  # noqa
+    body_text = Shared(driver).get_text_of_body()
+
+    assert len(StandardApplicationGoodsPage(driver).get_goods()) == 1  # Only one good added
+    assert StandardApplicationGoodsPage(driver).get_goods_total_value() == "£1.00"  # Value
+    assert "2.0" in body_text  # Quantity
+    assert "Number of articles" in body_text  # Unit
+    assert "No" in body_text  # Incorporated
+
+    # Go back to task list
+    functions.click_back_link(driver)
+
+
+@when("I click on ultimate end users")
+def i_click_on_application_overview(driver, add_an_incorporated_good_to_application):
+    StandardApplicationTaskListPage(driver).click_ultimate_recipients_link()

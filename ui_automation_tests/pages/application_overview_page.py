@@ -2,9 +2,10 @@ from selenium.common.exceptions import NoSuchElementException
 
 from shared import functions
 from shared.BasePage import BasePage
+from shared.tools.helpers import scroll_to_element_by_id
 
 
-class ApplicationOverviewPage(BasePage):
+class OpenApplicationOverviewPage(BasePage):
 
     LOCATION_LINK = "location"
     HMRC_LOCATION_LINK = "goods_locations"
@@ -12,7 +13,6 @@ class ApplicationOverviewPage(BasePage):
     HMRC_SET_END_USER = "set_end_user"
     HMRC_EXPLAIN_YOUR_REASONING = "explain_the_reason_behind_your_query"
     LINK_COUNTRIES_ID = "set_countries"
-    STANDARD_GOODS_LINK = "standard-goods"
     OPEN_GOODS_LINK = "open-goods"
     END_USER_LINK = "end_users"  # ID
     CONSIGNEES_LINK = "consignees"
@@ -92,11 +92,6 @@ class ApplicationOverviewPage(BasePage):
 
     def click_hmrc_explain_your_reasoning(self):
         self.driver.find_element_by_id(self.HMRC_EXPLAIN_YOUR_REASONING).click()
-
-    def click_standard_goods_link(self):
-        self.driver.execute_script("document.getElementById('" + self.STANDARD_GOODS_LINK + "').scrollIntoView(true);")
-        element = self.driver.find_element_by_id(self.STANDARD_GOODS_LINK)
-        self.driver.execute_script("arguments[0].click();", element)
 
     def click_open_goods_link(self):
         self.driver.execute_script("document.getElementById('" + self.OPEN_GOODS_LINK + "').scrollIntoView(true);")

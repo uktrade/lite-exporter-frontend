@@ -9,7 +9,7 @@ from conftest import (
 )
 from pages.application_countries_list import ApplicationCountriesList
 from pages.application_goods_type_list import ApplicationGoodsTypeList
-from pages.application_overview_page import ApplicationOverviewPage
+from pages.application_overview_page import OpenApplicationOverviewPage
 from pages.goods_countries_page import GoodsCountriesPage
 from pages.shared import Shared
 
@@ -43,7 +43,7 @@ def i_see_the_goods_types_list_overview(driver, context):
 
 @when("I click on countries")
 def i_click_on_countries(driver):
-    page = ApplicationOverviewPage(driver)
+    page = OpenApplicationOverviewPage(driver)
     page.click_countries_link()
 
 
@@ -74,7 +74,7 @@ def search_country_result(driver, country):
 
 @when("I click on assign countries to goods")
 def go_to_good_countries(driver):
-    page = ApplicationOverviewPage(driver)
+    page = OpenApplicationOverviewPage(driver)
     page.click_goods_countries_link()
 
 
@@ -117,7 +117,7 @@ def see_all_or_no_selected(driver, assigned_or_unassigned):
 
 @when("I click on the goods link from overview")  # noqa
 def click_goods_link_overview(driver):  # noqa
-    overview_page = ApplicationOverviewPage(driver)
+    overview_page = OpenApplicationOverviewPage(driver)
     overview_page.click_open_goods_link()
 
 
