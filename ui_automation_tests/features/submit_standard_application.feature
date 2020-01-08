@@ -77,3 +77,10 @@ Feature: I want to indicate the standard licence I want
     When I submit the application
     And I click applications
     Then I see submitted application
+
+  @LT_1074_copy_existing_party @regression @BAA
+  Scenario: Submit standard application with external locations and ultimate end users
+    Given I go to exporter homepage and choose Test Org
+    And I create a draft
+    And I seed an end user for the draft
+    When I create a standard application

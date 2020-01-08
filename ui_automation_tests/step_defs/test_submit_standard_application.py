@@ -1,4 +1,4 @@
-from pytest_bdd import scenarios, when, then, parsers
+from pytest_bdd import scenarios, when, then, parsers, given
 
 from pages.add_new_external_location_form_page import AddNewExternalLocationFormPage
 from pages.external_locations_page import ExternalLocationsPage
@@ -151,3 +151,8 @@ def i_click_on_add_new_address(driver):  # noqa
 def i_click_add_preexisting_locations(driver):  # noqa
     external_locations_page = ExternalLocationsPage(driver)
     external_locations_page.click_preexisting_locations()
+
+
+@given("I seed an end user for the draft")
+def seed_end_user(add_end_user_to_application):
+    pass
