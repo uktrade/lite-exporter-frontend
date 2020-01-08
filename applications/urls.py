@@ -103,7 +103,7 @@ urlpatterns = [
     path("<uuid:pk>/goods-locations/countries/", locations.Countries.as_view(), name="countries"),
     # End User
     path("<uuid:pk>/end-user/", end_users.EndUser.as_view(), name="end_user"),
-    path("<uuid:pk>/end-user/add/", base.AddParty.as_view(), name="add_end_user"),
+    path("<uuid:pk>/end-user/add/", end_users.AddEndUser.as_view(), name="add_end_user"),
     path("<uuid:pk>/end-user/set/", end_users.SetEndUser.as_view(), name="set_end_user"),
     path("<uuid:pk>/end-user/copy/", end_users.CopyExistingEndUser.as_view(), name="copy_end_user"),
     path("<uuid:pk>/end-user/remove/", end_users.RemoveEndUser.as_view(), name="remove_end_user"),

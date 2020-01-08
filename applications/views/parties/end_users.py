@@ -5,7 +5,7 @@ from django.views.generic import TemplateView
 from applications.forms.parties import new_party_form_group
 from applications.helpers.check_your_answers import convert_end_user
 from applications.services import get_application, post_end_user, delete_end_user
-from applications.views.parties.base import SetParty, DeleteParty, CopyExistingParty
+from applications.views.parties.base import AddParty, SetParty, DeleteParty, CopyExistingParty
 from lite_content.lite_exporter_frontend.applications import EndUserForm
 
 
@@ -26,6 +26,14 @@ class EndUser(TemplateView):
             return render(request, "applications/check-your-answer.html", context)
         else:
             return redirect(reverse_lazy("applications:add_end_user", kwargs={"pk": application_id}))
+
+
+class AddEndUser(AddParty):
+    def __init__(self):
+        super().__init__(
+            new_url="applications:copy_end_user",
+            copy_url="applications:set_end_user",
+        )
 
 
 class SetEndUser(SetParty):

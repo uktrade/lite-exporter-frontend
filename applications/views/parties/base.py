@@ -12,6 +12,11 @@ from lite_forms.views import MultiFormView
 
 
 class AddParty(TemplateView):
+    def __init__(self, copy_url, new_url, **kwargs):
+        super().__init__(**kwargs)
+        self.copy_url = copy_url
+        self.new_url = new_url
+
     def get(self, request, **kwargs):
         return form_page(request, party_create_new_or_existing_form(kwargs["pk"]))
 
@@ -19,9 +24,9 @@ class AddParty(TemplateView):
         response = request.POST.get("copy_existing")
         if response:
             if response == "yes":
-                return redirect(reverse_lazy("applications:copy_end_user", kwargs=kwargs))
+                return redirect(reverse_lazy(self.copy_url, kwargs=kwargs))
             else:
-                return redirect(reverse_lazy("applications:set_end_user", kwargs=kwargs))
+                return redirect(reverse_lazy(self.new_url, kwargs=kwargs))
         else:
             return form_page(
                 request,
