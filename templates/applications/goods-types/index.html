@@ -35,6 +35,7 @@
 				<tr class="govuk-table__row">
 					<th scope="col" class="govuk-table__header govuk-!-width-one-half">Description</th>
 					<th scope="col" class="govuk-table__header">Control list classification</th>
+					<th scope="col" class="govuk-table__header">Will the products be incorporated into other products</th>
 					{% if application.application_type.key == 'hmrc_query' %}
 						<th scope="col" class="govuk-table__header">Document</th>
 					{% endif %}
@@ -51,6 +52,10 @@
 						<td class="govuk-table__cell">
 							<span class="lite-responsive-table__header">Control list classification</span>
 							{{ good_on_application.control_code|default_na }}
+						</td>
+						<td class="govuk-table__cell">
+							<span class="lite-responsive-table__header">Will the products be incorporated into other products</span>
+							{{ good_on_application.is_good_end_product|friendly_boolean }}
 						</td>
 						{% if application.application_type.key == 'hmrc_query' %}
 							<td class="govuk-table__cell">
