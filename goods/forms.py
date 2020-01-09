@@ -11,7 +11,8 @@ from lite_content.lite_exporter_frontend.goods import (
     EditGoodForm,
     AttachDocumentForm,
     RespondToQueryForm,
-    GoodsList)
+    GoodsList,
+)
 from lite_forms.common import control_list_entry_question
 from lite_forms.components import (
     Form,
