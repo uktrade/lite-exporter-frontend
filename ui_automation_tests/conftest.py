@@ -119,7 +119,7 @@ def standard_application_exists(apply_for_standard_application):  # noqa
 
 
 @given("I create a draft")  # noqa
-def standard_application_exists(add_a_draft):  # noqa
+def create_a_draft(add_a_draft):  # noqa
     pass
 
 
@@ -136,7 +136,7 @@ def click_on_an_application(driver, context):  # noqa
 
 @when("I go to application previously created")  # noqa
 def click_on_an_application(driver, exporter_url, context):  # noqa
-    driver.get(exporter_url.rstrip("/") + "/applications/" + context.draft_id)
+    driver.get(exporter_url.rstrip("/") + "/applications/" + context.app_id)
 
 
 @when("I click edit application")  # noqa
