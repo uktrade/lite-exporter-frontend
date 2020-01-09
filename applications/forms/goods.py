@@ -13,24 +13,24 @@ from lite_forms.components import (
 from lite_forms.helpers import conditional
 
 
-def good_on_application_form(good, units, title, prefix=""):
+def good_on_application_form(good, units, title):
     return Form(
         title=title,
         questions=[
             conditional(good, good_summary(good)),
             conditional(good, HiddenField(name="good_id", value=good.get("id"))),
-            CurrencyInput(title=strings.goods.CreateGoodOnApplicationForm.TITLE, name=prefix + "value"),
+            CurrencyInput(title=strings.goods.CreateGoodOnApplicationForm.TITLE, name="value"),
             SideBySideSection(
                 questions=[
-                    QuantityInput(title=strings.goods.CreateGoodOnApplicationForm.QUANTITY, name=prefix + "quantity"),
-                    Select(title=strings.goods.CreateGoodOnApplicationForm.UNITS, name=prefix + "unit", options=units),
+                    QuantityInput(title=strings.goods.CreateGoodOnApplicationForm.QUANTITY, name="quantity"),
+                    Select(title=strings.goods.CreateGoodOnApplicationForm.UNITS, name="unit", options=units),
                 ]
             ),
             RadioButtons(
                 name="is_good_incorporated",
-                title="Is the good incorporated?",
-                description="Good incorporated description",
-                options=[Option(True, "Yes"), Option(False, "No")],
+                title=strings.goods.CreateGoodOnApplicationForm.INCORPORATED,
+                description=strings.goods.CreateGoodOnApplicationForm.INCORPORATED_DESCRIPTION,
+                options=[Option(True, strings.goods.CreateGoodOnApplicationForm.INCORPORATED_YES), Option(False, strings.goods.CreateGoodOnApplicationForm.INCORPORATED_NO)],
                 classes=["govuk-radios--inline"],
             ),
         ],
