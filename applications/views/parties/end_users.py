@@ -5,7 +5,7 @@ from django.views.generic import TemplateView
 from applications.forms.parties import new_party_form_group
 from applications.helpers.check_your_answers import convert_end_user
 from applications.services import get_application, post_end_user, delete_end_user
-from applications.views.parties.base import AddParty, SetParty, DeleteParty, CopyExistingParty
+from applications.views.parties.base import AddParty, SetParty, DeleteParty, ExistingPartiesList
 from lite_content.lite_exporter_frontend.applications import EndUserForm
 
 
@@ -58,6 +58,6 @@ class RemoveEndUser(DeleteParty):
         )
 
 
-class CopyExistingEndUser(CopyExistingParty):
+class ExistingEndUser(ExistingPartiesList):
     def __init__(self):
         super().__init__(destination_url="applications:set_end_user",)

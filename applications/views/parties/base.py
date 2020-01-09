@@ -85,7 +85,7 @@ class DeleteParty(TemplateView):
         return redirect(reverse_lazy(self.url, kwargs={"pk": application_id}))
 
 
-class CopyExistingParty(TemplateView):
+class ExistingPartiesList(TemplateView):
     def __init__(self, destination_url, **kwargs):
         super().__init__(**kwargs)
         self.destination_url = destination_url

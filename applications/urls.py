@@ -105,7 +105,7 @@ urlpatterns = [
     path("<uuid:pk>/end-user/", end_users.EndUser.as_view(), name="end_user"),
     path("<uuid:pk>/end-user/add/", end_users.AddEndUser.as_view(), name="add_end_user"),
     path("<uuid:pk>/end-user/set/", end_users.SetEndUser.as_view(), name="set_end_user"),
-    path("<uuid:pk>/end-user/copy/", end_users.CopyExistingEndUser.as_view(), name="copy_end_user"),
+    path("<uuid:pk>/end-user/copy/", end_users.ExistingEndUser.as_view(), name="copy_end_user"),
     path("<uuid:pk>/end-user/remove/", end_users.RemoveEndUser.as_view(), name="remove_end_user"),
     path("<uuid:pk>/end-user/document/attach", documents.AttachDocuments.as_view(), name="end_user_attach_document"),
     path(
@@ -116,7 +116,7 @@ urlpatterns = [
     path("<uuid:pk>/consignee/", consignees.Consignee.as_view(), name="consignee"),
     path("<uuid:pk>/consignee/add/", consignees.AddConsignee.as_view(), name="add_consignee"),
     path("<uuid:pk>/consignee/set/", consignees.SetConsignee.as_view(), name="set_consignee"),
-    path("<uuid:pk>/consignee/copy/", consignees.CopyExistingConsignee.as_view(), name="copy_consignee"),
+    path("<uuid:pk>/consignee/copy/", consignees.ExistingConsignee.as_view(), name="copy_consignee"),
     path("<uuid:pk>/consignee/remove/", consignees.RemoveConsignee.as_view(), name="remove_consignee"),
     path("<uuid:pk>/consignee/document/attach", documents.AttachDocuments.as_view(), name="consignee_attach_document"),
     path(
@@ -154,7 +154,7 @@ urlpatterns = [
     ),
     path(
         "<uuid:pk>/ultimate-end-users/copy/",
-        ultimate_end_users.CopyExistingUltimateEndUser.as_view(),
+        ultimate_end_users.ExistingUltimateEndUser.as_view(),
         name="copy_ultimate_end_user",
     ),
     path(
@@ -166,7 +166,7 @@ urlpatterns = [
     path("<uuid:pk>/third-parties/", third_parties.ThirdParties.as_view(), name="third_parties"),
     path("<uuid:pk>/third-parties/add/", third_parties.AddThirdParty.as_view(), name="add_third_party"),
     path("<uuid:pk>/third-parties/set/", third_parties.SetThirdParty.as_view(), name="set_third_party"),
-    path("<uuid:pk>/third-parties/copy/", third_parties.CopyExistingThirdParty.as_view(), name="copy_third_party"),
+    path("<uuid:pk>/third-parties/copy/", third_parties.ExistingThirdPartiesList.as_view(), name="copy_third_party"),
     path(
         "<uuid:pk>/third-parties/<uuid:obj_pk>/document/attach",
         documents.AttachDocuments.as_view(),
