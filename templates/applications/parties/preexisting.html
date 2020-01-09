@@ -20,16 +20,16 @@
             <tbody class="govuk-table__body">
                 {% for party in data.results %}
                     <tr class="govuk-table__row">
-                        <td class="govuk-table__cell" id="good-description">
+                        <td class="govuk-table__cell" name="party-name">
                             {{ party.name }}
                         </td>
-                        <td class="govuk-table__cell" id="good-part-number">
+                        <td class="govuk-table__cell" name="party-address">
                             {{ party.address }}
                         </td>
-                        <td class="govuk-table__cell" id="good-control_code">
+                        <td class="govuk-table__cell" name="party-country">
                             {{ party.country.name }}
                         </td>
-                        <td class="govuk-table__cell" id="good-control_code">
+                        <td class="govuk-table__cell" name="party-website">
                             {{ party.website }}
                         </td>
                         <td class="govuk-table__cell lite-!-text-align-right">
@@ -40,7 +40,7 @@
                                 <input type="hidden" name="website" value="{{ party.website }}">
                                 <input type="hidden" name="address" value="{{ party.address }}">
                                 <input type="hidden" name="country" value="{{ party.country.id }}">
-                                <button type="submit" class="govuk-button--secondary">
+                                <button type="submit" class="govuk-button--secondary" name="add">
                                     Add to application
                                 </button>
                             </form>

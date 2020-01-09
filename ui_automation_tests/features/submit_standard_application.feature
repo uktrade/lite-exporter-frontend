@@ -84,3 +84,6 @@ Feature: I want to indicate the standard licence I want
     And I create a draft
     And I seed an end user for the draft
     When I create a standard application
+    And I click on end user
+    And I select that I want to copy an existing party
+    Then I see the existing party in the table

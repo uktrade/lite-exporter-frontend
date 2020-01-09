@@ -4,8 +4,9 @@ from pages.add_new_external_location_form_page import AddNewExternalLocationForm
 from pages.external_locations_page import ExternalLocationsPage
 from pages.preexisting_locations_page import PreexistingLocationsPage
 from pages.which_location_form_page import WhichLocationFormPage
+from pages.add_end_user_pages import AddEndUserPages
 from shared import functions
-from shared.tools.helpers import scroll_to_element_by_id
+from shared.tools.helpers import scroll_to_element_by_id, paginated_search
 from shared.tools.wait import wait_for_download_button, wait_for_element
 from pages.application_overview_page import ApplicationOverviewPage
 from pages.shared import Shared
@@ -156,3 +157,28 @@ def i_click_add_preexisting_locations(driver):  # noqa
 @given("I seed an end user for the draft")
 def seed_end_user(add_end_user_to_application):
     pass
+
+
+@when("I select that I want to copy an existing party")
+def copy_existing_party_yes(driver):
+    AddEndUserPages(driver).create_new_or_copy_existing(copy_existing=True)
+
+
+@then("I see the existing party in the table")
+def party_table(driver, context):
+    def find_text(driver, text):
+        rows = Shared(driver).get_table_rows()
+        for row in rows:
+            match = True
+            for string in text:
+                if string not in row.text:
+                    match = False
+                    break
+
+            if match:
+                AddEndUserPages(driver).click_copy_existing_button(row)
+                return True
+
+        return False
+
+    assert paginated_search(driver, find_text(driver, ["Government"]))
