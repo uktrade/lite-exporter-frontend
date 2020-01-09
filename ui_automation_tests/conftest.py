@@ -36,7 +36,7 @@ from ui_automation_tests.fixtures.internal_case_note import (  # noqa
 )
 from ui_automation_tests.fixtures.manage_case import manage_case_status_to_withdrawn  # noqa
 
-from ui_automation_tests.shared.fixtures.add_a_draft import add_a_draft # noqa
+from ui_automation_tests.shared.fixtures.add_a_draft import add_a_draft  # noqa
 from ui_automation_tests.shared.fixtures.apply_for_application import (  # noqa
     apply_for_standard_application,
     add_an_ecju_query,
