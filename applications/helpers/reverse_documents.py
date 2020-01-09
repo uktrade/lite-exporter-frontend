@@ -46,7 +46,6 @@ def document_switch(path):
             "attach_doc_title_string": strings.EndUser.Documents.AttachDocuments.TITLE,
             "attach_doc_return_later_string": strings.EndUser.Documents.SAVE_END_USER,
             "delete_conf_back_link_string": strings.EndUser.Documents.AttachDocuments.BACK_TO_APPLICATION_OVERVIEW,
-            # .AttachDocuments.DESCRIPTION_FIELD_TITLE
         }
     elif "consignee" in path:
         return {
