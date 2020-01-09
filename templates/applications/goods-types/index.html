@@ -3,14 +3,14 @@
 {% load svg humanize %}
 
 {% block back_link %}
-	<a href="{% url 'applications:task_list' application.id %}" id="back-link" class="govuk-back-link">Back to application overview</a>
+	<a href="{% url 'applications:task_list' application.id %}" id="back-link" class="govuk-back-link">{% lcs "goods_types.Overview.BACK" %}</a>
 {% endblock %}
 
 {% block body %}
 	<div class="lite-app-bar">
 		<div class="lite-app-bar__content">
 			<h1 class="govuk-heading-l">
-				{% block title %}Add products{% endblock%}
+				{% block title %}{% lcs "goods_types.Overview.TITLE" %}{% endblock%}
 			</h1>
 			{% if goods %}
 				<p class="govuk-body-m">You've added {{ goods|length|apnumber }} product{{ goods|pluralize }}.</p>
@@ -20,9 +20,9 @@
 		<div class="lite-app-bar__controls">
 			<a href="{% url 'applications:add_goods_type' application.id %}?next={% url 'applications:goods_types' application.id %}" role='button' draggable='false' class='govuk-button'>
 				{% if goods %}
-					Add another product
+					{% lcs "goods_types.Overview.ADD_ANOTHER_GOODS_TYPE_BUTTON" %}
 				{% else %}
-					{% lcs 'GoodTypes.OverviewGoodTypes.ADD_GOOD_TYPE_BUTTON' %}
+					{% lcs "goods_types.Overview.ADD_GOODS_TYPE_BUTTON" %}
 				{% endif %}
 			</a>
 		</div>
@@ -33,11 +33,11 @@
 		<table class="govuk-table lite-responsive-table">
 			<thead class="govuk-table__head">
 				<tr class="govuk-table__row">
-					<th scope="col" class="govuk-table__header govuk-!-width-one-half">Description</th>
-					<th scope="col" class="govuk-table__header">Control list classification</th>
-					<th scope="col" class="govuk-table__header">Will the products be incorporated into other products</th>
+					<th scope="col" class="govuk-table__header govuk-!-width-one-half">{% lcs "goods_types.Variables.DESCRIPTION" %}</th>
+					<th scope="col" class="govuk-table__header">{% lcs "goods_types.Variables.CONTROL_LIST_ENTRY" %}</th>
+					<th scope="col" class="govuk-table__header">{% lcs "goods_types.Variables.INCORPORATED" %}</th>
 					{% if application.application_type.key == 'hmrc_query' %}
-						<th scope="col" class="govuk-table__header">Document</th>
+						<th scope="col" class="govuk-table__header">{% lcs "goods_types.Variables.DOCUMENT" %}</th>
 					{% endif %}
 					<th scope="col" class="govuk-table__header"></th>
 				</tr>
@@ -46,20 +46,20 @@
 				{% for good_on_application in goods %}
 					<tr class="govuk-table__row">
 						<td class="govuk-table__cell">
-							<span class="lite-responsive-table__header">Description</span>
+							<span class="lite-responsive-table__header">{% lcs "goods_types.Variables.DESCRIPTION" %}</span>
 							{{ good_on_application.description }}
 						</td>
 						<td class="govuk-table__cell">
-							<span class="lite-responsive-table__header">Control list classification</span>
+							<span class="lite-responsive-table__header">{% lcs "goods_types.Variables.CONTROL_LIST_ENTRY" %}</span>
 							{{ good_on_application.control_code|default_na }}
 						</td>
 						<td class="govuk-table__cell">
-							<span class="lite-responsive-table__header">Will the products be incorporated into other products</span>
+							<span class="lite-responsive-table__header">{% lcs "goods_types.Variables.INCORPORATED" %}</span>
 							{{ good_on_application.is_good_end_product|friendly_boolean }}
 						</td>
 						{% if application.application_type.key == 'hmrc_query' %}
 							<td class="govuk-table__cell">
-								<span class="lite-responsive-table__header">Document</span>
+								<span class="lite-responsive-table__header">{% lcs "goods_types.Variables.DOCUMENT" %}</span>
 								{% if good_on_application.document %}
 					                {%  if good_on_application.document.safe == True %}
 					                    <a href="{% url 'applications:goods_type_download_document' application.id good_on_application.id %}" id="document_download" class='govuk-link govuk-link--no-visited-state'>
