@@ -179,7 +179,7 @@ def party_table(driver, context):
 
         return False
 
-    text = [context.end_user[key] for key in ["name","address","website"]]
+    text = [context.end_user[key] for key in ["name", "address", "website"]]
     text.append(context.end_user["country"]["name"])
     assert paginated_search(driver, find_text(driver, text))
 
