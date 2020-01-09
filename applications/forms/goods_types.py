@@ -1,6 +1,5 @@
 from conf.constants import HMRC_QUERY
 from core.services import get_control_list_entries
-from lite_content.lite_exporter_frontend import strings
 from lite_content.lite_exporter_frontend.goods_types import CreateGoodsTypeForm
 from lite_forms.common import control_list_entry_question
 from lite_forms.components import TextArea, RadioButtons, Option, Form
@@ -9,9 +8,10 @@ from lite_forms.helpers import conditional
 
 def goods_type_form(application_type: str):
     return Form(
-        title=strings.GoodTypes.Overview.TITLE,
+        title=CreateGoodsTypeForm.TITLE,
+        description=CreateGoodsTypeForm.DESCRIPTION,
         questions=[
-            TextArea(title=CreateGoodsTypeForm.TITLE, name="description", extras={"max_length": 2000,}),
+            TextArea(title=CreateGoodsTypeForm.Description.TITLE, name="description", extras={"max_length": 2000,}),
             RadioButtons(
                 title=CreateGoodsTypeForm.IsControlled.TITLE,
                 description=CreateGoodsTypeForm.Description.DESCRIPTION,
