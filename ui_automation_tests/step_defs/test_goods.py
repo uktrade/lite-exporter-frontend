@@ -9,6 +9,7 @@ from pages.generic_application.task_list import GenericApplicationTaskListPage
 from pages.attach_document_page import AttachDocumentPage
 from pages.goods_list import GoodsListPage
 from pages.goods_page import GoodsPage
+from pages.standard_application.task_list import StandardApplicationTaskListPage
 from shared import functions
 
 scenarios("../features/goods.feature", strict_gherkin=False)
@@ -73,7 +74,7 @@ def click_on_draft_good(driver):
 
 @when("I click to manage goods on a standard application")
 def i_click_to_manage_goods_on_a_standard_application(driver):
-    GenericApplicationTaskListPage(driver).click_standard_goods_link()
+    StandardApplicationTaskListPage(driver).click_goods_link()
 
 
 @then("I see there are no goods on the application")

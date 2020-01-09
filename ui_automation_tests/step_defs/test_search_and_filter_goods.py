@@ -37,7 +37,7 @@ def add_a_good(context, description, control_code, part_number, seed_data_config
     goods = lite_client.seed_good.get_goods(urlencode(params))
     if not len(goods):
         good = create_good(
-            description=description, is_end_product=True, control_code=control_code, part_number=part_number
+            description=description, control_code=control_code, part_number=part_number
         )
         lite_client.seed_good.add_good(good)
     context.total_goods = len(lite_client.seed_good.get_goods())  # gets count of paginated page
