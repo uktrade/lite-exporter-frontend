@@ -37,8 +37,9 @@ def i_remove_an_ultimate_end_user(driver):
 
 @then("there is only one ultimate end user")
 def one_ultimate_end_user(driver):
-    assert len(GenericApplicationUltimateEndUsers(driver).get_ultimate_recipients()) == 1, \
-        "total on the application overview is incorrect after removing ultimate end user"
+    assert (
+        len(GenericApplicationUltimateEndUsers(driver).get_ultimate_recipients()) == 1
+    ), "total on the application overview is incorrect after removing ultimate end user"
     functions.click_back_link(driver)
 
 
