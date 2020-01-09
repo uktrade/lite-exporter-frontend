@@ -135,7 +135,6 @@ def create_open_app(driver, context):  # noqa
     enter_permanent_or_temporary(driver, "permanent", context)
 
 
-# Edit
 @given("I create an open application via api")
 def open_application_exists(apply_for_open_application):
     pass
