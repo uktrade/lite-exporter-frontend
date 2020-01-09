@@ -16,7 +16,7 @@
 				</a>
 			</li>
 			<li class="govuk-breadcrumbs__list-item">
-				Product
+				{% lcs 'goods.GoodsList.GOOD' %}
 			</li>
 		</ol>
 	</div>
@@ -26,7 +26,7 @@
 	{% if good.status.key == 'verified' %}
 		<div class="lite-info-bar lite-info-bar--no-animation app-info-bar--verified">
 			{% svg 'verified' %}
-			This product has been verified by ECJU based on the information provided
+			{% lcs 'goods.GoodsList.VERIFIED' %}
 		</div>
 	{% endif %}
 
@@ -36,13 +36,15 @@
 				<div class="lite-app-bar__content">
 					<h1 class="govuk-heading-l">
 						{% block title %}
-							Product
+							{% lcs 'goods.GoodsList.GOOD' %}
 						{% endblock %}
 					</h1>
 				</div>
 				{% if good.status.key == 'draft' %}
 					<div class="lite-app-bar__controls">
-						<a href="{% url 'goods:edit' good.id %}" id="edit-{{ good.id }}" class="govuk-button govuk-button--secondary">Edit product</a>
+						<a href="{% url 'goods:edit' good.id %}" id="edit-{{ good.id }}" class="govuk-button govuk-button--secondary">
+                            {% lcs 'goods.GoodsList.EDIT_GOOD_LINK' %}
+                        </a>
 					</div>
 				{% endif %}
 			</div>
@@ -50,7 +52,7 @@
 			<!-- Notify the user if their good has a special status -->
 			{% if good.status.key == 'clc_query' %}
 				<div class="govuk-inset-text">
-					Your product is currently being reviewed by ECJU. It'll have limited functionality until the review is complete.
+					{% lcs 'goods.GoodsList.IN_REVIEW' %}
 				</div>
 				<br>
 			{% endif %}
@@ -82,12 +84,12 @@
 
 				<br><br>
 
-				<h3 class="govuk-heading-m">Your Product</h3>
+				<h3 class="govuk-heading-m">{% lcs 'goods.GoodsList.YOUR_GOOD' %}</h3>
 			{% endif %}
 
 			{% if good.status.key == 'submitted' %}
 				<div class="govuk-inset-text">
-					Your good has been used in an application and can therefore no longer be changed.
+                    {% lcs 'goods.GoodsList.NO_LONGER_CAN_BE_CHANGED' %}
 				</div>
 				<br>
 			{% endif %}
@@ -145,7 +147,7 @@
 			<!-- Documents -->
 		    <div class="lite-app-bar">
 				<div class="lite-app-bar__content">
-					<h3 class="govuk-heading-m">Documents</h3>
+					<h3 class="govuk-heading-m">{% lcs 'goods.GoodsList.Documents.TITLE' %}</h3>
 				</div>
 				<div class="lite-app-bar__controls">
 				    {% if good.status.key == 'draft' %}
@@ -164,9 +166,9 @@
 					<table class="govuk-table">
 						<thead class="govuk-table__head">
 							<tr class="govuk-table__row">
-								<th scope="col" class="govuk-table__header">Name</th>
-								<th scope="col" class="govuk-table__header">Description</th>
-								<th scope="col" class="govuk-table__header">Uploaded by</th>
+								<th scope="col" class="govuk-table__header">{% lcs 'goods.GoodsList.Documents.NAME' %}</th>
+								<th scope="col" class="govuk-table__header">{% lcs 'goods.GoodsList.Documents.DESCRIPTION' %}</th>
+								<th scope="col" class="govuk-table__header">{% lcs 'goods.GoodsList.Documents.UPLOADED_BY' %}</th>
 								<th scope="col" class="govuk-table__header"></th>
 							</tr>
 						</thead>
@@ -198,13 +200,7 @@
 						</tbody>
 					</table>
 		    {% else %}
-				<div class="lite-information-text">
-					<span class="lite-information-text__icon" aria-hidden="true">!</span>
-					<p class="lite-information-text__text">
-					<span class="govuk-visually-hidden">Information</span>
-						This product has no documents attached
-					</p>
-				</div>
+				{% include "includes/notice.html" with text="goods.GoodsList.Document.NO_DOCUMENT_ATTACHED" %}
 		    {% endif %}
 
 		    {% if good.query %}
