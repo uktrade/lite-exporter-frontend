@@ -164,24 +164,14 @@ def copy_existing_party_yes(driver):
 
 @then("I can select the existing party in the table")
 def party_table(driver, context):
-    def find_text(driver, text):
-        rows = Shared(driver).get_table_rows()
-        for row in rows:
-            match = True
-            for string in text:
-                if string not in row.text:
-                    match = False
-                    break
-
-            if match:
-                AddEndUserPages(driver).click_copy_existing_button(row)
-                return True
-
-        return False
-
     text = [context.end_user[key] for key in ["name", "address", "website"]]
     text.append(context.end_user["country"]["name"])
-    assert paginated_search(driver, find_text(driver, text))
+    row = Shared(driver).get_table_row(1)
+
+    for string in text:
+        assert string in row.text
+
+    AddEndUserPages(driver).click_copy_existing_button()
 
 
 @when("I select a party type and continue")
@@ -214,3 +204,13 @@ def skip_document_upload(driver, context):
     # Setup for checking on overview page
     context.name_end_user = context.end_user["name"]
     context.address_end_user = context.end_user["address"]
+
+
+@when("I filter for my previously created end user")
+def filter_for_party(driver, context):
+    parties_page = AddEndUserPages(driver)
+    parties_page.open_parties_filter()
+    parties_page.filter_name(context.end_user["name"])
+    parties_page.filter_address(context.end_user["address"])
+    parties_page.filter_country(context.end_user["country"]["name"])
+    parties_page.submit_filter()

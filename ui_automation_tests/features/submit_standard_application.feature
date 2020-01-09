@@ -86,6 +86,7 @@ Feature: I want to indicate the standard licence I want
     When I create a standard application
     And I click on end user
     And I select that I want to copy an existing party
+    When I filter for my previously created end user
     Then I can select the existing party in the table
     When I select a party type and continue
     Then I see the party name is already filled in

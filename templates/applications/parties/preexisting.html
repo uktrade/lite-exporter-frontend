@@ -6,8 +6,8 @@
 
 {% block body %}
 	<h1 class="govuk-heading-l">Add a party you've created before</h1>
+    {% include "includes/filter.html" with filters=filters %}
         {% if data.results %}
-            {% include "includes/filter.html" with filters=filters %}
             <table class="govuk-table">
                 <thead class="govuk-table__head">
                     <tr class="govuk-table__row">
@@ -52,6 +52,6 @@
             </table>
             {% include "includes/pagination.html" with data=data %}
         {% else %}
-            <h2 class="govuk-heading-m">There are no existing parties for your organistion.</h2>
+            <h2 class="govuk-heading-m">No existing parties found.</h2>
         {% endif %}
 {% endblock %}

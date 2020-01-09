@@ -8,6 +8,12 @@ class AddEndUserPages(BasePage):
     COUNTRY_FIELD = "country"  # ID
     WEBSITE_FIELD = "website"  # ID
 
+    FILTER_LINK = "show-filters-link"  # ID
+    FILTER_NAME_FIELD = "name"  # ID
+    FILTER_ADDRESS_FIELD = "address"  # ID
+    FILTER_COUNTRY_FIELD = "country"  # ID
+    FILTER_BUTTON = "button-apply-filters"  # ID
+
     ADD_NEW_ADDRESS_BUTTON = 'a[href*="add"]'
     TYPE_CHOICES = "sub_type-"
     CREATE_NEW_CONFIRMATION = "copy_existing"  # ID
@@ -54,5 +60,20 @@ class AddEndUserPages(BasePage):
     def select_type(self, string):
         self.driver.find_element_by_id(self.TYPE_CHOICES + string).click()
 
-    def click_copy_existing_button(self, row):
-        row.find_element_by_name(self.COPY_EXISTING_BUTTON).click()
+    def click_copy_existing_button(self):
+        self.driver.find_element_by_name(self.COPY_EXISTING_BUTTON).click()
+
+    def open_parties_filter(self):
+        self.driver.find_element_by_id(self.FILTER_LINK).click()
+
+    def filter_name(self, text):
+        self.driver.find_element_by_id(self.FILTER_NAME_FIELD).send_keys(text)
+
+    def filter_address(self, text):
+        self.driver.find_element_by_id(self.FILTER_ADDRESS_FIELD).send_keys(text)
+
+    def filter_country(self, text):
+        self.driver.find_element_by_id(self.FILTER_COUNTRY_FIELD).send_keys(text)
+
+    def submit_filter(self):
+        self.driver.find_element_by_id(self.FILTER_BUTTON).click()
