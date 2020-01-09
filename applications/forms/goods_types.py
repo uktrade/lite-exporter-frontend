@@ -32,7 +32,7 @@ def goods_type_form(application_type: str):
                 application_type != HMRC_QUERY,
                 RadioButtons(
                     title="Will the products be incorporated into other products",
-                    name="is_good_end_product",
+                    name="is_good_incorporated",
                     options=[Option(key="yes", value="Yes"), Option(key="no", value="No")],
                     classes=["govuk-radios--inline"],
                 ),

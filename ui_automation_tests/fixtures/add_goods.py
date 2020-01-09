@@ -31,7 +31,7 @@
 #         "description": good_name,
 #         "is_good_controlled": "yes",
 #         "control_code": "ML1a",
-#         "is_good_end_product": False,
+#         "is_good_incorporated": False,
 #         "part_number": "1234",
 #         "validate_only": False,
 #     }

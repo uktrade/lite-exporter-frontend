@@ -6,7 +6,7 @@ class OpenApplicationAddGoodsType(BasePage):
     INPUT_DESCRIPTION_ID = "description"
     INPUT_CONTROL_CODE_ID = "control_code"
     RADIO_IS_GOOD_CONTROLLED_ID = "is_good_controlled-"
-    RADIO_IS_GOOD_INCORPORATED_ID = "is_good_end_product-"
+    RADIO_IS_GOOD_INCORPORATED_ID = "is_good_incorporated-"
 
     def enter_description(self, value):
         self.driver.find_element_by_id(self.INPUT_DESCRIPTION_ID).send_keys(value)
