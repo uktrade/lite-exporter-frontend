@@ -3,6 +3,7 @@ from django.urls import reverse, reverse_lazy
 from core.services import get_control_list_entries
 from goods.helpers import good_summary
 from goods.services import get_document_missing_reasons
+from lite_content.lite_exporter_frontend import generic
 from lite_content.lite_exporter_frontend.goods import (
     DocumentSensitivityForm,
     CreateGoodForm,
@@ -10,7 +11,7 @@ from lite_content.lite_exporter_frontend.goods import (
     EditGoodForm,
     AttachDocumentForm,
     RespondToQueryForm,
-)
+    GoodsList)
 from lite_forms.common import control_list_entry_question
 from lite_forms.components import (
     Form,
@@ -67,12 +68,12 @@ def add_goods_questions(application_pk=None):
         ],
         back_link=conditional(
             application_pk,
-            BackLink("Back", reverse_lazy("applications:goods", kwargs={"pk": application_pk})),
+            BackLink(generic.BACK, reverse_lazy("applications:goods", kwargs={"pk": application_pk})),
             Breadcrumbs(
                 [
-                    BackLink("LITE", reverse_lazy("core:hub")),
-                    BackLink("Products", reverse_lazy("goods:goods")),
-                    BackLink("Add a product"),
+                    BackLink(generic.SERVICE_NAME, reverse_lazy("core:hub")),
+                    BackLink(GoodsList.TITLE, reverse_lazy("goods:goods")),
+                    BackLink(GoodsList.CREATE_GOOD),
                 ]
             ),
         ),
