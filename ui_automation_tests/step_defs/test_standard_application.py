@@ -9,7 +9,7 @@ from pages.shared import Shared
 from pages.standard_application.good_details import StandardApplicationGoodDetails
 from pages.standard_application.goods import StandardApplicationGoodsPage
 from pages.standard_application.task_list import StandardApplicationTaskListPage
-from pages.ultimate_end_users_list_page import ThirdPartyListPage
+from pages.generic_application.ultimate_end_users import GenericApplicationUltimateEndUsers
 from pages.which_location_form_page import WhichLocationFormPage
 from shared import functions
 from shared.tools.helpers import scroll_to_element_by_id
@@ -24,22 +24,22 @@ scenarios(
 
 @when("I click on the add button")
 def i_click_on_the_add_button(driver):
-    ThirdPartyListPage(driver).click_on_add_a_third_party()
+    GenericApplicationUltimateEndUsers(driver).click_add_ultimate_recipient_button()
 
 
-@when("I remove an ultimate end user so there is one less and return to the overview")
+@when("I remove an ultimate end user so there is one less")
 def i_remove_an_ultimate_end_user(driver):
     no_of_ultimate_end_users = Shared(driver).get_size_of_table_rows()
     driver.find_element_by_link_text("Remove").click()
     total = no_of_ultimate_end_users - Shared(driver).get_size_of_table_rows()
     assert total == 1, "total on the ultimate end users summary is incorrect after removing ultimate end user"
-    functions.click_back_link(driver)
 
 
 @then("there is only one ultimate end user")
 def one_ultimate_end_user(driver):
-    elements = GenericApplicationTaskListPage(driver).get_ultimate_end_users()
-    assert len(elements) == 1, "total on the application overview is incorrect after removing ultimate end user"
+    assert len(GenericApplicationUltimateEndUsers(driver).get_ultimate_recipients()) == 1, \
+        "total on the application overview is incorrect after removing ultimate end user"
+    functions.click_back_link(driver)
 
 
 @then("I see end user on overview")
@@ -62,14 +62,14 @@ def download_and_delete_is_links_are_present(driver, button):
 
 @when("I click on attach a document")
 def click_attach_a_document(driver):
-    ThirdPartyListPage(driver).click_on_attach_document(-1)
+    GenericApplicationUltimateEndUsers(driver).click_attach_document_link(-1)
 
 
 @when("I delete the third party document")
 def delete_ultimate_end_user_document(driver):
-    third_party = ThirdPartyListPage(driver)
-    third_party.click_on_delete_document(-1)
-    third_party.accept_delete_confirm()
+    third_party = GenericApplicationUltimateEndUsers(driver)
+    third_party.click_delete_document_link(-1)
+    third_party.click_confirm_delete_yes()
     functions.click_submit(driver)
 
 
@@ -87,7 +87,7 @@ def wait_for_element_to_be_present(driver, id):
 def end_user_document_delete_is_present(driver):
     scroll_to_element_by_id(Shared(driver).driver, "end_user_document_delete")
     GenericApplicationTaskListPage(driver).click_delete_end_user_document()
-    ThirdPartyListPage(driver).accept_delete_confirm()
+    GenericApplicationUltimateEndUsers(driver).click_confirm_delete_yes()
     functions.click_submit(driver)
 
 

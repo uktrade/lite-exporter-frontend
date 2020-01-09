@@ -12,7 +12,6 @@ class GenericApplicationTaskListPage(BasePage):
     CONSIGNEES_LINK = "consignees"
     ULTIMATE_END_USER_LINK = "ultimate_end_users"  # ID
     GOODS_ON_APPLICATION = "[id^=good-on-application-row]"  # CSS
-    ULTIMATE_END_USERS = "[id^=ultimate-end-user-row]"  # CSS
     GOV_TABLES = ".govuk-table__body"  # CSS
     DELETE_END_USER_DOCUMENT = "end_user_document_delete"  # ID
     ATTACH_END_USER_DOCUMENT = "end_user_attach_doc"  # ID
@@ -86,9 +85,6 @@ class GenericApplicationTaskListPage(BasePage):
         return self.driver.find_elements_by_css_selector(self.GOV_TABLES)[
             len(self.driver.find_elements_by_css_selector(self.GOV_TABLES)) - 1
         ].text
-
-    def get_ultimate_end_users(self):
-        return self.driver.find_elements_by_css_selector(self.ULTIMATE_END_USERS)
 
     def click_delete_end_user_document(self):
         self.driver.find_element_by_id(self.DELETE_END_USER_DOCUMENT).click()
