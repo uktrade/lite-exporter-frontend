@@ -37,7 +37,7 @@ Feature: I want to edit and remove goods on the goods list
     And I add a new good with description "New good for application" controlled "Yes" control code "ML8a25b" and part number "P123"
     And I confirm I can upload a document
     And I attach a document to the good with description "Test good spec 01"
-    And I enter details for the new good on an application with value "99.98", quantity "13" and unit of measurement "Kilogram(s)" and I click Continue"
+    And I enter details for the new good on an application with value "99.98", quantity "13" and unit of measurement "Kilograms" and I click Continue
     Then A new good has been added to the application
 
   @LT_1262_add_good_without_document @regression

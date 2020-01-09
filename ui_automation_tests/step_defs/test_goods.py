@@ -4,11 +4,11 @@ from pytest_bdd import scenarios, when, then, parsers
 
 from conftest import get_file_upload_path
 from pages.add_goods_page import AddGoodPage
-from pages.standard_application.application_goods_list import ApplicationGoodsList
-from pages.generic_application.task_list import GenericApplicationTaskListPage
 from pages.attach_document_page import AttachDocumentPage
 from pages.goods_list import GoodsListPage
 from pages.goods_page import GoodsPage
+from pages.standard_application.goods import StandardApplicationGoodsPage
+from pages.standard_application.good_details import StandardApplicationGoodDetails
 from pages.standard_application.task_list import StandardApplicationTaskListPage
 from shared import functions
 
@@ -80,13 +80,13 @@ def i_click_to_manage_goods_on_a_standard_application(driver):
 @then("I see there are no goods on the application")
 def i_see_there_are_no_goods_on_the_application(driver):
     driver.set_timeout_to(0)
-    assert ApplicationGoodsList(driver).get_goods_count() == 0
+    assert StandardApplicationGoodsPage(driver).get_goods_count() == 0
     driver.set_timeout_to(10)
 
 
 @when("I click Add a new good")
 def i_click_add_a_new_good(driver):
-    ApplicationGoodsList(driver).click_add_new_good_button()
+    StandardApplicationGoodsPage(driver).click_add_new_good_button()
 
 
 @when(parsers.parse('I attach a document to the good with description "{description}"'))  # noqa
@@ -110,7 +110,7 @@ def i_attach_a_document_to_the_good(driver, description):
 
 @then("A new good has been added to the application")
 def a_new_good_has_been_added_to_the_application(driver):
-    assert ApplicationGoodsList(driver).get_goods_count() == 1
+    assert StandardApplicationGoodsPage(driver).get_goods_count() == 1
 
 
 @when(
@@ -128,11 +128,15 @@ def create_a_new_good_in_application(driver, description, controlled, control_co
 
 @when(
     parsers.parse(
-        'I enter details for the new good on an application with value "{value}", quantity "{quantity}" and unit of measurement "{unit}" and I click Continue"'
+        'I enter details for the new good on an application with value "{value}", quantity "{quantity}" and unit of measurement "{unit}" and I click Continue'
     )
 )  # noqa
 def i_enter_detail_for_the_good_on_the_application(driver, value, quantity, unit):
-    ApplicationGoodsList(driver).add_values_to_good(value, quantity, unit)
+    StandardApplicationGoodDetails(driver).enter_value(value)
+    StandardApplicationGoodDetails(driver).enter_quantity(quantity)
+    StandardApplicationGoodDetails(driver).select_unit(unit)
+    StandardApplicationGoodDetails(driver).check_is_good_incorporated_false()
+
     functions.click_submit(driver)
 
 

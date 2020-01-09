@@ -8,10 +8,10 @@
 #     elements = driver.find_elements_by_css_selector(".govuk-table__row")
 #     no = utils.get_element_index_by_text(elements, context.goods_name, complete_match=False)
 #     driver.find_elements_by_css_selector(".govuk-table__row .govuk-link")[no - 1].click()
-#     application_goods_list = ApplicationGoodsList(driver)
+#     goods = ApplicationGoodsList(driver)
 #     context.unit = "Number of articles"
 #     context.value = "11"
-#     application_goods_list.add_values_to_good(str(context.value), str(context.value), context.unit)
+#     goods.add_values_to_good(str(context.value), str(context.value), context.unit)
 #     functions.click_submit(driver)
 #     driver.get(url)
 
