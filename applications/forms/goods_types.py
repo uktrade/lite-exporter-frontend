@@ -1,7 +1,8 @@
 from conf.constants import HMRC_QUERY
-from lite_content.lite_exporter_frontend import strings
 from core.services import get_control_list_entries
+from lite_content.lite_exporter_frontend import strings
 from lite_content.lite_exporter_frontend.goods import PERMISSION_FINDER_LINK
+from lite_content.lite_exporter_frontend.goods_types import CreateGoodsTypeForm
 from lite_forms.common import control_list_entry_question
 from lite_forms.components import TextArea, RadioButtons, Option, Form
 from lite_forms.helpers import conditional
@@ -11,16 +12,15 @@ def goods_type_form(application_type: str):
     return Form(
         title=strings.GoodTypes.Overview.TITLE,
         questions=[
-            TextArea(title="Description", name="description", extras={"max_length": 2000,}),
+            TextArea(title=CreateGoodsTypeForm.TITLE, name="description", extras={"max_length": 2000,}),
             RadioButtons(
-                title="Are your products controlled?",
-                description="Products that aren't on the "
-                + PERMISSION_FINDER_LINK
-                + " may be affected by military end use controls, current trade sanctions and embargoes or weapons of "
-                "mass destruction controls. If your products aren't subject to any controls, you'll get a no licence "
-                "required (NLR) document from ECJU.",
+                title=CreateGoodsTypeForm.IsControlled.TITLE,
+                description=CreateGoodsTypeForm.Description.DESCRIPTION,
                 name="is_good_controlled",
-                options=[Option(key="yes", value="Yes", show_pane="pane_control_code"), Option(key="no", value="No")],
+                options=[
+                    Option(key="yes", value=CreateGoodsTypeForm.IsControlled.YES, show_pane="pane_control_code"),
+                    Option(key="no", value=CreateGoodsTypeForm.IsControlled.NO),
+                ],
                 classes=["govuk-radios--inline"],
             ),
             control_list_entry_question(
@@ -31,9 +31,13 @@ def goods_type_form(application_type: str):
             conditional(
                 application_type != HMRC_QUERY,
                 RadioButtons(
-                    title="Will the products be incorporated into other products",
+                    title=CreateGoodsTypeForm.IsIncorporated.TITLE,
+                    description=CreateGoodsTypeForm.IsIncorporated.DESCRIPTION,
                     name="is_good_incorporated",
-                    options=[Option(key="yes", value="Yes"), Option(key="no", value="No")],
+                    options=[
+                        Option(key="yes", value=CreateGoodsTypeForm.IsIncorporated.YES),
+                        Option(key="no", value=CreateGoodsTypeForm.IsIncorporated.NO),
+                    ],
                     classes=["govuk-radios--inline"],
                 ),
             ),

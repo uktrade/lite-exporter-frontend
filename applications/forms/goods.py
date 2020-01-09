@@ -30,7 +30,10 @@ def good_on_application_form(good, units, title):
                 name="is_good_incorporated",
                 title=strings.goods.CreateGoodOnApplicationForm.INCORPORATED,
                 description=strings.goods.CreateGoodOnApplicationForm.INCORPORATED_DESCRIPTION,
-                options=[Option(True, strings.goods.CreateGoodOnApplicationForm.INCORPORATED_YES), Option(False, strings.goods.CreateGoodOnApplicationForm.INCORPORATED_NO)],
+                options=[
+                    Option(True, strings.goods.CreateGoodOnApplicationForm.INCORPORATED_YES),
+                    Option(False, strings.goods.CreateGoodOnApplicationForm.INCORPORATED_NO),
+                ],
                 classes=["govuk-radios--inline"],
             ),
         ],
