@@ -4,7 +4,6 @@ Feature: I want to indicate the open licence I want
   I want to indicate the kind of licence I want
   So that I am more likely to get the correct kind of licence or the kind of licence I would like
 
-
   @LT_1114 @submit_open_application @LT_1092_search @smoke
   Scenario: Submit open application
     Given I go to exporter homepage and choose Test Org
