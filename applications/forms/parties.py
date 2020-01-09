@@ -86,7 +86,7 @@ def attach_document_form(application_id, title, return_later_text, description_t
         inputs,
         back_link=back_to_task_list(application_id),
         footer_label=Label(
-            'Or <a href="'
+            'Or <a id="return_to_application" href="'
             + str(reverse_lazy("applications:task_list", kwargs={"pk": application_id}))
             + '" class="govuk-link govuk-link--no-visited-state">'
             + return_later_text

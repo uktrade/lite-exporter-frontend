@@ -5,6 +5,7 @@ from pages.external_locations_page import ExternalLocationsPage
 from pages.preexisting_locations_page import PreexistingLocationsPage
 from pages.which_location_form_page import WhichLocationFormPage
 from pages.add_end_user_pages import AddEndUserPages
+from pages.attach_document_page import AttachDocumentPage
 from shared import functions
 from shared.tools.helpers import scroll_to_element_by_id, paginated_search
 from shared.tools.wait import wait_for_download_button, wait_for_element
@@ -57,9 +58,6 @@ def one_ultimate_end_user(driver):
 @then("I see end user on overview")
 def end_user_on_overview(driver, context):
     app = ApplicationOverviewPage(driver)
-    assert "Type" in app.get_text_of_end_user_table()
-    assert "Name" in app.get_text_of_end_user_table()
-    assert "Address" in app.get_text_of_end_user_table()
     assert context.type_end_user.capitalize() in app.get_text_of_end_user_table()
     assert context.name_end_user in app.get_text_of_end_user_table()
     assert context.address_end_user in app.get_text_of_end_user_table()
@@ -164,7 +162,7 @@ def copy_existing_party_yes(driver):
     AddEndUserPages(driver).create_new_or_copy_existing(copy_existing=True)
 
 
-@then("I see the existing party in the table")
+@then("I can select the existing party in the table")
 def party_table(driver, context):
     def find_text(driver, text):
         rows = Shared(driver).get_table_rows()
@@ -181,4 +179,38 @@ def party_table(driver, context):
 
         return False
 
-    assert paginated_search(driver, find_text(driver, ["Government"]))
+    text = [context.end_user[key] for key in ["name","address","website"]]
+    text.append(context.end_user["country"]["name"])
+    assert paginated_search(driver, find_text(driver, text))
+
+
+@when("I select a party type and continue")
+def select_party_type(driver, context):
+    type = "government"
+    AddEndUserPages(driver).select_type(type)
+    context.type_end_user = type
+    functions.click_submit(driver)
+
+
+@then("I see the party name is already filled in")
+def party_name_autofill(driver, context):
+    assert AddEndUserPages(driver).get_name() == context.end_user["name"]
+
+
+@then("I see the party website is already filled in")
+def party_website_autofill(driver, context):
+    assert AddEndUserPages(driver).get_website() == context.end_user["website"]
+
+
+@then("I see the party address and country is already filled in")
+def party_address_autofill(driver, context):
+    assert AddEndUserPages(driver).get_address() == context.end_user["address"]
+    assert AddEndUserPages(driver).get_country() == context.end_user["country"]["id"]
+
+
+@when("I skip uploading a document")
+def skip_document_upload(driver, context):
+    AttachDocumentPage(driver).click_save_and_return_to_overview_link()
+    # Setup for checking on overview page
+    context.name_end_user = context.end_user["name"]
+    context.address_end_user = context.end_user["address"]

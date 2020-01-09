@@ -86,4 +86,13 @@ Feature: I want to indicate the standard licence I want
     When I create a standard application
     And I click on end user
     And I select that I want to copy an existing party
-    Then I see the existing party in the table
+    Then I can select the existing party in the table
+    When I select a party type and continue
+    Then I see the party name is already filled in
+    When I click continue
+    Then I see the party website is already filled in
+    When I click continue
+    Then I see the party address and country is already filled in
+    When I click continue
+    And I skip uploading a document
+    Then I see end user on overview
