@@ -182,7 +182,6 @@ def i_click_on_application_overview(driver):
     StandardApplicationTaskListPage(driver).click_ultimate_recipients_link()
 
 
-# Edit all below
 @when("I click on the application third parties link")
 def i_click_on_application_third_parties_link(driver):
     StandardApplicationTaskListPage(driver).click_third_parties_link()
