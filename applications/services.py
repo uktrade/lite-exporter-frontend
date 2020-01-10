@@ -21,6 +21,7 @@ from conf.constants import (
     GOODSTYPE_COUNTRY_URL,
     STATUS_PROPERTIES_URL,
     GENERATED_DOCUMENTS_URL,
+    EXISTING_PARTIES_URL
 )
 from conf.settings import AWS_STORAGE_BUCKET_NAME, STREAMING_CHUNK_SIZE
 from django.http import StreamingHttpResponse
@@ -212,8 +213,10 @@ def delete_consignee(request, pk):
 
 
 # Existing Parties
-def get_existing_parties(request, pk, params):
-    data = get(request, APPLICATIONS_URL + str(pk) + "/existing-parties" + params)
+def get_existing_parties(request, pk, allowed_filters):
+    params = {key: value for key, value in request.GET.items() if key in allowed_filters}
+    params = convert_parameters_to_query_params(params)
+    data = get(request, APPLICATIONS_URL + str(pk) + EXISTING_PARTIES_URL + params)
     return data.json(), data.status_code
 
 
