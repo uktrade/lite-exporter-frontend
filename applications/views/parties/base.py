@@ -6,7 +6,6 @@ from django.views.generic import TemplateView
 
 from applications.forms.parties import party_create_new_or_existing_form
 from applications.services import get_application, get_existing_parties
-from core.helpers import convert_parameters_to_query_params
 from lite_content.lite_exporter_frontend.applications import AddPartyForm, CopyExistingPartyPage
 from lite_forms.generators import form_page, error_page
 from lite_forms.views import MultiFormView

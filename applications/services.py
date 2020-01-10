@@ -21,7 +21,7 @@ from conf.constants import (
     GOODSTYPE_COUNTRY_URL,
     STATUS_PROPERTIES_URL,
     GENERATED_DOCUMENTS_URL,
-    EXISTING_PARTIES_URL
+    EXISTING_PARTIES_URL,
 )
 from conf.settings import AWS_STORAGE_BUCKET_NAME, STREAMING_CHUNK_SIZE
 from django.http import StreamingHttpResponse
