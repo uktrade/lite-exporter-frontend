@@ -1,5 +1,3 @@
-from http import HTTPStatus
-
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
