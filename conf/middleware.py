@@ -1,19 +1,17 @@
-import requests
-from django.contrib.auth import logout
-
-from conf.settings import env, LOGOUT_URL
-from lite_content.lite_exporter_frontend import strings
 import logging
 import time
 import uuid
 
+from django.contrib.auth import logout
 from django.shortcuts import redirect
 from django.urls import resolve
+from s3chunkuploader.file_handler import UploadFailed
 
 from auth.urls import app_name as auth_app_name
 from conf import settings
+from conf.settings import env
+from lite_content.lite_exporter_frontend import strings
 from lite_forms.generators import error_page
-from s3chunkuploader.file_handler import UploadFailed
 
 
 class ProtectAllViewsMiddleware:
