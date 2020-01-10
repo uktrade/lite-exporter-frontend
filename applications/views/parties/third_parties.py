@@ -4,7 +4,7 @@ from django.views.generic import TemplateView
 from applications.forms.third_party import third_party_forms
 from applications.services import get_application, post_third_party, delete_third_party
 from applications.views.parties.base import AddParty, ExistingPartiesList, SetParty, DeleteParty
-from lite_content.lite_exporter_frontend.applications import ThirdPartyForm
+from lite_content.lite_exporter_frontend.applications import ThirdPartyForm, ThirdPartyPage
 
 
 class ThirdParties(TemplateView):
@@ -44,7 +44,7 @@ class RemoveThirdParty(DeleteParty):
         super().__init__(
             url="applications:third_parties",
             action=delete_third_party,
-            error="Unexpected error removing third party user",
+            error=ThirdPartyPage.DELETE_ERROR,
             multiple=True,
             **kwargs,
         )

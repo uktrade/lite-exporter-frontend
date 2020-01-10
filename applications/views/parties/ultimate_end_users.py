@@ -10,7 +10,7 @@ from applications.services import (
     delete_ultimate_end_user,
 )
 from applications.views.parties.base import AddParty, ExistingPartiesList, SetParty, DeleteParty
-from lite_content.lite_exporter_frontend.applications import UltimateEndUserForm
+from lite_content.lite_exporter_frontend.applications import UltimateEndUserForm, UltimateEndUserPage
 
 
 class UltimateEndUsers(TemplateView):
@@ -52,7 +52,7 @@ class RemoveUltimateEndUser(DeleteParty):
         super().__init__(
             url="applications:ultimate_end_users",
             action=delete_ultimate_end_user,
-            error="Unexpected error removing ultimate end user",
+            error=UltimateEndUserPage.DELETE_ERROR,
             multiple=True,
             **kwargs,
         )

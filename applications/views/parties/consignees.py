@@ -6,7 +6,7 @@ from applications.forms.parties import new_party_form_group
 from applications.helpers.check_your_answers import convert_consignee
 from applications.services import get_application, post_consignee, delete_consignee
 from applications.views.parties.base import AddParty, ExistingPartiesList, SetParty, DeleteParty
-from lite_content.lite_exporter_frontend.applications import ConsigneeForm
+from lite_content.lite_exporter_frontend.applications import ConsigneeForm, ConsigneePage
 
 
 class Consignee(TemplateView):
@@ -17,7 +17,7 @@ class Consignee(TemplateView):
         if application["consignee"]:
             context = {
                 "application": application,
-                "title": "Consignee",
+                "title": ConsigneePage.TITLE,
                 "edit_url": reverse_lazy("applications:set_consignee", kwargs={"pk": application_id}),
                 "remove_url": reverse_lazy("applications:remove_consignee", kwargs={"pk": application_id}),
                 "answers": convert_consignee(application["consignee"], application_id, True),
@@ -52,7 +52,7 @@ class RemoveConsignee(DeleteParty):
         super().__init__(
             url="applications:add_consignee",
             action=delete_consignee,
-            error="Unexpected error removing consignee",
+            error=ConsigneePage.DELETE_ERROR,
             multiple=False,
             **kwargs,
         )
