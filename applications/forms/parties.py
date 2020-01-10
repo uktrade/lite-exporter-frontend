@@ -16,7 +16,7 @@ from lite_forms.components import (
     Label,
 )
 from lite_forms.generators import confirm_form
-from lite_content.lite_exporter_frontend.applications import PartyForm, DeletePartyDocumentForm
+from lite_content.lite_exporter_frontend.applications import PartyForm, PartyTypeForm, DeletePartyDocumentForm
 
 
 def party_create_new_or_existing_form(application_id):
@@ -46,7 +46,7 @@ def party_type_form(application, title, button, back_url):
             ),
         ],
         default_button_name=button,
-        back_link=BackLink("Back", reverse_lazy(back_url, kwargs={"pk": application["id"]})),
+        back_link=BackLink(PartyTypeForm.BACK_LINK, reverse_lazy(back_url, kwargs={"pk": application["id"]})),
     )
 
 
