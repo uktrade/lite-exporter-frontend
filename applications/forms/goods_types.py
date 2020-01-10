@@ -14,7 +14,7 @@ def goods_type_form(application_type: str):
             TextArea(title=CreateGoodsTypeForm.Description.TITLE, name="description", extras={"max_length": 2000,}),
             RadioButtons(
                 title=CreateGoodsTypeForm.IsControlled.TITLE,
-                description=CreateGoodsTypeForm.Description.DESCRIPTION,
+                description=CreateGoodsTypeForm.IsControlled.DESCRIPTION,
                 name="is_good_controlled",
                 options=[
                     Option(key="yes", value=CreateGoodsTypeForm.IsControlled.YES, show_pane="pane_control_code"),
