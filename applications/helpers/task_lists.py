@@ -1,6 +1,7 @@
 from django.shortcuts import render
 
 from applications.helpers.check_your_answers import get_total_goods_value
+from applications.helpers.get_application_edit_type import get_application_edit_type
 from applications.helpers.validate_status import check_all_parties_have_a_document
 from applications.services import (
     get_application_countries,
@@ -12,8 +13,18 @@ from applications.services import (
     get_consignee_document,
     get_additional_documents,
 )
-from conf.constants import HMRC_QUERY, OPEN_LICENCE, STANDARD_LICENCE, APPLICANT_EDITING, NOT_STARTED, DONE, IN_PROGRESS
+from conf.constants import (
+    HMRC_QUERY,
+    OPEN_LICENCE,
+    STANDARD_LICENCE,
+    APPLICANT_EDITING,
+    NOT_STARTED,
+    DONE,
+    IN_PROGRESS,
+    Permissions,
+)
 from core.services import get_sites_on_draft, get_external_locations_on_draft
+from roles.services import get_user_permissions
 
 
 def get_application_task_list(request, application, errors=None):
@@ -78,6 +89,9 @@ def _get_standard_application_task_list(request, application, errors=None):
         if not good["good"]["is_good_end_product"]:
             ultimate_end_users_required = True
 
+    user_permissions = get_user_permissions(request)
+    submit = Permissions.SUBMIT_LICENCE_APPLICATION in user_permissions
+
     context = {
         "application": application,
         "is_editing": is_editing,
@@ -96,6 +110,7 @@ def _get_standard_application_task_list(request, application, errors=None):
         "third_parties": third_parties,
         "additional_documents": additional_documents["documents"],
         "errors": errors,
+        "can_submit": submit,
     }
     return render(request, "applications/standard-application-edit.html", context)
 
@@ -104,12 +119,7 @@ def _get_open_application_task_list(request, application, errors=None):
     application_id = application["id"]
 
     # Add the editing type (if possible) to the context to make it easier to read/change in the future
-    is_editing = False
-    edit_type = None
-    if application["status"]:
-        is_editing = application["status"]["key"] == "submitted" or application["status"]["key"] == APPLICANT_EDITING
-        if is_editing:
-            edit_type = "minor_edit" if application["status"]["key"] == "submitted" else "major_edit"
+    edit_type = get_application_edit_type(application)
 
     sites, _ = get_sites_on_draft(request, application_id)
     external_locations, _ = get_external_locations_on_draft(request, application_id)
@@ -128,9 +138,11 @@ def _get_open_application_task_list(request, application, errors=None):
         if good["countries"]:
             countries_on_goods_types = True
 
+    user_permissions = get_user_permissions(request)
+    submit = Permissions.SUBMIT_LICENCE_APPLICATION in user_permissions
+
     context = {
         "application": application,
-        "is_editing": is_editing,
         "edit_type": edit_type,
         "countries": countries,
         "goodstypes": goodstypes,
@@ -144,6 +156,7 @@ def _get_open_application_task_list(request, application, errors=None):
         "third_parties": third_parties,
         "additional_documents": additional_documents["documents"],
         "errors": errors,
+        "can_submit": submit,
     }
     return render(request, "applications/open-application-edit.html", context)
 

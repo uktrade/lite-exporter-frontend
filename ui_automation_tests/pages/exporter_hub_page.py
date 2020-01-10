@@ -6,28 +6,20 @@ from shared.BasePage import BasePage
 class ExporterHubPage(BasePage):
 
     APPLY_FOR_A_LICENCE_BTN = "a[href*='/apply-for-a-licence/']"
-    DRAFTS_BTN = "a[href*='/drafts/']"
     APPLICATIONS_BTN = "a[href*='/applications/']"
     MY_GOODS_BTN = "a[href*='/goods/']"
     ADD_A_GOOD_BTN = "a[href*='/goods/add/']"
     USERS_BTN = "a[href='/users/']"
     SITES_BTN = "a[href='/sites/']"
     SITES_LINK = "a[href*='sites']"
-    GOODS_TILE = "a[href*='sites']"
     END_USER_ADVISORY_TILE = "a[href*='/end-users/']"
     RAISE_HMRC_QUERY_BTN = "a[href*='/raise-a-query/"
-
-    def go_to(self, url):
-        self.driver.get(url)
 
     def click_apply_for_a_licence(self):
         self.driver.find_element_by_css_selector(self.APPLY_FOR_A_LICENCE_BTN).click()
 
     def click_raise_hmrc_query(self):
         self.driver.find_element_by_css_selector(self.RAISE_HMRC_QUERY_BTN).click()
-
-    def click_drafts(self):
-        self.driver.find_element_by_css_selector(self.DRAFTS_BTN).click()
 
     def click_applications(self):
         self.driver.find_element_by_css_selector(self.APPLICATIONS_BTN).click()
@@ -37,12 +29,6 @@ class ExporterHubPage(BasePage):
 
     def enter_email(self, email):
         email_tb = self.driver.find_element_by_name("login")
-        email_tb.clear()
-        email_tb.send_keys(email)
-
-    def enter_add_user_email(self, email):
-        # hidden fields may be added which means that you can not look for name.
-        email_tb = self.driver.find_element_by_id("email")
         email_tb.clear()
         email_tb.send_keys(email)
 
@@ -61,54 +47,8 @@ class ExporterHubPage(BasePage):
     def click_my_goods(self):
         self.driver.find_element_by_css_selector(self.MY_GOODS_BTN).click()
 
-    def verify_good_is_in_goods_list(self, description, part_number, control_code):
-        goods_row = self.driver.find_element_by_xpath("//*[text()[contains(.,'" + description + "')]]")
-        assert goods_row.is_displayed()
-        assert goods_row.find_element_by_xpath(".//following-sibling::td").text == part_number
-        assert goods_row.find_element_by_xpath(".//following-sibling::td[2]").text == control_code
-
     def click_users(self):
         self.driver.find_element_by_css_selector(self.USERS_BTN).click()
 
-    def click_add_a_user_btn(self):
-        self.driver.find_element_by_id("button-add-a-member").click()
-
-    def enter_first_name(self, first_name):
-        self.driver.find_element_by_id("first_name").clear()
-        self.driver.find_element_by_id("first_name").send_keys(first_name)
-
-    def enter_last_name(self, last_name):
-        self.driver.find_element_by_id("last_name").clear()
-        self.driver.find_element_by_id("last_name").send_keys(last_name)
-
-    def click_user_name_link(self, user_name):
-        self.driver.find_element_by_link_text(user_name).click()
-
-    def click_deactivate_button(self):
-        self.driver.find_element_by_id("btn-deactivate").click()
-        self.driver.find_element_by_id("deactivate-confirm").click()
-
-    def click_reactivate_btn(self):
-        self.driver.find_element_by_id("btn-reactivate").click()
-        self.driver.find_element_by_id("reactivate-confirm").click()
-
-    def logout(self):
-        self.driver.get("https://great.uat.uktrade.io/sso/accounts/")
-        self.driver.find_element_by_id("header-sign-out-link").click()
-        self.driver.find_element_by_css_selector(".button").click()
-
     def click_user_profile(self):
         self.driver.find_element_by_css_selector("a[href*='/users/profile/']").click()
-
-    def click_sites(self):
-        self.driver.find_element_by_css_selector(self.SITES_BTN).click()
-
-    def click_new_site(self):
-        self.driver.find_element_by_css_selector("a[href*='/sites/new/']").click()
-
-    def get_text_of_site(self, int):
-        return self.driver.find_elements_by_css_selector(".govuk-checkboxes__label")[int].text
-
-    def enter_name_for_application(self, name):
-        self.driver.find_element_by_id("name").clear()
-        self.driver.find_element_by_id("name").send_keys(name)

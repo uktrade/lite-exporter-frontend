@@ -1,10 +1,10 @@
-{% extends 'layouts/two_pane.html' %}
+{% extends 'layouts/two-pane.html' %}
 
 {% load svg humanize %}
 
 {% block back_link %}
 	{% if application.status %}
-    	<a href="{% url 'applications:applications' %}" id="back-link" class="govuk-back-link">Back to application</a>
+    	<a href="{% url 'applications:applications' %}" id="back-link" class="govuk-back-link">Back to applications</a>
 	{% endif %}
 {% endblock %}
 
@@ -16,13 +16,12 @@
 	{% endif %}
 	{% if application.status.key == "applicant_editing" %}
 		<div class="lite-info-bar lite-info-bar--warning lite-info-bar--no-animation">
-			This application won't be processed until it is submitted.
+			This application won't be processed until it's submitted.
 		</div>
 	{% endif %}
 {% endblock %}
 
 {% block two_thirds %}
-
 	{% if errors %}
 		<div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="error-summary">
 			<h2 class="govuk-error-summary__title" id="error-summary-title">
@@ -45,7 +44,7 @@
 	<h1 class="govuk-heading-l govuk-!-margin-bottom-2">
 		{% block title %}
 			{% if is_editing %}
-				Edit your application
+				Edit the application
 			{% else %}
 				Apply for a standard export licence
 			{% endif %}
@@ -69,7 +68,7 @@
 				{% endif %}
 			</h2>
 			<ul class="lite-task-list__items {% if is_editing %}govuk-!-padding-0{% endif %}">
-				{% lcs 'ENTER_A_REFERENCE_NAME_SHORT_TITLE' as reference_name_title %}
+				{% lcs 'applications.TaskListPage.ENTER_A_REFERENCE_NAME_SHORT_TITLE' as reference_name_title %}
 				{% url 'applications:edit_reference_name' application.id as reference_name_url %}
 				{% include "includes/task-list-item.html" with title=reference_name_title url=reference_name_url status="done" description=application.name %}
 
@@ -115,7 +114,7 @@
 										<th class="govuk-table__header" scope="row">Part Number</th>
 										<th class="govuk-table__header" scope="row">Qty</th>
 										<th class="govuk-table__header" scope="row">Unit</th>
-										<th class="govuk-table__header" scope="row">Value Per Good</th>
+										<th class="govuk-table__header" scope="row">Value</th>
 										<th class="govuk-table__header" scope="row"></th>
 									</tr>
 									{% for good in goods %}
@@ -138,7 +137,7 @@
 		        <li class="lite-task-list__item">
 					<div class="lite-task-list__item-header">
 						<a id="location" href="{% url 'applications:location' application.id %}" class="lite-overview-section-header govuk-link govuk-link--no-visited-state">
-							Goods locations
+							Product locations
 						</a>
 						{% if sites or external_locations %}
 							<div class="lite-tag lite-tag--blue">
@@ -253,16 +252,16 @@
 					                        <td class="govuk-table__cell" id="end_user_document_state">
 					                            {%  if end_user_document.safe == True %}
 					                                <a href="{% url 'applications:end_user_download_document' pk=application.id %}" id="end_user_document_download" class='govuk-link govuk-link--no-visited-state'>
-					                                    {% get_string 'end_user.documents.download_document' %}
+					                                    {% lcs 'EndUser.Documents.DOWNLOAD_DOCUMENT' %}
 					                                </a>
 					                                <br/>
 													{% if edit_type != 'minor_edit' %}
 					                                <a href="{% url 'applications:end_user_delete_document' pk=application.id %}" id="end_user_document_delete" class='govuk-link govuk-link--no-visited-state'>
-					                                    {% get_string 'end_user.documents.delete_document' %}
+					                                    {% lcs 'EndUser.Documents.DELETE_DOCUMENT' %}
 					                                </a>
 													{% endif %}
 					                            {%  else %}
-					                                {% get_string 'end_user.documents.processing' %}
+					                                {% lcs 'EndUser.Documents.PROCESSING' %}
 					                            {% endif %}
 					                        </td>
 					                    </tr>
@@ -339,16 +338,16 @@
 					                            <td class="govuk-table__cell" id="consignee_document_state">
 					                                {%  if consignee_document.safe == True %}
 					                                    <a href="{% url 'applications:consignee_download_document' pk=application.id %}" id="consignee_document_download" class='govuk-link govuk-link--no-visited-state'>
-					                                        {% get_string 'end_user.documents.download_document' %}
+					                                        {% lcs 'EndUser.Documents.DOWNLOAD_DOCUMENT' %}
 					                                    </a>
 					                                    <br/>
                                                         {% if edit_type != 'minor_edit' %}
                                                             <a href="{% url 'applications:consignee_delete_document' pk=application.id %}" id="consignee_document_delete" class='govuk-link govuk-link--no-visited-state'>
-                                                                {% get_string 'end_user.documents.delete_document' %}
+                                                                {% lcs 'EndUser.Documents.DELETE_DOCUMENT' %}
                                                             </a>
                                                         {% endif %}
 					                                {%  else %}
-					                                    {% get_string 'end_user.documents.processing' %}
+					                                    {% lcs 'EndUser.Documents.PROCESSING' %}
 					                                {% endif %}
 
 					                            </td>
@@ -464,7 +463,7 @@
 				<!-- Additional Documents -->
 				<li class="lite-task-list__item">
 					<div class="lite-task-list__item-header">
-						<a id="third_parties" href="{% url 'applications:additional_documents' application.id %}" class="lite-overview-section-header govuk-link govuk-link--no-visited-state">
+						<a id="link-supporting-documentation" href="{% url 'applications:additional_documents' application.id %}" class="lite-overview-section-header govuk-link govuk-link--no-visited-state">
 							Supporting documentation
 						</a>
 						{% if additional_documents %}
@@ -517,28 +516,30 @@
 
 				<br><br>
 
-				<li>
-					<div class="app-submit-bar">
-						<form method="post">
-							{% csrf_token %}
-							{% if not application.status.value or application.status.key == 'applicant_editing' %}
-								<button type="submit" value="submit" class="govuk-button" data-prevent-double-click="true" style="margin-bottom: 0;">Submit application</button>
-							{% else %}
-								<a href="{% url 'applications:application' application.id %}" class="govuk-button" draggable="false" role="button">Done</a>
+				{% if can_submit %}
+					<li>
+						<div class="app-submit-bar">
+							<form method="post">
+								{% csrf_token %}
+								{% if application.status.key in 'applicant_editing,draft' %}
+									<button type="submit" value="submit" class="govuk-button" data-prevent-double-click="true">{% lcs "EDIT_APPLICATION_SUBMIT" %}</button>
+								{% else %}
+									<a href="{% url 'applications:application' application.id %}" class="govuk-button" draggable="false" role="button">{% lcs "EDIT_APPLICATION_DONE" %}</a>
+								{% endif %}
+							</form>
+							{% if application.status.key == 'draft' %}
+								<div class="lite-vertical-align">
+									<a id="link-delete-draft" href="{% url 'applications:delete' application.id %}?return_to={{ CURRENT_PATH }}" class="govuk-link lite-link--icon">
+										{% svg 'close' %}
+										{% lcs 'applications.EditStandardApplicationPage.DRAFT_DELETE_LINK' %}
+									</a>
+								</div>
 							{% endif %}
-						</form>
-						{% if not application.status.value %}
-							<div class="lite-vertical-align">
-								<a id="link-delete-draft" href="{% url 'applications:delete' application.id %}?return_to=application" class="govuk-link lite-link--icon">
-									{% svg 'close' %}
-									{% lcs 'DRAFT_DELETE_LINK' %}
-								</a>
-							</div>
-						{% endif %}
-					</div>
-				</li>
+						</div>
+					</li>
+				{% endif %}
+
 			</ul>
 		</li>
 	</ol>
-
 {% endblock %}

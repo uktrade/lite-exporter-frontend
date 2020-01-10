@@ -1,8 +1,9 @@
+from http import HTTPStatus
+
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
-from applications.forms.end_user import new_consignee_forms
 from applications.forms.third_party import third_party_forms
 from applications.helpers.check_your_answers import convert_consignee
 from applications.services import (
@@ -15,6 +16,8 @@ from applications.services import (
 from lite_forms.generators import form_page, error_page
 from lite_forms.submitters import submit_paged_form
 from lite_forms.views import MultiFormView
+from applications.forms.end_user import new_party_form_group
+from lite_content.lite_exporter_frontend.applications import ConsigneeForm
 
 
 class AddThirdParty(TemplateView):
@@ -54,7 +57,7 @@ class ThirdParties(TemplateView):
             "application": application,
             "third_parties": application["third_parties"],
         }
-        return render(request, "applications/parties/third_parties.html", context)
+        return render(request, "applications/parties/third-parties.html", context)
 
 
 class RemoveThirdParty(TemplateView):
@@ -88,7 +91,7 @@ class SetConsignee(MultiFormView):
         self.object_pk = kwargs["pk"]
         application = get_application(request, self.object_pk)
         self.data = application["consignee"]
-        self.forms = new_consignee_forms(application)
+        self.forms = new_party_form_group(application, ConsigneeForm)
         self.action = post_consignee
         self.success_url = reverse_lazy("applications:consignee_attach_document", kwargs={"pk": self.object_pk})
 
@@ -98,7 +101,7 @@ class RemoveConsignee(TemplateView):
         application_id = str(kwargs["pk"])
         status_code = delete_consignee(request, application_id)
 
-        if status_code != 204:
+        if status_code != HTTPStatus.NO_CONTENT:
             return error_page(request, "Unexpected error removing consignee")
 
-        return redirect(reverse_lazy("applications:task_list", kwargs={"pk": application_id}))
+        return redirect(reverse_lazy("applications:set_consignee", kwargs={"pk": application_id}))

@@ -13,9 +13,10 @@ pytest-html = "*"
 prospector = "==1.1.6.2"
 pytest-xdist = "*"
 black = "==19.10b0"
+faker = "*"
 
 [packages]
-Django = "==2.2.4"
+Django = "==2.2.8"
 django-compressor = "==2.2"
 django-environ = "==0.4.5"
 django-sass-processor = "==0.7.2"
@@ -34,6 +35,8 @@ django-csp = "*"
 bandit = "*"
 gunicorn = "*"
 whitenoise = "*"
+pytest-rerunfailures = "*"
+markdown = "*"
 
 [requires]
 python_version = "3.7"

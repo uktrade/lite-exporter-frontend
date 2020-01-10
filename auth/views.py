@@ -1,15 +1,16 @@
+from lite_content.lite_exporter_frontend import strings
 from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponseBadRequest, HttpResponseServerError
+from django.http import HttpResponseServerError
 from django.shortcuts import redirect
+from django.urls import reverse_lazy
 from django.views.generic.base import RedirectView, View, TemplateView
-from lite_forms.generators import error_page
 from raven.contrib.django.raven_compat.models import client
 
 from auth.services import authenticate_exporter_user
-from authbroker_client.utils import get_client, AUTHORISATION_URL, TOKEN_URL, TOKEN_SESSION_KEY, get_profile
+from auth.utils import get_client, AUTHORISATION_URL, TOKEN_SESSION_KEY, TOKEN_URL, get_profile
 from conf.settings import LOGOUT_URL
-from core.builtins.custom_tags import get_string
+from lite_forms.generators import error_page
 from users.services import get_user
 
 
@@ -18,10 +19,7 @@ class AuthView(RedirectView):
     Auth wrapper which connects to api
     """
 
-    permanent = False
-
     def get_redirect_url(self, *args, **kwargs):
-
         authorization_url, state = get_client(self.request).authorization_url(AUTHORISATION_URL)
 
         self.request.session[TOKEN_SESSION_KEY + "_oauth_state"] = state
@@ -38,7 +36,7 @@ class AuthCallbackView(View):
         auth_code = request.GET.get("code", None)
 
         if not auth_code:
-            return HttpResponseBadRequest()
+            return redirect(reverse_lazy("auth:login"))
 
         state = self.request.session.get(TOKEN_SESSION_KEY + "_oauth_state", None)
 
@@ -68,8 +66,8 @@ class AuthCallbackView(View):
         if status_code != 200:
             return error_page(
                 None,
-                title=get_string("authentication.user_does_not_exist.title"),
-                description=get_string("authentication.user_does_not_exist.description"),
+                title=strings.Authentication.UserDoesNotExist.TITLE,
+                description=strings.Authentication.UserDoesNotExist.DESCRIPTION,
                 show_back_link=False,
             )
 
@@ -85,14 +83,14 @@ class AuthCallbackView(View):
         if user is not None:
             login(request, user)
 
-            user_dict, _ = get_user(request)
+            user_dict = get_user(request)
 
-            if len(user_dict["user"]["organisations"]) == 0:
+            if len(user_dict["organisations"]) == 0:
                 return error_page(request, "You don't belong to any organisations", show_back_link=False)
-            elif len(user_dict["user"]["organisations"]) == 1:
-                user.organisation = user_dict["user"]["organisations"][0]["id"]
+            elif len(user_dict["organisations"]) == 1:
+                user.organisation = user_dict["organisations"][0]["id"]
                 user.save()
-            elif len(user_dict["user"]["organisations"]) > 1:
+            elif len(user_dict["organisations"]) > 1:
                 return redirect("core:pick_organisation")
 
         return redirect(getattr(settings, "LOGIN_REDIRECT_URL", "/"))

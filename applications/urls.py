@@ -39,25 +39,27 @@ urlpatterns = [
     path("<uuid:pk>/optional-note/", optional_note.ApplicationOptionalNote.as_view(), name="optional_note"),
     # Goods
     path("<uuid:pk>/goods/", goods.DraftGoodsList.as_view(), name="goods"),
-    path("<uuid:pk>/goods/add-new/", goods.AddNewGood.as_view(), name="new_good"),
-    path("<uuid:pk>/goods/add-preexisting/", goods.GoodsList.as_view(), name="preexisting_good"),
+    path("<uuid:pk>/goods/add-new/", goods.AddGood.as_view(), name="new_good"),
     path(
-        "<uuid:pk>/goods/add-preexisting/<uuid:good_pk>/add/",
-        goods.AddPreexistingGood.as_view(),
-        name="add_preexisting_good",
+        "<uuid:pk>/goods/add-new/<uuid:good_pk>/add-document/",
+        goods.CheckDocumentGrading.as_view(),
+        name="add_document",
     ),
+    path("<uuid:pk>/goods/add-new/<uuid:good_pk>/attach/", goods.AttachDocument.as_view(), name="attach_documents"),
+    path("<uuid:pk>/goods/add-preexisting/", goods.GoodsList.as_view(), name="preexisting_good"),
+    path("<uuid:pk>/goods/<uuid:good_pk>/add/", goods.AddGoodToApplication.as_view(), name="add_good_to_application",),
     path(
         "<uuid:pk>/good-on-application/<uuid:good_on_application_pk>/remove/",
         goods.RemovePreexistingGood.as_view(),
         name="remove_preexisting_good",
     ),
     # Goods Types
-    path("<uuid:pk>/goods-types/", goods_types.DraftOpenGoodsTypeList.as_view(), name="goods_types"),
+    path("<uuid:pk>/goods-types/", goods_types.GoodsTypeList.as_view(), name="goods_types"),
     path("<uuid:pk>/goods-types/countries/", goods_types.GoodsTypeCountries.as_view(), name="goods_countries"),
-    path("<uuid:pk>/goods-types/add/", goods_types.ApplicationAddGoodsType.as_view(), name="add_goods_type"),
+    path("<uuid:pk>/goods-types/add/", goods_types.GoodsTypeAdd.as_view(), name="add_goods_type"),
     path(
         "<uuid:pk>/goods-types/remove/<uuid:goods_type_pk>/",
-        goods_types.ApplicationRemoveGoodsType.as_view(),
+        goods_types.GoodsTypeRemove.as_view(),
         name="remove_goods_type",
     ),
     path(
@@ -186,6 +188,12 @@ urlpatterns = [
         name="delete_additional_document",
     ),
     path("<uuid:pk>/withdraw/", common.WithdrawApplication.as_view(), name="withdraw"),
+    # Case-relevant documentation
+    path(
+        "<uuid:pk>/generated-documents/<uuid:obj_pk>/download",
+        documents.DownloadDocument.as_view(),
+        name="download_generated_document",
+    ),
     # This HAS to be at the bottom, otherwise it will swallow other url calls
     path("<uuid:pk>/", common.ApplicationDetail.as_view(), name="application"),
     path("<uuid:pk>/<str:type>/", common.ApplicationDetail.as_view(), name="application"),

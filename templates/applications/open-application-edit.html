@@ -1,10 +1,10 @@
-{% extends 'layouts/two_pane.html' %}
+{% extends 'layouts/two-pane.html' %}
 
 {% load svg %}
 
 {% block back_link %}
 	{% if application.status %}
-    	<a href="{% url 'applications:applications' %}" id="back-link" class="govuk-back-link">Back to application</a>
+    	<a href="{% url 'applications:applications' %}" id="back-link" class="govuk-back-link">{% lcs 'applications.EditOpenApplicationPage.BACK_TO_APPLICATIONS' %}</a>
 	{% endif %}
 {% endblock %}
 
@@ -16,13 +16,12 @@
 	{% endif %}
 	{% if application.status.key == "applicant_editing" %}
 		<div class="lite-info-bar lite-info-bar--warning lite-info-bar--no-animation">
-			This application won't be processed until it is submitted.
+			This application won't be processed until it's submitted.
 		</div>
 	{% endif %}
 {% endblock %}
 
 {% block two_thirds %}
-
 	{% if errors %}
 		<div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="error-summary">
 			<h2 class="govuk-error-summary__title" id="error-summary-title">
@@ -44,8 +43,8 @@
 
 	<h1 class="govuk-heading-l govuk-!-margin-bottom-2">
 		{% block title %}
-			{% if is_editing %}
-				Edit your application
+			{% if edit_type %}
+				Edit the application
 			{% else %}
 				Apply for an open export licence
 			{% endif %}
@@ -54,7 +53,7 @@
 
 	<!-- Details that can't be edited -->
 	<p class="govuk-hint govuk-!-margin-bottom-9">
-		{% if is_editing %}Licence type: {{ application.application_type.value }} - {% endif %}
+		{% if edit_type %}Licence type: {{ application.application_type.value }} - {% endif %}
 		Export type: {{ application.export_type.value }}
 	</p>
 
@@ -62,14 +61,14 @@
 	<ol class="lite-task-list">
 		<li>
 			<h2 class="lite-task-list__section">
-				{% if is_editing %}
+				{% if edit_type %}
 					Basic details
 				{% else %}
 					<span class="lite-task-list__section-number">1. </span> Prepare application
 				{% endif %}
 			</h2>
-			<ul class="lite-task-list__items {% if is_editing %}govuk-!-padding-0{% endif %}">
-				{% lcs 'ENTER_A_REFERENCE_NAME_SHORT_TITLE' as reference_name_title %}
+			<ul class="lite-task-list__items {% if edit_type %}govuk-!-padding-0{% endif %}">
+				{% lcs 'applications.TaskListPage.ENTER_A_REFERENCE_NAME_SHORT_TITLE' as reference_name_title %}
 				{% url 'applications:edit_reference_name' application.id as reference_name_url %}
 				{% include "includes/task-list-item.html" with title=reference_name_title url=reference_name_url status='done' description=application.name %}
 			</ul>
@@ -80,18 +79,18 @@
 	<ol class="lite-task-list">
 		<li>
 			<h2 class="lite-task-list__section">
-				{% if is_editing %}
+				{% if edit_type %}
 					More information
 				{% else %}
 					<span class="lite-task-list__section-number">2. </span> Complete application
 				{% endif %}
 			</h2>
-		    <ul class="lite-task-list__items {% if is_editing %}govuk-!-padding-0{% endif %}">
+		    <ul class="lite-task-list__items {% if edit_type %}govuk-!-padding-0{% endif %}">
 		        <!-- Goods -->
 		        <li class="lite-task-list__item">
 					<div class="lite-task-list__item-header">
                         <a id="open-goods" href="{% url 'applications:goods_types' application.id %}" class="govuk-link govuk-link--no-visited-state">
-                            Describe your goods
+                            Describe your products
                         </a>
 						{% if goods|length or goodstypes|length %}
 							<div class="lite-tag lite-tag--blue">
@@ -109,7 +108,7 @@
 								<tbody class="govuk-table__body">
 									<tr class="govuk-table__row">
 										<th class="govuk-table__header" scope="row">Description</th>
-										<th class="govuk-table__header" scope="row">Control List Classification</th>
+										<th class="govuk-table__header" scope="row">Control list classification</th>
 										<th class="govuk-table__header" scope="row"></th>
 									</tr>
 									{% for goodstype in goodstypes %}
@@ -132,7 +131,7 @@
 		        <li class="lite-task-list__item">
 					<div class="lite-task-list__item-header">
 						<a id="location" href="{% url 'applications:location' application.id %}" class="lite-overview-section-header govuk-link govuk-link--no-visited-state">
-							Goods locations
+							Product locations
 						</a>
 						{% if sites.sites or external_locations %}
 							<div class="lite-tag lite-tag--blue">
@@ -188,27 +187,21 @@
 				</li>
 
 				<!-- Destination -->
-				{% lcs 'WHERE_ARE_YOUR_GOODS_GOING_SHORT_TITLE' as countries_title %}
+				{% lcs 'applications.TaskListPage.WHERE_ARE_YOUR_GOODS_GOING_SHORT_TITLE' as countries_title %}
 				{% url 'applications:countries' application.id as countries_url %}
 				{% tld countries 'country' 'countries' as countries_description %}
 				{% include "includes/task-list-item.html" with title=countries_title url=countries_url status=countries|task_list_item_status description=countries_description %}
 
 				<!-- Good/country mapping -->
-				{% if application.application_type.key == 'open_licence' and goodstypes and countries %}
+				{% if goodstypes and countries and edit_type != "minor_edit" %}
 					<li class="lite-task-list__item">
 						<div class="lite-task-list__item-header">
 							<a id="goods_country_assignments" href="{% url 'applications:goods_countries' application.id %}" class="lite-overview-section-header govuk-link govuk-link--no-visited-state">
-			                    Explain where each good is going
+			                    Explain where each product is going
 			                </a>
-							{% if countries_on_goods_types %}
-				                <div class="lite-tag lite-tag--blue">
-				                    Done
-				                </div>
-				            {% else %}
-				                <div class="lite-tag lite-tag--hollow">
-				                    Optional
-				                </div>
-				            {% endif %}
+                            <div class="lite-tag lite-tag--hollow">
+                                {% lcs 'OPTIONAL' %}
+                            </div>
 						</div>
 					</li>
 				{% endif %}
@@ -225,7 +218,7 @@
 							</div>
 						{% else %}
 							<div class="lite-tag lite-tag--hollow">
-								Optional
+								{% lcs 'OPTIONAL' %}
 							</div>
 						{% endif %}
 					</div>
@@ -273,17 +266,17 @@
 					<div class="app-submit-bar">
 						<form method="post">
 							{% csrf_token %}
-							{% if not application.status.value or application.status.key == 'applicant_editing' %}
-								<button type="submit" value="submit" class="govuk-button" data-prevent-double-click="true" style="margin-bottom: 0;">Submit application</button>
+							{% if application.status.key in 'applicant_editing,draft' %}
+								<button type="submit" value="submit" class="govuk-button" data-prevent-double-click="true">{% lcs 'applications.EditOpenApplicationPage.SUBMIT' %}</button>
 							{% else %}
 								<a href="{% url 'applications:application' application.id %}" class="govuk-button" draggable="false" role="button">Done</a>
 							{% endif %}
 						</form>
-						{% if not application.status.value %}
+                        {% if application.status.key == 'draft' %}
 							<div class="lite-vertical-align">
-								<a id="link-delete-draft" href="{% url 'applications:delete' application.id %}?return_to=application" class="govuk-link lite-link--icon">
+								<a id="link-delete-draft" href="{% url 'applications:delete' application.id %}?return_to={{ CURRENT_PATH }}" class="govuk-link lite-link--icon">
 									{% svg 'close' %}
-									{% lcs 'DRAFT_DELETE_LINK' %}
+									{% lcs 'applications.EditOpenApplicationPage.DRAFT_DELETE_LINK' %}
 								</a>
 							</div>
 						{% endif %}
@@ -292,5 +285,4 @@
 			</ul>
 		</li>
 	</ol>
-
 {% endblock %}

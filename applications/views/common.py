@@ -16,21 +16,22 @@ from applications.helpers.summaries import application_summary, draft_summary
 from applications.helpers.task_lists import get_application_task_list
 from applications.helpers.validators import validate_withdraw_application, validate_delete_draft
 from applications.services import (
+    get_activity,
     get_applications,
     get_case_notes,
     get_application_ecju_queries,
     get_ecju_query,
     put_ecju_query,
     post_application_case_notes,
-    get_draft_applications,
     submit_application,
     get_application,
     set_application_status,
+    get_status_properties,
+    get_application_generated_documents,
 )
-from conf import constants
 from conf.constants import HMRC_QUERY, APPLICANT_EDITING, NEWLINE
-from core.helpers import group_notifications
-from core.services import get_notifications, get_organisation
+from core.helpers import str_to_bool, convert_dict_to_query_params
+from core.services import get_organisation
 from lite_content.lite_exporter_frontend import strings
 from lite_forms.components import HiddenField
 from lite_forms.generators import confirm_form
@@ -40,27 +41,20 @@ from lite_forms.views import SingleFormView
 
 class ApplicationsList(TemplateView):
     def get(self, request, **kwargs):
-        drafts = request.GET.get("drafts")
+        params = {"page": int(request.GET.get("page", 1)), "submitted": str_to_bool(request.GET.get("submitted", True))}
         organisation = get_organisation(request, request.user.organisation)
+        applications = get_applications(request, **params)
 
-        if drafts and drafts.lower() == "true":
-            drafts = get_draft_applications(request)
-
-            context = {
-                "drafts": drafts,
-                "organisation": organisation,
-            }
-            return render(request, "applications/drafts.html", context)
-        else:
-            applications = get_applications(request)
-            notifications = get_notifications(request, unviewed=True)
-
-            context = {
-                "applications": applications,
-                "notifications": group_notifications(notifications),
-                "organisation": organisation,
-            }
-            return render(request, "applications/applications.html", context)
+        context = {
+            "applications": applications,
+            "organisation": organisation,
+            "params": params,
+            "page": params.pop("page"),
+            "params_str": convert_dict_to_query_params(params),
+        }
+        return render(
+            request, "applications/applications.html" if params["submitted"] else "applications/drafts.html", context
+        )
 
 
 class DeleteApplication(SingleFormView):
@@ -68,25 +62,23 @@ class DeleteApplication(SingleFormView):
         self.object_pk = kwargs["pk"]
         application = get_application(request, self.object_pk)
         self.form = confirm_form(
-            title=strings.DRAFT_DELETE_TITLE,
+            title=strings.applications.DeleteApplicationPage.TITLE,
             confirmation_name="choice",
             summary=draft_summary(application),
-            back_link_text=strings.DRAFT_DELETE_BACK_TEXT,
-            yes_label=strings.DRAFT_DELETE_YES_LABEL,
-            no_label=strings.DRAFT_DELETE_NO_LABEL,
-            submit_button_text=strings.DRAFT_DELETE_SUBMIT_BUTTON,
-            back_url=reverse_lazy("applications:application", kwargs={"pk": self.object_pk}),
+            back_link_text=strings.applications.DeleteApplicationPage.BACK_TEXT,
+            yes_label=strings.applications.DeleteApplicationPage.YES_LABEL,
+            no_label=strings.applications.DeleteApplicationPage.NO_LABEL,
+            submit_button_text=strings.applications.DeleteApplicationPage.SUBMIT_BUTTON,
+            back_url=request.GET.get("return_to"),
             side_by_side=True,
         )
-        self.return_to = request.GET.get("return_to")
         self.action = validate_delete_draft
-        self.success_url = reverse_lazy("applications:applications") + "?drafts=True"
 
     def get_success_url(self):
-        if self.return_to == "application" and self.get_validated_data().get("choice") == "no":
-            return reverse_lazy("applications:task_list", kwargs={"pk": self.object_pk})
+        if self.get_validated_data().get("status"):
+            return reverse_lazy("applications:applications") + "?submitted=False"
         else:
-            return reverse_lazy("applications:applications") + "?drafts=True"
+            return self.request.GET.get("return_to")
 
 
 class ApplicationEditType(TemplateView):
@@ -150,22 +142,16 @@ class ApplicationDetail(TemplateView):
         return super(ApplicationDetail, self).dispatch(request, *args, **kwargs)
 
     def get(self, request, **kwargs):
-        # add application number to next query
-        notifications = get_notifications(request, unviewed=True)
-        case_note_notifications = len(
-            [x for x in notifications if x["parent"] == self.application_id and x["object_type"] == "case_note"]
-        )
-        ecju_query_notifications = len(
-            [x for x in notifications if x["parent"] == self.application_id and x["object_type"] == "ecju_query"]
-        )
+        status_props, _ = get_status_properties(request, self.application["status"]["key"])
 
         context = {
             "application": self.application,
             "title": self.application["name"],
             "type": self.view_type,
-            "case_note_notifications": case_note_notifications,
-            "ecju_query_notifications": ecju_query_notifications,
             "answers": {**convert_application_to_check_your_answers(self.application)},
+            "status_is_read_only": status_props["is_read_only"],
+            "status_is_terminal": status_props["is_terminal"],
+            "activity": get_activity(request, self.application_id),
         }
 
         if self.application["application_type"]["key"] != HMRC_QUERY:
@@ -175,7 +161,8 @@ class ApplicationDetail(TemplateView):
             if self.view_type == "ecju-queries":
                 context["open_queries"], context["closed_queries"] = get_application_ecju_queries(request, self.case_id)
 
-        context["read_only_statuses"] = constants.READ_ONLY_STATUSES
+        if self.view_type == "generated-documents":
+            context["generated_documents"] = get_application_generated_documents(request, self.application_id)
 
         return render(request, "applications/application.html", context)
 
@@ -286,7 +273,7 @@ class RespondToQuery(TemplateView):
                 return form_page(request, form, errors=error)
         else:
             # Submitted data does not contain an expected form field - return an error
-            return error_page(None, "We had an issue creating your response. Try again later.")
+            return error_page(request, strings.applications.AttachDocumentPage.UPLOAD_GENERIC_ERROR)
 
 
 class WithdrawApplication(SingleFormView):
@@ -294,13 +281,13 @@ class WithdrawApplication(SingleFormView):
         self.object_pk = kwargs["pk"]
         application = get_application(request, self.object_pk)
         self.form = confirm_form(
-            title=strings.APPLICATION_WITHDRAW_TITLE,
+            title=strings.applications.ApplicationSummaryPage.Withdraw.TITLE,
             confirmation_name="choice",
             summary=application_summary(application),
-            back_link_text=strings.APPLICATION_WITHDRAW_BACK_TEXT,
-            yes_label=strings.APPLICATION_WITHDRAW_YES_LABEL,
-            no_label=strings.APPLICATION_WITHDRAW_NO_LABEL,
-            submit_button_text=strings.APPLICATION_WITHDRAW_SUBMIT_BUTTON,
+            back_link_text=strings.applications.ApplicationSummaryPage.Withdraw.BACK_TEXT,
+            yes_label=strings.applications.ApplicationSummaryPage.Withdraw.YES_LABEL,
+            no_label=strings.applications.ApplicationSummaryPage.Withdraw.NO_LABEL,
+            submit_button_text=strings.applications.ApplicationSummaryPage.Withdraw.SUBMIT_BUTTON,
             back_url=reverse_lazy("applications:application", kwargs={"pk": self.object_pk}),
             side_by_side=True,
         )

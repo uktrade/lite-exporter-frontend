@@ -7,10 +7,9 @@
 {% endblock %}
 
 {% block body %}
-
 	<div class="lite-app-bar">
 		<div class="lite-app-bar__content">
-			<h2 class="govuk-heading-l">{% block title %}Applications{% endblock %}</h2>
+			<h1 class="govuk-heading-l">{% block title %}Applications{% endblock %}</h1>
 		</div>
 		<div class="lite-app-bar__controls">
 			{% if organisation.type.key == 'hmrc' %}
@@ -19,24 +18,24 @@
 				</a>
 			{% else %}
 				<a href="{% url 'apply_for_a_licence:start' %}" class="govuk-button" draggable="false" role="button">
-					{% get_string 'licences.apply_for_a_licence' %}
+					{% lcs 'Licences.APPLY_FOR_A_LICENCE' %}
 				</a>
 			{% endif %}
 		</div>
 	</div>
 
-	<div class="lite-tabs--fade">
+	<div class="lite-tabs__container">
 		<div class="lite-tabs">
-			<a href="{% url 'applications:applications' %}?drafts=false" class="lite-tabs__tab">
+			<a href="{% url 'applications:applications' %}?submitted=True" class="lite-tabs__tab">
 				In Progress
 			</a>
-			<a href="{% url 'applications:applications' %}?drafts=true" class="lite-tabs__tab lite-tabs__tab--selected">
+			<a href="{% url 'applications:applications' %}?submitted=False" class="lite-tabs__tab lite-tabs__tab--selected">
 				Drafts
 			</a>
 		</div>
 	</div>
 
-	{% if drafts.results %}
+	{% if applications.results %}
 		<table class="govuk-table">
 			<thead class="govuk-table__head">
 				<tr class="govuk-table__row">
@@ -48,7 +47,7 @@
 						Created On
 					</th>
 					{% if organisation.type.key != 'hmrc' %}
-						<th class="govuk-table__header">
+						<th class="govuk-table__header govuk-table__cell--nowrap">
 							Export Type
 						</th>
 					{% endif %}
@@ -57,7 +56,7 @@
 				</tr>
 			</thead>
 			<tbody class="govuk-table__head">
-				{% for draft in drafts.results %}
+				{% for draft in applications.results %}
 					<tr class="govuk-table__row">
 						<td class="govuk-table__cell">
 							<a class="govuk-link govuk-link--no-visited-state" href="{% url 'applications:task_list' draft.id %}">
@@ -67,24 +66,27 @@
 						<td class="govuk-table__cell">
 							{{ draft.application_type.value }}
 						</td>
-						<td class="govuk-table__cell">
-							{{ draft.last_modified_at|str_date }}
+						<td class="govuk-table__cell govuk-table__cell--nowrap">
+							{{ draft.updated_at|str_date }}
 						</td>
 						{% if organisation.type.key != 'hmrc' %}
 							<td class="govuk-table__cell">
 								{{ draft.export_type.value }}
 							</td>
 						{% endif %}
-						<td class="govuk-table__cell govuk-table__cell--numeric">
-							<a id="link-delete-draft" href="{% url 'applications:delete' draft.id %}" class="govuk-link lite-link--icon">
+						<td class="govuk-table__cell govuk-table__cell--numeric govuk-table__cell--nowrap">
+							<a id="link-delete-draft" href="{% url 'applications:delete' draft.id %}?return_to={{ CURRENT_PATH }}" class="govuk-link lite-link--icon">
                                 {% svg 'close' %}
-                                {% lcs 'DRAFT_DELETE_LINK' %}
+                                {% lcs 'applications.DeleteApplicationPage.BUTTON' %}
                             </a>
 						</td>
 					</tr>
 				{% endfor %}
 			</tbody>
 		</table>
+
+		{% include "includes/pagination.html" with data=applications %}
+
 	{% else %}
 		<br>
 		<div class="lite-information-text">
@@ -95,5 +97,4 @@
 			</p>
 		</div>
 	{% endif %}
-
 {% endblock %}

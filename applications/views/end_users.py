@@ -2,7 +2,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
-from applications.forms.end_user import new_end_user_forms
+from applications.forms.end_user import new_party_form_group
 from applications.helpers.check_your_answers import convert_end_user
 from applications.helpers.validate_status import check_all_parties_have_a_document
 from applications.services import (
@@ -16,6 +16,7 @@ from applications.services import (
 from lite_forms.generators import form_page, error_page
 from lite_forms.submitters import submit_paged_form
 from lite_forms.views import MultiFormView
+from lite_content.lite_exporter_frontend.applications import UltimateEndUserForm, EndUserForm
 
 
 class EndUser(TemplateView):
@@ -42,7 +43,7 @@ class SetEndUser(MultiFormView):
         self.object_pk = kwargs["pk"]
         application = get_application(request, self.object_pk)
         self.data = application["end_user"]
-        self.forms = new_end_user_forms(application)
+        self.forms = new_party_form_group(application, EndUserForm)
         self.action = post_end_user
         self.success_url = reverse_lazy("applications:end_user_attach_document", kwargs={"pk": self.object_pk})
 
@@ -55,7 +56,7 @@ class RemoveEndUser(TemplateView):
         if status_code != 204:
             return error_page(request, "Unexpected error removing end user")
 
-        return redirect(reverse_lazy("applications:task_list", kwargs={"pk": application_id}))
+        return redirect(reverse_lazy("applications:set_end_user", kwargs={"pk": application_id}))
 
 
 class UltimateEndUsers(TemplateView):
@@ -69,7 +70,7 @@ class UltimateEndUsers(TemplateView):
             "ultimate_end_users": ultimate_end_users,
             "show_warning": check_all_parties_have_a_document(ultimate_end_users) == "in_progress",
         }
-        return render(request, "applications/parties/ultimate_end_users.html", context)
+        return render(request, "applications/parties/ultimate-end-users.html", context)
 
 
 class AddUltimateEndUser(TemplateView):
@@ -79,7 +80,7 @@ class AddUltimateEndUser(TemplateView):
     def dispatch(self, request, *args, **kwargs):
         self.draft_id = str(kwargs["pk"])
         application = get_application(request, self.draft_id)
-        self.form = new_end_user_forms(application)
+        self.form = new_party_form_group(application, UltimateEndUserForm)
 
         return super(AddUltimateEndUser, self).dispatch(request, *args, **kwargs)
 

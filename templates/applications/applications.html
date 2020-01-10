@@ -5,7 +5,6 @@
 {% endblock %}
 
 {% block body %}
-
 	<div class="lite-app-bar">
 		<div class="lite-app-bar__content">
 			<h1 class="govuk-heading-l">{% block title %}Applications{% endblock %}</h1>
@@ -17,21 +16,21 @@
 				</a>
 			{% else %}
 				<a href="." class="govuk-button govuk-button--secondary" draggable="false" role="button">
-					{% get_string 'licences.refresh' %}
+					{% lcs 'Licences.REFRESH' %}
 				</a>
 				<a href="{% url 'apply_for_a_licence:start' %}" class="govuk-button" draggable="false" role="button">
-					{% get_string 'licences.apply_for_a_licence' %}
+					{% lcs 'Licences.APPLY_FOR_A_LICENCE' %}
 				</a>
 			{% endif %}
 		</div>
 	</div>
 
-	<div class="lite-tabs--fade">
+	<div class="lite-tabs__container">
 		<div class="lite-tabs">
-			<a href="{% url 'applications:applications' %}?drafts=false" class="lite-tabs__tab lite-tabs__tab--selected">
+			<a href="{% url 'applications:applications' %}?submitted=True" class="lite-tabs__tab lite-tabs__tab--selected">
 				In Progress
 			</a>
-			<a href="{% url 'applications:applications' %}?drafts=true" class="lite-tabs__tab">
+			<a href="{% url 'applications:applications' %}?submitted=False" class="lite-tabs__tab">
 				Drafts
 			</a>
 		</div>
@@ -41,13 +40,14 @@
 		<table class="govuk-table">
 			<thead class="govuk-table__head">
 				<tr class="govuk-table__row">
-					<th class="govuk-table__header" scope="col">{% lcs 'APPLICATION_REFERENCE_NAME' %}</th>
+					<th class="govuk-table__header" scope="col">{% lcs 'applications.ApplicationsSummaryPage.REFERENCE_NAME' %}</th>
+					<th class="govuk-table__header" scope="col"></th>
 					{% if organisation.type.key != 'hmrc' %}
-						<th class="govuk-table__header" scope="col">{% lcs 'APPLICATION_TYPE' %}</th>
+						<th class="govuk-table__header" scope="col">{% lcs 'applications.ApplicationsSummaryPage.TYPE' %}</th>
 					{% endif %}
-					<th class="govuk-table__header" scope="col">{% lcs 'APPLICATION_LAST_UPDATED_AT' %}</th>
+					<th class="govuk-table__header" scope="col">{% lcs 'applications.ApplicationsSummaryPage.LAST_UPDATED_AT' %}</th>
 					{% if organisation.type.key != 'hmrc' %}
-						<th class="govuk-table__header" scope="col">{% lcs 'APPLICATION_STATUS' %}</th>
+						<th class="govuk-table__header" scope="col">{% lcs 'applications.ApplicationsSummaryPage.STATUS' %}</th>
 					{% endif %}
 				</tr>
 			</thead>
@@ -61,11 +61,13 @@
 								{% else %}
 									href="{% url 'applications:application' application.id %}">
 								{% endif %}
-								<p>{{ application.name }}</p>
-								{% if application.id in notifications %}
-									<span class="app-icon-label__notification">{{ notifications|key_value:application.id }} <span class="govuk-visually-hidden"> notifications</span></span>
-								{% endif %}
+								{{ application.name }}
 							</a>
+						</td>
+						<td class="govuk-table__cell">
+							{% if application.exporter_user_notification_count.total %}
+								<span class="lite-notification-bubble">{{ application.exporter_user_notification_count.total }} <span class="govuk-visually-hidden"> notifications</span></span>
+							{% endif %}
 						</td>
 						{% if organisation.type.key != 'hmrc' %}
 							<td class="govuk-table__cell">
@@ -73,7 +75,7 @@
 							</td>
 						{% endif %}
 						<td class="govuk-table__cell">
-							{{ application.last_modified_at|str_date }}
+							{{ application.updated_at|str_date }}
 						</td>
 						{% if organisation.type.key != 'hmrc' %}
 							<td class="govuk-table__cell">{{ application.status.value }}</td>
@@ -82,6 +84,9 @@
 				{% endfor %}
 			</tbody>
 		</table>
+
+		{% include "includes/pagination.html" with data=applications %}
+
 	{% else %}
 		<br>
 		<div class="lite-information-text">
@@ -92,5 +97,4 @@
 			</p>
 		</div>
 	{% endif %}
-
 {% endblock %}

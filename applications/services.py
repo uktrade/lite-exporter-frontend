@@ -2,6 +2,7 @@ from http import HTTPStatus
 
 from conf.client import get, post, put, delete
 from conf.constants import (
+    ACTIVITY_URL,
     APPLICATIONS_URL,
     END_USER_DOCUMENT_URL,
     ULTIMATE_END_USER_URL,
@@ -18,21 +19,24 @@ from conf.constants import (
     GOODSTYPE_URL,
     GOODSTYPES_URL,
     GOODSTYPE_COUNTRY_URL,
+    STATUS_PROPERTIES_URL,
+    GENERATED_DOCUMENTS_URL,
 )
 from conf.settings import AWS_STORAGE_BUCKET_NAME, STREAMING_CHUNK_SIZE
 from django.http import StreamingHttpResponse
 from s3chunkuploader.file_handler import s3_client
 
-from core.helpers import remove_prefix
+from core.helpers import remove_prefix, convert_parameters_to_query_params
 
 
-def get_draft_applications(request):
-    data = get(request, APPLICATIONS_URL + "?submitted=false")
-    return data.json()
-
-
-def get_applications(request):
-    data = get(request, APPLICATIONS_URL + "?submitted=true")
+def get_applications(request, page: int = 1, submitted: bool = True):
+    """
+    Returns a list of applications
+    :param request: Standard HttpRequest object
+    :param page: Returns n page of page results
+    :param submitted: Returns submitted applications if True, else returns draft applications if False
+    """
+    data = get(request, APPLICATIONS_URL + convert_parameters_to_query_params(locals()))
     return data.json()
 
 
@@ -279,6 +283,21 @@ def get_application_ecju_queries(request, pk):
     return open_queries, closed_queries
 
 
+def get_application_generated_documents(request, pk):
+    data = get(request, APPLICATIONS_URL + pk + GENERATED_DOCUMENTS_URL).json()["generated_documents"]
+    return data
+
+
+def get_generated_document(request, pk, doc_pk):
+    data = get(request, APPLICATIONS_URL + pk + GENERATED_DOCUMENTS_URL + str(doc_pk) + "/")
+    return data.json(), data.status_code
+
+
+def get_status_properties(request, status):
+    data = get(request, STATUS_PROPERTIES_URL + status)
+    return data.json(), data.status_code
+
+
 def set_application_status(request, pk, status):
     json = {"status": status}
     data = put(request, APPLICATIONS_URL + str(pk) + MANAGE_STATUS_URL, json)
@@ -333,7 +352,7 @@ def get_goods_type(request, app_pk, good_pk):
 
 
 def post_goods_type(request, app_pk, json):
-    data = post(request, APPLICATIONS_URL + app_pk + GOODSTYPES_URL, json)
+    data = post(request, APPLICATIONS_URL + str(app_pk) + GOODSTYPES_URL, json)
     return data.json(), data.status_code
 
 
@@ -342,8 +361,8 @@ def delete_goods_type(request, app_pk, good_pk):
     return data.status_code
 
 
-def post_goods_type_countries(request, app_pk, good_pk, json):
-    data = put(request, APPLICATIONS_URL + app_pk + GOODSTYPE_URL + good_pk + GOODSTYPE_COUNTRY_URL, json)
+def put_goods_type_countries(request, app_pk, json):
+    data = put(request, APPLICATIONS_URL + app_pk + GOODSTYPE_URL + GOODSTYPE_COUNTRY_URL, json)
     return data.json(), data.status_code
 
 
@@ -360,3 +379,9 @@ def post_goods_type_document(request, pk, good_pk, json):
 def delete_goods_type_document(request, pk, good_pk):
     data = delete(request, APPLICATIONS_URL + pk + GOODSTYPE_URL + str(good_pk) + DOCUMENT_URL)
     return data.status_code
+
+
+# Activity
+def get_activity(request, pk):
+    data = get(request, CASES_URL + pk + ACTIVITY_URL)
+    return data.json()["activity"]

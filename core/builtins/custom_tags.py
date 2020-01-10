@@ -1,7 +1,6 @@
 import datetime
 import json
 import re
-import warnings
 
 from django import template
 from django.template.defaultfilters import stringfilter
@@ -9,12 +8,11 @@ from django.templatetags.tz import do_timezone
 from django.utils.safestring import mark_safe
 
 from conf.constants import ISO8601_FMT, NOT_STARTED, DONE
-from conf.settings import env
-from core import lite_strings
 
 from lite_content.lite_exporter_frontend import strings
 
 register = template.Library()
+STRING_NOT_FOUND_ERROR = "STRING_NOT_FOUND"
 
 
 @register.simple_tag(name="lcs")
@@ -22,41 +20,32 @@ def get_const_string(value):
     """
     Template tag for accessing constants from LITE content library (not for Python use - only HTML)
     """
-    warnings.warn("Reference constants from strings directly, only use LCS in HTML files", Warning)
-    try:
-        return getattr(strings, value)
-    except AttributeError:
-        return ""
 
-
-@register.simple_tag
-def get_string(value, *args, **kwargs):
-    """
-    Given a string, such as 'cases.manage.attach_documents' it will return the relevant value
-    from the strings.json file
-    """
-    warnings.warn(
-        'get_string is deprecated. Use "lcs" instead, or reference constants from strings directly.', DeprecationWarning
-    )
-
-    # Pull the latest changes from strings.json for faster debugging
-    if env("DEBUG"):
-        with open("lite_content/lite-exporter-frontend/strings.json") as json_file:
-            lite_strings.constants = json.load(json_file)
-
-    def get(d, keys):
-        if "." in keys:
-            key, rest = keys.split(".", 1)
-            return get(d[key], rest)
+    def get(object_to_search, nested_properties_list):
+        """
+        Recursive function used to search an unknown number of nested objects
+        for a property. For example if we had a path 'cases.CasePage.title' this function
+        would take the current object `object_to_search` and get an object called 'CasePage'.
+        It would then call itself again to search the 'CasePage' for a property called 'title'.
+        :param object_to_search: An unknown object to get the given property from
+        :param nested_properties_list: The path list to the attribute we want
+        :return: The attribute in the given object for the given path
+        """
+        object = getattr(object_to_search, nested_properties_list[0])
+        if len(nested_properties_list) == 1:
+            # We have reached the end of the path and now have the string
+            return object
         else:
-            return d[keys]
+            # Search the object for the next property in `nested_properties_list`
+            return get(object, nested_properties_list[1:])
 
-    return_value = get(lite_strings.constants, value)
-
-    if isinstance(return_value, list):
-        return return_value
-
-    return get(lite_strings.constants, value).format(*args, **kwargs)
+    path = value.split(".")
+    try:
+        # Get initial object from strings.py (may return AttributeError)
+        path_object = getattr(strings, path[0])
+        return get(path_object, path[1:]) if len(path) > 1 else path_object
+    except AttributeError:
+        return STRING_NOT_FOUND_ERROR
 
 
 @register.filter
@@ -101,8 +90,8 @@ def highlight_text(value: str, term: str) -> str:
 
     indexes = [m.start() for m in re.finditer(term, value, flags=re.IGNORECASE)]
 
-    span = '<span class="lite-highlight">'
-    span_end = "</span>"
+    span = '<mark class="lite-highlight">'
+    span_end = "</mark>"
 
     loop = 0
     for index in indexes:
@@ -223,3 +212,11 @@ def task_list_item_list_description(data, singular, plural):
         return f"1 {singular} added"
     else:
         return f"{len(data)} {plural} added"
+
+
+@register.filter()
+def set_lcs_variable(value, arg):
+    try:
+        return value % arg
+    except TypeError:
+        return value

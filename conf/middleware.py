@@ -1,13 +1,15 @@
+from lite_content.lite_exporter_frontend import strings
 import logging
 import time
 import uuid
 
 from django.shortcuts import redirect
 from django.urls import resolve
+
+from auth.urls import app_name as auth_app_name
+from conf import settings
 from lite_forms.generators import error_page
 from s3chunkuploader.file_handler import UploadFailed
-
-from core.builtins.custom_tags import get_string
 
 
 class ProtectAllViewsMiddleware:
@@ -15,8 +17,8 @@ class ProtectAllViewsMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        if resolve(request.path).app_name != "authbroker_client" and not request.user.is_authenticated:
-            return redirect("authbroker_client:login")
+        if resolve(request.path).app_name != auth_app_name and not request.user.is_authenticated:
+            return redirect(settings.LOGIN_URL)
 
         response = self.get_response(request)
 
@@ -34,7 +36,7 @@ class UploadFailedMiddleware:
     def process_exception(self, request, exception):
         if not isinstance(exception, UploadFailed):
             return None
-        return error_page(request, get_string("goods.documents.attach_documents.file_too_large"))
+        return error_page(request, strings.Goods.Documents.AttachDocuments.FILE_TOO_LARGE)
 
 
 class LoggingMiddleware:

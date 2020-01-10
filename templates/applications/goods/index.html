@@ -1,23 +1,22 @@
-{% extends 'layouts/two_pane.html' %}
+{% extends 'layouts/base.html' %}
 
 {% load svg humanize %}
 
 {% block back_link %}
-	<a href="{% url 'applications:task_list' application.id %}" id="back-link" class="govuk-back-link">Back to task list</a>
+	<a href="{% url 'applications:task_list' application.id %}" id="back-link" class="govuk-back-link">Back to application overview</a>
 {% endblock %}
 
 {% block body %}
-
 	<div class="lite-app-bar">
 		<div class="lite-app-bar__content">
-			<h2 class="govuk-heading-l">
-				{% block title %}{% lcs 'APPLICATION_GOODS_TITLE' %}{% endblock %}
-			</h2>
+			<h1 class="govuk-heading-l">
+				{% block title %}{% lcs 'goods.ViewGoodOnApplicationPage.TITLE' %}{% endblock %}
+			</h1>
 		</div>
-        {% if not application.status.value or application.status.key == 'applicant_editing' %}
+        {% if application.status.key in 'applicant_editing,draft' %}
         <div class="lite-app-bar__controls">
-			<a href="{% url 'applications:new_good' application.id %}" id='add-new' role='button' draggable='false' class='govuk-button'>{% lcs 'APPLICATION_GOODS_ADD_NEW' %}</a>
-			<a href="{% url 'applications:preexisting_good' application.id %}" role='button' draggable='false' class='govuk-button'>{% get_string 'goods.add_from_organisation.button' %}</a>
+			<a href="{% url 'applications:new_good' application.id %}" id='add-new' role='button' draggable='false' class='govuk-button'>{% lcs 'goods.ViewGoodOnApplicationPage.ADD_NEW_BUTTON' %}</a>
+			<a href="{% url 'applications:preexisting_good' application.id %}" role='button' draggable='false' class='govuk-button'>{% lcs 'Goods.AddFromOrganisation.BUTTON' %}</a>
 		</div>
         {% endif %}
 	</div>
@@ -26,11 +25,11 @@
 		<table class="govuk-table">
 			<thead class="govuk-table__head">
 				<tr class="govuk-table__row">
-					<th scope="col" class="govuk-table__header">Name</th>
-					<th scope="col" class="govuk-table__header">Part Number</th>
-					<th scope="col" class="govuk-table__header">Control List Entry</th>
+					<th scope="col" class="govuk-table__header">Description</th>
+					<th scope="col" class="govuk-table__header">Part number</th>
+					<th scope="col" class="govuk-table__header">Control list classification</th>
 					<th scope="col" class="govuk-table__header">Quantity</th>
-					<th scope="col" class="govuk-table__header">Monetary Value</th>
+					<th scope="col" class="govuk-table__header">Value</th>
 					<th scope="col" class="govuk-table__header"></th>
 				</tr>
 			</thead>
@@ -39,7 +38,7 @@
 					<tr class="govuk-table__row">
 						<td class="govuk-table__cell">
 							{{ good_on_application.good.description }}
-							{% if good_on_application.good.status.key == 'verified' %}<span class="app-verified__symbol">{% svg 'verified' %}</span><span class="govuk-visually-hidden"> (Verified good)</span>{% endif %}
+							{% if good_on_application.good.status.key == 'verified' %}<span class="app-verified__symbol">{% svg 'verified' %}</span><span class="govuk-visually-hidden"> (Verified product)</span>{% endif %}
 						</td>
 						<td class="govuk-table__cell">
 							{{ good_on_application.good.part_number|default_na }}
@@ -63,15 +62,14 @@
 				{% endfor %}
 			</tbody>
 		</table>
-		<p class="govuk-body govuk-!-font-weight-bold">Total value<span class="govuk-visually-hidden"> of goods</span>: £{{ goods_value|intcomma }}</p>
+		<p class="govuk-body govuk-!-font-weight-bold">Total value<span class="govuk-visually-hidden"> of products</span>: £{{ goods_value|intcomma }}</p>
 	{% else %}
 		<div class="lite-information-text">
 			<span class="lite-information-text__icon" aria-hidden="true">!</span>
 			<p class="lite-information-text__text">
 				<span class="govuk-visually-hidden">Information</span>
-				You haven't added any goods to your application yet.
+				Adding a new product to the application will also add it to your product list.  This allows you to add the product to other applications.
 			</p>
 		</div>
 	{% endif %}
-
 {% endblock %}

@@ -1,7 +1,9 @@
 from django.http import Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, RedirectView
+
+from lite_content.lite_exporter_frontend import strings
 from lite_forms.components import HiddenField
 from lite_forms.generators import form_page, error_page
 from lite_forms.submitters import submit_paged_form
@@ -13,8 +15,6 @@ from applications.services import (
     get_ecju_query,
     put_ecju_query,
 )
-from core.helpers import group_notifications
-from core.services import get_notifications
 from end_users.forms import (
     apply_for_an_end_user_advisory_form,
     copy_end_user_advisory_form,
@@ -28,14 +28,12 @@ from end_users.services import get_end_user_advisories, post_end_user_advisories
 class EndUsersList(TemplateView):
     def get(self, request, **kwargs):
         end_users = get_end_user_advisories(request)
-        notifications = get_notifications(request, unviewed=True)
 
         context = {
             "title": "End User Advisories",
             "end_users": end_users,
-            "notifications": group_notifications(notifications),
         }
-        return render(request, "end_users/end_users.html", context)
+        return render(request, "end-users/end-users.html", context)
 
 
 class CopyAdvisory(TemplateView):
@@ -113,9 +111,9 @@ class ApplyForAnAdvisory(TemplateView):
         return end_user_advisory_success_page(request, str(data["end_user_advisory"]["id"]))
 
 
-class EndUserDetailEmpty(TemplateView):
-    def get(self, request, **kwargs):
-        return redirect(reverse_lazy("end_users:end_user_detail", kwargs={"pk": kwargs["pk"], "type": "case-notes"}))
+class EndUserDetailEmpty(RedirectView):
+    def get_redirect_url(self, *args, **kwargs):
+        return reverse_lazy("end_users:end_user_detail", kwargs={"pk": self.kwargs["pk"], "type": "case-notes"})
 
 
 class EndUserDetail(TemplateView):
@@ -135,39 +133,20 @@ class EndUserDetail(TemplateView):
         return super(EndUserDetail, self).dispatch(request, *args, **kwargs)
 
     def get(self, request, **kwargs):
-        notifications = get_notifications(request, unviewed=True)
-        case_note_notifications = len(
-            [
-                x
-                for x in notifications
-                if str(x["parent"]) == self.end_user_advisory_id and x["object_type"] == "case_note"
-            ]
-        )
-        ecju_query_notifications = len(
-            [
-                x
-                for x in notifications
-                if str(x["parent"]) == self.end_user_advisory_id and x["object_type"] == "ecju_query"
-            ]
-        )
-
         context = {
-            "title": "End User Advisory",
             "case_id": self.case_id,
             "end_user_advisory": self.end_user_advisory,
-            "case_note_notifications": case_note_notifications,
-            "ecju_query_notifications": ecju_query_notifications,
             "type": self.view_type,
         }
 
         if self.view_type == "case-notes":
             case_notes = get_case_notes(request, self.case_id)["case_notes"]
-            context["notes"] = filter(lambda note: note["is_visible_to_exporter"], case_notes)
+            context["notes"] = case_notes
 
         if self.view_type == "ecju-queries":
             context["open_queries"], context["closed_queries"] = get_application_ecju_queries(request, self.case_id)
 
-        return render(request, "end_users/end_user.html", context)
+        return render(request, "end-users/end-user.html", context)
 
     def post(self, request, **kwargs):
         if self.view_type != "case-notes":
@@ -286,4 +265,4 @@ class RespondToQuery(TemplateView):
                 return form_page(request, form, errors=error)
         else:
             # Submitted data does not contain an expected form field - return an error
-            return error_page(None, "We had an issue creating your response. Try again later.")
+            return error_page(request, strings.end_users.AttachDocumentPage.UPLOAD_GENERIC_ERROR)

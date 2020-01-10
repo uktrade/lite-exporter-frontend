@@ -3,12 +3,11 @@
 {% load static svg %}
 
 {% block back_link %}
-	<a href="{% url 'applications:goods' draft_id %}" id="back-link" class="govuk-back-link">Back to Goods</a>
+	<a href="{% url 'applications:goods' draft_id %}" id="back-link" class="govuk-back-link">Back to products</a>
 {% endblock%}
 
 {% block body %}
-
-	<h2 class="govuk-heading-l">{% block title %}Add a good from your organisation{% endblock %}</h2>
+	<h1 class="govuk-heading-l">{% block title %}{% lcs 'goods.AddPrexistingGoodToApplicationForm.TITLE' %}{% endblock %}</h1>
 
 	{% if data or description or part_number or control_code %}
 		<div class="lite-js-only">
@@ -38,13 +37,13 @@
 				</div>
 				<div class="govuk-grid-column-one-quarter">
 					<label class="govuk-label" for="control_rating">
-						Control list entry
+						Control list classification
 					</label>
 					<input class="govuk-input" id="control_rating" name="control_rating" type="text" autocomplete="off" autocorrect="off"  value="{{ control_code }}">
 				</div>
 				<div class="govuk-grid-column-one-quarter">
 					<label class="govuk-label"></label>
-					<button type="submit" class="govuk-button">Apply filters</button>
+					<button type="submit" class="govuk-button" id="button-apply-filters">Apply filters</button>
 				</div>
 			</form>
 	    </div>
@@ -53,18 +52,18 @@
 			<table class="govuk-table">
 				<thead class="govuk-table__head">
 					<tr class="govuk-table__row">
-						<th scope="col" class="govuk-table__header">Name</th>
-						<th scope="col" class="govuk-table__header">Part Number</th>
-						<th scope="col" class="govuk-table__header">Control List Entry</th>
+						<th scope="col" class="govuk-table__header">Description</th>
+						<th scope="col" class="govuk-table__header">Part number</th>
+						<th scope="col" class="govuk-table__header">Control list classification</th>
 						<th scope="col" class="govuk-table__header"></th>
 					</tr>
 				</thead>
 				<tbody class="govuk-table__body">
-					{% for good in data %}
+					{% for good in data.results %}
 						<tr class="govuk-table__row">
 							<td class="govuk-table__cell" id="good-description">
 								{{ good.description|highlight_text:description }}
-								{% if good.status.key == 'verified' %}<span class="app-verified__symbol">{% svg 'verified' %}</span><span class="govuk-visually-hidden"> (Verified good)</span>{% endif %}
+								{% if good.status.key == 'verified' %}<span class="app-verified__symbol">{% svg 'verified' %}</span><span class="govuk-visually-hidden"> (Verified product)</span>{% endif %}
 							</td>
 							<td class="govuk-table__cell" id="good-part-number">
 								{{ good.part_number|highlight_text:part_number|default_na }}
@@ -73,7 +72,7 @@
 								{{ good.control_code|highlight_text:control_code|default_na }}
 							</td>
 							<td class="govuk-table__cell lite-!-text-align-right">
-								<a href="{% url 'applications:add_preexisting_good' draft_id good.id %}" class="govuk-link govuk-link--no-visited-state" draggable="false" style="margin-bottom: 0;">
+								<a href="{% url 'applications:add_good_to_application' draft_id good.id %}" class="govuk-link govuk-link--no-visited-state" draggable="false">
 									Add <span class="govuk-visually-hidden">{{ good.description }}</span> to application
 								</a>
 							</td>
@@ -81,12 +80,13 @@
 					{% endfor %}
 				</tbody>
 			</table>
+            {% include "includes/pagination.html" with data=data %}
 		{% else %}
 			<div class="lite-information-text">
 				<span class="lite-information-text__icon" aria-hidden="true">!</span>
 				<p class="lite-information-text__text">
 					<span class="govuk-visually-hidden">Information</span>
-					Your organisation doesn't have any goods which are available to be used on an application.
+					Your organisation doesn't have any products available to be used on an application.
 				</p>
 			</div>
 		{% endif %}
@@ -95,11 +95,10 @@
 			<span class="lite-information-text__icon" aria-hidden="true">!</span>
 			<p class="lite-information-text__text">
 				<span class="govuk-visually-hidden">Information</span>
-				Your organisation doesn't have any goods which are available to be used on an application.
+				Your organisation doesn't have any products available to be used on an application.
 			</p>
 		</div>
 	{% endif %}
-
 {% endblock %}
 
 {% block javascript %}
