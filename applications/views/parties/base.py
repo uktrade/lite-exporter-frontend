@@ -13,13 +13,14 @@ from lite_forms.views import MultiFormView
 
 
 class AddParty(TemplateView):
-    def __init__(self, copy_url, new_url, **kwargs):
+    def __init__(self, copy_url, new_url, back_url, **kwargs):
         super().__init__(**kwargs)
         self.copy_url = copy_url
         self.new_url = new_url
+        self.back_url = back_url
 
     def get(self, request, **kwargs):
-        return form_page(request, party_create_new_or_existing_form(kwargs["pk"]))
+        return form_page(request, party_create_new_or_existing_form(kwargs["pk"], back_url))
 
     def post(self, request, **kwargs):
         response = request.POST.get("copy_existing")
@@ -31,7 +32,7 @@ class AddParty(TemplateView):
         else:
             return form_page(
                 request,
-                party_create_new_or_existing_form(kwargs["pk"]),
+                party_create_new_or_existing_form(kwargs["pk"], back_url),
                 errors={"copy_existing": [AddPartyForm.ERROR]},
             )
 
