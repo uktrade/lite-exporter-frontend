@@ -20,7 +20,7 @@ class AddParty(TemplateView):
         self.back_url = back_url
 
     def get(self, request, **kwargs):
-        return form_page(request, party_create_new_or_existing_form(kwargs["pk"], back_url))
+        return form_page(request, party_create_new_or_existing_form(kwargs["pk"], self.back_url))
 
     def post(self, request, **kwargs):
         response = request.POST.get("copy_existing")
@@ -32,7 +32,7 @@ class AddParty(TemplateView):
         else:
             return form_page(
                 request,
-                party_create_new_or_existing_form(kwargs["pk"], back_url),
+                party_create_new_or_existing_form(kwargs["pk"], self.back_url),
                 errors={"copy_existing": [AddPartyForm.ERROR]},
             )
 
