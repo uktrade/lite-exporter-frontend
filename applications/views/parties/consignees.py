@@ -50,7 +50,7 @@ class SetConsignee(SetParty):
 class RemoveConsignee(DeleteParty):
     def __init__(self, **kwargs):
         super().__init__(
-            url="applications:set_consignee",
+            url="applications:add_consignee",
             action=delete_consignee,
             error="Unexpected error removing consignee",
             multiple=False,

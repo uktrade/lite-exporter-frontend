@@ -51,7 +51,7 @@ class SetEndUser(SetParty):
 class RemoveEndUser(DeleteParty):
     def __init__(self):
         super().__init__(
-            url="applications:set_end_user",
+            url="applications:add_end_user",
             action=delete_end_user,
             error="Unexpected error removing end user",
             multiple=False,
