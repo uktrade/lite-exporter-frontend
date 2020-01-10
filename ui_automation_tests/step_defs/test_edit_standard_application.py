@@ -41,7 +41,6 @@ def i_remove_the_end_user_off_the_application(driver):
     remove_end_user_link = ApplicationOverviewPage(driver).find_remove_end_user_link()
     driver.execute_script("arguments[0].click();", remove_end_user_link)
     functions.click_back_link(driver)
-    functions.click_back_link(driver)
 
 
 @then("no end user is set on the application")
@@ -53,7 +52,6 @@ def no_end_user_is_set_on_the_application(driver):
 def i_remove_the_consignee_off_the_application(driver):
     remove_consignee_link = ApplicationOverviewPage(driver).find_remove_consignee_link()
     driver.execute_script("arguments[0].click();", remove_consignee_link)
-    functions.click_back_link(driver)
     functions.click_back_link(driver)
 
 
