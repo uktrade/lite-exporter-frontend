@@ -30,9 +30,7 @@ class UltimateEndUsers(TemplateView):
 class AddUltimateEndUser(AddParty):
     def __init__(self):
         super().__init__(
-            new_url="applications:set_ultimate_end_user",
-            copy_url="applications:copy_ultimate_end_user",
-            back_url="applications:ultimate_end_users",
+            new_url="applications:set_ultimate_end_user", copy_url="applications:copy_ultimate_end_user",
         )
 
 
