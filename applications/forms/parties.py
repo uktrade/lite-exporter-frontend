@@ -16,17 +16,18 @@ from lite_forms.components import (
     Label,
 )
 from lite_forms.generators import confirm_form
-from lite_content.lite_exporter_frontend.applications import PartyForm
+from lite_content.lite_exporter_frontend.applications import PartyForm, DeletePartyDocumentForm
 
 
 def party_create_new_or_existing_form(application_id):
     return confirm_form(
-        title="Do you want to copy an existing party?",
+        title=PartyForm.CopyExistingForm.TITLE,
         confirmation_name="copy_existing",
-        yes_label="Yes",
-        no_label="No",
-        back_link_text="Back to application",
+        yes_label=PartyForm.CopyExistingForm.YES,
+        no_label=PartyForm.CopyExistingForm.NO,
+        back_link_text=PartyForm.CopyExistingForm.BACK_LINK,
         back_url=reverse_lazy("applications:task_list", kwargs={"pk": application_id}),
+        submit_button_text=PartyForm.CopyExistingForm.BUTTON,
     )
 
 
@@ -98,7 +99,7 @@ def attach_document_form(application_id, title, return_later_text, description_t
 
 def delete_document_confirmation_form(overview_url, back_link_text):
     return confirm_form(
-        title="Are you sure you want to delete this document?",
+        title=DeletePartyDocumentForm.TITLE,
         confirmation_name="delete_document_confirmation",
         back_link_text=back_link_text,
         back_url=overview_url,
