@@ -1,3 +1,7 @@
+import requests
+from django.contrib.auth import logout
+
+from conf.settings import env, LOGOUT_URL
 from lite_content.lite_exporter_frontend import strings
 import logging
 import time
@@ -58,3 +62,25 @@ class LoggingMiddleware:
         data["elapsed_time"] = time.time() - start
         logging.info(data)
         return response
+
+
+SESSION_TIMEOUT_KEY = "_session_timeout_seconds_"
+
+
+class SessionTimeoutMiddleware:
+    def __init__(self, get_response=None):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        start = request.session.get(SESSION_TIMEOUT_KEY, time.time())
+
+        timeout = getattr(settings, "SESSION_TIMEOUT_SECONDS", 3600)
+
+        if time.time() - start > timeout:  # session expired
+            request.session.flush()
+            logout(request)
+            return redirect(env("AUTHBROKER_URL") + "/sso/accounts/logout")
+
+        request.session[SESSION_TIMEOUT_KEY] = time.time()
+
+        return self.get_response(request)

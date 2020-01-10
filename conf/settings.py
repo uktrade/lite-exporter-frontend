@@ -57,6 +57,7 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    'conf.middleware.SessionTimeoutMiddleware',
     "csp.middleware.CSPMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -220,3 +221,7 @@ CSP_FRAME_SRC = env("CSP_FRAME_SRC")
 CSP_CONNECT_SRC = env("CSP_CONNECT_SRC")
 CSP_INCLUDE_NONCE_IN = env("CSP_INCLUDE_NONCE_IN")
 CSP_REPORT_ONLY = env("CSP_REPORT_ONLY")
+
+
+# Session timeout
+SESSION_TIMEOUT_SECONDS = 60 * 60
