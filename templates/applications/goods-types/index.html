@@ -63,22 +63,22 @@
 						{% endif %}
 						{% if application.application_type.key == 'hmrc_query' %}
 							<td class="govuk-table__cell">
-								<span class="lite-responsive-table__header">{% lcs "goods_types.Variables.DOCUMENT" %}</span>
+								<span class="lite-responsive-table__header">{% lcs "goods_types.Document.TITLE" %}</span>
 								{% if good_on_application.document %}
 					                {%  if good_on_application.document.safe == True %}
 					                    <a href="{% url 'applications:goods_type_download_document' application.id good_on_application.id %}" id="document_download" class='govuk-link govuk-link--no-visited-state'>
-					                        Download
+					                        {% lcs "goods_types.Document.DOWNLOAD" %}
 					                    </a>
 					                    <br/>
 					                    <a href="{% url 'applications:goods_type_delete_document' application.id good_on_application.id %}" id="document_delete" class='govuk-link govuk-link--no-visited-state'>
-					                        Delete
+					                        {% lcs "goods_types.Document.DELETE" %}
 					                    </a>
 					                {% else %}
-					                    Processing
+					                    {% lcs "goods_types.Document.PROCESSING" %}
 					                {% endif %}
 					            {% else %}
 					                <a href="{% url 'applications:goods_type_attach_document' application.id good_on_application.id %}" id="attach_doc" class='govuk-link govuk-link--no-visited-state'>
-					                    Attach
+					                    {% lcs "goods_types.Document.ATTACH" %}
 					                </a>
 					            {% endif %}
 							</td>
@@ -86,7 +86,7 @@
 						<td class="govuk-table__cell govuk-table__cell--numeric" scope="row">
 							<a class="lite-link--icon" href="{% url 'applications:remove_goods_type' application.id good_on_application.id %}">
 								{% svg 'close' %}
-								<span>Remove <span class="lite-responsive-table__help-text">good</span></span>
+								<span>{% lcs "goods_types.Variables.REMOVE_GOODS_TYPE" %}</span>
 							</a>
 						</td>
 					</tr>
@@ -94,12 +94,6 @@
 			</tbody>
 		</table>
 	{% else %}
-		<div class="lite-information-text">
-			<span class="lite-information-text__icon" aria-hidden="true">!</span>
-			<p class="lite-information-text__text">
-				<span class="govuk-visually-hidden">Information</span>
-				You haven't added any products to your application.
-			</p>
-		</div>
+        {% include "includes/notice.html" with text="goods.GoodsList.Overview.NO_GOODS" %}
 	{% endif %}
 {% endblock %}
