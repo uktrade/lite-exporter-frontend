@@ -1,7 +1,7 @@
 {% extends 'layouts/base.html' %}
 
 {% block back_link %}
-	<a href="{% url 'applications:end_user' draft_id %}" id="back-link" class="govuk-back-link">
+	<a href="{% url back_url draft_id %}" id="back-link" class="govuk-back-link">
         {% lcs 'applications.CopyExistingPartyPage.BACK_LINK' %}
     </a>
 {% endblock%}

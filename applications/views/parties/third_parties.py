@@ -54,4 +54,4 @@ class RemoveThirdParty(DeleteParty):
 
 class ExistingThirdPartiesList(ExistingPartiesList):
     def __init__(self):
-        super().__init__(destination_url="applications:set_third_party",)
+        super().__init__(destination_url="applications:set_third_party", back_url="applications:add_third_party")

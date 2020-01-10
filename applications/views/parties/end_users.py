@@ -57,4 +57,4 @@ class RemoveEndUser(DeleteParty):
 
 class ExistingEndUser(ExistingPartiesList):
     def __init__(self):
-        super().__init__(destination_url="applications:set_end_user",)
+        super().__init__(destination_url="applications:set_end_user", back_url="applications:add_end_user")

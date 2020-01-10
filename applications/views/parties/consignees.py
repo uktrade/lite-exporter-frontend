@@ -62,4 +62,4 @@ class RemoveConsignee(DeleteParty):
 
 class ExistingConsignee(ExistingPartiesList):
     def __init__(self):
-        super().__init__(destination_url="applications:set_consignee",)
+        super().__init__(destination_url="applications:set_consignee", back_url="applications:add_consignee")
