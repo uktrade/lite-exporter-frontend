@@ -34,8 +34,8 @@ def goods_type_form(application_type: str):
                     description=CreateGoodsTypeForm.IsIncorporated.DESCRIPTION,
                     name="is_good_incorporated",
                     options=[
-                        Option(key="yes", value=CreateGoodsTypeForm.IsIncorporated.YES),
-                        Option(key="no", value=CreateGoodsTypeForm.IsIncorporated.NO),
+                        Option(key=True, value=CreateGoodsTypeForm.IsIncorporated.YES),
+                        Option(key=False, value=CreateGoodsTypeForm.IsIncorporated.NO),
                     ],
                     classes=["govuk-radios--inline"],
                 ),

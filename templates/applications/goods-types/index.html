@@ -58,7 +58,7 @@
 						{% if application.application_type.key != 'hmrc_query' %}
 							<td class="govuk-table__cell">
 								<span class="lite-responsive-table__header">{% lcs "goods_types.Variables.INCORPORATED" %}</span>
-								{{ good_on_application.is_good_end_product|friendly_boolean }}
+								{{ good_on_application.is_good_incorporated|friendly_boolean }}
 							</td>
 						{% endif %}
 						{% if application.application_type.key == 'hmrc_query' %}
