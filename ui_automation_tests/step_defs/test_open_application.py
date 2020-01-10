@@ -8,13 +8,11 @@ from conftest import (
     enter_permanent_or_temporary,
 )
 from pages.generic_application.task_list import GenericApplicationTaskListPage
-from pages.open_application.add_goods_type import OpenApplicationAddGoodsType
 from pages.open_application.countries import OpenApplicationCountriesPage
 from pages.open_application.goods_countries_page import GoodsCountriesPage
 from pages.open_application.goods_types import OpenApplicationGoodsTypesPage
 from pages.open_application.task_list import OpenApplicationTaskListPage
 from pages.shared import Shared
-from shared import functions
 
 scenarios(
     "../features/submit_open_application.feature", "../features/edit_open_application.feature", strict_gherkin=False
