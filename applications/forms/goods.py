@@ -1,5 +1,5 @@
 from goods.helpers import good_summary
-from lite_content.lite_exporter_frontend.goods import AddPreexistingGoodToApplicationForm
+from lite_content.lite_exporter_frontend.goods import AddGoodToApplicationForm
 from lite_forms.components import (
     Form,
     HiddenField,
@@ -15,26 +15,26 @@ from lite_forms.helpers import conditional
 
 def good_on_application_form(good, units):
     return Form(
-        title=AddPreexistingGoodToApplicationForm.TITLE,
-        description=AddPreexistingGoodToApplicationForm.DESCRIPTION,
+        title=AddGoodToApplicationForm.TITLE,
+        description=AddGoodToApplicationForm.DESCRIPTION,
         questions=[
             conditional(good, good_summary(good)),
             conditional(good, HiddenField(name="good_id", value=good.get("id"))),
             CurrencyInput(
-                title=AddPreexistingGoodToApplicationForm.VALUE.TITLE,
-                description=AddPreexistingGoodToApplicationForm.VALUE.DESCRIPTION,
+                title=AddGoodToApplicationForm.VALUE.TITLE,
+                description=AddGoodToApplicationForm.VALUE.DESCRIPTION,
                 name="value",
             ),
             SideBySideSection(
                 questions=[
                     QuantityInput(
-                        title=AddPreexistingGoodToApplicationForm.Quantity.TITLE,
-                        description=AddPreexistingGoodToApplicationForm.Quantity.DESCRIPTION,
+                        title=AddGoodToApplicationForm.Quantity.TITLE,
+                        description=AddGoodToApplicationForm.Quantity.DESCRIPTION,
                         name="quantity",
                     ),
                     Select(
-                        title=AddPreexistingGoodToApplicationForm.Units.TITLE,
-                        description=AddPreexistingGoodToApplicationForm.Units.DESCRIPTION,
+                        title=AddGoodToApplicationForm.Units.TITLE,
+                        description=AddGoodToApplicationForm.Units.DESCRIPTION,
                         name="unit",
                         options=units,
                     ),
@@ -42,11 +42,11 @@ def good_on_application_form(good, units):
             ),
             RadioButtons(
                 name="is_good_incorporated",
-                title=AddPreexistingGoodToApplicationForm.Incorporated.TITLE,
-                description=AddPreexistingGoodToApplicationForm.Incorporated.DESCRIPTION,
+                title=AddGoodToApplicationForm.Incorporated.TITLE,
+                description=AddGoodToApplicationForm.Incorporated.DESCRIPTION,
                 options=[
-                    Option(True, AddPreexistingGoodToApplicationForm.Incorporated.YES),
-                    Option(False, AddPreexistingGoodToApplicationForm.Incorporated.NO),
+                    Option(True, AddGoodToApplicationForm.Incorporated.YES),
+                    Option(False, AddGoodToApplicationForm.Incorporated.NO),
                 ],
                 classes=["govuk-radios--inline"],
             ),
