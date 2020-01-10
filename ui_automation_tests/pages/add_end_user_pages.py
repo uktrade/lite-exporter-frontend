@@ -17,7 +17,7 @@ class AddEndUserPages(BasePage):
     ADD_NEW_ADDRESS_BUTTON = 'a[href*="add"]'
     TYPE_CHOICES = "sub_type-"
     CREATE_NEW_CONFIRMATION = "copy_existing"  # ID
-    COPY_EXISTING_BUTTON = "add"  # Name
+    COPY_EXISTING_LINK = "copy"  # ID
 
     def create_new_or_copy_existing(self, copy_existing: bool):
         if copy_existing:
@@ -61,7 +61,7 @@ class AddEndUserPages(BasePage):
         self.driver.find_element_by_id(self.TYPE_CHOICES + string).click()
 
     def click_copy_existing_button(self):
-        self.driver.find_element_by_name(self.COPY_EXISTING_BUTTON).click()
+        self.driver.find_element_by_id(self.COPY_EXISTING_LINK).click()
 
     def open_parties_filter(self):
         self.driver.find_element_by_id(self.FILTER_LINK).click()
