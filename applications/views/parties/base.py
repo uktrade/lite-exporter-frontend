@@ -7,6 +7,7 @@ from django.views.generic import TemplateView
 from applications.forms.parties import party_create_new_or_existing_form
 from applications.services import get_application, get_existing_parties
 from core.helpers import convert_parameters_to_query_params
+from lite_content.lite_exporter_frontend.applications import AddPartyForm, CopyExistingPartyPage
 from lite_forms.generators import form_page, error_page
 from lite_forms.views import MultiFormView
 
@@ -31,7 +32,7 @@ class AddParty(TemplateView):
             return form_page(
                 request,
                 party_create_new_or_existing_form(kwargs["pk"]),
-                errors={"copy_existing": ["Please select an option"]},
+                errors={"copy_existing": [AddPartyForm.ERROR]},
             )
 
 
@@ -99,7 +100,7 @@ class ExistingPartiesList(TemplateView):
         parties, _ = get_existing_parties(request, application_id, params)
 
         context = {
-            "title": "Existing Parties",
+            "title": CopyExistingPartyPage.TITLE,
             "filters": ["Name", "Address", "Country"],
             "draft_id": application_id,
             "data": parties,
