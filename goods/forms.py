@@ -48,17 +48,16 @@ def add_goods_questions(allow_query=True, back_link=BackLink):
             Option(key="no", value=CreateGoodForm.IsControlled.NO),
         ]
 
-    # Turns off black formatting for these lines because it breaks things
-    # fmt: off
-    pv_grading_panes = f"pane_{prefix}pv_grading," \
-                       f"pane_{prefix}pv_grading_custom," \
-                       f"pane_{prefix}pv_grading_prefix," \
-                       f"pane_{prefix}pv_grading_suffix," \
-                       f"pane_{prefix}pv_grading_issuing_authority," \
-                       f"pane_{prefix}pv_grading_reference," \
-                       f"pane_{prefix}pv_grading_date_of_issue," \
-                       f"pane_{prefix}pv_grading_comment"
-    # fmt: on
+    pv_grading_panes = (
+        "pane_pv_grading,"
+        "pane_pv_grading_custom,"
+        "pane_pv_grading_prefix,"
+        "pane_pv_grading_suffix,"
+        "pane_pv_grading_issuing_authority,"
+        "pane_pv_grading_reference,"
+        "pane_pv_grading_date_of_issue,"
+        "pane_pv_grading_comment"
+    )
 
     form = Form(
         title=CreateGoodForm.TITLE,
@@ -67,7 +66,7 @@ def add_goods_questions(allow_query=True, back_link=BackLink):
                 title=CreateGoodForm.Description.TITLE,
                 description=CreateGoodForm.Description.DESCRIPTION,
                 name="description",
-                extras={"max_length": 280,},
+                extras={"max_length": 280},
             ),
             RadioButtons(
                 title=CreateGoodForm.IsControlled.TITLE,
@@ -85,7 +84,7 @@ def add_goods_questions(allow_query=True, back_link=BackLink):
             ),
             RadioButtons(
                 title="Does the product hold a PV grading?",
-                name=prefix + "holds_pv_grading",
+                name="holds_pv_grading",
                 options=[
                     Option(key="yes", value="Yes", show_pane=pv_grading_panes),
                     Option(key="no", value="No"),
@@ -97,21 +96,17 @@ def add_goods_questions(allow_query=True, back_link=BackLink):
                 pv_gradings=get_pv_gradings(request=None, convert_to_options=True),
                 title="What is your product's PV grading?",
                 description="If your product is graded, enter its grading. For example, 'UK classified' or 'other'.",
-                name=prefix + "pv_grading",
+                name="pv_grading",
                 inset_text=False,
             ),
-            TextInput(title="Custom grading if the above is 'other'", name=prefix + "pv_grading_custom"),
-            TextInput(title="Prefix", name=prefix + "pv_grading_prefix", optional=True),
-            TextInput(title="Suffix", name=prefix + "pv_grading_suffix", optional=True),
-            TextInput(title="Issuing authority", name=prefix + "pv_grading_issuing_authority"),
-            TextInput(title="Reference", name=prefix + "pv_grading_reference"),
-            DateInput(title="Date of issue", prefix=prefix, name=prefix + "pv_grading_date_of_issue"),
+            TextInput(title="Custom grading if the above is 'other'", name="pv_grading_custom"),
+            TextInput(title="Prefix", name="pv_grading_prefix", optional=True),
+            TextInput(title="Suffix", name="pv_grading_suffix", optional=True),
+            TextInput(title="Issuing authority", name="pv_grading_issuing_authority"),
+            TextInput(title="Reference", name="pv_grading_reference"),
+            DateInput(title="Date of issue", prefix="pv_grading_date_of_issue"),
             TextArea(
-                title="Comment",
-                description="",
-                name=prefix + "pv_grading_comment",
-                extras={"max_length": 280,},
-                optional=True,
+                title="Comment", description="", name="pv_grading_comment", extras={"max_length": 280,}, optional=True,
             ),
             RadioButtons(
                 title=CreateGoodForm.Incorporated.TITLE,
