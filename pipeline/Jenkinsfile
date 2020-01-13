@@ -239,8 +239,7 @@ def sendSlackNotification()
 	buildStatus =  currentBuild.result
 
 	// Default values
-	def subject = "${buildStatus}: lite-exporter-frontend (${params.ENVIRONMENT})"
-	def summary = "${subject} (${env.BUILD_URL})"
+	def message = "UAT ${buildStatus}: lite-exporter-frontend - ${env.BUILD_URL}"
 
 	// Set notification colour based on build status
 	if ("${params.ENVIRONMENT}" == "dev" && (buildStatus == "FAILURE" || buildStatus == "SUCCESS")) {
@@ -254,6 +253,6 @@ def sendSlackNotification()
 		channel = "lite-development-team"
 
 		// Send notifications
-		slackSend (color: colourCode, message: summary, channel: "#${channel}")
+		slackSend (color: colourCode, message: message, channel: "#${channel}")
 	}
 }
