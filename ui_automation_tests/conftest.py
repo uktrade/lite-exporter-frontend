@@ -18,11 +18,6 @@ from ui_automation_tests.fixtures.register_organisation import (  # noqa
     register_organisation_for_switching_organisation,
     user_details,
 )
-from ui_automation_tests.fixtures.add_goods import (  # noqa
-    add_an_incorporated_good_to_application,
-    add_a_non_incorporated_good_to_application,
-    create_non_incorporated_good,
-)
 from ui_automation_tests.fixtures.add_party import add_end_user_to_application  # noqa
 from ui_automation_tests.fixtures.add_clc_query import add_clc_query  # noqa
 from ui_automation_tests.fixtures.add_end_user_advisory import add_end_user_advisory  # noqa

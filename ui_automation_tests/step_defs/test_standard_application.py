@@ -1,7 +1,9 @@
-from pytest_bdd import scenarios, when, then, parsers
+from pytest_bdd import scenarios, when, then, parsers, given
 
 from conftest import enter_application_name, enter_export_licence
+from pages.add_end_user_pages import AddEndUserPages
 from pages.add_new_external_location_form_page import AddNewExternalLocationFormPage
+from pages.attach_document_page import AttachDocumentPage
 from pages.generic_application.task_list import GenericApplicationTaskListPage
 from pages.external_locations_page import ExternalLocationsPage
 from pages.preexisting_locations_page import PreexistingLocationsPage
@@ -207,6 +209,7 @@ def i_click_on_application_third_parties_link(driver):
 def i_remove_a_third_party_from_the_application(driver):
     remove_good_link = GenericApplicationTaskListPage(driver).find_remove_third_party_link()
     driver.execute_script("arguments[0].click();", remove_good_link)
+    functions.click_back_link(driver)
 
 
 @then("the third party has been removed from the application")
@@ -232,11 +235,11 @@ def no_goods_are_left_on_the_application(driver):
 def i_remove_the_end_user_off_the_application(driver):
     remove_end_user_link = GenericApplicationTaskListPage(driver).find_remove_end_user_link()
     driver.execute_script("arguments[0].click();", remove_end_user_link)
+    functions.click_back_link(driver)
 
 
 @then("no end user is set on the application")
 def no_end_user_is_set_on_the_application(driver):
-    functions.click_back_link(driver)
     assert (GenericApplicationTaskListPage(driver).find_remove_end_user_link(), None)
 
 
@@ -244,11 +247,11 @@ def no_end_user_is_set_on_the_application(driver):
 def i_remove_the_consignee_off_the_application(driver):
     remove_consignee_link = GenericApplicationTaskListPage(driver).find_remove_consignee_link()
     driver.execute_script("arguments[0].click();", remove_consignee_link)
+    functions.click_back_link(driver)
 
 
 @then("no consignee is set on the application")
 def no_consignee_is_set_on_the_application(driver):
-    functions.click_back_link(driver)
     assert (GenericApplicationTaskListPage(driver).find_remove_consignee_link(), None)
 
 
@@ -290,3 +293,67 @@ def assert_ref_name(context, driver):
 @then("I see my edited reference number")
 def assert_ref_num(driver):
     assert "12345678" in driver.find_element_by_css_selector(".lite-task-list").text
+
+
+@given("I seed an end user for the draft")
+def seed_end_user(add_end_user_to_application):
+    pass
+
+
+@when("I select that I want to copy an existing party")
+def copy_existing_party_yes(driver):
+    AddEndUserPages(driver).create_new_or_copy_existing(copy_existing=True)
+
+
+@then("I can select the existing party in the table")
+def party_table(driver, context):
+    text = [context.end_user[key] for key in ["name", "address", "website"]]
+    text.append(context.end_user["country"]["name"])
+    row = Shared(driver).get_table_row(1)
+
+    for string in text:
+        assert string in row.text
+
+    AddEndUserPages(driver).click_copy_existing_button()
+
+
+@when("I select a party type and continue")
+def select_party_type(driver, context):
+    type = "government"
+    AddEndUserPages(driver).select_type(type)
+    context.type_end_user = type
+    functions.click_submit(driver)
+
+
+@then("I see the party name is already filled in")
+def party_name_autofill(driver, context):
+    assert AddEndUserPages(driver).get_name() == context.end_user["name"]
+
+
+@then("I see the party website is already filled in")
+def party_website_autofill(driver, context):
+    assert AddEndUserPages(driver).get_website() == context.end_user["website"]
+
+
+@then("I see the party address and country is already filled in")
+def party_address_autofill(driver, context):
+    assert AddEndUserPages(driver).get_address() == context.end_user["address"]
+    assert AddEndUserPages(driver).get_country() == context.end_user["country"]["id"]
+
+
+@when("I skip uploading a document")
+def skip_document_upload(driver, context):
+    AttachDocumentPage(driver).click_save_and_return_to_overview_link()
+    # Setup for checking on overview page
+    context.name_end_user = context.end_user["name"]
+    context.address_end_user = context.end_user["address"]
+
+
+@when("I filter for my previously created end user")
+def filter_for_party(driver, context):
+    parties_page = AddEndUserPages(driver)
+    parties_page.open_parties_filter()
+    parties_page.filter_name(context.end_user["name"])
+    parties_page.filter_address(context.end_user["address"])
+    parties_page.filter_country(context.end_user["country"]["name"])
+    parties_page.submit_filter()
