@@ -239,7 +239,7 @@ def sendSlackNotification()
 	buildStatus =  currentBuild.result
 
 	// Default values
-	def message = "UAT ${buildStatus}: lite-exporter-frontend - ${env.BUILD_URL}"
+	def message = "UAT ${buildStatus} \n *lite-exporter-frontend* \n ${env.BUILD_URL}"
 
 	// Set notification colour based on build status
 	if ("${params.ENVIRONMENT}" == "uat" && (buildStatus == "FAILURE" || buildStatus == "SUCCESS")) {
