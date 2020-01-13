@@ -44,14 +44,17 @@ class SetEndUser(SetParty):
             back_url="applications:add_end_user",
             action=post_end_user,
             strings=EndUserForm,
-            multiple=False,
+            multiple_allowed=False,
         )
 
 
 class RemoveEndUser(DeleteParty):
     def __init__(self):
         super().__init__(
-            url="applications:add_end_user", action=delete_end_user, error=EndUserPage.DELETE_ERROR, multiple=False,
+            url="applications:add_end_user",
+            action=delete_end_user,
+            error=EndUserPage.DELETE_ERROR,
+            multiple_allowed=False,
         )
 
 

@@ -43,7 +43,7 @@ class SetConsignee(SetParty):
             back_url="applications:add_consignee",
             action=post_consignee,
             strings=ConsigneeForm,
-            multiple=False,
+            multiple_allowed=False,
         )
 
 
@@ -53,7 +53,7 @@ class RemoveConsignee(DeleteParty):
             url="applications:add_consignee",
             action=delete_consignee,
             error=ConsigneePage.DELETE_ERROR,
-            multiple=False,
+            multiple_allowed=False,
             **kwargs,
         )
 

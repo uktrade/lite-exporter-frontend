@@ -36,7 +36,7 @@ class AddParty(TemplateView):
 
 
 class SetParty(MultiFormView):
-    def __init__(self, url, form, name, back_url, action, strings, multiple, **kwargs):
+    def __init__(self, url, form, name, back_url, action, strings, multiple_allowed, **kwargs):
         super().__init__(**kwargs)
         self.url = url
         self.name = name
@@ -44,19 +44,19 @@ class SetParty(MultiFormView):
         self.action = action
         self.strings = strings
         self.form = form
-        self.multiple = multiple
+        self.multiple_allowed = multiple_allowed
 
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
         application = get_application(request, self.object_pk)
         self.forms = self.form(application, self.strings, self.back_url)
-        if self.multiple:
+        if self.multiple_allowed:
             self.data = None
         else:
             self.data = application[self.name]
 
     def get_success_url(self):
-        if self.multiple:
+        if self.multiple_allowed:
             return reverse_lazy(
                 self.url, kwargs={"pk": self.object_pk, "obj_pk": self.get_validated_data()[self.name]["id"]}
             )
@@ -65,16 +65,16 @@ class SetParty(MultiFormView):
 
 
 class DeleteParty(TemplateView):
-    def __init__(self, url, action, error, multiple, **kwargs):
+    def __init__(self, url, action, error, multiple_allowed, **kwargs):
         super().__init__(**kwargs)
         self.url = url
         self.action = action
         self.error = error
-        self.multiple = multiple
+        self.multiple_allowed = multiple_allowed
 
     def get(self, request, **kwargs):
         application_id = str(kwargs["pk"])
-        if self.multiple:
+        if self.multiple_allowed:
             status_code = self.action(request, application_id, str(kwargs["obj_pk"]))
         else:
             status_code = self.action(request, application_id)

@@ -43,7 +43,7 @@ class SetUltimateEndUser(SetParty):
             form=new_party_form_group,
             back_url="applications:add_ultimate_end_user",
             strings=UltimateEndUserForm,
-            multiple=True,
+            multiple_allowed=True,
         )
 
 
@@ -53,7 +53,7 @@ class RemoveUltimateEndUser(DeleteParty):
             url="applications:ultimate_end_users",
             action=delete_ultimate_end_user,
             error=UltimateEndUserPage.DELETE_ERROR,
-            multiple=True,
+            multiple_allowed=True,
             **kwargs,
         )
 

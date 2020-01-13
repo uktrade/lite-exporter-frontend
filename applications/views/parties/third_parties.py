@@ -35,7 +35,7 @@ class SetThirdParty(SetParty):
             form=third_party_forms,
             back_url="applications:add_third_party",
             strings=ThirdPartyForm,
-            multiple=True,
+            multiple_allowed=True,
         )
 
 
@@ -45,7 +45,7 @@ class RemoveThirdParty(DeleteParty):
             url="applications:third_parties",
             action=delete_third_party,
             error=ThirdPartyPage.DELETE_ERROR,
-            multiple=True,
+            multiple_allowed=True,
             **kwargs,
         )
 
