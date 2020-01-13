@@ -4,7 +4,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
-from applications.forms.parties import party_create_new_or_existing_form
+from applications.forms.parties import party_create_new_or_copy_existing_form
 from applications.services import get_application, get_existing_parties
 from lite_content.lite_exporter_frontend.applications import AddPartyForm, CopyExistingPartyPage
 from lite_forms.generators import form_page, error_page
@@ -18,7 +18,7 @@ class AddParty(TemplateView):
         self.new_url = new_url
 
     def get(self, request, **kwargs):
-        return form_page(request, party_create_new_or_existing_form(kwargs["pk"]))
+        return form_page(request, party_create_new_or_copy_existing_form(kwargs["pk"]))
 
     def post(self, request, **kwargs):
         response = request.POST.get("copy_existing")
@@ -30,7 +30,7 @@ class AddParty(TemplateView):
         else:
             return form_page(
                 request,
-                party_create_new_or_existing_form(kwargs["pk"]),
+                party_create_new_or_copy_existing_form(kwargs["pk"]),
                 errors={"copy_existing": [AddPartyForm.ERROR]},
             )
 

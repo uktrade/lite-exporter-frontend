@@ -19,7 +19,7 @@ from lite_forms.generators import confirm_form
 from lite_content.lite_exporter_frontend.applications import PartyForm, PartyTypeForm, DeletePartyDocumentForm
 
 
-def party_create_new_or_existing_form(application_id):
+def party_create_new_or_copy_existing_form(application_id):
     return confirm_form(
         title=PartyForm.CopyExistingForm.TITLE,
         confirmation_name="copy_existing",
