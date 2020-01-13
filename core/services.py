@@ -174,3 +174,8 @@ def get_pv_gradings(request, convert_to_options=False):
 
     data = get(request, PV_GRADINGS_URL)
     return data.json().get("pv-gradings")
+
+
+def get_control_list_entry(request, rating):
+    data = get(request, CONTROL_LIST_ENTRIES_URL + rating)
+    return data.json().get("control_list_entry")

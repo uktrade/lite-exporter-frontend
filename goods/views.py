@@ -17,15 +17,16 @@ from applications.services import (
     get_status_properties,
 )
 from core.helpers import convert_dict_to_query_params
+from core.services import get_control_list_entry
 from goods.forms import (
     edit_form,
     attach_documents_form,
     respond_to_query_form,
     ecju_query_respond_confirmation_form,
     delete_good_form,
-    add_goods_questions,
     document_grading_form,
     raise_a_pv_or_clc_query,
+    add_good_form_group,
 )
 from goods.services import (
     get_goods,
@@ -99,10 +100,16 @@ class GoodsDetail(TemplateView):
     def get(self, request, **kwargs):
         documents = get_good_documents(request, str(self.good_id))
 
+        # Add the good's control list entry text if possible
+        control_list_entry_text = ""
+        if self.good["control_code"]:
+            control_list_entry_text = get_control_list_entry(request, self.good["control_code"])["text"]
+
         context = {
             "good": self.good,
             "documents": documents,
             "type": self.view_type,
+            "control_list_entry_text": control_list_entry_text,
         }
 
         if self.good["query"]:
@@ -148,10 +155,13 @@ class GoodsDetail(TemplateView):
         return redirect(reverse_lazy("goods:good_detail", kwargs={"pk": good_id, "type": "case-notes"}))
 
 
-class AddGood(SingleFormView):
+class AddGood(MultiFormView):
     def init(self, request, **kwargs):
-        self.form = add_goods_questions()
+        self.forms = add_good_form_group(None)
         self.action = post_goods
+
+    def on_submission(self, request, **kwargs):
+        self.forms = add_good_form_group(request.POST.copy().get("holds_pv_grading"))
 
     def get_success_url(self):
         return reverse_lazy("goods:add_document", kwargs={"pk": self.get_validated_data()["good"]["id"]})
@@ -208,7 +218,7 @@ class DeleteGood(TemplateView):
 class CheckDocumentGrading(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
-        self.form = document_grading_form(request)
+        self.form = document_grading_form(request, self.object_pk)
         self.action = post_good_document_sensitivity
 
     def get_success_url(self):
@@ -242,7 +252,7 @@ class AttachDocuments(TemplateView):
         if "errors" in good_document_upload(request, good_id, data):
             return error_page(request, strings.goods.AttachDocumentPage.UPLOAD_FAILURE_ERROR)
 
-        if good["is_good_controlled"] == "unsure":
+        if good["is_good_controlled"]["key"] == "unsure":
             return redirect(reverse("goods:raise_clc_query", kwargs={"pk": good_id}))
 
         # if good[""]

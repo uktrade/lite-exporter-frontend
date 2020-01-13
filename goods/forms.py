@@ -1,4 +1,9 @@
 from django.urls import reverse, reverse_lazy
+
+from core.services import get_control_list_entries
+from goods.helpers import good_summary
+from goods.services import get_document_missing_reasons
+from lite_content.lite_exporter_frontend import generic
 from lite_content.lite_exporter_frontend.goods import (
     CreateGoodForm,
     CLCQueryForm,
@@ -6,6 +11,7 @@ from lite_content.lite_exporter_frontend.goods import (
     DocumentSensitivityForm,
     AttachDocumentForm,
     RespondToQueryForm,
+    GoodsList,
 )
 
 from core.services import get_control_list_entries
@@ -28,39 +34,17 @@ from lite_forms.components import (
     Label,
     Select,
     Group,
+    Breadcrumbs,
+    FormGroup,
 )
 from lite_forms.generators import confirm_form
+from lite_forms.helpers import conditional
 from lite_forms.styles import ButtonStyle
 
 
-def add_goods_questions(allow_query=True, back_link=BackLink):
-    if allow_query:
-        description = CreateGoodForm.IsControlled.DESCRIPTION
-        is_your_good_controlled_options = [
-            Option(key="yes", value=CreateGoodForm.IsControlled.YES, show_pane="pane_control_code"),
-            Option(key="no", value=CreateGoodForm.IsControlled.NO),
-            Option(key="unsure", value=CreateGoodForm.IsControlled.UNSURE),
-        ]
-    else:
-        description = CreateGoodForm.IsControlled.CLC_REQUIRED
-        is_your_good_controlled_options = [
-            Option(key="yes", value=CreateGoodForm.IsControlled.YES, show_pane="pane_control_code"),
-            Option(key="no", value=CreateGoodForm.IsControlled.NO),
-        ]
-
-    pv_grading_panes = (
-        "pane_pv_grading,"
-        "pane_pv_grading_custom,"
-        "pane_pv_grading_prefix,"
-        "pane_pv_grading_suffix,"
-        "pane_pv_grading_issuing_authority,"
-        "pane_pv_grading_reference,"
-        "pane_pv_grading_date_of_issue,"
-        "pane_pv_grading_comment"
-    )
-
-    form = Form(
-        title=CreateGoodForm.TITLE,
+def add_goods_questions(application_pk=None):
+    return Form(
+        title=conditional(application_pk, CreateGoodForm.TITLE, "Add a product to your organisation"),
         questions=[
             TextArea(
                 title=CreateGoodForm.Description.TITLE,
@@ -70,9 +54,15 @@ def add_goods_questions(allow_query=True, back_link=BackLink):
             ),
             RadioButtons(
                 title=CreateGoodForm.IsControlled.TITLE,
-                description=description,
+                description=conditional(
+                    application_pk, CreateGoodForm.IsControlled.DESCRIPTION, CreateGoodForm.IsControlled.CLC_REQUIRED,
+                ),
                 name="is_good_controlled",
-                options=is_your_good_controlled_options,
+                options=[
+                    Option(key="yes", value=CreateGoodForm.IsControlled.YES, show_pane="pane_control_code"),
+                    Option(key="no", value=CreateGoodForm.IsControlled.NO),
+                    conditional(not application_pk, Option(key="unsure", value=CreateGoodForm.IsControlled.UNSURE)),
+                ],
                 classes=["govuk-radios--inline"],
             ),
             control_list_entry_question(
@@ -86,12 +76,34 @@ def add_goods_questions(allow_query=True, back_link=BackLink):
                 title="Does the product hold a PV grading?",
                 name="holds_pv_grading",
                 options=[
-                    Option(key="yes", value="Yes", show_pane=pv_grading_panes),
+                    Option(key="yes", value="Yes"),
                     Option(key="no", value="No"),
                     Option(key="grading_required", value="I need to have it issued"),
                 ],
                 classes=["govuk-radios--inline"],
             ),
+            TextInput(title=CreateGoodForm.PartNumber.TITLE, name="part_number", optional=True),
+        ],
+        back_link=conditional(
+            application_pk,
+            BackLink(generic.BACK, reverse_lazy("applications:goods", kwargs={"pk": application_pk})),
+            Breadcrumbs(
+                [
+                    BackLink(generic.SERVICE_NAME, reverse_lazy("core:hub")),
+                    BackLink(GoodsList.TITLE, reverse_lazy("goods:goods")),
+                    BackLink(GoodsList.CREATE_GOOD),
+                ]
+            ),
+        ),
+        default_button_name=CreateGoodForm.BUTTON,
+    )
+
+
+def pv_details_form():
+    return Form(
+        title="Create a query for this product",
+        description="By saving you are creating a query that cannot be altered",
+        questions=[
             pv_grading_question(
                 pv_gradings=get_pv_gradings(request=None, convert_to_options=True),
                 title="What is your product's PV grading?",
@@ -108,23 +120,13 @@ def add_goods_questions(allow_query=True, back_link=BackLink):
             TextArea(
                 title="Comment", description="", name="pv_grading_comment", extras={"max_length": 280,}, optional=True,
             ),
-            RadioButtons(
-                title=CreateGoodForm.Incorporated.TITLE,
-                description=CreateGoodForm.Incorporated.DESCRIPTION,
-                name="is_good_end_product",
-                options=[
-                    Option(key="no", value=CreateGoodForm.Incorporated.YES),
-                    Option(key="yes", value=CreateGoodForm.Incorporated.NO),
-                ],
-                classes=["govuk-radios--inline"],
-            ),
-            TextInput(title=CreateGoodForm.PartNumber.TITLE, name="part_number", optional=True),
         ],
-        back_link=back_link,
-        default_button_name=CreateGoodForm.BUTTON,
+        default_button_name="Save",
     )
 
-    return form
+
+def add_good_form_group(holds_pv_grading: str = None):
+    return FormGroup([add_goods_questions(), conditional(holds_pv_grading == "yes", pv_details_form())])
 
 
 def raise_a_pv_or_clc_query(good_id, raise_a_clc: bool, raise_a_pv: bool):
@@ -198,16 +200,6 @@ def edit_form(good_id):
                 name="control_code",
                 inset_text=False,
             ),
-            RadioButtons(
-                title=EditGoodForm.Incorporated.TITLE,
-                description=EditGoodForm.Incorporated.DESCRIPTION,
-                name="is_good_end_product",
-                options=[
-                    Option(key=True, value=EditGoodForm.Incorporated.YES),
-                    Option(key=False, value=EditGoodForm.Incorporated.NO),
-                ],
-                classes=["govuk-radios--inline"],
-            ),
             TextInput(title=EditGoodForm.PartNumber.TITLE, name="part_number", optional=True),
         ],
         buttons=[
@@ -223,7 +215,7 @@ def edit_form(good_id):
     )
 
 
-def document_grading_form(request):
+def document_grading_form(request, good_id):
     select_options = get_document_missing_reasons(request)[0]["reasons"]
 
     return Form(
@@ -246,6 +238,7 @@ def document_grading_form(request):
                 classes=["govuk-inset-text", "hidden"],
             ),
         ],
+        back_link=BackLink("Back", reverse_lazy("goods:good", kwargs={"pk": good_id})),
         default_button_name=DocumentSensitivityForm.BUTTON,
     )
 
@@ -282,7 +275,7 @@ def respond_to_query_form(good_id, ecju_query):
                 name="response",
                 title=RespondToQueryForm.Response.TITLE,
                 description=RespondToQueryForm.Response.DESCRIPTION,
-                extras={"max_length": 2200,},
+                extras={"max_length": 2200},
             ),
             HiddenField(name="form_name", value="respond_to_query"),
         ],
