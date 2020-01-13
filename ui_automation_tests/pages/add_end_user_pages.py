@@ -3,10 +3,10 @@ from shared import functions
 
 
 class AddEndUserPages(BasePage):
-    INPUT_NAME_ID = "name"  # ID
-    INPUT_ADDRESS_ID = "address"  # ID
-    INPUT_COUNTRY_ID = "country"  # ID
-    INPUT_WEBSITE_ID = "website"  # ID
+    INPUT_NAME_ID = "name"
+    INPUT_ADDRESS_ID = "address"
+    INPUT_COUNTRY_ID = "country"
+    INPUT_WEBSITE_ID = "website"
 
     LINK_SHOW_FILTER_ID = "show-filters-link"
     INPUT_FILTER_NAME_ID = "name"
@@ -15,8 +15,8 @@ class AddEndUserPages(BasePage):
     BUTTON_SUBMIT_FILTER_ID = "button-apply-filters"
 
     INPUT_PARTY_TYPE_ID = "sub_type-"
-    INPUT_CREATE_NEW_OR_COPY_ID = "copy_existing"  # ID
-    LINK_COPY_EXISTING_ID = "copy"  # ID
+    INPUT_CREATE_NEW_OR_COPY_ID = "copy_existing"
+    LINK_COPY_EXISTING_ID = "copy"
 
     def create_new_or_copy_existing(self, copy_existing: bool):
         if copy_existing:
