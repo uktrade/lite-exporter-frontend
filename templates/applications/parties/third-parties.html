@@ -26,6 +26,7 @@
 				<tr class="govuk-table__row">
 					<th class="govuk-table__header" scope="col">{% lcs 'applications.ThirdPartiesPage.Variables.NAME' %}</th>
 					<th class="govuk-table__header" scope="col">{% lcs 'applications.ThirdPartiesPage.Variables.TYPE' %}</th>
+                    <th class="govuk-table__header" scope="col">{% lcs 'applications.ThirdPartiesPage.Variables.ROLE' %}</th>
 					<th class="govuk-table__header" scope="col">{% lcs 'applications.ThirdPartiesPage.Variables.WEBSITE' %}</th>
 					<th class="govuk-table__header" scope="col">{% lcs 'applications.ThirdPartiesPage.Variables.ADDRESS' %}</th>
 					<th class="govuk-table__header" scope="col">{% lcs 'applications.ThirdPartiesPage.Variables.COUNTRY' %}</th>
@@ -38,6 +39,7 @@
 				<tr class="govuk-table__row">
 					<td class="govuk-table__cell">{{ third_party.name }}</td>
 					<td class="govuk-table__cell">{{ third_party.sub_type.value }}</td>
+                    <td class="govuk-table__cell">{{ third_party.role.value }}</td>
 					<td class="govuk-table__cell">{{ third_party.website|default_na }}</td>
 					<td class="govuk-table__cell">{{ third_party.address }}</td>
 					<td class="govuk-table__cell">{{ third_party.country.name }}</td>
