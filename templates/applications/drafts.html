@@ -7,10 +7,9 @@
 {% endblock %}
 
 {% block body %}
-
 	<div class="lite-app-bar">
 		<div class="lite-app-bar__content">
-			<h2 class="govuk-heading-l">{% block title %}Applications{% endblock %}</h2>
+			<h1 class="govuk-heading-l">{% block title %}Applications{% endblock %}</h1>
 		</div>
 		<div class="lite-app-bar__controls">
 			{% if organisation.type.key == 'hmrc' %}
@@ -19,7 +18,7 @@
 				</a>
 			{% else %}
 				<a href="{% url 'apply_for_a_licence:start' %}" class="govuk-button" draggable="false" role="button">
-					{% get_string 'licences.apply_for_a_licence' %}
+					{% lcs 'Licences.APPLY_FOR_A_LICENCE' %}
 				</a>
 			{% endif %}
 		</div>
@@ -68,7 +67,7 @@
 							{{ draft.application_type.value }}
 						</td>
 						<td class="govuk-table__cell govuk-table__cell--nowrap">
-							{{ draft.modified|str_date }}
+							{{ draft.updated_at|str_date }}
 						</td>
 						{% if organisation.type.key != 'hmrc' %}
 							<td class="govuk-table__cell">
@@ -76,7 +75,7 @@
 							</td>
 						{% endif %}
 						<td class="govuk-table__cell govuk-table__cell--numeric govuk-table__cell--nowrap">
-							<a id="link-delete-draft" href="{% url 'applications:delete' draft.id %}" class="govuk-link lite-link--icon">
+							<a id="link-delete-draft" href="{% url 'applications:delete' draft.id %}?return_to={{ CURRENT_PATH }}" class="govuk-link lite-link--icon">
                                 {% svg 'close' %}
                                 {% lcs 'applications.DeleteApplicationPage.BUTTON' %}
                             </a>
@@ -98,5 +97,4 @@
 			</p>
 		</div>
 	{% endif %}
-
 {% endblock %}

@@ -2,6 +2,7 @@ from http import HTTPStatus
 
 from conf.client import get, post, put, delete
 from conf.constants import (
+    ACTIVITY_URL,
     APPLICATIONS_URL,
     END_USER_DOCUMENT_URL,
     ULTIMATE_END_USER_URL,
@@ -351,7 +352,7 @@ def get_goods_type(request, app_pk, good_pk):
 
 
 def post_goods_type(request, app_pk, json):
-    data = post(request, APPLICATIONS_URL + app_pk + GOODSTYPES_URL, json)
+    data = post(request, APPLICATIONS_URL + str(app_pk) + GOODSTYPES_URL, json)
     return data.json(), data.status_code
 
 
@@ -360,8 +361,8 @@ def delete_goods_type(request, app_pk, good_pk):
     return data.status_code
 
 
-def post_goods_type_countries(request, app_pk, good_pk, json):
-    data = put(request, APPLICATIONS_URL + app_pk + GOODSTYPE_URL + good_pk + GOODSTYPE_COUNTRY_URL, json)
+def put_goods_type_countries(request, app_pk, json):
+    data = put(request, APPLICATIONS_URL + app_pk + GOODSTYPE_URL + GOODSTYPE_COUNTRY_URL, json)
     return data.json(), data.status_code
 
 
@@ -378,3 +379,9 @@ def post_goods_type_document(request, pk, good_pk, json):
 def delete_goods_type_document(request, pk, good_pk):
     data = delete(request, APPLICATIONS_URL + pk + GOODSTYPE_URL + str(good_pk) + DOCUMENT_URL)
     return data.status_code
+
+
+# Activity
+def get_activity(request, pk):
+    data = get(request, CASES_URL + pk + ACTIVITY_URL)
+    return data.json()["activity"]

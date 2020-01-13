@@ -33,18 +33,18 @@ from lite_forms.generators import confirm_form
 from lite_forms.styles import ButtonStyle
 
 
-def add_goods_questions(allow_query=True, back_link=BackLink, prefix=""):
+def add_goods_questions(allow_query=True, back_link=BackLink):
     if allow_query:
         description = CreateGoodForm.IsControlled.DESCRIPTION
         is_your_good_controlled_options = [
-            Option(key="yes", value=CreateGoodForm.IsControlled.YES, show_pane="pane_" + prefix + "control_code"),
+            Option(key="yes", value=CreateGoodForm.IsControlled.YES, show_pane="pane_control_code"),
             Option(key="no", value=CreateGoodForm.IsControlled.NO),
             Option(key="unsure", value=CreateGoodForm.IsControlled.UNSURE),
         ]
     else:
         description = CreateGoodForm.IsControlled.CLC_REQUIRED
         is_your_good_controlled_options = [
-            Option(key="yes", value=CreateGoodForm.IsControlled.YES, show_pane="pane_" + prefix + "control_code"),
+            Option(key="yes", value=CreateGoodForm.IsControlled.YES, show_pane="pane_control_code"),
             Option(key="no", value=CreateGoodForm.IsControlled.NO),
         ]
 
@@ -66,13 +66,13 @@ def add_goods_questions(allow_query=True, back_link=BackLink, prefix=""):
             TextArea(
                 title=CreateGoodForm.Description.TITLE,
                 description=CreateGoodForm.Description.DESCRIPTION,
-                name=prefix + "description",
+                name="description",
                 extras={"max_length": 280,},
             ),
             RadioButtons(
                 title=CreateGoodForm.IsControlled.TITLE,
                 description=description,
-                name=prefix + "is_good_controlled",
+                name="is_good_controlled",
                 options=is_your_good_controlled_options,
                 classes=["govuk-radios--inline"],
             ),
@@ -80,7 +80,7 @@ def add_goods_questions(allow_query=True, back_link=BackLink, prefix=""):
                 control_list_entries=get_control_list_entries(None, convert_to_options=True),
                 title=CreateGoodForm.ControlListEntry.TITLE,
                 description=CreateGoodForm.ControlListEntry.DESCRIPTION,
-                name=prefix + "control_code",
+                name="control_code",
                 inset_text=False,
             ),
             RadioButtons(
@@ -116,14 +116,14 @@ def add_goods_questions(allow_query=True, back_link=BackLink, prefix=""):
             RadioButtons(
                 title=CreateGoodForm.Incorporated.TITLE,
                 description=CreateGoodForm.Incorporated.DESCRIPTION,
-                name=prefix + "is_good_end_product",
+                name="is_good_end_product",
                 options=[
                     Option(key="no", value=CreateGoodForm.Incorporated.YES),
                     Option(key="yes", value=CreateGoodForm.Incorporated.NO),
                 ],
                 classes=["govuk-radios--inline"],
             ),
-            TextInput(title=CreateGoodForm.PartNumber.TITLE, name=prefix + "part_number", optional=True),
+            TextInput(title=CreateGoodForm.PartNumber.TITLE, name="part_number", optional=True),
         ],
         back_link=back_link,
         default_button_name=CreateGoodForm.BUTTON,
@@ -132,41 +132,45 @@ def add_goods_questions(allow_query=True, back_link=BackLink, prefix=""):
     return form
 
 
-def raise_a_clc_query(good_id):
-    return Form(
-        title=CLCQueryForm.TITLE,
-        description=CLCQueryForm.DESCRIPTION,
-        questions=[
-            TextInput(
-                title=CLCQueryForm.CLCCode.TITLE,
-                description=CLCQueryForm.CLCCode.DESCRIPTION,
-                optional=True,
-                name="not_sure_details_control_code",
-            ),
-            TextArea(
-                title=CLCQueryForm.Additional.TITLE,
-                description=CLCQueryForm.Additional.DESCRIPTION,
-                optional=True,
-                name="not_sure_details_details",
-            ),
-        ],
-        back_link=BackLink(CLCQueryForm.BACK_LINK, reverse("goods:good", kwargs={"pk": good_id})),
-        default_button_name=CLCQueryForm.BUTTON,
-    )
+def raise_a_pv_or_clc_query(good_id, raise_a_clc: bool, raise_a_pv: bool):
+    questions = []
 
+    if raise_a_clc:
+        questions.append(
+            [
+                TextInput(
+                    title=CLCQueryForm.CLCCode.TITLE,
+                    description=CLCQueryForm.CLCCode.DESCRIPTION,
+                    optional=True,
+                    name="not_sure_details_control_code",
+                ),
+                TextArea(
+                    title=CLCQueryForm.Additional.TITLE,
+                    description=CLCQueryForm.Additional.DESCRIPTION,
+                    optional=True,
+                    name="not_sure_details_details",
+                ),
+            ],
+        )
 
-def pv_query(good_id):
+    if raise_a_pv:
+        questions.append(
+            [
+                TextArea(
+                    title="Additional information about your product",
+                    description="Please enter details of why you need a PV grading",
+                    optional=True,
+                    name="pv_grading_additional_information",
+                ),
+            ],
+        )
+
     return Form(
-        title="Create a PV grading query",
-        description="By saving you are creating a PV query that cannot be altered",
-        questions=[
-            TextArea(
-                title="Additional information about your product",
-                description="Please enter details of why you need a PV grading",
-                optional=True,
-                name="pv_grading_additional_information",
-            ),
-        ],
+        title="Create a query for this product",
+        description="By saving you are creating a query that cannot be altered",
+        questions=questions,
+        back_link=BackLink("Back to product", reverse("goods:good", kwargs={"pk": good_id})),
+        default_button_name="Save",
     )
 
 

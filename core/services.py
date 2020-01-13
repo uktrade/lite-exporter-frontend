@@ -169,12 +169,7 @@ def get_pv_gradings(request, convert_to_options=False):
 
         converted_units = []
         for pvg in data.json().get("pv-gradings"):
-            converted_units.append(
-                Option(
-                    key=pvg[0],
-                    value=pvg[1],
-                )
-            )
+            converted_units.append(Option(key=pvg[0], value=pvg[1],))
         return converted_units
 
     data = get(request, PV_GRADINGS_URL)

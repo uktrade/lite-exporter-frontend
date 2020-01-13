@@ -1,6 +1,4 @@
-import time
-
-from pytest_bdd import when, scenarios
+from pytest_bdd import when, scenarios, parsers
 
 from pages.application_overview_page import ApplicationOverviewPage
 from pages.exporter_hub_page import ExporterHubPage
@@ -42,12 +40,8 @@ def i_click_on_hmrc_explain_your_reasoning(driver):
     app.click_hmrc_explain_your_reasoning()
 
 
-@when("I wait for document to upload")
-def wait_for_document(driver):
-    document_is_found = False
-    while not document_is_found:
-        if "Processing" in driver.find_element_by_id("document").text:
-            time.sleep(1)
-            driver.refresh()
-        else:
-            document_is_found = True
+@when(parsers.parse('I leave a note for the "{reasoning}"'))  # noqa
+def i_leave_a_note(driver, reasoning):  # noqa
+    text_area = driver.find_element_by_id(reasoning)
+    text_area.clear()
+    text_area.send_keys(reasoning)

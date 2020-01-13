@@ -1,25 +1,19 @@
 from pytest_bdd import scenarios, when, then, parsers
 
 import shared.tools.helpers as utils
+from conftest import (
+    click_apply_licence,
+    enter_type_of_application,
+    enter_application_name,
+    enter_permanent_or_temporary,
+)
 from pages.application_countries_list import ApplicationCountriesList
-from pages.application_goods_list import ApplicationGoodsList
 from pages.application_goods_type_list import ApplicationGoodsTypeList
 from pages.application_overview_page import ApplicationOverviewPage
 from pages.goods_countries_page import GoodsCountriesPage
 from pages.shared import Shared
 
-
 scenarios("../features/submit_open_application.feature", strict_gherkin=False)
-
-
-@then("I see no sites good types or countries attached error message")
-def i_see_open_licence_error(driver):
-    shared = Shared(driver)
-    assert "Cannot create an application with no good descriptions attached" in shared.get_text_of_error_messages()
-    assert (
-        "Cannot create an application with no sites or external sites attached" in shared.get_text_of_error_messages()
-    )
-    assert "Cannot create an application without countries being set" in shared.get_text_of_error_messages()
 
 
 @then("I see good types error messages")
@@ -27,18 +21,6 @@ def goods_type_errors(driver):
     shared = Shared(driver)
     assert "This field may not be blank." in shared.get_text_of_error_messages()
     assert "This field is required." in shared.get_text_of_error_messages()
-
-
-@when("I click overview")
-def click_overview(driver):
-    application_goods_list = ApplicationGoodsList(driver)
-    application_goods_list.click_on_overview()
-
-
-@when("I click Add goods type button")
-def click_goods_type_button(driver):
-    goods_type_page = ApplicationGoodsTypeList(driver)
-    goods_type_page.click_goods_type_button()
 
 
 @then(parsers.parse('I see my goods type added at position "{position}" with a description and a control code'))
@@ -108,24 +90,20 @@ def all_selected(driver):
     assert page.get_number_of_checkboxes(checked=False) == page.get_number_of_checkboxes(checked=True)
 
 
-@when(parsers.parse('I "{assign_or_unassign}" all countries to all goods'))
-def assign_all(driver, assign_or_unassign):
-    countries_page = GoodsCountriesPage(driver)
-    if assign_or_unassign == "assign":
-        countries_page.select_all()
-    else:
-        countries_page.deselect_all()
-    countries_page.click_save()
-
-
 @when(parsers.parse('I "{assign_or_unassign}" all countries to all goods with link'))
 def assign_all_with_link(driver, assign_or_unassign):
     countries_page = GoodsCountriesPage(driver)
     if assign_or_unassign == "assign":
         countries_page.select_all_link()
+        countries_page.click_save()
     else:
         countries_page.deselect_all_link()
-    countries_page.click_save()
+
+
+@when("I click Add goods type button")
+def click_goods_type_button(driver):
+    goods_type_page = ApplicationGoodsTypeList(driver)
+    goods_type_page.click_goods_type_button()
 
 
 @then(parsers.parse('I see all countries are "{assigned_or_unassigned}" to all goods'))
@@ -135,3 +113,17 @@ def see_all_or_no_selected(driver, assigned_or_unassigned):
         assert countries_page.all_selected()
     else:
         assert countries_page.all_deselected()
+
+
+@when("I click on the goods link from overview")  # noqa
+def click_goods_link_overview(driver):  # noqa
+    overview_page = ApplicationOverviewPage(driver)
+    overview_page.click_open_goods_link()
+
+
+@when("I create an open application")  # noqa
+def create_open_app(driver, context):  # noqa
+    click_apply_licence(driver)
+    enter_type_of_application(driver, "open", context)
+    enter_application_name(driver, context)
+    enter_permanent_or_temporary(driver, "permanent", context)

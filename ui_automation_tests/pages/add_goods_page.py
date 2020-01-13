@@ -18,46 +18,41 @@ class AddGoodPage(BasePage):
     PART_NUMBER = "part_number"  # ID
     GOOD_IS_END_PRODUCT = "is_good_end_product-yes"  # ID
     GOOD_IS_NOT_END_PRODUCT = "is_good_end_product-no"  # ID
-    CLC_CONFIRM = "clc_query_confirmation-"  # Partial ID
     IS_CONTROLLED = "is_good_controlled-"  # Partial ID
     CONTROL_CODE = "control_code"  # ID
     DESCRIPTION = "description"  # ID
 
     # Not sure form
-    NOT_SURE_CODE = "not_sure_details_control_code"  # ID
-    NOT_SURE_DETAILS = "not_sure_details_details"  # ID
+    UNSURE_CODE = "not_sure_details_control_code"  # ID
+    UNSURE_DETAILS = "not_sure_details_details"  # ID
 
     def click_add_a_good(self):
         self.driver.find_element_by_id(self.ADD_A_GOOD_BTN).click()
 
-    def enter_description_of_goods(self, description, prefix=""):
-        self.driver.find_element_by_id(prefix + self.DESCRIPTION).send_keys(description)
+    def enter_description_of_goods(self, description):
+        self.driver.find_element_by_id(self.DESCRIPTION).send_keys(description)
 
-    def select_is_your_good_controlled(self, option, prefix=""):
+    def select_is_your_good_controlled(self, option):
         # The only options accepted here are 'yes', 'no' and 'unsure'
-        self.driver.find_element_by_id(prefix + self.IS_CONTROLLED + option.lower()).click()
+        self.driver.find_element_by_id(self.IS_CONTROLLED + option.lower()).click()
 
-    def enter_control_code(self, code, prefix=""):
-        control_code_tb = self.driver.find_element_by_id(prefix + self.CONTROL_CODE)
+    def enter_control_code(self, code):
+        control_code_tb = self.driver.find_element_by_id(self.CONTROL_CODE)
         control_code_tb.clear()
         control_code_tb.send_keys(code)
 
         # This is done as control code textbox needs to lose focus
         self.driver.find_element_by_tag_name("body").click()
 
-    def enter_control_code_unsure(self, code, prefix=""):
-        control_code_tb = self.driver.find_element_by_id(prefix + self.NOT_SURE_CODE)
+    def enter_control_code_unsure(self, code):
+        control_code_tb = self.driver.find_element_by_id(self.UNSURE_CODE)
         control_code_tb.clear()
         control_code_tb.send_keys(code)
 
     def enter_control_unsure_details(self, details):
-        unsure_details = self.driver.find_element_by_id(self.NOT_SURE_DETAILS)
+        unsure_details = self.driver.find_element_by_id(self.UNSURE_DETAILS)
         unsure_details.clear()
         unsure_details.send_keys(details)
-
-    def select_control_unsure_confirmation(self, option):
-        # The only options accepted here are 'yes' and 'no
-        self.driver.find_element_by_id(self.CLC_CONFIRM + option.lower()).click()
 
     def select_is_your_good_intended_to_be_incorporated_into_an_end_product(self, option, prefix=""):
         if option == "Yes":

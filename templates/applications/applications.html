@@ -5,7 +5,6 @@
 {% endblock %}
 
 {% block body %}
-
 	<div class="lite-app-bar">
 		<div class="lite-app-bar__content">
 			<h1 class="govuk-heading-l">{% block title %}Applications{% endblock %}</h1>
@@ -17,10 +16,10 @@
 				</a>
 			{% else %}
 				<a href="." class="govuk-button govuk-button--secondary" draggable="false" role="button">
-					{% get_string 'licences.refresh' %}
+					{% lcs 'Licences.REFRESH' %}
 				</a>
 				<a href="{% url 'apply_for_a_licence:start' %}" class="govuk-button" draggable="false" role="button">
-					{% get_string 'licences.apply_for_a_licence' %}
+					{% lcs 'Licences.APPLY_FOR_A_LICENCE' %}
 				</a>
 			{% endif %}
 		</div>
@@ -76,7 +75,7 @@
 							</td>
 						{% endif %}
 						<td class="govuk-table__cell">
-							{{ application.modified|str_date }}
+							{{ application.updated_at|str_date }}
 						</td>
 						{% if organisation.type.key != 'hmrc' %}
 							<td class="govuk-table__cell">{{ application.status.value }}</td>
@@ -98,5 +97,4 @@
 			</p>
 		</div>
 	{% endif %}
-
 {% endblock %}

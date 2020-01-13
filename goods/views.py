@@ -1,14 +1,9 @@
-from http import HTTPStatus
-
 from django.http import Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
-from lite_content.lite_exporter_frontend import strings
-from lite_forms.components import HiddenField, FormGroup
-from lite_forms.generators import error_page, form_page
 from s3chunkuploader.file_handler import S3FileUploadHandler
 
 from applications.services import (
@@ -21,7 +16,7 @@ from applications.services import (
     download_document_from_s3,
     get_status_properties,
 )
-from goods import forms
+from core.helpers import convert_dict_to_query_params
 from goods.forms import (
     edit_form,
     attach_documents_form,
@@ -29,8 +24,8 @@ from goods.forms import (
     ecju_query_respond_confirmation_form,
     delete_good_form,
     add_goods_questions,
-    pv_query, are_you_sure,
     document_grading_form,
+    raise_a_pv_or_clc_query,
 )
 from goods.services import (
     get_goods,
@@ -41,11 +36,11 @@ from goods.services import (
     get_good_documents,
     get_good_document,
     delete_good_document,
-    post_good_documents,
     raise_clc_query,
     post_good_document_sensitivity,
 )
 from lite_forms.views import SingleFormView, MultiFormView
+from goods.helpers import good_document_upload
 from lite_content.lite_exporter_frontend import strings
 from lite_forms.components import HiddenField
 from lite_forms.generators import error_page, form_page
@@ -53,9 +48,31 @@ from lite_forms.generators import error_page, form_page
 
 class Goods(TemplateView):
     def get(self, request, **kwargs):
-        goods, _ = get_goods(request)
+        description = request.GET.get("description", "").strip()
+        part_number = request.GET.get("part_number", "").strip()
+        control_rating = request.GET.get("control_rating", "").strip()
 
-        context = {"goods": goods}
+        filtered = True if (description or part_number or control_rating) else False
+
+        params = {
+            "page": int(request.GET.get("page", 1)),
+            "description": description,
+            "part_number": part_number,
+            "control_rating": control_rating,
+        }
+
+        goods = get_goods(request, **params)
+
+        context = {
+            "goods": goods,
+            "description": description,
+            "part_number": part_number,
+            "control_code": control_rating,
+            "filtered": filtered,
+            "params": params,
+            "page": params.pop("page"),
+            "params_str": convert_dict_to_query_params(params),
+        }
         return render(request, "goods/goods.html", context)
 
 
@@ -140,59 +157,23 @@ class AddGood(SingleFormView):
         return reverse_lazy("goods:add_document", kwargs={"pk": self.get_validated_data()["good"]["id"]})
 
 
-class RaiseCLCQuery(TemplateView):
-    def get(self, request, **kwargs):
-        return form_page(request, forms.raise_a_clc_query(str(kwargs["pk"])))
-
-    def post(self, request, **kwargs):
-        good_id = str(kwargs["pk"])
-        request_data = request.POST.copy()
-        request_data["good_id"] = good_id
-
-        data, _ = raise_clc_query(request, request_data)
-
-        if "errors" in data:
-            return form_page(
-                request, forms.raise_a_clc_query(str(kwargs["pk"])), data=request_data, errors=data["errors"]
-            )
-
-        return redirect(reverse("goods:goods"))
-
-
-class RaiseCLCPVQuery(MultiFormView):
+class RaiseCLCPVQuery(SingleFormView):
     def init(self, request, **kwargs):
-
         self.object_pk = str(kwargs["pk"])
         good, _ = get_good(request, self.object_pk)
-        form_list = []
-        print("GOOOOOOOOOD", good)
-        print(good.get("is_good_controlled"))
-        if "unsure" == good["is_good_controlled"]:
-            form_list.append(are_you_sure(self.object_pk))
-        if "grading_required" == good["holds_pv_grading"]:
-            form_list.append(pv_query(self.object_pk))
-        if not forms:
-            return 404
-        self.forms=FormGroup(form_list)
-        self.action=raise_clc_query
-        self.success_url=reverse_lazy("goods:goods", kwargs={"pk": self.object_pk})
 
+        raise_a_clc_query = "unsure" == good["is_good_controlled"] or "grading_required" == good["is_good_controlled"]
+        raise_a_pv_query = "grading_required" == good["holds_pv_grading"]
 
-class DraftAddGood(TemplateView):
-    def get(self, request, **kwargs):
-        return form_page(request, forms.form)
+        if not raise_a_clc_query and not raise_a_pv_query:
+            return redirect(reverse_lazy("goods:good", kwargs={"pk": self.object_pk}))
 
-    def post(self, request, **kwargs):
-        data, status_code = post_goods(request, request.POST)
-
-        if status_code == HTTPStatus.BAD_REQUEST:
-            return form_page(request, forms.form, request.POST, errors=data["errors"])
-
-        return redirect(reverse_lazy("applications:task_list"), kwargs["pk"])
+        self.form = raise_a_pv_or_clc_query(self.object_pk, raise_a_clc_query, raise_a_pv_query)
+        self.action = raise_clc_query
+        self.success_url = reverse_lazy("goods:good", kwargs={"pk": self.object_pk})
 
 
 class EditGood(TemplateView):
-
     good_id = None
     form = None
 
@@ -243,10 +224,7 @@ class CheckDocumentGrading(SingleFormView):
 class AttachDocuments(TemplateView):
     def get(self, request, **kwargs):
         good_id = str(kwargs["pk"])
-        # get_good(request, good_id)
-
         form = attach_documents_form(reverse("goods:good", kwargs={"pk": good_id}))
-
         return form_page(request, form, extra_data={"good_id": good_id})
 
     @csrf_exempt
@@ -261,14 +239,7 @@ class AttachDocuments(TemplateView):
         if error:
             return error_page(request, error)
 
-        if "description" not in data:
-            data["description"] = ""
-        data = [data]
-
-        # Send LITE API the file information
-        good_documents, _ = post_good_documents(request, good_id, data)
-
-        if "errors" in good_documents:
+        if "errors" in good_document_upload(request, good_id, data):
             return error_page(request, strings.goods.AttachDocumentPage.UPLOAD_FAILURE_ERROR)
 
         if good["is_good_controlled"] == "unsure":
@@ -302,9 +273,8 @@ class DeleteDocument(TemplateView):
             "description": original_file_name,
             "good": good,
             "document": document,
-            "page": "goods/modals/delete_document.html",
         }
-        return render(request, "core/static.html", context)
+        return render(request, "goods/delete-document.html", context)
 
     def post(self, request, **kwargs):
         good_id = str(kwargs["pk"])
@@ -315,14 +285,6 @@ class DeleteDocument(TemplateView):
         # Delete the file on the API
         delete_good_document(request, good_id, file_pk)
 
-        # TODO: should we remove context variable below?
-        # context = {
-        #     'title': 'Are you sure you want to delete this file?',
-        #     'description': document['name'],
-        #     'good': good['good'],
-        #     'document': document,
-        #     'page': 'goods/modals/delete_document.html',
-        # }
         return redirect(reverse("goods:good", kwargs={"pk": good_id}))
 
 
