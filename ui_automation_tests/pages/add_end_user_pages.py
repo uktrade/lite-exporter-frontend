@@ -8,22 +8,21 @@ class AddEndUserPages(BasePage):
     INPUT_COUNTRY_ID = "country"  # ID
     INPUT_WEBSITE_ID = "website"  # ID
 
-    FILTER_LINK = "show-filters-link"  # ID
-    FILTER_NAME_FIELD = "name"  # ID
-    FILTER_ADDRESS_FIELD = "address"  # ID
-    FILTER_COUNTRY_FIELD = "country"  # ID
-    FILTER_BUTTON = "button-apply-filters"  # ID
+    LINK_SHOW_FILTER_ID = "show-filters-link"
+    INPUT_FILTER_NAME_ID = "name"
+    INPUT_FILTER_ADDRESS_ID = "address"
+    INPUT_FILTER_COUNTRY_ID = "country"
+    BUTTON_SUBMIT_FILTER_ID = "button-apply-filters"
 
-    ADD_NEW_ADDRESS_BUTTON = 'a[href*="add"]'
-    TYPE_CHOICES = "sub_type-"
-    CREATE_NEW_CONFIRMATION = "copy_existing"  # ID
-    COPY_EXISTING_LINK = "copy"  # ID
+    INPUT_PARTY_TYPE_ID = "sub_type-"
+    INPUT_CREATE_NEW_OR_COPY_ID = "copy_existing"  # ID
+    LINK_COPY_EXISTING_ID = "copy"  # ID
 
     def create_new_or_copy_existing(self, copy_existing: bool):
         if copy_existing:
-            self.driver.find_element_by_id(f"{self.CREATE_NEW_CONFIRMATION}-yes").click()
+            self.driver.find_element_by_id(f"{self.INPUT_CREATE_NEW_OR_COPY_ID}-yes").click()
         else:
-            self.driver.find_element_by_id(f"{self.CREATE_NEW_CONFIRMATION}-no").click()
+            self.driver.find_element_by_id(f"{self.INPUT_CREATE_NEW_OR_COPY_ID}-no").click()
         functions.click_submit(self.driver)
 
     def enter_name(self, name):
@@ -58,22 +57,22 @@ class AddEndUserPages(BasePage):
         return self.driver.find_element_by_id(self.INPUT_COUNTRY_ID).get_attribute("value")
 
     def select_type(self, string):
-        self.driver.find_element_by_id(self.TYPE_CHOICES + string).click()
+        self.driver.find_element_by_id(self.INPUT_PARTY_TYPE_ID + string).click()
 
     def click_copy_existing_button(self):
-        self.driver.find_element_by_id(self.COPY_EXISTING_LINK).click()
+        self.driver.find_element_by_id(self.LINK_COPY_EXISTING_ID).click()
 
     def open_parties_filter(self):
-        self.driver.find_element_by_id(self.FILTER_LINK).click()
+        self.driver.find_element_by_id(self.LINK_SHOW_FILTER_ID).click()
 
     def filter_name(self, text):
-        self.driver.find_element_by_id(self.FILTER_NAME_FIELD).send_keys(text)
+        self.driver.find_element_by_id(self.INPUT_FILTER_NAME_ID).send_keys(text)
 
     def filter_address(self, text):
-        self.driver.find_element_by_id(self.FILTER_ADDRESS_FIELD).send_keys(text)
+        self.driver.find_element_by_id(self.INPUT_FILTER_ADDRESS_ID).send_keys(text)
 
     def filter_country(self, text):
-        self.driver.find_element_by_id(self.FILTER_COUNTRY_FIELD).send_keys(text)
+        self.driver.find_element_by_id(self.INPUT_FILTER_COUNTRY_ID).send_keys(text)
 
     def submit_filter(self):
-        self.driver.find_element_by_id(self.FILTER_BUTTON).click()
+        self.driver.find_element_by_id(self.BUTTON_SUBMIT_FILTER_ID).click()
