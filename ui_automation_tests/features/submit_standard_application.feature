@@ -45,7 +45,7 @@ Feature: I want to indicate the standard licence I want
     Given I go to exporter homepage and choose Test Org
     When I create a standard application
     When I click on goods
-    And I add a non-incorporated good to the application
+    And I add an incorporated good to the application
     Then the good is added to the application
     When I click on ultimate end users
     And I click on the add button

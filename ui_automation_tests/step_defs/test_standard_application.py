@@ -146,7 +146,7 @@ def i_click_on_goods(driver):  # noqa
 
 
 @when("I add a non-incorporated good to the application")  # noqa
-def i_add_a_non_incorporated_good_to_the_application(driver):  # noqa
+def i_add_a_non_incorporated_good_to_the_application(driver, context):  # noqa
     StandardApplicationGoodsPage(driver).click_add_preexisting_good_button()
 
     # Click the "Add to application" link on the first good
@@ -157,19 +157,37 @@ def i_add_a_non_incorporated_good_to_the_application(driver):  # noqa
     StandardApplicationGoodDetails(driver).enter_quantity("2")
     StandardApplicationGoodDetails(driver).select_unit("Number of articles")
     StandardApplicationGoodDetails(driver).check_is_good_incorporated_false()
+    context.is_good_incorporated = "No"
+
+    functions.click_submit(driver)
+
+
+@when("I add an incorporated good to the application")  # noqa
+def i_add_a_non_incorporated_good_to_the_application(driver, context):  # noqa
+    StandardApplicationGoodsPage(driver).click_add_preexisting_good_button()
+
+    # Click the "Add to application" link on the first good
+    driver.find_elements_by_css_selector(".govuk-table__row .govuk-link")[0].click()
+
+    # Enter good details
+    StandardApplicationGoodDetails(driver).enter_value("1")
+    StandardApplicationGoodDetails(driver).enter_quantity("2")
+    StandardApplicationGoodDetails(driver).select_unit("Number of articles")
+    StandardApplicationGoodDetails(driver).check_is_good_incorporated_true()
+    context.is_good_incorporated = "Yes"
 
     functions.click_submit(driver)
 
 
 @then("the good is added to the application")  # noqa
-def the_good_is_added_to_the_application(driver):  # noqa
+def the_good_is_added_to_the_application(driver, context):  # noqa
     body_text = Shared(driver).get_text_of_body()
 
     assert len(StandardApplicationGoodsPage(driver).get_goods()) == 1  # Only one good added
     assert StandardApplicationGoodsPage(driver).get_goods_total_value() == "£1.00"  # Value
     assert "2.0" in body_text  # Quantity
     assert "Number of articles" in body_text  # Unit
-    assert "No" in body_text  # Incorporated
+    assert context.is_good_incorporated in body_text  # Incorporated
 
     # Go back to task list
     functions.click_back_link(driver)
