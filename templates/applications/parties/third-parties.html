@@ -14,7 +14,7 @@
         {% if application.status.key in 'applicant_editing,draft' %}
 		<div class="lite-app-bar__controls">
 			<a href="{% url 'applications:add_third_party' application.id %}" class="govuk-button" draggable="false" role="button">
-				{% lcs 'third_parties.ThirdPartiesPage.ADD' %}
+				{% lcs 'applications.ThirdPartiesPage.ADD' %}
 			</a>
 		</div>
         {% endif %}
