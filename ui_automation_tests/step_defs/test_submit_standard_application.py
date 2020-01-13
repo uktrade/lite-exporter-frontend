@@ -171,15 +171,17 @@ def party_table(driver, context):
     for string in text:
         assert string in row.text
 
+
+@when("I click copy party")
+def copy_party(driver):
     AddEndUserPages(driver).click_copy_existing_button()
 
 
-@when("I select a party type and continue")
-def select_party_type(driver, context):
-    type = "government"
-    AddEndUserPages(driver).select_type(type)
-    context.type_end_user = type
-    functions.click_submit(driver)
+# TODO: Add back in to test @LT_1074_copy_existing_party when bug LT-1956 is fixed
+# @then("I see the party type is already filled in")
+# def select_party_type(driver, context):
+#     functions.click_back_link(driver)
+#     assert AddEndUserPages(driver).get_type() == context.end_user["sub_type"]["key"]
 
 
 @then("I see the party name is already filled in")
@@ -202,6 +204,7 @@ def party_address_autofill(driver, context):
 def skip_document_upload(driver, context):
     AttachDocumentPage(driver).click_save_and_return_to_overview_link()
     # Setup for checking on overview page
+    context.type_end_user = context.end_user["sub_type"]["value"]
     context.name_end_user = context.end_user["name"]
     context.address_end_user = context.end_user["address"]
 
