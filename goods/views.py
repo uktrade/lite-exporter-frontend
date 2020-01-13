@@ -172,7 +172,7 @@ class RaiseCLCPVQuery(SingleFormView):
         self.object_pk = str(kwargs["pk"])
         good, _ = get_good(request, self.object_pk)
 
-        raise_a_clc_query = "unsure" == good["is_good_controlled"] or "grading_required" == good["is_good_controlled"]
+        raise_a_clc_query = "unsure" == good["is_good_controlled"]["key"]
         raise_a_pv_query = "grading_required" == good["holds_pv_grading"]
 
         if not raise_a_clc_query and not raise_a_pv_query:

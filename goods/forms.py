@@ -133,34 +133,24 @@ def raise_a_pv_or_clc_query(good_id, raise_a_clc: bool, raise_a_pv: bool):
     questions = []
 
     if raise_a_clc:
-        questions.append(
-            [
-                TextInput(
-                    title=CLCQueryForm.CLCCode.TITLE,
-                    description=CLCQueryForm.CLCCode.DESCRIPTION,
-                    optional=True,
-                    name="not_sure_details_control_code",
-                ),
-                TextArea(
-                    title=CLCQueryForm.Additional.TITLE,
-                    description=CLCQueryForm.Additional.DESCRIPTION,
-                    optional=True,
-                    name="not_sure_details_details",
-                ),
-            ],
-        )
+        questions += [
+            TextInput(
+                title=CLCQueryForm.CLCCode.TITLE,
+                description=CLCQueryForm.CLCCode.DESCRIPTION,
+                name="not_sure_details_control_code",
+                optional=True,
+            ),
+            TextArea(title=CLCQueryForm.Additional.DESCRIPTION, name="not_sure_details_details", optional=True,),
+        ]
 
     if raise_a_pv:
-        questions.append(
-            [
-                TextArea(
-                    title="Additional information about your product",
-                    description="Please enter details of why you need a PV grading",
-                    optional=True,
-                    name="pv_grading_additional_information",
-                ),
-            ],
-        )
+        questions += [
+            TextArea(
+                title="Please enter details of why you need a PV grading",
+                name="pv_grading_additional_information",
+                optional=True,
+            ),
+        ]
 
     return Form(
         title="Create a query for this product",
