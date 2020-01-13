@@ -10,7 +10,10 @@ def validate_withdraw_application(request, pk, json):
             return set_application_status(request, pk, "withdrawn")
         return json, HTTPStatus.OK
 
-    return {"errors": {"choice": [strings.APPLICATION_WITHDRAW_ERROR]}}, HTTPStatus.BAD_REQUEST
+    return (
+        {"errors": {"choice": [strings.applications.ApplicationSummaryPage.Withdraw.WITHDRAW_ERROR]}},
+        HTTPStatus.BAD_REQUEST,
+    )
 
 
 def validate_delete_draft(request, pk, json):
@@ -19,7 +22,7 @@ def validate_delete_draft(request, pk, json):
             return delete_application(request, pk)
         return json, HTTPStatus.OK
 
-    return {"errors": {"choice": [strings.DRAFT_DELETE_ERROR]}}, HTTPStatus.BAD_REQUEST
+    return {"errors": {"choice": [strings.applications.DeleteApplicationPage.DELETE_ERROR]}}, HTTPStatus.BAD_REQUEST
 
 
 def validate_external_location_choice(_request, _pk, json):

@@ -7,7 +7,6 @@
 {% endblock %}
 
 {% block body %}
-
 	{% if show_warning %}
 		<div class="lite-warning-summary" role="alert" tabindex="-1" data-module="govuk-error-summary">
 			<div class="lite-error-summary__body">
@@ -23,7 +22,7 @@
 	<div class="lite-app-bar">
 		<div class="lite-app-bar__content">
 			<h1 class="govuk-heading-l">{% block title %}Ultimate recipients{% endblock%}</h1>
-			<p class="govuk-caption-m">{% get_string 'ultimate_end_user.overview_description' %}</p>
+			<p class="govuk-caption-m">{% lcs 'UltimateEndUser.OVERVIEW_DESCRIPTION' %}</p>
 		</div>
         {% if application.status.key in 'applicant_editing,draft' %}
 		<div class="lite-app-bar__controls">
@@ -87,5 +86,4 @@
 	{% else %}
 		<p class="govuk-caption-l">You haven't added any ultimate recipients to the application</p>
 	{% endif %}
-
 {% endblock %}

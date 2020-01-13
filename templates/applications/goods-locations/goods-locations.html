@@ -5,18 +5,17 @@
 {% endblock %}
 
 {% block body %}
-
 	<div class="lite-app-bar">
 		<div class="lite-app-bar__content">
-			<h2 class="govuk-heading-l" style="max-width: 400px;">
+			<h1 class="govuk-heading-l">
 				{% block title %}
 					{% if application.goods_locations.type == 'sites' %}
-						{% lcs 'SELECT_SITES_TITLE' %}
+						{% lcs 'goods.GoodsLocationPage.SELECT_SITES_TITLE' %}
 					{% else %}
 						Set where your products are located
 					{% endif %}
 				{% endblock %}
-			</h2>
+			</h1>
 		</div>
 		<div class="lite-app-bar__controls">
 			<a href="{% url 'applications:edit_location' application.id %}" class="govuk-button govuk-button--secondary">
@@ -28,14 +27,14 @@
 			</a>
 			{% if application.goods_locations.type == 'sites' %}
 				<a href="{% url 'applications:existing_sites' application.id %}" class="govuk-button">
-					{% lcs 'SELECT_SITES_BUTTON' %}
+					{% lcs 'goods.GoodsLocationPage.SELECT_SITES_BUTTON' %}
 				</a>
 			{% else %}
 				<a href="{% url 'applications:add_preexisting_external_location' application.id %}" class="govuk-button">
-					{% get_string 'goods.location_lists.find_address_button' %}
+					{% lcs 'Goods.LocationLists.FIND_ADDRESS_BUTTON' %}
 				</a>
 				<a href="{% url 'applications:add_external_location' application.id %}" class="govuk-button">
-					{% get_string 'goods.location_lists.add_address_button' %}
+					{% lcs 'Goods.LocationLists.ADD_ADDRESS_BUTTON' %}
 				</a>
 			{% endif %}
 		</div>
@@ -90,5 +89,4 @@
 			</tbody>
 		</table>
 	{% endif %}
-
 {% endblock %}

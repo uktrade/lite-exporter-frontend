@@ -1,16 +1,11 @@
 from pytest_bdd import when, scenarios, then
 
-from shared import functions
 from conftest import enter_application_name, enter_export_licence
 from pages.application_overview_page import ApplicationOverviewPage
 from pages.application_page import ApplicationPage
+from shared import functions
 
 scenarios("../features/edit_standard_application.feature", strict_gherkin=False)
-
-
-@when("I click back to the application overview")
-def i_click_on_application_overview(driver):
-    functions.click_back_link(driver)
 
 
 @when("I click on the application third parties link")
@@ -48,6 +43,7 @@ def i_remove_the_end_user_off_the_application(driver):
 
 @then("no end user is set on the application")
 def no_end_user_is_set_on_the_application(driver):
+    functions.click_back_link(driver)
     assert (ApplicationOverviewPage(driver).find_remove_end_user_link(), None)
 
 
@@ -59,12 +55,15 @@ def i_remove_the_consignee_off_the_application(driver):
 
 @then("no consignee is set on the application")
 def no_consignee_is_set_on_the_application(driver):
+    functions.click_back_link(driver)
     assert (ApplicationOverviewPage(driver).find_remove_consignee_link(), None)
 
 
 @when("I remove an additional document")
 def i_remove_an_additional_document(driver):
+    driver.set_timeout_to(0)
     remove_consignee_link = ApplicationOverviewPage(driver).find_remove_additional_document_link()
+    driver.set_timeout_to(10)
     driver.execute_script("arguments[0].click();", remove_consignee_link)
 
 
@@ -98,10 +97,3 @@ def assert_ref_name(context, driver):
 @then("I see my edited reference number")
 def assert_ref_num(driver):
     assert "12345678" in driver.find_element_by_css_selector(".lite-task-list").text
-
-
-@then("the edit application button is not present")
-def edit_button_not_present(driver):
-    driver.set_timeout_to(0)
-    assert len((ApplicationPage(driver).find_edit_application_button())) == 0
-    driver.set_timeout_to(10)

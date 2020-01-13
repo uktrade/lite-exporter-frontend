@@ -56,7 +56,7 @@ class RemoveEndUser(TemplateView):
         if status_code != 204:
             return error_page(request, "Unexpected error removing end user")
 
-        return redirect(reverse_lazy("applications:task_list", kwargs={"pk": application_id}))
+        return redirect(reverse_lazy("applications:set_end_user", kwargs={"pk": application_id}))
 
 
 class UltimateEndUsers(TemplateView):
@@ -70,7 +70,7 @@ class UltimateEndUsers(TemplateView):
             "ultimate_end_users": ultimate_end_users,
             "show_warning": check_all_parties_have_a_document(ultimate_end_users) == "in_progress",
         }
-        return render(request, "applications/parties/ultimate_end_users.html", context)
+        return render(request, "applications/parties/ultimate-end-users.html", context)
 
 
 class AddUltimateEndUser(TemplateView):

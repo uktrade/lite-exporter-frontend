@@ -1,12 +1,13 @@
 import datetime
-from collections import defaultdict
 from html import escape
 
 from django.template.defaultfilters import safe
 from django.templatetags.tz import do_timezone
 
+from conf import decorators
 from conf.constants import ISO8601_FMT
 from core.builtins.custom_tags import default_na
+from roles.services import get_user_permissions
 
 
 class Section:
@@ -35,30 +36,16 @@ def str_date_only(value):
     return return_value.strftime("%d %B %Y")
 
 
-def generate_notification_string(notifications, object_type):
-    notifications_count = len(
-        [x for x in notifications if x["object_type"] == object_type or x["parent_type"] == object_type]
-    )
+def generate_notification_string(notifications, case_types):
+    notification_count = notifications["notification_count"]
+    notification_count_sum = sum([count for case_type, count in notification_count.items() if case_type in case_types])
 
-    if notifications_count == 0:
+    if not notification_count_sum:
         return ""
-    elif notifications_count == 1:
-        return f"You have {notifications_count} new notification"
+    elif notification_count_sum:
+        return f"You have {notification_count_sum} new notification"
     else:
-        return f"You have {notifications_count} new notifications"
-
-
-def group_notifications(notifications: list):
-    """
-    Groups and counts notifications by object and parent ID
-    """
-    notifications_filtered = defaultdict(int)
-
-    for notification in notifications:
-        notifications_filtered[notification["object"]] += 1
-        notifications_filtered[notification["parent"]] += 1
-
-    return notifications_filtered
+        return f"You have {notification_count_sum} new notifications"
 
 
 def convert_value_to_query_param(key: str, value):
@@ -127,3 +114,28 @@ def println(content=None, no=1):
     if content:
         print(content)
         print("\n" * no)
+
+
+def has_permission(request, permission):
+    """
+    Returns true if the user has a given permission, else false
+    """
+    user_permissions = get_user_permissions(request)
+    return permission in user_permissions
+
+
+def decorate_patterns_with_permission(patterns, permission):
+    def _wrap_with_permission(_permission, view_func=None):
+        actual_decorator = decorators.has_permission(_permission)
+
+        if view_func:
+            return actual_decorator(view_func)
+        return actual_decorator
+
+    decorated_patterns = []
+    for pattern in patterns:
+        callback = pattern.callback
+        pattern.callback = _wrap_with_permission(permission, callback)
+        pattern._callback = _wrap_with_permission(permission, callback)
+        decorated_patterns.append(pattern)
+    return decorated_patterns

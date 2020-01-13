@@ -1,19 +1,21 @@
 from http import HTTPStatus
-from urllib.parse import urlencode
 
 from conf.client import get, post, put, delete
-from conf.constants import GOODS_URL, DOCUMENTS_URL, CONTROL_LIST_CLASSIFICATIONS_URL
+from core.helpers import convert_parameters_to_query_params
+from conf.constants import (
+    GOODS_URL,
+    DOCUMENTS_URL,
+    CONTROL_LIST_CLASSIFICATIONS_URL,
+    DOCUMENT_SENSITIVITY_URL,
+    MISSING_DOCUMENT_REASONS_URL,
+)
 from core.helpers import remove_prefix
 
 
-def get_goods(request, params=None):
-    if params:
-        query_params = urlencode(params)
-        data = get(request, GOODS_URL + "?" + query_params)
-    else:
-        data = get(request, GOODS_URL)
+def get_goods(request, page: int = 1, description=None, part_number=None, control_rating=None, for_application=None):
+    data = get(request, GOODS_URL + convert_parameters_to_query_params(locals()))
 
-    return data.json().get("goods"), data.status_code
+    return data.json()
 
 
 def get_good(request, pk):
@@ -73,4 +75,15 @@ def post_good_documents(request, pk, json):
 
 def delete_good_document(request, pk, doc_pk):
     data = delete(request, GOODS_URL + pk + DOCUMENTS_URL + doc_pk)
+    return data.json(), data.status_code
+
+
+# Document Sensitivity
+def get_document_missing_reasons(request):
+    data = get(request, MISSING_DOCUMENT_REASONS_URL)
+    return data.json(), data.status_code
+
+
+def post_good_document_sensitivity(request, pk, json):
+    data = post(request, GOODS_URL + str(pk) + DOCUMENT_SENSITIVITY_URL, json)
     return data.json(), data.status_code
