@@ -50,10 +50,10 @@ class SetParty(MultiFormView):
         self.object_pk = kwargs["pk"]
         application = get_application(request, self.object_pk)
         self.forms = self.form(application, self.strings, self.back_url)
-        if self.multiple_allowed:
-            self.data = None
-        else:
-            self.data = application[self.name]
+        if not self.multiple_allowed and "edit" in request.path:
+            if application[self.name]:
+                self.data = application[self.name]
+                self.data["country"] = self.data["country"]["id"]
 
     def get_success_url(self):
         if self.multiple_allowed:

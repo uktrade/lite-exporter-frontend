@@ -18,7 +18,7 @@ class Consignee(TemplateView):
             context = {
                 "application": application,
                 "title": ConsigneePage.TITLE,
-                "edit_url": reverse_lazy("applications:set_consignee", kwargs={"pk": application_id}),
+                "edit_url": reverse_lazy("applications:edit_consignee", kwargs={"pk": application_id}),
                 "remove_url": reverse_lazy("applications:remove_consignee", kwargs={"pk": application_id}),
                 "answers": convert_consignee(application["consignee"], application_id, True),
             }
