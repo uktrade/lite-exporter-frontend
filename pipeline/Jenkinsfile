@@ -239,7 +239,7 @@ def sendSlackNotification()
 	buildStatus =  currentBuild.result
 
 	// Default values
-	def subject = "${buildStatus}: lite-exporter-frontend"
+	def subject = "${buildStatus}: lite-exporter-frontend (${params.ENVIRONMENT})"
 	def summary = "${subject} (${env.BUILD_URL})"
 
 	// Set notification colour based on build status
