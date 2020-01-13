@@ -86,8 +86,6 @@ class DeleteParty(TemplateView):
 
 
 class ExistingPartiesList(TemplateView):
-    ALLOWED_FILTERS = ["name", "address", "country"]
-
     def __init__(self, destination_url, back_url, **kwargs):
         super().__init__(**kwargs)
         self.destination_url = destination_url
@@ -98,7 +96,13 @@ class ExistingPartiesList(TemplateView):
         List of existing parties
         """
         application_id = str(kwargs["pk"])
-        parties, _ = get_existing_parties(request, application_id, self.ALLOWED_FILTERS)
+        parties, _ = get_existing_parties(
+            request,
+            application_id,
+            name=request.GET.get("name"),
+            address=request.GET.get("address"),
+            country=request.GET.get("country"),
+        )
 
         context = {
             "title": CopyExistingPartyPage.TITLE,

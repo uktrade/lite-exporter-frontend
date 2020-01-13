@@ -213,8 +213,8 @@ def delete_consignee(request, pk):
 
 
 # Existing Parties
-def get_existing_parties(request, pk, allowed_filters):
-    params = {key: value for key, value in request.GET.items() if key in allowed_filters}
+def get_existing_parties(request, pk, name=None, address=None, country=None):
+    params = {"name": name, "address": address, "country": country}
     params = convert_parameters_to_query_params(params)
     data = get(request, APPLICATIONS_URL + str(pk) + EXISTING_PARTIES_URL + params)
     return data.json(), data.status_code
