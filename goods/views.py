@@ -319,8 +319,6 @@ class DeleteDocument(TemplateView):
         good_id = str(kwargs["pk"])
         file_pk = str(kwargs["file_pk"])
 
-        _, _ = get_good(request, good_id)
-        _ = get_good_document(request, good_id, file_pk)  # noqa
         # Delete the file on the API
         delete_good_document(request, good_id, file_pk)
 
