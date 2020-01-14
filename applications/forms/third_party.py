@@ -34,8 +34,8 @@ def third_party_forms(application, strings, back_url):
 
     return FormGroup(
         [
-            _third_party_role_form(application, strings.TITLE, strings.BUTTON, options, back_url),
-            party_type_form(application, strings.TITLE, strings.BUTTON, BackLink()),
+            _third_party_role_form(application, strings.ROLE_TITLE, strings.BUTTON, options, back_url),
+            party_type_form(application, strings.TYPE_TITLE, strings.BUTTON, BackLink()),
             party_name_form(strings.NAME_FORM_TITLE, strings.BUTTON),
             party_website_form(strings.WEBSITE_FORM_TITLE, strings.BUTTON),
             party_address_form(strings.ADDRESS_FORM_TITLE, strings.SUBMIT_BUTTON),
