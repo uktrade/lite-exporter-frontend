@@ -27,6 +27,7 @@ from goods.forms import (
     document_grading_form,
     raise_a_pv_or_clc_query,
     add_good_form_group,
+    raise_query_confirmation_form,
 )
 from goods.services import (
     get_goods,
@@ -40,10 +41,11 @@ from goods.services import (
     raise_clc_query,
     post_good_document_sensitivity,
 )
+from lite_content.lite_exporter_frontend.goods import AttachDocumentForm
 from lite_forms.views import SingleFormView, MultiFormView
 from goods.helpers import good_document_upload
 from lite_content.lite_exporter_frontend import strings
-from lite_forms.components import HiddenField
+from lite_forms.components import HiddenField, BackLink
 from lite_forms.generators import error_page, form_page
 
 
@@ -157,7 +159,7 @@ class GoodsDetail(TemplateView):
 
 class AddGood(MultiFormView):
     def init(self, request, **kwargs):
-        self.forms = add_good_form_group(None)
+        self.forms = add_good_form_group()
         self.action = post_goods
 
     def on_submission(self, request, **kwargs):
@@ -174,9 +176,6 @@ class RaiseCLCPVQuery(SingleFormView):
 
         raise_a_clc_query = "unsure" == good["is_good_controlled"]["key"]
         raise_a_pv_query = "grading_required" == good["holds_pv_grading"]
-
-        if not raise_a_clc_query and not raise_a_pv_query:
-            return redirect(reverse_lazy("goods:good", kwargs={"pk": self.object_pk}))
 
         self.form = raise_a_pv_or_clc_query(self.object_pk, raise_a_clc_query, raise_a_pv_query)
         self.action = raise_clc_query
@@ -222,9 +221,15 @@ class CheckDocumentGrading(SingleFormView):
         self.action = post_good_document_sensitivity
 
     def get_success_url(self):
-        good = self.get_validated_data()["good"]
-        if good["missing_document_reason"]:
-            url = "goods:good"
+        if self.request.POST.get("has_document_to_upload") == "no":
+            good = self.get_validated_data()["good"]
+            raise_a_clc_query = "unsure" == good["is_good_controlled"]["key"]
+            raise_a_pv_query = "grading_required" == good["holds_pv_grading"]
+
+            if not (raise_a_clc_query or raise_a_pv_query):
+                url = "goods:good"
+            else:
+                url = "goods:confirm_raise_query"
         else:
             url = "goods:attach_documents"
         return reverse_lazy(url, kwargs={"pk": self.object_pk})
@@ -233,8 +238,15 @@ class CheckDocumentGrading(SingleFormView):
 @method_decorator(csrf_exempt, "dispatch")
 class AttachDocuments(TemplateView):
     def get(self, request, **kwargs):
+        return_to_good_page = request.GET.get("goodpage", "no")
         good_id = str(kwargs["pk"])
-        form = attach_documents_form(reverse("goods:good", kwargs={"pk": good_id}))
+        if return_to_good_page == "yes":
+            back_link = BackLink(AttachDocumentForm.BACK_GOOD_LINK, reverse("goods:good", kwargs={"pk": good_id}))
+        else:
+            back_link = BackLink(
+                AttachDocumentForm.BACK_FORM_LINK, reverse("goods:add_document", kwargs={"pk": good_id})
+            )
+        form = attach_documents_form(back_link)
         return form_page(request, form, extra_data={"good_id": good_id})
 
     @csrf_exempt
@@ -252,12 +264,29 @@ class AttachDocuments(TemplateView):
         if "errors" in good_document_upload(request, good_id, data):
             return error_page(request, strings.goods.AttachDocumentPage.UPLOAD_FAILURE_ERROR)
 
-        if good["is_good_controlled"]["key"] == "unsure":
+        raise_a_clc_query = "unsure" == good["is_good_controlled"]["key"]
+        raise_a_pv_query = "grading_required" == good["holds_pv_grading"]
+
+        if not (raise_a_clc_query or raise_a_pv_query):
+            return redirect(reverse("goods:good", kwargs={"pk": good_id}))
+        else:
+            return redirect(reverse("goods:confirm_raise_query", kwargs={"pk": good_id}))
+
+
+class ConfirmRaiseQuery(TemplateView):
+    def get(self, request, **kwargs):
+        good_id = str(kwargs["pk"])
+        back_link = reverse_lazy("goods:good", kwargs={"pk": good_id})
+        return form_page(request, raise_query_confirmation_form(overview_url=back_link))
+
+    def post(self, request, **kwargs):
+        good_id = str(kwargs["pk"])
+        confirm = request.POST.get("confirm_raise_query")
+
+        if confirm == "yes":
             return redirect(reverse("goods:raise_clc_query", kwargs={"pk": good_id}))
-
-        # if good[""]
-
-        return redirect(reverse("goods:good", kwargs={"pk": good_id}))
+        else:
+            return redirect(reverse("goods:good", kwargs={"pk": good_id}))
 
 
 class Document(TemplateView):

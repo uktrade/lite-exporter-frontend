@@ -95,11 +95,15 @@
 			{% endif %}
 
 			{% if good.status.key == 'draft' %}
-				<div class="govuk-inset-text">
-					If you're unsure about whether your product is controlled or not, you can <a href="{% url 'goods:raise_clc_query' good.id %}" class="govuk-link govuk-link--no-visited-state">raise a query</a> to
-					get help from ECJU.
-				</div>
-				<br>
+				{% if good.is_good_controlled.key == "unsure" or good.holds_pv_grading == "grading_required" %}
+					{%if documents or good.missing_document_reason.key  %}
+						<div class="govuk-inset-text">
+							If you're unsure about whether your product is controlled or not, you can <a href="{% url 'goods:raise_clc_query' good.id %}" class="govuk-link govuk-link--no-visited-state">raise a query</a> to
+							get help from ECJU.
+						</div>
+						<br>
+					{% endif %}
+				{% endif %}
 			{% endif %}
 
 			<!-- Summary -->
@@ -132,7 +136,15 @@
 						</dd>
 					</div>
 				{% endif %}
-				{% if good.holds_pv_grading %}
+				<div class="govuk-summary-list__row">
+					<dt class="govuk-summary-list__key">
+						PV graded
+					</dt>
+					<dd class="govuk-summary-list__value">
+						{{ good.holds_pv_grading }}
+					</dd>
+				</div>
+				{% if good.holds_pv_grading == "yes" %}
 					<div class="govuk-summary-list__row">
 						<dt class="govuk-summary-list__key">
 							PV grading
@@ -146,24 +158,24 @@
 						</dd>
 					</div>
 					{% if good.pv_grading_prefix %}
-					<div class="govuk-summary-list__row">
-						<dt class="govuk-summary-list__key">
-							PV grading prefix
-						</dt>
-						<dd class="govuk-summary-list__value">
-							{{ good.pv_grading_prefix }}
-						</dd>
-					</div>
+						<div class="govuk-summary-list__row">
+							<dt class="govuk-summary-list__key">
+								PV grading prefix
+							</dt>
+							<dd class="govuk-summary-list__value">
+								{{ good.pv_grading_prefix }}
+							</dd>
+						</div>
 					{% endif %}
 					{% if good.pv_grading_suffix %}
-					<div class="govuk-summary-list__row">
-						<dt class="govuk-summary-list__key">
-							PV grading suffix
-						</dt>
-						<dd class="govuk-summary-list__value">
-							{{ good.pv_grading_suffix }}
-						</dd>
-					</div>
+						<div class="govuk-summary-list__row">
+							<dt class="govuk-summary-list__key">
+								PV grading suffix
+							</dt>
+							<dd class="govuk-summary-list__value">
+								{{ good.pv_grading_suffix }}
+							</dd>
+						</div>
 					{% endif %}
 					<div class="govuk-summary-list__row">
 						<dt class="govuk-summary-list__key">
@@ -219,9 +231,15 @@
 				</div>
 				<div class="lite-app-bar__controls">
 				    {% if good.status.key == 'draft' %}
-			            <a role="button" draggable="false" class="govuk-button" href="{% url 'goods:attach_documents' good.id %}">
-			                {% lcs 'Goods.Documents.AttachDocuments.BUTTON' %}
-			            </a>
+						{% if documents %}
+							<a role="button" draggable="false" class="govuk-button" href="{% url 'goods:attach_documents' good.id %}?goodpage=yes">
+								{% lcs 'Goods.Documents.AttachDocuments.BUTTON' %}
+							</a>
+						{% else %}
+							<a role="button" draggable="false" class="govuk-button" href="{% url 'goods:add_document' good.id %}">
+								{% lcs 'Goods.Documents.AttachDocuments.BUTTON' %}
+							</a>
+						{% endif %}
 				    {% endif %}
 				</div>
 		    </div>
@@ -267,6 +285,14 @@
                         {% endfor %}
                     </tbody>
                 </table>
+			{% elif good.missing_document_reason.key %}
+				<div class="lite-information-text">
+					<span class="lite-information-text__icon" aria-hidden="true">!</span>
+					<p class="lite-information-text__text">
+						<span class="govuk-visually-hidden">{% lcs "generic.NoticeComponent.INFORMATION" %}</span>
+						Document not required: {{ good.missing_document_reason.value }}
+					</p>
+				</div>
 		    {% else %}
 				{% include "includes/notice.html" with text="goods.GoodsList.Documents.NO_DOCUMENT_ATTACHED" %}
 		    {% endif %}

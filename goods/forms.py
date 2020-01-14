@@ -233,7 +233,7 @@ def document_grading_form(request, good_id):
     )
 
 
-def attach_documents_form(back_url):
+def attach_documents_form(back_link):
     return Form(
         title=AttachDocumentForm.TITLE,
         description=AttachDocumentForm.DESCRIPTION,
@@ -247,7 +247,7 @@ def attach_documents_form(back_url):
             ),
         ],
         buttons=[Button(AttachDocumentForm.BUTTON, "submit", disable_double_click=True)],
-        back_link=BackLink(AttachDocumentForm.BACK_LINK, back_url),
+        back_link=back_link,
     )
 
 
@@ -302,4 +302,15 @@ def delete_good_form(good):
                 link=reverse_lazy("goods:edit", kwargs={"pk": good["id"]}),
             ),
         ],
+    )
+
+
+def raise_query_confirmation_form(overview_url):
+    return confirm_form(
+        title="do you wish to raise a query?",
+        description="Would you like to raise a query at this current time? "
+        "If a query is raised you will not be able to edit the good",
+        confirmation_name="confirm_raise_query",
+        back_link_text="back",
+        back_url=overview_url,
     )
