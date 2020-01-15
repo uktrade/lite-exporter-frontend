@@ -72,11 +72,11 @@ def edit_type_form(application_id):
     )
 
 
-def application_success_page(request, application_id):
+def application_success_page(request, application_reference_code):
     return success_page(
         request=request,
         title="Application submitted successfully",
-        secondary_title="Your reference code: " + application_id,
+        secondary_title="Your reference code: " + application_reference_code,
         description="",
         what_happens_next=["You'll receive an email from ECJU when the check is finished."],
         links={
