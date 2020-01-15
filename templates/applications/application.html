@@ -25,54 +25,67 @@
         </div>
     </div>
 
-	<dl class="govuk-summary-list govuk-summary-list--no-border">
-		<div class="govuk-summary-list__row">
-			<dt class="govuk-summary-list__key">
-				{% lcs 'applications.ApplicationSummaryPage.TYPE' %}
-			</dt>
-			<dd class="govuk-summary-list__value">
-				{{ application.application_type.value }}
-			</dd>
-		</div>
-		{% if application.application_type.key != 'hmrc_query' %}
-		<div class="govuk-summary-list__row">
-			<dt class="govuk-summary-list__key">
-				{% lcs 'applications.ApplicationSummaryPage.EXPORT_TYPE' %}
-			</dt>
-			<dd class="govuk-summary-list__value">
-				{{ application.export_type.value }}
-			</dd>
-		</div>
-		{% endif %}
-		<div class="govuk-summary-list__row">
-			<dt class="govuk-summary-list__key">
-				{% lcs 'applications.ApplicationSummaryPage.STATUS' %}
-			</dt>
-			<dd id="label-application-status" class="govuk-summary-list__value">
-				{{ application.status.value }}
-			</dd>
-		</div>
-		<div class="govuk-summary-list__row">
-			<dt class="govuk-summary-list__key">
-				{% lcs 'applications.ApplicationSummaryPage.CASE_OFFICER' %}
-			</dt>
-			<dd id="label-application-status" class="govuk-summary-list__value">
-				{% if application.case_officer.first_name %}
-					{{ application.case_officer.first_name }} {{ application.case_officer.last_name }}
-				{% else %}
-					{% lcs 'applications.ApplicationSummaryPage.NO_ASSIGNED_CASE_OFFICER' %}
-				{% endif %}
-			</dd>
-		</div>
-		<div class="govuk-summary-list__row">
-			<dt class="govuk-summary-list__key">
-				{% lcs 'applications.ApplicationSummaryPage.SUBMITTED_AT' %}
-			</dt>
-			<dd class="govuk-summary-list__value">
-				{{ application.submitted_at|str_date }}
-			</dd>
-		</div>
-	</dl>
+	<div class="govuk-grid-row">
+		<dl class="govuk-summary-list govuk-summary-list--no-border govuk-grid-column-two-thirds">
+			<div class="govuk-summary-list__row">
+				<dt class="govuk-summary-list__key">
+					{% lcs 'applications.ApplicationSummaryPage.REFERENCE_CODE' %}
+				</dt>
+				<dd class="govuk-summary-list__value" id="summary-list-reference-code">
+					{{ application.reference_code }}
+				</dd>
+				<dd class="govuk-summary-list__actions">
+					<button class="lite-button--link" href="#" id="button-copy-reference-code">Copy reference code</button>
+				</dd>
+			</div>
+			<div class="govuk-summary-list__row">
+				<dt class="govuk-summary-list__key">
+					{% lcs 'applications.ApplicationSummaryPage.TYPE' %}
+				</dt>
+				<dd class="govuk-summary-list__value">
+					{{ application.application_type.value }}
+				</dd>
+			</div>
+			{% if application.application_type.key != 'hmrc_query' %}
+			<div class="govuk-summary-list__row">
+				<dt class="govuk-summary-list__key">
+					{% lcs 'applications.ApplicationSummaryPage.EXPORT_TYPE' %}
+				</dt>
+				<dd class="govuk-summary-list__value">
+					{{ application.export_type.value }}
+				</dd>
+			</div>
+			{% endif %}
+			<div class="govuk-summary-list__row">
+				<dt class="govuk-summary-list__key">
+					{% lcs 'applications.ApplicationSummaryPage.STATUS' %}
+				</dt>
+				<dd id="label-application-status" class="govuk-summary-list__value">
+					{{ application.status.value }}
+				</dd>
+			</div>
+			<div class="govuk-summary-list__row">
+				<dt class="govuk-summary-list__key">
+					{% lcs 'applications.ApplicationSummaryPage.CASE_OFFICER' %}
+				</dt>
+				<dd id="label-application-status" class="govuk-summary-list__value">
+					{% if application.case_officer.first_name %}
+						{{ application.case_officer.first_name }} {{ application.case_officer.last_name }}
+					{% else %}
+						{% lcs 'applications.ApplicationSummaryPage.NO_ASSIGNED_CASE_OFFICER' %}
+					{% endif %}
+				</dd>
+			</div>
+			<div class="govuk-summary-list__row">
+				<dt class="govuk-summary-list__key">
+					{% lcs 'applications.ApplicationSummaryPage.SUBMITTED_AT' %}
+				</dt>
+				<dd class="govuk-summary-list__value">
+					{{ application.submitted_at|str_date }}
+				</dd>
+			</div>
+		</dl>
+	</div>
 
     <div class="lite-tabs__container">
         <div class="lite-tabs">
@@ -171,4 +184,22 @@
     {% elif type == 'activity' %}
 		{% include "applications/tabs/activity.html" %}
     {% endif %}
+{% endblock %}
+
+{% block javascript %}
+	<script type="text/javascript">
+		function textToClipboard() {
+		    var dummy = document.createElement("textarea");
+		    document.body.appendChild(dummy);
+		    dummy.value = "{{ application.reference_code }}";
+		    dummy.select();
+		    document.execCommand("copy");
+		    document.body.removeChild(dummy);
+			$("#button-copy-reference-code").text("Copied")
+		}
+
+		$("#button-copy-reference-code").click(function() {
+			textToClipboard();
+		});
+	</script>
 {% endblock %}
