@@ -30,9 +30,10 @@ def post_goods(request, json):
         post_data = json
 
     # Convert date
-    year = json.get("year", "")
-    month = json.get("month", "")
-    day = json.get("day", "")
+    date_field = "pv_grading_date_of_issue"
+    year = json.get(date_field + "year", "")
+    month = json.get(date_field + "month", "")
+    day = json.get(date_field + "day", "")
     post_data["pv_grading_date_of_issue"] = f"{year}-{month}-{day}"
 
     data = post(request, GOODS_URL, post_data)
