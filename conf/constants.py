@@ -36,7 +36,7 @@ EXISTING_PARTIES_URL = "/existing-parties"
 
 # Queries URLs
 QUERIES_URL = "/queries/"
-CONTROL_LIST_CLASSIFICATIONS_URL = QUERIES_URL + "control-list-classifications/"
+GOODS_QUERY_URL = QUERIES_URL + "goods-queries/"
 END_USER_ADVISORIES_URL = QUERIES_URL + "end-user-advisories/"
 
 # Static URLs

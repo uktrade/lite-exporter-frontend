@@ -5,7 +5,7 @@ from core.helpers import convert_parameters_to_query_params
 from conf.constants import (
     GOODS_URL,
     DOCUMENTS_URL,
-    CONTROL_LIST_CLASSIFICATIONS_URL,
+    GOODS_QUERY_URL,
     DOCUMENT_SENSITIVITY_URL,
     MISSING_DOCUMENT_REASONS_URL,
 )
@@ -82,8 +82,10 @@ def delete_good(request, pk):
     return data.json(), data.status_code
 
 
-def raise_clc_query(request, _, json):
-    data = post(request, CONTROL_LIST_CLASSIFICATIONS_URL, json)
+def raise_clc_query(request, pk, json):
+    post_data = json
+    post_data["good_id"] = pk
+    data = post(request, GOODS_QUERY_URL, post_data)
     return data.json(), data.status_code
 
 
