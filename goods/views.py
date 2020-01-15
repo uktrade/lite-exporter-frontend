@@ -39,6 +39,7 @@ from goods.services import (
     delete_good_document,
     raise_clc_query,
     post_good_document_sensitivity,
+    validate_good,
 )
 from lite_content.lite_exporter_frontend.goods import AttachDocumentForm
 from lite_forms.views import SingleFormView, MultiFormView
@@ -157,12 +158,17 @@ class GoodsDetail(TemplateView):
 
 
 class AddGood(MultiFormView):
+    actions = [validate_good, post_goods]
+
     def init(self, request, **kwargs):
         self.forms = add_good_form_group()
         self.action = post_goods
 
     def on_submission(self, request, **kwargs):
-        self.forms = add_good_form_group(request.POST.copy().get("holds_pv_grading"))
+        pv_grading = request.POST.copy().get("is_pv_graded", "").lower() == "yes"
+        self.forms = add_good_form_group(pv_grading)
+        if (int(self.request.POST.get("form_pk")) == 0) and pv_grading:
+            self.action = self.actions[0]
 
     def get_success_url(self):
         return reverse_lazy("goods:add_document", kwargs={"pk": self.get_validated_data()["good"]["id"]})
@@ -174,7 +180,7 @@ class RaiseCLCPVQuery(SingleFormView):
         good, _ = get_good(request, self.object_pk)
 
         raise_a_clc_query = "unsure" == good["is_good_controlled"]["key"]
-        raise_a_pv_query = "grading_required" == good["holds_pv_grading"]
+        raise_a_pv_query = "grading_required" == good["is_pv_graded"]["key"]
 
         self.form = raise_a_pv_or_clc_query(self.object_pk, raise_a_clc_query, raise_a_pv_query)
         self.action = raise_clc_query
@@ -223,7 +229,7 @@ class CheckDocumentGrading(SingleFormView):
         if self.request.POST.get("has_document_to_upload") == "no":
             good = self.get_validated_data()["good"]
             raise_a_clc_query = "unsure" == good["is_good_controlled"]["key"]
-            raise_a_pv_query = "grading_required" == good["holds_pv_grading"]
+            raise_a_pv_query = "grading_required" == good["is_pv_graded"]["key"]
 
             if not (raise_a_clc_query or raise_a_pv_query):
                 url = "goods:good"
@@ -264,7 +270,7 @@ class AttachDocuments(TemplateView):
             return error_page(request, strings.goods.AttachDocumentPage.UPLOAD_FAILURE_ERROR)
 
         raise_a_clc_query = "unsure" == good["is_good_controlled"]["key"]
-        raise_a_pv_query = "grading_required" == good["holds_pv_grading"]
+        raise_a_pv_query = "grading_required" == good["is_pv_graded"]["key"]
 
         if not (raise_a_clc_query or raise_a_pv_query):
             return redirect(reverse("goods:good", kwargs={"pk": good_id}))

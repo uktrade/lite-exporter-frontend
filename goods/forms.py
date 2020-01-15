@@ -74,7 +74,7 @@ def add_goods_questions(application_pk=None):
             ),
             RadioButtons(
                 title="Does the product hold a PV grading?",
-                name="holds_pv_grading",
+                name="is_pv_graded",
                 options=[
                     Option(key="yes", value="Yes"),
                     Option(key="no", value="No"),
@@ -125,8 +125,8 @@ def pv_details_form():
     )
 
 
-def add_good_form_group(holds_pv_grading: str = None):
-    return FormGroup([add_goods_questions(), conditional(holds_pv_grading == "yes", pv_details_form())])
+def add_good_form_group(is_pv_graded: bool = None):
+    return FormGroup([add_goods_questions(), conditional(is_pv_graded, pv_details_form())])
 
 
 def raise_a_pv_or_clc_query(good_id, raise_a_clc: bool, raise_a_pv: bool):

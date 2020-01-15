@@ -95,7 +95,7 @@
 			{% endif %}
 
 			{% if good.status.key == 'draft' %}
-				{% if good.is_good_controlled.key == "unsure" or good.holds_pv_grading == "grading_required" %}
+				{% if good.is_good_controlled.key == "unsure" or good.is_pv_graded.key == "grading_required" %}
 					{%if documents or good.missing_document_reason.key  %}
 						<div class="govuk-inset-text">
 							If you're unsure about whether your product is controlled or not, you can <a href="{% url 'goods:raise_goods_query' good.id %}" class="govuk-link govuk-link--no-visited-state">raise a query</a> to
@@ -141,10 +141,10 @@
 						PV graded
 					</dt>
 					<dd class="govuk-summary-list__value">
-						{{ good.holds_pv_grading }}
+						{{ good.is_pv_graded.value }}
 					</dd>
 				</div>
-				{% if good.holds_pv_grading == "yes" %}
+				{% if good.is_pv_graded.key == "yes" %}
 					<div class="govuk-summary-list__row">
 						<dt class="govuk-summary-list__key">
 							PV grading
