@@ -303,14 +303,3 @@ def delete_good_form(good):
             ),
         ],
     )
-
-
-def raise_query_confirmation_form(overview_url):
-    return confirm_form(
-        title="do you wish to raise a query?",
-        description="Would you like to raise a query at this current time? "
-        "If a query is raised you will not be able to edit the good",
-        confirmation_name="confirm_raise_query",
-        back_link_text="back",
-        back_url=overview_url,
-    )

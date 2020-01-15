@@ -78,6 +78,6 @@ class Permissions:
 
 class CaseType:
     APPLICATION = "application"
-    CLC_QUERY = "clc_query"
+    GOODS_QUERY = "goods_query"
     EUA_QUERY = "end_user_advisory_query"
     HMRC_QUERY = "hmrc_query"

@@ -98,7 +98,7 @@
 				{% if good.is_good_controlled.key == "unsure" or good.holds_pv_grading == "grading_required" %}
 					{%if documents or good.missing_document_reason.key  %}
 						<div class="govuk-inset-text">
-							If you're unsure about whether your product is controlled or not, you can <a href="{% url 'goods:raise_clc_query' good.id %}" class="govuk-link govuk-link--no-visited-state">raise a query</a> to
+							If you're unsure about whether your product is controlled or not, you can <a href="{% url 'goods:raise_goods_query' good.id %}" class="govuk-link govuk-link--no-visited-state">raise a query</a> to
 							get help from ECJU.
 						</div>
 						<br>
