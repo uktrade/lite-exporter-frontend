@@ -35,7 +35,9 @@
 					{{ application.reference_code }}
 				</dd>
 				<dd class="govuk-summary-list__actions">
-					<button class="lite-button--link" href="#" id="button-copy-reference-code">Copy reference code</button>
+					<button class="lite-button--link" href="#" id="button-copy-reference-code">
+						{% lcs "applications.ApplicationSummaryPage.COPY_REFERENCE_CODE" %}
+					</button>
 				</dd>
 			</div>
 			<div class="govuk-summary-list__row">
@@ -195,7 +197,7 @@
 		    dummy.select();
 		    document.execCommand("copy");
 		    document.body.removeChild(dummy);
-			$("#button-copy-reference-code").text("Copied")
+			$("#button-copy-reference-code").text("{% lcs "applications.ApplicationSummaryPage.COPIED" %}")
 		}
 
 		$("#button-copy-reference-code").click(function() {
