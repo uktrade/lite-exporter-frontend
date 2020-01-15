@@ -9,12 +9,12 @@
 {% block body %}
 	<div class="lite-app-bar">
 		<div class="lite-app-bar__content">
-			<h1 class="govuk-heading-l">{% block title %}{% lcs 'third_parties.ThirdPartiesPage.TITLE' %}{% endblock %}</h1>
+			<h1 class="govuk-heading-l">{% block title %}{% lcs 'applications.ThirdPartiesPage.TITLE' %}{% endblock %}</h1>
 		</div>
         {% if application.status.key in 'applicant_editing,draft' %}
 		<div class="lite-app-bar__controls">
 			<a href="{% url 'applications:add_third_party' application.id %}" class="govuk-button" draggable="false" role="button">
-				{% lcs 'third_parties.ThirdPartiesPage.ADD' %}
+				{% lcs 'applications.ThirdPartiesPage.ADD' %}
 			</a>
 		</div>
         {% endif %}
@@ -24,12 +24,12 @@
 		<table class="govuk-table">
 			<thead class="govuk-table__head">
 				<tr class="govuk-table__row">
-					<th class="govuk-table__header" scope="col">{% lcs 'third_parties.ThirdPartiesPage.Variables.NAME' %}</th>
-					<th class="govuk-table__header" scope="col">{% lcs 'third_parties.ThirdPartiesPage.Variables.TYPE' %}</th>
-					<th class="govuk-table__header" scope="col">{% lcs 'third_parties.ThirdPartiesPage.Variables.WEBSITE' %}</th>
-					<th class="govuk-table__header" scope="col">{% lcs 'third_parties.ThirdPartiesPage.Variables.ADDRESS' %}</th>
-					<th class="govuk-table__header" scope="col">{% lcs 'third_parties.ThirdPartiesPage.Variables.COUNTRY' %}</th>
-		            <th class="govuk-table__header" scope="col">{% lcs 'third_parties.ThirdPartiesPage.Variables.DOCUMENT' %}</th>
+					<th class="govuk-table__header" scope="col">{% lcs 'applications.ThirdPartiesPage.Variables.NAME' %}</th>
+					<th class="govuk-table__header" scope="col">{% lcs 'applications.ThirdPartiesPage.Variables.TYPE' %}</th>
+					<th class="govuk-table__header" scope="col">{% lcs 'applications.ThirdPartiesPage.Variables.WEBSITE' %}</th>
+					<th class="govuk-table__header" scope="col">{% lcs 'applications.ThirdPartiesPage.Variables.ADDRESS' %}</th>
+					<th class="govuk-table__header" scope="col">{% lcs 'applications.ThirdPartiesPage.Variables.COUNTRY' %}</th>
+		            <th class="govuk-table__header" scope="col">{% lcs 'applications.ThirdPartiesPage.Variables.DOCUMENT' %}</th>
 					<th class="govuk-table__header" scope="col"></th>
 				</tr>
 			</thead>
@@ -70,6 +70,6 @@
 			</tbody>
 		</table>
 	{% else %}
-		<p class="govuk-caption-l">{% lcs 'third_parties.ThirdPartiesPage.NO_RESULTS' %}</p>
+		<p class="govuk-caption-l">{% lcs 'applications.ThirdPartiesPage.NO_RESULTS' %}</p>
 	{% endif %}
 {% endblock %}
