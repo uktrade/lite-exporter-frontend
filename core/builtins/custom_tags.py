@@ -104,15 +104,6 @@ def highlight_text(value: str, term: str) -> str:
     return value
 
 
-@register.filter()
-def reference_code(value):
-    """
-    Converts ten digit string to two five digit strings hyphenated
-    """
-    value = str(value)
-    return value[:5] + "-" + value[5:]
-
-
 @register.filter
 @mark_safe
 def pretty_json(value):
