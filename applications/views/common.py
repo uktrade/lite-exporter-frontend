@@ -320,7 +320,7 @@ class Submit(TemplateView):
 class ApplicationSubmitSuccessPage(TemplateView):
     def get(self, request, **kwargs):
         """
-        Display a success page
+        Display application submit success page
         This page is accessed one of two ways:
         1. Successful submission of an application
         2. From a bookmark or link - this is intentional as some users will want to
