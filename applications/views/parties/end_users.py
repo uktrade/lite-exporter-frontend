@@ -45,7 +45,7 @@ class SetEndUser(SetParty):
             action=post_end_user,
             strings=EndUserForm,
             multiple_allowed=False,
-            copy_existing=copy_existing
+            copy_existing=copy_existing,
         )
 
 
