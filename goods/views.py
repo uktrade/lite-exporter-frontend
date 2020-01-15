@@ -40,6 +40,7 @@ from goods.services import (
     raise_clc_query,
     post_good_document_sensitivity,
     validate_good,
+    post_good_with_pv_grading,
 )
 from lite_content.lite_exporter_frontend.goods import AttachDocumentForm
 from lite_forms.views import SingleFormView, MultiFormView
@@ -158,7 +159,7 @@ class GoodsDetail(TemplateView):
 
 
 class AddGood(MultiFormView):
-    actions = [validate_good, post_goods]
+    actions = [validate_good, post_goods, post_good_with_pv_grading]
 
     def init(self, request, **kwargs):
         self.forms = add_good_form_group()
@@ -167,7 +168,9 @@ class AddGood(MultiFormView):
     def on_submission(self, request, **kwargs):
         pv_grading = request.POST.copy().get("is_pv_graded", "").lower() == "yes"
         self.forms = add_good_form_group(pv_grading)
-        if (int(self.request.POST.get("form_pk")) == 0) and pv_grading:
+        if int(self.request.POST.get("form_pk")) == 1:
+            self.action = self.actions[2]
+        elif (int(self.request.POST.get("form_pk")) == 0) and pv_grading:
             self.action = self.actions[0]
 
     def get_success_url(self):

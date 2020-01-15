@@ -24,19 +24,15 @@ def get_good(request, pk):
 
 
 def post_goods(request, json):
-    if json.get("good_description", False) or json.get("good_description") == "":
-        post_data = remove_prefix(json, "good_")
-    else:
-        post_data = json
-
-    # Convert date
-    date_field = "pv_grading_date_of_issue"
-    year = json.get(date_field + "year", "")
-    month = json.get(date_field + "month", "")
-    day = json.get(date_field + "day", "")
-    post_data["pv_grading_date_of_issue"] = f"{year}-{month}-{day}"
+    # if json.get("good_description", False) or json.get("good_description") == "":
+    #     post_data = remove_prefix(json, "good_")
+    # else:
+    post_data = json
 
     data = post(request, GOODS_URL, post_data)
+
+    if data.status_code == 200:
+        data.json().get("good"), data.status_code
 
     return data.json(), data.status_code
 
@@ -45,6 +41,32 @@ def validate_good(request, json):
     post_data = json
 
     post_data["validate_only"] = True
+    data = post_goods(request, post_data)
+
+    return data
+
+
+def post_good_with_pv_grading(request, json):
+    post_data = json
+
+    # Convert date
+    date_field = "date_of_issue"
+    year = json.get(date_field + "year", "")
+    month = json.get(date_field + "month", "")
+    day = json.get(date_field + "day", "")
+    date_of_issue = f"{year}-{month}-{day}"
+
+    post_data["pv_grading_details"] = {
+        "grading": post_data["grading"],
+        "custom_grading": post_data["custom_grading"],
+        "prefix": post_data["prefix"],
+        "suffix": post_data["suffix"],
+        "issuing_authority": post_data["issuing_authority"],
+        "reference": post_data["reference"],
+        "date_of_issue": date_of_issue,
+        "comment": post_data["comment"],
+    }
+
     data = post_goods(request, post_data)
 
     return data
