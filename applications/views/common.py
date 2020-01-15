@@ -148,7 +148,6 @@ class ApplicationDetail(TemplateView):
 
         context = {
             "application": self.application,
-            "title": self.application["name"],
             "type": self.view_type,
             "answers": {**convert_application_to_check_your_answers(self.application)},
             "status_is_read_only": status_props["is_read_only"],
