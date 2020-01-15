@@ -8,6 +8,7 @@ from conf.constants import (
     CONTROL_LIST_CLASSIFICATIONS_URL,
     DOCUMENT_SENSITIVITY_URL,
     MISSING_DOCUMENT_REASONS_URL,
+    GENERATED_DOCUMENTS_URL,
 )
 from core.helpers import remove_prefix
 
@@ -54,6 +55,11 @@ def delete_good(request, pk):
 
 def raise_clc_query(request, json):
     data = post(request, CONTROL_LIST_CLASSIFICATIONS_URL, json)
+    return data.json(), data.status_code
+
+
+def get_clc_query_generated_documents(request, pk):
+    data = get(request, CONTROL_LIST_CLASSIFICATIONS_URL + pk + GENERATED_DOCUMENTS_URL)
     return data.json(), data.status_code
 
 

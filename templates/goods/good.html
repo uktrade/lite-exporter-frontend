@@ -221,6 +221,9 @@
 			                    </div>
 						    {% endif %}
 			            </a>
+						<a href="{% url 'goods:good_detail' good.id 'ecju-generated-documents' %}" class="lite-tabs__tab {% if type == 'ecju-generated-documents' %}lite-tabs__tab--selected{% endif %}" id="link-ecju-generated-documents">
+			                ECJU Generated Documents
+			            </a>
 		            </div>
 		        </div>
 		        {% if type == 'case-notes' and good.query.id %}
@@ -228,6 +231,8 @@
 			        {% include "includes/case-notes.html" with post_url=post_url %}
 		        {% elif type == 'ecju-queries'%}
 			        {% include "goods/tabs/ecju-queries.html" %}
+				{% elif type == 'ecju-generated-documents'%}
+			        {% include "goods/tabs/ecju-generated-documents.html" %}
 		        {% endif %}
 		    {% endif %}
 		</div>
