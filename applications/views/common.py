@@ -317,7 +317,7 @@ class Submit(TemplateView):
         return render(request, "applications/submit.html", context)
 
 
-class SuccessPage(TemplateView):
+class ApplicationSuccessPage(TemplateView):
     def get(self, request, **kwargs):
         """
         Display a success page
