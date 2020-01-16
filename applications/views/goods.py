@@ -18,17 +18,19 @@ from applications.services import (
 from core.helpers import convert_dict_to_query_params
 from core.services import get_units
 
-from goods.forms import add_goods_questions, document_grading_form, attach_documents_form
+from goods.forms import add_goods_questions, document_grading_form, attach_documents_form, add_good_form_group
 from goods.helpers import good_document_upload
 from goods.services import (
     get_goods,
     get_good,
     post_goods,
     post_good_document_sensitivity,
+    validate_good,
+    post_good_with_pv_grading,
 )
 from lite_content.lite_exporter_frontend import strings
 from lite_forms.generators import error_page, form_page
-from lite_forms.views import SingleFormView
+from lite_forms.views import SingleFormView, MultiFormView
 
 
 class DraftGoodsList(TemplateView):
@@ -79,11 +81,22 @@ class GoodsList(TemplateView):
         return render(request, "applications/goods/preexisting.html", context)
 
 
-class AddGood(SingleFormView):
+class AddGood(MultiFormView):
+    actions = [validate_good, post_goods, post_good_with_pv_grading]
+
     def init(self, request, **kwargs):
-        self.draft_pk = kwargs["pk"]
-        self.form = add_goods_questions(self.draft_pk)
+        self.draft_pk = str(kwargs["pk"])
+        self.forms = add_good_form_group(draft_pk=self.draft_pk)
         self.action = post_goods
+
+    def on_submission(self, request, **kwargs):
+        self.draft_pk = str(kwargs["pk"])
+        pv_grading = request.POST.copy().get("is_pv_graded", "").lower() == "yes"
+        self.forms = add_good_form_group(pv_grading, draft_pk=self.draft_pk)
+        if int(self.request.POST.get("form_pk")) == 1:
+            self.action = self.actions[2]
+        elif (int(self.request.POST.get("form_pk")) == 0) and pv_grading:
+            self.action = self.actions[0]
 
     def get_success_url(self):
         return reverse_lazy(

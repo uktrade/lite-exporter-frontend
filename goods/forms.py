@@ -78,7 +78,9 @@ def add_goods_questions(application_pk=None):
                 options=[
                     Option(key="yes", value=CreateGoodForm.IsGraded.YES),
                     Option(key="no", value=CreateGoodForm.IsGraded.NO),
-                    Option(key="grading_required", value=CreateGoodForm.IsGraded.RAISE_QUERY),
+                    conditional(
+                        not application_pk, Option(key="grading_required", value=CreateGoodForm.IsGraded.RAISE_QUERY)
+                    ),
                 ],
             ),
         ],
@@ -126,8 +128,8 @@ def pv_details_form():
     )
 
 
-def add_good_form_group(is_pv_graded: bool = None):
-    return FormGroup([add_goods_questions(), conditional(is_pv_graded, pv_details_form())])
+def add_good_form_group(is_pv_graded: bool = None, draft_pk: str = None):
+    return FormGroup([add_goods_questions(draft_pk), conditional(is_pv_graded, pv_details_form())])
 
 
 def edit_good_detail_form(good_id):
