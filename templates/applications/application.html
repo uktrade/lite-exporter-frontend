@@ -2,7 +2,7 @@
 
 {% block back_link %}
     <a href="{% url 'applications:applications' %}" id="back-link" class="govuk-back-link">
-		Back
+		{% lcs "applications.ApplicationPage.BACK" %}
 	</a>
 {% endblock %}
 
@@ -137,7 +137,7 @@
 			<h2 class="govuk-heading-m">{{ key }}</h2>
 			<div>
 				{% if not value %}
-					<p class="govuk-caption-m">You haven't added any information for this section.</p>
+					<p class="govuk-caption-m">{% lcs "applications.ApplicationPage.NO_INFORMATION_PROVIDED" %}</p>
 				{% elif value|classname == 'str' %}
 					<dl class="govuk-summary-list">
 						<div class="govuk-summary-list__row">
