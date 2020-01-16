@@ -36,10 +36,11 @@ from lite_forms.components import (
     FormGroup,
     SideBySideSection,
     HelpSection,
+    Heading,
 )
 from lite_forms.generators import confirm_form
 from lite_forms.helpers import conditional
-from lite_forms.styles import ButtonStyle
+from lite_forms.styles import ButtonStyle, HeadingStyle
 
 
 def add_goods_questions(application_pk=None):
@@ -103,16 +104,20 @@ def pv_details_form():
         title=GoodGradingForm.TITLE,
         description=GoodGradingForm.DESCRIPTION,
         questions=[
-            SideBySideSection(
-                questions=[
+            Heading("PV grading", HeadingStyle.M),
+            Group(
+                name="",
+                components=[
                     TextInput(title=GoodGradingForm.PREFIX, name="prefix", optional=True),
                     Select(
                         options=get_pv_gradings(request=None, convert_to_options=True),
                         title=GoodGradingForm.GRADING,
                         name="grading",
+                        optional=True,
                     ),
                     TextInput(title=GoodGradingForm.SUFFIX, name="suffix", optional=True),
-                ]
+                ],
+                classes=["app-pv-grading-inputs"],
             ),
             TextInput(title=GoodGradingForm.OTHER_GRADING, name="custom_grading", optional=True),
             TextInput(title=GoodGradingForm.ISSUING_AUTHORITY, name="issuing_authority"),

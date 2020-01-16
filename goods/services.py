@@ -64,7 +64,6 @@ def post_good_with_pv_grading(request, json):
         "issuing_authority": post_data["issuing_authority"],
         "reference": post_data["reference"],
         "date_of_issue": date_of_issue,
-        "comment": post_data["comment"],
     }
 
     data = post_goods(request, post_data)
