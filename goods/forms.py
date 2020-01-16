@@ -1,8 +1,5 @@
 from django.urls import reverse, reverse_lazy
 
-from core.services import get_control_list_entries
-from goods.helpers import good_summary
-from goods.services import get_document_missing_reasons
 from lite_content.lite_exporter_frontend import generic
 from lite_content.lite_exporter_frontend.goods import (
     CreateGoodForm,
@@ -12,6 +9,7 @@ from lite_content.lite_exporter_frontend.goods import (
     AttachDocumentForm,
     RespondToQueryForm,
     GoodsList,
+    GoodGradingForm,
 )
 
 from core.services import get_control_list_entries
@@ -36,6 +34,8 @@ from lite_forms.components import (
     Group,
     Breadcrumbs,
     FormGroup,
+    SideBySideSection,
+    HelpSection,
 )
 from lite_forms.generators import confirm_form
 from lite_forms.helpers import conditional
@@ -44,7 +44,7 @@ from lite_forms.styles import ButtonStyle
 
 def add_goods_questions(application_pk=None):
     return Form(
-        title=conditional(application_pk, CreateGoodForm.TITLE, "Add a product to your organisation"),
+        title=conditional(application_pk, CreateGoodForm.TITLE_APPLICATION, CreateGoodForm.TITLE_GOODS_LIST),
         questions=[
             TextArea(
                 title=CreateGoodForm.Description.TITLE,
@@ -52,6 +52,7 @@ def add_goods_questions(application_pk=None):
                 name="description",
                 extras={"max_length": 280},
             ),
+            TextInput(title=CreateGoodForm.PartNumber.TITLE, name="part_number", optional=True),
             RadioButtons(
                 title=CreateGoodForm.IsControlled.TITLE,
                 description=conditional(
@@ -63,7 +64,6 @@ def add_goods_questions(application_pk=None):
                     Option(key="no", value=CreateGoodForm.IsControlled.NO),
                     conditional(not application_pk, Option(key="unsure", value=CreateGoodForm.IsControlled.UNSURE)),
                 ],
-                classes=["govuk-radios--inline"],
             ),
             control_list_entry_question(
                 control_list_entries=get_control_list_entries(None, convert_to_options=True),
@@ -73,16 +73,15 @@ def add_goods_questions(application_pk=None):
                 inset_text=False,
             ),
             RadioButtons(
-                title="Does the product hold a PV grading?",
+                title=CreateGoodForm.IsGraded.TITLE,
+                description=CreateGoodForm.IsGraded.DESCRIPTION,
                 name="is_pv_graded",
                 options=[
-                    Option(key="yes", value="Yes"),
-                    Option(key="no", value="No"),
-                    Option(key="grading_required", value="I need to have it issued"),
+                    Option(key="yes", value=CreateGoodForm.IsGraded.YES),
+                    Option(key="no", value=CreateGoodForm.IsGraded.NO),
+                    Option(key="grading_required", value=CreateGoodForm.IsGraded.RAISE_QUERY),
                 ],
-                classes=["govuk-radios--inline"],
             ),
-            TextInput(title=CreateGoodForm.PartNumber.TITLE, name="part_number", optional=True),
         ],
         back_link=conditional(
             application_pk,
@@ -101,24 +100,26 @@ def add_goods_questions(application_pk=None):
 
 def pv_details_form():
     return Form(
-        title="Add grading details",
-        description="By saving you are creating a query that cannot be altered",
+        title=GoodGradingForm.TITLE,
+        description=GoodGradingForm.DESCRIPTION,
         questions=[
-            pv_grading_question(
-                pv_gradings=get_pv_gradings(request=None, convert_to_options=True),
-                title="What is your product's PV grading?",
-                description="If your product is graded, enter its grading. For example, 'UK classified' or 'other'.",
-                name="grading",
-                inset_text=False,
+            SideBySideSection(
+                questions=[
+                    TextInput(title=GoodGradingForm.PREFIX, name="prefix", optional=True),
+                    Select(
+                        options=get_pv_gradings(request=None, convert_to_options=True),
+                        title=GoodGradingForm.GRADING,
+                        name="grading",
+                    ),
+                    TextInput(title=GoodGradingForm.SUFFIX, name="suffix", optional=True),
+                ]
             ),
-            TextInput(title="Custom grading if the above is 'other'", name="custom_grading"),
-            TextInput(title="Prefix", name="prefix", optional=True),
-            TextInput(title="Suffix", name="suffix", optional=True),
-            TextInput(title="Issuing authority", name="issuing_authority"),
-            TextInput(title="Reference", name="reference"),
-            DateInput(title="Date of issue", prefix="date_of_issue"),
+            TextInput(title=GoodGradingForm.OTHER_GRADING, name="custom_grading", optional=True),
+            TextInput(title=GoodGradingForm.ISSUING_AUTHORITY, name="issuing_authority"),
+            TextInput(title=GoodGradingForm.REFERENCE, name="reference"),
+            DateInput(title=GoodGradingForm.DATE_OF_ISSUE, prefix="date_of_issue"),
         ],
-        default_button_name="Save",
+        default_button_name=GoodGradingForm.BUTTON,
     )
 
 
