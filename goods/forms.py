@@ -101,7 +101,7 @@ def add_goods_questions(application_pk=None):
 
 def pv_details_form():
     return Form(
-        title="Create a query for this product",
+        title="Add grading details",
         description="By saving you are creating a query that cannot be altered",
         questions=[
             pv_grading_question(
@@ -117,7 +117,6 @@ def pv_details_form():
             TextInput(title="Issuing authority", name="issuing_authority"),
             TextInput(title="Reference", name="reference"),
             DateInput(title="Date of issue", prefix="date_of_issue"),
-            TextArea(title="Comment", description="", name="comment", extras={"max_length": 280,}, optional=True,),
         ],
         default_button_name="Save",
     )
@@ -135,17 +134,17 @@ def raise_a_pv_or_clc_query(good_id, raise_a_clc: bool, raise_a_pv: bool):
             TextInput(
                 title=CLCQueryForm.CLCCode.TITLE,
                 description=CLCQueryForm.CLCCode.DESCRIPTION,
-                name="not_sure_details_control_code",
+                name="clc_control_code",
                 optional=True,
             ),
-            TextArea(title=CLCQueryForm.Additional.DESCRIPTION, name="not_sure_details_details", optional=True,),
+            TextArea(title=CLCQueryForm.Additional.DESCRIPTION, name="clc_raised_reasons", optional=True,),
         ]
 
     if raise_a_pv:
         questions += [
             TextArea(
                 title="Please enter details of why you need a PV grading",
-                name="pv_grading_additional_information",
+                name="pv_grading_raised_reasons",
                 optional=True,
             ),
         ]
