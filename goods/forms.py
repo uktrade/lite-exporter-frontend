@@ -3,7 +3,7 @@ from django.urls import reverse, reverse_lazy
 from lite_content.lite_exporter_frontend import generic
 from lite_content.lite_exporter_frontend.goods import (
     CreateGoodForm,
-    CLCQueryForm,
+    GoodsQueryForm,
     EditGoodForm,
     DocumentSensitivityForm,
     AttachDocumentForm,
@@ -131,28 +131,32 @@ def raise_a_pv_or_clc_query(good_id, raise_a_clc: bool, raise_a_pv: bool):
     questions = []
 
     if raise_a_clc:
+        if GoodsQueryForm.CLCQuery.TITLE:
+            questions += [
+                HTMLBlock(html=f'<h2 class="govuk-heading-m">{GoodsQueryForm.CLCQuery.TITLE}</h2>'),
+            ]
         questions += [
             TextInput(
-                title=CLCQueryForm.CLCCode.TITLE,
-                description=CLCQueryForm.CLCCode.DESCRIPTION,
+                title=GoodsQueryForm.CLCQuery.Code.TITLE,
+                description=GoodsQueryForm.CLCQuery.Code.DESCRIPTION,
                 name="clc_control_code",
                 optional=True,
             ),
-            TextArea(title=CLCQueryForm.Additional.DESCRIPTION, name="clc_raised_reasons", optional=True,),
+            TextArea(title=GoodsQueryForm.CLCQuery.Details.TITLE, name="clc_raised_reasons", optional=True,),
         ]
 
     if raise_a_pv:
+        if GoodsQueryForm.PVGrading.TITLE:
+            questions += [
+                HTMLBlock(html=f'<h2 class="govuk-heading-m">{GoodsQueryForm.PVGrading.TITLE}</h2>'),
+            ]
         questions += [
-            TextArea(
-                title="Please enter details of why you need a PV grading",
-                name="pv_grading_raised_reasons",
-                optional=True,
-            ),
+            TextArea(title=GoodsQueryForm.PVGrading.Details.TITLE, name="pv_grading_raised_reasons", optional=True,),
         ]
 
     return Form(
-        title="Create a query for this product",
-        description="By saving you are creating a query that cannot be altered",
+        title=GoodsQueryForm.TITLE,
+        description=GoodsQueryForm.DESCRIPTION,
         questions=questions,
         back_link=BackLink("Back to product", reverse("goods:good", kwargs={"pk": good_id})),
         default_button_name="Save",
