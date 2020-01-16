@@ -30,7 +30,6 @@ class EndUsersList(TemplateView):
         end_users = get_end_user_advisories(request)
 
         context = {
-            "title": "End user advisories",
             "end_users": end_users,
         }
         return render(request, "end-users/end-users.html", context)
