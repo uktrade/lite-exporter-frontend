@@ -19,7 +19,7 @@ from applications.services import (
 from core.helpers import convert_dict_to_query_params
 from core.services import get_control_list_entry
 from goods.forms import (
-    edit_form,
+    edit_good_detail_form,
     attach_documents_form,
     respond_to_query_form,
     ecju_query_respond_confirmation_form,
@@ -27,12 +27,13 @@ from goods.forms import (
     document_grading_form,
     raise_a_pv_or_clc_query,
     add_good_form_group,
+    edit_good_form_group,
 )
 from goods.services import (
     get_goods,
     post_goods,
     get_good,
-    update_good,
+    edit_good,
     delete_good,
     get_good_documents,
     get_good_document,
@@ -41,6 +42,8 @@ from goods.services import (
     post_good_document_sensitivity,
     validate_good,
     post_good_with_pv_grading,
+    validate_edit_good,
+    edit_good_with_pv_grading,
 )
 from lite_content.lite_exporter_frontend.goods import AttachDocumentForm
 from lite_forms.views import SingleFormView, MultiFormView
@@ -190,26 +193,32 @@ class RaiseCLCPVQuery(SingleFormView):
         self.success_url = reverse_lazy("goods:good", kwargs={"pk": self.object_pk})
 
 
-class EditGood(TemplateView):
-    good_id = None
-    form = None
+class EditGood(MultiFormView):
+    actions = [validate_edit_good, edit_good, edit_good_with_pv_grading]
 
-    def dispatch(self, request, *args, **kwargs):
-        self.good_id = str(kwargs["pk"])
-        self.form = edit_form(self.good_id)
-        return super(EditGood, self).dispatch(request, *args, **kwargs)
+    def init(self, request, **kwargs):
+        self.object_pk = str(kwargs["pk"])
+        self.data = get_good(request, self.object_pk)[0]
+        self.forms = edit_good_form_group(self.object_pk)
+        self.action = edit_good
 
-    def get(self, request, **kwargs):
-        data, _ = get_good(request, self.good_id)
-        return form_page(request, self.form, data)
+    def on_submission(self, request, **kwargs):
+        pv_grading = request.POST.copy().get("is_pv_graded", "").lower() == "yes"
+        self.forms = edit_good_form_group(self.object_pk, pv_grading)
+        if int(self.request.POST.get("form_pk")) == 1:
+            self.action = self.actions[2]
+        elif (int(self.request.POST.get("form_pk")) == 0) and pv_grading:
+            self.action = self.actions[0]
 
-    def post(self, request, **kwargs):
-        data, status_code = update_good(request, self.good_id, request.POST)
+    def get_data(self):
+        data = self.data
+        if data.get("pv_grading_details", False):
+            for k, v in data["pv_grading_details"].items():
+                data[k] = v
+        return data
 
-        if status_code == 400:
-            return form_page(request, self.form, request.POST, errors=data["errors"])
-
-        return redirect(reverse_lazy("goods:good", kwargs={"pk": self.good_id}))
+    def get_success_url(self):
+        return reverse_lazy("goods:good", kwargs={"pk": self.object_pk})
 
 
 class DeleteGood(TemplateView):

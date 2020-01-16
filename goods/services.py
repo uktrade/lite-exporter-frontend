@@ -71,9 +71,41 @@ def post_good_with_pv_grading(request, json):
     return data
 
 
-def update_good(request, pk, json):
+def edit_good(request, pk, json):
     data = put(request, GOODS_URL + pk + "/", json)
     return data.json(), data.status_code
+
+
+def validate_edit_good(request, pk, json):
+    post_data = json
+
+    post_data["validate_only"] = True
+    return edit_good(request, pk, post_data)
+
+
+def edit_good_with_pv_grading(request, pk, json):
+    post_data = json
+
+    # Convert date
+    date_field = "date_of_issue"
+    year = json.get(date_field + "year", "")
+    month = json.get(date_field + "month", "")
+    day = json.get(date_field + "day", "")
+    date_of_issue = f"{year}-{month}-{day}"
+
+    post_data["pv_grading_details"] = {
+        "grading": post_data["grading"],
+        "custom_grading": post_data["custom_grading"],
+        "prefix": post_data["prefix"],
+        "suffix": post_data["suffix"],
+        "issuing_authority": post_data["issuing_authority"],
+        "reference": post_data["reference"],
+        "date_of_issue": date_of_issue,
+    }
+
+    data = edit_good(request, pk, post_data)
+
+    return data
 
 
 def delete_good(request, pk):

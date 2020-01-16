@@ -34,8 +34,6 @@ from lite_forms.components import (
     Group,
     Breadcrumbs,
     FormGroup,
-    SideBySideSection,
-    HelpSection,
     Heading,
 )
 from lite_forms.generators import confirm_form
@@ -132,43 +130,7 @@ def add_good_form_group(is_pv_graded: bool = None):
     return FormGroup([add_goods_questions(), conditional(is_pv_graded, pv_details_form())])
 
 
-def raise_a_pv_or_clc_query(good_id, raise_a_clc: bool, raise_a_pv: bool):
-    questions = []
-
-    if raise_a_clc:
-        if GoodsQueryForm.CLCQuery.TITLE:
-            questions += [
-                HTMLBlock(html=f'<h2 class="govuk-heading-m">{GoodsQueryForm.CLCQuery.TITLE}</h2>'),
-            ]
-        questions += [
-            TextInput(
-                title=GoodsQueryForm.CLCQuery.Code.TITLE,
-                description=GoodsQueryForm.CLCQuery.Code.DESCRIPTION,
-                name="clc_control_code",
-                optional=True,
-            ),
-            TextArea(title=GoodsQueryForm.CLCQuery.Details.TITLE, name="clc_raised_reasons", optional=True,),
-        ]
-
-    if raise_a_pv:
-        if GoodsQueryForm.PVGrading.TITLE:
-            questions += [
-                HTMLBlock(html=f'<h2 class="govuk-heading-m">{GoodsQueryForm.PVGrading.TITLE}</h2>'),
-            ]
-        questions += [
-            TextArea(title=GoodsQueryForm.PVGrading.Details.TITLE, name="pv_grading_raised_reasons", optional=True,),
-        ]
-
-    return Form(
-        title=GoodsQueryForm.TITLE,
-        description=GoodsQueryForm.DESCRIPTION,
-        questions=questions,
-        back_link=BackLink("Back to product", reverse("goods:good", kwargs={"pk": good_id})),
-        default_button_name="Save",
-    )
-
-
-def edit_form(good_id):
+def edit_good_detail_form(good_id):
     return Form(
         title=EditGoodForm.TITLE,
         description=EditGoodForm.DESCRIPTION,
@@ -177,8 +139,9 @@ def edit_form(good_id):
                 title=EditGoodForm.Description.TITLE,
                 description=EditGoodForm.Description.DESCRIPTION,
                 name="description",
-                extras={"max_length": 280,},
+                extras={"max_length": 280},
             ),
+            TextInput(title=EditGoodForm.PartNumber.TITLE, name="part_number", optional=True),
             RadioButtons(
                 title=EditGoodForm.IsControlled.TITLE,
                 description=EditGoodForm.IsControlled.DESCRIPTION,
@@ -188,7 +151,6 @@ def edit_form(good_id):
                     Option(key="no", value=EditGoodForm.IsControlled.NO),
                     Option(key="unsure", value=EditGoodForm.IsControlled.UNSURE),
                 ],
-                classes=["govuk-radios--inline"],
             ),
             control_list_entry_question(
                 control_list_entries=get_control_list_entries(None, convert_to_options=True),
@@ -197,7 +159,16 @@ def edit_form(good_id):
                 name="control_code",
                 inset_text=False,
             ),
-            TextInput(title=EditGoodForm.PartNumber.TITLE, name="part_number", optional=True),
+            RadioButtons(
+                title=CreateGoodForm.IsGraded.TITLE,
+                description=CreateGoodForm.IsGraded.DESCRIPTION,
+                name="is_pv_graded",
+                options=[
+                    Option(key="yes", value=CreateGoodForm.IsGraded.YES),
+                    Option(key="no", value=CreateGoodForm.IsGraded.NO),
+                    Option(key="grading_required", value=CreateGoodForm.IsGraded.RAISE_QUERY),
+                ],
+            ),
         ],
         buttons=[
             Button(EditGoodForm.Buttons.SAVE, "submit", ButtonStyle.DEFAULT),
@@ -209,7 +180,12 @@ def edit_form(good_id):
                 float_right=True,
             ),
         ],
+        back_link=BackLink("Back", reverse_lazy("goods:good", kwargs={"pk": good_id})),
     )
+
+
+def edit_good_form_group(good_id, is_pv_graded: bool = None):
+    return FormGroup([edit_good_detail_form(good_id), conditional(is_pv_graded, pv_details_form())])
 
 
 def document_grading_form(request, good_id):
@@ -255,6 +231,42 @@ def attach_documents_form(back_link):
         ],
         buttons=[Button(AttachDocumentForm.BUTTON, "submit", disable_double_click=True)],
         back_link=back_link,
+    )
+
+
+def raise_a_pv_or_clc_query(good_id, raise_a_clc: bool, raise_a_pv: bool):
+    questions = []
+
+    if raise_a_clc:
+        if GoodsQueryForm.CLCQuery.TITLE:
+            questions += [
+                HTMLBlock(html=f'<h2 class="govuk-heading-m">{GoodsQueryForm.CLCQuery.TITLE}</h2>'),
+            ]
+        questions += [
+            TextInput(
+                title=GoodsQueryForm.CLCQuery.Code.TITLE,
+                description=GoodsQueryForm.CLCQuery.Code.DESCRIPTION,
+                name="clc_control_code",
+                optional=True,
+            ),
+            TextArea(title=GoodsQueryForm.CLCQuery.Details.TITLE, name="clc_raised_reasons", optional=True,),
+        ]
+
+    if raise_a_pv:
+        if GoodsQueryForm.PVGrading.TITLE:
+            questions += [
+                HTMLBlock(html=f'<h2 class="govuk-heading-m">{GoodsQueryForm.PVGrading.TITLE}</h2>'),
+            ]
+        questions += [
+            TextArea(title=GoodsQueryForm.PVGrading.Details.TITLE, name="pv_grading_raised_reasons", optional=True,),
+        ]
+
+    return Form(
+        title=GoodsQueryForm.TITLE,
+        description=GoodsQueryForm.DESCRIPTION,
+        questions=questions,
+        back_link=BackLink("Back to product", reverse("goods:good", kwargs={"pk": good_id})),
+        default_button_name="Save",
     )
 
 
