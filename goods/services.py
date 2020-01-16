@@ -82,7 +82,7 @@ def delete_good(request, pk):
     return data.json(), data.status_code
 
 
-def raise_clc_query(request, pk, json):
+def raise_goods_query(request, pk, json):
     post_data = json
     post_data["good_id"] = pk
     data = post(request, GOODS_QUERY_URL, post_data)

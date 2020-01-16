@@ -37,7 +37,7 @@ from goods.services import (
     get_good_documents,
     get_good_document,
     delete_good_document,
-    raise_clc_query,
+    raise_goods_query,
     post_good_document_sensitivity,
     validate_good,
     post_good_with_pv_grading,
@@ -146,7 +146,7 @@ class GoodsDetail(TemplateView):
             if errors.get("text"):
                 error = errors.get("text")[0]
                 error = error.replace("This field", "Case note")
-                error = error.replace("this field", "the case note")  # TODO: Move to API
+                error = error.replace("this field", "the case note")
 
             else:
                 error_list = []
@@ -186,7 +186,7 @@ class RaiseCLCPVQuery(SingleFormView):
         raise_a_pv_query = "grading_required" == good["is_pv_graded"]["key"]
 
         self.form = raise_a_pv_or_clc_query(self.object_pk, raise_a_clc_query, raise_a_pv_query)
-        self.action = raise_clc_query
+        self.action = raise_goods_query
         self.success_url = reverse_lazy("goods:good", kwargs={"pk": self.object_pk})
 
 
