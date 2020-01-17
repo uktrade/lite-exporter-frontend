@@ -203,7 +203,7 @@
 		    dummy.select();
 		    document.execCommand("copy");
 		    document.body.removeChild(dummy);
-			$("#button-copy-reference-code").text("{% lcs "applications.ApplicationSummaryPage.COPIED" %}")
+			$("#button-copy-reference-code").css({opacity: 0}).text("{% lcs "applications.ApplicationSummaryPage.COPIED" %}").animate({opacity: 1}, 250);
 		}
 
 		$("#button-copy-reference-code").click(function() {
