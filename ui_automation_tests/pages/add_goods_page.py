@@ -16,6 +16,7 @@ class AddGoodPage(BasePage):
     # Add a good
     PART_NUMBER = "part_number"  # ID
     IS_CONTROLLED = "is_good_controlled-"  # Partial ID
+    IS_PV_GRADED = "is_pv_graded-"
     CONTROL_CODE = "control_code"  # ID
     DESCRIPTION = "description"  # ID
 
@@ -29,6 +30,10 @@ class AddGoodPage(BasePage):
     def select_is_your_good_controlled(self, option):
         # The only options accepted here are 'yes', 'no' and 'unsure'
         self.driver.find_element_by_id(self.IS_CONTROLLED + option.lower()).click()
+
+    def select_is_your_good_graded(self, option):
+        # The only options accepted here are 'yes', 'no' and 'grading_required'
+        self.driver.find_element_by_id(self.IS_PV_GRADED + option.lower()).click()
 
     def enter_control_code(self, code):
         control_code_tb = self.driver.find_element_by_id(self.CONTROL_CODE)

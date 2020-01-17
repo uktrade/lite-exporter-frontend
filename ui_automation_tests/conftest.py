@@ -262,10 +262,10 @@ def click_my_goods_link(driver):  # noqa
 
 @when(  # noqa
     parsers.parse(
-        'I add a good with description "{description}" controlled "{controlled}" control code "{control_code}" and part number "{part}"'
+        'I add a good with description "{description}" part number "{part}" controlled "{controlled}" control code "{control_code}" and graded "{graded}"'
     )
 )
-def add_new_good(driver, description, controlled, control_code, part, context):  # noqa
+def add_new_good(driver, description, part, controlled, control_code, graded, context):  # noqa
     good_part_needed = True
     add_goods_page = AddGoodPage(driver)
     date_time = utils.get_current_date_time_string()
@@ -280,13 +280,12 @@ def add_new_good(driver, description, controlled, control_code, part, context): 
         good_part_needed = False
     elif "empty" not in good_part:
         add_goods_page.enter_part_number(good_part)
-    if controlled.lower() == "unsure":
-        functions.click_submit(driver)
-    else:
+    if controlled.lower() == "yes":
         add_goods_page.enter_control_code(control_code)
-        functions.click_submit(driver)
     if good_part_needed:
         context.good_id_from_url = driver.current_url.split("/goods/")[1].split("/")[0]
+    add_goods_page.select_is_your_good_graded(graded)
+    functions.click_submit(driver)
 
 
 def get_file_upload_path(filename):  # noqa
