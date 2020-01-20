@@ -10,6 +10,7 @@ Feature: I want to edit and remove goods on the goods list
     When I click on goods link
     And I click add a good button
     And I add a good with description "123 pistol" controlled "Yes" control code "ML1a" and part number "321"
+    no pv
     Then I see good in goods list
     When I edit a good to description "edited" controlled "Yes" control code "ML1a" and part number "321"
     Then I see my edited good details in the good page
@@ -26,6 +27,9 @@ Feature: I want to edit and remove goods on the goods list
     And I upload file "file_for_doc_upload_test_1.txt" with description "This is a file I want to upload to show."
     And I raise a clc query control code "ML1a" description "I believe it is ML1a"
     Then I see the clc query in goods list
+    When I go to good from goods list
+    Then I see good information
+
 
   @LT_886_add_new_good_to_app @regression
   Scenario: Add a new good directly to a standard application
