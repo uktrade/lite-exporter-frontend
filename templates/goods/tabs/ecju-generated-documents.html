@@ -10,4 +10,12 @@
         </div>
         <hr class="lite-horizontal-separator">
     {% endfor %}
+{% else %}
+<div class="lite-information-text">
+	<span class="lite-information-text__icon" aria-hidden="true">!</span>
+	<p class="lite-information-text__text">
+		<span class="govuk-visually-hidden">{% lcs 'generic.NoticeComponent.INFORMATION' %}</span>
+		{% lcs 'goods.GoodPage.ECJUDocuments.NONE' %}
+	</p>
+</div>
 {% endif %}
