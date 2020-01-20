@@ -115,14 +115,15 @@ def a_new_good_has_been_added_to_the_application(driver):
 
 @when(
     parsers.parse(
-        'I add a new good with description "{description}" controlled "{controlled}" control code "{control_code}" and part number "{part_number}"'
+        'I add a new good with description "{description}" part number "{part_number}" controlled "{controlled}" control code "{control_code}" and graded "{graded}"'
     )
 )  # noqa
-def create_a_new_good_in_application(driver, description, controlled, control_code, part_number):
+def create_a_new_good_in_application(driver, description, part_number, controlled, control_code, graded):
     add_goods_page = AddGoodPage(driver)
     add_goods_page.enter_description_of_goods(description)
     add_goods_page.select_is_your_good_controlled(controlled)
     add_goods_page.enter_control_code(control_code)
+    add_goods_page.select_is_your_good_graded(graded)
     functions.click_submit(driver)
 
 

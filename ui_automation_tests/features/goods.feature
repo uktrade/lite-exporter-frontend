@@ -34,7 +34,7 @@ Feature: I want to edit and remove goods on the goods list
     And I click to manage goods on a standard application
     Then I see there are no goods on the application
     When I click Add a new good
-    And I add a new good with description "New good for application" controlled "Yes" control code "ML8a25b" and part number "P123"
+    And I add a new good with description "New good for application" part number "P123" controlled "Yes" control code "ML8a25b" and graded "no"
     And I confirm I can upload a document
     And I attach a document to the good with description "Test good spec 01"
     And I enter details for the new good on an application with value "99.98", quantity "13" and unit of measurement "Kilograms" and I click Continue
@@ -49,4 +49,5 @@ Feature: I want to edit and remove goods on the goods list
     And I select that I cannot attach a document
     Then I see ECJU helpline details
     When I select a valid missing document reason
+    When I click the back link
     Then My good is created
