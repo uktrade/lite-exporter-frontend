@@ -1,7 +1,5 @@
 from http import HTTPStatus
 
-from django.http import StreamingHttpResponse
-
 from conf.client import get, post, put, delete, get_file
 from conf.constants import (
     GOODS_URL,
