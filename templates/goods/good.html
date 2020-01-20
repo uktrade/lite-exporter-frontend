@@ -65,7 +65,7 @@
 							{% lcs 'goods.GoodPage.Query.REFERENCE' %}
 						</dt>
 						<dd class="govuk-summary-list__value">
-							{{ good.query.id|reference_code }}
+							{{ good.query.reference_code }}
 						</dd>
 					</div>
 					<div class="govuk-summary-list__row">
@@ -243,12 +243,11 @@
                                 <td class="govuk-table__cell govuk-table__cell--numeric">
                                     {% if document.safe == True %}
                                         <a class="govuk-link govuk-link--no-visited-state" href="{% url 'goods:document' pk=good.id file_pk=document.id %}">
-                                            <span class="govuk-visually-hidden">{% lcs 'Goods.Documents.DOWNLOAD_DOCUMENT' %}</span>
-                                            Download
+                                            {% lcs "goods.GoodPage.Document.DOWNLOAD" %}
                                         </a>
                                         {% if good.status.key == 'draft' %}
                                             <a href="{% url 'goods:delete_document' good.id document.id %}" class="govuk-link">
-                                                Delete
+                                                {% lcs "goods.GoodPage.Document.DELETE" %}
                                             </a>
                                         {% endif %}
                                     {% elif document.safe == False %}
