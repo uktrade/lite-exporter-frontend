@@ -48,6 +48,7 @@ CONTROL_LIST_ENTRIES_URL = STATIC_URL + "control-list-entries/"
 MISSING_DOCUMENT_REASONS_URL = STATIC_URL + "missing-document-reasons/"
 
 # Document URLs
+CASE_DOCUMENT_URL = DOCUMENTS_URL + "case/"
 DOWNLOAD_URL = "/download/"
 
 # Applications constants

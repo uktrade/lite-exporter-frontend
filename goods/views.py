@@ -42,7 +42,7 @@ from goods.services import (
     raise_clc_query,
     post_good_document_sensitivity,
     get_clc_query_generated_documents,
-    get_good_document_download,
+    get_case_document_download,
 )
 from goods.helpers import good_document_upload
 from lite_content.lite_exporter_frontend import strings
@@ -289,8 +289,8 @@ class Document(TemplateView):
 
 
 class DownloadDocument(TemplateView):
-    def get(self, request, pk, file_pk):
-        return get_good_document_download(request, good_pk=pk, file_pk=file_pk)
+    def get(self, request, query_pk, file_pk):
+        return get_case_document_download(request, case_pk=query_pk, file_pk=file_pk)
 
 
 class DeleteDocument(TemplateView):

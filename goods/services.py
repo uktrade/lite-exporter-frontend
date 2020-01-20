@@ -8,7 +8,9 @@ from conf.constants import (
     DOCUMENT_SENSITIVITY_URL,
     MISSING_DOCUMENT_REASONS_URL,
     GENERATED_DOCUMENTS_URL,
-    DOWNLOAD_URL)
+    DOWNLOAD_URL,
+    CASE_DOCUMENT_URL,
+)
 from core.helpers import convert_parameters_to_query_params
 from core.helpers import remove_prefix
 
@@ -69,8 +71,8 @@ def get_good_document(request, pk, doc_pk):
     return data.json().get("document") if data.status_code == HTTPStatus.OK else None
 
 
-def get_good_document_download(request, file_pk, good_pk):
-    return get_file(request, DOCUMENTS_URL + str(file_pk) + "/" + str(good_pk) + DOWNLOAD_URL)
+def get_case_document_download(request, file_pk, case_pk):
+    return get_file(request, CASE_DOCUMENT_URL + str(file_pk) + "/" + str(case_pk) + DOWNLOAD_URL)
 
 
 def get_good_documents(request, pk):
