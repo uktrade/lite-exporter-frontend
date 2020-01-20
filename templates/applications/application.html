@@ -11,7 +11,7 @@
         <div class="lite-app-bar__content">
             <h1 class="govuk-heading-l">
 				{% block title %}
-					{{ application.name }}
+					{{ application.name|default:application.reference_code }}
 				{% endblock %}
 			</h1>
         </div>
@@ -33,19 +33,21 @@
 
 	<div class="govuk-grid-row">
 		<dl class="govuk-summary-list govuk-summary-list--no-border govuk-grid-column-two-thirds">
-			<div class="govuk-summary-list__row">
-				<dt class="govuk-summary-list__key">
-					{% lcs 'applications.ApplicationSummaryPage.REFERENCE_CODE' %}
-				</dt>
-				<dd class="govuk-summary-list__value" id="summary-list-reference-code">
-					{{ application.reference_code }}
-				</dd>
-				<dd class="govuk-summary-list__actions">
-					<button class="lite-button--link lite-js-only" href="#" id="button-copy-reference-code">
-						{% lcs "applications.ApplicationSummaryPage.COPY_REFERENCE_CODE" %}
-					</button>
-				</dd>
-			</div>
+            {% if not application.application_type.key == "hmrc_query" %}
+    			<div class="govuk-summary-list__row">
+    				<dt class="govuk-summary-list__key">
+    					{% lcs 'applications.ApplicationSummaryPage.REFERENCE_CODE' %}
+    				</dt>
+    				<dd class="govuk-summary-list__value" id="summary-list-reference-code">
+    					{{ application.reference_code }}
+    				</dd>
+    				<!-- <dd class="govuk-summary-list__actions">
+    					<button class="lite-button--link lite-js-only" href="#" id="button-copy-reference-code">
+    						{% lcs "applications.ApplicationSummaryPage.COPY_REFERENCE_CODE" %}
+    					</button>
+    				</dd> -->
+    			</div>
+            {% endif %}
 			<div class="govuk-summary-list__row">
 				<dt class="govuk-summary-list__key">
 					{% lcs 'applications.ApplicationSummaryPage.TYPE' %}
