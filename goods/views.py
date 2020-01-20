@@ -42,6 +42,7 @@ from goods.services import (
     raise_clc_query,
     post_good_document_sensitivity,
     get_clc_query_generated_documents,
+    get_good_document_download,
 )
 from goods.helpers import good_document_upload
 from lite_content.lite_exporter_frontend import strings
@@ -285,6 +286,11 @@ class Document(TemplateView):
 
         document = get_good_document(request, good_id, file_pk)
         return download_document_from_s3(document["s3_key"], document["name"])
+
+
+class DownloadDocument(TemplateView):
+    def get(self, request, pk, file_pk):
+        return get_good_document_download(request, good_pk=pk, file_pk=file_pk)
 
 
 class DeleteDocument(TemplateView):

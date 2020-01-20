@@ -1,4 +1,5 @@
 import requests
+from django.http import StreamingHttpResponse
 
 from conf.settings import env
 
@@ -53,3 +54,10 @@ def delete(request, appended_address):
             "ORGANISATION-ID": str(request.user.organisation),
         },
     )
+
+
+def get_file(request, appended_address):
+    response = get(request, appended_address)
+    # TODO: find out if below is needed (download rather than open)
+    # http["Content-Disposition"] = response.headers._store["content-disposition"][1]
+    return StreamingHttpResponse(response, content_type=response.headers._store["content-type"][1])
