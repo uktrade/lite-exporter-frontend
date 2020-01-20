@@ -31,6 +31,7 @@ from ui_automation_tests.fixtures.internal_case_note import (  # noqa
     internal_case_note_end_user_advisory,
 )
 from ui_automation_tests.fixtures.manage_case import manage_case_status_to_withdrawn  # noqa
+from ui_automation_tests.pages.add_goods_grading_page import AddGoodGradingPage
 
 from ui_automation_tests.shared.fixtures.add_a_draft import add_a_draft  # noqa
 from ui_automation_tests.shared.fixtures.apply_for_application import (  # noqa
@@ -285,6 +286,24 @@ def add_new_good(driver, description, part, controlled, control_code, graded, co
     if good_part_needed:
         context.good_id_from_url = driver.current_url.split("/goods/")[1].split("/")[0]
     add_goods_page.select_is_your_good_graded(graded)
+    functions.click_submit(driver)
+
+
+@when(  # noqa
+    parsers.parse(
+        'I add the goods grading with prefix "{prefix}" grading "{grading}" suffix "{suffix}" '
+        'issuing authority "{issuing_authority}" reference "{reference}" Date of issue "{date_of_issue}"'
+    )
+)
+def add_good_grading(driver, prefix, grading, suffix, issuing_authority, reference, date_of_issue, context):
+    goods_grading_page = AddGoodGradingPage(driver)
+    goods_grading_page.enter_prefix_of_goods_grading(prefix)
+    goods_grading_page.enter_good_grading(grading)
+    goods_grading_page.enter_suffix_of_goods_grading(suffix)
+    goods_grading_page.enter_issuing_authority(issuing_authority)
+    goods_grading_page.enter_reference(reference)
+    date = date_of_issue.split("-")
+    goods_grading_page.enter_date_of_issue(date[0], date[1], date[2])
     functions.click_submit(driver)
 
 

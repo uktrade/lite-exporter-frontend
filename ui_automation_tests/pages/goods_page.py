@@ -7,6 +7,7 @@ class GoodsPage(BasePage):
     # Selector for the edit/delete goods link in the table
     EDIT_LINK = '[href*="goods/edit"]'
     document_partial_id = "tr[id*='document']"
+    QUERY_TABLE_ID = "query_table"
     GOOD_TABLE = "good-details"  # id
 
     # This is for the delete confirmation page
@@ -20,6 +21,9 @@ class GoodsPage(BasePage):
 
     def get_text_of_product_details(self):
         return self.driver.find_element_by_id(self.GOOD_TABLE).text
+
+    def get_text_of_query_details(self):
+        return self.driver.find_element_by_id(self.QUERY_TABLE_ID)
 
     def confirm_delete(self):
         functions.click_submit(self.driver)
