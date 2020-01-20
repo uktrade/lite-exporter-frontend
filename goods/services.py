@@ -9,7 +9,6 @@ from conf.constants import (
     DOCUMENT_SENSITIVITY_URL,
     MISSING_DOCUMENT_REASONS_URL,
 )
-from core.helpers import remove_prefix
 
 
 def get_goods(request, page: int = 1, description=None, part_number=None, control_rating=None, for_application=None):

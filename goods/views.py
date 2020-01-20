@@ -19,7 +19,6 @@ from applications.services import (
 from core.helpers import convert_dict_to_query_params
 from core.services import get_control_list_entry
 from goods.forms import (
-    edit_good_detail_form,
     attach_documents_form,
     respond_to_query_form,
     ecju_query_respond_confirmation_form,

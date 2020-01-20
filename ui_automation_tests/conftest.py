@@ -295,7 +295,7 @@ def add_new_good(driver, description, part, controlled, control_code, graded, co
         'issuing authority "{issuing_authority}" reference "{reference}" Date of issue "{date_of_issue}"'
     )
 )
-def add_good_grading(driver, prefix, grading, suffix, issuing_authority, reference, date_of_issue, context):
+def add_good_grading(driver, prefix, grading, suffix, issuing_authority, reference, date_of_issue, context):  # noqa
     goods_grading_page = AddGoodGradingPage(driver)
     goods_grading_page.enter_prefix_of_goods_grading(prefix)
     goods_grading_page.enter_good_grading(grading)

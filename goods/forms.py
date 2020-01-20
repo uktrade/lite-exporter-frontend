@@ -16,7 +16,7 @@ from core.services import get_control_list_entries
 from core.services import get_pv_gradings
 from goods.helpers import good_summary
 from goods.services import get_document_missing_reasons
-from lite_forms.common import control_list_entry_question, pv_grading_question
+from lite_forms.common import control_list_entry_question
 from lite_forms.components import (
     Form,
     TextArea,
