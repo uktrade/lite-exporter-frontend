@@ -13,6 +13,7 @@ from conf.constants import (
 )
 from core.helpers import convert_parameters_to_query_params
 from core.helpers import remove_prefix
+from lite_forms.generators import error_page
 
 
 def get_goods(request, page: int = 1, description=None, part_number=None, control_rating=None, for_application=None):
@@ -72,7 +73,11 @@ def get_good_document(request, pk, doc_pk):
 
 
 def get_case_document_download(request, file_pk, case_pk):
-    return get_file(request, CASE_DOCUMENT_URL + str(file_pk) + "/" + str(case_pk) + DOWNLOAD_URL)
+    data = get(request, CASE_DOCUMENT_URL + str(file_pk) + "/" + str(case_pk))
+    if data.status_code == 200:
+        return get_file(request, data.json()["document"])
+    else:
+        return error_page(request, "You don't have access to this document")
 
 
 def get_good_documents(request, pk):
