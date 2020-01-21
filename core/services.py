@@ -1,6 +1,7 @@
 from http import HTTPStatus
 
 from core.helpers import convert_parameters_to_query_params, convert_value_to_query_param
+from lite_content.lite_exporter_frontend.generic import Document
 from lite_forms.components import Option
 
 from conf.client import get, post, put, delete, get_file
@@ -172,4 +173,4 @@ def get_document_download(request, url):
     if data.status_code == 200:
         return get_file(request, data.json()["document"])
     else:
-        return error_page(request, "You don't have access to this document")
+        return error_page(request, Document.ACCESS_DENIED)
