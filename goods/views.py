@@ -148,7 +148,7 @@ class GoodsDetail(TemplateView):
             if errors.get("text"):
                 error = errors.get("text")[0]
                 error = error.replace("This field", "Case note")
-                error = error.replace("this field", "the case note")
+                error = error.replace("this field", "the case note")  # TODO: Move to API
 
             else:
                 error_list = []
