@@ -3,7 +3,7 @@ from http import HTTPStatus
 from core.helpers import convert_parameters_to_query_params, convert_value_to_query_param
 from lite_forms.components import Option
 
-from conf.client import get, post, put, delete
+from conf.client import get, post, put, delete, get_file
 from conf.constants import (
     UNITS_URL,
     APPLICATIONS_URL,
@@ -15,6 +15,7 @@ from conf.constants import (
     CONTROL_LIST_ENTRIES_URL,
     NEWLINE,
 )
+from lite_forms.generators import error_page
 
 
 def get_units(request):
@@ -164,3 +165,11 @@ def get_control_list_entries(request, convert_to_options=False):
 def get_control_list_entry(request, rating):
     data = get(request, CONTROL_LIST_ENTRIES_URL + rating)
     return data.json().get("control_list_entry")
+
+
+def get_document_download(request, url):
+    data = get(request, url)
+    if data.status_code == 200:
+        return get_file(request, data.json()["document"])
+    else:
+        return error_page(request, "You don't have access to this document")

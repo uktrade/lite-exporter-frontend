@@ -1,6 +1,6 @@
 from http import HTTPStatus
 
-from conf.client import get, post, put, delete, get_file
+from conf.client import get, post, put, delete
 from conf.constants import (
     GOODS_URL,
     DOCUMENTS_URL,
@@ -8,12 +8,11 @@ from conf.constants import (
     DOCUMENT_SENSITIVITY_URL,
     MISSING_DOCUMENT_REASONS_URL,
     GENERATED_DOCUMENTS_URL,
-    DOWNLOAD_URL,
     CASE_DOCUMENT_URL,
 )
 from core.helpers import convert_parameters_to_query_params
 from core.helpers import remove_prefix
-from lite_forms.generators import error_page
+from core.services import get_document_download
 
 
 def get_goods(request, page: int = 1, description=None, part_number=None, control_rating=None, for_application=None):
@@ -73,11 +72,7 @@ def get_good_document(request, pk, doc_pk):
 
 
 def get_case_document_download(request, file_pk, case_pk):
-    data = get(request, CASE_DOCUMENT_URL + str(file_pk) + "/" + str(case_pk))
-    if data.status_code == 200:
-        return get_file(request, data.json()["document"])
-    else:
-        return error_page(request, "You don't have access to this document")
+    return get_document_download(request, CASE_DOCUMENT_URL + str(file_pk) + "/" + str(case_pk))
 
 
 def get_good_documents(request, pk):
