@@ -24,7 +24,7 @@ from goods.forms import (
     ecju_query_respond_confirmation_form,
     delete_good_form,
     document_grading_form,
-    raise_a_pv_or_clc_query,
+    raise_a_goods_query,
     add_good_form_group,
     edit_good_form_group,
 )
@@ -187,7 +187,7 @@ class RaiseGoodsQuery(SingleFormView):
         raise_a_clc_query = "unsure" == good["is_good_controlled"]["key"]
         raise_a_pv_query = "grading_required" == good["is_pv_graded"]["key"]
 
-        self.form = raise_a_pv_or_clc_query(self.object_pk, raise_a_clc_query, raise_a_pv_query)
+        self.form = raise_a_goods_query(self.object_pk, raise_a_clc_query, raise_a_pv_query)
         self.action = raise_goods_query
         self.success_url = reverse_lazy("goods:good", kwargs={"pk": self.object_pk})
 

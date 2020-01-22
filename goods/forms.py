@@ -236,7 +236,7 @@ def attach_documents_form(back_link):
     )
 
 
-def raise_a_pv_or_clc_query(good_id, raise_a_clc: bool, raise_a_pv: bool):
+def raise_a_goods_query(good_id, raise_a_clc: bool, raise_a_pv: bool):
     questions = []
 
     if raise_a_clc:
