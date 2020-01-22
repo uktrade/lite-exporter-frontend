@@ -19,11 +19,11 @@ from core.helpers import convert_dict_to_query_params
 from core.services import get_units
 
 from goods.forms import document_grading_form, attach_documents_form, add_good_form_group
-from goods.helpers import good_document_upload
 from goods.services import (
     get_goods,
     get_good,
     post_goods,
+    post_good_documents,
     post_good_document_sensitivity,
     validate_good,
     post_good_with_pv_grading,
@@ -140,7 +140,7 @@ class AttachDocument(TemplateView):
         if error:
             return error_page(request, error)
 
-        if "errors" in good_document_upload(request, good_id, data):
+        if "errors" in post_good_documents(request, good_id, data):
             return error_page(request, strings.goods.AttachDocumentPage.UPLOAD_FAILURE_ERROR)
 
         return redirect(

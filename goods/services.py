@@ -62,7 +62,7 @@ def validate_edit_good(request, pk, json):
 
 
 def edit_good_with_pv_grading(request, pk, json):
-    post_data = process_pv_grading_for_post(json)
+    post_data = post_good_documents(json)
 
     data = edit_good(request, pk, post_data)
 
@@ -93,6 +93,9 @@ def get_good_documents(request, pk):
 
 
 def post_good_documents(request, pk, json):
+    if "description" not in json:
+        json["description"] = ""
+    json = [json]
     data = post(request, GOODS_URL + pk + DOCUMENTS_URL, json)
     return data.json(), data.status_code
 
