@@ -9,6 +9,7 @@ from conf.constants import (
     DOCUMENT_SENSITIVITY_URL,
     MISSING_DOCUMENT_REASONS_URL,
 )
+from goods.helpers import process_pv_grading_for_post
 
 
 def get_goods(request, page: int = 1, description=None, part_number=None, control_rating=None, for_application=None):
@@ -41,24 +42,7 @@ def validate_good(request, json):
 
 
 def post_good_with_pv_grading(request, json):
-    post_data = json
-
-    # Convert date
-    date_field = "date_of_issue"
-    year = json.get(date_field + "year", "")
-    month = json.get(date_field + "month", "")
-    day = json.get(date_field + "day", "")
-    date_of_issue = f"{year}-{month}-{day}"
-
-    post_data["pv_grading_details"] = {
-        "grading": post_data["grading"],
-        "custom_grading": post_data["custom_grading"],
-        "prefix": post_data["prefix"],
-        "suffix": post_data["suffix"],
-        "issuing_authority": post_data["issuing_authority"],
-        "reference": post_data["reference"],
-        "date_of_issue": date_of_issue,
-    }
+    post_data = process_pv_grading_for_post(json)
 
     data = post_goods(request, post_data)
 
@@ -78,24 +62,7 @@ def validate_edit_good(request, pk, json):
 
 
 def edit_good_with_pv_grading(request, pk, json):
-    post_data = json
-
-    # Convert date
-    date_field = "date_of_issue"
-    year = json.get(date_field + "year", "")
-    month = json.get(date_field + "month", "")
-    day = json.get(date_field + "day", "")
-    date_of_issue = f"{year}-{month}-{day}"
-
-    post_data["pv_grading_details"] = {
-        "grading": post_data["grading"],
-        "custom_grading": post_data["custom_grading"],
-        "prefix": post_data["prefix"],
-        "suffix": post_data["suffix"],
-        "issuing_authority": post_data["issuing_authority"],
-        "reference": post_data["reference"],
-        "date_of_issue": date_of_issue,
-    }
+    post_data = process_pv_grading_for_post(json)
 
     data = edit_good(request, pk, post_data)
 
