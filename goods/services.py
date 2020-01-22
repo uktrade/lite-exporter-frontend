@@ -62,7 +62,7 @@ def validate_edit_good(request, pk, json):
 
 
 def edit_good_with_pv_grading(request, pk, json):
-    post_data = post_good_documents(json)
+    post_data = process_pv_grading_for_post(json)
 
     data = edit_good(request, pk, post_data)
 
