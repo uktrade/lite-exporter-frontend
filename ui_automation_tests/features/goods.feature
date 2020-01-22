@@ -10,7 +10,6 @@ Feature: I want to edit and remove goods on the goods list
     When I click on goods link
     And I click add a good button
     And I add a good with description "123 pistol" controlled "Yes" control code "ML1a" and part number "321"
-    no pv
     Then I see good in goods list
     When I edit a good to description "edited" controlled "Yes" control code "ML1a" and part number "321"
     Then I see my edited good details in the good page
