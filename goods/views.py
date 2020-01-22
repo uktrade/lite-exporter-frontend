@@ -36,6 +36,7 @@ from goods.services import (
     delete_good,
     get_good_documents,
     get_good_document,
+    post_good_documents,
     delete_good_document,
     raise_goods_query,
     post_good_document_sensitivity,
@@ -46,7 +47,6 @@ from goods.services import (
 )
 from lite_content.lite_exporter_frontend.goods import AttachDocumentForm
 from lite_forms.views import SingleFormView, MultiFormView
-from goods.helpers import good_document_upload
 from lite_content.lite_exporter_frontend import strings
 from lite_forms.components import HiddenField, BackLink
 from lite_forms.generators import error_page, form_page
@@ -277,7 +277,7 @@ class AttachDocuments(TemplateView):
         if error:
             return error_page(request, error)
 
-        if "errors" in good_document_upload(request, good_id, data):
+        if "errors" in post_good_documents(request, good_id, data):
             return error_page(request, strings.goods.AttachDocumentPage.UPLOAD_FAILURE_ERROR)
 
         raise_a_clc_query = "unsure" == good["is_good_controlled"]["key"]
