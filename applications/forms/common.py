@@ -1,6 +1,7 @@
 from lite_content.lite_exporter_frontend import strings
 from django.urls import reverse_lazy
 
+from lite_content.lite_exporter_frontend.applications import ApplicationSuccessPage
 from lite_forms.components import HiddenField, Form, BackLink, TextArea, HTMLBlock, RadioButtons, Option
 from lite_forms.generators import confirm_form, success_page
 
@@ -32,11 +33,11 @@ def respond_to_query_form(application_id, ecju_query):
 
 def ecju_query_respond_confirmation_form(edit_response_url):
     return confirm_form(
-        title="Are you sure you want to send this response?",
+        title="Confirm you want to send this response",
         confirmation_name="confirm_response",
         hidden_field="ecju_query_response_confirmation",
-        yes_label="Yes, send the response",
-        no_label="No, change my response",
+        yes_label="Confirm and send the response",
+        no_label="Cancel and change the response",
         back_link_text="Back to edit response",
         back_url=edit_response_url,
         submit_button_text=strings.CONTINUE,
@@ -72,16 +73,16 @@ def edit_type_form(application_id):
     )
 
 
-def application_success_page(request, application_id):
+def application_success_page(request, application_reference_code):
     return success_page(
         request=request,
-        title="Application sent successfully",
-        secondary_title="Your reference code: " + application_id,
-        description="",
-        what_happens_next=["You'll receive an email from DIT when your check is finished."],
+        title=ApplicationSuccessPage.TITLE,
+        secondary_title=ApplicationSuccessPage.SECONDARY_TITLE + application_reference_code,
+        description=ApplicationSuccessPage.DESCRIPTION,
+        what_happens_next=ApplicationSuccessPage.WHAT_HAPPENS_NEXT,
         links={
-            "View your list of applications": reverse_lazy("applications:applications"),
-            "Apply for another export licence": reverse_lazy("apply_for_a_licence:start"),
-            "Return to Exporter Hub": reverse_lazy("core:hub"),
+            ApplicationSuccessPage.VIEW_APPLICATIONS: reverse_lazy("applications:applications"),
+            ApplicationSuccessPage.APPLY_AGAIN: reverse_lazy("apply_for_a_licence:start"),
+            ApplicationSuccessPage.RETURN_TO_DASHBOARD: reverse_lazy("core:hub"),
         },
     )

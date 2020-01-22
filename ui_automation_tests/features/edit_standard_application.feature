@@ -15,7 +15,7 @@ Feature: I want to be able to edit and update an active application
     Then I see my edited reference name
     When I change my reference number
     Then I see my edited reference number
-    When I click on standard goods tile
+    When I click on goods
     And I remove a good from the application
     Then the good has been removed from the application
     When I click the back link
@@ -26,9 +26,9 @@ Feature: I want to be able to edit and update an active application
     When I click on the application third parties link
     And I remove a third party from the application
     Then the third party has been removed from the application
-    When I click the back link
-    And I remove an additional document
+    When I remove an additional document
     And I confirm I want to delete the document
+    And I click the back link
     Then the document is removed from the application
 
   @LT_998_edit_standard_application_fast @regression
