@@ -95,7 +95,7 @@ def add_goods_questions(application_pk=None):
                 ]
             ),
         ),
-        default_button_name=CreateGoodForm.BUTTON,
+        default_button_name=CreateGoodForm.SUBMIT_BUTTON,
     )
 
 
@@ -182,7 +182,7 @@ def edit_good_detail_form(good_id):
                 float_right=True,
             ),
         ],
-        back_link=BackLink("Back", reverse_lazy("goods:good", kwargs={"pk": good_id})),
+        back_link=BackLink(CreateGoodForm.BACK_BUTTON, reverse_lazy("goods:good", kwargs={"pk": good_id})),
     )
 
 
@@ -213,8 +213,8 @@ def document_grading_form(request, good_id):
                 classes=["govuk-inset-text", "hidden"],
             ),
         ],
-        back_link=BackLink("Back", reverse_lazy("goods:good", kwargs={"pk": good_id})),
-        default_button_name=DocumentSensitivityForm.BUTTON,
+        back_link=BackLink(DocumentSensitivityForm.BACK_BUTTON, reverse_lazy("goods:good", kwargs={"pk": good_id})),
+        default_button_name=DocumentSensitivityForm.SUBMMIT_BUTTON,
     )
 
 
@@ -242,7 +242,7 @@ def raise_a_pv_or_clc_query(good_id, raise_a_clc: bool, raise_a_pv: bool):
     if raise_a_clc:
         if GoodsQueryForm.CLCQuery.TITLE:
             questions += [
-                HTMLBlock(html=f'<h2 class="govuk-heading-m">{GoodsQueryForm.CLCQuery.TITLE}</h2>'),
+                Heading(GoodsQueryForm.CLCQuery.TITLE, HeadingStyle.M),
             ]
         questions += [
             TextInput(
@@ -257,7 +257,7 @@ def raise_a_pv_or_clc_query(good_id, raise_a_clc: bool, raise_a_pv: bool):
     if raise_a_pv:
         if GoodsQueryForm.PVGrading.TITLE:
             questions += [
-                HTMLBlock(html=f'<h2 class="govuk-heading-m">{GoodsQueryForm.PVGrading.TITLE}</h2>'),
+                Heading(GoodsQueryForm.PVGrading.TITLE, HeadingStyle.M),
             ]
         questions += [
             TextArea(title=GoodsQueryForm.PVGrading.Details.TITLE, name="pv_grading_raised_reasons", optional=True,),
@@ -267,7 +267,7 @@ def raise_a_pv_or_clc_query(good_id, raise_a_clc: bool, raise_a_pv: bool):
         title=GoodsQueryForm.TITLE,
         description=GoodsQueryForm.DESCRIPTION,
         questions=questions,
-        back_link=BackLink("Back to product", reverse("goods:good", kwargs={"pk": good_id})),
+        back_link=BackLink(GoodsQueryForm.BACK_LINK, reverse("goods:good", kwargs={"pk": good_id})),
         default_button_name="Save",
     )
 

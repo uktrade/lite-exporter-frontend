@@ -98,7 +98,10 @@
 				{% if good.is_good_controlled.key == "unsure" or good.is_pv_graded.key == "grading_required" %}
 					{%if documents or good.missing_document_reason.key  %}
 						<div class="govuk-inset-text">
-							{% lcs 'goods.GoodPage.RaiseQuery.PREFIX' %}<a href="{% url 'goods:raise_goods_query' good.id %}" class="govuk-link govuk-link--no-visited-state">{% lcs 'goods.GoodPage.RaiseQuery.LINK' %}</a>
+							{% lcs 'goods.GoodPage.RaiseQuery.PREFIX' %}
+							<a href="{% url 'goods:raise_goods_query' good.id %}" class="govuk-link govuk-link--no-visited-state">
+								{% lcs 'goods.GoodPage.RaiseQuery.LINK' %}
+							</a>
 							{% lcs 'goods.GoodPage.RaiseQuery.SUFFIX' %}
 						</div>
 						<br>

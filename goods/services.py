@@ -23,14 +23,9 @@ def get_good(request, pk):
 
 
 def post_goods(request, json):
-    # if json.get("good_description", False) or json.get("good_description") == "":
-    #     post_data = remove_prefix(json, "good_")
-    # else:
-    post_data = json
+    data = post(request, GOODS_URL, json)
 
-    data = post(request, GOODS_URL, post_data)
-
-    if data.status_code == 200:
+    if data.status_code == HTTPStatus.OK:
         data.json().get("good"), data.status_code
 
     return data.json(), data.status_code

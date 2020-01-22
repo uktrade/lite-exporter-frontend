@@ -91,11 +91,11 @@ class AddGood(MultiFormView):
 
     def on_submission(self, request, **kwargs):
         self.draft_pk = str(kwargs["pk"])
-        pv_grading = request.POST.copy().get("is_pv_graded", "").lower() == "yes"
-        self.forms = add_good_form_group(pv_grading, draft_pk=self.draft_pk)
+        is_pv_graded = request.POST.copy().get("is_pv_graded", "").lower() == "yes"
+        self.forms = add_good_form_group(is_pv_graded, draft_pk=self.draft_pk)
         if int(self.request.POST.get("form_pk")) == 1:
             self.action = self.actions[2]
-        elif (int(self.request.POST.get("form_pk")) == 0) and pv_grading:
+        elif (int(self.request.POST.get("form_pk")) == 0) and is_pv_graded:
             self.action = self.actions[0]
 
     def get_success_url(self):

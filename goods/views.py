@@ -168,18 +168,18 @@ class AddGood(MultiFormView):
         self.action = post_goods
 
     def on_submission(self, request, **kwargs):
-        pv_grading = request.POST.copy().get("is_pv_graded", "").lower() == "yes"
-        self.forms = add_good_form_group(pv_grading)
+        is_pv_graded = request.POST.copy().get("is_pv_graded", "").lower() == "yes"
+        self.forms = add_good_form_group(is_pv_graded)
         if int(self.request.POST.get("form_pk")) == 1:
             self.action = self.actions[2]
-        elif (int(self.request.POST.get("form_pk")) == 0) and pv_grading:
+        elif (int(self.request.POST.get("form_pk")) == 0) and is_pv_graded:
             self.action = self.actions[0]
 
     def get_success_url(self):
         return reverse_lazy("goods:add_document", kwargs={"pk": self.get_validated_data()["good"]["id"]})
 
 
-class RaiseCLCPVQuery(SingleFormView):
+class RaiseGoodsQuery(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = str(kwargs["pk"])
         good, _ = get_good(request, self.object_pk)
@@ -202,11 +202,11 @@ class EditGood(MultiFormView):
         self.action = edit_good
 
     def on_submission(self, request, **kwargs):
-        pv_grading = request.POST.copy().get("is_pv_graded", "").lower() == "yes"
-        self.forms = edit_good_form_group(self.object_pk, pv_grading)
+        is_pv_graded = request.POST.copy().get("is_pv_graded", "").lower() == "yes"
+        self.forms = edit_good_form_group(self.object_pk, is_pv_graded)
         if int(self.request.POST.get("form_pk")) == 1:
             self.action = self.actions[2]
-        elif (int(self.request.POST.get("form_pk")) == 0) and pv_grading:
+        elif (int(self.request.POST.get("form_pk")) == 0) and is_pv_graded:
             self.action = self.actions[0]
 
     def get_data(self):
