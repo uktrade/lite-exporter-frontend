@@ -18,7 +18,6 @@ scenarios("../features/goods.feature", strict_gherkin=False)
 
 @then("I see good in goods list")
 def assert_good_is_in_list(driver, context, exporter_url):
-    goods_list = GoodsListPage(driver)
     driver.get(exporter_url.rstrip("/") + "/goods/")
     goods_row = Shared(driver).get_text_of_gov_table()
 

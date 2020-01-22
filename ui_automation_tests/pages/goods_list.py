@@ -1,4 +1,3 @@
-from pages.shared import Shared
 from shared.BasePage import BasePage
 
 
