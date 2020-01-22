@@ -1,7 +1,5 @@
 import requests
-from django.http import StreamingHttpResponse
 
-from conf.constants import DOCUMENTS_URL, DOWNLOAD_URL
 from conf.settings import env
 
 
