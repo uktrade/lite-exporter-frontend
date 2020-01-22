@@ -1,10 +1,12 @@
 from http import HTTPStatus
 
+from django.http import StreamingHttpResponse
+
 from core.helpers import convert_parameters_to_query_params, convert_value_to_query_param
 from lite_content.lite_exporter_frontend.generic import Document
 from lite_forms.components import Option
 
-from conf.client import get, post, put, delete, get_file
+from conf.client import get, post, put, delete
 from conf.constants import (
     UNITS_URL,
     APPLICATIONS_URL,
@@ -169,8 +171,8 @@ def get_control_list_entry(request, rating):
 
 
 def get_document_download(request, url):
-    data = get(request, url)
-    if data.status_code == 200:
-        return get_file(request, data.json()["document"])
+    response = get(request, url)
+    if response.status_code == 200:
+        return StreamingHttpResponse(response, content_type=response.headers._store["content-type"][1])
     else:
         return error_page(request, Document.ACCESS_DENIED)

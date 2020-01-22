@@ -55,8 +55,3 @@ def delete(request, appended_address):
             "ORGANISATION-ID": str(request.user.organisation),
         },
     )
-
-
-def get_file(request, key):
-    response = get(request, DOCUMENTS_URL + str(key) + DOWNLOAD_URL)
-    return StreamingHttpResponse(response, content_type=response.headers._store["content-type"][1])
