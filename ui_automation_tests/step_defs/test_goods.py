@@ -20,17 +20,21 @@ scenarios("../features/goods.feature", strict_gherkin=False)
 def assert_good_is_in_list(driver, context, exporter_url):
     goods_list = GoodsListPage(driver)
     driver.get(exporter_url.rstrip("/") + "/goods/")
-    goods_list.assert_goods_are_displayed_of_good_name(
-        driver, context.good_description, context.part, context.control_code
-    )
+    goods_row = Shared(driver).get_text_of_gov_table()
+
+    assert context.good_description in goods_row
+    assert context.part in goods_row
+    assert context.control_code in goods_row
 
 
 @then("I see the clc query in goods list")
 def assert_clc_is_in_list(driver, context, exporter_url):
-    goods_list = GoodsListPage(driver)
-    goods_list.assert_clc_goods_are_displayed_of_good_name(
-        driver, context.good_description, context.part, context.control_code
-    )
+    goods_row = Shared(driver).get_text_of_gov_table()
+
+    assert context.good_description in goods_row
+    assert context.part in goods_row
+    assert context.control_code in goods_row
+    assert "Control List Classification Query" in goods_row
 
 
 @when(
