@@ -174,9 +174,8 @@ def get_document_download_stream(request, url):
     response = get(request, url)
     if response.status_code == HTTPStatus.OK:
         return StreamingHttpResponse(response, content_type=response.headers._store["content-type"][1])
+    elif response.status_code == HTTPStatus.UNAUTHORIZED:
+        error = Document.ACCESS_DENIED
     else:
-        if response.status_code == HTTPStatus.UNAUTHORIZED:
-            error = Document.ACCESS_DENIED
-        else:
-            error = Document.DOWNLOAD_ERROR
-        return error_page(request, error)
+        error = Document.DOWNLOAD_ERROR
+    return error_page(request, error)

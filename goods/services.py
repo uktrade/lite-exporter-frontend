@@ -99,7 +99,6 @@ def post_good_document_sensitivity(request, pk, json):
     return data.json(), data.status_code
 
 
-# CLC Query
 def get_case_document_download(request, document_pk, case_pk):
     return get_document_download_stream(
         request, CASES_URL + str(document_pk) + ADDITIONAL_DOCUMENT_URL + str(case_pk) + DOWNLOAD_URL
