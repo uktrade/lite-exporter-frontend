@@ -107,7 +107,7 @@ class GoodsDetail(TemplateView):
 
         # Add the good's control list entry text if possible
         control_list_entry_text = ""
-        if self.good["control_code"] and self.good["status"]["key"] != "clc_query":
+        if self.good["control_code"] and self.good["status"]["key"] != "query":
             control_list_entry_text = get_control_list_entry(request, self.good["control_code"])["text"]
 
         context = {
