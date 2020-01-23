@@ -14,7 +14,7 @@ from conf.constants import (
 )
 from core.helpers import convert_parameters_to_query_params
 from core.helpers import remove_prefix
-from core.services import get_document_download
+from core.services import get_document_download_stream
 
 
 def get_goods(request, page: int = 1, description=None, part_number=None, control_rating=None, for_application=None):
@@ -101,6 +101,6 @@ def post_good_document_sensitivity(request, pk, json):
 
 # CLC Query
 def get_case_document_download(request, document_pk, case_pk):
-    return get_document_download(
+    return get_document_download_stream(
         request, CASES_URL + str(document_pk) + ADDITIONAL_DOCUMENT_URL + str(case_pk) + DOWNLOAD_URL
     )

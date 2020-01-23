@@ -170,9 +170,13 @@ def get_control_list_entry(request, rating):
     return data.json().get("control_list_entry")
 
 
-def get_document_download(request, url):
+def get_document_download_stream(request, url):
     response = get(request, url)
     if response.status_code == HTTPStatus.OK:
         return StreamingHttpResponse(response, content_type=response.headers._store["content-type"][1])
     else:
-        return error_page(request, Document.ACCESS_DENIED)
+        if response.status_code == HTTPStatus.UNAUTHORIZED:
+            error = Document.ACCESS_DENIED
+        else:
+            error = Document.DOWNLOAD_ERROR
+        return error_page(request, error)
