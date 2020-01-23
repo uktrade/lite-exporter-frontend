@@ -172,7 +172,7 @@ def get_control_list_entry(request, rating):
 
 def get_document_download(request, url):
     response = get(request, url)
-    if response.status_code == 200:
+    if response.status_code == HTTPStatus.OK:
         return StreamingHttpResponse(response, content_type=response.headers._store["content-type"][1])
     else:
         return error_page(request, Document.ACCESS_DENIED)
