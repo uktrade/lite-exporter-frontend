@@ -322,7 +322,6 @@ def application_is_submitted(driver, context):  # noqa
 @then("I see the application overview")  # noqa
 def i_see_the_application_overview(driver, context):  # noqa
     element = GenericApplicationTaskListPage(driver).get_text_of_lite_task_list_items()
-    assert "Reference name" in element
     assert context.app_name in element
 
     app_id = driver.current_url[-36:]
