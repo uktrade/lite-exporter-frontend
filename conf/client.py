@@ -1,3 +1,5 @@
+import mimetypes
+
 import requests
 
 from conf.settings import env
@@ -48,6 +50,19 @@ def delete(request, appended_address):
     return requests.delete(
         env("LITE_API_URL") + appended_address,
         headers={
+            "EXPORTER-USER-TOKEN": str(request.user.user_token),
+            "X-Correlation-Id": str(request.correlation),
+            "ORGANISATION-ID": str(request.user.organisation),
+        },
+    )
+
+
+def post_file(request, appended_address, file):
+    return requests.post(
+        env("LITE_API_URL") + appended_address,
+        data={"file": file.file.read()},
+        headers={
+            "Content-Disposition": f"attachment; filename={file.name}",
             "EXPORTER-USER-TOKEN": str(request.user.user_token),
             "X-Correlation-Id": str(request.correlation),
             "ORGANISATION-ID": str(request.user.organisation),

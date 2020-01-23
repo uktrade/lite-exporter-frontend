@@ -1,6 +1,7 @@
 import logging
 from inspect import signature
 
+from conf.client import post_file
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.decorators import method_decorator
@@ -54,6 +55,10 @@ class AttachDocuments(TemplateView):
     def post(self, request, **kwargs):
         draft_id = str(kwargs["pk"])
         form = get_upload_page(request.path, draft_id)
+
+        data = post_file(request, "/documents/test/", request.FILES["file"])
+        return data.json(), data.status_code
+
         self.request.upload_handlers.insert(0, S3FileUploadHandler(request))
 
         if not request.FILES:
