@@ -289,8 +289,8 @@ class Document(TemplateView):
 
 
 class DownloadDocument(TemplateView):
-    def get(self, request, query_pk, file_pk):
-        return get_case_document_download(request, case_pk=query_pk, file_pk=file_pk)
+    def get(self, request, query_pk, document_pk):
+        return get_case_document_download(request, case_pk=query_pk, document_pk=document_pk)
 
 
 class DeleteDocument(TemplateView):

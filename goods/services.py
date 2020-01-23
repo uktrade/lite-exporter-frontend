@@ -100,7 +100,7 @@ def post_good_document_sensitivity(request, pk, json):
 
 
 # CLC Query
-def get_case_document_download(request, file_pk, case_pk):
+def get_case_document_download(request, document_pk, case_pk):
     return get_document_download(
-        request, CASES_URL + str(file_pk) + ADDITIONAL_DOCUMENT_URL + str(case_pk) + DOWNLOAD_URL
+        request, CASES_URL + str(document_pk) + ADDITIONAL_DOCUMENT_URL + str(case_pk) + DOWNLOAD_URL
     )
