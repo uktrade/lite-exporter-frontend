@@ -122,7 +122,7 @@ def pv_details_form():
             TextInput(title=GoodGradingForm.OTHER_GRADING, name="custom_grading", optional=True),
             TextInput(title=GoodGradingForm.ISSUING_AUTHORITY, name="issuing_authority"),
             TextInput(title=GoodGradingForm.REFERENCE, name="reference"),
-            DateInput(title=GoodGradingForm.DATE_OF_ISSUE, prefix="date_of_issue"),
+            DateInput(title=GoodGradingForm.DATE_OF_ISSUE, prefix="date_of_issue", name="date_of_issue",),
         ],
         default_button_name=GoodGradingForm.BUTTON,
     )
