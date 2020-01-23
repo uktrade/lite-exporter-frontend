@@ -26,7 +26,8 @@ Feature: I want to edit and remove goods on the goods list
     And I confirm I can upload a document
     And I upload file "file_for_doc_upload_test_1.txt" with description "This is a file I want to upload to show."
     And I raise a clc query control code "ML1a" clc description "I believe it is ML1a" and pv grading reason "I believe the good requires grading"
-    Then I see the good is in a query
+    Then I see good information
+    And I see the good is in a query
 
   @LT_886_add_new_good_to_app @regression
   Scenario: Add a new good directly to a standard application
