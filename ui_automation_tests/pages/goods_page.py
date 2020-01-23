@@ -8,7 +8,7 @@ class GoodsPage(BasePage):
     EDIT_LINK = '[href*="goods/edit"]'
     document_partial_id = "tr[id*='document']"
     QUERY_TABLE_ID = "query_table"
-    GOOD_TABLE = "good-details"  # id
+    GOOD_TABLE_ID = "good-details"
 
     # This is for the delete confirmation page
     DELETE_BUTTON = ".govuk-button--warning"
@@ -20,7 +20,7 @@ class GoodsPage(BasePage):
         self.driver.find_element_by_css_selector(self.DELETE_BUTTON).click()
 
     def get_text_of_product_details(self):
-        return self.driver.find_element_by_id(self.GOOD_TABLE).text
+        return self.driver.find_element_by_id(self.GOOD_TABLE_ID).text
 
     def get_text_of_query_details(self):
         return self.driver.find_element_by_id(self.QUERY_TABLE_ID)
