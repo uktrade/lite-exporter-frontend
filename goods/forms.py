@@ -106,7 +106,7 @@ def pv_details_form():
         questions=[
             Heading("PV grading", HeadingStyle.M),
             Group(
-                name="",
+                name="grading",
                 components=[
                     TextInput(title=GoodGradingForm.PREFIX, name="prefix", optional=True),
                     Select(
@@ -216,7 +216,7 @@ def document_grading_form(request, good_id):
             ),
         ],
         back_link=BackLink(DocumentSensitivityForm.BACK_BUTTON, reverse_lazy("goods:good", kwargs={"pk": good_id})),
-        default_button_name=DocumentSensitivityForm.SUBMMIT_BUTTON,
+        default_button_name=DocumentSensitivityForm.SUBMIT_BUTTON,
     )
 
 

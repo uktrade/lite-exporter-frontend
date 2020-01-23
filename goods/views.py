@@ -214,6 +214,11 @@ class EditGood(MultiFormView):
         if data.get("pv_grading_details", False):
             for k, v in data["pv_grading_details"].items():
                 data[k] = v
+            date_of_issue = data["date_of_issue"].split("-")
+            data["date_of_issueday"] = date_of_issue[2]
+            data["date_of_issuemonth"] = date_of_issue[1]
+            data["date_of_issueyear"] = date_of_issue[0]
+
         return data
 
     def get_success_url(self):

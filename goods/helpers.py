@@ -23,7 +23,11 @@ def process_pv_grading_for_post(json):
     date_field = "date_of_issue"
     year = json.get(date_field + "year", "")
     month = json.get(date_field + "month", "")
+    if len(month) == 1:
+        month = "0" + month
     day = json.get(date_field + "day", "")
+    if len(day) == 1:
+        day = "0" + day
     date_of_issue = f"{year}-{month}-{day}"
 
     post_data["pv_grading_details"] = {
