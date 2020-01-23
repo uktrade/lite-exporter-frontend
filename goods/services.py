@@ -8,7 +8,9 @@ from conf.constants import (
     DOCUMENT_SENSITIVITY_URL,
     MISSING_DOCUMENT_REASONS_URL,
     GENERATED_DOCUMENTS_URL,
-    CASE_DOCUMENT_URL,
+    CASES_URL,
+    ADDITIONAL_DOCUMENT_URL,
+    DOWNLOAD_URL,
 )
 from core.helpers import convert_parameters_to_query_params
 from core.helpers import remove_prefix
@@ -71,10 +73,6 @@ def get_good_document(request, pk, doc_pk):
     return data.json().get("document") if data.status_code == HTTPStatus.OK else None
 
 
-def get_case_document_download(request, file_pk, case_pk):
-    return get_document_download(request, CASE_DOCUMENT_URL + str(file_pk) + "/" + str(case_pk))
-
-
 def get_good_documents(request, pk):
     data = get(request, GOODS_URL + pk + DOCUMENTS_URL)
     return data.json().get("documents") if data.status_code == HTTPStatus.OK else None
@@ -99,3 +97,10 @@ def get_document_missing_reasons(request):
 def post_good_document_sensitivity(request, pk, json):
     data = post(request, GOODS_URL + str(pk) + DOCUMENT_SENSITIVITY_URL, json)
     return data.json(), data.status_code
+
+
+# CLC Query
+def get_case_document_download(request, file_pk, case_pk):
+    return get_document_download(
+        request, CASES_URL + str(file_pk) + ADDITIONAL_DOCUMENT_URL + str(case_pk) + DOWNLOAD_URL
+    )
