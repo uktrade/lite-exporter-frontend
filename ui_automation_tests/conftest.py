@@ -11,6 +11,7 @@ from pages.application_page import ApplicationPage
 from pages.open_application.add_goods_type import OpenApplicationAddGoodsType
 from pages.respond_to_ecju_query_page import RespondToEcjuQueryPage
 from pages.submitted_applications_page import SubmittedApplicationsPages
+from pages.add_new_external_location_form_page import AddNewExternalLocationFormPage
 from shared import functions
 from ui_automation_tests.fixtures.env import environment  # noqa
 from ui_automation_tests.fixtures.register_organisation import (  # noqa
@@ -512,4 +513,24 @@ def add_new_goods_type(driver, description, controlled, control_code, incorporat
     context.good_description = description
     context.control_code = control_code
 
+    functions.click_submit(driver)
+
+
+@when(parsers.parse('I select "{choice}" for whether or not I want a new or existing location to be added'))  # noqa
+def choose_location_type(driver, choice):  # noqa
+    which_location_form = WhichLocationFormPage(driver)
+    which_location_form.click_on_choice_radio_button(choice)
+    functions.click_submit(driver)
+
+
+@when(  # noqa
+    parsers.parse(
+        'I fill in new external location form with name: "{name}", address: "{address}" and country: "{country}" and continue'
+    )
+)
+def add_new_external_location(driver, name, address, country):  # noqa
+    add_new_external_location_form_page = AddNewExternalLocationFormPage(driver)
+    add_new_external_location_form_page.enter_external_location_name(name)
+    add_new_external_location_form_page.enter_external_location_address(address)
+    add_new_external_location_form_page.enter_external_location_country(country)
     functions.click_submit(driver)
