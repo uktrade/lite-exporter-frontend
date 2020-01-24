@@ -4,6 +4,38 @@ from lite_forms.components import RadioButtons, Form, DetailComponent, TextInput
 from lite_forms.helpers import conditional
 
 
+def licence_type():
+    return Form(
+        title="Type of Licence",
+        description="...",
+        questions=[
+            RadioButtons(
+                name="licence_type",
+                options=[
+                    Option(
+                        key="export", value="Export Licence", description="Exporting goods from UK to somewhere else"
+                    ),
+                    Option(
+                        key="transhipment",
+                        value="Transhipment",
+                        description="Shipping something from abroad through the UK, within 30 days, on to another destination abroad",
+                    ),
+                    Option(
+                        key="trade_control",
+                        value="Trade Control",
+                        description="Arranging or brokering the sale or movements of controlled goods (the goods may not be located here)",
+                    ),
+                    Option(
+                        key="mod",
+                        value="MOD Clearance",
+                        description="Sharing information (F680), exhibition clearance or gifting",
+                    ),
+                ],
+            )
+        ],
+    )
+
+
 def initial_questions(application_type):
     return FormGroup(
         [
