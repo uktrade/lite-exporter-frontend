@@ -126,26 +126,26 @@ def export_licence_questions(application_type):
 
 def MOD_questions():
     return FormGroup([
-        Form(title="mod question title brap brap",
-             description="mod description brap brap",
+        Form(title="What are you mod applying for?",
+             description="mod description",
              questions=[
                  RadioButtons(
                      name="type",
                      options=[
                          Option(
-                             key=STANDARD_LICENCE,
-                             value=strings.applications.InitialApplicationQuestionsForms.STANDARD_LICENCE,
-                             description=strings.applications.InitialApplicationQuestionsForms.STANDARD_LICENCE_DESCRIPTION,
+                             key="permission",
+                             value="Permission to share information",
+                             description="",
                          ),
                          Option(
-                             key=OPEN_LICENCE,
-                             value=strings.applications.InitialApplicationQuestionsForms.OPEN_LICENCE,
-                             description=strings.applications.InitialApplicationQuestionsForms.OPEN_LICENCE_DESCRIPTION,
+                             key="exhibition_clearance",
+                             value="Exhibition clearance",
+                             description="",
                          ),
                          Option(
-                             key=STANDARD_LICENCE,
-                             value=strings.applications.InitialApplicationQuestionsForms.STANDARD_LICENCE,
-                             description=strings.applications.InitialApplicationQuestionsForms.STANDARD_LICENCE_DESCRIPTION,
+                             key="gifting_clearance",
+                             value="Gifting clearance",
+                             description="",
                          ),
                      ],
                  ),
