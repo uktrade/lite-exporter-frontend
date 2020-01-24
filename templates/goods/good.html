@@ -153,18 +153,18 @@
 							{% lcs "goods.GoodPage.Table.Grading.GRADING" %}
 						</dt>
 						<dd class="govuk-summary-list__value">
-							{% if good.pv_grading_details.grading.key == 'other' %}
-								{{ good.pv_grading_details.customs_grading }}
-							{% else %}
-								{% if good.pv_grading_details.prefix %}
-									{{ good.pv_grading_details.prefix }}
-								{% endif %}
-								 {{ good.pv_grading_details.grading.value }}
-								{% if good.pv_grading_details.suffix %}
-									{{ good.pv_grading_details.suffix }}
-								{% endif %}
-							{% endif %}
-						</dd>
+                            {% if good.pv_grading_details.prefix %}
+                                {{ good.pv_grading_details.prefix }}
+                            {% endif %}
+                            {% if good.pv_grading_details.grading %}
+                             {{ good.pv_grading_details.grading.value }}
+                            {% else %}
+                                 {{ good.pv_grading_details.custom_grading }}
+                            {% endif %}
+                            {% if good.pv_grading_details.suffix %}
+                                {{ good.pv_grading_details.suffix }}
+                            {% endif %}
+                        </dd>
 					</div>
 					<div class="govuk-summary-list__row">
 						<dt class="govuk-summary-list__key">
