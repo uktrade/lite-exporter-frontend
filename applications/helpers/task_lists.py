@@ -40,12 +40,18 @@ def get_application_task_list(request, application, errors=None):
         return _get_open_application_task_list(request, application, errors)
     elif application["application_type"]["key"] == HMRC_QUERY:
         return _get_hmrc_query_task_list(request, application)
+    elif application["application_type"]["key"] == EXHIBITION_CLEARANCE:
+        return _get_clearance_application_task_list(request, application, errors)
     else:
         raise NotImplementedError()
 
 
 def _get_standard_application_task_list(request, application, errors=None):
     return get_standard_task_list(request, application, "applications/standard-application-edit.html", errors)
+
+
+def _get_clearance_application_task_list(request, application, errors=None):
+    return get_standard_task_list(request, application, "applications/clearance-application-edit.html", errors)
 
 
 def get_standard_task_list(request, application, template, errors=None):
