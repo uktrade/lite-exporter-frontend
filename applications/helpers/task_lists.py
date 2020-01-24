@@ -18,6 +18,7 @@ from applications.services import (
     get_additional_documents,
 )
 from conf.constants import (
+    EXHIBITION_CLEARANCE,
     HMRC_QUERY,
     OPEN_LICENCE,
     STANDARD_LICENCE,
@@ -47,19 +48,19 @@ def get_application_task_list(request, application, errors=None):
 
 
 def _get_standard_application_task_list(request, application, errors=None):
-    return get_standard_task_list(request, application, "applications/standard-application-edit.html", errors)
+    reference_number_description = get_reference_number_description(application)
+    return get_standard_task_list(request, application, "applications/standard-application-edit.html", reference_number_description, errors)
 
 
 def _get_clearance_application_task_list(request, application, errors=None):
-    return get_standard_task_list(request, application, "applications/clearance-application-edit.html", errors)
+    return get_standard_task_list(request, application, "applications/clearance-application-edit.html", None, errors)
 
 
-def get_standard_task_list(request, application, template, errors=None):
+def get_standard_task_list(request, application, template, reference_number_description=None, errors=None):
     application_id = application["id"]
     ultimate_end_users_required = False
     countries_on_goods_types = False
 
-    reference_number_description = get_reference_number_description(application)
     is_editing, edit_type = get_edit_type(application)
     sites, _ = get_sites_on_draft(request, application_id)
     external_locations, _ = get_external_locations_on_draft(request, application_id)
