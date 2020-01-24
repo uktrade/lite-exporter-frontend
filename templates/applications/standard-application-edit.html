@@ -24,7 +24,22 @@
 		Export type: {{ application.export_type.value }}
 	</p>
 
-	{% include "applications/includes/application-initial-task-list.html" %}
+	<!-- Initial -->
+	<ol class="lite-task-list">
+		<li>
+			<h2 class="lite-task-list__section">
+				{% if is_editing %}
+					Basic details
+				{% else %}
+					<span class="lite-task-list__section-number">1. </span> Prepare application
+				{% endif %}
+			</h2>
+			<ul class="lite-task-list__items {% if is_editing %}govuk-!-padding-0{% endif %}">
+				{% include "applications/includes/application-reference-task-list.html" %}
+				{% include "applications/includes/application-end-use-control-task-list.html" %}
+			</ul>
+		</li>
+	</ol>
 
 	<!-- Tasks -->
 	<ol class="lite-task-list">
