@@ -123,3 +123,33 @@ def export_licence_questions(application_type):
         ]
     )
 
+
+def MOD_questions():
+    return FormGroup([
+        Form(title="mod question title brap brap",
+             description="mod description brap brap",
+             questions=[
+                 RadioButtons(
+                     name="type",
+                     options=[
+                         Option(
+                             key=STANDARD_LICENCE,
+                             value=strings.applications.InitialApplicationQuestionsForms.STANDARD_LICENCE,
+                             description=strings.applications.InitialApplicationQuestionsForms.STANDARD_LICENCE_DESCRIPTION,
+                         ),
+                         Option(
+                             key=OPEN_LICENCE,
+                             value=strings.applications.InitialApplicationQuestionsForms.OPEN_LICENCE,
+                             description=strings.applications.InitialApplicationQuestionsForms.OPEN_LICENCE_DESCRIPTION,
+                         ),
+                         Option(
+                             key=STANDARD_LICENCE,
+                             value=strings.applications.InitialApplicationQuestionsForms.STANDARD_LICENCE,
+                             description=strings.applications.InitialApplicationQuestionsForms.STANDARD_LICENCE_DESCRIPTION,
+                         ),
+                     ],
+                 ),
+             ],
+             default_button_name=strings.CONTINUE, ),
+        reference_name_question(),
+    ])
