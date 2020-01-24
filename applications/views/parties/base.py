@@ -106,7 +106,6 @@ class ExistingPartiesList(TemplateView):
         )
 
         context = {
-            "title": CopyExistingPartyPage.TITLE,
             "back_url": self.back_url,
             "filters": ["Name", "Address", "Country"],
             "draft_id": application_id,
