@@ -1,0 +1,86 @@
+{% load svg %}
+
+<!-- End User -->
+<li class="lite-task-list__item">
+	<div class="lite-task-list__item-header">
+		{% if edit_type != 'minor_edit' %}
+		<a id="end_users" href="{% url 'applications:end_user' application.id %}" class="govuk-link govuk-link--no-visited-state">
+			End user
+		</a>
+		{% else %}
+			End user
+		{% endif %}
+		{% if application.end_user and end_user_document %}
+			<div class="lite-tag lite-tag--blue">
+				Completed
+			</div>
+		{% elif application.end_user %}
+			<div class="lite-tag lite-tag--orange">
+				In progress
+			</div>
+		{% else %}
+			<div class="lite-tag lite-tag--hollow">
+				Not started
+			</div>
+		{% endif %}
+	</div>
+	<div class="lite-task-list__item-details">
+		{% if application.end_user %}
+			<table class="govuk-table">
+				<tbody class="govuk-table__body">
+					<tr class="govuk-table__row">
+						<th class="govuk-table__header" scope="row">Type</th>
+						<td class="govuk-table__cell">{{ application.end_user.sub_type.value }}</td>
+						<td class="govuk-table__cell govuk-table__cell--numeric">
+							{% if edit_type != 'minor_edit' %}
+								<a class="lite-link--icon" href="{% url 'applications:remove_end_user' application.id %}">
+									{% svg 'close' %}
+									Remove
+								</a>
+							{% endif %}
+						</td>
+					</tr>
+					<tr class="govuk-table__row">
+						<th class="govuk-table__header" scope="row">Name</th>
+						<td class="govuk-table__cell">{{ application.end_user.name }}</td>
+					</tr>
+					{% if application.end_user.website %}
+					<tr class="govuk-table__row">
+						<th class="govuk-table__header" scope="row">Website</th>
+						<td class="govuk-table__cell">{{ application.end_user.website }}</td>
+					</tr>
+					{% endif %}
+					<tr class="govuk-table__row">
+						<th class="govuk-table__header" scope="row">Address</th>
+						<td class="govuk-table__cell">{{ application.end_user.address }}<br/>{{ application.end_user.country.name }}</td>
+					</tr>
+					{% if end_user_document %}
+						<tr class="govuk-table__row">
+							<th class="govuk-table__header" scope="row">Document</th>
+							<td class="govuk-table__cell" id="end_user_document_state">
+								{%  if end_user_document.safe == True %}
+									<a href="{% url 'applications:end_user_download_document' pk=application.id %}" id="end_user_document_download" class='govuk-link govuk-link--no-visited-state'>
+										{% lcs 'EndUser.Documents.DOWNLOAD_DOCUMENT' %}
+									</a>
+									<br/>
+									{% if edit_type != 'minor_edit' %}
+									<a href="{% url 'applications:end_user_delete_document' pk=application.id %}" id="end_user_document_delete" class='govuk-link govuk-link--no-visited-state'>
+										{% lcs 'EndUser.Documents.DELETE_DOCUMENT' %}
+									</a>
+									{% endif %}
+								{%  else %}
+									{% lcs 'EndUser.Documents.PROCESSING' %}
+								{% endif %}
+							</td>
+						</tr>
+					{% else %}
+						<tr class="govuk-table__row">
+							<th class="govuk-table__header" scope="row">Document</th>
+							<td class="govuk-table__cell"><a id="end_user_attach_doc" href="{% url 'applications:end_user_attach_document' application.id %}" class='govuk-link govuk-link--no-visited-state'>Attach</a></td>
+						</tr>
+					{% endif %}
+				</tbody>
+			</table>
+		{% endif %}
+	</div>
+</li>
