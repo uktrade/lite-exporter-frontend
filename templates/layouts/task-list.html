@@ -1,0 +1,107 @@
+{% extends 'layouts/two-pane.html' %}
+
+{% load svg humanize %}
+
+{% block back_link %}
+	{% if application.status %}
+    	<a href="{% url 'applications:applications' %}" id="back-link" class="govuk-back-link">Back to applications</a>
+	{% endif %}
+{% endblock %}
+
+{% block full_width %}
+	{% if application.status.key == "submitted" %}
+		<div class="lite-info-bar lite-info-bar--no-animation">
+			Changes made to this application won't impact its processing time.
+		</div>
+	{% endif %}
+	{% if application.status.key == "applicant_editing" %}
+		<div class="lite-info-bar lite-info-bar--warning lite-info-bar--no-animation">
+			This application won't be processed until it's submitted.
+		</div>
+	{% endif %}
+{% endblock %}
+
+{% block two_thirds %}
+	{% if errors %}
+		<div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="error-summary">
+			<h2 class="govuk-error-summary__title" id="error-summary-title">
+				There is a problem
+			</h2>
+			<div class="govuk-error-summary__body">
+				<ul class="govuk-list govuk-error-summary__list">
+					{% for key, value in errors.items %}
+						<li>
+							<a href="#{{ key }}">
+								{{ value }}
+							</a>
+						</li>
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
+	{% endif %}
+
+	<h1 class="govuk-heading-l govuk-!-margin-bottom-2">
+		{% block title %}{% endblock %}
+	</h1>
+
+	<!-- Initial tasks -->
+	<ol class="lite-task-list">
+		<li>
+			<h2 class="lite-task-list__section">
+				{% if is_editing %}
+					Basic details
+				{% else %}
+					<span class="lite-task-list__section-number">1. </span> Prepare application
+				{% endif %}
+			</h2>
+			<ul class="lite-task-list__items {% if is_editing %}govuk-!-padding-0{% endif %}">
+				{% url 'applications:edit_reference_name' application.id as reference_name_url %}
+				{% include "includes/task-list-item.html" with id='reference-name' title='applications.TaskListPage.ENTER_A_REFERENCE_NAME_SHORT_TITLE' url=reference_name_url status="done" description=application.name %}
+				{% block initial_tasks %}{% endblock %}
+			</ul>
+		</li>
+	</ol>
+
+	<!-- Main tasks -->
+	<ol class="lite-task-list">
+		<li>
+			<h2 class="lite-task-list__section">
+				{% if is_editing %}
+					More information
+				{% else %}
+					<span class="lite-task-list__section-number">2. </span> Complete application
+				{% endif %}
+			</h2>
+		    <ul class="lite-task-list__items {% if is_editing %}govuk-!-padding-0{% endif %}">
+				{% block main_tasks %}
+				{% endblock %}
+
+				<br><br>
+
+				{% if can_submit %}
+					<li>
+						<div class="app-submit-bar">
+							<form method="post">
+								{% csrf_token %}
+								{% if application.status.key in 'applicant_editing,draft' %}
+									<button type="submit" value="submit" class="govuk-button" data-prevent-double-click="true">{% lcs "EDIT_APPLICATION_SUBMIT" %}</button>
+								{% else %}
+									<a href="{% url 'applications:application' application.id %}" class="govuk-button" draggable="false" role="button">{% lcs "EDIT_APPLICATION_DONE" %}</a>
+								{% endif %}
+							</form>
+							{% if application.status.key == 'draft' %}
+								<div class="lite-vertical-align">
+									<a id="link-delete-draft" href="{% url 'applications:delete' application.id %}?return_to={{ CURRENT_PATH }}" class="govuk-link lite-link--icon">
+										{% svg 'close' %}
+										{% lcs 'applications.EditStandardApplicationPage.DRAFT_DELETE_LINK' %}
+									</a>
+								</div>
+							{% endif %}
+						</div>
+					</li>
+				{% endif %}
+			</ul>
+		</li>
+	</ol>
+{% endblock %}

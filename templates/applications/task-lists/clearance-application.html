@@ -1,0 +1,23 @@
+{% extends 'layouts/task-list.html' %}
+
+{% block title %}
+	{% if is_editing %}
+		Edit the clearance application
+	{% else %}
+		Apply for an MOD exhibition clearance
+	{% endif %}
+{% endblock %}
+
+{% block main_tasks %}
+	{% lcs 'goods.GoodsList.TITLE' as goods_title %}
+	{% url 'applications:goods' application.id as goods_url %}
+	{% tld goods 'product' 'products' as goods_description %}
+	{% include "includes/task-list-item.html" with id='products' title=goods_title url=goods_url status=goods|task_list_item_status description=goods_description %}
+
+	{% include "applications/includes/application-goods-task-list.html" %}
+	{% include "applications/includes/application-end-user-task-list.html" %}
+	{% include "applications/includes/application-consignee-task-list.html" %}
+	{% include "applications/includes/application-ultimate-end-users-task-list.html" %}
+	{% include "applications/includes/application-third-parties-task-list.html" %}
+	{% include "applications/includes/application-additional-documents-task-list.html" %}
+{% endblock %}

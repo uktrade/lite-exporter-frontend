@@ -49,11 +49,11 @@ def get_application_task_list(request, application, errors=None):
 
 def _get_standard_application_task_list(request, application, errors=None):
     reference_number_description = get_reference_number_description(application)
-    return get_standard_task_list(request, application, "applications/standard-application-edit.html", reference_number_description, errors)
+    return get_standard_task_list(request, application, "applications/task-lists/standard-application.html", reference_number_description, errors)
 
 
 def _get_clearance_application_task_list(request, application, errors=None):
-    return get_standard_task_list(request, application, "applications/clearance-application-edit.html", None, errors)
+    return get_standard_task_list(request, application, "applications/task-lists/clearance-application.html", None, errors)
 
 
 def get_standard_task_list(request, application, template, reference_number_description=None, errors=None):
@@ -144,7 +144,7 @@ def _get_open_application_task_list(request, application, errors=None):
         "errors": errors,
         "can_submit": submit,
     }
-    return render(request, "applications/open-application-edit.html", context)
+    return render(request, "applications/task-lists/open-application.html", context)
 
 
 def _get_hmrc_query_task_list(request, application):
@@ -167,4 +167,4 @@ def _get_hmrc_query_task_list(request, application):
         and context["ultimate_end_users_status"] != IN_PROGRESS
     )
 
-    return render(request, "hmrc/task-list.html", context)
+    return render(request, "applications/task-lists/hmrc-application.html", context)
