@@ -28,12 +28,12 @@ def opening_question():
                                 description="Select if you’re sending products produced in the UK to another country"
                             ),
                             Option(
-                                key="transhipment",
+                                key="export_licence",
                                 value="Transhipment licence",
                                 description="Select if you’re shipping something from overseas through the UK on to another country. If the products will be in the UK for 31 days or more, apply for an export licence",
                             ),
                             Option(
-                                key="trade_control",
+                                key="export_licence",
                                 value="Trade control licence ",
                                 description="Select if you’re arranging or brokering the sale or movement of controlled products located overseas",
                             ),
@@ -53,7 +53,7 @@ def opening_question():
                 back_link=Breadcrumbs([
                     BackLink(generic.SERVICE_NAME, reverse_lazy("core:hub")),
                     BackLink("Apply for a licence", ""),
-                ])),
+                ]))
 
 
 def export_licence_questions(application_type):
