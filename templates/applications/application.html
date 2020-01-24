@@ -78,7 +78,7 @@
 				<dt class="govuk-summary-list__key">
 					{% lcs 'applications.ApplicationSummaryPage.CASE_OFFICER' %}
 				</dt>
-				<dd id="label-application-status" class="govuk-summary-list__value">
+				<dd class="govuk-summary-list__value">
 					{% if application.case_officer.first_name %}
 						{{ application.case_officer.first_name }} {{ application.case_officer.last_name }}
 					{% else %}
