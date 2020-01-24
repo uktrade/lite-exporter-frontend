@@ -2,8 +2,16 @@ from django.urls import reverse_lazy
 
 from conf.constants import STANDARD_LICENCE, OPEN_LICENCE
 from lite_content.lite_exporter_frontend import strings, generic
-from lite_forms.components import RadioButtons, Form, DetailComponent, TextInput, Option, FormGroup, Breadcrumbs, \
-    BackLink
+from lite_forms.components import (
+    RadioButtons,
+    Form,
+    DetailComponent,
+    TextInput,
+    Option,
+    FormGroup,
+    Breadcrumbs,
+    BackLink,
+)
 from lite_forms.helpers import conditional
 
 
@@ -37,10 +45,9 @@ def licence_type():
             )
         ],
         default_button_name="Continue",
-        back_link=Breadcrumbs([
-            BackLink(generic.SERVICE_NAME, reverse_lazy("core:hub")),
-            BackLink("Apply for a licence", ""),
-        ])
+        back_link=Breadcrumbs(
+            [BackLink(generic.SERVICE_NAME, reverse_lazy("core:hub")), BackLink("Apply for a licence", ""),]
+        ),
     )
 
 
