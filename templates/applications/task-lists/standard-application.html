@@ -1,74 +1,32 @@
-{% extends 'layouts/two-pane.html' %}
+{% extends 'layouts/task-list.html' %}
 
-{% load svg humanize %}
+{% block title %}
+	{% if is_editing %}
+		Edit the application
+	{% else %}
+		Apply for a standard export licence
+	{% endif %}
+{% endblock %}
 
-{% include "applications/includes/task-list-back-link.html" %}
-{% include "applications/includes/task-list-edits-info-message.html" %}
+{% block subtitle %}
+	{% if is_editing %}Licence type: {{ application.application_type.value }} - {% endif %}
+	Export type: {{ application.export_type.value }}
+{% endblock %}
 
-{% block two_thirds %}
-	{% include "applications/includes/task-list-errors.html" %}
+{% block initial_tasks %}
+	{% url 'applications:edit_told_by_an_official' application.id as told_by_an_official_url %}
+	{% include "includes/task-list-item.html" with id="told-by-an-official" title="End use control" url=told_by_an_official_url status="done" description=reference_number_description %}
+{% endblock %}
 
-	<h1 class="govuk-heading-l govuk-!-margin-bottom-2">
-		{% block title %}
-			{% if is_editing %}
-				Edit the application
-			{% else %}
-				Apply for a standard export licence
-			{% endif %}
-		{% endblock %}
-	</h1>
+{% block main_tasks %}
+	{% url 'applications:goods' application.id as goods_url %}
+	{% tld goods 'product' 'products' as goods_description %}
+	{% include "includes/task-list-item.html" with id='products' title='goods.GoodsList.TITLE' url=goods_url status=goods|task_list_item_status description=goods_description %}
 
-	<!-- Details that can't be edited -->
-	<p class="govuk-hint govuk-!-margin-bottom-9">
-		{% if is_editing %}Licence type: {{ application.application_type.value }} - {% endif %}
-		Export type: {{ application.export_type.value }}
-	</p>
-
-	<!-- Initial -->
-	<ol class="lite-task-list">
-		<li>
-			<h2 class="lite-task-list__section">
-				{% if is_editing %}
-					Basic details
-				{% else %}
-					<span class="lite-task-list__section-number">1. </span> Prepare application
-				{% endif %}
-			</h2>
-			<ul class="lite-task-list__items {% if is_editing %}govuk-!-padding-0{% endif %}">
-				{% include "applications/includes/application-reference-task-list.html" %}
-				{% include "applications/includes/application-end-use-control-task-list.html" %}
-			</ul>
-		</li>
-	</ol>
-
-	<!-- Tasks -->
-	<ol class="lite-task-list">
-		<li>
-			<h2 class="lite-task-list__section">
-				{% if is_editing %}
-					More information
-				{% else %}
-					<span class="lite-task-list__section-number">2. </span> Complete application
-				{% endif %}
-			</h2>
-		    <ul class="lite-task-list__items {% if is_editing %}govuk-!-padding-0{% endif %}">
-		        <!-- Goods -->
-				{% lcs 'goods.GoodsList.TITLE' as goods_title %}
-				{% url 'applications:goods' application.id as goods_url %}
-				{% tld goods 'product' 'products' as goods_description %}
-				{% include "includes/task-list-item.html" with id='products' title=goods_title url=goods_url status=goods|task_list_item_status description=goods_description %}
-
-				{% include "applications/includes/application-goods-task-list.html" %}
-				{% include "applications/includes/application-end-user-task-list.html" %}
-				{% include "applications/includes/application-consignee-task-list.html" %}
-				{% include "applications/includes/application-ultimate-end-users-task-list.html" %}
-				{% include "applications/includes/application-third-parties-task-list.html" %}
-				{% include "applications/includes/application-additional-documents-task-list.html" %}
-
-				<br><br>
-
-				{% include "applications/includes/task-list-submit.html" %}
-			</ul>
-		</li>
-	</ol>
+	{% include "applications/includes/application-goods-task-list.html" %}
+	{% include "applications/includes/application-end-user-task-list.html" %}
+	{% include "applications/includes/application-consignee-task-list.html" %}
+	{% include "applications/includes/application-ultimate-end-users-task-list.html" %}
+	{% include "applications/includes/application-third-parties-task-list.html" %}
+	{% include "applications/includes/application-additional-documents-task-list.html" %}
 {% endblock %}
