@@ -7,62 +7,40 @@ from lite_forms.components import RadioButtons, Form, DetailComponent, TextInput
 from lite_forms.helpers import conditional
 
 
-def licence_type():
+def reference_name_question():
     return Form(
-        title="What type of licence do you want to apply for?",
-        description="Easy to find description here",
-        questions=[
-            RadioButtons(
-                name="licence_type",
-                options=[
-                    Option(
-                        key="export", value="Export Licence", description="Exporting goods from UK to somewhere else"
-                    ),
-                    Option(
-                        key="transhipment",
-                        value="Transhipment",
-                        description="Shipping something from abroad through the UK, within 30 days, on to another destination abroad",
-                    ),
-                    Option(
-                        key="trade_control",
-                        value="Trade Control",
-                        description="Arranging or brokering the sale or movements of controlled goods (the goods may not be located here)",
-                    ),
-                    Option(
-                        key="mod",
-                        value="MOD Clearance",
-                        description="Sharing information (F680), exhibition clearance or gifting",
-                    ),
-                ],
-            )
-        ],
-        default_button_name="Continue",
-        back_link=Breadcrumbs([
-            BackLink(generic.SERVICE_NAME, reverse_lazy("core:hub")),
-            BackLink("Apply for a licence", ""),
-        ])
+        title=strings.applications.InitialApplicationQuestionsForms.ENTER_A_REFERENCE_NAME_TITLE,
+        description=strings.applications.InitialApplicationQuestionsForms.ENTER_A_REFERENCE_NAME_DESCRIPTION,
+        questions=[TextInput(name="name"), ],
+        default_button_name=strings.CONTINUE,
     )
 
 
-def initial_questions(application_type):
-    return FormGroup(
-        [
-            Form(
-                title=strings.applications.InitialApplicationQuestionsForms.WHICH_EXPORT_LICENCE_DO_YOU_WANT_TITLE,
-                description=strings.applications.InitialApplicationQuestionsForms.WHICH_EXPORT_LICENCE_DO_YOU_WANT_DESCRIPTION,
+def opening_question():
+    return Form(title="What type of licence do you want to apply for?",
                 questions=[
                     RadioButtons(
-                        name="application_type",
+                        name="licence_type",
                         options=[
                             Option(
-                                key=STANDARD_LICENCE,
-                                value=strings.applications.InitialApplicationQuestionsForms.STANDARD_LICENCE,
-                                description=strings.applications.InitialApplicationQuestionsForms.STANDARD_LICENCE_DESCRIPTION,
+                                key="export_licence",
+                                value="Export Licence",
+                                description="Select if you’re sending products produced in the UK to another country"
                             ),
                             Option(
-                                key=OPEN_LICENCE,
-                                value=strings.applications.InitialApplicationQuestionsForms.OPEN_LICENCE,
-                                description=strings.applications.InitialApplicationQuestionsForms.OPEN_LICENCE_DESCRIPTION,
+                                key="transhipment",
+                                value="Transhipment licence",
+                                description="Select if you’re shipping something from overseas through the UK on to another country. If the products will be in the UK for 31 days or more, apply for an export licence",
+                            ),
+                            Option(
+                                key="trade_control",
+                                value="Trade control licence ",
+                                description="Select if you’re arranging or brokering the sale or movement of controlled products located overseas",
+                            ),
+                            Option(
+                                key="mod",
+                                value="MOD clearance",
+                                description="Select if you need to share information, go to an exhibition or gifting products",
                             ),
                         ],
                     ),
@@ -72,13 +50,36 @@ def initial_questions(application_type):
                     ),
                 ],
                 default_button_name=strings.CONTINUE,
-            ),
-            Form(
-                title=strings.applications.InitialApplicationQuestionsForms.ENTER_A_REFERENCE_NAME_TITLE,
-                description=strings.applications.InitialApplicationQuestionsForms.ENTER_A_REFERENCE_NAME_DESCRIPTION,
-                questions=[TextInput(name="name"),],
-                default_button_name=strings.CONTINUE,
-            ),
+                back_link=Breadcrumbs([
+                    BackLink(generic.SERVICE_NAME, reverse_lazy("core:hub")),
+                    BackLink("Apply for a licence", ""),
+                ])),
+
+
+def export_licence_questions(application_type):
+    return FormGroup(
+        [
+            Form(title=strings.applications.InitialApplicationQuestionsForms.WHICH_EXPORT_LICENCE_DO_YOU_WANT_TITLE,
+                 description=strings.applications.InitialApplicationQuestionsForms.WHICH_EXPORT_LICENCE_DO_YOU_WANT_DESCRIPTION,
+                 questions=[
+                     RadioButtons(
+                         name="application_type",
+                         options=[
+                             Option(
+                                 key=STANDARD_LICENCE,
+                                 value=strings.applications.InitialApplicationQuestionsForms.STANDARD_LICENCE,
+                                 description=strings.applications.InitialApplicationQuestionsForms.STANDARD_LICENCE_DESCRIPTION,
+                             ),
+                             Option(
+                                 key=OPEN_LICENCE,
+                                 value=strings.applications.InitialApplicationQuestionsForms.OPEN_LICENCE,
+                                 description=strings.applications.InitialApplicationQuestionsForms.OPEN_LICENCE_DESCRIPTION,
+                             ),
+                         ],
+                     ),
+                 ],
+                 default_button_name=strings.CONTINUE, ),
+            reference_name_question(),
             Form(
                 title=strings.applications.InitialApplicationQuestionsForms.TEMPORARY_OR_PERMANENT_TITLE,
                 description=strings.applications.InitialApplicationQuestionsForms.TEMPORARY_OR_PERMANENT_DESCRIPTION,
@@ -121,3 +122,4 @@ def initial_questions(application_type):
             ),
         ]
     )
+
