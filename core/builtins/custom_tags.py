@@ -256,4 +256,4 @@ def date_display(value):
     year, month, day = value.split("-")
     month = months[int(month)]
 
-    return f"{day} {month} {year}"
+    return f"{int(day)} {month} {year}"
