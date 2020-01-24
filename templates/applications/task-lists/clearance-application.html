@@ -9,10 +9,9 @@
 {% endblock %}
 
 {% block main_tasks %}
-	{% lcs 'goods.GoodsList.TITLE' as goods_title %}
 	{% url 'applications:goods' application.id as goods_url %}
 	{% tld goods 'product' 'products' as goods_description %}
-	{% include "includes/task-list-item.html" with id='products' title=goods_title url=goods_url status=goods|task_list_item_status description=goods_description %}
+	{% include "includes/task-list-item.html" with id='products' title='goods.GoodsList.TITLE' url=goods_url status=goods|task_list_item_status description=goods_description %}
 
 	{% include "applications/includes/application-goods-task-list.html" %}
 	{% include "applications/includes/application-end-user-task-list.html" %}
