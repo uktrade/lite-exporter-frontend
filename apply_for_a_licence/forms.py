@@ -138,7 +138,7 @@ def MOD_questions():
              description="mod description",
              questions=[
                  RadioButtons(
-                     name="type",
+                     name="application_type",
                      options=[
                          Option(
                              key="permission",
