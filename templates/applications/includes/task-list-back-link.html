@@ -1,0 +1,5 @@
+{% block back_link %}
+	{% if application.status %}
+    	<a href="{% url 'applications:applications' %}" id="back-link" class="govuk-back-link">Back to applications</a>
+	{% endif %}
+{% endblock %}
