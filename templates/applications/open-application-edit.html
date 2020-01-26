@@ -4,7 +4,7 @@
 
 {% block back_link %}
 	{% if application.status %}
-    	<a href="{% url 'applications:applications' %}" id="back-link" class="govuk-back-link">{% lcs 'applications.EditOpenApplicationPage.BACK_TO_APPLICATIONS' %}</a>
+		<a href="{% url 'applications:applications' %}" id="back-link" class="govuk-back-link">{% lcs 'applications.EditOpenApplicationPage.BACK_TO_APPLICATIONS' %}</a>
 	{% endif %}
 {% endblock %}
 
@@ -85,13 +85,13 @@
 					<span class="lite-task-list__section-number">2. </span> Complete application
 				{% endif %}
 			</h2>
-		    <ul class="lite-task-list__items {% if edit_type %}govuk-!-padding-0{% endif %}">
-		        <!-- Goods -->
-		        <li class="lite-task-list__item">
+			<ul class="lite-task-list__items {% if edit_type %}govuk-!-padding-0{% endif %}">
+				<!-- Goods -->
+				<li class="lite-task-list__item">
 					<div class="lite-task-list__item-header">
-                        <a id="open-goods" href="{% url 'applications:goods_types' application.id %}" class="govuk-link govuk-link--no-visited-state">
-                            Products
-                        </a>
+						<a id="open-goods" href="{% url 'applications:goods_types' application.id %}" class="govuk-link govuk-link--no-visited-state">
+							Products
+						</a>
 						{% if goods|length or goodstypes|length %}
 							<div class="lite-tag lite-tag--blue">
 								Completed
@@ -101,7 +101,7 @@
 								Not started
 							</div>
 						{% endif %}
-		            </div>
+					</div>
 					<div class="lite-task-list__item-details">
 						{% if goodstypes %}
 							<table id="good_types_table_overview" class="govuk-table">
@@ -125,10 +125,10 @@
 							</table>
 						{% endif %}
 					</div>
-		        </li>
+				</li>
 
-		        <!-- Add products -->
-		        <li class="lite-task-list__item">
+				<!-- Add products -->
+				<li class="lite-task-list__item">
 					<div class="lite-task-list__item-header">
 						<a id="location" href="{% url 'applications:location' application.id %}" class="lite-overview-section-header govuk-link govuk-link--no-visited-state">
 							Locations
@@ -272,7 +272,7 @@
 								<a href="{% url 'applications:application' application.id %}" class="govuk-button" draggable="false" role="button">Done</a>
 							{% endif %}
 						</form>
-                        {% if application.status.key == 'draft' %}
+						{% if application.status.key == 'draft' %}
 							<div class="lite-vertical-align">
 								<a id="link-delete-draft" href="{% url 'applications:delete' application.id %}?return_to={{ CURRENT_PATH }}" class="govuk-link lite-link--icon">
 									{% svg 'close' %}
