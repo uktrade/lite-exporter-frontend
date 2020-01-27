@@ -228,7 +228,17 @@ class EditGood(MultiFormView):
         return data
 
     def get_success_url(self):
-        return reverse_lazy("goods:good", kwargs={"pk": self.object_pk})
+        good = get_good(self.request, self.object_pk)[0]
+
+        raise_a_clc_query = "unsure" == good["is_good_controlled"]["key"]
+        raise_a_pv_query = "grading_required" == good["is_pv_graded"]["key"]
+
+        if not good.get("documents") and not good.get("missing_document_reason"):
+            return reverse_lazy("goods:add_document", kwargs={"pk": self.object_pk})
+        elif raise_a_clc_query or raise_a_pv_query:
+            return reverse_lazy("goods:raise_goods_query", kwargs={"pk": self.object_pk})
+        else:
+            return reverse_lazy("goods:good", kwargs={"pk": self.object_pk})
 
 
 class DeleteGood(TemplateView):

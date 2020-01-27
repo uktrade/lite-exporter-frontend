@@ -66,7 +66,9 @@ def good_is_no_longer_in_list(driver, context):
 
 
 @then("I see my edited good details in the good page")
-def click_on_draft_good(driver):
+def click_on_draft_good(driver, context, exporter_url):
+    good_id = driver.current_url.split("/goods/")[1].split("/")[0]
+    driver.get(exporter_url.rstrip("/") + "/goods/" + good_id)
     text = driver.find_element_by_css_selector(".govuk-summary-list").text
     assert "edited" in text
     assert "Yes" in text

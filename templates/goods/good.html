@@ -42,7 +42,7 @@
 				</div>
 				{% if good.status.key == 'draft' %}
 					<div class="lite-app-bar__controls">
-						<a href="{% url 'goods:edit' good.id %}" id="edit-{{ good.id }}" class="govuk-button govuk-button--secondary">
+						<a href="{% url 'goods:edit' good.id %}" id="edit" class="govuk-button govuk-button--secondary">
 							{% lcs 'goods.GoodsList.EDIT_GOOD_LINK' %}
 						</a>
 					</div>

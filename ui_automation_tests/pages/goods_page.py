@@ -5,7 +5,7 @@ from shared.BasePage import BasePage
 class GoodsPage(BasePage):
 
     # Selector for the edit/delete goods link in the table
-    EDIT_LINK = '[href*="goods/edit"]'
+    EDIT_LINK_ID = "edit"
     document_partial_id = "tr[id*='document']"
     QUERY_TABLE_ID = "query_table"
     GOOD_TABLE_ID = "good-details"
@@ -14,7 +14,7 @@ class GoodsPage(BasePage):
     DELETE_BUTTON = ".govuk-button--warning"
 
     def click_on_goods_edit_link(self):
-        self.driver.find_element_by_css_selector(self.EDIT_LINK).click()
+        self.driver.find_element_by_id(self.EDIT_LINK_ID).click()
 
     def click_on_delete_link(self):
         self.driver.find_element_by_css_selector(self.DELETE_BUTTON).click()
