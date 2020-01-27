@@ -11,8 +11,12 @@ from pages.application_page import ApplicationPage
 from pages.open_application.add_goods_type import OpenApplicationAddGoodsType
 from pages.respond_to_ecju_query_page import RespondToEcjuQueryPage
 from pages.submitted_applications_page import SubmittedApplicationsPages
+from pages.standard_application.task_list import StandardApplicationTaskListPage
+from pages.standard_application.good_details import StandardApplicationGoodDetails
+from pages.standard_application.goods import StandardApplicationGoodsPage
 from pages.add_new_external_location_form_page import AddNewExternalLocationFormPage
 from shared import functions
+from shared.tools.wait import wait_for_element
 from ui_automation_tests.fixtures.env import environment  # noqa
 from ui_automation_tests.fixtures.register_organisation import (  # noqa
     register_organisation,
@@ -164,6 +168,7 @@ def click_apply_licence(driver):  # noqa
     ExporterHubPage(driver).click_apply_for_a_licence()
 
 
+@when("I enter a licence name")  # noqa
 def enter_application_name(driver, context):  # noqa
     apply = ApplyForALicencePage(driver)
     app_time_id = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -205,6 +210,14 @@ def create_standard_application(driver, context):  # noqa
     enter_application_name(driver, context)
     enter_permanent_or_temporary(driver, "permanent", context)
     enter_export_licence(driver, "yes", "123456", context)
+
+
+@when(parsers.parse('I select a licence of type "{type}"'))  # noqa
+def create_mod_application(driver, context, type):  # noqa
+    ExporterHubPage(driver).click_apply_for_a_licence()
+    ApplyForALicencePage(driver).select_licence_type(type)
+    functions.click_submit(driver)
+
 
 
 @when("I click on application locations link")  # noqa
@@ -533,3 +546,52 @@ def add_new_external_location(driver, name, address, country):  # noqa
     add_new_external_location_form_page.enter_external_location_address(address)
     add_new_external_location_form_page.enter_external_location_country(country)
     functions.click_submit(driver)
+
+
+@when("I click on goods")  # noqa
+def i_click_on_goods(driver):  # noqa
+    StandardApplicationTaskListPage(driver).click_goods_link()
+
+
+@when("I add a non-incorporated good to the application")  # noqa
+def i_add_a_non_incorporated_good_to_the_application(driver, context):  # noqa
+    StandardApplicationGoodsPage(driver).click_add_preexisting_good_button()
+
+    # Click the "Add to application" link on the first good
+    driver.find_elements_by_css_selector(".govuk-table__row .govuk-link")[0].click()
+
+    # Enter good details
+    StandardApplicationGoodDetails(driver).enter_value("1")
+    StandardApplicationGoodDetails(driver).enter_quantity("2")
+    StandardApplicationGoodDetails(driver).select_unit("Number of articles")
+    StandardApplicationGoodDetails(driver).check_is_good_incorporated_false()
+    context.is_good_incorporated = "No"
+
+    functions.click_submit(driver)
+
+
+@then("the good is added to the application")  # noqa
+def the_good_is_added_to_the_application(driver, context):  # noqa
+    body_text = Shared(driver).get_text_of_body()
+
+    assert len(StandardApplicationGoodsPage(driver).get_goods()) == 1  # Only one good added
+    assert StandardApplicationGoodsPage(driver).get_goods_total_value() == "£1.00"  # Value
+    assert "2.0" in body_text  # Quantity
+    assert "Number of articles" in body_text  # Unit
+    assert context.is_good_incorporated in body_text  # Incorporated
+
+    # Go back to task list
+    functions.click_back_link(driver)
+
+
+@then(parsers.parse('Wait for "{id}" to be present'))
+def wait_for_element_to_be_present(driver, id):
+    assert wait_for_element(driver, id)
+
+
+@then("I see end user on overview")
+def end_user_on_overview(driver, context):
+    app = GenericApplicationTaskListPage(driver)
+    assert context.type_end_user.capitalize() in app.get_text_of_end_user_table()
+    assert context.name_end_user in app.get_text_of_end_user_table()
+    assert context.address_end_user in app.get_text_of_end_user_table()

@@ -45,14 +45,6 @@ def one_ultimate_end_user(driver):
     functions.click_back_link(driver)
 
 
-@then("I see end user on overview")
-def end_user_on_overview(driver, context):
-    app = GenericApplicationTaskListPage(driver)
-    assert context.type_end_user.capitalize() in app.get_text_of_end_user_table()
-    assert context.name_end_user in app.get_text_of_end_user_table()
-    assert context.address_end_user in app.get_text_of_end_user_table()
-
-
 @then(parsers.parse('"{button}" link is present'))
 def download_and_delete_is_links_are_present(driver, button):
     shared = Shared(driver)
@@ -76,11 +68,6 @@ def delete_ultimate_end_user_document(driver):
 @then("Wait for download link")
 def wait_for_download_link(driver):
     assert wait_for_download_button(driver, page=Shared(driver))
-
-
-@then(parsers.parse('Wait for "{id}" to be present'))
-def wait_for_element_to_be_present(driver, id):
-    assert wait_for_element(driver, id)
 
 
 @when("I delete the end user document")
@@ -122,28 +109,6 @@ def i_click_add_preexisting_locations(driver):  # noqa
     external_locations_page.click_preexisting_locations()
 
 
-@when("I click on goods")  # noqa
-def i_click_on_goods(driver):  # noqa
-    StandardApplicationTaskListPage(driver).click_goods_link()
-
-
-@when("I add a non-incorporated good to the application")  # noqa
-def i_add_a_non_incorporated_good_to_the_application(driver, context):  # noqa
-    StandardApplicationGoodsPage(driver).click_add_preexisting_good_button()
-
-    # Click the "Add to application" link on the first good
-    driver.find_elements_by_css_selector(".govuk-table__row .govuk-link")[0].click()
-
-    # Enter good details
-    StandardApplicationGoodDetails(driver).enter_value("1")
-    StandardApplicationGoodDetails(driver).enter_quantity("2")
-    StandardApplicationGoodDetails(driver).select_unit("Number of articles")
-    StandardApplicationGoodDetails(driver).check_is_good_incorporated_false()
-    context.is_good_incorporated = "No"
-
-    functions.click_submit(driver)
-
-
 @when("I add an incorporated good to the application")  # noqa
 def i_add_a_non_incorporated_good_to_the_application(driver, context):  # noqa
     StandardApplicationGoodsPage(driver).click_add_preexisting_good_button()
@@ -159,20 +124,6 @@ def i_add_a_non_incorporated_good_to_the_application(driver, context):  # noqa
     context.is_good_incorporated = "Yes"
 
     functions.click_submit(driver)
-
-
-@then("the good is added to the application")  # noqa
-def the_good_is_added_to_the_application(driver, context):  # noqa
-    body_text = Shared(driver).get_text_of_body()
-
-    assert len(StandardApplicationGoodsPage(driver).get_goods()) == 1  # Only one good added
-    assert StandardApplicationGoodsPage(driver).get_goods_total_value() == "£1.00"  # Value
-    assert "2.0" in body_text  # Quantity
-    assert "Number of articles" in body_text  # Unit
-    assert context.is_good_incorporated in body_text  # Incorporated
-
-    # Go back to task list
-    functions.click_back_link(driver)
 
 
 @when("I click on ultimate end users")
