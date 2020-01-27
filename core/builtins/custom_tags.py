@@ -244,6 +244,7 @@ def date_display(value):
         "February",
         "March",
         "April",
+        "May",
         "June",
         "July",
         "August",
@@ -254,6 +255,6 @@ def date_display(value):
     ]
 
     year, month, day = value.split("-")
-    month = months[int(month)]
+    month = months[(int(month) - 1)]
 
     return f"{int(day)} {month} {year}"
