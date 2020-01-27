@@ -153,6 +153,14 @@ def delete_ultimate_end_user(request, pk, obj_pk):
     return data.status_code
 
 
+def validate_ultimate_end_user(request, pk, json):
+    json = json.copy()
+    json["validate_only"] = True
+
+    data = post(request, APPLICATIONS_URL + str(pk) + "/ultimate-end-users/", json)
+    return data.json(), data.status_code
+
+
 # Ultimate end user Documents
 def get_ultimate_end_user_document(request, pk, obj_pk):
     data = get(request, APPLICATIONS_URL + pk + ULTIMATE_END_USER_URL + str(obj_pk) + DOCUMENT_URL)

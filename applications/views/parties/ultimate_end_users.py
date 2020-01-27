@@ -8,6 +8,7 @@ from applications.services import (
     get_ultimate_end_users,
     post_ultimate_end_user,
     delete_ultimate_end_user,
+    validate_ultimate_end_user,
 )
 from applications.views.parties.base import AddParty, ExistingPartiesList, SetParty, DeleteParty
 from lite_content.lite_exporter_frontend.applications import UltimateEndUserForm, UltimateEndUserPage
@@ -45,6 +46,12 @@ class SetUltimateEndUser(SetParty):
             strings=UltimateEndUserForm,
             multiple_allowed=True,
         )
+
+    def on_submission(self, request, **kwargs):
+        if int(self.request.POST.get("form_pk")) == len(self.forms.forms) - 1:
+            self.action = post_ultimate_end_user
+        else:
+            self.action = validate_ultimate_end_user
 
 
 class RemoveUltimateEndUser(DeleteParty):
