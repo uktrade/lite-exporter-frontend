@@ -36,7 +36,9 @@ class AddParty(TemplateView):
 
 
 class SetParty(MultiFormView):
-    def __init__(self, url, form, name, back_url, action, strings, multiple_allowed, copy_existing=False, **kwargs):
+    def __init__(
+        self, url, form, name, back_url, strings, multiple_allowed, copy_existing=False, action=None, **kwargs
+    ):
         super().__init__(**kwargs)
         self.url = url
         self.name = name

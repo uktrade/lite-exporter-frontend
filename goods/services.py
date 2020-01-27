@@ -37,16 +37,6 @@ def post_goods(request, json):
     return data.json(), data.status_code
 
 
-def validate_good(request, json):
-    if json.get("good_description", False) or json.get("good_description") == "":
-        post_data = remove_prefix(json, "good_")
-    else:
-        post_data = json
-    post_data["validate_only"] = True
-    data = post(request, GOODS_URL, post_data)
-    return data
-
-
 def update_good(request, pk, json):
     data = put(request, GOODS_URL + pk + "/", json)
     return data.json(), data.status_code
