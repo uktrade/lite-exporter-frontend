@@ -22,9 +22,9 @@ RUN wget -q "https://github.com/mozilla/geckodriver/releases/download/v0.19.1/ge
     && rm /tmp/geckodriver.tgz
 
 # chromeDriver v2.35
-RUN wget -q "https://chromedriver.storage.googleapis.com/73.0.3683.68/chromedriver_linux64.zip" -O /tmp/chromedriver.zip \
-    && unzip -o /tmp/chromedriver.zip -d /usr/bin/ \
-    && rm /tmp/chromedriver.zip
+#RUN wget -q "https://chromedriver.storage.googleapis.com/73.0.3683.68/chromedriver_linux64.zip" -O /tmp/chromedriver.zip \
+#    && unzip -o /tmp/chromedriver.zip -d /usr/bin/ \
+#    && rm /tmp/chromedriver.zip
 
 # xvfb - X server display
 COPY xvfb-chromium /usr/bin/xvfb-chromium
