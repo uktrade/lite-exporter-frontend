@@ -605,12 +605,12 @@ def the_good_is_added_to_the_application(driver, context):  # noqa
 
 
 @then(parsers.parse('Wait for "{id}" to be present'))
-def wait_for_element_to_be_present(driver, id):
+def wait_for_element_to_be_present(driver, id):  # noqa
     assert wait_for_element(driver, id)
 
 
 @then("I see end user on overview")
-def end_user_on_overview(driver, context):
+def end_user_on_overview(driver, context): # noqa
     app = GenericApplicationTaskListPage(driver)
     assert context.type_end_user.capitalize() in app.get_text_of_end_user_table()
     assert context.name_end_user in app.get_text_of_end_user_table()
