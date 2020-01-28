@@ -3,7 +3,7 @@
 <li class="lite-task-list__item">
 	<div class="lite-task-list__item-header">
 		{% if edit_type != 'minor_edit' %}
-		<a id="consignees" href="{% url section_url application.id %}" class="govuk-link govuk-link--no-visited-state">
+		<a id="{{ entity_name }}" href="{% url section_url application.id %}" class="govuk-link govuk-link--no-visited-state">
 			{{ title }}
 		</a>
 		{%  else %}
@@ -81,17 +81,17 @@
 						{% if document %}
 								<tr class="govuk-table__row">
 									<th class="govuk-table__header" scope="row">Document</th>
-									<td class="govuk-table__cell" id="consignee_document_state">
+									<td class="govuk-table__cell" id="{{ entity_name }}_document_state">
 										{%  if document.safe == True %}
-											<a href="{% url download_url pk=application.id %}" id="consignee_document_download" class='govuk-link govuk-link--no-visited-state'>
+											<a href="{% url download_url pk=application.id %}" id="{{ entity_name }}_document_download" class='govuk-link govuk-link--no-visited-state'>
 												{% lcs 'EndUser.Documents.DOWNLOAD_DOCUMENT' %}
 											</a>
 											<br/>
 											{% if edit_type != 'minor_edit' %}
-												<a href="{% url delete_document_url pk=application.id %}" id="consignee_document_delete" class='govuk-link govuk-link--no-visited-state'>
+												<a href="{% url delete_document_url pk=application.id %}" id="{{ entity_name }}_document_delete" class='govuk-link govuk-link--no-visited-state'>
 													{% lcs 'EndUser.Documents.DELETE_DOCUMENT' %}
 												</a>
-											{% endif %}
+											{% endif %}__
 										{%  else %}
 											{% lcs 'EndUser.Documents.PROCESSING' %}
 										{% endif %}
@@ -101,7 +101,7 @@
 							{% else %}
 								<tr class="govuk-table__row">
 									<th class="govuk-table__header" scope="row">Document</th>
-									<td class="govuk-table__cell"><a id="consignee_attach_doc" href="{% url attach_url application.id %}" class='govuk-link govuk-link--no-visited-state'>Attach</a></td>
+									<td class="govuk-table__cell"><a id="{{ entity_name }}_attach_doc" href="{% url attach_url application.id %}" class='govuk-link govuk-link--no-visited-state'>Attach</a></td>
 								</tr>
 							{% endif %}
 					</tbody>
