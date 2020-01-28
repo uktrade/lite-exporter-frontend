@@ -12,16 +12,16 @@
 		{% if data %}
 			{% if multiple or document %}
 				<div class="lite-tag lite-tag--blue">
-					Completed
+					{% lcs 'applications.ApplicationSummaryPage.Sections.COMPLETED_TAG' %}
 				</div>
 			{% else %}
 				<div class="lite-tag lite-tag--orange">
-					In progress
+					{% lcs 'applications.ApplicationSummaryPage.Sections.IN_PROGRESS_TAG' %}
 				</div>
 			{% endif %}
 		{% else %}
 			<div class="lite-tag lite-tag--hollow">
-				Not started
+				{% lcs 'applications.ApplicationSummaryPage.Sections.NOT_STARTED_TAG' %}
 			</div>
 		{% endif %}
 	</div>
@@ -31,11 +31,11 @@
 				{% if multiple %}
 					<thead class="govuk-table__head">
 						<tr class="govuk-table__row">
-							<th class="govuk-table__header" scope="col">Name</th>
-							<th class="govuk-table__header" scope="col">Type</th>
-							<th class="govuk-table__header" scope="col">Website</th>
-							<th class="govuk-table__header" scope="col">Address</th>
-							<th class="govuk-table__header" scope="col">Country</th>
+							<th class="govuk-table__header" scope="col">{% lcs 'applications.ApplicationSummaryPage.PartiesPreviewList.NAME' %}</th>
+							<th class="govuk-table__header" scope="col">{% lcs 'applications.ApplicationSummaryPage.PartiesPreviewList.TYPE' %}</th>
+							<th class="govuk-table__header" scope="col">{% lcs 'applications.ApplicationSummaryPage.PartiesPreviewList.WEBSITE' %}</th>
+							<th class="govuk-table__header" scope="col">{% lcs 'applications.ApplicationSummaryPage.PartiesPreviewList.ADDRESS' %}</th>
+							<th class="govuk-table__header" scope="col">{% lcs 'applications.ApplicationSummaryPage.PartiesPreviewList.COUNTRY' %}</th>
 							<th class="govuk-table__header" scope="col"></th>
 						</tr>
 					</thead>
@@ -53,7 +53,7 @@
 				{% else %}
 					<tbody class="govuk-table__body">
 						<tr class="govuk-table__row">
-							<th class="govuk-table__header" scope="row">Type</th>
+							<th class="govuk-table__header" scope="row">{% lcs 'applications.ApplicationSummaryPage.PartiesPreviewList.TYPE' %}</th>
 							<td class="govuk-table__cell">{{ data.sub_type.value }}</td>
 							<td class="govuk-table__cell govuk-table__cell--numeric">
 								{% if edit_type != 'minor_edit' %}
@@ -65,22 +65,22 @@
 							</td>
 						</tr>
 						<tr class="govuk-table__row">
-							<th class="govuk-table__header" scope="row">Name</th>
+							<th class="govuk-table__header" scope="row">{% lcs 'applications.ApplicationSummaryPage.PartiesPreviewList.NAME' %}</th>
 							<td class="govuk-table__cell">{{ data.name }}</td>
 						</tr>
 						{% if data.website %}
 						<tr class="govuk-table__row">
-							<th class="govuk-table__header" scope="row">Website</th>
+							<th class="govuk-table__header" scope="row">{% lcs 'applications.ApplicationSummaryPage.PartiesPreviewList.WEBSITE' %}</th>
 							<td class="govuk-table__cell">{{ data.website }}</td>
 						</tr>
 						{% endif %}
 						<tr class="govuk-table__row">
-							<th class="govuk-table__header" scope="row">Address</th>
+							<th class="govuk-table__header" scope="row">{% lcs 'applications.ApplicationSummaryPage.PartiesPreviewList.ADDRESS' %}</th>
 							<td class="govuk-table__cell">{{ data.address }}<br/>{{ data.country.name }}</td>
 						</tr>
-						{% if document %}
-								<tr class="govuk-table__row">
-									<th class="govuk-table__header" scope="row">Document</th>
+						<tr class="govuk-table__row">
+							<th class="govuk-table__header" scope="row">{% lcs 'applications.ApplicationSummaryPage.PartiesPreviewList.DOCUMENT' %}</th>
+								{% if document %}
 									<td class="govuk-table__cell" id="{{ entity_name }}_document_state">
 										{%  if document.safe == True %}
 											<a href="{% url download_url pk=application.id %}" id="{{ entity_name }}_document_download" class='govuk-link govuk-link--no-visited-state'>
@@ -91,19 +91,17 @@
 												<a href="{% url delete_document_url pk=application.id %}" id="{{ entity_name }}_document_delete" class='govuk-link govuk-link--no-visited-state'>
 													{% lcs 'EndUser.Documents.DELETE_DOCUMENT' %}
 												</a>
-											{% endif %}__
+											{% endif %}
 										{%  else %}
 											{% lcs 'EndUser.Documents.PROCESSING' %}
 										{% endif %}
-
 									</td>
-								</tr>
-							{% else %}
-								<tr class="govuk-table__row">
-									<th class="govuk-table__header" scope="row">Document</th>
-									<td class="govuk-table__cell"><a id="{{ entity_name }}_attach_doc" href="{% url attach_url application.id %}" class='govuk-link govuk-link--no-visited-state'>Attach</a></td>
-								</tr>
-							{% endif %}
+								{% else %}
+									<td class="govuk-table__cell">
+										<a id="{{ entity_name }}_attach_doc" href="{% url attach_url application.id %}" class='govuk-link govuk-link--no-visited-state'>{% lcs 'applications.ApplicationSummaryPage.PartiesPreviewList.ATTACH' %}</a>
+									</td>
+								{% endif %}
+						</tr>
 					</tbody>
 				{% endif %}
 			</table>
