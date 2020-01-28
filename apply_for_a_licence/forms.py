@@ -1,7 +1,7 @@
 from django.urls import reverse_lazy
 
 from conf.constants import STANDARD_LICENCE, OPEN_LICENCE
-from lite_content.lite_exporter_frontend import strings
+from lite_content.lite_exporter_frontend import strings, generic
 from lite_content.lite_exporter_frontend.applications import (
     InitialApplicationQuestionsForms,
     ExportLicenceQuestions,
