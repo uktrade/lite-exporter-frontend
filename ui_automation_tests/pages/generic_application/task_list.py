@@ -9,8 +9,8 @@ class GenericApplicationTaskListPage(BasePage):
 
     LOCATION_LINK = "location"
     OPEN_GOODS_LINK = "open-goods"
-    END_USER_LINK = "end_users"  # ID
-    CONSIGNEES_LINK = "consignees"
+    END_USER_LINK = "end_user"  # ID
+    CONSIGNEES_LINK = "consignee"
     ULTIMATE_END_USER_LINK = "ultimate_end_users"  # ID
     GOODS_ON_APPLICATION = "[id^=good-on-application-row]"  # CSS
     GOV_TABLES = ".govuk-table__body"  # CSS
