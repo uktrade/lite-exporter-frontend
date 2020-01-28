@@ -49,11 +49,15 @@ def get_application_task_list(request, application, errors=None):
 
 def _get_standard_application_task_list(request, application, errors=None):
     reference_number_description = get_reference_number_description(application)
-    return get_standard_task_list(request, application, "applications/task-lists/standard-application.html", reference_number_description, errors)
+    return get_standard_task_list(
+        request, application, "applications/task-lists/standard-application.html", reference_number_description, errors
+    )
 
 
 def _get_clearance_application_task_list(request, application, errors=None):
-    return get_standard_task_list(request, application, "applications/task-lists/clearance-application.html", None, errors)
+    return get_standard_task_list(
+        request, application, "applications/task-lists/clearance-application.html", None, errors
+    )
 
 
 def get_standard_task_list(request, application, template, reference_number_description=None, errors=None):

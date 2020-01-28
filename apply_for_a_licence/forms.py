@@ -31,7 +31,7 @@ def opening_question():
                 description=InitialApplicationQuestionsForms.OpeningQuestion.DESCRIPTION,
                 questions=[
                     RadioButtons(
-                        name="licence_type",
+                        name="application_type",
                         options=[
                             Option(
                                 key="export_licence",

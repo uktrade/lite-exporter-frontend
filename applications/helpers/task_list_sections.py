@@ -29,9 +29,7 @@ def get_edit_type(application):
 
 
 def get_end_user_document_section(request, application):
-    end_user = application.get("end_user")
-
-    if end_user:
+    if application.get("end_user"):
         end_user_document, _ = get_end_user_document(request, application["id"])
         return end_user_document.get("document")
     else:
@@ -39,9 +37,7 @@ def get_end_user_document_section(request, application):
 
 
 def get_consignee_document_section(request, application):
-    consignee = application.get("consignee")
-
-    if consignee:
+    if application.get("consignee"):
         consignee_document, _ = get_consignee_document(request, application["id"])
         return consignee_document.get("document")
     else:

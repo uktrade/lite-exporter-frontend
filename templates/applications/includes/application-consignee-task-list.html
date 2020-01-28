@@ -24,4 +24,64 @@
 			</div>
 		{% endif %}
 	</div>
+	<div class="lite-task-list__item-details">
+		{% if application.consignee %}
+			<table class="govuk-table">
+				<tbody class="govuk-table__body">
+					<tr class="govuk-table__row">
+						<th class="govuk-table__header" scope="row">Type</th>
+						<td class="govuk-table__cell">{{ application.consignee.sub_type.value }}</td>
+						<td class="govuk-table__cell govuk-table__cell--numeric">
+							{% if edit_type != 'minor_edit' %}
+							<a class="lite-link--icon" href="{% url 'applications:remove_consignee' application.id %}">
+								{% svg 'close' %}
+								Remove
+							</a>
+							{% endif %}
+						</td>
+					</tr>
+					<tr class="govuk-table__row">
+						<th class="govuk-table__header" scope="row">Name</th>
+						<td class="govuk-table__cell">{{ application.consignee.name }}</td>
+					</tr>
+					{% if application.consignee.website %}
+					<tr class="govuk-table__row">
+						<th class="govuk-table__header" scope="row">Website</th>
+						<td class="govuk-table__cell">{{ application.consignee.website }}</td>
+					</tr>
+					{% endif %}
+					<tr class="govuk-table__row">
+						<th class="govuk-table__header" scope="row">Address</th>
+						<td class="govuk-table__cell">{{ application.consignee.address }}<br/>{{ application.consignee.country.name }}</td>
+					</tr>
+					{% if consignee_document %}
+							<tr class="govuk-table__row">
+								<th class="govuk-table__header" scope="row">Document</th>
+								<td class="govuk-table__cell" id="consignee_document_state">
+									{%  if consignee_document.safe == True %}
+										<a href="{% url 'applications:consignee_download_document' pk=application.id %}" id="consignee_document_download" class='govuk-link govuk-link--no-visited-state'>
+											{% lcs 'EndUser.Documents.DOWNLOAD_DOCUMENT' %}
+										</a>
+										<br/>
+										{% if edit_type != 'minor_edit' %}
+											<a href="{% url 'applications:consignee_delete_document' pk=application.id %}" id="consignee_document_delete" class='govuk-link govuk-link--no-visited-state'>
+												{% lcs 'EndUser.Documents.DELETE_DOCUMENT' %}
+											</a>
+										{% endif %}
+									{%  else %}
+										{% lcs 'EndUser.Documents.PROCESSING' %}
+									{% endif %}
+
+								</td>
+							</tr>
+						{% else %}
+							<tr class="govuk-table__row">
+								<th class="govuk-table__header" scope="row">Document</th>
+								<td class="govuk-table__cell"><a id="consignee_attach_doc" href="{% url 'applications:consignee_attach_document' application.id %}" class='govuk-link govuk-link--no-visited-state'>Attach</a></td>
+							</tr>
+						{% endif %}
+				</tbody>
+			</table>
+		{% endif %}
+	</div>
 </li>
