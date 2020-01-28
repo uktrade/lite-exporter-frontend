@@ -12,8 +12,8 @@ class LicenceType(SingleFormView):
         self.action = validate_opening_question
 
     def get_success_url(self):
-        licence_type = self.get_validated_data()["licence_type"]
-        return reverse_lazy(f"apply_for_a_licence:{licence_type}_questions")
+        application_type = self.get_validated_data()["application_type"]
+        return reverse_lazy(f"apply_for_a_licence:{application_type}_questions")
 
 
 class ExportLicenceQuestions(MultiFormView):
