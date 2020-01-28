@@ -197,7 +197,7 @@
 {% endblock %}
 
 {% block javascript %}
-	<script type="text/javascript">
+	<script type="text/javascript" nonce="{{ request.csp_nonce }}">
 		function textToClipboard() {
 		    var dummy = document.createElement("textarea");
 		    document.body.appendChild(dummy);
