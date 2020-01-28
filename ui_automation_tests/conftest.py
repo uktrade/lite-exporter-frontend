@@ -222,7 +222,6 @@ def create_mod_application(driver, context, type):  # noqa
     functions.click_submit(driver)
 
 
-
 @when("I click on application locations link")  # noqa
 def i_click_application_locations_link(driver):  # noqa
     app = GenericApplicationTaskListPage(driver)
@@ -610,7 +609,7 @@ def wait_for_element_to_be_present(driver, id):  # noqa
 
 
 @then("I see end user on overview")
-def end_user_on_overview(driver, context): # noqa
+def end_user_on_overview(driver, context):  # noqa
     app = GenericApplicationTaskListPage(driver)
     assert context.type_end_user.capitalize() in app.get_text_of_end_user_table()
     assert context.name_end_user in app.get_text_of_end_user_table()
@@ -618,84 +617,84 @@ def end_user_on_overview(driver, context): # noqa
 
 
 @when("I change my reference name")
-def change_ref_name(driver, context): # noqa
+def change_ref_name(driver, context):  # noqa
     driver.find_element_by_id("link-reference-name").click()
     enter_application_name(driver, context)
 
 
 @then("I see my edited reference name")
-def assert_ref_name(context, driver): # noqa
+def assert_ref_name(context, driver):  # noqa
     assert context.app_name in driver.find_element_by_css_selector(".lite-task-list").text
 
 
 @then("I see my edited reference number")
-def assert_ref_num(driver): # noqa
+def assert_ref_num(driver):  # noqa
     assert "12345678" in driver.find_element_by_css_selector(".lite-task-list").text
 
 
 @when("I change my reference number")
-def change_ref_num(driver, context): # noqa
+def change_ref_num(driver, context):  # noqa
     driver.find_element_by_id("link-told-by-an-official").click()
     enter_export_licence(driver, "yes", "12345678", context)
 
 
 @when("I remove a good from the application")
-def i_remove_a_good_from_the_application(driver): # noqa
+def i_remove_a_good_from_the_application(driver):  # noqa
     GenericApplicationTaskListPage(driver).get_remove_good_link().click()
 
 
 @then("the good has been removed from the application")
-def no_goods_are_left_on_the_application(driver): # noqa
+def no_goods_are_left_on_the_application(driver):  # noqa
     assert not functions.element_with_css_selector_exists(
         driver, GenericApplicationTaskListPage(driver).REMOVE_GOOD_LINK
     )
 
 
 @when("I remove the end user off the application")
-def i_remove_the_end_user_off_the_application(driver): # noqa
+def i_remove_the_end_user_off_the_application(driver):  # noqa
     remove_end_user_link = GenericApplicationTaskListPage(driver).find_remove_end_user_link()
     driver.execute_script("arguments[0].click();", remove_end_user_link)
     functions.click_back_link(driver)
 
 
 @then("no end user is set on the application")
-def no_end_user_is_set_on_the_application(driver): # noqa
+def no_end_user_is_set_on_the_application(driver):  # noqa
     assert not GenericApplicationTaskListPage(driver).does_remove_end_user_exist(driver)
 
 
 @when("I remove the consignee off the application")
-def i_remove_the_consignee_off_the_application(driver): # noqa
+def i_remove_the_consignee_off_the_application(driver):  # noqa
     remove_consignee_link = GenericApplicationTaskListPage(driver).find_remove_consignee_link()
     driver.execute_script("arguments[0].click();", remove_consignee_link)
     functions.click_back_link(driver)
 
 
 @then("no consignee is set on the application")
-def no_consignee_is_set_on_the_application(driver): # noqa
+def no_consignee_is_set_on_the_application(driver):  # noqa
     assert not GenericApplicationTaskListPage(driver).does_remove_consignee_exist(driver)
 
 
 @when("I click on the application third parties link")
-def i_click_on_application_third_parties_link(driver): # noqa
+def i_click_on_application_third_parties_link(driver):  # noqa
     StandardApplicationTaskListPage(driver).click_third_parties_link()
 
 
 @when("I remove a third party from the application")
-def i_remove_a_third_party_from_the_application(driver): # noqa
+def i_remove_a_third_party_from_the_application(driver):  # noqa
     remove_good_link = GenericApplicationTaskListPage(driver).find_remove_third_party_link()
     driver.execute_script("arguments[0].click();", remove_good_link)
     functions.click_back_link(driver)
 
 
 @then("the third party has been removed from the application")
-def no_third_parties_are_left_on_the_application(driver): # noqa
+def no_third_parties_are_left_on_the_application(driver):  # noqa
     assert not functions.element_with_css_selector_exists(
         driver, GenericApplicationTaskListPage(driver).REMOVE_THIRD_PARTY_LINK
     )
 
 
 @when("I remove an additional document")
-def i_remove_an_additional_document(driver): # noqa
+def i_remove_an_additional_document(driver):  # noqa
     driver.set_timeout_to(0)
     remove_consignee_link = GenericApplicationTaskListPage(driver).find_remove_additional_document_link()
     driver.set_timeout_to(10)
@@ -703,10 +702,10 @@ def i_remove_an_additional_document(driver): # noqa
 
 
 @when("I confirm I want to delete the document")
-def i_click_confirm(driver): # noqa
+def i_click_confirm(driver):  # noqa
     GenericApplicationTaskListPage(driver).confirm_delete_additional_document()
 
 
 @then("the document is removed from the application")
-def no_documents_are_set_on_the_application(driver): # noqa
+def no_documents_are_set_on_the_application(driver):  # noqa
     assert not GenericApplicationTaskListPage(driver).does_remove_additional_document_exist(driver)

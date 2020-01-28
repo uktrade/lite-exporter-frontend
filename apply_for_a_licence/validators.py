@@ -6,5 +6,6 @@ def validate_opening_question(_, json):
         return json, HTTPStatus.OK
 
     return (
-        {"errors": {"licence_type": ["Select the type of licence or clearance you need"]}}, HTTPStatus.BAD_REQUEST,
+        {"errors": {"licence_type": ["Select the type of licence or clearance you need"]}},
+        HTTPStatus.BAD_REQUEST,
     )
