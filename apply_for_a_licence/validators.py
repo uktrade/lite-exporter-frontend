@@ -2,7 +2,7 @@ from http import HTTPStatus
 
 
 def validate_opening_question(_, json):
-    if json.get("application_type"):
+    if json.get("licence_type"):
         return json, HTTPStatus.OK
 
     return (
