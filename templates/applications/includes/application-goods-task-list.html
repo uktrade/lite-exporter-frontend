@@ -14,4 +14,45 @@
 			</div>
 		{% endif %}
 	</div>
+	<div class="lite-task-list__item-details">
+		{% if sites %}
+			<table class="govuk-table">
+				<tbody class="govuk-table__body">
+					<tr class="govuk-table__row">
+						<th class="govuk-table__header" scope="row">Site</th>
+						<td class="govuk-table__header">Address</td>
+					</tr>
+					{% for site in sites %}
+						<tr class="govuk-table__row">
+							<td class="govuk-table__cell" scope="row">{{ site.name }}</td>
+							<td class="govuk-table__cell">
+								{{ site.address.address_line_1 }}<br/>
+								{% if site.address.address_line_2 %}
+									{{ site.address.address_line_2 }}<br/>
+								{% endif %}
+								{{ site.address.city }}<br/>
+								{{ site.address.postcode }}<br/>
+								{{ site.address.country.name }}
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		{% elif external_locations %}
+			<table class="govuk-table">
+				<tbody class="govuk-table__body">
+					<tr class="govuk-table__row">
+						<th class="govuk-table__header" scope="row">Name</th>
+						<td class="govuk-table__header">Address</td>
+					</tr>
+					{% for external_location in external_locations %}
+						<tr class="govuk-table__row">
+							<td class="govuk-table__cell" scope="row">{{ external_location.name }}</td>
+							<td class="govuk-table__cell">{{ external_location.address|linebreaksbr }}<br>{{ external_location.country.name }}</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		{% endif %}
+	</div>
 </li>
