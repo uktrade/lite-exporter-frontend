@@ -2,8 +2,11 @@ from django.urls import reverse_lazy
 
 from conf.constants import STANDARD_LICENCE, OPEN_LICENCE
 from lite_content.lite_exporter_frontend import strings
-from lite_content.lite_exporter_frontend.applications import InitialApplicationQuestionsForms, ExportLicenceQuestions, \
-    MODQuestions
+from lite_content.lite_exporter_frontend.applications import (
+    InitialApplicationQuestionsForms,
+    ExportLicenceQuestions,
+    MODQuestions,
+)
 from lite_forms.components import (
     RadioButtons,
     Form,
@@ -21,75 +24,81 @@ def reference_name_question():
     return Form(
         title=InitialApplicationQuestionsForms.ReferenceNameQuestion.TITLE,
         description=InitialApplicationQuestionsForms.ReferenceNameQuestion.DESCRIPTION,
-        questions=[TextInput(name="name"), ],
+        questions=[TextInput(name="name"),],
         default_button_name=strings.CONTINUE,
     )
 
 
 def opening_question():
-    return Form(title=InitialApplicationQuestionsForms.OpeningQuestion.TITLE,
-                description=InitialApplicationQuestionsForms.OpeningQuestion.DESCRIPTION,
-                questions=[
-                    RadioButtons(
-                        name="application_type",
-                        options=[
-                            Option(
-                                key="export_licence",
-                                value=InitialApplicationQuestionsForms.OpeningQuestion.LicenceTypes.EXPORT_LICENCE_TITLE,
-                                description=InitialApplicationQuestionsForms.OpeningQuestion.LicenceTypes.EXPORT_LICENCE_DESCRIPTION
-                            ),
-                            Option(
-                                key="export_licence",
-                                value=InitialApplicationQuestionsForms.OpeningQuestion.LicenceTypes.TRANSHIPMENT_LICENCE_TITLE,
-                                description=InitialApplicationQuestionsForms.OpeningQuestion.LicenceTypes.TRANSHIPMENT_LICENCE_DESCRIPTION,
-                            ),
-                            Option(
-                                key="export_licence",
-                                value=InitialApplicationQuestionsForms.OpeningQuestion.LicenceTypes.TRADE_CONTROL_LICENCE_TITLE,
-                                description=InitialApplicationQuestionsForms.OpeningQuestion.LicenceTypes.TRADE_CONTROL_LICENCE_DESCRIPTION,
-                            ),
-                            Option(
-                                key="mod",
-                                value=InitialApplicationQuestionsForms.OpeningQuestion.LicenceTypes.MOD_CLEARANCE_TITLE,
-                                description=InitialApplicationQuestionsForms.OpeningQuestion.LicenceTypes.MOD_CLEARANCE_DESCRIPTION,
-                            ),
-                        ],
+    return Form(
+        title=InitialApplicationQuestionsForms.OpeningQuestion.TITLE,
+        description=InitialApplicationQuestionsForms.OpeningQuestion.DESCRIPTION,
+        questions=[
+            RadioButtons(
+                name="application_type",
+                options=[
+                    Option(
+                        key="export_licence",
+                        value=InitialApplicationQuestionsForms.OpeningQuestion.LicenceTypes.EXPORT_LICENCE_TITLE,
+                        description=InitialApplicationQuestionsForms.OpeningQuestion.LicenceTypes.EXPORT_LICENCE_DESCRIPTION,
                     ),
-                    DetailComponent(
-                        InitialApplicationQuestionsForms.OpeningQuestion.HELP_WITH_CHOOSING_A_LICENCE,
-                        InitialApplicationQuestionsForms.OpeningQuestion.HELP_WITH_CHOOSING_A_LICENCE_CONTENT,
+                    Option(
+                        key="export_licence",
+                        value=InitialApplicationQuestionsForms.OpeningQuestion.LicenceTypes.TRANSHIPMENT_LICENCE_TITLE,
+                        description=InitialApplicationQuestionsForms.OpeningQuestion.LicenceTypes.TRANSHIPMENT_LICENCE_DESCRIPTION,
+                    ),
+                    Option(
+                        key="export_licence",
+                        value=InitialApplicationQuestionsForms.OpeningQuestion.LicenceTypes.TRADE_CONTROL_LICENCE_TITLE,
+                        description=InitialApplicationQuestionsForms.OpeningQuestion.LicenceTypes.TRADE_CONTROL_LICENCE_DESCRIPTION,
+                    ),
+                    Option(
+                        key="mod",
+                        value=InitialApplicationQuestionsForms.OpeningQuestion.LicenceTypes.MOD_CLEARANCE_TITLE,
+                        description=InitialApplicationQuestionsForms.OpeningQuestion.LicenceTypes.MOD_CLEARANCE_DESCRIPTION,
                     ),
                 ],
-                default_button_name=strings.CONTINUE,
-                back_link=Breadcrumbs([
-                    BackLink(generic.SERVICE_NAME, reverse_lazy("core:hub")),
-                    BackLink(InitialApplicationQuestionsForms.OpeningQuestion.BREADCRUMB, ""),
-                ]))
+            ),
+            DetailComponent(
+                InitialApplicationQuestionsForms.OpeningQuestion.HELP_WITH_CHOOSING_A_LICENCE,
+                InitialApplicationQuestionsForms.OpeningQuestion.HELP_WITH_CHOOSING_A_LICENCE_CONTENT,
+            ),
+        ],
+        default_button_name=strings.CONTINUE,
+        back_link=Breadcrumbs(
+            [
+                BackLink(generic.SERVICE_NAME, reverse_lazy("core:hub")),
+                BackLink(InitialApplicationQuestionsForms.OpeningQuestion.BREADCRUMB, ""),
+            ]
+        ),
+    )
 
 
 def export_licence_questions(application_type):
     return FormGroup(
         [
-            Form(title=ExportLicenceQuestions.ExportLicenceQuestion.TITLE,
-                 description=ExportLicenceQuestions.ExportLicenceQuestion.DESCRIPTION,
-                 questions=[
-                     RadioButtons(
-                         name="application_type",
-                         options=[
-                             Option(
-                                 key=STANDARD_LICENCE,
-                                 value=ExportLicenceQuestions.ExportLicenceQuestion.STANDARD_LICENCE,
-                                 description=ExportLicenceQuestions.ExportLicenceQuestion.STANDARD_LICENCE_DESCRIPTION,
-                             ),
-                             Option(
-                                 key=OPEN_LICENCE,
-                                 value=ExportLicenceQuestions.ExportLicenceQuestion.OPEN_LICENCE,
-                                 description=ExportLicenceQuestions.ExportLicenceQuestion.OPEN_LICENCE_DESCRIPTION,
-                             ),
-                         ],
-                     ),
-                 ],
-                 default_button_name=strings.CONTINUE, ),
+            Form(
+                title=ExportLicenceQuestions.ExportLicenceQuestion.TITLE,
+                description=ExportLicenceQuestions.ExportLicenceQuestion.DESCRIPTION,
+                questions=[
+                    RadioButtons(
+                        name="application_type",
+                        options=[
+                            Option(
+                                key=STANDARD_LICENCE,
+                                value=ExportLicenceQuestions.ExportLicenceQuestion.STANDARD_LICENCE,
+                                description=ExportLicenceQuestions.ExportLicenceQuestion.STANDARD_LICENCE_DESCRIPTION,
+                            ),
+                            Option(
+                                key=OPEN_LICENCE,
+                                value=ExportLicenceQuestions.ExportLicenceQuestion.OPEN_LICENCE,
+                                description=ExportLicenceQuestions.ExportLicenceQuestion.OPEN_LICENCE_DESCRIPTION,
+                            ),
+                        ],
+                    ),
+                ],
+                default_button_name=strings.CONTINUE,
+            ),
             reference_name_question(),
             Form(
                 title=ExportLicenceQuestions.ExportType.TITLE,
@@ -136,31 +145,35 @@ def export_licence_questions(application_type):
 
 
 def MOD_questions():
-    return FormGroup([
-        Form(title=MODQuestions.WhatAreYouApplyingFor.TITLE,
-             description=MODQuestions.WhatAreYouApplyingFor.DESCRIPTION,
-             questions=[
-                 RadioButtons(
-                     name="application_type",
-                     options=[
-                         Option(
-                             key="permission",
-                             value=MODQuestions.WhatAreYouApplyingFor.PERMISSION_TITLE,
-                             description=MODQuestions.WhatAreYouApplyingFor.PERMISSION_DESCRIPTION,
-                         ),
-                         Option(
-                             key="exhibition_clearance",
-                             value=MODQuestions.WhatAreYouApplyingFor.EXHIBITION_CLEARANCE_TITLE,
-                             description=MODQuestions.WhatAreYouApplyingFor.EXHIBITION_CLEARANCE_DESCRIPTION,
-                         ),
-                         Option(
-                             key="gifting_clearance",
-                             value=MODQuestions.WhatAreYouApplyingFor.GIFTING_CLEARANCE_TITLE,
-                             description=MODQuestions.WhatAreYouApplyingFor.GIFTING_CLEARANCE_DESCRIPTION,
-                         ),
-                     ],
-                 ),
-             ],
-             default_button_name=strings.CONTINUE, ),
-        reference_name_question(),
-    ])
+    return FormGroup(
+        [
+            Form(
+                title=MODQuestions.WhatAreYouApplyingFor.TITLE,
+                description=MODQuestions.WhatAreYouApplyingFor.DESCRIPTION,
+                questions=[
+                    RadioButtons(
+                        name="application_type",
+                        options=[
+                            Option(
+                                key="permission",
+                                value=MODQuestions.WhatAreYouApplyingFor.PERMISSION_TITLE,
+                                description=MODQuestions.WhatAreYouApplyingFor.PERMISSION_DESCRIPTION,
+                            ),
+                            Option(
+                                key="exhibition_clearance",
+                                value=MODQuestions.WhatAreYouApplyingFor.EXHIBITION_CLEARANCE_TITLE,
+                                description=MODQuestions.WhatAreYouApplyingFor.EXHIBITION_CLEARANCE_DESCRIPTION,
+                            ),
+                            Option(
+                                key="gifting_clearance",
+                                value=MODQuestions.WhatAreYouApplyingFor.GIFTING_CLEARANCE_TITLE,
+                                description=MODQuestions.WhatAreYouApplyingFor.GIFTING_CLEARANCE_DESCRIPTION,
+                            ),
+                        ],
+                    ),
+                ],
+                default_button_name=strings.CONTINUE,
+            ),
+            reference_name_question(),
+        ]
+    )
