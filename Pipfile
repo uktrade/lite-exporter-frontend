@@ -16,6 +16,7 @@ black = "==19.10b0"
 faker = "*"
 pyderman = "*"
 pytest-rerunfailures = "*"
+pytest-bdd = "*"
 
 [packages]
 Django = "==2.2.9"
