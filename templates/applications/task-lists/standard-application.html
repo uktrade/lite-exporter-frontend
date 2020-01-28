@@ -23,10 +23,18 @@
 	{% tld goods 'product' 'products' as goods_description %}
 	{% include "includes/task-list-item.html" with id='products' title='goods.GoodsList.TITLE' url=goods_url status=goods|task_list_item_status description=goods_description %}
 
-	{% include "applications/includes/application-goods-task-list.html" %}
-	{% include "applications/includes/application-end-user-task-list.html" %}
-	{% include "applications/includes/application-consignee-task-list.html" %}
-	{% include "applications/includes/application-ultimate-end-users-task-list.html" %}
-	{% include "applications/includes/application-third-parties-task-list.html" %}
-	{% include "applications/includes/application-additional-documents-task-list.html" %}
+	{% include "includes/goods-task-section.html" %}
+
+	{% lcs 'applications.ApplicationSummaryPage.END_USER' as end_user_title %}
+	{% lcs 'applications.ApplicationSummaryPage.CONSIGNEE' as consignee_title %}
+	{% lcs 'applications.ApplicationSummaryPage.ULTIMATE_END_USERS' as ultimate_end_user_title %}
+	{% lcs 'applications.ApplicationSummaryPage.THIRD_PARTIES' as third_parties_title %}
+	
+	{% include "includes/parties-task-section.html" with title=end_user_title data=application.end_user document=end_user_document multiple=False section_url="applications:end_user" delete_url="applications:remove_end_user" download_url="applications:end_user_download_document"  delete_document_url="applications:end_user_delete_document" attach_url="applications:end_user_attach_document" %}
+	{% include "includes/parties-task-section.html" with title=consignee_title data=application.consignee document=consignee_document multiple=False section_url="applications:consignee" delete_url="applications:remove_consignee" download_url="applications:consignee_download_document"  delete_document_url="applications:consignee_delete_document" attach_url="applications:consignee_attach_document" %}
+	{% if ultimate_end_users_required %}
+		{% include "includes/parties-task-section.html" with title=ultimate_end_user_title data=ultimate_end_users multiple=True section_url="applications:ultimate_end_users"%}
+	{% endif %}
+	{% include "includes/parties-task-section.html" with title=third_parties_title data=third_parties multiple=True section_url="applications:third_parties"%}
+	{% include "includes/additional-documents-task-section.html" %}
 {% endblock %}
