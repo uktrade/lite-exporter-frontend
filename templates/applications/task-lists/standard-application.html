@@ -2,9 +2,9 @@
 
 {% block title %}
 	{% if is_editing %}
-		Edit the application
+		{% lcs 'applications.StandardApplicationTaskList.EDIT_TITLE' %}
 	{% else %}
-		Apply for a standard export licence
+		{% lcs 'applications.StandardApplicationTaskList.NEW_TITLE' %}
 	{% endif %}
 {% endblock %}
 
