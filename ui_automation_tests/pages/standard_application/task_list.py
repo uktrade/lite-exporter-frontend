@@ -6,10 +6,10 @@ class StandardApplicationTaskListPage(BasePage):
 
     LINK_GOODS_ID = "link-products"
     LINK_GOODS_LOCATIONS_ID = "link-goods-locations"
-    LINK_END_USER_ID = "link-end-user"
-    LINK_CONSIGNEE_ID = "link-consignee"
-    LINK_THIRD_PARTIES_ID = "link-third-parties"
-    LINK_ULTIMATE_RECIPIENTS_ID = "link-ultimate-recipients"
+    LINK_END_USER_ID = "end_user"
+    LINK_CONSIGNEE_ID = "consignee"
+    LINK_THIRD_PARTIES_ID = "third_parties"
+    LINK_ULTIMATE_RECIPIENTS_ID = "ultimate_end_users"
     LINK_SUPPORTING_DOCUMENTATION = "link-supporting-documentation"
 
     def _click_link(self, element_id):
