@@ -492,7 +492,7 @@ def upload_a_file(driver, filename):  # noqa
 @when("I click on end user")  # noqa
 def i_click_on_end_user(driver):  # noqa
     app = GenericApplicationTaskListPage(driver)
-    utils.scroll_to_element_by_id(driver, app.END_USER_LINK)
+    utils.scroll_to_element_by_id(driver, app.LINK_END_USER_ID)
     app.click_end_user_link()
 
 
@@ -653,6 +653,7 @@ def no_goods_are_left_on_the_application(driver):  # noqa
 
 @when("I remove the end user off the application")
 def i_remove_the_end_user_off_the_application(driver):  # noqa
+    GenericApplicationTaskListPage(driver).click_end_user_link()
     remove_end_user_link = GenericApplicationTaskListPage(driver).find_remove_end_user_link()
     driver.execute_script("arguments[0].click();", remove_end_user_link)
     functions.click_back_link(driver)
@@ -665,6 +666,7 @@ def no_end_user_is_set_on_the_application(driver):  # noqa
 
 @when("I remove the consignee off the application")
 def i_remove_the_consignee_off_the_application(driver):  # noqa
+    GenericApplicationTaskListPage(driver).click_consignee_link()
     remove_consignee_link = GenericApplicationTaskListPage(driver).find_remove_consignee_link()
     driver.execute_script("arguments[0].click();", remove_consignee_link)
     functions.click_back_link(driver)
@@ -697,6 +699,7 @@ def no_third_parties_are_left_on_the_application(driver):  # noqa
 @when("I remove an additional document")
 def i_remove_an_additional_document(driver):  # noqa
     driver.set_timeout_to(0)
+    GenericApplicationTaskListPage(driver).click_consignee_link()
     remove_consignee_link = GenericApplicationTaskListPage(driver).find_remove_additional_document_link()
     driver.set_timeout_to(10)
     driver.execute_script("arguments[0].click();", remove_consignee_link)

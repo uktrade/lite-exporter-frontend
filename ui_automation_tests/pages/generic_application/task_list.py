@@ -7,11 +7,12 @@ from shared.functions import element_with_css_selector_exists, element_with_id_e
 
 class GenericApplicationTaskListPage(BasePage):
 
-    LOCATION_LINK = "location"
-    OPEN_GOODS_LINK = "open-goods"
-    END_USER_LINK = "end_user"  # ID
-    CONSIGNEES_LINK = "consignee"
-    ULTIMATE_END_USER_LINK = "ultimate_end_users"  # ID
+    LOCATION_LINK = "link-locations"
+    OPEN_GOODS_LINK = "link-products"
+    LINK_END_USER_ID = "link-end-user"
+    CONSIGNEES_LINK = "link-consignee"
+    LINK_SUPPORTING_DOCUMENTS_ID = "link-supporting-documents"
+    ULTIMATE_END_USER_LINK = "link-ultimate_end_users"  # ID
     GOODS_ON_APPLICATION = "[id^=good-on-application-row]"  # CSS
     GOV_TABLES = ".govuk-table__body"  # CSS
     DELETE_END_USER_DOCUMENT = "end_user_document_delete"  # ID
@@ -25,6 +26,9 @@ class GenericApplicationTaskListPage(BasePage):
     REMOVE_ADDITIONAL_DOCUMENT_LINK = "document_delete"  # ID
     LITE_TASK_LIST_ITEMS = ".lite-task-list__items"
     DELETE_ADDITIONAL_DOC_CONFIRM_YES = "delete_document_confirmation-yes"  # ID
+
+    def click_supporting_documents_link(self):
+        self.driver.find_element_by_id(self.LINK_SUPPORTING_DOCUMENTS_ID).click()
 
     def find_remove_goods_type_link(self):
         try:
@@ -82,7 +86,7 @@ class GenericApplicationTaskListPage(BasePage):
         self.driver.execute_script("arguments[0].click();", element)
 
     def click_end_user_link(self):
-        self.driver.find_element_by_id(self.END_USER_LINK).click()
+        self.driver.find_element_by_id(self.LINK_END_USER_ID).click()
 
     def click_consignee_link(self):
         self.driver.find_element_by_id(self.CONSIGNEES_LINK).click()
