@@ -15,7 +15,7 @@
 
 {% block initial_tasks %}
 	{% url 'applications:edit_told_by_an_official' application.id as told_by_an_official_url %}
-	{% include "includes/task-list-item.html" with id="told-by-an-official" title="applications.OpenApplicationTaskList.END_USE_CONTROL" url=told_by_an_official_url status="done" description=reference_number_description %}
+	{% include "includes/task-list-item.html" with id="told-by-an-official" title="applications.StandardApplicationTaskList.END_USE_CONTROL" url=told_by_an_official_url status="done" description=reference_number_description %}
 {% endblock %}
 
 {% block main_tasks %}
