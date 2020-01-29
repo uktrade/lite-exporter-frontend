@@ -22,11 +22,11 @@
 
 	{% if ultimate_end_users_required %}
 		{% url 'applications:ultimate_end_users' application.id as ultimate_end_user_url %}
-		{% include "includes/task-list-item.html" with title="applications.ExhibitionClearanceTaskList.ULTIMATE_END_USERS" url=ultimate_end_user_url status=ultimate_end_users_status optional=True %}
+		{% include "includes/task-list-item.html" with title="applications.ExhibitionClearanceTaskList.ULTIMATE_END_USERS" url=ultimate_end_user_url status=ultimate_end_users_status %}
 	{% endif %}
 
 	{% url 'applications:consignee' application.id as consignee_url %}
-	{% include "includes/task-list-item.html" with title="applications.ExhibitionClearanceTaskList.CONSIGNEE" url=consignee_url status=consignee_status optional=True %}
+	{% include "includes/task-list-item.html" with title="applications.ExhibitionClearanceTaskList.CONSIGNEE" url=consignee_url status=consignee_status %}
 
 	{% url 'applications:third_parties' application.id as third_parties_url %}
 	{% tld goods 'third party' 'third parties' as third_parties_description %}
