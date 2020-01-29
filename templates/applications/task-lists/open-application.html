@@ -15,11 +15,12 @@
 
 {% block main_tasks %}
 	{% url 'applications:goods_types' application.id as goods_url %}
-	{% tld goods 'product' 'products' as goods_description %}
-	{% include "includes/task-list-item.html" with id='products' title='applications.OpenApplicationTaskList.GOODS' url=goods_url status=goods|task_list_item_status description=goods_description %}
+	{% tld goodstypes 'product' 'products' as goods_description %}
+	{% include "includes/task-list-item.html" with id='products' title='applications.OpenApplicationTaskList.GOODS' url=goods_url status=goodstypes|task_list_item_status description=goods_description %}
 
 	{% url 'applications:location' application.id as goods_url %}
-	{% include "includes/task-list-item.html" with id='locations' title='applications.OpenApplicationTaskList.GOODS_LOCATION' url=goods_url status=goods|task_list_item_status description=goods_description %}
+	{% tld locations 'location' 'locations' as location_description %}
+	{% include "includes/task-list-item.html" with id='locations' title='applications.OpenApplicationTaskList.GOODS_LOCATION' url=goods_url status=locations|task_list_item_status description=location_description %}
 
 	{% url 'applications:countries' application.id as countries_url %}
 	{% tld countries 'country' 'countries' as countries_description %}
@@ -27,10 +28,10 @@
 
 	{% if goodstypes and countries and edit_type != "minor_edit" %}
 		{% url 'applications:countries' application.id as countries_matrix_url %}
-		{% include "includes/task-list-item.html" with id="countries" title='applications.OpenApplicationTaskList.COUNTRIES_WHERE_EACH_GOOD_IS_GOING' url=countries_matrix_url %}
+		{% include "includes/task-list-item.html" with id="countries_matrix" title='applications.OpenApplicationTaskList.COUNTRIES_WHERE_EACH_GOOD_IS_GOING' url=countries_matrix_url %}
 	{% endif %}
 
 	{% url 'applications:additional_documents' application.id as supporting_documents_url %}
-	{% tld countries 'country' 'countries' as countries_description %}
-	{% include "includes/task-list-item.html" with id="supporting-documents" title='applications.OpenApplicationTaskList.SUPPORTING_DOCUMENTS' url=supporting_documents_url status=countries|task_list_item_status %}
+	{% tld supporting_documents 'document' 'documents' as supporting_documents_description %}
+	{% include "includes/task-list-item.html" with id="supporting-documents" title='applications.OpenApplicationTaskList.SUPPORTING_DOCUMENTS' url=supporting_documents_url status=supporting_documents|task_list_item_status description=supporting_documents_description %}
 {% endblock %}
