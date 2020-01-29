@@ -24,7 +24,7 @@ def reference_name_question():
     return Form(
         title=InitialApplicationQuestionsForms.ReferenceNameQuestion.TITLE,
         description=InitialApplicationQuestionsForms.ReferenceNameQuestion.DESCRIPTION,
-        questions=[TextInput(name="name"),],
+        questions=[TextInput(name="name", title=InitialApplicationQuestionsForms.ReferenceNameQuestion.LABEL),],
         default_button_name=strings.CONTINUE,
     )
 
@@ -36,6 +36,7 @@ def opening_question():
         questions=[
             RadioButtons(
                 name="licence_type",
+                title=InitialApplicationQuestionsForms.OpeningQuestion.LABEL,
                 options=[
                     Option(
                         key="export_licence",
