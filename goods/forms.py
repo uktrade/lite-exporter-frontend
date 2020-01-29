@@ -209,7 +209,7 @@ def document_grading_form(request, good_id):
             Group(
                 components=[
                     Label(text=DocumentSensitivityForm.ECJU_HELPLINE),
-                    Select(name="missing_document_reason", options=select_options),
+                    Select(name="missing_document_reason", title=DocumentSensitivityForm.LABEL, options=select_options),
                 ],
                 name="ecju_contact",
                 classes=["govuk-inset-text", "hidden"],
