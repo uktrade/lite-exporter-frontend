@@ -699,10 +699,10 @@ def no_third_parties_are_left_on_the_application(driver):  # noqa
 @when("I remove an additional document")
 def i_remove_an_additional_document(driver):  # noqa
     driver.set_timeout_to(0)
-    GenericApplicationTaskListPage(driver).click_consignee_link()
-    remove_consignee_link = GenericApplicationTaskListPage(driver).find_remove_additional_document_link()
+    GenericApplicationTaskListPage(driver).click_supporting_documents_link()
+    remove_additional_document_link = GenericApplicationTaskListPage(driver).find_remove_additional_document_link()
     driver.set_timeout_to(10)
-    driver.execute_script("arguments[0].click();", remove_consignee_link)
+    driver.execute_script("arguments[0].click();", remove_additional_document_link)
 
 
 @when("I confirm I want to delete the document")
