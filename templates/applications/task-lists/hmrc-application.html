@@ -25,7 +25,7 @@
 				{% include "includes/task-list-item.html" with id="end-user" title="applications.HMRCApplicationTaskList.END_USER" url=end_user_url status=end_user_status %}
 
 				{% url 'applications:ultimate_end_users' application.id as ultimate_end_user_url %}
-				{% include "includes/task-list-item.html" with title="applications.HMRCApplicationTaskList.ULTIMATE_END_USER" url=ultimate_end_user_url status=ultimate_end_users_status optional=True %}
+				{% include "includes/task-list-item.html" with title="applications.HMRCApplicationTaskList.ULTIMATE_END_USERS" url=ultimate_end_user_url status=ultimate_end_users_status optional=True %}
 
 				{% url 'applications:third_parties' application.id as third_parties_url %}
 				{% include "includes/task-list-item.html" with title="applications.HMRCApplicationTaskList.THIRD_PARTIES" url=third_parties_url status=third_parties_status optional=True %}

@@ -2,29 +2,37 @@
 
 {% block title %}
 	{% if is_editing %}
-		Edit the clearance application
+		{% lcs 'applications.ExhibitionClearanceTaskList.EDIT_TITLE' %}
 	{% else %}
-		Apply for an MOD exhibition clearance
+		{% lcs 'applications.ExhibitionClearanceTaskList.NEW_TITLE' %}
 	{% endif %}
 {% endblock %}
 
 {% block main_tasks %}
 	{% url 'applications:goods' application.id as goods_url %}
 	{% tld goods 'product' 'products' as goods_description %}
-	{% include "includes/task-list-item.html" with id='products' title='goods.GoodsList.TITLE' url=goods_url status=goods|task_list_item_status description=goods_description %}
+	{% include "includes/task-list-item.html" with id='products' title='applications.ExhibitionClearanceTaskList.GOODS' url=goods_url status=goods|task_list_item_status description=goods_description %}
 
-	{% include "includes/goods-task-section.html" %}
+	{% url 'applications:location' application.id as goods_url %}
+	{% tld locations 'location' 'locations' as location_description %}
+	{% include "includes/task-list-item.html" with id='locations' title='applications.ExhibitionClearanceTaskList.GOODS_LOCATION' url=goods_url status=locations|task_list_item_status description=location_description %}
 
-	{% lcs 'applications.ApplicationSummaryPage.END_USER' as end_user_title %}
-	{% lcs 'applications.ApplicationSummaryPage.CONSIGNEE' as consignee_title %}
-	{% lcs 'applications.ApplicationSummaryPage.ULTIMATE_END_USERS' as ultimate_end_user_title %}
-	{% lcs 'applications.ApplicationSummaryPage.THIRD_PARTIES' as third_parties_title %}
+	{% url 'applications:end_user' application.id as end_user_url %}
+	{% include "includes/task-list-item.html" with id="end-user" title="applications.ExhibitionClearanceTaskList.END_USER" url=end_user_url status=end_user_status %}
 
-	{% include "includes/parties-task-section.html" with title=end_user_title data=application.end_user document=end_user_document multiple=False entity_name="end_user" section_url="applications:end_user" delete_url="applications:remove_end_user" download_url="applications:end_user_download_document"  delete_document_url="applications:end_user_delete_document" attach_url="applications:end_user_attach_document" %}
-	{% include "includes/parties-task-section.html" with title=consignee_title data=application.consignee document=consignee_document multiple=False entity_name="consignee" section_url="applications:consignee" delete_url="applications:remove_consignee" download_url="applications:consignee_download_document"  delete_document_url="applications:consignee_delete_document" attach_url="applications:consignee_attach_document" %}
 	{% if ultimate_end_users_required %}
-		{% include "includes/parties-task-section.html" with title=ultimate_end_user_title data=ultimate_end_users multiple=True entity_name="ultimate_end_users" section_url="applications:ultimate_end_users"%}
+		{% url 'applications:ultimate_end_users' application.id as ultimate_end_user_url %}
+		{% include "includes/task-list-item.html" with title="applications.ExhibitionClearanceTaskList.ULTIMATE_END_USERS" url=ultimate_end_user_url status=ultimate_end_users_status optional=True %}
 	{% endif %}
-	{% include "includes/parties-task-section.html" with title=third_parties_title data=third_parties multiple=True entity_name="third_parties" section_url="applications:third_parties"%}
-	{% include "includes/additional-documents-task-section.html" %}
+
+	{% url 'applications:consignee' application.id as consignee_url %}
+	{% include "includes/task-list-item.html" with title="applications.ExhibitionClearanceTaskList.CONSIGNEE" url=consignee_url status=consignee_status optional=True %}
+
+	{% url 'applications:third_parties' application.id as third_parties_url %}
+	{% tld goods 'third party' 'third parties' as third_parties_description %}
+	{% include "includes/task-list-item.html" with id='third-parties' title='applications.ExhibitionClearanceTaskList.THIRD_PARTIES' url=third_parties_url status=third_parties|task_list_item_status description=third_parties_description optional=True %}
+
+	{% url 'applications:additional_documents' application.id as supporting_documents_url %}
+	{% tld supporting_documents 'document' 'documents' as supporting_documents_description %}
+	{% include "includes/task-list-item.html" with id="supporting-documents" title='applications.OpenApplicationTaskList.SUPPORTING_DOCUMENTS' url=supporting_documents_url status=supporting_documents|task_list_item_status description=supporting_documents_description optional=True %}
 {% endblock %}
