@@ -17,7 +17,7 @@ class GenericApplicationTaskListPage(BasePage):
     GOV_TABLES = ".govuk-table__body"  # CSS
     DELETE_END_USER_DOCUMENT = "end_user_document_delete"  # ID
     ATTACH_END_USER_DOCUMENT = "end_user_attach_doc"  # ID
-    GOODS_COUNTRIES_LINK = "goods_country_assignments"  # ID
+    LINK_COUNTRIES_MATRIX_ID = "link-countries-matrix"
     REMOVE_GOOD_LINK = "a[href*='good-on-application']"
     REMOVE_GOODS_TYPE_LINK = "a[href*='goods-types/remove']"
     REMOVE_END_USER_LINK = "a[href*='end-user/remove']"
@@ -92,8 +92,8 @@ class GenericApplicationTaskListPage(BasePage):
         self.driver.find_element_by_id(self.CONSIGNEES_LINK).click()
 
     def click_goods_countries_link(self):
-        self.driver.execute_script("document.getElementById('" + self.GOODS_COUNTRIES_LINK + "').scrollIntoView(true);")
-        self.driver.find_element_by_id(self.GOODS_COUNTRIES_LINK).click()
+        self.driver.execute_script("document.getElementById('" + self.LINK_COUNTRIES_MATRIX_ID + "').scrollIntoView(true);")
+        self.driver.find_element_by_id(self.LINK_COUNTRIES_MATRIX_ID).click()
 
     def get_text_of_end_user_table(self):
         return self.driver.find_elements_by_css_selector(self.GOV_TABLES)[

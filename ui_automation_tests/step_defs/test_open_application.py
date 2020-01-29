@@ -36,16 +36,6 @@ def i_see_the_goods_types_list(driver, position, context):
     assert context.control_code in good_type
 
 
-@then("I see my goods type added to the overview page with a description and a control code")
-def i_see_the_goods_types_list_overview(driver, context):
-    goods_type_page = OpenApplicationGoodsTypesPage(driver)
-    good_type_table_overview = goods_type_page.get_text_of_goods_type_info_overview()
-    assert "Description" in good_type_table_overview
-    assert "Control list classification" in good_type_table_overview
-    assert context.good_description in good_type_table_overview
-    assert context.control_code in good_type_table_overview
-
-
 @when("I click on countries")
 def i_click_on_countries(driver):
     OpenApplicationTaskListPage(driver).click_countries_link()
