@@ -10,7 +10,7 @@ class GenericApplicationTaskListPage(BasePage):
     LOCATION_LINK = "link-locations"
     OPEN_GOODS_LINK = "link-products"
     LINK_END_USER_ID = "link-end-user"
-    CONSIGNEES_LINK = "link-consignee"
+    LINK_CONSIGNEE_ID = "link-consignee"
     LINK_SUPPORTING_DOCUMENTS_ID = "link-supporting-documents"
     ULTIMATE_END_USER_LINK = "link-ultimate_end_users"  # ID
     GOODS_ON_APPLICATION = "[id^=good-on-application-row]"  # CSS
@@ -89,7 +89,7 @@ class GenericApplicationTaskListPage(BasePage):
         self.driver.find_element_by_id(self.LINK_END_USER_ID).click()
 
     def click_consignee_link(self):
-        self.driver.find_element_by_id(self.CONSIGNEES_LINK).click()
+        self.driver.find_element_by_id(self.LINK_CONSIGNEE_ID).click()
 
     def click_goods_countries_link(self):
         self.driver.execute_script("document.getElementById('" + self.LINK_COUNTRIES_MATRIX_ID + "').scrollIntoView(true);")

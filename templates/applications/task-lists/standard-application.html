@@ -21,7 +21,7 @@
 {% block main_tasks %}
 	{% url 'applications:goods' application.id as goods_url %}
 	{% tld goods 'product' 'products' as goods_description %}
-	{% include "includes/task-list-item.html" with id='products' title='goods.GoodsList.TITLE' url=goods_url status=goods|task_list_item_status description=goods_description %}
+	{% include "includes/task-list-item.html" with id='products' title='applications.StandardApplicationTaskList.GOODS' url=goods_url status=goods|task_list_item_status description=goods_description %}
 
 	{% url 'applications:location' application.id as goods_url %}
 	{% tld locations 'location' 'locations' as location_description %}
@@ -32,11 +32,11 @@
 
 	{% if ultimate_end_users_required %}
 		{% url 'applications:ultimate_end_users' application.id as ultimate_end_user_url %}
-		{% include "includes/task-list-item.html" with title="applications.StandardApplicationTaskList.ULTIMATE_END_USERS" url=ultimate_end_user_url status=ultimate_end_users_status %}
+		{% include "includes/task-list-item.html" with id="ultimate-end-users" title="applications.StandardApplicationTaskList.ULTIMATE_END_USERS" url=ultimate_end_user_url status=ultimate_end_users_status %}
 	{% endif %}
 
 	{% url 'applications:consignee' application.id as consignee_url %}
-	{% include "includes/task-list-item.html" with title="applications.StandardApplicationTaskList.CONSIGNEE" url=consignee_url status=consignee_status %}
+	{% include "includes/task-list-item.html" with id="consignee" title="applications.StandardApplicationTaskList.CONSIGNEE" url=consignee_url status=consignee_status %}
 
 	{% url 'applications:third_parties' application.id as third_parties_url %}
 	{% tld goods 'third party' 'third parties' as third_parties_description %}

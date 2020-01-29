@@ -499,7 +499,7 @@ def i_click_on_end_user(driver):  # noqa
 @when("I click on consignees")  # noqa
 def i_click_on_consignees(driver):  # noqa
     app = GenericApplicationTaskListPage(driver)
-    utils.scroll_to_element_by_id(Shared(driver).driver, app.CONSIGNEES_LINK)
+    utils.scroll_to_element_by_id(Shared(driver).driver, app.LINK_CONSIGNEE_ID)
     app.click_consignee_link()
 
 
