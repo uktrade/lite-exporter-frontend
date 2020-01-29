@@ -79,10 +79,9 @@
 				{% block main_tasks %}
 				{% endblock %}
 
-				<br><br>
-
 				{% if can_submit %}
 					<li>
+						<br><br>
 						<div class="app-submit-bar">
 							<form method="post">
 								{% csrf_token %}
