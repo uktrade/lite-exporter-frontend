@@ -7,9 +7,7 @@ from applications.helpers.check_your_answers import convert_consignee
 from applications.services import (
     get_application,
     post_consignee,
-    delete_consignee,
-    post_ultimate_end_user,
-    validate_ultimate_end_user,
+    delete_consignee
 )
 from applications.views.parties.base import AddParty, ExistingPartiesList, SetParty, DeleteParty
 from lite_content.lite_exporter_frontend.applications import ConsigneeForm, ConsigneePage
