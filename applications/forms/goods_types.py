@@ -11,7 +11,7 @@ def goods_type_form(application_type: str):
         title=CreateGoodsTypeForm.TITLE,
         description=CreateGoodsTypeForm.DESCRIPTION,
         questions=[
-            TextArea(title=CreateGoodsTypeForm.Description.TITLE, name="description", extras={"max_length": 2000, }),
+            TextArea(title=CreateGoodsTypeForm.Description.TITLE, name="description", extras={"max_length": 2000,}),
             *conditional(
                 application_type != HMRC_QUERY,
                 [
@@ -20,8 +20,9 @@ def goods_type_form(application_type: str):
                         description=CreateGoodsTypeForm.IsControlled.DESCRIPTION,
                         name="is_good_controlled",
                         options=[
-                            Option(key="yes", value=CreateGoodsTypeForm.IsControlled.YES,
-                                   show_pane="pane_control_code"),
+                            Option(
+                                key="yes", value=CreateGoodsTypeForm.IsControlled.YES, show_pane="pane_control_code"
+                            ),
                             Option(key="no", value=CreateGoodsTypeForm.IsControlled.NO),
                         ],
                         classes=["govuk-radios--inline"],
@@ -41,7 +42,7 @@ def goods_type_form(application_type: str):
                         ],
                         classes=["govuk-radios--inline"],
                     ),
-                ]
+                ],
             ),
         ],
     )
