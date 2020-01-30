@@ -34,7 +34,7 @@ def validate_goods_location_choice(_request, _pk, json):
 
 def validate_external_location_choice(_request, _pk, json):
     choice = json.get("choice")
-    
+
     if choice:
         return put_application(_request, _pk, {"is_goods_departed": choice == "departed"})
 
