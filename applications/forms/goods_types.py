@@ -43,7 +43,7 @@ def goods_type_form(application_type: str):
                         classes=["govuk-radios--inline"],
                     ),
                 ],
-                []
+                [],
             ),
         ],
     )
