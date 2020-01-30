@@ -16,10 +16,10 @@ def which_location_form(application_id, application_type):
                 [
                     Option("organisation", strings.goods.GoodsLocationForm.ONE_OF_MY_REGISTERED_SITES),
                     Option("external", strings.goods.GoodsLocationForm.NOT_AT_MY_REGISTERED_SITES),
-                    conditional(application_type == HMRC_QUERY,
-                                Option("departed", "The products have already departed the country",
-                                       show_or=True)
-                                )
+                    conditional(
+                        application_type == HMRC_QUERY,
+                        Option("departed", "The products have already departed the country", show_or=True),
+                    ),
                 ],
             )
         ],
