@@ -12,7 +12,7 @@ def which_location_form(application_id, application_type):
         description=strings.goods.GoodsLocationForm.WHERE_ARE_YOUR_GOODS_LOCATED_DESCRIPTION,
         questions=[
             RadioButtons(
-                "location",
+                "choice",
                 [
                     Option("organisation", strings.goods.GoodsLocationForm.ONE_OF_MY_REGISTERED_SITES),
                     Option("external", strings.goods.GoodsLocationForm.NOT_AT_MY_REGISTERED_SITES),

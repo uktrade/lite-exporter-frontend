@@ -42,7 +42,8 @@ class EditGoodsLocation(SingleFormView):
         self.object_pk = kwargs["pk"]
         application = get_application(request, self.object_pk)
         self.form = which_location_form(self.object_pk, application["application_type"]["key"])
-        self.action = validate_goods_location_choice
+        self.action = validate_external_location_choice
+        self.data = {"choice": "departed" if application.get("is_goods_departed") else ""}
 
         if application["status"].get("key") == "submitted":
             if application["goods_locations"]:
@@ -51,13 +52,13 @@ class EditGoodsLocation(SingleFormView):
                 return reverse_lazy("applications:existing_sites", kwargs={"pk": self.object_pk})
 
     def get_success_url(self):
-        location = self.get_validated_data()["location"]
-        if location == "external":
-            return reverse_lazy("applications:select_add_external_location", kwargs={"pk": self.object_pk})
-        elif location == "organisation":
-            return reverse_lazy("applications:existing_sites", kwargs={"pk": self.object_pk})
-        elif location == "departed":
-            return reverse_lazy("applications:task_list", kwargs={"pk": self.object_pk})
+        if "choice" in self.get_validated_data():
+            if self.get_validated_data()["choice"] == "external":
+                return reverse_lazy("applications:select_add_external_location", kwargs={"pk": self.object_pk})
+            elif self.get_validated_data()["choice"] == "organisation":
+                return reverse_lazy("applications:existing_sites", kwargs={"pk": self.object_pk})
+
+        return reverse_lazy("applications:task_list", kwargs={"pk": self.object_pk})
 
 
 class SelectAddExternalLocation(SingleFormView):
