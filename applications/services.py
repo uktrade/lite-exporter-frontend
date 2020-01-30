@@ -24,9 +24,8 @@ from conf.constants import (
     STATUS_PROPERTIES_URL,
     GENERATED_DOCUMENTS_URL,
     EXISTING_PARTIES_URL,
-    COUNTRIES_URL,
     END_USER_URL,
-)
+    COUNTRIES_URL)
 from conf.settings import AWS_STORAGE_BUCKET_NAME, STREAMING_CHUNK_SIZE
 from django.http import StreamingHttpResponse
 from s3chunkuploader.file_handler import s3_client
