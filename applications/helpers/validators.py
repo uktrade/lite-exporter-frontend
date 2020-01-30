@@ -36,6 +36,7 @@ def validate_external_location_choice(_request, _pk, json):
     choice = json.get("choice")
 
     if choice:
-        return put_application(_request, _pk, {"is_goods_departed": choice == "departed"})
+        put_application(_request, _pk, {"is_goods_departed": choice == "departed"})
+        return json, HTTPStatus.OK
 
     return {"errors": {"choice": ["Select a choice"]}}, HTTPStatus.BAD_REQUEST
