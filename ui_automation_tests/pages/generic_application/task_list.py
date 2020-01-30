@@ -92,7 +92,9 @@ class GenericApplicationTaskListPage(BasePage):
         self.driver.find_element_by_id(self.LINK_CONSIGNEE_ID).click()
 
     def click_goods_countries_link(self):
-        self.driver.execute_script("document.getElementById('" + self.LINK_COUNTRIES_MATRIX_ID + "').scrollIntoView(true);")
+        self.driver.execute_script(
+            "document.getElementById('" + self.LINK_COUNTRIES_MATRIX_ID + "').scrollIntoView(true);"
+        )
         self.driver.find_element_by_id(self.LINK_COUNTRIES_MATRIX_ID).click()
 
     def get_text_of_end_user_table(self):
