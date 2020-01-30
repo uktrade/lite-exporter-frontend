@@ -28,7 +28,6 @@ Feature: I want to create MOD Licence Applications
     And I upload a file "file_for_doc_upload_test_1.txt"
     And I click the back link
     Then Wait for "consignee_document_download" to be present
-    And I see end user on overview
     When I submit the application
     Then application is submitted
     When I go to exporter homepage

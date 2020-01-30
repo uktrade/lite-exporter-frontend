@@ -1,21 +1,18 @@
 from pytest_bdd import scenarios, when, then, parsers, given
 
-from conftest import enter_application_name, enter_export_licence
 from pages.add_end_user_pages import AddEndUserPages
-from pages.add_new_external_location_form_page import AddNewExternalLocationFormPage
 from pages.attach_document_page import AttachDocumentPage
-from pages.generic_application.task_list import GenericApplicationTaskListPage
 from pages.external_locations_page import ExternalLocationsPage
+from pages.generic_application.task_list import GenericApplicationTaskListPage
+from pages.generic_application.ultimate_end_users import GenericApplicationUltimateEndUsers
 from pages.preexisting_locations_page import PreexistingLocationsPage
 from pages.shared import Shared
 from pages.standard_application.good_details import StandardApplicationGoodDetails
 from pages.standard_application.goods import StandardApplicationGoodsPage
 from pages.standard_application.task_list import StandardApplicationTaskListPage
-from pages.generic_application.ultimate_end_users import GenericApplicationUltimateEndUsers
-from pages.which_location_form_page import WhichLocationFormPage
 from shared import functions
 from shared.tools.helpers import scroll_to_element_by_id
-from shared.tools.wait import wait_for_download_button, wait_for_element
+from shared.tools.wait import wait_for_download_button
 
 scenarios(
     "../features/submit_standard_application.feature",
@@ -65,7 +62,7 @@ def delete_ultimate_end_user_document(driver):
     functions.click_submit(driver)
 
 
-@then("Wait for download link")
+@then("wait for download link")
 def wait_for_download_link(driver):
     assert wait_for_download_button(driver, page=Shared(driver))
 
