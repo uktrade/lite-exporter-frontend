@@ -1,19 +1,25 @@
 from applications.components import back_to_task_list
+from conf.constants import HMRC_QUERY
 from core.services import get_countries, get_external_locations
 from lite_content.lite_exporter_frontend import strings
 from lite_forms.components import Form, RadioButtons, Option, TextArea, Select, Filter, Checkboxes, TextInput
+from lite_forms.helpers import conditional
 
 
-def which_location_form(application_id):
+def which_location_form(application_id, application_type):
     return Form(
         title=strings.goods.GoodsLocationForm.WHERE_ARE_YOUR_GOODS_LOCATED_TITLE,
         description=strings.goods.GoodsLocationForm.WHERE_ARE_YOUR_GOODS_LOCATED_DESCRIPTION,
         questions=[
             RadioButtons(
-                "organisation_or_external",
+                "location",
                 [
                     Option("organisation", strings.goods.GoodsLocationForm.ONE_OF_MY_REGISTERED_SITES),
                     Option("external", strings.goods.GoodsLocationForm.NOT_AT_MY_REGISTERED_SITES),
+                    conditional(application_type == HMRC_QUERY,
+                                Option("departed", "The products have already departed the country",
+                                       show_or=True)
+                                )
                 ],
             )
         ],

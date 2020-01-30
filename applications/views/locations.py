@@ -12,7 +12,7 @@ from applications.forms.location import (
 )
 from applications.forms.sites import sites_form
 from applications.services import get_application, get_application_countries, post_application_countries
-from applications.helpers.validators import validate_external_location_choice
+from applications.helpers.validators import validate_external_location_choice, validate_goods_location_choice
 from core.services import (
     get_sites_on_draft,
     post_sites_on_draft,
@@ -37,33 +37,27 @@ class GoodsLocation(TemplateView):
         return render(request, "applications/goods-locations/goods-locations.html", {"application": application})
 
 
-class EditGoodsLocation(TemplateView):
-    def get(self, request, **kwargs):
-        application_id = str(kwargs["pk"])
-        application = get_application(request, application_id)
+class EditGoodsLocation(SingleFormView):
+    def init(self, request, **kwargs):
+        self.object_pk = kwargs["pk"]
+        application = get_application(request, self.object_pk)
+        self.form = which_location_form(self.object_pk, application["application_type"]["key"])
+        self.action = validate_goods_location_choice
 
-        if application["goods_locations"]:
-            if application["status"] and application["status"].get("key") == "submitted":
-                return redirect(reverse_lazy("applications:location", kwargs={"pk": application_id}))
-        else:
-            if application["status"] and application["status"].get("key") == "submitted":
-                return redirect(reverse_lazy("applications:existing_sites", kwargs={"pk": application_id}))
+        if application["status"].get("key") == "submitted":
+            if application["goods_locations"]:
+                return reverse_lazy("applications:location", kwargs={"pk": self.object_pk})
+            elif application["sites"]:
+                return reverse_lazy("applications:existing_sites", kwargs={"pk": self.object_pk})
 
-        return form_page(request, which_location_form(application_id))
-
-    def post(self, request, **kwargs):
-        draft_id = str(kwargs["pk"])
-        data = request.POST.copy()
-
-        if "organisation_or_external" not in data:
-            errors = {"organisation_or_external": ["Select where the products are located"]}
-
-            return form_page(request, which_location_form(draft_id), errors=errors)
-
-        if data["organisation_or_external"] == "external":
-            return redirect(reverse_lazy("applications:select_add_external_location", kwargs={"pk": draft_id}))
-        else:
-            return redirect(reverse_lazy("applications:existing_sites", kwargs={"pk": draft_id}))
+    def get_success_url(self):
+        location = self.get_validated_data()["location"]
+        if location == "external":
+            return reverse_lazy("applications:select_add_external_location", kwargs={"pk": self.object_pk})
+        elif location == "organisation":
+            return reverse_lazy("applications:existing_sites", kwargs={"pk": self.object_pk})
+        elif location == "departed":
+            return reverse_lazy("applications:task_list", kwargs={"pk": self.object_pk})
 
 
 class SelectAddExternalLocation(SingleFormView):
