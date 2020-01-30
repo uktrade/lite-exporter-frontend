@@ -155,7 +155,8 @@ def _get_hmrc_query_task_list(request, application):
     context = {
         "application": application,
         "goods_types_status": DONE if application["goods_types"] else NOT_STARTED,
-        "goods_locations_status": DONE if application["goods_locations"] else NOT_STARTED,
+        "goods_locations_status": DONE if application["goods_locations"] or
+                                          application["is_goods_departed"] else NOT_STARTED,
         "end_user_status": check_all_parties_have_a_document([application["end_user"]]),
         "ultimate_end_users_status": check_all_parties_have_a_document(application["ultimate_end_users"]),
         "third_parties_status": DONE if application["third_parties"] else NOT_STARTED,
