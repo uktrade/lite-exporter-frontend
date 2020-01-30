@@ -12,7 +12,6 @@ from pages.standard_application.goods import StandardApplicationGoodsPage
 from pages.standard_application.task_list import StandardApplicationTaskListPage
 from shared import functions
 from shared.tools.helpers import scroll_to_element_by_id
-from shared.tools.wait import wait_for_download_button
 
 scenarios(
     "../features/submit_standard_application.feature",
@@ -60,11 +59,6 @@ def delete_ultimate_end_user_document(driver):
     third_party.click_delete_document_link(-1)
     third_party.click_confirm_delete_yes()
     functions.click_submit(driver)
-
-
-@then("wait for download link")
-def wait_for_download_link(driver):
-    assert wait_for_download_button(driver, page=Shared(driver))
 
 
 @when("I delete the end user document")

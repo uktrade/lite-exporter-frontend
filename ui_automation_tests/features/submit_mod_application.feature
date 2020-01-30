@@ -21,14 +21,14 @@ Feature: I want to create MOD Licence Applications
     When I click on end user
     And I add an end user of sub_type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
     And I upload a file "file_for_doc_upload_test_1.txt"
-    And I click the back link
-    Then Wait for "end_user_document_download" to be present
-    When I click on consignees
+    Then wait for download link
+    When I click the back link
+    And I click on consignees
     And I add an end user of sub_type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
     And I upload a file "file_for_doc_upload_test_1.txt"
-    And I click the back link
-    Then Wait for "consignee_document_download" to be present
-    When I submit the application
+    Then wait for download link
+    When I click the back link
+    And I submit the application
     Then application is submitted
     When I go to exporter homepage
     And I click applications
