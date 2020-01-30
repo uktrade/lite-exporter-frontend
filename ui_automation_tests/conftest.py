@@ -16,7 +16,7 @@ from pages.standard_application.good_details import StandardApplicationGoodDetai
 from pages.standard_application.goods import StandardApplicationGoodsPage
 from pages.add_new_external_location_form_page import AddNewExternalLocationFormPage
 from shared import functions
-from shared.tools.wait import wait_for_element
+from shared.tools.wait import wait_for_element, wait_for_download_button
 from ui_automation_tests.fixtures.env import environment  # noqa
 from ui_automation_tests.fixtures.register_organisation import (  # noqa
     register_organisation,
@@ -604,12 +604,17 @@ def the_good_is_added_to_the_application(driver, context):  # noqa
     functions.click_back_link(driver)
 
 
-@then(parsers.parse('Wait for "{id}" to be present'))
-def wait_for_element_to_be_present(driver, id):  # noqa
-    assert wait_for_element(driver, id)
+@then("wait for download link")  # noqa
+def wait_for_download_link(driver):  # noqa
+    assert wait_for_download_button(driver, page=Shared(driver))
 
 
-@when("I change my reference name")
+@then(parsers.parse('Wait for "{element_id}" to be present'))  # noqa
+def wait_for_element_to_be_present(driver, element_id):  # noqa
+    assert wait_for_element(driver, element_id)
+
+
+@when("I change my reference name")  # noqa
 def change_ref_name(driver, context):  # noqa
     driver.find_element_by_id("link-reference-name").click()
     enter_application_name(driver, context)
