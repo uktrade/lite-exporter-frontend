@@ -82,7 +82,7 @@
 					{% if good.query.clc_raised_reasons %}
 						<div class="govuk-summary-list__row">
 							<dt class="govuk-summary-list__key">
-								Clc query reasons
+								{% lcs 'goods.GoodPage.Query.CLC_RAISED_REASONS' %}
 							</dt>
 							<dd class="govuk-summary-list__value">
 								{{ good.query.clc_raised_reasons }}
@@ -92,7 +92,7 @@
 					{% if good.query.pv_grading_raised_reasons %}
 						<div class="govuk-summary-list__row">
 							<dt class="govuk-summary-list__key">
-								grading query reasons
+								{% lcs 'goods.GoodPage.Query.GRADING_RAISED_REASONS' %}
 							</dt>
 							<dd class="govuk-summary-list__value">
 								{{ good.query.pv_grading_raised_reasons }}
