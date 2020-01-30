@@ -6,6 +6,7 @@ from conf.constants import (
     APPLICATIONS_URL,
     END_USER_DOCUMENT_URL,
     ULTIMATE_END_USER_URL,
+    ULTIMATE_END_USERS_URL,
     DOCUMENT_URL,
     CONSIGNEE_URL,
     THIRD_PARTIES_URL,
@@ -18,11 +19,13 @@ from conf.constants import (
     MANAGE_STATUS_URL,
     GOODSTYPE_URL,
     GOODSTYPES_URL,
+    GOODS_URL,
     GOODSTYPE_COUNTRY_URL,
     STATUS_PROPERTIES_URL,
     GENERATED_DOCUMENTS_URL,
     EXISTING_PARTIES_URL,
-)
+    COUNTRIES_URL,
+    END_USER_URL)
 from conf.settings import AWS_STORAGE_BUCKET_NAME, STREAMING_CHUNK_SIZE
 from django.http import StreamingHttpResponse
 from s3chunkuploader.file_handler import s3_client
@@ -68,18 +71,18 @@ def submit_application(request, pk):
 
 # Goods
 def get_application_goods(request, pk):
-    data = get(request, APPLICATIONS_URL + pk + "/goods/")
+    data = get(request, APPLICATIONS_URL + pk + GOODS_URL)
     return data.json().get("goods") if data.status_code == HTTPStatus.OK else None
 
 
 def validate_application_good(request, pk, json):
     post_data = get_data_from_post_good_on_app(json)
     post_data["validate_only"] = True
-    return post(request, APPLICATIONS_URL + pk + "/goods/", post_data)
+    return post(request, APPLICATIONS_URL + pk + GOODS_URL, post_data)
 
 
 def get_application_goods_types(request, pk):
-    data = get(request, APPLICATIONS_URL + pk + "/goodstypes/")
+    data = get(request, APPLICATIONS_URL + pk + GOODSTYPES_URL)
     return data.json().get("goods") if data.status_code == HTTPStatus.OK else None
 
 
@@ -87,7 +90,7 @@ def post_good_on_application(request, pk, json):
     post_data = get_data_from_post_good_on_app(json)
     if "good_id" not in post_data:
         post_data["good_id"] = json["good_id"]
-    data = post(request, APPLICATIONS_URL + str(pk) + "/goods/", post_data)
+    data = post(request, APPLICATIONS_URL + str(pk) + GOODS_URL, post_data)
     return data.json(), data.status_code
 
 
@@ -101,18 +104,18 @@ def get_data_from_post_good_on_app(json):
 
 # Countries
 def get_application_countries(request, pk):
-    data = get(request, APPLICATIONS_URL + pk + "/countries/")
+    data = get(request, APPLICATIONS_URL + pk + COUNTRIES_URL)
     return data.json()["countries"]
 
 
 def post_application_countries(request, pk, json):
-    data = post(request, APPLICATIONS_URL + pk + "/countries/", json)
+    data = post(request, APPLICATIONS_URL + pk + COUNTRIES_URL, json)
     return data.json(), data.status_code
 
 
 # End User
 def post_end_user(request, pk, json):
-    data = post(request, APPLICATIONS_URL + str(pk) + "/end-user/", json)
+    data = post(request, APPLICATIONS_URL + str(pk) + END_USER_URL, json)
     return data.json(), data.status_code
 
 
@@ -128,7 +131,7 @@ def post_end_user_document(request, pk, json):
 
 
 def delete_end_user(request, pk):
-    data = delete(request, APPLICATIONS_URL + pk + "/end-user/")
+    data = delete(request, APPLICATIONS_URL + pk + END_USER_URL)
     return data.status_code
 
 
@@ -139,17 +142,17 @@ def delete_end_user_document(request, pk):
 
 # Ultimate End Users
 def get_ultimate_end_users(request, pk):
-    data = get(request, APPLICATIONS_URL + pk + "/ultimate-end-users/")
+    data = get(request, APPLICATIONS_URL + pk + ULTIMATE_END_USERS_URL)
     return data.json()["ultimate_end_users"]
 
 
 def post_ultimate_end_user(request, pk, json):
-    data = post(request, APPLICATIONS_URL + str(pk) + "/ultimate-end-users/", json)
+    data = post(request, APPLICATIONS_URL + str(pk) + ULTIMATE_END_USERS_URL, json)
     return data.json(), data.status_code
 
 
 def delete_ultimate_end_user(request, pk, obj_pk):
-    data = delete(request, APPLICATIONS_URL + pk + "/ultimate-end-users/" + obj_pk)
+    data = delete(request, APPLICATIONS_URL + pk + ULTIMATE_END_USERS_URL + obj_pk)
     return data.status_code
 
 
@@ -157,7 +160,7 @@ def validate_ultimate_end_user(request, pk, json):
     json = json.copy()
     json["validate_only"] = True
 
-    data = post(request, APPLICATIONS_URL + str(pk) + "/ultimate-end-users/", json)
+    data = post(request, APPLICATIONS_URL + str(pk) + ULTIMATE_END_USERS_URL, json)
     return data.json(), data.status_code
 
 
