@@ -34,7 +34,7 @@
 			</thead>
 			<tbody class="govuk-table__body">
 				{% for advisory in end_users %}
-					<tr class="govuk-table__row">
+					<tr id={{ advisory.id }} class="govuk-table__row">
 						<td class="govuk-table__cell">
                             <a class="govuk-link govuk-link--no-visited-state app-icon-label" href="{% url 'end_users:end_user' pk=advisory.id %}">
 							    {{ advisory.end_user.name }}
