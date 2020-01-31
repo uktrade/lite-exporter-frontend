@@ -1,5 +1,6 @@
 from http import HTTPStatus
 
+from applications.forms.location import Locations
 from applications.services import set_application_status, delete_application, put_application
 from lite_content.lite_exporter_frontend import strings, goods
 
@@ -29,7 +30,7 @@ def validate_goods_location_choice(_request, _pk, json):
     choice = json.get("choice")
 
     if choice:
-        put_application(_request, _pk, {"is_goods_departed": choice == "departed"})
+        put_application(_request, _pk, {"is_goods_departed": choice == Locations.DEPARTED})
         return json, HTTPStatus.OK
 
     return {"errors": {"choice": [goods.GoodsLocationForm.ERROR]}}, HTTPStatus.BAD_REQUEST

@@ -9,7 +9,7 @@ from applications.forms.location import (
     new_location_form,
     external_locations_form,
     add_external_location,
-)
+    Locations)
 from applications.forms.sites import sites_form
 from applications.helpers.validators import validate_external_location_choice, validate_goods_location_choice
 from applications.services import get_application, get_application_countries, post_application_countries
@@ -43,7 +43,7 @@ class EditGoodsLocation(SingleFormView):
         application = get_application(request, self.object_pk)
         self.form = which_location_form(self.object_pk, application["application_type"]["key"])
         self.action = validate_goods_location_choice
-        self.data = {"choice": "departed" if application.get("is_goods_departed") else ""}
+        self.data = {"choice": Locations.DEPARTED if application.get("is_goods_departed") else ""}
 
         if application["status"].get("key") == "submitted":
             if application["goods_locations"]:
@@ -53,11 +53,11 @@ class EditGoodsLocation(SingleFormView):
 
     def get_success_url(self):
         choice = self.get_validated_data()["choice"]
-        if choice == "external":
+        if choice == Locations.EXTERNAL:
             return reverse_lazy("applications:select_add_external_location", kwargs={"pk": self.object_pk})
-        elif choice == "organisation":
+        elif choice == Locations.ORGANISATION:
             return reverse_lazy("applications:existing_sites", kwargs={"pk": self.object_pk})
-        elif choice == "departed":
+        elif choice == Locations.DEPARTED:
             return reverse_lazy("applications:task_list", kwargs={"pk": self.object_pk})
 
 

@@ -6,6 +6,12 @@ from lite_forms.components import Form, RadioButtons, Option, TextArea, Select, 
 from lite_forms.helpers import conditional
 
 
+class Locations:
+    ORGANISATION = "organisation"
+    EXTERNAL = "external"
+    DEPARTED = "departed"
+
+
 def which_location_form(application_id, application_type):
     return Form(
         title=goods.GoodsLocationForm.WHERE_ARE_YOUR_GOODS_LOCATED_TITLE,
@@ -15,19 +21,19 @@ def which_location_form(application_id, application_type):
                 "choice",
                 [
                     Option(
-                        key="organisation",
+                        key=Locations.ORGANISATION,
                         value=goods.GoodsLocationForm.ONE_OF_MY_REGISTERED_SITES,
                         description=goods.GoodsLocationForm.NOT_AT_MY_REGISTERED_SITES_DESCRIPTION,
                     ),
                     Option(
-                        key="external",
+                        key=Locations.EXTERNAL,
                         value=goods.GoodsLocationForm.NOT_AT_MY_REGISTERED_SITES,
                         description=goods.GoodsLocationForm.NOT_AT_MY_REGISTERED_SITES_DESCRIPTION,
                     ),
                     conditional(
                         application_type == HMRC_QUERY,
                         Option(
-                            key="departed",
+                            key=Locations.DEPARTED,
                             value=goods.GoodsLocationForm.DEPARTED_THE_COUNTRY,
                             description=goods.GoodsLocationForm.DEPARTED_THE_COUNTRY_DESCRIPTION,
                             show_or=True,
