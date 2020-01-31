@@ -9,7 +9,8 @@ from applications.forms.location import (
     new_location_form,
     external_locations_form,
     add_external_location,
-    Locations)
+    Locations,
+)
 from applications.forms.sites import sites_form
 from applications.helpers.validators import validate_external_location_choice, validate_goods_location_choice
 from applications.services import get_application, get_application_countries, post_application_countries
