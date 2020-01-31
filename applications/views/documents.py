@@ -54,30 +54,19 @@ class AttachDocuments(TemplateView):
     @csrf_exempt
     def post(self, request, **kwargs):
         draft_id = str(kwargs["pk"])
-        # form = get_upload_page(request.path, draft_id)
+        form = get_upload_page(request.path, draft_id)
+
+        if not request.FILES:
+            return form_page(
+                request, form, extra_data={"draft_id": draft_id}, errors={"documents": ["Select a file to upload"]}
+            )
+
+        if len(request.FILES) != 1:
+            return form_page(
+                request, form, extra_data={"draft_id": draft_id}, errors={"documents": ["You can only upload one file"]}
+            )
 
         data = post_file(request, "/documents/test/", request.FILES["file"])
-        # return data.json(), data.status_code
-        #
-        # self.request.upload_handlers.insert(0, S3FileUploadHandler(request))
-        #
-        # if not request.FILES:
-        #     return form_page(
-        #         request, form, extra_data={"draft_id": draft_id}, errors={"documents": ["Select a file to upload"]}
-        #     )
-        #
-        # logging.info(self.request)
-        # draft_id = str(kwargs["pk"])
-        # data, error = add_document_data(request)
-        #
-        # if error:
-        #     return error_page(request, strings.applications.AttachDocumentPage.UPLOAD_FAILURE_ERROR)
-        #
-        # action = document_switch(request.path)["attach"]
-        # if len(signature(action).parameters) == 3:
-        #     _, status_code = action(request, draft_id, data)
-        # else:
-        #     _, status_code = action(request, draft_id, kwargs["obj_pk"], data)
 
         if data.status_code == 201:
             return get_homepage(request, draft_id)
