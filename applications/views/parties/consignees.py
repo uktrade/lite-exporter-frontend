@@ -45,7 +45,7 @@ class SetConsignee(SetParty):
             multiple_allowed=False,
             copy_existing=copy_existing,
             post_action=post_consignee,
-            validate_action=validate_consignee
+            validate_action=validate_consignee,
         )
 
 

@@ -46,7 +46,7 @@ class SetUltimateEndUser(SetParty):
             strings=UltimateEndUserForm,
             multiple_allowed=True,
             post_action=post_ultimate_end_user,
-            validate_action=validate_ultimate_end_user
+            validate_action=validate_ultimate_end_user,
         )
 
 

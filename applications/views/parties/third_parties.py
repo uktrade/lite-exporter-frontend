@@ -36,7 +36,7 @@ class SetThirdParty(SetParty):
             strings=ThirdPartyForm,
             multiple_allowed=True,
             validate_action=validate_third_party,
-            post_action=post_third_party
+            post_action=post_third_party,
         )
 
 

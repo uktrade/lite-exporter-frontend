@@ -46,7 +46,7 @@ class SetEndUser(SetParty):
             multiple_allowed=False,
             copy_existing=copy_existing,
             post_action=post_end_user,
-            validate_action=validate_end_user
+            validate_action=validate_end_user,
         )
 
 
