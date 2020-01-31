@@ -45,13 +45,9 @@ class SetUltimateEndUser(SetParty):
             back_url="applications:add_ultimate_end_user",
             strings=UltimateEndUserForm,
             multiple_allowed=True,
+            post_action=post_ultimate_end_user,
+            validate_action=validate_ultimate_end_user
         )
-
-    def on_submission(self, request, **kwargs):
-        if int(self.request.POST.get("form_pk")) == len(self.forms.forms) - 1:
-            self.action = post_ultimate_end_user
-        else:
-            self.action = validate_ultimate_end_user
 
 
 class RemoveUltimateEndUser(DeleteParty):

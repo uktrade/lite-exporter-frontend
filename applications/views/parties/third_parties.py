@@ -35,13 +35,9 @@ class SetThirdParty(SetParty):
             back_url="applications:add_third_party",
             strings=ThirdPartyForm,
             multiple_allowed=True,
+            validate_action=validate_third_party,
+            post_action=post_third_party
         )
-
-    def on_submission(self, request, **kwargs):
-        if int(self.request.POST.get("form_pk")) == len(self.forms.forms) - 1:
-            self.action = post_third_party
-        else:
-            self.action = validate_third_party
 
 
 class RemoveThirdParty(DeleteParty):

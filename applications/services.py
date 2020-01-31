@@ -30,7 +30,7 @@ from conf.settings import AWS_STORAGE_BUCKET_NAME, STREAMING_CHUNK_SIZE
 from django.http import StreamingHttpResponse
 from s3chunkuploader.file_handler import s3_client
 
-from core.helpers import remove_prefix, convert_parameters_to_query_params
+from core.helpers import remove_prefix, convert_parameters_to_query_params, add_validate_only_to_data
 
 
 def get_applications(request, page: int = 1, submitted: bool = True):
@@ -119,6 +119,12 @@ def post_end_user(request, pk, json):
     return data.json(), data.status_code
 
 
+def validate_end_user(request, pk, json):
+    json = add_validate_only_to_data(json)
+    data = post(request, APPLICATIONS_URL + str(pk) + END_USER_URL, json)
+    return data.json(), data.status_code
+
+
 # End user Documents
 def get_end_user_document(request, pk):
     data = get(request, APPLICATIONS_URL + pk + END_USER_DOCUMENT_URL)
@@ -157,9 +163,7 @@ def delete_ultimate_end_user(request, pk, obj_pk):
 
 
 def validate_ultimate_end_user(request, pk, json):
-    json = json.copy()
-    json["validate_only"] = True
-
+    json = add_validate_only_to_data(json)
     data = post(request, APPLICATIONS_URL + str(pk) + ULTIMATE_END_USERS_URL, json)
     return data.json(), data.status_code
 
@@ -197,9 +201,7 @@ def delete_third_party(request, pk, obj_pk):
 
 
 def validate_third_party(request, pk, json):
-    json = json.copy()
-    json["validate_only"] = True
-
+    json = add_validate_only_to_data(json)
     data = post(request, APPLICATIONS_URL + str(pk) + THIRD_PARTIES_URL, json)
     return data.json(), data.status_code
 
@@ -222,6 +224,12 @@ def delete_third_party_document(request, pk, obj_pk):
 
 # Consignee
 def post_consignee(request, pk, json):
+    data = post(request, APPLICATIONS_URL + str(pk) + CONSIGNEE_URL, json)
+    return data.json(), data.status_code
+
+
+def validate_consignee(request, pk, json):
+    json = add_validate_only_to_data(json)
     data = post(request, APPLICATIONS_URL + str(pk) + CONSIGNEE_URL, json)
     return data.json(), data.status_code
 
