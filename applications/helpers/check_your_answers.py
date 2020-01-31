@@ -34,9 +34,7 @@ def _convert_exhibition_clearance(application, editable=False):
 def _convert_standard_application(application, editable=False):
     return {
         applications.ApplicationSummaryPage.GOODS: _convert_goods(application["goods"]),
-        applications.ApplicationSummaryPage.GOODS_LOCATIONS: _convert_goods_locations(
-            application["goods_locations"]
-        ),
+        applications.ApplicationSummaryPage.GOODS_LOCATIONS: _convert_goods_locations(application["goods_locations"]),
         applications.ApplicationSummaryPage.END_USER: convert_end_user(
             application["end_user"], application["id"], editable
         ),
@@ -58,9 +56,7 @@ def _convert_standard_application(application, editable=False):
 def _convert_open_application(application, editable=False):
     return {
         applications.ApplicationSummaryPage.GOODS: _convert_goods_types(application["goods_types"]),
-        applications.ApplicationSummaryPage.GOODS_LOCATIONS: _convert_goods_locations(
-            application["goods_locations"]
-        ),
+        applications.ApplicationSummaryPage.GOODS_LOCATIONS: _convert_goods_locations(application["goods_locations"]),
         applications.ApplicationSummaryPage.COUNTRIES: _convert_countries(application["destinations"]["data"]),
         applications.ApplicationSummaryPage.SUPPORTING_DOCUMENTATION: _get_supporting_documentation(
             application["additional_documents"], application["id"]
@@ -72,10 +68,11 @@ def _convert_hmrc_query(application, editable=False):
     return {
         applications.ApplicationSummaryPage.ON_BEHALF_OF: application["organisation"]["name"],
         applications.ApplicationSummaryPage.GOODS: _convert_goods_types(application["goods_types"]),
-        applications.ApplicationSummaryPage.GOODS_LOCATIONS:
-            conditional(application["is_goods_departed"],
-                        {applications.ApplicationSummaryPage.GOODS_DEPARTED: "Yes"},
-                        _convert_goods_locations(application["goods_locations"])),
+        applications.ApplicationSummaryPage.GOODS_LOCATIONS: conditional(
+            application["is_goods_departed"],
+            {applications.ApplicationSummaryPage.GOODS_DEPARTED: "Yes"},
+            _convert_goods_locations(application["goods_locations"]),
+        ),
         applications.ApplicationSummaryPage.END_USER: convert_end_user(
             application["end_user"], application["id"], editable
         ),
@@ -215,15 +212,15 @@ def _convert_goods_locations(goods_locations):
             {
                 "Site": site["name"],
                 "Address": site["address"]["address_line_1"]
-                           + NEWLINE
-                           + (site["address"]["address_line_2"] + NEWLINE if site["address"]["address_line_2"] else "")
-                           + site["address"]["city"]
-                           + NEWLINE
-                           + site["address"]["region"]
-                           + NEWLINE
-                           + site["address"]["postcode"]
-                           + NEWLINE
-                           + site["address"]["country"]["name"],
+                + NEWLINE
+                + (site["address"]["address_line_2"] + NEWLINE if site["address"]["address_line_2"] else "")
+                + site["address"]["city"]
+                + NEWLINE
+                + site["address"]["region"]
+                + NEWLINE
+                + site["address"]["postcode"]
+                + NEWLINE
+                + site["address"]["country"]["name"],
             }
             for site in goods_locations["data"]
         ]

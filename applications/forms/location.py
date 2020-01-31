@@ -14,18 +14,24 @@ def which_location_form(application_id, application_type):
             RadioButtons(
                 "choice",
                 [
-                    Option(key="organisation",
-                           value=goods.GoodsLocationForm.ONE_OF_MY_REGISTERED_SITES,
-                           description=goods.GoodsLocationForm.NOT_AT_MY_REGISTERED_SITES_DESCRIPTION),
-                    Option(key="external",
-                           value=goods.GoodsLocationForm.NOT_AT_MY_REGISTERED_SITES,
-                           description=goods.GoodsLocationForm.NOT_AT_MY_REGISTERED_SITES_DESCRIPTION),
+                    Option(
+                        key="organisation",
+                        value=goods.GoodsLocationForm.ONE_OF_MY_REGISTERED_SITES,
+                        description=goods.GoodsLocationForm.NOT_AT_MY_REGISTERED_SITES_DESCRIPTION,
+                    ),
+                    Option(
+                        key="external",
+                        value=goods.GoodsLocationForm.NOT_AT_MY_REGISTERED_SITES,
+                        description=goods.GoodsLocationForm.NOT_AT_MY_REGISTERED_SITES_DESCRIPTION,
+                    ),
                     conditional(
                         application_type == HMRC_QUERY,
-                        Option(key="departed",
-                               value=goods.GoodsLocationForm.DEPARTED_THE_COUNTRY,
-                               description=goods.GoodsLocationForm.DEPARTED_THE_COUNTRY_DESCRIPTION,
-                               show_or=True),
+                        Option(
+                            key="departed",
+                            value=goods.GoodsLocationForm.DEPARTED_THE_COUNTRY,
+                            description=goods.GoodsLocationForm.DEPARTED_THE_COUNTRY_DESCRIPTION,
+                            show_or=True,
+                        ),
                     ),
                 ],
             )
