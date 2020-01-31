@@ -94,7 +94,7 @@ def get_standard_task_list(request, application, template, reference_number_desc
         "goods_value": get_total_goods_value(goods),
         "ultimate_end_users": ultimate_end_users,
         "ultimate_end_users_required": ultimate_end_users_required,
-        "ultimate_end_users_documents_complete": ultimate_end_users_documents_complete,
+        "ultimate_end_users_status": check_all_parties_have_a_document(application["ultimate_end_users"]),
         "end_user_document": end_user_document,
         "consignee_document": consignee_document,
         "countries_on_goods_types": countries_on_goods_types,
