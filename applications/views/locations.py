@@ -11,8 +11,8 @@ from applications.forms.location import (
     add_external_location,
 )
 from applications.forms.sites import sites_form
-from applications.services import get_application, get_application_countries, post_application_countries
 from applications.helpers.validators import validate_external_location_choice, validate_goods_location_choice
+from applications.services import get_application, get_application_countries, post_application_countries
 from core.services import (
     get_sites_on_draft,
     post_sites_on_draft,
@@ -42,7 +42,7 @@ class EditGoodsLocation(SingleFormView):
         self.object_pk = kwargs["pk"]
         application = get_application(request, self.object_pk)
         self.form = which_location_form(self.object_pk, application["application_type"]["key"])
-        self.action = validate_external_location_choice
+        self.action = validate_goods_location_choice
         self.data = {"choice": "departed" if application.get("is_goods_departed") else ""}
 
         if application["status"].get("key") == "submitted":

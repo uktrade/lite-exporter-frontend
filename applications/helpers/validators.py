@@ -1,7 +1,7 @@
 from http import HTTPStatus
 
 from applications.services import set_application_status, delete_application, put_application
-from lite_content.lite_exporter_frontend import strings
+from lite_content.lite_exporter_frontend import strings, goods
 
 
 def validate_withdraw_application(request, pk, json):
@@ -26,17 +26,17 @@ def validate_delete_draft(request, pk, json):
 
 
 def validate_goods_location_choice(_request, _pk, json):
-    if json.get("location"):
-        return json, HTTPStatus.OK
-
-    return {"errors": {"choice": ["Select a choice"]}}, HTTPStatus.BAD_REQUEST
-
-
-def validate_external_location_choice(_request, _pk, json):
     choice = json.get("choice")
 
     if choice:
         put_application(_request, _pk, {"is_goods_departed": choice == "departed"})
         return json, HTTPStatus.OK
 
-    return {"errors": {"choice": ["Select a choice"]}}, HTTPStatus.BAD_REQUEST
+    return {"errors": {"choice": [goods.GoodsLocationForm.ERROR]}}, HTTPStatus.BAD_REQUEST
+
+
+def validate_external_location_choice(_request, _pk, json):
+    if json.get("choice"):
+        return json, HTTPStatus.OK
+
+    return {"errors": {"choice": [goods.GoodsLocationForm.ERROR]}}, HTTPStatus.BAD_REQUEST
