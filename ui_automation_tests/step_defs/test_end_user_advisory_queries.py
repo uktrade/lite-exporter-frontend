@@ -3,25 +3,19 @@ from pytest_bdd import when, then, parsers, scenarios, given
 import shared.tools.helpers as utils
 from pages.add_end_user_advisory_pages import AddEndUserAdvisoryPages
 from pages.end_user_advisory_page import EndUserAdvisoryPage
-from pages.exporter_hub_page import ExporterHubPage
 from pages.shared import Shared
 from shared import functions
-from ui_automation_tests.pages.submitted_applications_page import SubmittedApplicationsPages
 
 scenarios("../features/end_user_advisory_queries.feature", strict_gherkin=False)
 
 
 @given("An end user advisory with a case note has been added via gov user")
-def end_user_advisory_exists_case_note_added(
-    driver, add_end_user_advisory, internal_case_note_end_user_advisory, context
-):
+def end_user_advisory_exists_case_note_added(driver, internal_case_note_end_user_advisory, context):
     pass
 
 
 @given("An end user advisory with an ecju query has been added via gov user")
-def end_user_advisory_exists_ecju_query_added(
-    driver, add_end_user_advisory, internal_ecju_query_end_user_advisory, context
-):
+def end_user_advisory_exists_ecju_query_added(driver, internal_ecju_query_end_user_advisory, context):
     pass
 
 
