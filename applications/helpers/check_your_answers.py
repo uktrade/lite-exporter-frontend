@@ -69,7 +69,7 @@ def _convert_hmrc_query(application, editable=False):
         applications.ApplicationSummaryPage.ON_BEHALF_OF: application["organisation"]["name"],
         applications.ApplicationSummaryPage.GOODS: _convert_goods_types(application["goods_types"]),
         applications.ApplicationSummaryPage.GOODS_LOCATIONS: conditional(
-            application["is_goods_departed"],
+            application["have_goods_departed"],
             {applications.ApplicationSummaryPage.GOODS_DEPARTED: "Yes"},
             _convert_goods_locations(application["goods_locations"]),
         ),

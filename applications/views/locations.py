@@ -44,7 +44,7 @@ class EditGoodsLocation(SingleFormView):
         application = get_application(request, self.object_pk)
         self.form = which_location_form(self.object_pk, application["application_type"]["key"])
         self.action = validate_goods_location_choice
-        self.data = {"choice": Locations.DEPARTED if application.get("is_goods_departed") else ""}
+        self.data = {"choice": Locations.DEPARTED if application.get("have_goods_departed") else ""}
 
         if application["status"].get("key") == "submitted":
             if application["goods_locations"]:

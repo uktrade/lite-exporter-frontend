@@ -30,7 +30,7 @@ def validate_goods_location_choice(_request, _pk, json):
     choice = json.get("choice")
 
     if choice:
-        put_application(_request, _pk, {"is_goods_departed": choice == Locations.DEPARTED})
+        put_application(_request, _pk, {"have_goods_departed": choice == Locations.DEPARTED})
         return json, HTTPStatus.OK
 
     return {"errors": {"choice": [goods.GoodsLocationForm.ERROR]}}, HTTPStatus.BAD_REQUEST
