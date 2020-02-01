@@ -112,6 +112,8 @@ def post_application_countries(request, pk, json):
 
 # End User
 def post_end_user(request, pk, json):
+    if "type" not in json:
+        json["type"] = "end_user"
     data = post(request, APPLICATIONS_URL + str(pk) + "/end-user/", json)
     return data.json(), data.status_code
 
@@ -128,7 +130,7 @@ def post_end_user_document(request, pk, json):
 
 
 def delete_end_user(request, pk):
-    data = delete(request, APPLICATIONS_URL + pk + "/end-user/")
+    data = delete(request, APPLICATIONS_URL + pk + "/end-user/?type=end_user")
     return data.status_code
 
 
@@ -139,11 +141,13 @@ def delete_end_user_document(request, pk):
 
 # Ultimate End Users
 def get_ultimate_end_users(request, pk):
-    data = get(request, APPLICATIONS_URL + pk + "/ultimate-end-users/")
+    data = get(request, APPLICATIONS_URL + pk + "/ultimate-end-users/?type=ultimate_end_user")
     return data.json()["ultimate_end_users"]
 
 
 def post_ultimate_end_user(request, pk, json):
+    if "type" not in json:
+        json["type"] = "ultimate_end_user"
     data = post(request, APPLICATIONS_URL + str(pk) + "/ultimate-end-users/", json)
     return data.json(), data.status_code
 
@@ -171,11 +175,15 @@ def delete_ultimate_end_user_document(request, pk, obj_pk):
 
 # Third parties
 def get_third_parties(request, pk):
-    data = get(request, APPLICATIONS_URL + pk + THIRD_PARTIES_URL)
+    data = get(request, APPLICATIONS_URL + pk + THIRD_PARTIES_URL + "?type=third_party")
     return data.json()["third_parties"]
 
 
 def post_third_party(request, pk, json):
+    if "type" not in json:
+        json["type"] = "third_party"
+    if "role" not in json:
+        json["role"] = "other"
     data = post(request, APPLICATIONS_URL + str(pk) + THIRD_PARTIES_URL, json)
     return data.json(), data.status_code
 
@@ -203,6 +211,8 @@ def delete_third_party_document(request, pk, obj_pk):
 
 # Consignee
 def post_consignee(request, pk, json):
+    if "type" not in json:
+        json["type"] = "consignee"
     data = post(request, APPLICATIONS_URL + str(pk) + CONSIGNEE_URL, json)
     return data.json(), data.status_code
 
