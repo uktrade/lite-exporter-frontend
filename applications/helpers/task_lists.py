@@ -71,7 +71,7 @@ def get_standard_task_list(request, application, template, reference_number_desc
     additional_documents, _ = get_additional_documents(request, application_id)
     end_user_document = get_end_user_document_section(request, application)
     consignee_document = get_consignee_document_section(request, application)
-    ultimate_end_users, ultimate_end_users_documents_complete = get_ultimate_end_users_section(request, application)
+    ultimate_end_users, _ = get_ultimate_end_users_section(request, application)
     third_parties = get_third_parties(request, application_id)
     goods = get_application_goods(request, application_id)
 
