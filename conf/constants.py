@@ -10,8 +10,10 @@ APPLICATION_SUBMIT_URL = "/submit/"
 CASES_URL = "/cases/"
 GOODS_URL = "/goods/"
 DOCUMENTS_URL = "/documents/"
+END_USER_URL = "/end-user/"
 END_USER_DOCUMENT_URL = "/end-user/document/"
 ULTIMATE_END_USER_URL = "/ultimate-end-user/"
+ULTIMATE_END_USERS_URL = "/ultimate-end-users/"
 CONSIGNEE_URL = "/consignee/"
 CONSIGNEE_DOCUMENT_URL = "/consignee/document/"
 THIRD_PARTIES_URL = "/third-parties/"
@@ -33,24 +35,30 @@ ADDITIONAL_DOCUMENT_URL = "/documents/"
 MANAGE_STATUS_URL = "/status/"
 DOCUMENT_SENSITIVITY_URL = "/document-sensitivity/"
 EXISTING_PARTIES_URL = "/existing-parties"
+COUNTRIES_URL = "/countries/"
 
 # Queries URLs
 QUERIES_URL = "/queries/"
-CONTROL_LIST_CLASSIFICATIONS_URL = QUERIES_URL + "control-list-classifications/"
+GOODS_QUERY_URL = QUERIES_URL + "goods-queries/"
 END_USER_ADVISORIES_URL = QUERIES_URL + "end-user-advisories/"
 
 # Static URLs
 STATIC_URL = "/static/"
 STATUS_PROPERTIES_URL = STATIC_URL + "statuses/properties/"
 UNITS_URL = STATIC_URL + "units/"
-COUNTRIES_URL = STATIC_URL + "countries/"
+STATIC_COUNTRIES_URL = STATIC_URL + "countries/"
 CONTROL_LIST_ENTRIES_URL = STATIC_URL + "control-list-entries/"
+PV_GRADINGS_URL = STATIC_URL + "private-venture-gradings/"
 MISSING_DOCUMENT_REASONS_URL = STATIC_URL + "missing-document-reasons/"
+
+# Document URLs
+DOWNLOAD_URL = "/download/"
 
 # Applications constants
 STANDARD_LICENCE = "standard_licence"
 OPEN_LICENCE = "open_licence"
 HMRC_QUERY = "hmrc_query"
+EXHIBITION_CLEARANCE = "exhibition_clearance"
 
 APPLICANT_EDITING = "applicant_editing"
 
@@ -77,6 +85,6 @@ class Permissions:
 
 class CaseType:
     APPLICATION = "application"
-    CLC_QUERY = "clc_query"
+    GOODS_QUERY = "goods_query"
     EUA_QUERY = "end_user_advisory_query"
     HMRC_QUERY = "hmrc_query"

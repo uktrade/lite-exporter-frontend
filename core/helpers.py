@@ -78,7 +78,7 @@ def convert_parameters_to_query_params(dictionary: dict):
     if "request" in dictionary:
         del dictionary["request"]
 
-    return "?" + convert_dict_to_query_params({key: value for key, value in dictionary.items() if value})
+    return "?" + convert_dict_to_query_params({key: value for key, value in dictionary.items() if value is not None})
 
 
 def convert_to_link(address, name=None, classes="", include_br=False):
@@ -139,3 +139,10 @@ def decorate_patterns_with_permission(patterns, permission):
         pattern._callback = _wrap_with_permission(permission, callback)
         decorated_patterns.append(pattern)
     return decorated_patterns
+
+
+def add_validate_only_to_data(data):
+    data = data.copy()
+    data["validate_only"] = True
+
+    return data

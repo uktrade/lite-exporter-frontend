@@ -42,9 +42,9 @@
 				</div>
 				{% if good.status.key == 'draft' %}
 					<div class="lite-app-bar__controls">
-						<a href="{% url 'goods:edit' good.id %}" id="edit-{{ good.id }}" class="govuk-button govuk-button--secondary">
-                            {% lcs 'goods.GoodsList.EDIT_GOOD_LINK' %}
-                        </a>
+						<a href="{% url 'goods:edit' good.id %}" id="edit" class="govuk-button govuk-button--secondary">
+							{% lcs 'goods.GoodsList.EDIT_GOOD_LINK' %}
+						</a>
 					</div>
 				{% endif %}
 			</div>
@@ -58,14 +58,14 @@
 			{% endif %}
 
 			{% if good.query %}
-				<h3 class="govuk-heading-m">Your query</h3>
-				<dl class="govuk-summary-list">
+				<h3 class="govuk-heading-m">{% lcs 'goods.GoodPage.Query.TITLE' %}</h3>
+				<dl class="govuk-summary-list" id="query_table">
 					<div class="govuk-summary-list__row">
 						<dt class="govuk-summary-list__key">
 							{% lcs 'goods.GoodPage.Query.REFERENCE' %}
 						</dt>
 						<dd class="govuk-summary-list__value">
-							{{ good.query.id|reference_code }}
+							{{ good.query.reference_code }}
 						</dd>
 					</div>
 					<div class="govuk-summary-list__row">
@@ -89,23 +89,31 @@
 
 			{% if good.status.key == 'submitted' %}
 				<div class="govuk-inset-text">
-                    {% lcs 'goods.GoodsList.NO_LONGER_CAN_BE_CHANGED' %}
+					{% lcs 'goods.GoodsList.NO_LONGER_CAN_BE_CHANGED' %}
 				</div>
 				<br>
 			{% endif %}
 
 			{% if good.status.key == 'draft' %}
-				<div class="govuk-inset-text">
-					If you're unsure the product is controlled or not, you can <a href="{% url 'goods:raise_clc_query' good.id %}" class="govuk-link govuk-link--no-visited-state">raise a control list classification (CLC) query</a>.
-				</div>
-				<br>
+				{% if good.is_good_controlled.key == "unsure" or good.is_pv_graded.key == "grading_required" %}
+					{%if documents or good.missing_document_reason.key  %}
+						<div class="govuk-inset-text">
+							{% lcs 'goods.GoodPage.RaiseQuery.PREFIX' %}
+							<a href="{% url 'goods:raise_goods_query' good.id %}" class="govuk-link govuk-link--no-visited-state">
+								{% lcs 'goods.GoodPage.RaiseQuery.LINK' %}
+							</a>
+							{% lcs 'goods.GoodPage.RaiseQuery.SUFFIX' %}
+						</div>
+						<br>
+					{% endif %}
+				{% endif %}
 			{% endif %}
 
 			<!-- Summary -->
-			<dl class="govuk-summary-list">
+			<dl class="govuk-summary-list" id="good-details">
 				<div class="govuk-summary-list__row">
 					<dt class="govuk-summary-list__key">
-						{% lcs "goods.GoodsList.Table.DESCRIPTION" %}
+						{% lcs "goods.GoodPage.Table.DESCRIPTION" %}
 					</dt>
 					<dd class="govuk-summary-list__value">
 						{{ good.description }}
@@ -113,7 +121,7 @@
 				</div>
 				<div class="govuk-summary-list__row">
 					<dt class="govuk-summary-list__key">
-						{% lcs "goods.GoodsList.Table.IS_GOOD_CONTROLLED" %}
+						{% lcs "goods.GoodPage.Table.IS_GOOD_CONTROLLED" %}
 					</dt>
 					<dd class="govuk-summary-list__value">
 						{{ good.is_good_controlled.value }}
@@ -122,12 +130,64 @@
 				{% if good.control_code %}
 					<div class="govuk-summary-list__row">
 						<dt class="govuk-summary-list__key">
-							{% lcs "goods.GoodsList.Table.CONTROL_LIST_ENTRY" %}
+							{% lcs "goods.GoodPage.Table.CONTROL_LIST_ENTRY" %}
 						</dt>
 						<dd class="govuk-summary-list__value">
 							{{ good.control_code }}
 							<br>
 							<span class="govuk-hint govuk-!-margin-top-1">{{ control_list_entry_text }}</span>
+						</dd>
+					</div>
+				{% endif %}
+				<div class="govuk-summary-list__row">
+					<dt class="govuk-summary-list__key">
+						{% lcs "goods.GoodPage.Table.Grading.IS_GRADED" %}
+					</dt>
+					<dd class="govuk-summary-list__value">
+						{{ good.is_pv_graded.value }}
+					</dd>
+				</div>
+				{% if good.is_pv_graded.key == "yes" %}
+					<div class="govuk-summary-list__row">
+						<dt class="govuk-summary-list__key">
+							{% lcs "goods.GoodPage.Table.Grading.GRADING" %}
+						</dt>
+						<dd class="govuk-summary-list__value">
+                            {% if good.pv_grading_details.prefix %}
+                                {{ good.pv_grading_details.prefix }}
+                            {% endif %}
+                            {% if good.pv_grading_details.grading %}
+                             {{ good.pv_grading_details.grading.value }}
+                            {% else %}
+                                 {{ good.pv_grading_details.custom_grading }}
+                            {% endif %}
+                            {% if good.pv_grading_details.suffix %}
+                                {{ good.pv_grading_details.suffix }}
+                            {% endif %}
+                        </dd>
+					</div>
+					<div class="govuk-summary-list__row">
+						<dt class="govuk-summary-list__key">
+							{% lcs "goods.GoodPage.Table.Grading.REFERENCE" %}
+						</dt>
+						<dd class="govuk-summary-list__value">
+							{{ good.pv_grading_details.reference }}
+						</dd>
+					</div>
+					<div class="govuk-summary-list__row">
+						<dt class="govuk-summary-list__key">
+							{% lcs "goods.GoodPage.Table.Grading.ISSUING_AUTHORITY" %}
+						</dt>
+						<dd class="govuk-summary-list__value">
+							{{ good.pv_grading_details.issuing_authority }}
+						</dd>
+					</div>
+					<div class="govuk-summary-list__row">
+						<dt class="govuk-summary-list__key">
+							{% lcs "goods.GoodPage.Table.Grading.DATE_OF_ISSUE" %}
+						</dt>
+						<dd class="govuk-summary-list__value">
+							{{ good.pv_grading_details.date_of_issue|date_display }}
 						</dd>
 					</div>
 				{% endif %}
@@ -144,21 +204,27 @@
 			<br><br>
 
 			<!-- Documents -->
-		    <div class="lite-app-bar">
+			<div class="lite-app-bar">
 				<div class="lite-app-bar__content">
 					<h3 class="govuk-heading-m">{% lcs 'goods.GoodsList.Documents.TITLE' %}</h3>
 				</div>
 				<div class="lite-app-bar__controls">
 				    {% if good.status.key == 'draft' %}
-			            <a role="button" draggable="false" class="govuk-button" href="{% url 'goods:attach_documents' good.id %}">
-			                {% lcs 'Goods.Documents.AttachDocuments.BUTTON' %}
-			            </a>
+						{% if documents %}
+							<a role="button" draggable="false" class="govuk-button" href="{% url 'goods:attach_documents' good.id %}?goodpage=yes">
+								{% lcs 'Goods.Documents.AttachDocuments.BUTTON' %}
+							</a>
+						{% else %}
+							<a role="button" draggable="false" class="govuk-button" href="{% url 'goods:add_document' good.id %}">
+								{% lcs 'Goods.Documents.AttachDocuments.BUTTON' %}
+							</a>
+						{% endif %}
 				    {% endif %}
 				</div>
-		    </div>
+			</div>
 
-		    {% if documents %}
-		        <p class="govuk-caption-m">{% lcs 'Goods.Documents.DESCRIPTION' %}</p>
+			{% if documents %}
+				<p class="govuk-caption-m">{% lcs 'Goods.Documents.DESCRIPTION' %}</p>
 
 				<br>
 
@@ -180,12 +246,11 @@
                                 <td class="govuk-table__cell govuk-table__cell--numeric">
                                     {% if document.safe == True %}
                                         <a class="govuk-link govuk-link--no-visited-state" href="{% url 'goods:document' pk=good.id file_pk=document.id %}">
-                                            <span class="govuk-visually-hidden">{% lcs 'Goods.Documents.DOWNLOAD_DOCUMENT' %}</span>
-                                            Download
+                                            {% lcs "goods.GoodPage.Document.DOWNLOAD" %}
                                         </a>
                                         {% if good.status.key == 'draft' %}
                                             <a href="{% url 'goods:delete_document' good.id document.id %}" class="govuk-link">
-                                                Delete
+                                                {% lcs "goods.GoodPage.Document.DELETE" %}
                                             </a>
                                         {% endif %}
                                     {% elif document.safe == False %}
@@ -198,38 +263,51 @@
                         {% endfor %}
                     </tbody>
                 </table>
+			{% elif good.missing_document_reason.key %}
+				<div class="lite-information-text">
+					<span class="lite-information-text__icon" aria-hidden="true">!</span>
+					<p class="lite-information-text__text">
+						<span class="govuk-visually-hidden">{% lcs "generic.NoticeComponent.INFORMATION" %}</span>
+						Document not required: {{ good.missing_document_reason.value }}
+					</p>
+				</div>
 		    {% else %}
 				{% include "includes/notice.html" with text="goods.GoodsList.Documents.NO_DOCUMENT_ATTACHED" %}
-		    {% endif %}
+			{% endif %}
 
-		    {% if good.query %}
-		        <div class="lite-tabs__container govuk-!-margin-top-6">
-		            <div class="lite-tabs">
+			{% if good.query %}
+				<div class="lite-tabs__container govuk-!-margin-top-6">
+					<div class="lite-tabs">
 						<a href="{% url 'goods:good_detail' good.id 'case-notes' %}" class="lite-tabs__tab {% if type == 'case-notes' %}lite-tabs__tab--selected{% endif %}" id="link-case-notes">
-						    {% lcs 'goods.GoodPage.Tabs.NOTES' %}
-			                {% if good.query.exporter_user_notification_count.casenote %}
-			                    <div class="lite-notification-bubble">
-			                        {{ good.query.exporter_user_notification_count.casenote }}
-			                    </div>
-			                {% endif %}
-					    </a>
-			            <a href="{% url 'goods:good_detail' good.id 'ecju-queries' %}" class="lite-tabs__tab {% if type == 'ecju-queries' %}lite-tabs__tab--selected{% endif %}" id="link-ecju-queries">
-			                {% lcs 'goods.GoodPage.Tabs.ECJU_QUERIES' %}
-			                {% if good.query.exporter_user_notification_count.ecjuquery  %}
-			                    <div class="lite-notification-bubble">
-			                        {{ good.query.exporter_user_notification_count.ecjuquery }}
-			                    </div>
-						    {% endif %}
-			            </a>
-		            </div>
-		        </div>
-		        {% if type == 'case-notes' and good.query.id %}
+							{% lcs 'goods.GoodPage.Tabs.NOTES' %}
+							{% if good.query.exporter_user_notification_count.casenote %}
+								<div class="lite-notification-bubble">
+									{{ good.query.exporter_user_notification_count.casenote }}
+								</div>
+							{% endif %}
+						</a>
+						<a href="{% url 'goods:good_detail' good.id 'ecju-queries' %}" class="lite-tabs__tab {% if type == 'ecju-queries' %}lite-tabs__tab--selected{% endif %}" id="link-ecju-queries">
+							{% lcs 'goods.GoodPage.Tabs.ECJU_QUERIES' %}
+							{% if good.query.exporter_user_notification_count.ecjuquery  %}
+								<div class="lite-notification-bubble">
+									{{ good.query.exporter_user_notification_count.ecjuquery }}
+								</div>
+							{% endif %}
+						</a>
+						<a href="{% url 'goods:good_detail' good.id 'ecju-generated-documents' %}" class="lite-tabs__tab {% if type == 'ecju-generated-documents' %}lite-tabs__tab--selected{% endif %}" id="link-ecju-generated-documents">
+							{% lcs 'goods.GoodPage.Tabs.GENERATED_DOCUMENTS' %}
+						</a>
+					</div>
+				</div>
+				{% if type == 'case-notes' and good.query.id %}
 					{% url "goods:good_detail" good.id "case-notes" as post_url %}
-			        {% include "includes/case-notes.html" with post_url=post_url %}
-		        {% elif type == 'ecju-queries'%}
-			        {% include "goods/tabs/ecju-queries.html" %}
-		        {% endif %}
-		    {% endif %}
+					{% include "includes/case-notes.html" with post_url=post_url %}
+				{% elif type == 'ecju-queries'%}
+					{% include "goods/tabs/ecju-queries.html" %}
+				{% elif type == 'ecju-generated-documents'%}
+					{% include "goods/tabs/ecju-generated-documents.html" %}
+				{% endif %}
+			{% endif %}
 		</div>
 	</div>
 {% endblock %}

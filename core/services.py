@@ -1,20 +1,25 @@
 from http import HTTPStatus
 
+from django.http import StreamingHttpResponse
+
 from core.helpers import convert_parameters_to_query_params, convert_value_to_query_param
+from lite_content.lite_exporter_frontend.generic import Document
 from lite_forms.components import Option
 
 from conf.client import get, post, put, delete
 from conf.constants import (
     UNITS_URL,
     APPLICATIONS_URL,
-    COUNTRIES_URL,
+    STATIC_COUNTRIES_URL,
     EXTERNAL_LOCATIONS_URL,
     NOTIFICATIONS_URL,
     ORGANISATIONS_URL,
     CASES_URL,
     CONTROL_LIST_ENTRIES_URL,
     NEWLINE,
+    PV_GRADINGS_URL,
 )
+from lite_forms.generators import error_page
 
 
 def get_units(request):
@@ -23,7 +28,7 @@ def get_units(request):
 
 
 def get_countries(request, convert_to_options=False):
-    data = get(request, COUNTRIES_URL).json()["countries"]
+    data = get(request, STATIC_COUNTRIES_URL).json()["countries"]
 
     if convert_to_options:
         return [Option(x["id"], x["name"]) for x in data]
@@ -161,6 +166,32 @@ def get_control_list_entries(request, convert_to_options=False):
     return data.json().get("control_list_entries")
 
 
+# PV gradings
+def get_pv_gradings(request, convert_to_options=False):
+    if convert_to_options:
+        data = get(request, PV_GRADINGS_URL)
+
+        converted_units = []
+        for pvg in data.json().get("pv_gradings"):
+            for key in pvg:
+                converted_units.append(Option(key=key, value=pvg[key],))
+        return converted_units
+
+    data = get(request, PV_GRADINGS_URL)
+    return data.json().get("pv-gradings")
+
+
 def get_control_list_entry(request, rating):
     data = get(request, CONTROL_LIST_ENTRIES_URL + rating)
     return data.json().get("control_list_entry")
+
+
+def get_document_download_stream(request, url):
+    response = get(request, url)
+    if response.status_code == HTTPStatus.OK:
+        return StreamingHttpResponse(response, content_type=response.headers._store["content-type"][1])
+    elif response.status_code == HTTPStatus.UNAUTHORIZED:
+        error = Document.ACCESS_DENIED
+    else:
+        error = Document.DOWNLOAD_ERROR
+    return error_page(request, error)

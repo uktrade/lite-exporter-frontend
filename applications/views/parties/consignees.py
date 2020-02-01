@@ -4,7 +4,7 @@ from django.views.generic import TemplateView
 
 from applications.forms.parties import new_party_form_group
 from applications.helpers.check_your_answers import convert_consignee
-from applications.services import get_application, post_consignee, delete_consignee
+from applications.services import get_application, post_consignee, delete_consignee, validate_consignee
 from applications.views.parties.base import AddParty, ExistingPartiesList, SetParty, DeleteParty
 from lite_content.lite_exporter_frontend.applications import ConsigneeForm, ConsigneePage
 
@@ -18,7 +18,7 @@ class Consignee(TemplateView):
             context = {
                 "application": application,
                 "title": ConsigneePage.TITLE,
-                "edit_url": reverse_lazy("applications:set_consignee", kwargs={"pk": application_id}),
+                "edit_url": reverse_lazy("applications:edit_consignee", kwargs={"pk": application_id}),
                 "remove_url": reverse_lazy("applications:remove_consignee", kwargs={"pk": application_id}),
                 "answers": convert_consignee(application["consignee"], application_id, True),
             }
@@ -35,16 +35,23 @@ class AddConsignee(AddParty):
 
 
 class SetConsignee(SetParty):
-    def __init__(self):
+    def __init__(self, copy_existing=False):
         super().__init__(
             url="applications:consignee_attach_document",
             name="consignee",
             form=new_party_form_group,
             back_url="applications:add_consignee",
-            action=post_consignee,
             strings=ConsigneeForm,
             multiple_allowed=False,
+            copy_existing=copy_existing,
+            post_action=post_consignee,
+            validate_action=validate_consignee,
         )
+
+
+class EditConsignee(SetConsignee):
+    def __init__(self):
+        super().__init__(copy_existing=True)
 
 
 class RemoveConsignee(DeleteParty):
