@@ -62,7 +62,7 @@ class RemoveEndUser(DeleteParty):
             url="applications:add_end_user",
             action=delete_party,
             error=EndUserPage.DELETE_ERROR,
-            party_type='end_user',
+            party_type="end_user",
             multiple_allowed=True,
         )
 

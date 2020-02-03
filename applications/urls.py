@@ -110,7 +110,11 @@ urlpatterns = [
     path("<uuid:pk>/end-user/<uuid:obj_pk>/edit/", end_users.EditEndUser.as_view(), name="edit_end_user"),
     path("<uuid:pk>/end-user/copy/", end_users.ExistingEndUser.as_view(), name="copy_end_user"),
     path("<uuid:pk>/end-user/<uuid:obj_pk>/remove/", end_users.RemoveEndUser.as_view(), name="remove_end_user"),
-    path("<uuid:pk>/end-user/<uuid:obj_pk>/document/attach/", documents.AttachDocuments.as_view(), name="end_user_attach_document"),
+    path(
+        "<uuid:pk>/end-user/<uuid:obj_pk>/document/attach/",
+        documents.AttachDocuments.as_view(),
+        name="end_user_attach_document",
+    ),
     path(
         "<uuid:pk>/end-user/document/download", documents.DownloadDocument.as_view(), name="end_user_download_document"
     ),
@@ -123,7 +127,11 @@ urlpatterns = [
     path("<uuid:pk>/consignee/<uuid:obj_pk>/edit/", consignees.EditConsignee.as_view(), name="edit_consignee"),
     path("<uuid:pk>/consignee/copy/", consignees.ExistingConsignee.as_view(), name="copy_consignee"),
     path("<uuid:pk>/consignee/<uuid:obj_pk>/remove/", consignees.RemoveConsignee.as_view(), name="remove_consignee"),
-    path("<uuid:pk>/consignee/<uuid:obj_pk>/document/attach/", documents.AttachDocuments.as_view(), name="consignee_attach_document"),
+    path(
+        "<uuid:pk>/consignee/<uuid:obj_pk>/document/attach/",
+        documents.AttachDocuments.as_view(),
+        name="consignee_attach_document",
+    ),
     path(
         "<uuid:pk>/consignee/document/download",
         documents.DownloadDocument.as_view(),
@@ -135,8 +143,8 @@ urlpatterns = [
     path(
         "<uuid:pk>/uttimate-end-users/<uuid:obj_pk>/",
         ultimate_end_users.UltimateEndUsers.as_view(),
-        name="ultimate_end_users")
-    ,
+        name="ultimate_end_users",
+    ),
     path(
         "<uuid:pk>/ultimate-end-user/<uuid:obj_pk>/document/attach",
         documents.AttachDocuments.as_view(),

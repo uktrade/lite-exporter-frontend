@@ -34,7 +34,7 @@ def get_upload_page(path, draft_id):
 def get_homepage(request, draft_id, obj_pk=None):
     data = {"pk": draft_id}
     if obj_pk:
-        data['obj_pk'] = obj_pk
+        data["obj_pk"] = obj_pk
     return redirect(reverse(document_switch(request.path)["homepage"], kwargs=data))
 
 

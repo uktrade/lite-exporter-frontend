@@ -47,7 +47,7 @@ class SetUltimateEndUser(SetParty):
             multiple_allowed=True,
             post_action=post_ultimate_end_user,
             validate_action=validate_ultimate_end_user,
-            party_type="ultimate_end_user"
+            party_type="ultimate_end_user",
         )
 
 

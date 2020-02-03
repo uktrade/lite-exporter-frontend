@@ -34,9 +34,7 @@ def _convert_exhibition_clearance(application, editable=False):
 def _convert_standard_application(application, editable=False):
     return {
         applications.ApplicationSummaryPage.GOODS: _convert_goods(application["goods"]),
-        applications.ApplicationSummaryPage.GOODS_LOCATIONS: _convert_goods_locations(
-            application["goods_locations"]
-        ),
+        applications.ApplicationSummaryPage.GOODS_LOCATIONS: _convert_goods_locations(application["goods_locations"]),
         applications.ApplicationSummaryPage.END_USER: convert_party(
             application["end_user"], application["id"], editable
         ),
@@ -132,7 +130,7 @@ def convert_party(party, application_id, editable):
     else:
         document = convert_to_link(
             reverse_lazy("applications:end_user_attach_document", kwargs={"pk": application_id, "obj_pk": party["id"]}),
-            "Attach document"
+            "Attach document",
         )
     return {
         "Name": party["name"],
@@ -173,8 +171,7 @@ def convert_consignee(consignee, application_id, editable):
     else:
         kwargs = {"pk": application_id, "obj_pk": consignee["id"]}
         document = convert_to_link(
-            reverse_lazy("applications:consignee_attach_document", kwargs=kwargs),
-            "Attach document"
+            reverse_lazy("applications:consignee_attach_document", kwargs=kwargs), "Attach document"
         )
 
     return {
