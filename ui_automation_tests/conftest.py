@@ -11,8 +11,13 @@ from pages.application_page import ApplicationPage
 from pages.open_application.add_goods_type import OpenApplicationAddGoodsType
 from pages.respond_to_ecju_query_page import RespondToEcjuQueryPage
 from pages.submitted_applications_page import SubmittedApplicationsPages
+from pages.standard_application.task_list import StandardApplicationTaskListPage
+from pages.standard_application.good_details import StandardApplicationGoodDetails
+from pages.standard_application.goods import StandardApplicationGoodsPage
 from pages.add_new_external_location_form_page import AddNewExternalLocationFormPage
 from shared import functions
+from shared.tools.wait import wait_for_element, wait_for_download_button
+
 from ui_automation_tests.fixtures.env import environment  # noqa
 from ui_automation_tests.fixtures.register_organisation import (  # noqa
     register_organisation,
@@ -22,17 +27,8 @@ from ui_automation_tests.fixtures.register_organisation import (  # noqa
 from ui_automation_tests.fixtures.add_party import add_end_user_to_application  # noqa
 from ui_automation_tests.fixtures.add_clc_query import add_clc_query  # noqa
 from ui_automation_tests.fixtures.add_end_user_advisory import add_end_user_advisory  # noqa
-from ui_automation_tests.fixtures.internal_ecju_query import (  # noqa
-    internal_ecju_query,
-    internal_ecju_query_end_user_advisory,
-)
 from ui_automation_tests.fixtures.sso_sign_in import sso_sign_in  # noqa
-from ui_automation_tests.fixtures.internal_case_note import (  # noqa
-    internal_case_note,
-    internal_case_note_end_user_advisory,
-)
 from ui_automation_tests.fixtures.manage_case import manage_case_status_to_withdrawn  # noqa
-
 from ui_automation_tests.shared.fixtures.add_a_draft import add_a_draft  # noqa
 from ui_automation_tests.shared.fixtures.apply_for_application import (  # noqa
     apply_for_standard_application,
@@ -65,6 +61,7 @@ from pages.hub_page import Hub
 from pages.shared import Shared
 from pages.sites_page import SitesPage
 from pages.which_location_form_page import WhichLocationFormPage
+from ui_automation_tests.pages.add_goods_grading_page import AddGoodGradingPage
 
 strict_gherkin = False
 
@@ -164,6 +161,7 @@ def click_apply_licence(driver):  # noqa
     ExporterHubPage(driver).click_apply_for_a_licence()
 
 
+@when("I enter a licence name")  # noqa
 def enter_application_name(driver, context):  # noqa
     apply = ApplyForALicencePage(driver)
     app_time_id = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -201,10 +199,19 @@ def enter_export_licence(driver, yes_or_no, reference, context):  # noqa
 @when("I create a standard application")  # noqa
 def create_standard_application(driver, context):  # noqa
     click_apply_licence(driver)
+    ApplyForALicencePage(driver).select_licence_type("export_licence")
+    functions.click_submit(driver)
     enter_type_of_application(driver, "standard", context)
     enter_application_name(driver, context)
     enter_permanent_or_temporary(driver, "permanent", context)
     enter_export_licence(driver, "yes", "123456", context)
+
+
+@when(parsers.parse('I select a licence of type "{type}"'))  # noqa
+def create_mod_application(driver, context, type):  # noqa
+    ExporterHubPage(driver).click_apply_for_a_licence()
+    ApplyForALicencePage(driver).select_licence_type(type)
+    functions.click_submit(driver)
 
 
 @when("I click on application locations link")  # noqa
@@ -236,10 +243,10 @@ def add_new_end_user(driver, type, name, website, address, country, context):  #
     functions.click_submit(driver)
 
 
-@when(parsers.parse('I select "{organisation_or_external}" for where my goods are located'))  # noqa
-def choose_location_type(driver, organisation_or_external):  # noqa
+@when(parsers.parse('I select "{choice}" for where my goods are located'))  # noqa
+def choose_location_type(driver, choice):  # noqa
     which_location_form = WhichLocationFormPage(driver)
-    which_location_form.click_on_organisation_or_external_radio_button(organisation_or_external)
+    which_location_form.click_on_location_radiobutton(choice)
     functions.click_submit(driver)
 
 
@@ -263,10 +270,10 @@ def click_my_goods_link(driver):  # noqa
 
 @when(  # noqa
     parsers.parse(
-        'I add a good with description "{description}" controlled "{controlled}" control code "{control_code}" and part number "{part}"'
+        'I add a good with description "{description}" part number "{part}" controlled "{controlled}" control code "{control_code}" and graded "{graded}"'
     )
 )
-def add_new_good(driver, description, controlled, control_code, part, context):  # noqa
+def add_new_good(driver, description, part, controlled, control_code, graded, context):  # noqa
     good_part_needed = True
     add_goods_page = AddGoodPage(driver)
     date_time = utils.get_current_date_time_string()
@@ -281,13 +288,30 @@ def add_new_good(driver, description, controlled, control_code, part, context): 
         good_part_needed = False
     elif "empty" not in good_part:
         add_goods_page.enter_part_number(good_part)
-    if controlled.lower() == "unsure":
-        functions.click_submit(driver)
-    else:
+    if controlled.lower() == "yes":
         add_goods_page.enter_control_code(control_code)
-        functions.click_submit(driver)
     if good_part_needed:
         context.good_id_from_url = driver.current_url.split("/goods/")[1].split("/")[0]
+    add_goods_page.select_is_your_good_graded(graded)
+    functions.click_submit(driver)
+
+
+@when(  # noqa
+    parsers.parse(
+        'I add the goods grading with prefix "{prefix}" grading "{grading}" suffix "{suffix}" '
+        'issuing authority "{issuing_authority}" reference "{reference}" Date of issue "{date_of_issue}"'
+    )
+)
+def add_good_grading(driver, prefix, grading, suffix, issuing_authority, reference, date_of_issue, context):  # noqa
+    goods_grading_page = AddGoodGradingPage(driver)
+    goods_grading_page.enter_prefix_of_goods_grading(prefix)
+    goods_grading_page.enter_good_grading(grading)
+    goods_grading_page.enter_suffix_of_goods_grading(suffix)
+    goods_grading_page.enter_issuing_authority(issuing_authority)
+    goods_grading_page.enter_reference(reference)
+    date = date_of_issue.split("-")
+    goods_grading_page.enter_date_of_issue(date[0], date[1], date[2])
+    functions.click_submit(driver)
 
 
 def get_file_upload_path(filename):  # noqa
@@ -460,14 +484,15 @@ def upload_a_file(driver, filename):  # noqa
 @when("I click on end user")  # noqa
 def i_click_on_end_user(driver):  # noqa
     app = GenericApplicationTaskListPage(driver)
-    utils.scroll_to_element_by_id(driver, app.END_USER_LINK)
+    utils.scroll_to_element_by_id(driver, app.LINK_END_USER_ID)
     app.click_end_user_link()
 
 
 @when("I click on consignees")  # noqa
 def i_click_on_consignees(driver):  # noqa
-    utils.scroll_to_element_by_id(Shared(driver).driver, "consignees")
-    GenericApplicationTaskListPage(driver).click_consignee_link()
+    app = GenericApplicationTaskListPage(driver)
+    utils.scroll_to_element_by_id(Shared(driver).driver, app.LINK_CONSIGNEE_ID)
+    app.click_consignee_link()
 
 
 @when("I click on activity tab")  # noqa
@@ -506,8 +531,7 @@ def add_new_goods_type(driver, description, controlled, control_code, incorporat
     OpenApplicationAddGoodsType(driver).enter_description(description)
     OpenApplicationAddGoodsType(driver).select_is_your_good_controlled(controlled)
     OpenApplicationAddGoodsType(driver).enter_control_code(control_code)
-    if incorporated != "N/A":
-        OpenApplicationAddGoodsType(driver).select_is_your_good_incorporated(incorporated)
+    OpenApplicationAddGoodsType(driver).select_is_your_good_incorporated(incorporated)
 
     context.good_description = description
     context.control_code = control_code
@@ -533,3 +557,147 @@ def add_new_external_location(driver, name, address, country):  # noqa
     add_new_external_location_form_page.enter_external_location_address(address)
     add_new_external_location_form_page.enter_external_location_country(country)
     functions.click_submit(driver)
+
+
+@when("I click on goods")  # noqa
+def i_click_on_goods(driver):  # noqa
+    StandardApplicationTaskListPage(driver).click_goods_link()
+
+
+@when("I add a non-incorporated good to the application")  # noqa
+def i_add_a_non_incorporated_good_to_the_application(driver, context):  # noqa
+    StandardApplicationGoodsPage(driver).click_add_preexisting_good_button()
+
+    # Click the "Add to application" link on the first good
+    driver.find_elements_by_css_selector(".govuk-table__row .govuk-link")[0].click()
+
+    # Enter good details
+    StandardApplicationGoodDetails(driver).enter_value("1")
+    StandardApplicationGoodDetails(driver).enter_quantity("2")
+    StandardApplicationGoodDetails(driver).select_unit("Number of articles")
+    StandardApplicationGoodDetails(driver).check_is_good_incorporated_false()
+    context.is_good_incorporated = "No"
+
+    functions.click_submit(driver)
+
+
+@then("the good is added to the application")  # noqa
+def the_good_is_added_to_the_application(driver, context):  # noqa
+    body_text = Shared(driver).get_text_of_body()
+
+    assert len(StandardApplicationGoodsPage(driver).get_goods()) == 1  # Only one good added
+    assert StandardApplicationGoodsPage(driver).get_goods_total_value() == "£1.00"  # Value
+    assert "2.0" in body_text  # Quantity
+    assert "Number of articles" in body_text  # Unit
+    assert context.is_good_incorporated in body_text  # Incorporated
+
+    # Go back to task list
+    functions.click_back_link(driver)
+
+
+@then("wait for download link")  # noqa
+def wait_for_download_link(driver):  # noqa
+    assert wait_for_download_button(driver, page=Shared(driver))
+
+
+@then(parsers.parse('Wait for "{element_id}" to be present'))  # noqa
+def wait_for_element_to_be_present(driver, element_id):  # noqa
+    assert wait_for_element(driver, element_id)
+
+
+@when("I change my reference name")  # noqa
+def change_ref_name(driver, context):  # noqa
+    driver.find_element_by_id("link-reference-name").click()
+    enter_application_name(driver, context)
+
+
+@then("I see my edited reference name")
+def assert_ref_name(context, driver):  # noqa
+    assert context.app_name in driver.find_element_by_css_selector(".lite-task-list").text
+
+
+@then("I see my edited reference number")
+def assert_ref_num(driver):  # noqa
+    assert "12345678" in driver.find_element_by_css_selector(".lite-task-list").text
+
+
+@when("I change my reference number")
+def change_ref_num(driver, context):  # noqa
+    driver.find_element_by_id("link-told-by-an-official").click()
+    enter_export_licence(driver, "yes", "12345678", context)
+
+
+@when("I remove a good from the application")
+def i_remove_a_good_from_the_application(driver):  # noqa
+    GenericApplicationTaskListPage(driver).get_remove_good_link().click()
+
+
+@then("the good has been removed from the application")
+def no_goods_are_left_on_the_application(driver):  # noqa
+    assert not functions.element_with_css_selector_exists(
+        driver, GenericApplicationTaskListPage(driver).REMOVE_GOOD_LINK
+    )
+
+
+@when("I remove the end user off the application")
+def i_remove_the_end_user_off_the_application(driver):  # noqa
+    GenericApplicationTaskListPage(driver).click_end_user_link()
+    remove_end_user_link = GenericApplicationTaskListPage(driver).find_remove_end_user_link()
+    driver.execute_script("arguments[0].click();", remove_end_user_link)
+    functions.click_back_link(driver)
+
+
+@then("no end user is set on the application")
+def no_end_user_is_set_on_the_application(driver):  # noqa
+    assert not GenericApplicationTaskListPage(driver).does_remove_end_user_exist(driver)
+
+
+@when("I remove the consignee off the application")
+def i_remove_the_consignee_off_the_application(driver):  # noqa
+    GenericApplicationTaskListPage(driver).click_consignee_link()
+    remove_consignee_link = GenericApplicationTaskListPage(driver).find_remove_consignee_link()
+    driver.execute_script("arguments[0].click();", remove_consignee_link)
+    functions.click_back_link(driver)
+
+
+@then("no consignee is set on the application")
+def no_consignee_is_set_on_the_application(driver):  # noqa
+    assert not GenericApplicationTaskListPage(driver).does_remove_consignee_exist(driver)
+
+
+@when("I click on the application third parties link")
+def i_click_on_application_third_parties_link(driver):  # noqa
+    StandardApplicationTaskListPage(driver).click_third_parties_link()
+
+
+@when("I remove a third party from the application")
+def i_remove_a_third_party_from_the_application(driver):  # noqa
+    remove_good_link = GenericApplicationTaskListPage(driver).find_remove_third_party_link()
+    driver.execute_script("arguments[0].click();", remove_good_link)
+    functions.click_back_link(driver)
+
+
+@then("the third party has been removed from the application")
+def no_third_parties_are_left_on_the_application(driver):  # noqa
+    assert not functions.element_with_css_selector_exists(
+        driver, GenericApplicationTaskListPage(driver).REMOVE_THIRD_PARTY_LINK
+    )
+
+
+@when("I remove an additional document")
+def i_remove_an_additional_document(driver):  # noqa
+    driver.set_timeout_to(0)
+    GenericApplicationTaskListPage(driver).click_supporting_documents_link()
+    remove_additional_document_link = GenericApplicationTaskListPage(driver).find_remove_additional_document_link()
+    driver.set_timeout_to(10)
+    driver.execute_script("arguments[0].click();", remove_additional_document_link)
+
+
+@when("I confirm I want to delete the document")
+def i_click_confirm(driver):  # noqa
+    GenericApplicationTaskListPage(driver).confirm_delete_additional_document()
+
+
+@then("the document is removed from the application")
+def no_documents_are_set_on_the_application(driver):  # noqa
+    assert not GenericApplicationTaskListPage(driver).does_remove_additional_document_exist(driver)

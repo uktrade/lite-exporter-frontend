@@ -3,14 +3,16 @@ from pytest_bdd import scenarios, given, when, then
 from pages.hub_page import Hub
 from pages.shared import Shared
 from shared.tools import helpers
+from shared.tools.utils import get_lite_client
 
 scenarios("../features/notifications.feature", strict_gherkin=False)
 
 
 @given("an application exists and a case note has been added via internal gov site")
-def application_exists_case_note_added(
-    driver, apply_for_standard_application, add_an_ecju_query, internal_case_note, context
-):
+def application_exists_case_note_added(apply_for_standard_application, seed_data_config, context, driver):
+    lite_client = get_lite_client(context, seed_data_config=seed_data_config)
+    lite_client.seed_ecju.add_ecju_query(context.case_id)
+    lite_client.seed_case.add_case_note(context, context.case_id)
     context.number_of_notifications = Hub(driver).return_number_of_notifications()
 
 
@@ -25,14 +27,14 @@ def notification_exists(driver, context):
 @when("I click on my application")
 def click_on_application(driver, context):
     elements = Shared(driver).get_gov_table_cell_links()
-    no = helpers.get_element_index_by_text(elements, context.app_name, complete_match=False)
+    no = helpers.get_element_index_by_text(elements, context.app_time_id, complete_match=False)
     elements[no].click()
 
 
 @then("I see a notification on application list")
 def notification_on_application_list(driver, context):
     elements = driver.find_elements_by_css_selector(".govuk-table__row")
-    no = helpers.get_element_index_by_text(elements, context.app_name, complete_match=False)
+    no = helpers.get_element_index_by_text(elements, context.app_time_id, complete_match=False)
     assert elements[no].find_element_by_css_selector(Shared(driver).NOTIFICATION).is_displayed()
 
 
