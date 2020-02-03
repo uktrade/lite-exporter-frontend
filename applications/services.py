@@ -7,13 +7,9 @@ from conf.client import get, post, put, delete
 from conf.constants import (
     ACTIVITY_URL,
     APPLICATIONS_URL,
-    END_USER_DOCUMENT_URL,
-    ULTIMATE_END_USER_URL,
     ULTIMATE_END_USERS_URL,
     DOCUMENT_URL,
     CONSIGNEE_URL,
-    THIRD_PARTIES_URL,
-    CONSIGNEE_DOCUMENT_URL,
     APPLICATION_SUBMIT_URL,
     ADDITIONAL_DOCUMENT_URL,
     CASES_URL,
@@ -29,6 +25,7 @@ from conf.constants import (
     EXISTING_PARTIES_URL,
     END_USER_URL,
     COUNTRIES_URL,
+    PARTIES_URL,
 )
 from conf.settings import AWS_STORAGE_BUCKET_NAME, STREAMING_CHUNK_SIZE
 from core.helpers import remove_prefix, convert_parameters_to_query_params, add_validate_only_to_data
@@ -123,35 +120,35 @@ def post_end_user(request, pk, json):
 
 
 def validate_end_user(request, pk, json):
+    if "type" not in json:
+        json["type"] = "end_user"
     json = add_validate_only_to_data(json)
     data = post(request, APPLICATIONS_URL + str(pk) + END_USER_URL, json)
     return data.json(), data.status_code
 
 
-# End user Documents
-def get_end_user_document(request, pk):
-    data = get(request, APPLICATIONS_URL + pk + END_USER_DOCUMENT_URL)
-    return data.json(), data.status_code
+def delete_party(request, application_pk, obj_pk=None):
+    return delete(request, APPLICATIONS_URL + application_pk + PARTIES_URL + str(obj_pk)).status_code
 
 
-def post_end_user_document(request, pk, json):
-    data = post(request, APPLICATIONS_URL + pk + END_USER_DOCUMENT_URL, json)
-    return data.json(), data.status_code
-
-
-def delete_end_user(request, pk):
-    data = delete(request, APPLICATIONS_URL + pk + END_USER_URL + "?type=end_user")
+def delete_party_document(request, application_pk, obj_pk):
+    data = delete(request, APPLICATIONS_URL + application_pk + PARTIES_URL + str(obj_pk) + DOCUMENT_URL)
     return data.status_code
 
 
-def delete_end_user_document(request, pk):
-    data = delete(request, APPLICATIONS_URL + pk + END_USER_DOCUMENT_URL)
-    return data.status_code
+def post_party_document(request, application_pk, obj_pk, json):
+    data = post(request, APPLICATIONS_URL + application_pk + PARTIES_URL + str(obj_pk) + DOCUMENT_URL, json=json)
+    return data.json(), data.status_code
+
+
+def get_party_document(request, application_pk, obj_pk):
+    data = get(request, APPLICATIONS_URL + application_pk + PARTIES_URL + str(obj_pk) + DOCUMENT_URL)
+    return data.json(), data.status_code
 
 
 # Ultimate End Users
 def get_ultimate_end_users(request, pk):
-    data = get(request, APPLICATIONS_URL + pk + ULTIMATE_END_USERS_URL + "?type=ultimate_end_user")
+    data = get(request, APPLICATIONS_URL + pk + PARTIES_URL + "?type=ultimate_end_user")
     return data.json()["ultimate_end_users"]
 
 
@@ -162,36 +159,17 @@ def post_ultimate_end_user(request, pk, json):
     return data.json(), data.status_code
 
 
-def delete_ultimate_end_user(request, pk, obj_pk):
-    data = delete(request, APPLICATIONS_URL + pk + ULTIMATE_END_USERS_URL + obj_pk)
-    return data.status_code
-
-
 def validate_ultimate_end_user(request, pk, json):
+    if "type" not in json:
+        json["type"] = "ultimate_end_user"
     json = add_validate_only_to_data(json)
     data = post(request, APPLICATIONS_URL + str(pk) + ULTIMATE_END_USERS_URL, json)
     return data.json(), data.status_code
 
 
-# Ultimate end user Documents
-def get_ultimate_end_user_document(request, pk, obj_pk):
-    data = get(request, APPLICATIONS_URL + pk + ULTIMATE_END_USER_URL + str(obj_pk) + DOCUMENT_URL)
-    return data.json(), data.status_code
-
-
-def post_ultimate_end_user_document(request, pk, obj_pk, json):
-    data = post(request, APPLICATIONS_URL + pk + ULTIMATE_END_USER_URL + str(obj_pk) + DOCUMENT_URL, json)
-    return data.json(), data.status_code
-
-
-def delete_ultimate_end_user_document(request, pk, obj_pk):
-    data = delete(request, APPLICATIONS_URL + pk + ULTIMATE_END_USER_URL + str(obj_pk) + DOCUMENT_URL)
-    return data.status_code
-
-
 # Third parties
 def get_third_parties(request, pk):
-    data = get(request, APPLICATIONS_URL + pk + THIRD_PARTIES_URL + "?type=third_party")
+    data = get(request, APPLICATIONS_URL + pk + PARTIES_URL + "?type=third_party")
     return data.json()["third_parties"]
 
 
@@ -200,35 +178,16 @@ def post_third_party(request, pk, json):
         json["type"] = "third_party"
     if "role" not in json:
         json["role"] = "other"
-    data = post(request, APPLICATIONS_URL + str(pk) + THIRD_PARTIES_URL, json)
+    data = post(request, APPLICATIONS_URL + str(pk) + PARTIES_URL, json)
     return data.json(), data.status_code
-
-
-def delete_third_party(request, pk, obj_pk):
-    data = delete(request, APPLICATIONS_URL + pk + THIRD_PARTIES_URL + obj_pk)
-    return data.status_code
 
 
 def validate_third_party(request, pk, json):
+    if "type" not in json:
+        json["type"] = "third_party"
     json = add_validate_only_to_data(json)
-    data = post(request, APPLICATIONS_URL + str(pk) + THIRD_PARTIES_URL, json)
+    data = post(request, APPLICATIONS_URL + str(pk) + PARTIES_URL, json)
     return data.json(), data.status_code
-
-
-# Third party Documents
-def get_third_party_document(request, pk, obj_pk):
-    data = get(request, APPLICATIONS_URL + str(pk) + THIRD_PARTIES_URL + str(obj_pk) + DOCUMENT_URL)
-    return data.json(), data.status_code
-
-
-def post_third_party_document(request, pk, obj_pk, json):
-    data = post(request, APPLICATIONS_URL + str(pk) + THIRD_PARTIES_URL + str(obj_pk) + DOCUMENT_URL, json)
-    return data.json(), data.status_code
-
-
-def delete_third_party_document(request, pk, obj_pk):
-    data = delete(request, APPLICATIONS_URL + str(pk) + THIRD_PARTIES_URL + str(obj_pk) + DOCUMENT_URL)
-    return data.status_code
 
 
 # Consignee
@@ -240,14 +199,11 @@ def post_consignee(request, pk, json):
 
 
 def validate_consignee(request, pk, json):
+    if "type" not in json:
+        json["type"] = "consignee"
     json = add_validate_only_to_data(json)
     data = post(request, APPLICATIONS_URL + str(pk) + CONSIGNEE_URL, json)
     return data.json(), data.status_code
-
-
-def delete_consignee(request, pk):
-    data = delete(request, APPLICATIONS_URL + pk + CONSIGNEE_URL)
-    return data.status_code
 
 
 # Existing Parties
@@ -256,22 +212,6 @@ def get_existing_parties(request, pk, name=None, address=None, country=None):
     params = convert_parameters_to_query_params(params)
     data = get(request, APPLICATIONS_URL + str(pk) + EXISTING_PARTIES_URL + params)
     return data.json(), data.status_code
-
-
-# Consignee Documents
-def get_consignee_document(request, pk):
-    data = get(request, APPLICATIONS_URL + pk + CONSIGNEE_DOCUMENT_URL)
-    return data.json(), data.status_code
-
-
-def post_consignee_document(request, pk, json):
-    data = post(request, APPLICATIONS_URL + pk + CONSIGNEE_DOCUMENT_URL, json)
-    return data.json(), data.status_code
-
-
-def delete_consignee_document(request, pk):
-    data = delete(request, APPLICATIONS_URL + pk + CONSIGNEE_DOCUMENT_URL)
-    return data.status_code
 
 
 # Additional Documents

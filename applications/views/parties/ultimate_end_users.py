@@ -7,7 +7,7 @@ from applications.services import (
     get_application,
     get_ultimate_end_users,
     post_ultimate_end_user,
-    delete_ultimate_end_user,
+    delete_party,
     validate_ultimate_end_user,
 )
 from applications.views.parties.base import AddParty, ExistingPartiesList, SetParty, DeleteParty
@@ -47,6 +47,7 @@ class SetUltimateEndUser(SetParty):
             multiple_allowed=True,
             post_action=post_ultimate_end_user,
             validate_action=validate_ultimate_end_user,
+            party_type="ultimate_end_user"
         )
 
 
@@ -54,9 +55,10 @@ class RemoveUltimateEndUser(DeleteParty):
     def __init__(self, **kwargs):
         super().__init__(
             url="applications:ultimate_end_users",
-            action=delete_ultimate_end_user,
+            action=delete_party,
             error=UltimateEndUserPage.DELETE_ERROR,
             multiple_allowed=True,
+            party_type="ultimate_end_user",
             **kwargs,
         )
 

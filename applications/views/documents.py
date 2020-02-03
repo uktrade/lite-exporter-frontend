@@ -31,8 +31,11 @@ def get_upload_page(path, draft_id):
     )
 
 
-def get_homepage(request, draft_id):
-    return redirect(reverse(document_switch(request.path)["homepage"], kwargs={"pk": draft_id}))
+def get_homepage(request, draft_id, obj_pk=None):
+    data = {"pk": draft_id}
+    if obj_pk:
+        data['obj_pk'] = obj_pk
+    return redirect(reverse(document_switch(request.path)["homepage"], kwargs=data))
 
 
 def get_delete_confirmation_page(path, pk):
@@ -55,7 +58,6 @@ class AttachDocuments(TemplateView):
         draft_id = str(kwargs["pk"])
         form = get_upload_page(request.path, draft_id)
         self.request.upload_handlers.insert(0, S3FileUploadHandler(request))
-
         if not request.FILES:
             return form_page(
                 request, form, extra_data={"draft_id": draft_id}, errors={"documents": ["Select a file to upload"]}
@@ -75,7 +77,7 @@ class AttachDocuments(TemplateView):
             _, status_code = action(request, draft_id, kwargs["obj_pk"], data)
 
         if status_code == 201:
-            return get_homepage(request, draft_id)
+            return get_homepage(request, draft_id, kwargs["obj_pk"])
         else:
             return error_page(request, strings.applications.AttachDocumentPage.UPLOAD_FAILURE_ERROR)
 

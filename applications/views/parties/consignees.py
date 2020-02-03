@@ -4,7 +4,7 @@ from django.views.generic import TemplateView
 
 from applications.forms.parties import new_party_form_group
 from applications.helpers.check_your_answers import convert_consignee
-from applications.services import get_application, post_consignee, delete_consignee, validate_consignee
+from applications.services import get_application, post_consignee, delete_party, validate_consignee
 from applications.views.parties.base import AddParty, ExistingPartiesList, SetParty, DeleteParty
 from lite_content.lite_exporter_frontend.applications import ConsigneeForm, ConsigneePage
 
@@ -15,11 +15,14 @@ class Consignee(TemplateView):
         application = get_application(request, application_id)
 
         if application["consignee"]:
+            kwargs = {"pk": application_id, "obj_pk": application["consignee"]["id"]}
             context = {
                 "application": application,
                 "title": ConsigneePage.TITLE,
-                "edit_url": reverse_lazy("applications:edit_consignee", kwargs={"pk": application_id}),
-                "remove_url": reverse_lazy("applications:remove_consignee", kwargs={"pk": application_id}),
+                "edit_url": reverse_lazy("applications:edit_consignee", kwargs=kwargs),
+                "remove_url": reverse_lazy(
+                    "applications:remove_consignee", kwargs=kwargs
+                ),
                 "answers": convert_consignee(application["consignee"], application_id, True),
             }
             return render(request, "applications/check-your-answer.html", context)
@@ -30,7 +33,7 @@ class Consignee(TemplateView):
 class AddConsignee(AddParty):
     def __init__(self):
         super().__init__(
-            new_url="applications:set_consignee", copy_url="applications:copy_consignee",
+            new_url="applications:set_consignee", copy_url="applications:copy_consignee", party_type="consignee",
         )
 
 
@@ -42,10 +45,11 @@ class SetConsignee(SetParty):
             form=new_party_form_group,
             back_url="applications:add_consignee",
             strings=ConsigneeForm,
-            multiple_allowed=False,
+            multiple_allowed=True,
             copy_existing=copy_existing,
             post_action=post_consignee,
             validate_action=validate_consignee,
+            party_type="consignee",
         )
 
 
@@ -58,9 +62,10 @@ class RemoveConsignee(DeleteParty):
     def __init__(self, **kwargs):
         super().__init__(
             url="applications:add_consignee",
-            action=delete_consignee,
+            action=delete_party,
             error=ConsigneePage.DELETE_ERROR,
-            multiple_allowed=False,
+            multiple_allowed=True,
+            party_type="consignee",
             **kwargs,
         )
 

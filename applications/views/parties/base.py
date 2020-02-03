@@ -46,6 +46,7 @@ class SetParty(MultiFormView):
         multiple_allowed,
         validate_action,
         post_action,
+        party_type,
         copy_existing=False,
         **kwargs,
     ):
@@ -60,6 +61,7 @@ class SetParty(MultiFormView):
         self.action = None
         self.post_action = post_action
         self.validate_action = validate_action
+        self.party_type = party_type
 
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
@@ -71,12 +73,9 @@ class SetParty(MultiFormView):
                 self.data["country"] = self.data["country"]["id"]
 
     def get_success_url(self):
-        if self.multiple_allowed:
-            return reverse_lazy(
-                self.url, kwargs={"pk": self.object_pk, "obj_pk": self.get_validated_data()[self.name]["id"]}
-            )
-        else:
-            return reverse_lazy(self.url, kwargs={"pk": self.object_pk})
+        return reverse_lazy(
+            self.url, kwargs={"pk": self.object_pk, "obj_pk": self.get_validated_data()[self.name]["id"]}
+        )
 
     def on_submission(self, request, **kwargs):
         if int(self.request.POST.get("form_pk")) == len(self.forms.forms) - 1:
@@ -86,11 +85,12 @@ class SetParty(MultiFormView):
 
 
 class DeleteParty(TemplateView):
-    def __init__(self, url, action, error, multiple_allowed, **kwargs):
+    def __init__(self, url, action, error, party_type, multiple_allowed, **kwargs):
         super().__init__(**kwargs)
         self.url = url
         self.action = action
         self.error = error
+        self.party_type = party_type
         self.multiple_allowed = multiple_allowed
 
     def get(self, request, **kwargs):
@@ -98,7 +98,7 @@ class DeleteParty(TemplateView):
         if self.multiple_allowed:
             status_code = self.action(request, application_id, str(kwargs["obj_pk"]))
         else:
-            status_code = self.action(request, application_id)
+            status_code = self.action(request, application_id, str(kwargs["obj_pk"]))
 
         if status_code != HTTPStatus.NO_CONTENT:
             return error_page(request, self.error)
