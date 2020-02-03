@@ -26,7 +26,7 @@ def validate_delete_draft(request, pk, json):
     return {"errors": {"choice": [strings.applications.DeleteApplicationPage.DELETE_ERROR]}}, HTTPStatus.BAD_REQUEST
 
 
-def validate_goods_location_choice(_request, _pk, json):
+def validate_and_update_goods_location_choice(_request, _pk, json):
     choice = json.get("choice")
 
     if choice:
