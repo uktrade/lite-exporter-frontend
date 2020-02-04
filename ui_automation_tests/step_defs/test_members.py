@@ -48,8 +48,8 @@ def user_reactivate(driver):
 
 
 @when("I change what sites they're assigned to")
-def change_members_role(driver, context, seed_data_config):
-    lite_client = get_lite_client(context, seed_data_config=seed_data_config)
+def change_members_role(driver, context, api_client_config):
+    lite_client = get_lite_client(context, api_client_config=api_client_config)
     site = lite_client.organisations.add_site(context.org_id)
 
     MemberPage(driver).click_assign_sites_button()
