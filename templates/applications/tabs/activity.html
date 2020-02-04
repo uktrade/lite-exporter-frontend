@@ -17,4 +17,6 @@
 			{% endfor %}
 		</div>
 	</div>
+{% else %}
+	{% include "includes/notice.html" with text="REPLACE ME" %}
 {% endif %}
