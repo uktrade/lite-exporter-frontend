@@ -4,7 +4,7 @@ from django.views.generic import TemplateView
 
 from applications.forms.parties import new_party_form_group
 from applications.helpers.check_your_answers import convert_consignee
-from applications.services import get_application, post_consignee, delete_party, validate_consignee
+from applications.services import get_application, post_party, delete_party, validate_party
 from applications.views.parties.base import AddParty, ExistingPartiesList, SetParty, DeleteParty
 from lite_content.lite_exporter_frontend.applications import ConsigneeForm, ConsigneePage
 
@@ -39,15 +39,14 @@ class SetConsignee(SetParty):
     def __init__(self, copy_existing=False):
         super().__init__(
             url="applications:consignee_attach_document",
-            name="consignee",
+            party_type="consignee",
             form=new_party_form_group,
             back_url="applications:add_consignee",
             strings=ConsigneeForm,
             multiple_allowed=True,
             copy_existing=copy_existing,
-            post_action=post_consignee,
-            validate_action=validate_consignee,
-            party_type="consignee",
+            post_action=post_party,
+            validate_action=validate_party,
         )
 
 
@@ -63,7 +62,6 @@ class RemoveConsignee(DeleteParty):
             action=delete_party,
             error=ConsigneePage.DELETE_ERROR,
             multiple_allowed=True,
-            party_type="consignee",
             **kwargs,
         )
 

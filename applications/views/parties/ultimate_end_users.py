@@ -6,9 +6,9 @@ from applications.helpers.validate_status import check_all_parties_have_a_docume
 from applications.services import (
     get_application,
     get_ultimate_end_users,
-    post_ultimate_end_user,
+    post_party,
     delete_party,
-    validate_ultimate_end_user,
+    validate_party,
 )
 from applications.views.parties.base import AddParty, ExistingPartiesList, SetParty, DeleteParty
 from lite_content.lite_exporter_frontend.applications import UltimateEndUserForm, UltimateEndUserPage
@@ -39,15 +39,14 @@ class SetUltimateEndUser(SetParty):
     def __init__(self):
         super().__init__(
             url="applications:ultimate_end_user_attach_document",
-            name="ultimate_end_user",
-            action=post_ultimate_end_user,
+            party_type="ultimate_end_user",
+            action=post_party,
             form=new_party_form_group,
             back_url="applications:add_ultimate_end_user",
             strings=UltimateEndUserForm,
             multiple_allowed=True,
-            post_action=post_ultimate_end_user,
-            validate_action=validate_ultimate_end_user,
-            party_type="ultimate_end_user",
+            post_action=post_party,
+            validate_action=validate_party,
         )
 
 
@@ -58,7 +57,6 @@ class RemoveUltimateEndUser(DeleteParty):
             action=delete_party,
             error=UltimateEndUserPage.DELETE_ERROR,
             multiple_allowed=True,
-            party_type="ultimate_end_user",
             **kwargs,
         )
 

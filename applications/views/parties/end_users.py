@@ -4,7 +4,7 @@ from django.views.generic import TemplateView
 
 from applications.forms.parties import new_party_form_group
 from applications.helpers.check_your_answers import convert_party
-from applications.services import get_application, post_end_user, validate_end_user, delete_party
+from applications.services import get_application, post_party, validate_party, delete_party
 from applications.views.parties.base import AddParty, SetParty, DeleteParty, ExistingPartiesList
 from lite_content.lite_exporter_frontend.applications import EndUserForm, EndUserPage
 
@@ -39,15 +39,14 @@ class SetEndUser(SetParty):
     def __init__(self, copy_existing=False):
         super().__init__(
             url="applications:end_user_attach_document",
-            name="end_user",
+            party_type="end_user",
             form=new_party_form_group,
             back_url="applications:add_end_user",
             strings=EndUserForm,
             multiple_allowed=True,
             copy_existing=copy_existing,
-            post_action=post_end_user,
-            validate_action=validate_end_user,
-            party_type="end_user",
+            post_action=post_party,
+            validate_action=validate_party,
         )
 
 
@@ -62,7 +61,6 @@ class RemoveEndUser(DeleteParty):
             url="applications:add_end_user",
             action=delete_party,
             error=EndUserPage.DELETE_ERROR,
-            party_type="end_user",
             multiple_allowed=True,
         )
 

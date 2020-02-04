@@ -7,9 +7,7 @@ from conf.client import get, post, put, delete
 from conf.constants import (
     ACTIVITY_URL,
     APPLICATIONS_URL,
-    ULTIMATE_END_USERS_URL,
     DOCUMENT_URL,
-    CONSIGNEE_URL,
     APPLICATION_SUBMIT_URL,
     ADDITIONAL_DOCUMENT_URL,
     CASES_URL,
@@ -23,7 +21,6 @@ from conf.constants import (
     STATUS_PROPERTIES_URL,
     GENERATED_DOCUMENTS_URL,
     EXISTING_PARTIES_URL,
-    END_USER_URL,
     COUNTRIES_URL,
     PARTIES_URL,
 )
@@ -111,19 +108,17 @@ def post_application_countries(request, pk, json):
     return data.json(), data.status_code
 
 
-# End User
-def post_end_user(request, pk, json):
-    if "type" not in json:
-        json["type"] = "end_user"
-    data = post(request, APPLICATIONS_URL + str(pk) + END_USER_URL, json)
+# Parties
+def validate_party(request, pk, json):
+    json = add_validate_only_to_data(json)
+    data = post(request, APPLICATIONS_URL + str(pk) + "/", json)
     return data.json(), data.status_code
 
 
-def validate_end_user(request, pk, json):
-    if "type" not in json:
-        json["type"] = "end_user"
-    json = add_validate_only_to_data(json)
-    data = post(request, APPLICATIONS_URL + str(pk) + END_USER_URL, json)
+def post_party(request, pk, json):
+    if json["type"] == "third_party" and "role" not in json:
+        json["role"] = "other"
+    data = post(request, APPLICATIONS_URL + str(pk) + PARTIES_URL, json)
     return data.json(), data.status_code
 
 
@@ -152,58 +147,10 @@ def get_ultimate_end_users(request, pk):
     return data.json()["ultimate_end_users"]
 
 
-def post_ultimate_end_user(request, pk, json):
-    if "type" not in json:
-        json["type"] = "ultimate_end_user"
-    data = post(request, APPLICATIONS_URL + str(pk) + ULTIMATE_END_USERS_URL, json)
-    return data.json(), data.status_code
-
-
-def validate_ultimate_end_user(request, pk, json):
-    if "type" not in json:
-        json["type"] = "ultimate_end_user"
-    json = add_validate_only_to_data(json)
-    data = post(request, APPLICATIONS_URL + str(pk) + ULTIMATE_END_USERS_URL, json)
-    return data.json(), data.status_code
-
-
 # Third parties
 def get_third_parties(request, pk):
     data = get(request, APPLICATIONS_URL + pk + PARTIES_URL + "?type=third_party")
     return data.json()["third_parties"]
-
-
-def post_third_party(request, pk, json):
-    if "type" not in json:
-        json["type"] = "third_party"
-    if "role" not in json:
-        json["role"] = "other"
-    data = post(request, APPLICATIONS_URL + str(pk) + PARTIES_URL, json)
-    return data.json(), data.status_code
-
-
-def validate_third_party(request, pk, json):
-    if "type" not in json:
-        json["type"] = "third_party"
-    json = add_validate_only_to_data(json)
-    data = post(request, APPLICATIONS_URL + str(pk) + PARTIES_URL, json)
-    return data.json(), data.status_code
-
-
-# Consignee
-def post_consignee(request, pk, json):
-    if "type" not in json:
-        json["type"] = "consignee"
-    data = post(request, APPLICATIONS_URL + str(pk) + CONSIGNEE_URL, json)
-    return data.json(), data.status_code
-
-
-def validate_consignee(request, pk, json):
-    if "type" not in json:
-        json["type"] = "consignee"
-    json = add_validate_only_to_data(json)
-    data = post(request, APPLICATIONS_URL + str(pk) + CONSIGNEE_URL, json)
-    return data.json(), data.status_code
 
 
 # Existing Parties

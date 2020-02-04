@@ -40,19 +40,18 @@ class SetParty(MultiFormView):
         self,
         url,
         form,
-        name,
+        party_type,
         back_url,
         strings,
         multiple_allowed,
         validate_action,
         post_action,
-        party_type,
         copy_existing=False,
         **kwargs,
     ):
         super().__init__(**kwargs)
         self.url = url
-        self.name = name
+        self.party_type = party_type
         self.back_url = back_url
         self.strings = strings
         self.form = form
@@ -61,20 +60,23 @@ class SetParty(MultiFormView):
         self.action = None
         self.post_action = post_action
         self.validate_action = validate_action
-        self.party_type = party_type
 
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
         application = get_application(request, self.object_pk)
         self.forms = self.form(application, self.strings, self.back_url)
         if not self.multiple_allowed and self.copy_existing:
-            if application[self.name]:
-                self.data = application[self.name]
+            if application[self.party_type]:
+                self.data = application[self.party_type]
                 self.data["country"] = self.data["country"]["id"]
+        else:
+            self.data = {}
+
+        self.data["type"] = self.party_type
 
     def get_success_url(self):
         return reverse_lazy(
-            self.url, kwargs={"pk": self.object_pk, "obj_pk": self.get_validated_data()[self.name]["id"]}
+            self.url, kwargs={"pk": self.object_pk, "obj_pk": self.get_validated_data()[self.party_type]["id"]}
         )
 
     def on_submission(self, request, **kwargs):
@@ -85,12 +87,11 @@ class SetParty(MultiFormView):
 
 
 class DeleteParty(TemplateView):
-    def __init__(self, url, action, error, party_type, multiple_allowed, **kwargs):
+    def __init__(self, url, action, error, multiple_allowed, **kwargs):
         super().__init__(**kwargs)
         self.url = url
         self.action = action
         self.error = error
-        self.party_type = party_type
         self.multiple_allowed = multiple_allowed
 
     def get(self, request, **kwargs):
