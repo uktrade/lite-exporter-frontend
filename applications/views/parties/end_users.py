@@ -58,10 +58,7 @@ class EditEndUser(SetEndUser):
 class RemoveEndUser(DeleteParty):
     def __init__(self):
         super().__init__(
-            url="applications:add_end_user",
-            action=delete_party,
-            error=EndUserPage.DELETE_ERROR,
-            multiple_allowed=True,
+            url="applications:add_end_user", action=delete_party, error=EndUserPage.DELETE_ERROR, multiple_allowed=True,
         )
 
 
