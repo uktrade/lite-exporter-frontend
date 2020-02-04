@@ -22,7 +22,6 @@ from ui_automation_tests.fixtures.env import environment  # noqa
 from ui_automation_tests.fixtures.register_organisation import (  # noqa
     register_organisation,
     register_organisation_for_switching_organisation,
-    user_details,
 )
 from ui_automation_tests.fixtures.add_party import add_end_user_to_application  # noqa
 from ui_automation_tests.fixtures.add_goods_query import add_goods_query  # noqa
