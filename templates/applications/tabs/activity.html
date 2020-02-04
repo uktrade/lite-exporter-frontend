@@ -1,4 +1,3 @@
-<!-- Activity -->
 {% if activity %}
 	<div class="app-activity-preview__container">
 		<div class="app-activity__list">
@@ -18,5 +17,5 @@
 		</div>
 	</div>
 {% else %}
-	{% include "includes/notice.html" with text="REPLACE ME" %}
+	{% include "includes/notice.html" with text="applications.Activity.NO_ACTIVITY" %}
 {% endif %}
