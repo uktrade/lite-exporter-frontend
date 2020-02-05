@@ -16,7 +16,7 @@ Feature: I want to be able to withdraw an active application
       When I click the notes tab
       Then the case note text area is not present
 
-  @LT_979_surrender_finalised_application @regression @SB
+  @LT_979_surrender_finalised_application @regression
     Scenario: Surrender a finalised application
       Given I go to exporter homepage and choose Test Org
       And I create a standard application via api
