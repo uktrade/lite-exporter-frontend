@@ -26,7 +26,7 @@ def validate_surrender_application_and_update_case_status(request, pk, json):
             return json, HTTPStatus.OK
 
     return (
-        {"errors": {"choice": ["Please select an option"]}},
+        {"errors": {"choice": [strings.applications.ApplicationSummaryPage.Surrender.WITHDRAW_ERROR]}},
         HTTPStatus.BAD_REQUEST,
     )
 

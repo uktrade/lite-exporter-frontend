@@ -305,13 +305,13 @@ class SurrenderApplication(SingleFormView):
         self.object_pk = kwargs["pk"]
         application = get_application(request, self.object_pk)
         self.form = confirm_form(
-            title="Surrender?",
+            title=strings.applications.ApplicationSummaryPage.Surrender.TITLE,
             confirmation_name="choice",
             summary=application_summary(application),
-            back_link_text="Back",
-            yes_label="Yes",
-            no_label="No",
-            submit_button_text="Submit",
+            back_link_text=strings.applications.ApplicationSummaryPage.Surrender.BACK_TEXT,
+            yes_label=strings.applications.ApplicationSummaryPage.Surrender.YES_LABEL,
+            no_label=strings.applications.ApplicationSummaryPage.Surrender.NO_LABEL,
+            submit_button_text=strings.applications.ApplicationSummaryPage.Surrender.SUBMIT_BUTTON,
             back_url=reverse_lazy("applications:application", kwargs={"pk": self.object_pk}),
             side_by_side=True,
         )
