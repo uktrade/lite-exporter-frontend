@@ -14,7 +14,11 @@ from applications.forms.common import (
 from applications.helpers.check_your_answers import convert_application_to_check_your_answers
 from applications.helpers.summaries import application_summary, draft_summary
 from applications.helpers.task_lists import get_application_task_list
-from applications.helpers.validators import validate_withdraw_application, validate_delete_draft
+from applications.helpers.validators import (
+    validate_withdraw_application,
+    validate_delete_draft,
+    validate_surrender_application,
+)
 from applications.services import (
     get_activity,
     get_applications,
@@ -293,6 +297,25 @@ class WithdrawApplication(SingleFormView):
             side_by_side=True,
         )
         self.action = validate_withdraw_application
+        self.success_url = reverse_lazy("applications:application", kwargs={"pk": self.object_pk})
+
+
+class SurrenderApplication(SingleFormView):
+    def init(self, request, **kwargs):
+        self.object_pk = kwargs["pk"]
+        application = get_application(request, self.object_pk)
+        self.form = confirm_form(
+            title="Surrender?",
+            confirmation_name="choice",
+            summary=application_summary(application),
+            back_link_text="Back",
+            yes_label="Yes",
+            no_label="No",
+            submit_button_text="Submit",
+            back_url=reverse_lazy("applications:application", kwargs={"pk": self.object_pk}),
+            side_by_side=True,
+        )
+        self.action = validate_surrender_application
         self.success_url = reverse_lazy("applications:application", kwargs={"pk": self.object_pk})
 
 

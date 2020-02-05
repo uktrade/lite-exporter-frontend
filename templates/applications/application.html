@@ -27,6 +27,11 @@
 					    {% lcs 'applications.ApplicationSummaryPage.Buttons.EDIT_APPLICATION_BUTTON' %}
 				    </a>
                 {% endif %}
+				{% if application.licence_duration %}
+					<a href="{% url 'applications:surrender' application.id %}" id="button-edit-application" class="govuk-button govuk-button--secondary">
+						Surrender Licence
+					</a>
+				{% endif %}
 			{% endif %}
         </div>
     </div>

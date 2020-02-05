@@ -17,6 +17,18 @@ def validate_withdraw_application(request, pk, json):
     )
 
 
+def validate_surrender_application(request, pk, json):
+    if json.get("choice"):
+        if json.get("choice") == "yes":
+            return set_application_status(request, pk, "surrendered")
+        return json, HTTPStatus.OK
+
+    return (
+        {"errors": {"choice": ["Please select an option"]}},
+        HTTPStatus.BAD_REQUEST,
+    )
+
+
 def validate_delete_draft(request, pk, json):
     if json.get("choice"):
         if json.get("choice") == "yes":
