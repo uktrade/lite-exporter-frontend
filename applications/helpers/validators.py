@@ -17,11 +17,13 @@ def validate_withdraw_application(request, pk, json):
     )
 
 
-def validate_surrender_application(request, pk, json):
-    if json.get("choice"):
-        if json.get("choice") == "yes":
+def validate_surrender_application_and_update_case_status(request, pk, json):
+    confirmation = json.get("choice")
+    if confirmation:
+        if confirmation == "yes":
             return set_application_status(request, pk, "surrendered")
-        return json, HTTPStatus.OK
+        else:
+            return json, HTTPStatus.OK
 
     return (
         {"errors": {"choice": ["Please select an option"]}},

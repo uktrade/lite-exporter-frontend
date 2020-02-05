@@ -17,7 +17,7 @@ from applications.helpers.task_lists import get_application_task_list
 from applications.helpers.validators import (
     validate_withdraw_application,
     validate_delete_draft,
-    validate_surrender_application,
+    validate_surrender_application_and_update_case_status,
 )
 from applications.services import (
     get_activity,
@@ -315,7 +315,7 @@ class SurrenderApplication(SingleFormView):
             back_url=reverse_lazy("applications:application", kwargs={"pk": self.object_pk}),
             side_by_side=True,
         )
-        self.action = validate_surrender_application
+        self.action = validate_surrender_application_and_update_case_status
         self.success_url = reverse_lazy("applications:application", kwargs={"pk": self.object_pk})
 
 
