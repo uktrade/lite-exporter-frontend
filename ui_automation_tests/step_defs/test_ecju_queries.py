@@ -11,7 +11,7 @@ def click_on_an_application(driver, exporter_url, context, apply_for_standard_ap
 
 
 @when("I click on an CLC query previously created")
-def click_on_clc_query(driver, exporter_url, context, add_goods_query):
+def click_on_clc_query(driver, exporter_url, context, add_goods_clc_query):
     driver.get(exporter_url.rstrip("/") + "/goods/" + context.goods_query_good_id)
 
 
