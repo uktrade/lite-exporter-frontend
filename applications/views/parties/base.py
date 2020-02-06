@@ -101,7 +101,7 @@ class DeleteParty(TemplateView):
         else:
             status_code = self.action(request, application_id, str(kwargs["obj_pk"]))
 
-        if status_code != HTTPStatus.NO_CONTENT:
+        if status_code != HTTPStatus.OK:
             return error_page(request, self.error)
 
         return redirect(reverse_lazy(self.url, kwargs={"pk": application_id}))
