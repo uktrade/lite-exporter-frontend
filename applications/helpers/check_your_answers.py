@@ -126,7 +126,7 @@ def convert_party(party, application_id, editable):
         return {}
 
     if party.get("document"):
-        document = _convert_document(party["document"], "end-user", application_id, editable)
+        document = _convert_document(party, "end-user", application_id, editable)
     else:
         document = convert_to_link(
             reverse_lazy("applications:end_user_attach_document", kwargs={"pk": application_id, "obj_pk": party["id"]}),
@@ -167,7 +167,7 @@ def convert_consignee(consignee, application_id, editable):
         return {}
 
     if consignee["document"]:
-        document = _convert_document(consignee["document"], "consignee", application_id, editable)
+        document = _convert_document(consignee, "consignee", application_id, editable)
     else:
         kwargs = {"pk": application_id, "obj_pk": consignee["id"]}
         document = convert_to_link(
@@ -251,7 +251,9 @@ def _get_supporting_documentation(supporting_documentation, application_id):
     ]
 
 
-def _convert_document(document, document_type, application_id, editable):
+def _convert_document(party, document_type, application_id, editable):
+    document = party.get("document")
+
     if not document:
         return default_na(None)
 
@@ -263,11 +265,11 @@ def _convert_document(document, document_type, application_id, editable):
 
     if editable:
         return convert_to_link(
-            f"/applications/{application_id}/{document_type}/document/download", "Download", include_br=True
-        ) + convert_to_link(f"/applications/{application_id}/{document_type}/document/delete", "Delete")
+            f"/applications/{application_id}/{document_type}/{party['id']}/document/download", "Download", include_br=True
+        ) + convert_to_link(f"/applications/{application_id}/{document_type}/{party['id']}/document/delete", "Delete")
     else:
         return convert_to_link(
-            f"/applications/{application_id}/{document_type}/document/download", "Download", include_br=True
+            f"/applications/{application_id}/{document_type}/{party['id']}/document/download", "Download", include_br=True
         )
 
 

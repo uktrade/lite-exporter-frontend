@@ -21,7 +21,7 @@ class Consignee(TemplateView):
                 "title": ConsigneePage.TITLE,
                 "edit_url": reverse_lazy("applications:edit_consignee", kwargs=kwargs),
                 "remove_url": reverse_lazy("applications:remove_consignee", kwargs=kwargs),
-                "answers": convert_consignee(application["consignee"], application_id, True),
+                "answers": convert_consignee(application["consignee"], application_id, application["is_major_editable"]),
             }
             return render(request, "applications/check-your-answer.html", context)
         else:

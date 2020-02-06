@@ -73,13 +73,14 @@ class AttachDocuments(TemplateView):
         action = document_switch(request.path)["attach"]
         if len(signature(action).parameters) == 3:
             _, status_code = action(request, draft_id, data)
+            if status_code == 201:
+                return get_homepage(request, draft_id)
         else:
             _, status_code = action(request, draft_id, kwargs["obj_pk"], data)
+            if status_code == 201:
+                return get_homepage(request, draft_id, kwargs["obj_pk"])
 
-        if status_code == 201:
-            return get_homepage(request, draft_id, kwargs["obj_pk"])
-        else:
-            return error_page(request, strings.applications.AttachDocumentPage.UPLOAD_FAILURE_ERROR)
+        return error_page(request, strings.applications.AttachDocumentPage.UPLOAD_FAILURE_ERROR)
 
 
 class DownloadDocument(TemplateView):

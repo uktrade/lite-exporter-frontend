@@ -20,9 +20,10 @@ class EndUser(TemplateView):
                 "title": EndUserPage.TITLE,
                 "edit_url": reverse_lazy("applications:edit_end_user", kwargs=kwargs),
                 "remove_url": reverse_lazy("applications:remove_end_user", kwargs=kwargs),
-                "answers": convert_party(application["end_user"], application_id, True),
+                "answers": convert_party(application["end_user"], application_id, application["is_major_editable"]),
                 "highlight": ["Document"] if not application["end_user"]["document"] else {},
             }
+
             return render(request, "applications/check-your-answer.html", context)
         else:
             return redirect(reverse_lazy("applications:add_end_user", kwargs={"pk": application_id}))
