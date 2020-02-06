@@ -116,9 +116,15 @@ urlpatterns = [
         name="end_user_attach_document",
     ),
     path(
-        "<uuid:pk>/end-user/<uuid:obj_pk>/document/download", documents.DownloadDocument.as_view(), name="end_user_download_document"
+        "<uuid:pk>/end-user/<uuid:obj_pk>/document/download",
+        documents.DownloadDocument.as_view(),
+        name="end_user_download_document",
     ),
-    path("<uuid:pk>/end-user/<uuid:obj_pk>/document/delete", documents.DeleteDocument.as_view(), name="end_user_delete_document"),
+    path(
+        "<uuid:pk>/end-user/<uuid:obj_pk>/document/delete",
+        documents.DeleteDocument.as_view(),
+        name="end_user_delete_document",
+    ),
     # Consignee
     path("<uuid:pk>/consignee/", consignees.Consignee.as_view(), name="consignee"),
     path("<uuid:pk>/consignee/<uuid:obj_pk>/", consignees.Consignee.as_view(), name="consignee"),
@@ -137,7 +143,11 @@ urlpatterns = [
         documents.DownloadDocument.as_view(),
         name="consignee_download_document",
     ),
-    path("<uuid:pk>/consignee/<uuid:obj_pk>/document/delete", documents.DeleteDocument.as_view(), name="consignee_delete_document"),
+    path(
+        "<uuid:pk>/consignee/<uuid:obj_pk>/document/delete",
+        documents.DeleteDocument.as_view(),
+        name="consignee_delete_document",
+    ),
     # Ultimate end users
     path("<uuid:pk>/ultimate-end-users/", ultimate_end_users.UltimateEndUsers.as_view(), name="ultimate_end_users"),
     path(

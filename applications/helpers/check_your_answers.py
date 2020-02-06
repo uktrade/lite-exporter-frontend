@@ -265,11 +265,15 @@ def _convert_document(party, document_type, application_id, editable):
 
     if editable:
         return convert_to_link(
-            f"/applications/{application_id}/{document_type}/{party['id']}/document/download", "Download", include_br=True
+            f"/applications/{application_id}/{document_type}/{party['id']}/document/download",
+            "Download",
+            include_br=True,
         ) + convert_to_link(f"/applications/{application_id}/{document_type}/{party['id']}/document/delete", "Delete")
     else:
         return convert_to_link(
-            f"/applications/{application_id}/{document_type}/{party['id']}/document/download", "Download", include_br=True
+            f"/applications/{application_id}/{document_type}/{party['id']}/document/download",
+            "Download",
+            include_br=True,
         )
 
 
