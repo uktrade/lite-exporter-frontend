@@ -1,7 +1,9 @@
 {% extends 'layouts/task-list.html' %}
 
 {% block title %}
-	{% if edit_type %}
+	{% if application|application_type_in_list:"hmrc_query" %}
+		Raise a query on behalf of {{ application.organisation.name }}
+	{% elif edit_type %}
 		{{ strings.EDIT_TITLE }}
 	{% else %}
 		{{ strings.NEW_TITLE }}
@@ -25,7 +27,7 @@
 {% block main_tasks %}
 
 	{# Goods #}
-	{% if application|application_type_in_list:"open_licence" %}
+	{% if application|application_type_in_list:"open_licence,hmrc_query" %}
 		{% url 'applications:goods_types' application.id as goods_url %}
 		{% tld goodstypes 'product' 'products' as goods_description %}
 		{% include "includes/task-list-item.html" with id='products' title='applications.OpenApplicationTaskList.GOODS' url=goods_url status=goodstypes|task_list_item_status description=goods_description %}
@@ -53,13 +55,13 @@
 	{% endif %}
 
 	{# End User #}
-	{% if application|application_type_in_list:"standard_licence,exhibition_clearance,gifting_clearance,F680_clearance" %}
+	{% if application|application_type_in_list:"standard_licence,exhibition_clearance,gifting_clearance,F680_clearance,hmrc_query" %}
 		{% url 'applications:end_user' application.id as end_user_url %}
 		{% include "includes/task-list-item.html" with id="end-user" title="applications.ExhibitionClearanceTaskList.END_USER" url=end_user_url status=end_user_status %}
 	{% endif %}
 
 	{# Ultimate End Users #}
-	{% if application|application_type_in_list:"standard_licence,exhibition_clearance" %}
+	{% if application|application_type_in_list:"standard_licence,exhibition_clearance,hmrc_query" %}
 		{% if ultimate_end_users_required %}
 			{% url 'applications:ultimate_end_users' application.id as ultimate_end_user_url %}
 			{% include "includes/task-list-item.html" with id="ultimate-end-users" title="applications.ExhibitionClearanceTaskList.ULTIMATE_END_USERS" url=ultimate_end_user_url status=ultimate_end_users_status %}
@@ -67,7 +69,7 @@
 	{% endif %}
 
 	{# Consignee #}
-	{% if application|application_type_in_list:"standard_licence,exhibition_clearance" %}
+	{% if application|application_type_in_list:"standard_licence,exhibition_clearance,hmrc_query" %}
 		{% url 'applications:consignee' application.id as consignee_url %}
 		{% include "includes/task-list-item.html" with id="consignee" title="applications.StandardApplicationTaskList.CONSIGNEE" url=consignee_url status=consignee_status %}
 	{% endif %}
@@ -83,5 +85,11 @@
 	{% url 'applications:additional_documents' application.id as supporting_documents_url %}
 	{% tld supporting_documents 'document' 'documents' as supporting_documents_description %}
 	{% include "includes/task-list-item.html" with id="supporting-documents" title='applications.OpenApplicationTaskList.SUPPORTING_DOCUMENTS' url=supporting_documents_url status=supporting_documents|task_list_item_status description=supporting_documents_description %}
+
+	{# Optional Note #}
+	{% if application|application_type_in_list:"hmrc_query" %}
+		{% url 'applications:optional_note' application.id as optional_note_url %}
+		{% include "includes/task-list-item.html" with id="reasoning" title="applications.HMRCApplicationTaskList.REASON_FOR_QUERY" url=optional_note_url status=optional_note_status optional=True %}
+	{% endif %}
 {% endblock %}
 
