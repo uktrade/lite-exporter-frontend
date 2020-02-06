@@ -159,7 +159,7 @@ def MOD_questions():
                         name="application_type",
                         options=[
                             Option(
-                                key="permission",
+                                key="F680_clearance",
                                 value=MODQuestions.WhatAreYouApplyingFor.PERMISSION_TITLE,
                                 description=MODQuestions.WhatAreYouApplyingFor.PERMISSION_DESCRIPTION,
                             ),

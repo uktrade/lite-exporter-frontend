@@ -19,6 +19,8 @@ from applications.services import (
 )
 from conf.constants import (
     EXHIBITION_CLEARANCE,
+    GIFTING_CLEARANCE,
+    F_SIX_EIGHTY_CLEARANCE,
     HMRC_QUERY,
     OPEN_LICENCE,
     STANDARD_LICENCE,
@@ -29,6 +31,7 @@ from conf.constants import (
 )
 from core.services import get_sites_on_draft, get_external_locations_on_draft
 from roles.services import get_user_permissions
+from lite_content.lite_exporter_frontend.strings import applications
 
 
 def get_application_task_list(request, application, errors=None):
@@ -43,8 +46,33 @@ def get_application_task_list(request, application, errors=None):
         return _get_hmrc_query_task_list(request, application)
     elif application["application_type"]["key"] == EXHIBITION_CLEARANCE:
         return _get_clearance_application_task_list(request, application, errors)
+    elif application["application_type"]["key"] == GIFTING_CLEARANCE:
+        return _get_task_list(request, application, errors)
+    elif application["application_type"]["key"] == F_SIX_EIGHTY_CLEARANCE:
+        return _get_task_list(request, application, errors)
     else:
         raise NotImplementedError()
+
+
+def _get_strings(application_type):
+    if application_type == STANDARD_LICENCE:
+        return applications.StandardApplicationTaskList
+    elif application_type == OPEN_LICENCE:
+        return applications.OpenApplicationTaskList
+    elif application_type == HMRC_QUERY:
+        return applications.HMRCApplicationTaskList
+    else:
+        # TODO Temp
+        return applications.OpenApplicationTaskList
+
+
+def _get_task_list(request, application, errors=None):
+    context = {
+        "strings": _get_strings(application["application_type"]["key"]),
+        "application": application,
+        "errors": errors,
+    }
+    return render(request, "applications/task-list.html", context)
 
 
 def _get_standard_application_task_list(request, application, errors=None):

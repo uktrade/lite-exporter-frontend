@@ -60,7 +60,7 @@ OPEN_LICENCE = "open_licence"
 HMRC_QUERY = "hmrc_query"
 EXHIBITION_CLEARANCE = "exhibition_clearance"
 GIFTING_CLEARANCE = "gifting_clearance"
-F680_CLEARANCE = "F680_clearance"
+F_SIX_EIGHTY_CLEARANCE = "F680_clearance"
 
 APPLICANT_EDITING = "applicant_editing"
 

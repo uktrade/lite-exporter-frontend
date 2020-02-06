@@ -258,3 +258,12 @@ def date_display(value):
     month = months[(int(month) - 1)]
 
     return f"{int(day)} {month} {year}"
+
+
+@register.filter()
+def application_type_in_list(application, types):
+    application_type = application["application_type"]["key"]
+    if "," in types:
+        return application_type in types.split(",")
+    else:
+        return application_type == types
