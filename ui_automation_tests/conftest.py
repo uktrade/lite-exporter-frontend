@@ -17,27 +17,17 @@ from pages.standard_application.goods import StandardApplicationGoodsPage
 from pages.add_new_external_location_form_page import AddNewExternalLocationFormPage
 from shared import functions
 from shared.tools.wait import wait_for_element, wait_for_download_button
+
 from ui_automation_tests.fixtures.env import environment  # noqa
 from ui_automation_tests.fixtures.register_organisation import (  # noqa
     register_organisation,
     register_organisation_for_switching_organisation,
-    user_details,
 )
 from ui_automation_tests.fixtures.add_party import add_end_user_to_application  # noqa
-from ui_automation_tests.fixtures.add_clc_query import add_clc_query  # noqa
+from ui_automation_tests.fixtures.add_goods_query import add_goods_clc_query  # noqa
 from ui_automation_tests.fixtures.add_end_user_advisory import add_end_user_advisory  # noqa
-from ui_automation_tests.fixtures.internal_ecju_query import (  # noqa
-    internal_ecju_query,
-    internal_ecju_query_end_user_advisory,
-)
 from ui_automation_tests.fixtures.sso_sign_in import sso_sign_in  # noqa
-from ui_automation_tests.fixtures.internal_case_note import (  # noqa
-    internal_case_note,
-    internal_case_note_end_user_advisory,
-)
 from ui_automation_tests.fixtures.manage_case import manage_case_status_to_withdrawn  # noqa
-from ui_automation_tests.pages.add_goods_grading_page import AddGoodGradingPage
-
 from ui_automation_tests.shared.fixtures.add_a_draft import add_a_draft  # noqa
 from ui_automation_tests.shared.fixtures.apply_for_application import (  # noqa
     apply_for_standard_application,
@@ -56,7 +46,7 @@ from ui_automation_tests.shared.fixtures.core import (  # noqa
     context,
     exporter_info,
     internal_info,
-    seed_data_config,
+    api_client_config,
 )
 from ui_automation_tests.shared.fixtures.urls import exporter_url, api_url  # noqa
 
@@ -70,6 +60,7 @@ from pages.hub_page import Hub
 from pages.shared import Shared
 from pages.sites_page import SitesPage
 from pages.which_location_form_page import WhichLocationFormPage
+from ui_automation_tests.pages.add_goods_grading_page import AddGoodGradingPage
 
 strict_gherkin = False
 
@@ -251,10 +242,10 @@ def add_new_end_user(driver, type, name, website, address, country, context):  #
     functions.click_submit(driver)
 
 
-@when(parsers.parse('I select "{organisation_or_external}" for where my goods are located'))  # noqa
-def choose_location_type(driver, organisation_or_external):  # noqa
+@when(parsers.parse('I select "{choice}" for where my goods are located'))  # noqa
+def choose_location_type(driver, choice):  # noqa
     which_location_form = WhichLocationFormPage(driver)
-    which_location_form.click_on_organisation_or_external_radio_button(organisation_or_external)
+    which_location_form.click_on_location_radiobutton(choice)
     functions.click_submit(driver)
 
 
@@ -539,8 +530,7 @@ def add_new_goods_type(driver, description, controlled, control_code, incorporat
     OpenApplicationAddGoodsType(driver).enter_description(description)
     OpenApplicationAddGoodsType(driver).select_is_your_good_controlled(controlled)
     OpenApplicationAddGoodsType(driver).enter_control_code(control_code)
-    if incorporated != "N/A":
-        OpenApplicationAddGoodsType(driver).select_is_your_good_incorporated(incorporated)
+    OpenApplicationAddGoodsType(driver).select_is_your_good_incorporated(incorporated)
 
     context.good_description = description
     context.control_code = control_code
