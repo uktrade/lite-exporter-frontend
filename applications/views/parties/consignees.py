@@ -36,22 +36,16 @@ class AddConsignee(AddParty):
 
 
 class SetConsignee(SetParty):
-    def __init__(self, copy_existing=False):
+    def __init__(self):
         super().__init__(
             url="applications:consignee_attach_document",
             party_type="consignee",
             form=new_party_form_group,
-            back_url="applications:add_consignee",
+            back_url="applications:consignee",
             strings=ConsigneeForm,
-            copy_existing=copy_existing,
             post_action=post_party,
             validate_action=validate_party,
         )
-
-
-class EditConsignee(SetConsignee):
-    def __init__(self):
-        super().__init__(copy_existing=True)
 
 
 class RemoveConsignee(DeleteParty):
@@ -76,6 +70,19 @@ class CopyConsignee(CopyAndSetParty):
             party_type="consignee",
             form=new_party_form_group,
             back_url="applications:consignees_copy",
+            strings=ConsigneeForm,
+            validate_action=validate_party,
+            post_action=post_party,
+        )
+
+
+class EditConsignee(CopyAndSetParty):
+    def __init__(self):
+        super().__init__(
+            url="applications:consignee_attach_document",
+            party_type="consignee",
+            form=new_party_form_group,
+            back_url="applications:consignee",
             strings=ConsigneeForm,
             validate_action=validate_party,
             post_action=post_party,

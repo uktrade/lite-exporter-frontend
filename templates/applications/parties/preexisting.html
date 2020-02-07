@@ -48,6 +48,8 @@
 						</td>
 						<td class="govuk-table__cell lite-!-text-align-right">
 							<form action="{% url url draft_id party.id %}" method="get">
+								{% csrf_token %}
+								<input type="hidden" name="form_pk" value="0">
 								<button type="submit" class="lite-button--link" id="copy">
 									{% lcs 'applications.CopyExistingPartyPage.ADD_BUTTON' %}
 								</button>

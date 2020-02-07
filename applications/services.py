@@ -111,7 +111,7 @@ def post_application_countries(request, pk, json):
 # Parties
 def validate_party(request, pk, json):
     json = add_validate_only_to_data(json)
-    data = post(request, APPLICATIONS_URL + str(pk) + "/", json)
+    data = post(request, APPLICATIONS_URL + str(pk) + PARTIES_URL, json)
     return data.json(), data.status_code
 
 

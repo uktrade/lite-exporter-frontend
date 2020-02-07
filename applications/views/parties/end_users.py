@@ -48,14 +48,12 @@ class SetEndUser(SetParty):
         )
 
 
-class EditEndUser(SetEndUser):
-    def __init__(self):
-        super().__init__(copy_existing=True)
-
-
 class RemoveEndUser(DeleteParty):
     def __init__(self):
-        super().__init__(url="applications:add_end_user", action=delete_party, error=EndUserPage.DELETE_ERROR)
+        super().__init__(
+            url="applications:add_end_user",
+            action=delete_party, error=EndUserPage.DELETE_ERROR,
+        )
 
 
 class CopyEndUsers(CopyParties):
@@ -74,3 +72,17 @@ class CopyEndUser(CopyAndSetParty):
             validate_action=validate_party,
             post_action=post_party,
         )
+
+
+class EditEndUser(CopyAndSetParty):
+    def __init__(self):
+        super().__init__(
+            url="applications:end_user_attach_document",
+            party_type="end_user",
+            form=new_party_form_group,
+            back_url="applications:end_user",
+            strings=EndUserForm,
+            validate_action=validate_party,
+            post_action=post_party,
+        )
+

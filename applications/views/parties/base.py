@@ -63,14 +63,7 @@ class SetParty(MultiFormView):
         self.object_pk = kwargs["pk"]
         application = get_application(request, self.object_pk)
         self.forms = self.form(application, self.strings, self.back_url)
-        if self.copy_existing:
-            if application[self.party_type]:
-                self.data = application[self.party_type]
-                self.data["country"] = self.data["country"]["id"]
-        else:
-            self.data = {}
-
-        self.data["type"] = self.party_type
+        self.data = {"type": self.party_type}
 
     def get_success_url(self):
         return reverse_lazy(
