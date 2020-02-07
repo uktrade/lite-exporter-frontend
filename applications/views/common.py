@@ -296,6 +296,23 @@ class WithdrawApplication(SingleFormView):
         self.success_url = reverse_lazy("applications:application", kwargs={"pk": self.object_pk})
 
 
+class CaseNote(TemplateView):
+    def get(self, request, **kwargs):
+        application_id = str(kwargs["pk"])
+        notes = get_case_notes(request, application_id)
+
+        print("\n")
+        print("A KIEGO WALA TU JEST")
+        print("Notes: ", notes)
+        print("A TAKIEEEEGO WALA TU JEST!!!")
+        print("\n")
+
+        context = {
+            "notes": notes, "draft_id": application_id
+        }
+        return render(request, "applications/case-notes.html", context)
+
+
 class CheckYourAnswers(TemplateView):
     def get(self, request, **kwargs):
         application_id = kwargs["pk"]

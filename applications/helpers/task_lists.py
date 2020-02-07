@@ -14,6 +14,7 @@ from applications.services import (
     get_application_countries,
     get_application_goods_types,
     get_third_parties,
+    get_case_notes,
     get_application_goods,
     get_additional_documents,
 )
@@ -74,6 +75,7 @@ def get_standard_task_list(request, application, template, reference_number_desc
     ultimate_end_users, _ = get_ultimate_end_users_section(request, application)
     third_parties = get_third_parties(request, application_id)
     goods = get_application_goods(request, application_id)
+    notes = get_case_notes(request, application_id)
 
     for good in goods:
         if good["is_good_incorporated"]:
@@ -99,6 +101,7 @@ def get_standard_task_list(request, application, template, reference_number_desc
         "consignee_document": consignee_document,
         "countries_on_goods_types": countries_on_goods_types,
         "third_parties": third_parties,
+        "notes": notes,
         "supporting_documents": additional_documents["documents"],
         "errors": errors,
         "can_submit": submit,

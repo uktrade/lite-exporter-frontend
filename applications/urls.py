@@ -209,6 +209,7 @@ urlpatterns = [
         documents.DeleteDocument.as_view(),
         name="delete_additional_document",
     ),
+    path("<uuid:pk>/case-note/", common.CaseNote.as_view(), name="case-note"),
     path("<uuid:pk>/withdraw/", common.WithdrawApplication.as_view(), name="withdraw"),
     # Case-relevant documentation
     path(
