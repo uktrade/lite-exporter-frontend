@@ -27,7 +27,13 @@
 						{% lcs 'applications.ApplicationSummaryPage.Buttons.EDIT_APPLICATION_BUTTON' %}
 					</a>
 				{% endif %}
-					<a class="govuk-button govuk-button--secondary" href="{% url 'applications:copy' application.id %}">Copy</a>
+				{# Using licence_duration to check that there is a licence to surrender #}
+				{% if application.licence_duration %}
+					<a href="{% url 'applications:surrender' application.id %}" id="button-surrender-application" class="govuk-button govuk-button--secondary">
+						{% lcs 'applications.ApplicationSummaryPage.Buttons.SURRENDER_APPLICATION_BUTTON' %}
+					</a>
+				{% endif %}
+				<a class="govuk-button govuk-button--secondary" href="{% url 'applications:copy' application.id %}">Copy</a>
 			{% endif %}
 		</div>
 	</div>
