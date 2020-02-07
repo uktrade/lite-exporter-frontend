@@ -76,12 +76,13 @@ def _get_task_list(request, application, errors=None):
     }
 
     if application_type == STANDARD_LICENCE:
-        context["goods"] = get_application_goods(request, application["id"])
         context["reference_number_description"] = get_reference_number_description(application)
 
     if application_type == OPEN_LICENCE:
         context["countries"] = get_application_countries(request, application["id"])
         context["goodstypes"] = get_application_goods_types(request, application["id"])
+    else:
+        context["goods"] = get_application_goods(request, application["id"])
 
     return render(request, "applications/task-list.html", context)
 
