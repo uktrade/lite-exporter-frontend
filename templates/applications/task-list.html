@@ -57,7 +57,7 @@
 	{# End User #}
 	{% if application_type|application_type_in_list:"standard_licence,exhibition_clearance,gifting_clearance,F680_clearance,hmrc_query" %}
 		{% url 'applications:end_user' application.id as end_user_url %}
-		{% include "includes/task-list-item.html" with id="end-user" title=strings.END_USER url=end_user_url status=application.end_user|get_parties_status %}
+		{% include "includes/task-list-item.html" with id="end-user" title=strings.END_USER url=end_user_url status=application.end_user|get_parties_status optional=application_type|application_type_in_list:"F680_clearance" %}
 	{% endif %}
 
 	{# Ultimate End Users #}
