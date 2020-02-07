@@ -50,6 +50,8 @@
 					{% if organisation.type.key != 'hmrc' %}
 						<th class="govuk-table__header" scope="col">{% lcs "applications.ApplicationsSummaryPage.STATUS" %}</th>
 					{% endif %}
+					{#	TODO: move to lite strings #}
+					<th class="govuk-table__header" scope="col">COPY</th>
 				</tr>
 			</thead>
 			<tbody class="govuk-table__body">
@@ -84,6 +86,9 @@
 						{% if organisation.type.key != 'hmrc' %}
 							<td class="govuk-table__cell">{{ application.status.value }}</td>
 						{% endif %}
+						<td class="govuk-table__cell">
+							<a class="govuk-link govuk-link--no-visited-state app-icon-label" href="{% url 'applications:copy' application.id %}">Copy</a>
+						</td>
 					</tr>
 				{% endfor %}
 			</tbody>

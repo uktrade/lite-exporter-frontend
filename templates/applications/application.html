@@ -27,6 +27,7 @@
 						{% lcs 'applications.ApplicationSummaryPage.Buttons.EDIT_APPLICATION_BUTTON' %}
 					</a>
 				{% endif %}
+					<a class="govuk-button govuk-button--secondary" href="{% url 'applications:copy' application.id %}">Copy</a>
 			{% endif %}
 		</div>
 	</div>

@@ -422,3 +422,8 @@ def delete_goods_type_document(request, pk, good_pk):
 def get_activity(request, pk):
     data = get(request, CASES_URL + pk + ACTIVITY_URL)
     return data.json()["activity"]
+
+
+def copy_application(request, pk, data):
+    data = post(request, APPLICATIONS_URL + str(pk) + "/copy/", json=data)
+    return data.json(), data.status_code

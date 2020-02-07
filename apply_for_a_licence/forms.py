@@ -70,6 +70,30 @@ def opening_question():
     )
 
 
+def have_you_been_informed():
+    return Form(
+        title=ExportLicenceQuestions.HaveYouBeenInformedQuestion.TITLE,
+        description=ExportLicenceQuestions.HaveYouBeenInformedQuestion.DESCRIPTION,
+        questions=[
+            RadioButtons(
+                name="have_you_been_informed",
+                options=[
+                    Option("yes", strings.YES, show_pane="pane_reference_number_on_information_form"),
+                    Option("no", strings.NO),
+                ],
+                classes=["govuk-radios--inline"],
+            ),
+            TextInput(
+                title=ExportLicenceQuestions.HaveYouBeenInformedQuestion.WHAT_WAS_THE_REFERENCE_CODE_TITLE,
+                description=ExportLicenceQuestions.HaveYouBeenInformedQuestion.WHAT_WAS_THE_REFERENCE_CODE_DESCRIPTION,
+                name="reference_number_on_information_form",
+                optional=True,
+            ),
+        ],
+        default_button_name=strings.SAVE_AND_CONTINUE,
+    )
+
+
 def export_licence_questions(application_type):
     return FormGroup(
         [
@@ -120,30 +144,7 @@ def export_licence_questions(application_type):
                 if application_type == STANDARD_LICENCE
                 else strings.SAVE_AND_CONTINUE,
             ),
-            conditional(
-                application_type != OPEN_LICENCE,
-                Form(
-                    title=ExportLicenceQuestions.HaveYouBeenInformedQuestion.TITLE,
-                    description=ExportLicenceQuestions.HaveYouBeenInformedQuestion.DESCRIPTION,
-                    questions=[
-                        RadioButtons(
-                            name="have_you_been_informed",
-                            options=[
-                                Option("yes", strings.YES, show_pane="pane_reference_number_on_information_form"),
-                                Option("no", strings.NO),
-                            ],
-                            classes=["govuk-radios--inline"],
-                        ),
-                        TextInput(
-                            title=ExportLicenceQuestions.HaveYouBeenInformedQuestion.WHAT_WAS_THE_REFERENCE_CODE_TITLE,
-                            description=ExportLicenceQuestions.HaveYouBeenInformedQuestion.WHAT_WAS_THE_REFERENCE_CODE_DESCRIPTION,
-                            name="reference_number_on_information_form",
-                            optional=True,
-                        ),
-                    ],
-                    default_button_name=strings.SAVE_AND_CONTINUE,
-                ),
-            ),
+            conditional(application_type == STANDARD_LICENCE, have_you_been_informed()),
         ]
     )
 

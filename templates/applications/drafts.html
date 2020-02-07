@@ -51,6 +51,8 @@
 					{% endif %}
 					<th class="govuk-table__header">
 					</th>
+					{#	TODO: move to lite strings #}
+					<th class="govuk-table__header" scope="col">COPY</th>
 				</tr>
 			</thead>
 			<tbody class="govuk-table__head">
@@ -76,6 +78,9 @@
 							<a id="link-delete-draft" href="{% url 'applications:delete' draft.id %}?return_to={{ CURRENT_PATH }}" class="govuk-link--no-visited-state">
 								{% lcs 'applications.DeleteApplicationPage.BUTTON' %}
 							</a>
+						</td>
+						<td class="govuk-table__cell">
+							<a class="govuk-link govuk-link--no-visited-state app-icon-label" href="{% url 'applications:copy' draft.id %}">Copy</a>
 						</td>
 					</tr>
 				{% endfor %}
