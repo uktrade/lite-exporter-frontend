@@ -5,7 +5,7 @@ from django.views.generic import TemplateView
 from applications.forms.parties import new_party_form_group
 from applications.helpers.check_your_answers import convert_consignee
 from applications.services import get_application, post_party, delete_party, validate_party
-from applications.views.parties.base import AddParty, ExistingPartiesList, SetParty, DeleteParty
+from applications.views.parties.base import AddParty, CopyParties, SetParty, DeleteParty, CopyAndSetParty
 from lite_content.lite_exporter_frontend.applications import ConsigneeForm, ConsigneePage
 
 
@@ -32,9 +32,7 @@ class Consignee(TemplateView):
 
 class AddConsignee(AddParty):
     def __init__(self):
-        super().__init__(
-            new_url="applications:set_consignee", copy_url="applications:copy_consignee", party_type="consignee",
-        )
+        super().__init__(new_url="applications:set_consignee", copy_url="applications:consignees_copy")
 
 
 class SetConsignee(SetParty):
@@ -45,7 +43,6 @@ class SetConsignee(SetParty):
             form=new_party_form_group,
             back_url="applications:add_consignee",
             strings=ConsigneeForm,
-            multiple_allowed=True,
             copy_existing=copy_existing,
             post_action=post_party,
             validate_action=validate_party,
@@ -63,11 +60,23 @@ class RemoveConsignee(DeleteParty):
             url="applications:add_consignee",
             action=delete_party,
             error=ConsigneePage.DELETE_ERROR,
-            multiple_allowed=True,
             **kwargs,
         )
 
 
-class ExistingConsignee(ExistingPartiesList):
+class CopyConsignees(CopyParties):
     def __init__(self):
-        super().__init__(destination_url="applications:set_consignee", back_url="applications:add_consignee")
+        super().__init__(new_party_type="consignee")
+
+
+class CopyConsignee(CopyAndSetParty):
+    def __init__(self):
+        super().__init__(
+            url="applications:consignee_attach_document",
+            party_type="consignee",
+            form=new_party_form_group,
+            back_url="applications:consignees_copy",
+            strings=ConsigneeForm,
+            validate_action=validate_party,
+            post_action=post_party,
+        )

@@ -10,7 +10,7 @@ from applications.services import (
     delete_party,
     validate_party,
 )
-from applications.views.parties.base import AddParty, ExistingPartiesList, SetParty, DeleteParty
+from applications.views.parties.base import AddParty, CopyParties, SetParty, DeleteParty, CopyAndSetParty
 from lite_content.lite_exporter_frontend.applications import UltimateEndUserForm, UltimateEndUserPage
 
 
@@ -31,7 +31,7 @@ class UltimateEndUsers(TemplateView):
 class AddUltimateEndUser(AddParty):
     def __init__(self):
         super().__init__(
-            new_url="applications:set_ultimate_end_user", copy_url="applications:copy_ultimate_end_user",
+            new_url="applications:set_ultimate_end_user", copy_url="applications:ultimate_end_users_copy",
         )
 
 
@@ -44,7 +44,6 @@ class SetUltimateEndUser(SetParty):
             form=new_party_form_group,
             back_url="applications:add_ultimate_end_user",
             strings=UltimateEndUserForm,
-            multiple_allowed=True,
             post_action=post_party,
             validate_action=validate_party,
         )
@@ -56,13 +55,23 @@ class RemoveUltimateEndUser(DeleteParty):
             url="applications:ultimate_end_users",
             action=delete_party,
             error=UltimateEndUserPage.DELETE_ERROR,
-            multiple_allowed=True,
             **kwargs,
         )
 
 
-class ExistingUltimateEndUser(ExistingPartiesList):
+class CopyUltimateEndUsers(CopyParties):
+    def __init__(self):
+        super().__init__(new_party_type="end_user")
+
+
+class CopyUltimateEndUser(CopyAndSetParty):
     def __init__(self):
         super().__init__(
-            destination_url="applications:set_ultimate_end_user", back_url="applications:add_ultimate_end_user"
+            url="applications:ultimate_end_user_attach_document",
+            party_type="ultimate_end_user",
+            form=new_party_form_group,
+            back_url="applications:end_users_copy",
+            strings=UltimateEndUserForm,
+            validate_action=validate_party,
+            post_action=post_party,
         )

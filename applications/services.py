@@ -116,14 +116,20 @@ def validate_party(request, pk, json):
 
 
 def post_party(request, pk, json):
-    if json["type"] == "third_party" and "role" not in json:
-        json["role"] = "other"
     data = post(request, APPLICATIONS_URL + str(pk) + PARTIES_URL, json)
     return data.json(), data.status_code
 
 
+def copy_party(request, pk, party_pk):
+   return get(request, f"{APPLICATIONS_URL}{pk}{PARTIES_URL}{party_pk}/copy").json()["party"]
+
+
 def delete_party(request, application_pk, obj_pk=None):
-    return delete(request, APPLICATIONS_URL + application_pk + PARTIES_URL + str(obj_pk)).status_code
+    return delete(request, f"{APPLICATIONS_URL}{application_pk}{PARTIES_URL}{str(obj_pk)}/").status_code
+
+
+def get_party(request, application_pk, pk):
+    return get(request, f"{APPLICATIONS_URL}{application_pk}{PARTIES_URL}{str(pk)}/").json()
 
 
 def delete_party_document(request, application_pk, obj_pk):

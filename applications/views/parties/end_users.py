@@ -5,7 +5,7 @@ from django.views.generic import TemplateView
 from applications.forms.parties import new_party_form_group
 from applications.helpers.check_your_answers import convert_party
 from applications.services import get_application, post_party, validate_party, delete_party
-from applications.views.parties.base import AddParty, SetParty, DeleteParty, ExistingPartiesList
+from applications.views.parties.base import AddParty, SetParty, DeleteParty, CopyParties, CopyAndSetParty
 from lite_content.lite_exporter_frontend.applications import EndUserForm, EndUserPage
 
 
@@ -31,9 +31,7 @@ class EndUser(TemplateView):
 
 class AddEndUser(AddParty):
     def __init__(self):
-        super().__init__(
-            new_url="applications:set_end_user", copy_url="applications:copy_end_user", party_type="end_user",
-        )
+        super().__init__(new_url="applications:set_end_user", copy_url="applications:end_users_copy")
 
 
 class SetEndUser(SetParty):
@@ -42,9 +40,8 @@ class SetEndUser(SetParty):
             url="applications:end_user_attach_document",
             party_type="end_user",
             form=new_party_form_group,
-            back_url="applications:add_end_user",
+            back_url="applications:end_user",
             strings=EndUserForm,
-            multiple_allowed=True,
             copy_existing=copy_existing,
             post_action=post_party,
             validate_action=validate_party,
@@ -58,11 +55,22 @@ class EditEndUser(SetEndUser):
 
 class RemoveEndUser(DeleteParty):
     def __init__(self):
-        super().__init__(
-            url="applications:add_end_user", action=delete_party, error=EndUserPage.DELETE_ERROR, multiple_allowed=True,
-        )
+        super().__init__(url="applications:add_end_user", action=delete_party, error=EndUserPage.DELETE_ERROR)
 
 
-class ExistingEndUser(ExistingPartiesList):
+class CopyEndUsers(CopyParties):
     def __init__(self):
-        super().__init__(destination_url="applications:set_end_user", back_url="applications:add_end_user")
+        super().__init__(new_party_type="end_user")
+
+
+class CopyEndUser(CopyAndSetParty):
+    def __init__(self):
+        super().__init__(
+            url="applications:end_user_attach_document",
+            party_type="end_user",
+            form=new_party_form_group,
+            back_url="applications:end_users_copy",
+            strings=EndUserForm,
+            validate_action=validate_party,
+            post_action=post_party,
+        )
