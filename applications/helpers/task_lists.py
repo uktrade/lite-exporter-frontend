@@ -39,7 +39,7 @@ def get_application_task_list(request, application, errors=None):
     Returns a correctly formatted task list page for the supplied application
     """
     if application["application_type"]["key"] == STANDARD_LICENCE:
-        return _get_standard_application_task_list(request, application, errors)
+        return _get_task_list(request, application, errors)
     elif application["application_type"]["key"] == OPEN_LICENCE:
         return _get_open_application_task_list(request, application, errors)
     elif application["application_type"]["key"] == HMRC_QUERY:
@@ -67,11 +67,27 @@ def _get_strings(application_type):
 
 
 def _get_task_list(request, application, errors=None):
+    user_permissions = get_user_permissions(request)
+    application_type = application["application_type"]["key"]
+
     context = {
-        "strings": _get_strings(application["application_type"]["key"]),
+        "strings": _get_strings(application_type),
         "application": application,
+        "application_type": application_type,
         "errors": errors,
+        "can_submit": Permissions.SUBMIT_LICENCE_APPLICATION in user_permissions
     }
+
+    if application_type == STANDARD_LICENCE:
+        context["is_editing"], context["edit_type"] = get_edit_type(application)
+        sites, _ = get_sites_on_draft(request, application["id"])
+        external_locations, _ = get_external_locations_on_draft(request, application["id"])
+        context["locations"] = sites["sites"] or external_locations["external_locations"]
+        context["goods"] = get_application_goods(request, application["id"])
+        context["reference_number_description"] = get_reference_number_description(application)
+        additional_documents, _ = get_additional_documents(request, application["id"])
+        context["supporting_documents"] = additional_documents["documents"],
+
     return render(request, "applications/task-list.html", context)
 
 
