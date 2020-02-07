@@ -25,7 +25,6 @@
 {% endblock %}
 
 {% block main_tasks %}
-
 	{# Goods #}
 	{% if application_type|application_type_in_list:"open_licence,hmrc_query" %}
 		{% url 'applications:goods_types' application.id as goods_url %}
@@ -92,4 +91,3 @@
 		{% include "includes/task-list-item.html" with id="reasoning" title=strings.REASON_FOR_QUERY url=optional_note_url status=application.reasoning|task_list_item_status optional=True %}
 	{% endif %}
 {% endblock %}
-
