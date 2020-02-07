@@ -11,10 +11,15 @@ from applications.forms.common import (
     edit_type_form,
     application_success_page,
 )
+from applications.forms.application_actions import withdraw_application_confirmation, surrender_application_confirmation
 from applications.helpers.check_your_answers import convert_application_to_check_your_answers
-from applications.helpers.summaries import application_summary, draft_summary
+from applications.helpers.summaries import draft_summary
 from applications.helpers.task_lists import get_application_task_list
-from applications.helpers.validators import validate_withdraw_application, validate_delete_draft
+from applications.helpers.validators import (
+    validate_withdraw_application,
+    validate_delete_draft,
+    validate_surrender_application_and_update_case_status,
+)
 from applications.services import (
     get_activity,
     get_applications,
@@ -155,6 +160,12 @@ class ApplicationDetail(TemplateView):
             "activity": get_activity(request, self.application_id),
         }
 
+        print("\n")
+        print("A KIEGO WALA TU JEST")
+        print("Application: ", self.application)
+        print("A TAKIEEEEGO WALA TU JEST!!!")
+        print("\n")
+
         if self.application["application_type"]["key"] != HMRC_QUERY:
             if self.view_type == "case-notes":
                 context["notes"] = get_case_notes(request, self.case_id)["case_notes"]
@@ -281,35 +292,35 @@ class WithdrawApplication(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
         application = get_application(request, self.object_pk)
-        self.form = confirm_form(
-            title=strings.applications.ApplicationSummaryPage.Withdraw.TITLE,
-            confirmation_name="choice",
-            summary=application_summary(application),
-            back_link_text=strings.applications.ApplicationSummaryPage.Withdraw.BACK_TEXT,
-            yes_label=strings.applications.ApplicationSummaryPage.Withdraw.YES_LABEL,
-            no_label=strings.applications.ApplicationSummaryPage.Withdraw.NO_LABEL,
-            submit_button_text=strings.applications.ApplicationSummaryPage.Withdraw.SUBMIT_BUTTON,
-            back_url=reverse_lazy("applications:application", kwargs={"pk": self.object_pk}),
-            side_by_side=True,
-        )
+        self.form = withdraw_application_confirmation(application, self.object_pk)
         self.action = validate_withdraw_application
+        self.success_url = reverse_lazy("applications:application", kwargs={"pk": self.object_pk})
+
+
+class SurrenderApplication(SingleFormView):
+    def init(self, request, **kwargs):
+        self.object_pk = kwargs["pk"]
+        application = get_application(request, self.object_pk)
+        self.form = surrender_application_confirmation(application, self.object_pk)
+        self.action = validate_surrender_application_and_update_case_status
         self.success_url = reverse_lazy("applications:application", kwargs={"pk": self.object_pk})
 
 
 class CaseNote(TemplateView):
     def get(self, request, **kwargs):
         application_id = str(kwargs["pk"])
-        notes = get_case_notes(request, application_id)
+        # notes = get_case_notes(request, application_id)
 
         print("\n")
         print("A KIEGO WALA TU JEST")
-        print("Notes: ", notes)
+        # print("Notes: ", notes)
         print("A TAKIEEEEGO WALA TU JEST!!!")
         print("\n")
 
         context = {
-            "notes": notes, "draft_id": application_id
+            "draft_id": application_id
         }
+        # "notes": notes,
         return render(request, "applications/case-notes.html", context)
 
 

@@ -1,0 +1,37 @@
+{
+  'id': '825bb5f7-99b8-48f3-9ec7-5f55abb15787',
+  'text': 'lahallalala',
+  'case': '44415d12-73db-454c-810b-1cc52b450eed',
+  'user': {
+    'id': '614543b4-06ea-4eb6-a9ee-a3d8ce29d41f',
+    'status': None,
+    'organisations': [
+      {
+        'id': '3ae3a478-3dd0-4c8f-8827-60273e2753c2',
+        'name': 'Archway Communications',
+        'joined_at': '2020-02-05T13:46:59.099Z'
+      },
+      {
+        'id': '39633b4b-e20e-4bd3-ab33-35db619bf9be',
+        'name': 'HMRC office at Battersea heliport',
+        'joined_at': '2020-02-05T13:46:59.278Z'
+      }
+    ],
+    'role': None,
+    'sites': None,
+    'created_at': '2020-02-05T13:46:59.082097Z',
+    'updated_at': '2020-02-05T13:58:39.804611Z',
+    'first_name': 'Piotr',
+    'last_name': 'Konopacki',
+    'date_joined': '2020-02-05T13:46:59.082158Z',
+    'email': 'piotr.konopacki@digital.trade.gov.uk',
+    'groups': [],
+    'user_permissions': []
+  },
+  'created_at': '2020-02-05T15:09:19.751070Z',
+  'is_visible_to_exporter': True,
+  'updated_at': '2020-02-05T15:09:19.751070Z'
+}, {'id': '1a9b5491-cef2-4105-a0d2-481dc891fca7', 'text': 'alaalalal halalala', 'case': '44415d12-73db-454c-810b-1cc52b450eed', 'user': {'id': '614543b4-06ea-4eb6-a9ee-a3d8ce29d41f', 'status': None, 'organisations': [{'id': '3ae3a478-3dd0-4c8f-8827-60273e2753c2', 'name': 'Archway Communications', 'joined_at': '2020-02-05T13:46:59.099Z'}, {'id': '39633b4b-e20e-4bd3-ab33-35db619bf9be', 'name': 'HMRC office at Battersea heliport', 'joined_at': '2020-02-05T13:46:59.278Z'}], 'role': None, 'sites': None, 'created_at': '2020-02-05T13:46:59.082097Z', 'updated_at': '2020-02-05T13:58:39.804611Z', 'first_name': 'Piotr', 'last_name': 'Konopacki', 'date_joined': '2020-02-05T13:46:59.082158Z', 'email': 'piotr.konopacki@digital.trade.gov.uk', 'groups': [], 'user_permissions': []}, 'created_at': '2020-02-05T14:31:37.168068Z', 'is_visible_to_exporter': True, 'updated_at': '2020-02-05T14:31:37.168068Z'
+}
+]
+}

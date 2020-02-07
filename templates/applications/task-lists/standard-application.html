@@ -48,5 +48,5 @@
 
 	{% url 'applications:case-note' application.id as case_note_url %}
 	{% tld case_notes 'case-note' 'case-notes' as case_notes_description %}
-	{% include "includes/task-list-item.html" with id="case-notes" title="DUPPA" url=case_note_url status=case_notes|task_list_item_status description=case_notes_description optional=True %}
+	{% include "includes/task-list-item.html" with id="case-notes" title='applications.StandardApplicationTaskList.CASE_NOTES' url=case_note_url status=case_notes|task_list_item_status description=case_notes_description optional=True %}
 {% endblock %}

@@ -211,6 +211,7 @@ urlpatterns = [
     ),
     path("<uuid:pk>/case-note/", common.CaseNote.as_view(), name="case-note"),
     path("<uuid:pk>/withdraw/", common.WithdrawApplication.as_view(), name="withdraw"),
+    path("<uuid:pk>/surrender/", common.SurrenderApplication.as_view(), name="surrender"),
     # Case-relevant documentation
     path(
         "<uuid:pk>/generated-documents/<uuid:obj_pk>/download",
