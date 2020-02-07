@@ -15,6 +15,9 @@ from conf.constants import (
     HMRC_QUERY,
     OPEN_LICENCE,
     STANDARD_LICENCE,
+    EXHIBITION_CLEARANCE,
+    F_680_CLEARANCE,
+    GIFTING_CLEARANCE,
     NOT_STARTED,
     DONE,
     IN_PROGRESS,
@@ -42,9 +45,14 @@ def _get_strings(application_type):
         return applications.OpenApplicationTaskList
     elif application_type == HMRC_QUERY:
         return applications.HMRCApplicationTaskList
+    elif application_type == EXHIBITION_CLEARANCE:
+        return applications.ExhibitionClearanceTaskList
+    elif application_type == F_680_CLEARANCE:
+        return applications.F680ClearanceTaskList
+    elif application_type == GIFTING_CLEARANCE:
+        return applications.GiftingClearanceTaskList
     else:
-        # TODO Temp
-        return applications.StandardApplicationTaskList
+        raise NotImplementedError(f"No string class for given for {application_type}")
 
 
 def _get_task_list(request, application, errors=None):
