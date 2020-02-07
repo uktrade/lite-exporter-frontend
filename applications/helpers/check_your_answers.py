@@ -3,7 +3,15 @@ from _decimal import Decimal
 from django.contrib.humanize.templatetags.humanize import intcomma
 from django.urls import reverse_lazy
 
-from conf.constants import NEWLINE, STANDARD_LICENCE, OPEN_LICENCE, HMRC_QUERY, EXHIBITION_CLEARANCE
+from conf.constants import (
+    NEWLINE,
+    STANDARD_LICENCE,
+    OPEN_LICENCE,
+    HMRC_QUERY,
+    EXHIBITION_CLEARANCE,
+    GIFTING_CLEARANCE,
+    F_680_CLEARANCE,
+)
 from core.builtins.custom_tags import default_na, friendly_boolean, pluralise_unit
 from core.helpers import convert_to_link
 from lite_content.lite_exporter_frontend import applications
@@ -22,6 +30,10 @@ def convert_application_to_check_your_answers(application, editable=False):
         return _convert_hmrc_query(application, editable)
     elif application["application_type"]["key"] == EXHIBITION_CLEARANCE:
         return _convert_exhibition_clearance(application, editable)
+    elif application["application_type"]["key"] == GIFTING_CLEARANCE:
+        return _convert_gifting_clearance(application, editable)
+    elif application["application_type"]["key"] == F_680_CLEARANCE:
+        return _convert_f680_clearance(application, editable)
     else:
         raise NotImplementedError()
 
@@ -29,6 +41,38 @@ def convert_application_to_check_your_answers(application, editable=False):
 def _convert_exhibition_clearance(application, editable=False):
     # Temp as exhibition clearance is currently the same as standard but will change
     return _convert_standard_application(application, editable)
+
+
+def _convert_f680_clearance(application, editable=False):
+    return {
+        applications.ApplicationSummaryPage.GOODS: _convert_goods(application["goods"]),
+        applications.ApplicationSummaryPage.GOODS_LOCATIONS: _convert_goods_locations(application["goods_locations"]),
+        applications.ApplicationSummaryPage.END_USER: convert_end_user(
+            application["end_user"], application["id"], editable
+        ),
+        applications.ApplicationSummaryPage.THIRD_PARTIES: _convert_third_parties(
+            application["third_parties"], application["id"], editable
+        ),
+        applications.ApplicationSummaryPage.SUPPORTING_DOCUMENTATION: _get_supporting_documentation(
+            application["additional_documents"], application["id"]
+        ),
+    }
+
+
+def _convert_gifting_clearance(application, editable=False):
+    return {
+        applications.ApplicationSummaryPage.GOODS: _convert_goods(application["goods"]),
+        applications.ApplicationSummaryPage.GOODS_LOCATIONS: _convert_goods_locations(application["goods_locations"]),
+        applications.ApplicationSummaryPage.END_USER: convert_end_user(
+            application["end_user"], application["id"], editable
+        ),
+        applications.ApplicationSummaryPage.THIRD_PARTIES: _convert_third_parties(
+            application["third_parties"], application["id"], editable
+        ),
+        applications.ApplicationSummaryPage.SUPPORTING_DOCUMENTATION: _get_supporting_documentation(
+            application["additional_documents"], application["id"]
+        ),
+    }
 
 
 def _convert_standard_application(application, editable=False):
