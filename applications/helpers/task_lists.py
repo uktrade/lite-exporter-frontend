@@ -72,7 +72,7 @@ def _get_task_list(request, application, errors=None):
         "errors": errors,
         "can_submit": Permissions.SUBMIT_LICENCE_APPLICATION in user_permissions,
         "supporting_documents": additional_documents["documents"],
-        "locations": sites["sites"] or external_locations["external_locations"]
+        "locations": sites["sites"] or external_locations["external_locations"],
     }
 
     if application_type == STANDARD_LICENCE:
