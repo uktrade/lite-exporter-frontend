@@ -83,8 +83,8 @@
 
 	{# Additional Documents #}
 	{% url 'applications:additional_documents' application.id as supporting_documents_url %}
-	{% tld supporting_documents.0 'document' 'documents' as supporting_documents_description %}
-	{% include "includes/task-list-item.html" with id="supporting-documents" title='applications.OpenApplicationTaskList.SUPPORTING_DOCUMENTS' url=supporting_documents_url status=supporting_documents.0|task_list_item_status description=supporting_documents_description %}
+	{% tld supporting_documents 'document' 'documents' as supporting_documents_description %}
+	{% include "includes/task-list-item.html" with id="supporting-documents" title='applications.OpenApplicationTaskList.SUPPORTING_DOCUMENTS' url=supporting_documents_url status=supporting_documents|task_list_item_status description=supporting_documents_description %}
 
 	{# Optional Note #}
 	{% if application_type|application_type_in_list:"hmrc_query" %}
