@@ -28,6 +28,11 @@ def get_units(request):
 
 
 def get_countries(request, convert_to_options=False, exclude: list = None):
+    """
+    Returns a list of GOV.UK countries and territories
+    param exclude: Takes a list of country codes and excludes them
+    """
+
     data = get(request, STATIC_COUNTRIES_URL + "?" +
                convert_value_to_query_param("exclude", exclude)).json()["countries"]
 
