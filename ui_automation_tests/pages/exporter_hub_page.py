@@ -1,6 +1,5 @@
 import time
 
-from selenium.common.exceptions import NoSuchElementException
 from shared.BasePage import BasePage
 
 
