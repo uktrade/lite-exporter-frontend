@@ -1,12 +1,10 @@
-import time
-
 from ui_automation_tests.shared.BasePage import BasePage
 
 
 class GreatSigninPage(BasePage):
     LOGIN_SECTION_ID = "login-form"
     EMAIL_INPUT_ID = "id_login"
-    PASSWORD_INPUT_ID = "id_password"
+    PASSWORD_INPUT_ID = "id_password"  # noqa
     SUBMIT_BUTTON_CSS_SELECTOR = "button[type='submit']"
 
     def enter_email(self, form, email):
