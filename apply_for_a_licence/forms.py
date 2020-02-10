@@ -43,7 +43,7 @@ def opening_question():
                         description=InitialApplicationQuestionsForms.OpeningQuestion.LicenceTypes.EXPORT_LICENCE_DESCRIPTION,
                     ),
                     Option(
-                        key="export_licence",
+                        key="transhipment",
                         value=InitialApplicationQuestionsForms.OpeningQuestion.LicenceTypes.TRANSHIPMENT_LICENCE_TITLE,
                         description=InitialApplicationQuestionsForms.OpeningQuestion.LicenceTypes.TRANSHIPMENT_LICENCE_DESCRIPTION,
                     ),
@@ -70,7 +70,7 @@ def opening_question():
     )
 
 
-def export_licence_questions(application_type):
+def export_licence_questions(application_type, is_transhipment=False):
     return FormGroup(
         [
             Form(
@@ -85,10 +85,13 @@ def export_licence_questions(application_type):
                                 value=ExportLicenceQuestions.ExportLicenceQuestion.STANDARD_LICENCE,
                                 description=ExportLicenceQuestions.ExportLicenceQuestion.STANDARD_LICENCE_DESCRIPTION,
                             ),
-                            Option(
-                                key=OPEN_LICENCE,
-                                value=ExportLicenceQuestions.ExportLicenceQuestion.OPEN_LICENCE,
-                                description=ExportLicenceQuestions.ExportLicenceQuestion.OPEN_LICENCE_DESCRIPTION,
+                            conditional(
+                                not is_transhipment,
+                                Option(
+                                    key=OPEN_LICENCE,
+                                    value=ExportLicenceQuestions.ExportLicenceQuestion.OPEN_LICENCE,
+                                    description=ExportLicenceQuestions.ExportLicenceQuestion.OPEN_LICENCE_DESCRIPTION,
+                                ),
                             ),
                         ],
                     ),

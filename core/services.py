@@ -27,8 +27,9 @@ def get_units(request):
     return [Option(key, value) for key, value in data.items()]
 
 
-def get_countries(request, convert_to_options=False):
-    data = get(request, STATIC_COUNTRIES_URL).json()["countries"]
+def get_countries(request, convert_to_options=False, exclude: list = None):
+    data = get(request, STATIC_COUNTRIES_URL + "?" +
+               convert_value_to_query_param("exclude", exclude)).json()["countries"]
 
     if convert_to_options:
         return [Option(x["id"], x["name"]) for x in data]
