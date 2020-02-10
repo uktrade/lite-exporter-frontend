@@ -25,4 +25,3 @@ class GreatSigninPage(BasePage):
         self.enter_email(form, email)
         self.enter_password(form, password)
         self.click_sign_in(form)
-
