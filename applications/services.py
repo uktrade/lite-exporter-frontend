@@ -121,7 +121,7 @@ def post_party(request, pk, json):
 
 
 def copy_party(request, pk, party_pk):
-   return get(request, f"{APPLICATIONS_URL}{pk}{PARTIES_URL}{party_pk}/copy").json()["party"]
+    return get(request, f"{APPLICATIONS_URL}{pk}{PARTIES_URL}{party_pk}/copy").json()["party"]
 
 
 def delete_party(request, application_pk, obj_pk=None):
