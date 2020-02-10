@@ -20,7 +20,11 @@ class EndUser(TemplateView):
                 "title": EndUserPage.TITLE,
                 "edit_url": reverse_lazy("applications:edit_end_user", kwargs=kwargs),
                 "remove_url": reverse_lazy("applications:remove_end_user", kwargs=kwargs),
-                "answers": convert_party(application["end_user"], application_id, application["is_major_editable"]),
+                "answers": convert_party(
+                    party=application["end_user"],
+                    application_id=application_id,
+                    editable=application["status"]["value"] == "draft"
+                ),
                 "highlight": ["Document"] if not application["end_user"]["document"] else {},
             }
 

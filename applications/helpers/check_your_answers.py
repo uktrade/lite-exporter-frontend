@@ -44,7 +44,7 @@ def _convert_standard_application(application, editable=False):
         applications.ApplicationSummaryPage.THIRD_PARTIES: _convert_third_parties(
             application["third_parties"], application["id"], editable
         ),
-        applications.ApplicationSummaryPage.CONSIGNEE: convert_consignee(
+        applications.ApplicationSummaryPage.CONSIGNEE: convert_party(
             application["consignee"], application["id"], editable
         ),
         applications.ApplicationSummaryPage.SUPPORTING_DOCUMENTATION: _get_supporting_documentation(
@@ -82,7 +82,7 @@ def _convert_hmrc_query(application, editable=False):
         applications.ApplicationSummaryPage.THIRD_PARTIES: _convert_third_parties(
             application["third_parties"], application["id"], editable
         ),
-        applications.ApplicationSummaryPage.CONSIGNEE: convert_consignee(
+        applications.ApplicationSummaryPage.CONSIGNEE: convert_party(
             application["consignee"], application["id"], editable
         ),
         applications.ApplicationSummaryPage.SUPPORTING_DOCUMENTATION: _get_supporting_documentation(
@@ -125,11 +125,16 @@ def convert_party(party, application_id, editable):
     if not party:
         return {}
 
+    document_type = party["type"] if party["type"] != "end_user" else "end-user"
+
     if party.get("document"):
-        document = _convert_document(party, "end-user", application_id, editable)
+        document = _convert_document(party, document_type, application_id, editable)
     else:
         document = convert_to_link(
-            reverse_lazy("applications:end_user_attach_document", kwargs={"pk": application_id, "obj_pk": party["id"]}),
+            reverse_lazy(
+                f"applications:{party['type']}_attach_document",
+                kwargs={"pk": application_id, "obj_pk": party["id"]}
+            ),
             "Attach document",
         )
     return {
@@ -160,27 +165,6 @@ def _convert_ultimate_end_users(ultimate_end_users, application_id, editable):
         }
         for ultimate_end_user in ultimate_end_users
     ]
-
-
-def convert_consignee(consignee, application_id, editable):
-    if not consignee:
-        return {}
-
-    if consignee["document"]:
-        document = _convert_document(consignee, "consignee", application_id, editable)
-    else:
-        kwargs = {"pk": application_id, "obj_pk": consignee["id"]}
-        document = convert_to_link(
-            reverse_lazy("applications:consignee_attach_document", kwargs=kwargs), "Attach document"
-        )
-
-    return {
-        "Name": consignee["name"],
-        "Type": consignee["sub_type"]["value"],
-        "Address": consignee["address"] + NEWLINE + consignee["country"]["name"],
-        "Website": convert_to_link(consignee["website"]),
-        "Document": document,
-    }
 
 
 def _convert_third_parties(third_parties, application_id, editable):

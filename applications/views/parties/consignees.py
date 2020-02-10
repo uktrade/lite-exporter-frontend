@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
 from applications.forms.parties import new_party_form_group
-from applications.helpers.check_your_answers import convert_consignee
+from applications.helpers.check_your_answers import convert_party
 from applications.services import get_application, post_party, delete_party, validate_party
 from applications.views.parties.base import AddParty, CopyParties, SetParty, DeleteParty, CopyAndSetParty
 from lite_content.lite_exporter_frontend.applications import ConsigneeForm, ConsigneePage
@@ -13,7 +13,6 @@ class Consignee(TemplateView):
     def get(self, request, **kwargs):
         application_id = str(kwargs["pk"])
         application = get_application(request, application_id)
-
         if application["consignee"]:
             kwargs = {"pk": application_id, "obj_pk": application["consignee"]["id"]}
             context = {
@@ -21,8 +20,10 @@ class Consignee(TemplateView):
                 "title": ConsigneePage.TITLE,
                 "edit_url": reverse_lazy("applications:edit_consignee", kwargs=kwargs),
                 "remove_url": reverse_lazy("applications:remove_consignee", kwargs=kwargs),
-                "answers": convert_consignee(
-                    application["consignee"], application_id, application["is_major_editable"]
+                "answers": convert_party(
+                    party=application["consignee"],
+                    application_id=application_id,
+                    editable=application["status"]["value"] == "draft"
                 ),
             }
             return render(request, "applications/check-your-answer.html", context)
