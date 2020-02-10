@@ -46,7 +46,7 @@ class ExporterHubPage(BasePage):
         time.sleep(1)
         self.enter_email(email)
         self.enter_password(password)
-        self.driver.find_element_by_xpath("//a[text()[contains(.,'Sign in')]]").click()
+        self.driver.find_element_by_xpath("//button[text()[contains(.,'Sign in')]]").click()
         time.sleep(1)
 
     def click_my_goods(self):
