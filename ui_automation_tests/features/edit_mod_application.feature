@@ -7,14 +7,12 @@ Feature: I want to be able to edit MOD Licence Applications
   @LT_1169_edit_exhibition_clearance @regression
   Scenario: Edit a Exhibition Clearance Application
     Given I go to exporter homepage and choose Test Org
-    And I create a standard application via api
+    And I create a exhibition clearance application via api
     When I go to application previously created
     And I click edit application
     And I choose to make major edits
     And I change my reference name
     Then I see my edited reference name
-    When I change my reference number
-    Then I see my edited reference number
     When I click on goods
     And I remove a good from the application
     Then the good has been removed from the application
