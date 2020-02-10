@@ -7,6 +7,7 @@ from conf.constants import NEWLINE, STANDARD_LICENCE, OPEN_LICENCE, HMRC_QUERY, 
 from core.builtins.custom_tags import default_na, friendly_boolean, pluralise_unit
 from core.helpers import convert_to_link
 from lite_content.lite_exporter_frontend import applications
+from lite_content.lite_exporter_frontend.strings import Parties
 from lite_forms.helpers import conditional
 
 
@@ -252,18 +253,21 @@ def _convert_document(party, document_type, application_id, editable):
             f"/applications/{application_id}/{document_type}/{party['id']}/document/download",
             "Download",
             include_br=True,
-        ) + convert_to_link(f"/applications/{application_id}/{document_type}/{party['id']}/document/delete", "Delete")
+        ) + convert_to_link(
+            f"/applications/{application_id}/{document_type}/{party['id']}/document/delete",
+            Parties.Documents.DELETE
+        )
     else:
         return convert_to_link(
             f"/applications/{application_id}/{document_type}/{party['id']}/document/download",
-            "Download",
+            Parties.Documents.DOWNLOAD,
             include_br=True,
         )
 
 
 def _convert_attachable_document(address, attach_address, document, editable):
     if not document and editable:
-        return convert_to_link(attach_address, "Attach document")
+        return convert_to_link(attach_address, Parties.Documents.ATTACH)
 
     return convert_to_link(address, "Download")
 

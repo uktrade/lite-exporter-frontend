@@ -1,4 +1,5 @@
 import logging
+from http import HTTPStatus
 from inspect import signature
 
 from django.shortcuts import redirect
@@ -73,11 +74,11 @@ class AttachDocuments(TemplateView):
         action = document_switch(request.path)["attach"]
         if len(signature(action).parameters) == 3:
             _, status_code = action(request, draft_id, data)
-            if status_code == 201:
+            if status_code == HTTPStatus.CREATED:
                 return get_homepage(request, draft_id)
         else:
             _, status_code = action(request, draft_id, kwargs["obj_pk"], data)
-            if status_code == 201:
+            if status_code == HTTPStatus.CREATED:
                 return get_homepage(request, draft_id, kwargs["obj_pk"])
 
         return error_page(request, strings.applications.AttachDocumentPage.UPLOAD_FAILURE_ERROR)
@@ -122,7 +123,7 @@ class DeleteDocument(TemplateView):
                 else:
                     status_code = action(request, draft_id, kwargs["obj_pk"])
 
-                if status_code == 204:
+                if status_code == HTTPStatus.NO_CONTENT:
                     return get_homepage(request, draft_id)
                 else:
                     return error_page(request, strings.applications.DeleteDocument.DOCUMENT_DELETE_GENERIC_ERROR)
