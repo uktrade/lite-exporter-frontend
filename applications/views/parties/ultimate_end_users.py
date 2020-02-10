@@ -61,7 +61,7 @@ class RemoveUltimateEndUser(DeleteParty):
 
 class CopyUltimateEndUsers(CopyParties):
     def __init__(self):
-        super().__init__(new_party_type="end_user")
+        super().__init__(new_party_type="ultimate_end_user")
 
 
 class CopyUltimateEndUser(CopyAndSetParty):
@@ -70,7 +70,7 @@ class CopyUltimateEndUser(CopyAndSetParty):
             url="applications:ultimate_end_user_attach_document",
             party_type="ultimate_end_user",
             form=new_party_form_group,
-            back_url="applications:end_users_copy",
+            back_url="applications:ultimate_end_users_copy",
             strings=UltimateEndUserForm,
             validate_action=validate_party,
             post_action=post_party,

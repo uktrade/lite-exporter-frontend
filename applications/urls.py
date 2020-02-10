@@ -169,7 +169,7 @@ urlpatterns = [
     ),
     path(
         "<uuid:pk>/ultimate-end-users/<uuid:obj_pk>/copy/",
-        ultimate_end_users.CopyUltimateEndUsers.as_view(),
+        ultimate_end_users.CopyUltimateEndUser.as_view(),
         name="copy_ultimate_end_user",
     ),
     path(
@@ -178,22 +178,22 @@ urlpatterns = [
         name="remove_ultimate_end_user",
     ),
     path(
-        "<uuid:pk>/uttimate-end-users/<uuid:obj_pk>/",
+        "<uuid:pk>/ultimate-end-users/<uuid:obj_pk>/",
         ultimate_end_users.UltimateEndUsers.as_view(),
         name="ultimate_end_users",
     ),
     path(
-        "<uuid:pk>/ultimate-end-user/<uuid:obj_pk>/document/attach",
+        "<uuid:pk>/ultimate-end-users/<uuid:obj_pk>/document/attach",
         documents.AttachDocuments.as_view(),
         name="ultimate_end_user_attach_document",
     ),
     path(
-        "<uuid:pk>/ultimate-end-user/<uuid:obj_pk>/document/download",
+        "<uuid:pk>/ultimate-end-users/<uuid:obj_pk>/document/download",
         documents.DownloadDocument.as_view(),
         name="ultimate_end_user_download_document",
     ),
     path(
-        "<uuid:pk>/ultimate-end-user/<uuid:obj_pk>/document/delete",
+        "<uuid:pk>/ultimate-end-users/<uuid:obj_pk>/document/delete",
         documents.DeleteDocument.as_view(),
         name="ultimate_end_user_delete_document",
     ),
