@@ -33,8 +33,9 @@ def get_countries(request, convert_to_options=False, exclude: list = None):
     param exclude: Takes a list of country codes and excludes them
     """
 
-    data = get(request, STATIC_COUNTRIES_URL + "?" +
-               convert_value_to_query_param("exclude", exclude)).json()["countries"]
+    data = get(request, STATIC_COUNTRIES_URL + "?" + convert_value_to_query_param("exclude", exclude)).json()[
+        "countries"
+    ]
 
     if convert_to_options:
         return [Option(x["id"], x["name"]) for x in data]
