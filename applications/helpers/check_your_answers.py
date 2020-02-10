@@ -133,8 +133,7 @@ def convert_party(party, application_id, editable):
     else:
         document = convert_to_link(
             reverse_lazy(
-                f"applications:{party['type']}_attach_document",
-                kwargs={"pk": application_id, "obj_pk": party["id"]}
+                f"applications:{party['type']}_attach_document", kwargs={"pk": application_id, "obj_pk": party["id"]}
             ),
             "Attach document",
         )
@@ -254,8 +253,7 @@ def _convert_document(party, document_type, application_id, editable):
             "Download",
             include_br=True,
         ) + convert_to_link(
-            f"/applications/{application_id}/{document_type}/{party['id']}/document/delete",
-            Parties.Documents.DELETE
+            f"/applications/{application_id}/{document_type}/{party['id']}/document/delete", Parties.Documents.DELETE
         )
     else:
         return convert_to_link(

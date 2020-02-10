@@ -42,10 +42,7 @@ class SetThirdParty(SetParty):
 class RemoveThirdParty(DeleteParty):
     def __init__(self, **kwargs):
         super().__init__(
-            url="applications:third_parties",
-            action=delete_party,
-            error=ThirdPartyPage.DELETE_ERROR,
-            **kwargs,
+            url="applications:third_parties", action=delete_party, error=ThirdPartyPage.DELETE_ERROR, **kwargs,
         )
 
 

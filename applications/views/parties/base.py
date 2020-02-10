@@ -37,16 +37,7 @@ class AddParty(TemplateView):
 
 class SetParty(MultiFormView):
     def __init__(
-        self,
-        url,
-        form,
-        party_type,
-        back_url,
-        strings,
-        validate_action,
-        post_action,
-        copy_existing=False,
-        **kwargs,
+        self, url, form, party_type, back_url, strings, validate_action, post_action, copy_existing=False, **kwargs,
     ):
         super().__init__(**kwargs)
         self.url = url
@@ -122,7 +113,7 @@ class CopyParties(TemplateView):
             "draft_id": application_id,
             "data": parties,
             "url": self.copy_url,
-            "new_party_type": self.new_party_type
+            "new_party_type": self.new_party_type,
         }
         return render(request, "applications/parties/preexisting.html", context)
 

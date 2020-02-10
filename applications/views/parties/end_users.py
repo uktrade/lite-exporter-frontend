@@ -23,7 +23,7 @@ class EndUser(TemplateView):
                 "answers": convert_party(
                     party=application["end_user"],
                     application_id=application_id,
-                    editable=application["status"]["value"] == "draft"
+                    editable=application["status"]["value"] == "draft",
                 ),
                 "highlight": ["Document"] if not application["end_user"]["document"] else {},
             }
@@ -55,8 +55,7 @@ class SetEndUser(SetParty):
 class RemoveEndUser(DeleteParty):
     def __init__(self):
         super().__init__(
-            url="applications:add_end_user",
-            action=delete_party, error=EndUserPage.DELETE_ERROR,
+            url="applications:add_end_user", action=delete_party, error=EndUserPage.DELETE_ERROR,
         )
 
 
@@ -89,4 +88,3 @@ class EditEndUser(CopyAndSetParty):
             validate_action=validate_party,
             post_action=post_party,
         )
-

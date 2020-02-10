@@ -23,7 +23,7 @@ class Consignee(TemplateView):
                 "answers": convert_party(
                     party=application["consignee"],
                     application_id=application_id,
-                    editable=application["status"]["value"] == "draft"
+                    editable=application["status"]["value"] == "draft",
                 ),
             }
             return render(request, "applications/check-your-answer.html", context)
@@ -52,10 +52,7 @@ class SetConsignee(SetParty):
 class RemoveConsignee(DeleteParty):
     def __init__(self, **kwargs):
         super().__init__(
-            url="applications:add_consignee",
-            action=delete_party,
-            error=ConsigneePage.DELETE_ERROR,
-            **kwargs,
+            url="applications:add_consignee", action=delete_party, error=ConsigneePage.DELETE_ERROR, **kwargs,
         )
 
 
