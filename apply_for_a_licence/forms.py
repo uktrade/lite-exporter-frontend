@@ -15,7 +15,7 @@ from lite_forms.components import (
     FormGroup,
     Breadcrumbs,
     BackLink,
-)
+    Checkboxes)
 from lite_forms.helpers import conditional
 
 
@@ -143,6 +143,37 @@ def export_licence_questions(application_type):
                     ],
                     default_button_name=strings.SAVE_AND_CONTINUE,
                 ),
+            ),
+            Form(
+                title="Does your application include?",
+                description="",
+                questions=[
+                    Checkboxes(
+                        name="goods_categories[]",
+                        options=[
+                            Option(
+                                key="anti_piracy",
+                                value="Anti-piracy",
+                                description="",
+                            ),
+                            Option(
+                                key="maritime_anti_piracy",
+                                value="Maritime anti-piracy",
+                                description="",
+                            ),
+                            Option(
+                                key="firearms",
+                                value="Firearms",
+                                description="",
+                            ),
+                            Option(
+                                key="incorporated_goods",
+                                value="Incorporated goods",
+                                description="",
+                            )
+                        ]
+                    )
+                ]
             ),
         ]
     )
