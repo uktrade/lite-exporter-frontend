@@ -7,7 +7,7 @@ from applications.views import (
     locations,
     additional_documents,
     common,
-    reference_name,
+    misc,
     told_by_an_official,
     optional_note,
     goods_types,
@@ -27,8 +27,13 @@ urlpatterns = [
     # Standard and Open Licence
     path(
         "<uuid:pk>/edit/reference-name/",
-        reference_name.ApplicationEditReferenceName.as_view(),
+        misc.EditReferenceName.as_view(),
         name="edit_reference_name",
+    ),
+    path(
+        "<uuid:pk>/edit/goods-categories/",
+        misc.EditGoodsCategories.as_view(),
+        name="edit_goods_categories",
     ),
     path(
         "<uuid:pk>/edit/told-by-an-official/",
