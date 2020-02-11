@@ -109,4 +109,4 @@ def _get_hmrc_query_task_list(request, application):
         and context["ultimate_end_users_status"] != IN_PROGRESS
     )
 
-    return render(request, "applications/task-lists/hmrc-application.html", context)
+    return render(request, "applications/hmrc-application.html", context)
