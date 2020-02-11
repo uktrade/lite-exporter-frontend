@@ -1,3 +1,5 @@
+from selenium.common.exceptions import NoSuchElementException
+
 from ui_automation_tests.shared.BasePage import BasePage
 
 
@@ -6,6 +8,7 @@ class GreatSigninPage(BasePage):
     EMAIL_INPUT_ID = "id_login"
     PASSWORD_INPUT_ID = "id_password"  # noqa
     SUBMIT_BUTTON_CSS_SELECTOR = "button[type='submit']"
+    ACCEPT_COOKIES_TEXT = "Accept all cookies"
 
     def enter_email(self, form, email):
         email_input = form.find_element_by_id(self.EMAIL_INPUT_ID)
@@ -20,7 +23,14 @@ class GreatSigninPage(BasePage):
     def click_sign_in(self, form):
         form.find_element_by_css_selector(self.SUBMIT_BUTTON_CSS_SELECTOR).click()
 
+    def handle_accept_cookies_popup(self):
+        try:
+            self.driver.find_element_by_link_text(self.ACCEPT_COOKIES_TEXT).click()
+        except NoSuchElementException:
+            pass
+
     def sign_in(self, email, password):
+        self.handle_accept_cookies_popup()
         form = self.driver.find_element_by_id(self.LOGIN_SECTION_ID)
         self.enter_email(form, email)
         self.enter_password(form, password)
