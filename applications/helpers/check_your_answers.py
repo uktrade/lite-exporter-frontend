@@ -48,7 +48,7 @@ def _convert_f680_clearance(application, editable=False):
     return {
         applications.ApplicationSummaryPage.GOODS: _convert_goods(application["goods"]),
         applications.ApplicationSummaryPage.GOODS_LOCATIONS: _convert_goods_locations(application["goods_locations"]),
-        applications.ApplicationSummaryPage.END_USER: convert_end_user(
+        applications.ApplicationSummaryPage.END_USER: convert_party(
             application["end_user"], application["id"], editable
         ),
         applications.ApplicationSummaryPage.THIRD_PARTIES: _convert_third_parties(
@@ -64,7 +64,7 @@ def _convert_gifting_clearance(application, editable=False):
     return {
         applications.ApplicationSummaryPage.GOODS: _convert_goods(application["goods"]),
         applications.ApplicationSummaryPage.GOODS_LOCATIONS: _convert_goods_locations(application["goods_locations"]),
-        applications.ApplicationSummaryPage.END_USER: convert_end_user(
+        applications.ApplicationSummaryPage.END_USER: convert_party(
             application["end_user"], application["id"], editable
         ),
         applications.ApplicationSummaryPage.THIRD_PARTIES: _convert_third_parties(
