@@ -269,3 +269,8 @@ def join_list(_list, _join=", "):
 def join_key_value_list(_list, _join=", "):
     _list = [x["value"] for x in _list]
     return join_list(_list, _join)
+
+
+@register.filter()
+def equals(ob1, ob2):
+    return ob1 == ob2
