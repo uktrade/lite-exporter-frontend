@@ -3,6 +3,7 @@ from django.urls import reverse_lazy
 from applications.forms.misc import reference_name_form, goods_categories
 from applications.helpers.get_application_edit_type import get_application_edit_type, ApplicationEditTypes
 from applications.services import get_application, put_application
+from lite_content.lite_exporter_frontend import applications
 from lite_forms.generators import error_page
 from lite_forms.views import SingleFormView
 
@@ -26,12 +27,12 @@ class EditGoodsCategories(SingleFormView):
         self.success_url = reverse_lazy("applications:task_list", kwargs={"pk": self.object_pk})
 
         if get_application_edit_type(application) == ApplicationEditTypes.MINOR_EDIT:
-            return error_page(request, "You can't change goods categories whilst doing a minor edit")
+            return error_page(request, applications.GoodsCategories.ERROR)
 
     def on_submission(self, request, **kwargs):
         data = request.POST.copy()
 
-        if not data.get("goods_categories[]"):
+        if "goods_categories[]" not in data:
             return {"goods_categories": []}
 
         return data
