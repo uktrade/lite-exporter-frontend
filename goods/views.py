@@ -335,7 +335,7 @@ class DeleteDocument(TemplateView):
 
         context = {
             "title": "Are you sure you want to delete this file?",
-            "description": original_file_name,
+            "name": original_file_name,
             "good": good,
             "document": document,
         }
