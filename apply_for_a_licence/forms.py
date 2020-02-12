@@ -1,6 +1,6 @@
 from django.urls import reverse_lazy
 
-from applications.forms.misc import goods_categories
+from applications.forms.misc import goods_categories, reference_name_form
 from conf.constants import STANDARD_LICENCE, OPEN_LICENCE
 from lite_content.lite_exporter_frontend import strings, generic
 from lite_content.lite_exporter_frontend.applications import (
@@ -8,26 +8,8 @@ from lite_content.lite_exporter_frontend.applications import (
     ExportLicenceQuestions,
     MODQuestions,
 )
-from lite_forms.components import (
-    RadioButtons,
-    Form,
-    TextInput,
-    Option,
-    FormGroup,
-    Breadcrumbs,
-    BackLink,
-    Checkboxes)
+from lite_forms.components import RadioButtons, Form, TextInput, Option, FormGroup, Breadcrumbs, BackLink
 from lite_forms.helpers import conditional
-
-
-def reference_name_question(back_link):
-    return Form(
-        title=InitialApplicationQuestionsForms.ReferenceNameQuestion.TITLE,
-        description=InitialApplicationQuestionsForms.ReferenceNameQuestion.DESCRIPTION,
-        questions=[TextInput(name="name"),],
-        default_button_name=strings.CONTINUE,
-        back_link=back_link,
-    )
 
 
 def opening_question():
@@ -99,12 +81,7 @@ def export_licence_questions(application_type):
                     ExportLicenceQuestions.ExportLicenceQuestion.BACK, reverse_lazy("apply_for_a_licence:start")
                 ),
             ),
-            reference_name_question(
-                BackLink(
-                    InitialApplicationQuestionsForms.ReferenceNameQuestion.BACK_TO_LICENCE_TYPE,
-                    reverse_lazy("apply_for_a_licence:export_licence_questions"),
-                )
-            ),
+            reference_name_form(),
             Form(
                 title=ExportLicenceQuestions.ExportType.TITLE,
                 description=ExportLicenceQuestions.ExportType.DESCRIPTION,
@@ -181,11 +158,6 @@ def MOD_questions():
                 default_button_name=strings.CONTINUE,
                 back_link=BackLink(MODQuestions.WhatAreYouApplyingFor.BACK, reverse_lazy("apply_for_a_licence:start")),
             ),
-            reference_name_question(
-                BackLink(
-                    InitialApplicationQuestionsForms.ReferenceNameQuestion.BACK_TO_MOD_CLEARANCE_TYPE,
-                    reverse_lazy("apply_for_a_licence:mod_questions"),
-                )
-            ),
+            reference_name_form(),
         ]
     )
