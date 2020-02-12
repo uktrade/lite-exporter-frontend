@@ -1,5 +1,6 @@
 from django.urls import reverse_lazy
 
+from applications.forms.misc import goods_categories
 from conf.constants import STANDARD_LICENCE, OPEN_LICENCE
 from lite_content.lite_exporter_frontend import strings, generic
 from lite_content.lite_exporter_frontend.applications import (
@@ -120,37 +121,7 @@ def export_licence_questions(application_type):
                 if application_type == STANDARD_LICENCE
                 else strings.SAVE_AND_CONTINUE,
             ),
-            Form(
-                title="Does your application include?",
-                description="",
-                questions=[
-                    Checkboxes(
-                        name="goods_categories[]",
-                        options=[
-                            Option(
-                                key="anti_piracy",
-                                value="Anti-piracy",
-                                description="",
-                            ),
-                            Option(
-                                key="maritime_anti_piracy",
-                                value="Maritime anti-piracy",
-                                description="",
-                            ),
-                            Option(
-                                key="firearms",
-                                value="Firearms",
-                                description="",
-                            ),
-                            Option(
-                                key="incorporated_goods",
-                                value="Incorporated goods",
-                                description="",
-                            )
-                        ]
-                    )
-                ]
-            ),
+            goods_categories(),
             conditional(
                 application_type != OPEN_LICENCE,
                 Form(
