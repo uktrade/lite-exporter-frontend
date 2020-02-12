@@ -3,7 +3,7 @@
 {% load svg %}
 
 {% block back_link %}
-	<a href="{% url 'goods:good_detail' good.id "case-notes" %}" id="back-link" class="govuk-back-link">Back to good overview</a>
+	<a href="{% url 'goods:good_detail' good.id "case-notes" %}" id="back-link" class="govuk-back-link">{% lcs "goods.DeleteGoodDocumentPage.BACK" %}</a>
 {% endblock %}
 
 {% block body %}
@@ -13,10 +13,34 @@
 			<dl class="govuk-summary-list" id="good-details">
 				<div class="govuk-summary-list__row">
 					<dt class="govuk-summary-list__key">
-						Name
+						{% lcs "goods.DeleteGoodDocumentPage.DOCUMENT_NAME" %}
 					</dt>
 					<dd class="govuk-summary-list__value">
-						{{ name }}
+						{{ document.name }}
+					</dd>
+				</div>
+				<div class="govuk-summary-list__row">
+					<dt class="govuk-summary-list__key">
+						{% lcs "goods.DeleteGoodDocumentPage.DOCUMENT_CREATED_AT" %}
+					</dt>
+					<dd class="govuk-summary-list__value">
+						{{ document.created_at|str_date }}
+					</dd>
+				</div>
+				<div class="govuk-summary-list__row">
+					<dt class="govuk-summary-list__key">
+						{% lcs "goods.DeleteGoodDocumentPage.DOCUMENT_CREATED_BY" %}
+					</dt>
+					<dd class="govuk-summary-list__value">
+						{{ document.user.first_name }} {{ document.user.last_name }}
+					</dd>
+				</div>
+				<div class="govuk-summary-list__row">
+					<dt class="govuk-summary-list__key">
+						{% lcs "goods.DeleteGoodDocumentPage.DOCUMENT_DESCRIPTION" %}
+					</dt>
+					<dd class="govuk-summary-list__value">
+						{{ document.description|default_na|slice:"0:40" }} {% if document.description|length > 40 %}...{% endif %}
 					</dd>
 				</div>
 			</dl>
@@ -26,7 +50,7 @@
 	<div class="buttons-row">
 	<form method="post" action="{% url 'goods:delete_document' good.id document.id %}">
 		{% csrf_token %}
-		<button type="submit" class="govuk-button govuk-button--warning govuk-!-margin-right-2">Delete document</button>
+		<button type="submit" class="govuk-button govuk-button--warning govuk-!-margin-right-2">{% lcs "goods.DeleteGoodDocumentPage.BUTTON" %}</button>
 	</form>
 </div>
 {% endblock %}
