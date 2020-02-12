@@ -187,6 +187,12 @@ def enter_permanent_or_temporary(driver, permanent_or_temporary, context):  # no
     functions.click_submit(driver)
 
 
+def select_goods_categories(driver):  # noqa
+    apply = ApplyForALicencePage(driver)
+    apply.select_goods_categories()
+    functions.click_submit(driver)
+
+
 def enter_export_licence(driver, yes_or_no, reference, context):  # noqa
     apply = ApplyForALicencePage(driver)
     apply.click_export_licence_yes_or_no(yes_or_no)
@@ -203,6 +209,7 @@ def create_standard_application(driver, context):  # noqa
     enter_type_of_application(driver, "standard", context)
     enter_application_name(driver, context)
     enter_permanent_or_temporary(driver, "permanent", context)
+    select_goods_categories(driver)
     enter_export_licence(driver, "yes", "123456", context)
 
 

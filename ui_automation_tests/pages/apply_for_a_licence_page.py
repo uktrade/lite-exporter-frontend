@@ -39,6 +39,11 @@ class ApplyForALicencePage(BasePage):
         elif export_type == "open":
             return self.driver.find_element_by_css_selector(self.BUTTON_OPEN_LICENCE).click()
 
+    def select_goods_categories(self):
+        checkboxes = self.driver.find_elements_by_name("goods_categories[]")
+        for checkbox in checkboxes:
+            checkbox.click()
+
     def click_permanent_or_temporary_button(self, string):
         self.driver.find_element_by_id(self.EXPORT_BUTTON + string).click()
 
