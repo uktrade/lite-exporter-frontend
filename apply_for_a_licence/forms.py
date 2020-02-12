@@ -124,7 +124,7 @@ def export_licence_questions(application_type):
                         default_button_name=generic.SAVE_AND_CONTINUE,
                     ),
                 ],
-                []
+                [],
             ),
         ]
     )
