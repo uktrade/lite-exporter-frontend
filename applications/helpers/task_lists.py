@@ -16,7 +16,7 @@ from conf.constants import (
     OPEN_LICENCE,
     STANDARD_LICENCE,
     EXHIBITION_CLEARANCE,
-    F_680_CLEARANCE,
+    F680_CLEARANCE,
     GIFTING_CLEARANCE,
     NOT_STARTED,
     DONE,
@@ -47,7 +47,7 @@ def _get_strings(application_type):
         return applications.HMRCApplicationTaskList
     elif application_type == EXHIBITION_CLEARANCE:
         return applications.ExhibitionClearanceTaskList
-    elif application_type == F_680_CLEARANCE:
+    elif application_type == F680_CLEARANCE:
         return applications.F680ClearanceTaskList
     elif application_type == GIFTING_CLEARANCE:
         return applications.GiftingClearanceTaskList

@@ -10,7 +10,7 @@ from conf.constants import (
     HMRC_QUERY,
     EXHIBITION_CLEARANCE,
     GIFTING_CLEARANCE,
-    F_680_CLEARANCE,
+    F680_CLEARANCE,
 )
 from core.builtins.custom_tags import default_na, friendly_boolean, pluralise_unit
 from core.helpers import convert_to_link
@@ -33,7 +33,7 @@ def convert_application_to_check_your_answers(application, editable=False):
         return _convert_exhibition_clearance(application, editable)
     elif application["application_type"]["key"] == GIFTING_CLEARANCE:
         return _convert_gifting_clearance(application, editable)
-    elif application["application_type"]["key"] == F_680_CLEARANCE:
+    elif application["application_type"]["key"] == F680_CLEARANCE:
         return _convert_f680_clearance(application, editable)
     else:
         raise NotImplementedError()
