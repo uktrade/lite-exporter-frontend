@@ -56,6 +56,8 @@ EXHIBITION_CLEARANCE = "exhibition_clearance"
 GIFTING_CLEARANCE = "gifting_clearance"
 F680_CLEARANCE = "F680_clearance"
 
+PERMANENT = "permanent"
+
 APPLICANT_EDITING = "applicant_editing"
 
 NOT_STARTED = "not_started"
