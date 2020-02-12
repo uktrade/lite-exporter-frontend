@@ -43,7 +43,7 @@ def opening_question():
                 ],
             ),
         ],
-        default_button_name=strings.CONTINUE,
+        default_button_name=generic.CONTINUE,
         back_link=Breadcrumbs(
             [
                 BackLink(generic.SERVICE_NAME, reverse_lazy("core:hub")),
@@ -76,7 +76,7 @@ def export_licence_questions(application_type):
                         ],
                     ),
                 ],
-                default_button_name=strings.CONTINUE,
+                default_button_name=generic.CONTINUE,
                 back_link=BackLink(
                     ExportLicenceQuestions.ExportLicenceQuestion.BACK, reverse_lazy("apply_for_a_licence:start")
                 ),
@@ -94,9 +94,9 @@ def export_licence_questions(application_type):
                         ],
                     ),
                 ],
-                default_button_name=strings.CONTINUE
+                default_button_name=generic.CONTINUE
                 if application_type == STANDARD_LICENCE
-                else strings.SAVE_AND_CONTINUE,
+                else generic.SAVE_AND_CONTINUE,
             ),
             goods_categories(),
             conditional(
@@ -120,7 +120,7 @@ def export_licence_questions(application_type):
                             optional=True,
                         ),
                     ],
-                    default_button_name=strings.SAVE_AND_CONTINUE,
+                    default_button_name=generic.SAVE_AND_CONTINUE,
                 ),
             ),
         ]
@@ -155,7 +155,7 @@ def MOD_questions():
                         ],
                     ),
                 ],
-                default_button_name=strings.CONTINUE,
+                default_button_name=generic.CONTINUE,
                 back_link=BackLink(MODQuestions.WhatAreYouApplyingFor.BACK, reverse_lazy("apply_for_a_licence:start")),
             ),
             reference_name_form(),
