@@ -60,9 +60,7 @@ class AttachDocuments(TemplateView):
         form = get_upload_page(request.path, draft_id)
         self.request.upload_handlers.insert(0, S3FileUploadHandler(request))
         if not request.FILES:
-            return form_page(
-                request, form, extra_data={"draft_id": draft_id}, errors={"documents": ["Select a file"]}
-            )
+            return form_page(request, form, extra_data={"draft_id": draft_id}, errors={"documents": ["Select a file"]})
 
         logging.info(self.request)
         draft_id = str(kwargs["pk"])

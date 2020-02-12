@@ -180,12 +180,7 @@ def respond_to_query_form(query_id, ecju_query):
                 + ecju_query["question"]
                 + "</div><br><br>"
             ),
-            TextArea(
-                name="response",
-                title="Your response",
-                description="",
-                extras={"max_length": 2200},
-            ),
+            TextArea(name="response", title="Your response", description="", extras={"max_length": 2200},),
             HiddenField(name="form_name", value="respond_to_query"),
         ],
         back_link=BackLink(
