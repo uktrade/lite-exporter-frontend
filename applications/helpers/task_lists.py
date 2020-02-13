@@ -17,10 +17,10 @@ from applications.services import (
     get_additional_documents,
 )
 from conf.constants import (
-    EXHIBITION_CLEARANCE,
-    HMRC_QUERY,
-    OPEN_LICENCE,
-    STANDARD_LICENCE,
+    EXHIBITION,
+    HMRC,
+    OPEN,
+    STANDARD,
     NOT_STARTED,
     DONE,
     IN_PROGRESS,
@@ -34,13 +34,13 @@ def get_application_task_list(request, application, errors=None):
     """
     Returns a correctly formatted task list page for the supplied application
     """
-    if application["application_type"]["key"] == STANDARD_LICENCE:
+    if application["case_type"]["sub_type"] == STANDARD:
         return _get_standard_application_task_list(request, application, errors)
-    elif application["application_type"]["key"] == OPEN_LICENCE:
+    elif application["case_type"]["sub_type"] == OPEN:
         return _get_open_application_task_list(request, application, errors)
-    elif application["application_type"]["key"] == HMRC_QUERY:
+    elif application["case_type"]["sub_type"] == HMRC:
         return _get_hmrc_query_task_list(request, application)
-    elif application["application_type"]["key"] == EXHIBITION_CLEARANCE:
+    elif application["case_type"]["sub_type"] == EXHIBITION:
         return _get_clearance_application_task_list(request, application, errors)
     else:
         raise NotImplementedError()

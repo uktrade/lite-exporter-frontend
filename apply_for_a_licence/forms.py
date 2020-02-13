@@ -1,6 +1,6 @@
 from django.urls import reverse_lazy
 
-from conf.constants import STANDARD_LICENCE, OPEN_LICENCE
+from conf.constants import STANDARD, OPEN
 from lite_content.lite_exporter_frontend import strings, generic
 from lite_content.lite_exporter_frontend.applications import (
     InitialApplicationQuestionsForms,
@@ -78,15 +78,15 @@ def export_licence_questions(application_type):
                 description=ExportLicenceQuestions.ExportLicenceQuestion.DESCRIPTION,
                 questions=[
                     RadioButtons(
-                        name="application_type",
+                        name="case_type__sub_type",
                         options=[
                             Option(
-                                key=STANDARD_LICENCE,
+                                key=STANDARD,
                                 value=ExportLicenceQuestions.ExportLicenceQuestion.STANDARD_LICENCE,
                                 description=ExportLicenceQuestions.ExportLicenceQuestion.STANDARD_LICENCE_DESCRIPTION,
                             ),
                             Option(
-                                key=OPEN_LICENCE,
+                                key=OPEN,
                                 value=ExportLicenceQuestions.ExportLicenceQuestion.OPEN_LICENCE,
                                 description=ExportLicenceQuestions.ExportLicenceQuestion.OPEN_LICENCE_DESCRIPTION,
                             ),
@@ -116,12 +116,10 @@ def export_licence_questions(application_type):
                         ],
                     ),
                 ],
-                default_button_name=strings.CONTINUE
-                if application_type == STANDARD_LICENCE
-                else strings.SAVE_AND_CONTINUE,
+                default_button_name=strings.CONTINUE if application_type == STANDARD else strings.SAVE_AND_CONTINUE,
             ),
             conditional(
-                application_type != OPEN_LICENCE,
+                application_type != OPEN,
                 Form(
                     title=ExportLicenceQuestions.HaveYouBeenInformedQuestion.TITLE,
                     description=ExportLicenceQuestions.HaveYouBeenInformedQuestion.DESCRIPTION,
@@ -156,7 +154,7 @@ def MOD_questions():
                 description=MODQuestions.WhatAreYouApplyingFor.DESCRIPTION,
                 questions=[
                     RadioButtons(
-                        name="application_type",
+                        name="case_type__sub_type",
                         options=[
                             Option(
                                 key="permission",

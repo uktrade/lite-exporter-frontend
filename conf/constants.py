@@ -49,10 +49,10 @@ MISSING_DOCUMENT_REASONS_URL = STATIC_URL + "missing-document-reasons/"
 DOWNLOAD_URL = "/download/"
 
 # Applications constants
-STANDARD_LICENCE = "standard_licence"
-OPEN_LICENCE = "open_licence"
-HMRC_QUERY = "hmrc_query"
-EXHIBITION_CLEARANCE = "exhibition_clearance"
+STANDARD = "standard"
+OPEN = "open"
+HMRC = "hmrc"
+EXHIBITION = "exhibition_clearance"
 
 APPLICANT_EDITING = "applicant_editing"
 

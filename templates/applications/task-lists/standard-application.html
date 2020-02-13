@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block subtitle %}
-	{% if is_editing %}Licence type: {{ application.application_type.value }} - {% endif %}
+	{% if is_editing %}Licence type: {{ application.case_type.sub_type }} - {% endif %}
 	Export type: {{ application.export_type.value }}
 {% endblock %}
 

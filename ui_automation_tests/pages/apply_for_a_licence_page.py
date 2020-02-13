@@ -6,9 +6,9 @@ class ApplyForALicencePage(BasePage):
 
     NAME_OR_REFERENCE_INPUT_ID = "name"
     LICENCE_TYPE_PARTIAL_ID = "licence_type-"
-    MOD_APPLICATION_TYPE_PARTIAL_ID = "application_type-"
-    BUTTON_STANDARD_LICENCE = "input#application_type-standard_licence"
-    BUTTON_OPEN_LICENCE = "input#application_type-open_licence"
+    MOD_APPLICATION_TYPE_PARTIAL_ID = "case_type__sub_type-"
+    BUTTON_STANDARD_LICENCE = "input#case_type__sub_type-standard"
+    BUTTON_OPEN_LICENCE = "input#case_type__sub_type-open"
     EXPORT_BUTTON = "export_type-"
     EXPORT_LICENCE_YES_OR_NO = "have_you_been_informed-"
     REFERENCE_NUMBER = "reference_number_on_information_form"

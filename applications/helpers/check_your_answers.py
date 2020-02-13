@@ -3,7 +3,7 @@ from _decimal import Decimal
 from django.contrib.humanize.templatetags.humanize import intcomma
 from django.urls import reverse_lazy
 
-from conf.constants import NEWLINE, STANDARD_LICENCE, OPEN_LICENCE, HMRC_QUERY, EXHIBITION_CLEARANCE
+from conf.constants import NEWLINE, STANDARD, OPEN, HMRC, EXHIBITION
 from core.builtins.custom_tags import default_na, friendly_boolean, pluralise_unit
 from core.helpers import convert_to_link
 from lite_content.lite_exporter_frontend import applications
@@ -15,13 +15,13 @@ def convert_application_to_check_your_answers(application, editable=False):
     """
     Returns a correctly formatted check your answers page for the supplied application
     """
-    if application["application_type"]["key"] == STANDARD_LICENCE:
+    if application["case_type"]["sub_type"] == STANDARD:
         return _convert_standard_application(application, editable)
-    elif application["application_type"]["key"] == OPEN_LICENCE:
+    elif application["case_type"]["sub_type"] == OPEN:
         return _convert_open_application(application, editable)
-    elif application["application_type"]["key"] == HMRC_QUERY:
+    elif application["case_type"]["sub_type"] == HMRC:
         return _convert_hmrc_query(application, editable)
-    elif application["application_type"]["key"] == EXHIBITION_CLEARANCE:
+    elif application["case_type"]["sub_type"] == EXHIBITION:
         return _convert_exhibition_clearance(application, editable)
     else:
         raise NotImplementedError()
