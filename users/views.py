@@ -93,7 +93,8 @@ class ChangeUserStatus(TemplateView):
 
         if status == "deactivate":
             description = (
-                "This member will no longer be able to log in or perform tasks on LITE " "on behalf of your organisation."
+                "This member will no longer be able to log in or perform tasks on LITE " 
+                "on behalf of your organisation."
             )
 
         if status == "reactivate":
