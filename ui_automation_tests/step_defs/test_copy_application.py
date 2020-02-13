@@ -31,29 +31,24 @@ def reference_code_added(driver, context):
 
 @then("the application contains products")
 def products_are_listed(driver):
-    # TODO: add function
     assert "Not started" not in GenericApplicationTaskListPage(driver).get_good_section_status_text()
 
 
 @then("the application contains end users")
 def end_users_are_listed(driver):
-    # TODO: add function
     assert "Not started" not in GenericApplicationTaskListPage(driver).get_end_user_section_status_text()
 
 
 @then("the application contains consignees")
 def consignees_are_listed(driver):
-    # TODO: add function
     assert "Not started" not in GenericApplicationTaskListPage(driver).get_end_user_section_status_text()
 
 
 @then("the application contains third parties")
 def consignees_are_listed(driver):
-    # TODO: add function
     assert "Not started" not in GenericApplicationTaskListPage(driver).get_third_parties_section_status_text()
 
 
 @then("I see no supporting documents on the application")
 def supporting_documents_not_included(driver):
-    # TODO: add function
     assert "Optional" == GenericApplicationTaskListPage(driver).get_supporting_documents_section_status_text()
