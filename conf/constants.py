@@ -77,8 +77,7 @@ class Permissions:
     MANAGE_ORGANISATION_PERMISSIONS = [ADMINISTER_SITES, ADMINISTER_USERS, EXPORTER_ADMINISTER_ROLES]
 
 
-class CaseType:
+class NotificationType:
     APPLICATION = "application"
-    GOODS_QUERY = "goods_query"
-    EUA_QUERY = "end_user_advisory_query"
-    HMRC_QUERY = "hmrc_query"
+    GOODS = "goods"
+    EUA = "end_user_advisory"
