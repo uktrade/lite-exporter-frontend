@@ -15,13 +15,13 @@ def convert_application_to_check_your_answers(application, editable=False):
     """
     Returns a correctly formatted check your answers page for the supplied application
     """
-    if application["case_type"]["sub_type"] == STANDARD:
+    if application["case_type"]["sub_type"]["key"] == STANDARD:
         return _convert_standard_application(application, editable)
-    elif application["case_type"]["sub_type"] == OPEN:
+    elif application["case_type"]["sub_type"]["key"] == OPEN:
         return _convert_open_application(application, editable)
-    elif application["case_type"]["sub_type"] == HMRC:
+    elif application["case_type"]["sub_type"]["key"] == HMRC:
         return _convert_hmrc_query(application, editable)
-    elif application["case_type"]["sub_type"] == EXHIBITION:
+    elif application["case_type"]["sub_type"]["key"] == EXHIBITION:
         return _convert_exhibition_clearance(application, editable)
     else:
         raise NotImplementedError()

@@ -160,7 +160,7 @@ class ApplicationDetail(TemplateView):
             "activity": get_activity(request, self.application_id),
         }
 
-        if self.application["case_type"]["sub_type"] != HMRC:
+        if self.application["case_type"]["sub_type"]["key"] != HMRC:
             if self.view_type == "case-notes":
                 context["notes"] = get_case_notes(request, self.case_id)["case_notes"]
 

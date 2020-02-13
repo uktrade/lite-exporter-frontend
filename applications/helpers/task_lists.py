@@ -34,13 +34,13 @@ def get_application_task_list(request, application, errors=None):
     """
     Returns a correctly formatted task list page for the supplied application
     """
-    if application["case_type"]["sub_type"] == STANDARD:
+    if application["case_type"]["sub_type"]["key"] == STANDARD:
         return _get_standard_application_task_list(request, application, errors)
-    elif application["case_type"]["sub_type"] == OPEN:
+    elif application["case_type"]["sub_type"]["key"] == OPEN:
         return _get_open_application_task_list(request, application, errors)
-    elif application["case_type"]["sub_type"] == HMRC:
+    elif application["case_type"]["sub_type"]["key"] == HMRC:
         return _get_hmrc_query_task_list(request, application)
-    elif application["case_type"]["sub_type"] == EXHIBITION:
+    elif application["case_type"]["sub_type"]["key"] == EXHIBITION:
         return _get_clearance_application_task_list(request, application, errors)
     else:
         raise NotImplementedError()
