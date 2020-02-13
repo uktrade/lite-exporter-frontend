@@ -1,4 +1,5 @@
 <img src="docs/logo.png" alt="Logo" width="40">
+
 ![Logo text](docs/logo-text.svg)
 
 [![CircleCI](https://circleci.com/gh/uktrade/lite-exporter-frontend.svg?style=svg)](https://circleci.com/gh/uktrade/lite-exporter-frontend)
