@@ -418,7 +418,7 @@ class RespondToQuery(TemplateView):
                     request, respond_to_query_form(self.clc_query_case_id, self.ecju_query), data=request.POST
                 )
             else:
-                error = {"required": ["This field is required"]}
+                error = {"required": ["Select yes to confirm you want to delete the file"]}
                 form = ecju_query_respond_confirmation_form(
                     reverse_lazy("goods:respond_to_query", kwargs={"pk": self.good_id, "query_pk": self.ecju_query_id})
                 )
