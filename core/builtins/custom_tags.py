@@ -8,6 +8,7 @@ from django.template.defaultfilters import stringfilter, safe
 from django.templatetags.tz import do_timezone
 from django.utils.safestring import mark_safe
 
+from applications.constants import CASE_SECTIONS
 from conf.constants import ISO8601_FMT, NOT_STARTED, DONE, IN_PROGRESS
 
 from lite_content.lite_exporter_frontend import strings
@@ -261,9 +262,10 @@ def date_display(value):
 
 
 @register.filter()
-def application_type_in_list(application_type, types):
-    if "," in types:
-        return application_type in types.split(",")
+def application_type_in_list(application_type, application_types):
+    types = CASE_SECTIONS[application_types]
+    if isinstance(types, list):
+        return application_type in types
     else:
         return application_type == types
 
