@@ -35,7 +35,10 @@ class Users(TemplateView):
             raise Http404
 
         # Return from API and swap key and value names.
-        statuses = [Option(option["key"], option["value"]) for option in [{'key': 'active', 'value': 'Active'}, {'key': '', 'value': 'All'}]]
+        statuses = [
+            Option(option["key"], option["value"])
+            for option in [{"key": "active", "value": "Active"}, {"key": "", "value": "All"}]
+        ]
 
         filters = FiltersBar([Select(name="status", title="status", options=statuses)])
         context = {
@@ -47,7 +50,7 @@ class Users(TemplateView):
             "status": status,
             "page": params.pop("page"),
             "params_str": convert_dict_to_query_params(params),
-            "filters": filters
+            "filters": filters,
         }
         return render(request, "users/users.html", context)
 
