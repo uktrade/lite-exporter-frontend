@@ -1,4 +1,4 @@
-from apply_for_a_licence.forms import reference_name_question, have_you_been_informed
+from apply_for_a_licence.forms import have_you_been_informed
 from conf.constants import STANDARD_LICENCE
 from lite_content.lite_exporter_frontend import strings
 from django.urls import reverse_lazy
