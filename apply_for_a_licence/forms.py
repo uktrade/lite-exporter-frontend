@@ -1,6 +1,6 @@
 from django.urls import reverse_lazy
 
-from conf.constants import STANDARD_LICENCE, OPEN_LICENCE
+from conf.constants import STANDARD_LICENCE, OPEN_LICENCE, EXHIBITION_CLEARANCE, F680_CLEARANCE, GIFTING_CLEARANCE
 from lite_content.lite_exporter_frontend import strings, generic
 from lite_content.lite_exporter_frontend.applications import (
     InitialApplicationQuestionsForms,
@@ -159,17 +159,17 @@ def MOD_questions():
                         name="application_type",
                         options=[
                             Option(
-                                key="F680_clearance",
+                                key=F680_CLEARANCE,
                                 value=MODQuestions.WhatAreYouApplyingFor.PERMISSION_TITLE,
                                 description=MODQuestions.WhatAreYouApplyingFor.PERMISSION_DESCRIPTION,
                             ),
                             Option(
-                                key="exhibition_clearance",
+                                key=EXHIBITION_CLEARANCE,
                                 value=MODQuestions.WhatAreYouApplyingFor.EXHIBITION_CLEARANCE_TITLE,
                                 description=MODQuestions.WhatAreYouApplyingFor.EXHIBITION_CLEARANCE_DESCRIPTION,
                             ),
                             Option(
-                                key="gifting_clearance",
+                                key=GIFTING_CLEARANCE,
                                 value=MODQuestions.WhatAreYouApplyingFor.GIFTING_CLEARANCE_TITLE,
                                 description=MODQuestions.WhatAreYouApplyingFor.GIFTING_CLEARANCE_DESCRIPTION,
                             ),
