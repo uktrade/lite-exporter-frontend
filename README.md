@@ -1,4 +1,4 @@
-<img src="docs/logo.png" alt="Logo" width="40">
+<img src="docs/logo.png" alt="Logo" width="50">
 
 ![Logo text](docs/logo-text.svg)
 
