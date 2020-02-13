@@ -1,4 +1,4 @@
-@licence @edit @all @standard
+@licence @edit @all @MOD
 Feature: I want to be able to edit MOD Licence Applications
   As a logged in exporter
   I want to apply for an MOD clearance for equipment or information if I need one

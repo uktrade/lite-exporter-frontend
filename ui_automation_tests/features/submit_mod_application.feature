@@ -1,4 +1,4 @@
-@licence @submit @all @standard
+@licence @submit @all @MOD
 Feature: I want to create MOD Licence Applications
   As a logged in exporter
   I want to apply for an MOD clearance for equipment or information if I need one
@@ -60,11 +60,6 @@ Feature: I want to create MOD Licence Applications
     When I select a licence of type "mod"
     And I select a MOD licence of type "gifting_clearance"
     And I enter a licence name
-    And I click on application locations link
-    And I select "organisation" for where my goods are located
-    And I select the site at position "1"
-    And I click continue
-    And I click the back link
     When I click on goods
     And I add a non-incorporated good to the application
     Then the good is added to the application
