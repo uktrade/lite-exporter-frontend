@@ -1,6 +1,6 @@
 from django.urls import reverse_lazy
 
-from applications.forms.misc import reference_name_form, goods_categories
+from applications.forms.edit import reference_name_form, goods_categories
 from applications.helpers.get_application_edit_type import get_application_edit_type, ApplicationEditTypes
 from applications.services import get_application, put_application
 from lite_content.lite_exporter_frontend import applications

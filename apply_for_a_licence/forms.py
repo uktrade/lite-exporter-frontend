@@ -1,6 +1,6 @@
 from django.urls import reverse_lazy
 
-from applications.forms.misc import goods_categories, reference_name_form
+from applications.forms.edit import goods_categories, reference_name_form
 from conf.constants import STANDARD_LICENCE, OPEN_LICENCE
 from lite_content.lite_exporter_frontend import strings, generic
 from lite_content.lite_exporter_frontend.applications import (
