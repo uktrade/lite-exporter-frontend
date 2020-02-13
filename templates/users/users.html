@@ -24,6 +24,8 @@
 		</div>
 	</div>
 
+	{% include "filters.html" %}
+
 	<table class="govuk-table">
 		<thead class="govuk-table__head">
 			<tr class="govuk-table__row">
@@ -35,7 +37,7 @@
 			</tr>
 		</thead>
 		<tbody class="govuk-table__body">
-			{% for user in users %}
+			{% for user in data.results.users %}
 				<tr class="govuk-table__row">
 					<td class="govuk-table__cell">
 						{% if user.first_name %}
@@ -58,4 +60,7 @@
 			{% endfor %}
 		</tbody>
 	</table>
+
+	{% include "includes/pagination.html" %}
+
 {% endblock %}
