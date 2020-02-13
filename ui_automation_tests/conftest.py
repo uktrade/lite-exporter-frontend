@@ -189,6 +189,7 @@ def enter_permanent_or_temporary(driver, permanent_or_temporary, context):  # no
 
 def select_goods_categories(driver):  # noqa
     apply = ApplyForALicencePage(driver)
+    assert len(driver.find_elements_by_name(apply.CHECKBOXES_GOODS_CATEGORIES_NAME)) == 4
     apply.select_goods_categories()
     functions.click_submit(driver)
 
