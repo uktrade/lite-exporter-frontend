@@ -5,6 +5,12 @@ from shared.BasePage import BasePage
 from shared.functions import element_with_css_selector_exists, element_with_id_exists
 
 
+class GenericApplicationTaskStatuses:
+    DONE = "done"
+    IN_PROGRESS = "in-progress"
+    OTHER = "other"
+
+
 class GenericApplicationTaskListPage(BasePage):
 
     LINK = "link-"
@@ -133,17 +139,21 @@ class GenericApplicationTaskListPage(BasePage):
     def get_text_of_lite_task_list_items(self):
         return self.driver.find_element_by_css_selector(self.LITE_TASK_LIST_ITEMS).text
 
-    def get_good_section_status(self):
-        return self.driver.find_element_by_id(self.SECTION_GOOD_STATUS_ID).get_attribute("data-status")
+    def check_good_section_status(self, status):
+        assert status == self.driver.find_element_by_id(self.SECTION_GOOD_STATUS_ID).get_attribute("data-status")
 
-    def get_end_user_section_status(self):
-        return self.driver.find_element_by_id(self.SECTION_END_USER_STATUS_ID).get_attribute("data-status")
+    def check_end_user_section_status(self, status):
+        assert status == self.driver.find_element_by_id(self.SECTION_END_USER_STATUS_ID).get_attribute("data-status")
 
-    def get_third_party_section_status(self):
-        return self.driver.find_element_by_id(self.SECTION_THIRD_PARTIES_STATUS_ID).get_attribute("data-status")
+    def check_third_party_section_status(self, status):
+        assert status == self.driver.find_element_by_id(self.SECTION_THIRD_PARTIES_STATUS_ID).get_attribute(
+            "data-status"
+        )
 
-    def get_consignee_section_status(self):
-        return self.driver.find_element_by_id(self.SECTION_CONSIGNEE_STATUS_ID).get_attribute("data-status")
+    def check_consignee_section_status(self, status):
+        assert status == self.driver.find_element_by_id(self.SECTION_CONSIGNEE_STATUS_ID).get_attribute("data-status")
 
-    def get_supporting_documents_section_status(self):
-        return self.driver.find_element_by_id(self.SECTION_SUPPORTING_DOCUMENT_STATUS_ID).get_attribute("data-status")
+    def check_supporting_documents_section_status(self, status):
+        assert status == self.driver.find_element_by_id(self.SECTION_SUPPORTING_DOCUMENT_STATUS_ID).get_attribute(
+            "data-status"
+        )

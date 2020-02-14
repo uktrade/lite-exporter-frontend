@@ -2,7 +2,10 @@ from pytest_bdd import when, parsers, then, scenarios
 
 from ui_automation_tests.pages.application_page import ApplicationPage
 from ui_automation_tests.pages.apply_for_a_licence_page import ApplyForALicencePage
-from ui_automation_tests.pages.generic_application.task_list import GenericApplicationTaskListPage
+from ui_automation_tests.pages.generic_application.task_list import (
+    GenericApplicationTaskListPage,
+    GenericApplicationTaskStatuses,
+)
 from ui_automation_tests.shared import functions
 
 scenarios("../features/copy_application.feature", strict_gherkin=False)
@@ -36,24 +39,26 @@ def reference_code_added(driver, context):
 
 @then("the application contains products")
 def products_are_listed(driver):
-    assert "done" == GenericApplicationTaskListPage(driver).get_good_section_status()
+    GenericApplicationTaskListPage(driver).check_good_section_status(GenericApplicationTaskStatuses.DONE)
 
 
 @then("the application contains end users")
 def end_users_are_listed(driver):
-    assert "in-progress" == GenericApplicationTaskListPage(driver).get_end_user_section_status()
+    GenericApplicationTaskListPage(driver).check_end_user_section_status(GenericApplicationTaskStatuses.IN_PROGRESS)
 
 
 @then("the application contains consignees")
 def consignees_are_listed(driver):
-    assert "in-progress" == GenericApplicationTaskListPage(driver).get_consignee_section_status()
+    GenericApplicationTaskListPage(driver).check_consignee_section_status(GenericApplicationTaskStatuses.IN_PROGRESS)
 
 
 @then("the application contains third parties")
 def third_parties_are_listed(driver):
-    assert "done" == GenericApplicationTaskListPage(driver).get_third_parties_section_status()
+    GenericApplicationTaskListPage(driver).check_third_party_section_status(GenericApplicationTaskStatuses.DONE)
 
 
 @then("I see no supporting documents on the application")
 def supporting_documents_not_included(driver):
-    assert "other" == GenericApplicationTaskListPage(driver).get_supporting_documents_section_status()
+    GenericApplicationTaskListPage(driver).check_supporting_documents_section_status(
+        GenericApplicationTaskStatuses.OTHER
+    )
