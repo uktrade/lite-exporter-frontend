@@ -122,8 +122,7 @@ def export_licence_questions(application_type):
                 if application_type == STANDARD_LICENCE
                 else generic.SAVE_AND_CONTINUE,
             ),
-            goods_categories(),
-            conditional(application_type == STANDARD_LICENCE, have_you_been_informed()),
+            *conditional(application_type == STANDARD_LICENCE, [goods_categories(), have_you_been_informed()], []),
         ]
     )
 
