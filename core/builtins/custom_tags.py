@@ -298,3 +298,16 @@ def requires_ultimate_end_users(goods):
             ultimate_end_users_required = True
 
     return ultimate_end_users_required
+def join_list(_list, _join=", "):
+    return _join.join(_list)
+
+
+@register.filter()
+def join_key_value_list(_list, _join=", "):
+    _list = [x["value"] for x in _list]
+    return join_list(_list, _join)
+
+
+@register.filter()
+def equals(ob1, ob2):
+    return ob1 == ob2
