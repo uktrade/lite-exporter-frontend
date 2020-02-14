@@ -1,5 +1,5 @@
 from apply_for_a_licence.forms import reference_name_form, have_you_been_informed
-from conf.constants import STANDARD_LICENCE
+from conf.constants import OPEN_LICENCE
 from lite_content.lite_exporter_frontend import strings
 from django.urls import reverse_lazy
 
@@ -88,5 +88,5 @@ def application_success_page(request, application_reference_code):
 
 def application_copy_form(application_type=None):
     return FormGroup(
-        forms=[reference_name_form(), conditional((application_type == STANDARD_LICENCE), have_you_been_informed()),]
+        forms=[reference_name_form(), conditional((application_type != OPEN_LICENCE), have_you_been_informed()),]
     )
