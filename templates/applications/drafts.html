@@ -51,8 +51,7 @@
 					{% endif %}
 					<th class="govuk-table__header">
 					</th>
-					{#	TODO: move to lite strings #}
-					<th class="govuk-table__header" scope="col">COPY</th>
+					<th class="govuk-table__header" scope="col">{% lcs "applications.ApplicationsList.COPY_HEADER" %}</th>
 				</tr>
 			</thead>
 			<tbody class="govuk-table__head">
@@ -80,7 +79,7 @@
 							</a>
 						</td>
 						<td class="govuk-table__cell">
-							<a class="govuk-link govuk-link--no-visited-state app-icon-label" href="{% url 'applications:copy' draft.id %}">Copy</a>
+							<a class="govuk-link govuk-link--no-visited-state app-icon-label" href="{% url 'applications:copy' draft.id %}">{% lcs "applications.ApplicationsList.COPY_LINK" %}</a>
 						</td>
 					</tr>
 				{% endfor %}
