@@ -1,6 +1,6 @@
 from django.urls import reverse_lazy
 
-from applications.forms.edit import reference_name_form
+from applications.forms.edit import reference_name_form, goods_categories
 from conf.constants import STANDARD_LICENCE, OPEN_LICENCE
 from lite_content.lite_exporter_frontend import strings, generic
 from lite_content.lite_exporter_frontend.applications import (
@@ -122,6 +122,7 @@ def export_licence_questions(application_type):
                 if application_type == STANDARD_LICENCE
                 else generic.SAVE_AND_CONTINUE,
             ),
+            goods_categories(),
             conditional(application_type == STANDARD_LICENCE, have_you_been_informed()),
         ]
     )
