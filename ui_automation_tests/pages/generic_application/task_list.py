@@ -16,7 +16,7 @@ class GenericApplicationTaskListPage(BasePage):
 
     SECTION_END_USER_ID = "end-user"
     LINK_END_USER_ID = LINK + SECTION_END_USER_ID
-    SECTION_END_USER_STATUS_ID = LINK_END_USER_ID + STATUS
+    SECTION_END_USER_STATUS_ID = SECTION_END_USER_ID + STATUS
 
     SECTION_ULTIMATE_END_USER_ID = "ultimate-end-user"
     LINK_ULTIMATE_END_USER_ID = LINK + SECTION_ULTIMATE_END_USER_ID
@@ -133,14 +133,17 @@ class GenericApplicationTaskListPage(BasePage):
     def get_text_of_lite_task_list_items(self):
         return self.driver.find_element_by_css_selector(self.LITE_TASK_LIST_ITEMS).text
 
-    def get_good_section_status_text(self):
-        return self.driver.find_element_by_id(self.PRODUCT_STATUS_ID).text
+    def get_good_section_status(self):
+        return self.driver.find_element_by_id(self.SECTION_GOOD_STATUS_ID).get_attribute("data-status")
 
-    def get_end_user_section_status_text(self):
-        return self.driver.find_element_by_id(self.SECTION_END_USER_STATUS_ID).text
+    def get_end_user_section_status(self):
+        return self.driver.find_element_by_id(self.SECTION_END_USER_STATUS_ID).get_attribute("data-status")
 
-    def get_third_party_section_status_text(self):
-        return self.driver.find_element_by_id(self.SECTION_THIRD_PARTIES_STATUS_ID).text
+    def get_third_party_section_status(self):
+        return self.driver.find_element_by_id(self.SECTION_THIRD_PARTIES_STATUS_ID).get_attribute("data-status")
 
-    def get_consignee_section_status_text(self):
-        return self.driver.find_element_by_id(self.SECTION_CONSIGNEE_STATUS_ID).text
+    def get_consignee_section_status(self):
+        return self.driver.find_element_by_id(self.SECTION_CONSIGNEE_STATUS_ID).get_attribute("data-status")
+
+    def get_supporting_documents_section_status(self):
+        return self.driver.find_element_by_id(self.SECTION_SUPPORTING_DOCUMENT_STATUS_ID).get_attribute("data-status")
