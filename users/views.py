@@ -20,7 +20,7 @@ class Users(TemplateView):
         status = request.GET.get("status", "active")
         params = {"page": int(request.GET.get("page", 1)), "status": status}
 
-        users, _ = get_organisation_users(request, str(request.user.organisation), params)
+        data, _ = get_organisation_users(request, str(request.user.organisation), params)
         organisation = get_organisation(request, str(request.user.organisation))
         user_permissions = get_user_permissions(request)
 
@@ -34,16 +34,12 @@ class Users(TemplateView):
         if organisation["type"]["key"] == "individual":
             raise Http404
 
-        # Return from API and swap key and value names.
-        statuses = [
-            Option(option["key"], option["value"])
-            for option in [{"key": "active", "value": "Active"}, {"key": "", "value": "All"}]
-        ]
-
+        statuses = [Option(option["key"], option["value"]) for option in data["results"]["filters"]["status"]]
         filters = FiltersBar([Select(name="status", title="status", options=statuses)])
+
         context = {
             "title": strings.users.UsersPage.MANAGE_ORGANISATIONS_MEMBERS_TAB + " - " + organisation["name"],
-            "data": users,
+            "data": data,
             "organisation": organisation,
             "can_administer_roles": roles,
             "can_administer_sites": sites,
