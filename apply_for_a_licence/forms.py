@@ -118,10 +118,12 @@ def export_licence_questions(application_type):
                         ],
                     ),
                 ],
-                default_button_name=generic.CONTINUE if application_type != OPEN_LICENCE else generic.SAVE_AND_CONTINUE,
+                default_button_name=generic.CONTINUE
+                if application_type == STANDARD_LICENCE
+                else generic.SAVE_AND_CONTINUE,
             ),
             goods_categories(),
-            conditional(application_type != OPEN_LICENCE, have_you_been_informed()),
+            conditional(application_type == STANDARD_LICENCE, have_you_been_informed()),
         ]
     )
 
