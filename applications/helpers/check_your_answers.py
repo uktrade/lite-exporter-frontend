@@ -40,8 +40,25 @@ def convert_application_to_check_your_answers(application, editable=False):
 
 
 def _convert_exhibition_clearance(application, editable=False):
-    # Temp as exhibition clearance is currently the same as standard but will change
-    return _convert_standard_application(application, editable)
+    return {
+        applications.ApplicationSummaryPage.GOODS: _convert_goods(application["goods"]),
+        applications.ApplicationSummaryPage.GOODS_LOCATIONS: _convert_goods_locations(application["goods_locations"]),
+        applications.ApplicationSummaryPage.END_USER: convert_party(
+            application["end_user"], application["id"], editable
+        ),
+        applications.ApplicationSummaryPage.ULTIMATE_END_USERS: _convert_ultimate_end_users(
+            application["ultimate_end_users"], application["id"], editable
+        ),
+        applications.ApplicationSummaryPage.THIRD_PARTIES: _convert_third_parties(
+            application["third_parties"], application["id"], editable
+        ),
+        applications.ApplicationSummaryPage.CONSIGNEE: convert_party(
+            application["consignee"], application["id"], editable
+        ),
+        applications.ApplicationSummaryPage.SUPPORTING_DOCUMENTATION: _get_supporting_documentation(
+            application["additional_documents"], application["id"]
+        ),
+    }
 
 
 def _convert_f680_clearance(application, editable=False):
