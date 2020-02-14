@@ -298,6 +298,8 @@ def requires_ultimate_end_users(goods):
             ultimate_end_users_required = True
 
     return ultimate_end_users_required
+
+
 def join_list(_list, _join=", "):
     return _join.join(_list)
 
