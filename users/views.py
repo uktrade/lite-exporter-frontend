@@ -48,6 +48,7 @@ class Users(TemplateView):
             "params_str": convert_dict_to_query_params(params),
             "filters": filters,
         }
+
         return render(request, "users/users.html", context)
 
 
