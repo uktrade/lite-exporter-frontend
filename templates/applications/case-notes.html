@@ -1,4 +1,4 @@
-{% extends 'layouts/base.html' %}
+{% extends 'layouts/two_pane.html' %}
 
 {% block back_link %}
 	<a href="{% url 'applications:task_list' application.id %}" id="back-link" class="govuk-back-link">
@@ -6,7 +6,7 @@
     </a>
 {% endblock %}
 
-{% block body %}
+{% block twoThirds %}
     <h1 class="govuk-heading-l">
         {% block title %}
             {% lcs 'applications.ApplicationNotesPage.TITLE' %}
