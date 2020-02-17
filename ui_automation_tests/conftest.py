@@ -18,6 +18,7 @@ from pages.add_new_external_location_form_page import AddNewExternalLocationForm
 from shared import functions
 from shared.tools.wait import wait_for_element, wait_for_download_button
 
+from conf.constants import USERS_URL
 from ui_automation_tests.fixtures.env import environment  # noqa
 from ui_automation_tests.fixtures.register_organisation import (  # noqa
     register_organisation,
