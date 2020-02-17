@@ -48,6 +48,7 @@ class CopyAdvisory(TemplateView):
             "end_user.website": query["end_user"]["website"],
             "end_user.address": query["end_user"]["address"],
             "end_user.country": query["end_user"]["country"]["id"],
+            "end_user.type": query["end_user"]["type"],
             "reasoning": query.get("reasoning", ""),
             "note": query.get("note", ""),
             "copy_of": query["id"],
@@ -103,7 +104,6 @@ class ApplyForAnAdvisory(TemplateView):
 
     def post(self, request, **kwargs):
         response, data = submit_paged_form(request, self.forms, post_end_user_advisories)
-
         if response:
             return response
 
@@ -253,7 +253,7 @@ class RespondToQuery(TemplateView):
                     request, respond_to_query_form(self.end_user_advisory_id, self.ecju_query), data=request.POST
                 )
             else:
-                error = {"required": ["This field is required"]}
+                error = {"required": ["Select yes to confirm you want to send the response"]}
                 form = ecju_query_respond_confirmation_form(
                     reverse_lazy(
                         "end_users:respond_to_query",
