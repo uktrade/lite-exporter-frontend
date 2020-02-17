@@ -99,6 +99,11 @@ class DownloadDocument(TemplateView):
             return error_page(request, strings.applications.AttachDocumentPage.DOWNLOAD_GENERIC_ERROR)
 
 
+class DownloadGeneratedDocument(TemplateView):
+    def get(self, request, case_pk, document_pk):
+        return get_case_document_download(request, case_pk=case_pk, document_pk=document_pk)
+
+
 class DeleteDocument(TemplateView):
     def get(self, request, **kwargs):
         return form_page(request, get_delete_confirmation_page(request.path, str(kwargs["pk"])))

@@ -14,7 +14,8 @@ from applications.services import (
     post_application_case_notes,
     get_ecju_query,
     put_ecju_query,
-)
+    get_application_generated_documents,
+    get_case_generated_documents)
 from end_users.forms import (
     apply_for_an_end_user_advisory_form,
     copy_end_user_advisory_form,
@@ -144,6 +145,10 @@ class EndUserDetail(TemplateView):
 
         if self.view_type == "ecju-queries":
             context["open_queries"], context["closed_queries"] = get_application_ecju_queries(request, self.case_id)
+
+        if self.view_type == "ecju-generated-documents":
+            generated_documents, _ = get_case_generated_documents(request, self.case_id)
+            context["generated_documents"] = generated_documents["results"]
 
         return render(request, "end-users/end-user.html", context)
 

@@ -113,6 +113,7 @@ class GoodsDetail(TemplateView):
             control_list_entry_text = get_control_list_entry(request, self.good["control_code"])["text"]
 
         context = {
+            "case_id": good.query.id,
             "good": self.good,
             "documents": documents,
             "type": self.view_type,
@@ -320,8 +321,8 @@ class Document(TemplateView):
 
 
 class DownloadDocument(TemplateView):
-    def get(self, request, query_pk, document_pk):
-        return get_case_document_download(request, case_pk=query_pk, document_pk=document_pk)
+    def get(self, request, case_pk, document_pk):
+        return get_case_document_download(request, case_pk=case_pk, document_pk=document_pk)
 
 
 class DeleteDocument(TemplateView):

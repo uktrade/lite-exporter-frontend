@@ -11,7 +11,7 @@ urlpatterns = [
     path("<uuid:pk>/add-document/", views.CheckDocumentGrading.as_view(), name="add_document"),
     path("<uuid:pk>/documents/<uuid:file_pk>/", views.Document.as_view(), name="document"),
     path(
-        "<uuid:query_pk>/documents/<uuid:document_pk>/download/",
+        "<uuid:case_pk>/documents/<uuid:document_pk>/download/",
         views.DownloadDocument.as_view(),
         name="download_document",
     ),
