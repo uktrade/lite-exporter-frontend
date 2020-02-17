@@ -81,11 +81,6 @@ def raise_goods_query(request, pk, json):
     return data.json(), data.status_code
 
 
-def get_goods_query_generated_documents(request, pk):
-    data = get(request, GOODS_QUERY_URL + pk + GENERATED_DOCUMENTS_URL)
-    return data.json(), data.status_code
-
-
 # Documents
 def get_good_document(request, pk, doc_pk):
     data = get(request, GOODS_URL + pk + DOCUMENTS_URL + doc_pk)

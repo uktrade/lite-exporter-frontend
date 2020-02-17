@@ -40,12 +40,10 @@ from goods.services import (
     delete_good_document,
     raise_goods_query,
     post_good_document_sensitivity,
-    get_goods_query_generated_documents,
     validate_good,
     post_good_with_pv_grading,
     validate_edit_good,
     edit_good_with_pv_grading,
-    get_case_document_download,
 )
 from lite_content.lite_exporter_frontend.goods import AttachDocumentForm
 from lite_forms.views import SingleFormView, MultiFormView
@@ -113,7 +111,7 @@ class GoodsDetail(TemplateView):
             control_list_entry_text = get_control_list_entry(request, self.good["control_code"])["text"]
 
         context = {
-            "case_id": good.query.id,
+            "case_id": self.good["query"]["id"],
             "good": self.good,
             "documents": documents,
             "type": self.view_type,
@@ -126,8 +124,8 @@ class GoodsDetail(TemplateView):
             context["status_is_terminal"] = status_props["is_terminal"]
 
             if self.view_type == "ecju-generated-documents":
-                generated_documents, _ = get_goods_query_generated_documents(request, self.good["query"]["id"])
-                context["generated_documents"] = generated_documents["generated_documents"]
+                generated_documents, _ = get_case_generated_documents(request, self.good["query"]["id"])
+                context["generated_documents"] = generated_documents["results"]
 
         if self.view_type == "case-notes":
             if self.good.get("case_id"):
