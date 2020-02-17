@@ -160,12 +160,6 @@ class ApplicationDetail(TemplateView):
             "activity": get_activity(request, self.application_id),
         }
 
-        print("\n")
-        print("A KIEGO WALA TU JEST")
-        print("Application: ", self.application)
-        print("A TAKIEEEEGO WALA TU JEST!!!")
-        print("\n")
-
         if self.application["application_type"]["key"] != HMRC_QUERY:
             if self.view_type == "case-notes":
                 context["notes"] = get_case_notes(request, self.case_id)["case_notes"]
