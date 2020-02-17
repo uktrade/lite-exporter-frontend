@@ -94,8 +94,8 @@
 		{% include "includes/task-list-item.html" with id="reasoning" title=strings.REASON_FOR_QUERY url=optional_note_url status=application.reasoning|task_list_item_status optional=True %}
 	{% endif %}
 
-    {% if application_type|application_type_in_list:"HAS_NOTES" %}
-        {% url 'applications:notes' application.id as notes_url %}
-        {% include "includes/task-list-item.html" with id="notes" title=strings.NOTES url=notes_url optional=True %}
-    {% endif %}
+	{% if application_type|application_type_in_list:"HAS_NOTES" %}
+		{% url 'applications:notes' application.id as notes_url %}
+		{% include "includes/task-list-item.html" with id="notes" title=strings.NOTES url=notes_url optional=True %}
+	{% endif %}
 {% endblock %}
