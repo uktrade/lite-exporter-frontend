@@ -292,34 +292,28 @@ class SurrenderApplication(SingleFormView):
 
 
 class Notes(TemplateView):
-    application_id = None
-    application = None
-
-    def dispatch(self, request, *args, **kwargs):
-        self.application_id = str(kwargs["pk"])
-
-        return super(Notes, self).dispatch(request, *args, **kwargs)
-
     def get(self, request, **kwargs):
-        self.application = get_application(request, self.application_id)
-        notes = get_case_notes(request, self.application_id)["case_notes"]
+        application_id = str(kwargs["pk"])
+        application = get_application(request, application_id)
+        notes = get_case_notes(request, application_id)["case_notes"]
 
         context = {
-            "application": self.application,
+            "application": application,
             "notes": notes,
-            "post_url": reverse_lazy("applications:notes", kwargs={"pk": self.application_id}),
+            "post_url": reverse_lazy("applications:notes", kwargs={"pk": application_id}),
             "error": kwargs.get("error"),
             "text": kwargs.get("text", ""),
         }
         return render(request, "applications/case-notes.html", context)
 
     def post(self, request, **kwargs):
-        response, _ = post_case_notes(request, self.application_id, request.POST)
+        application_id = str(kwargs["pk"])
+        response, _ = post_case_notes(request, application_id, request.POST)
 
         if "errors" in response:
             return self.get(request, error=response["errors"]["text"][0], text=request.POST.get("text"), **kwargs)
 
-        return redirect(reverse_lazy("applications:notes", kwargs={"pk": self.application_id}))
+        return redirect(reverse_lazy("applications:notes", kwargs={"pk": application_id}))
 
 
 class CheckYourAnswers(TemplateView):
