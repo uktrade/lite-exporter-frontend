@@ -14,7 +14,6 @@ from applications.services import (
     post_application_case_notes,
     get_ecju_query,
     put_ecju_query,
-    get_application_generated_documents,
     get_case_generated_documents)
 from end_users.forms import (
     apply_for_an_end_user_advisory_form,

@@ -223,11 +223,6 @@ def get_application_ecju_queries(request, pk):
     return open_queries, closed_queries
 
 
-def get_application_generated_documents(request, pk):
-    data = get(request, APPLICATIONS_URL + pk + GENERATED_DOCUMENTS_URL).json()["generated_documents"]
-    return data
-
-
 def get_case_generated_documents(request, pk):
     data = get(request, CASES_URL + pk + GENERATED_DOCUMENTS_URL + "exporter/")
     return data.json(), data.status_code
