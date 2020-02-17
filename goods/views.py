@@ -9,7 +9,7 @@ from s3chunkuploader.file_handler import S3FileUploadHandler
 from applications.services import (
     get_application_ecju_queries,
     get_case_notes,
-    post_application_case_notes,
+    post_case_notes,
     get_ecju_query,
     put_ecju_query,
     add_document_data,
@@ -147,7 +147,7 @@ class GoodsDetail(TemplateView):
         good_id = kwargs["pk"]
         data, _ = get_good(request, str(good_id))
 
-        response, _ = post_application_case_notes(request, data["case_id"], request.POST)
+        response, _ = post_case_notes(request, data["case_id"], request.POST)
 
         if "errors" in response:
             errors = response.get("errors")

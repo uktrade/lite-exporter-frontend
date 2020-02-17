@@ -11,7 +11,7 @@ from lite_forms.submitters import submit_paged_form
 from applications.services import (
     get_case_notes,
     get_application_ecju_queries,
-    post_application_case_notes,
+    post_case_notes,
     get_ecju_query,
     put_ecju_query,
 )
@@ -151,7 +151,7 @@ class EndUserDetail(TemplateView):
         if self.view_type != "case-notes":
             return Http404
 
-        response, _ = post_application_case_notes(request, self.case_id, request.POST)
+        response, _ = post_case_notes(request, self.case_id, request.POST)
 
         if "errors" in response:
             errors = response.get("errors")

@@ -27,7 +27,7 @@ from applications.services import (
     get_application_ecju_queries,
     get_ecju_query,
     put_ecju_query,
-    post_application_case_notes,
+    post_case_notes,
     submit_application,
     get_application,
     set_application_status,
@@ -182,7 +182,7 @@ class ApplicationDetail(TemplateView):
         if self.view_type != "case-notes":
             return Http404
 
-        response, _ = post_application_case_notes(request, self.case_id, request.POST)
+        response, _ = post_case_notes(request, self.case_id, request.POST)
 
         if "errors" in response:
             errors = response.get("errors")
@@ -307,16 +307,43 @@ class SurrenderApplication(SingleFormView):
 
 
 class Notes(TemplateView):
+    application_id = None
+    application = None
+
+    def dispatch(self, request, *args, **kwargs):
+        self.application_id = str(kwargs["pk"])
+        self.application = get_application(request, self.application_id)
+
+        return super(Notes, self).dispatch(request, *args, **kwargs)
+
     def get(self, request, **kwargs):
-        application_id = str(kwargs["pk"])
-        application = get_application(request, application_id)
-        notes = get_case_notes(request, application_id)
+        notes = get_case_notes(request, self.application_id)["case_notes"]
 
         context = {
-            "application": application,
+            "application": self.application,
             "notes": notes,
+            "post_url": reverse_lazy("applications:notes", kwargs={"pk": self.application_id})
         }
         return render(request, "applications/case-notes.html", context)
+
+    def post(self, request, **kwargs):
+        response, _ = post_case_notes(request, self.application_id, request.POST)
+
+        if "errors" in response:
+            errors = response.get("errors")
+            if errors.get("text"):
+                error = errors.get("text")[0]
+                error = error.replace("This field", "Case note")
+                error = error.replace("this field", "the case note")  # TODO: Move to API
+
+            else:
+                error_list = []
+                for key in errors:
+                    error_list.append("{field}: {error}".format(field=key, error=errors[key][0]))
+                error = NEWLINE.join(error_list)
+            return error_page(request, error)
+
+        return redirect(reverse_lazy("applications:notes", kwargs={"pk": self.application_id}))
 
 
 class CheckYourAnswers(TemplateView):
