@@ -126,7 +126,7 @@ class EndUserDetail(TemplateView):
         self.end_user_advisory, self.case_id = get_end_user_advisory(request, self.end_user_advisory_id)
         self.view_type = kwargs["type"]
 
-        if self.view_type != "case-notes" and self.view_type != "ecju-queries":
+        if self.view_type not in ["case-notes", "ecju-queries", "ecju-generated-documents"]:
             return Http404
 
         return super(EndUserDetail, self).dispatch(request, *args, **kwargs)

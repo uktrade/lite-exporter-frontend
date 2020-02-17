@@ -177,6 +177,9 @@
 							</div>
 						{% endif %}
 					</a>
+					<a href="{% url 'end_users:end_user_detail' end_user_advisory.id 'ecju-generated-documents' %}" class="lite-tabs__tab {% if type == 'ecju-generated-documents' %}lite-tabs__tab--selected{% endif %}" id="link-ecju-generated-documents">
+						{% lcs 'goods.GoodPage.Tabs.GENERATED_DOCUMENTS' %}
+					</a>
 				</div>
 			</div>
 			{% if type == 'case-notes' %}
@@ -184,6 +187,8 @@
 				{% include "includes/case-notes.html" %}
 			{% elif type == 'ecju-queries'%}
 				{% include "end-users/tabs/ecju-queries.html" %}
+			{% elif type == 'ecju-generated-documents'%}
+				{% include "core/ecju-generated-documents.html" %}
 			{% endif %}
 		</div>
 	</div>
