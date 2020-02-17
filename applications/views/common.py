@@ -297,11 +297,11 @@ class Notes(TemplateView):
 
     def dispatch(self, request, *args, **kwargs):
         self.application_id = str(kwargs["pk"])
-        self.application = get_application(request, self.application_id)
 
         return super(Notes, self).dispatch(request, *args, **kwargs)
 
     def get(self, request, **kwargs):
+        self.application = get_application(request, self.application_id)
         notes = get_case_notes(request, self.application_id)["case_notes"]
 
         context = {
