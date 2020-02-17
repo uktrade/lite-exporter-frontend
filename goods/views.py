@@ -117,6 +117,8 @@ class GoodsDetail(TemplateView):
             "documents": documents,
             "type": self.view_type,
             "control_list_entry_text": control_list_entry_text,
+            "error": kwargs.get("error"),
+            "text": kwargs.get("text", ""),
         }
 
         if self.good["query"]:
@@ -150,15 +152,7 @@ class GoodsDetail(TemplateView):
         response, _ = post_case_notes(request, data["case_id"], request.POST)
 
         if "errors" in response:
-            errors = response.get("errors")
-            if errors.get("text"):
-                error = errors.get("text")[0]
-            else:
-                error_list = []
-                for key in errors:
-                    error_list.append("{field}: {error}".format(field=key, error=errors[key][0]))
-                error = "\n".join(error_list)
-            return error_page(request, error)
+            return self.get(request, error=response["errors"]["text"][0], text=request.POST.get("text"), **kwargs)
 
         return redirect(reverse_lazy("goods:good_detail", kwargs={"pk": good_id, "type": "case-notes"}))
 
