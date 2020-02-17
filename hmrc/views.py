@@ -48,7 +48,7 @@ class SelectAnOrganisation(TemplateView):
                 return self.get(request, show_error=True, *args, **kwargs)
         else:
             # Create a draft HMRC application
-            data = {"name": "HMRC query", "case_type__sub_type": HMRC, "organisation": organisation}
+            data = {"name": "HMRC query", "application_type": HMRC, "organisation": organisation}
 
             response, _ = post_applications(request, data)
 

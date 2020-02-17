@@ -8,7 +8,8 @@ from django.template.defaultfilters import stringfilter, safe
 from django.templatetags.tz import do_timezone
 from django.utils.safestring import mark_safe
 
-from conf.constants import ISO8601_FMT, NOT_STARTED, DONE
+from conf.constants import CASE_SECTIONS
+from conf.constants import ISO8601_FMT, NOT_STARTED, DONE, IN_PROGRESS
 
 from lite_content.lite_exporter_frontend import strings
 
@@ -258,3 +259,57 @@ def date_display(value):
     month = months[(int(month) - 1)]
 
     return f"{int(day)} {month} {year}"
+
+
+@register.filter()
+def application_type_in_list(application_type, application_types):
+    types = CASE_SECTIONS[application_types]
+    if isinstance(types, list):
+        return application_type in types
+    else:
+        return application_type == types
+
+
+@register.filter()
+def get_parties_status(parties):
+    if not parties:
+        return NOT_STARTED
+
+    if isinstance(parties, list):
+        for party in parties:
+            if not party:
+                return NOT_STARTED
+
+            if not party["document"]:
+                return IN_PROGRESS
+    else:
+        if not parties["document"]:
+            return IN_PROGRESS
+
+    return DONE
+
+
+@register.filter()
+def requires_ultimate_end_users(goods):
+    ultimate_end_users_required = False
+
+    for good in goods:
+        if good["is_good_incorporated"]:
+            ultimate_end_users_required = True
+
+    return ultimate_end_users_required
+
+
+def join_list(_list, _join=", "):
+    return _join.join(_list)
+
+
+@register.filter()
+def join_key_value_list(_list, _join=", "):
+    _list = [x["value"] for x in _list]
+    return join_list(_list, _join)
+
+
+@register.filter()
+def equals(ob1, ob2):
+    return ob1 == ob2
