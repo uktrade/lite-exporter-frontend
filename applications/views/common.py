@@ -158,6 +158,8 @@ class ApplicationDetail(TemplateView):
             "status_is_read_only": status_props["is_read_only"],
             "status_is_terminal": status_props["is_terminal"],
             "activity": get_activity(request, self.application_id),
+            "error": kwargs.get("error"),
+            "text": kwargs.get("text", ""),
         }
 
         if self.application["application_type"]["key"] != HMRC_QUERY:
@@ -179,15 +181,7 @@ class ApplicationDetail(TemplateView):
         response, _ = post_case_notes(request, self.case_id, request.POST)
 
         if "errors" in response:
-            errors = response.get("errors")
-            if errors.get("text"):
-                error = errors.get("text")[0]
-            else:
-                error_list = []
-                for key in errors:
-                    error_list.append("{field}: {error}".format(field=key, error=errors[key][0]))
-                error = NEWLINE.join(error_list)
-            return error_page(request, error)
+            return self.get(request, error=response["errors"]["text"][0], text=request.POST.get("text"), **kwargs)
 
         return redirect(
             reverse_lazy("applications:application", kwargs={"pk": self.application_id, "type": "case-notes"})
