@@ -195,24 +195,7 @@ def delete_application_preexisting_good(request, good_on_application_pk):
 
 # Case related
 def get_case_notes(request, pk):
-
-    print("\n")
-    print("A KIEGO WALA TU JEST")
-    print("request: ", request)
-    print("pk: ", pk)
-    print("CASES_URL: ", CASES_URL)
-    print("CASE_NOTES_URL: ", CASE_NOTES_URL)
-    print("A TAKIEEEEGO WALA TU JEST!!!")
-    print("\n")
-
     data = get(request, CASES_URL + pk + CASE_NOTES_URL)
-
-    print("\n")
-    print("A KIEGO WALA TU JEST")
-    print("CASE: ", data.json())
-    print("A TAKIEEEEGO WALA TU JEST!!!")
-    print("\n")
-
     return data.json()
 
 
