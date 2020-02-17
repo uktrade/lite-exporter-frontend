@@ -306,21 +306,16 @@ class SurrenderApplication(SingleFormView):
         self.success_url = reverse_lazy("applications:application", kwargs={"pk": self.object_pk})
 
 
-class CaseNote(TemplateView):
+class Notes(TemplateView):
     def get(self, request, **kwargs):
         application_id = str(kwargs["pk"])
-        # notes = get_case_notes(request, application_id)
-
-        print("\n")
-        print("A KIEGO WALA TU JEST")
-        # print("Notes: ", notes)
-        print("A TAKIEEEEGO WALA TU JEST!!!")
-        print("\n")
+        application = get_application(request, application_id)
+        notes = get_case_notes(request, application_id)
 
         context = {
-            "draft_id": application_id
+            "application": application,
+            "notes": notes,
         }
-        # "notes": notes,
         return render(request, "applications/case-notes.html", context)
 
 
