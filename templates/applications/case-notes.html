@@ -7,7 +7,11 @@
 {% endblock %}
 
 {% block body %}
-    <h1 class="govuk-heading-l">{% lcs 'applications.ApplicationNotesPage.TITLE' %}</h1>
+    <h1 class="govuk-heading-l">
+        {% block title %}
+            {% lcs 'applications.ApplicationNotesPage.TITLE' %}
+        {% endblock %}
+    </h1>
     <span class="govuk-hint govuk-!-margin-bottom-6">{% lcs 'applications.ApplicationNotesPage.DESCRIPTION' %}</span>
 
     {% include "includes/case-notes.html" %}
