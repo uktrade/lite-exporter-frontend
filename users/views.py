@@ -34,7 +34,10 @@ class Users(TemplateView):
         if organisation["type"]["key"] == "individual":
             raise Http404
 
-        statuses = [Option(option["key"], option["value"]) for option in data["results"]["filters"]["status"]]
+        statuses = [
+            Option(option["key"], option["value"])
+            for option in [{"key": "active", "value": "Active"}, {"key": "", "value": "All"}]
+        ]
         filters = FiltersBar([Select(name="status", title="status", options=statuses)])
 
         context = {
