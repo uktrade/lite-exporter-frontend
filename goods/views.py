@@ -320,11 +320,6 @@ class Document(TemplateView):
         return download_document_from_s3(document["s3_key"], document["name"])
 
 
-class DownloadDocument(TemplateView):
-    def get(self, request, case_pk, document_pk):
-        return get_case_document_download(request, case_pk=case_pk, document_pk=document_pk)
-
-
 class DeleteDocument(TemplateView):
     def get(self, request, **kwargs):
         good_id = str(kwargs["pk"])
