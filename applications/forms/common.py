@@ -61,8 +61,7 @@ def edit_type_form(application_id):
             )
         ],
         back_link=BackLink(
-            strings.BACK_TO_APPLICATION,
-            reverse_lazy("applications:application", kwargs={"pk": application_id}),
+            strings.BACK_TO_APPLICATION, reverse_lazy("applications:application", kwargs={"pk": application_id}),
         ),
         default_button_name=strings.CONTINUE,
     )
