@@ -5,13 +5,13 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
+from applications.forms.application_actions import withdraw_application_confirmation, surrender_application_confirmation
 from applications.forms.common import (
     respond_to_query_form,
     ecju_query_respond_confirmation_form,
     edit_type_form,
     application_success_page,
 )
-from applications.forms.application_actions import withdraw_application_confirmation, surrender_application_confirmation
 from applications.helpers.check_your_answers import convert_application_to_check_your_answers
 from applications.helpers.summaries import draft_summary
 from applications.helpers.task_lists import get_application_task_list
@@ -34,7 +34,7 @@ from applications.services import (
     get_status_properties,
     get_application_generated_documents,
 )
-from conf.constants import HMRC_QUERY, APPLICANT_EDITING, NEWLINE
+from conf.constants import HMRC_QUERY, APPLICANT_EDITING
 from core.helpers import str_to_bool, convert_dict_to_query_params
 from core.services import get_organisation
 from lite_content.lite_exporter_frontend import strings
