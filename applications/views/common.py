@@ -315,7 +315,7 @@ class Notes(TemplateView):
             "notes": notes,
             "post_url": reverse_lazy("applications:notes", kwargs={"pk": self.application_id}),
             "error": kwargs.get("error"),
-            "text": kwargs.get("text", "")
+            "text": kwargs.get("text", ""),
         }
         return render(request, "applications/case-notes.html", context)
 
@@ -323,10 +323,7 @@ class Notes(TemplateView):
         response, _ = post_case_notes(request, self.application_id, request.POST)
 
         if "errors" in response:
-            return self.get(request,
-                            error=response["errors"]["text"][0],
-                            text=request.POST.get("text"),
-                            **kwargs)
+            return self.get(request, error=response["errors"]["text"][0], text=request.POST.get("text"), **kwargs)
 
         return redirect(reverse_lazy("applications:notes", kwargs={"pk": self.application_id}))
 
