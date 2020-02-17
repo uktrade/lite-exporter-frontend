@@ -316,7 +316,9 @@ class Notes(TemplateView):
         context = {
             "application": self.application,
             "notes": notes,
-            "post_url": reverse_lazy("applications:notes", kwargs={"pk": self.application_id})
+            "post_url": reverse_lazy("applications:notes", kwargs={"pk": self.application_id}),
+            "error": kwargs.get("error"),
+            "text": kwargs.get("text", "")
         }
         return render(request, "applications/case-notes.html", context)
 
@@ -324,18 +326,10 @@ class Notes(TemplateView):
         response, _ = post_case_notes(request, self.application_id, request.POST)
 
         if "errors" in response:
-            errors = response.get("errors")
-            if errors.get("text"):
-                error = errors.get("text")[0]
-                error = error.replace("This field", "Case note")
-                error = error.replace("this field", "the case note")  # TODO: Move to API
-
-            else:
-                error_list = []
-                for key in errors:
-                    error_list.append("{field}: {error}".format(field=key, error=errors[key][0]))
-                error = NEWLINE.join(error_list)
-            return error_page(request, error)
+            return self.get(request,
+                            error=response["errors"]["text"][0],
+                            text=request.POST.get("text"),
+                            **kwargs)
 
         return redirect(reverse_lazy("applications:notes", kwargs={"pk": self.application_id}))
 
