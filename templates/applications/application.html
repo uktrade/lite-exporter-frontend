@@ -180,7 +180,7 @@
 						<tbody class="govuk-table__body">
 							{% for item in value %}
 								<tr class="govuk-table__row">
-									<th scope="col" class="govuk-table__header">{{ forloop.counter }}</th>
+									<td scope="col" class="govuk-table__cell govuk-table__cell--line-number">{{ forloop.counter }}.</td>
 									{% for key, value in item.items %}
 										<td class="govuk-table__cell">{{ value|linebreaksbr }}</td>
 									{% endfor %}
