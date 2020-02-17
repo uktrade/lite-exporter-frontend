@@ -157,8 +157,6 @@ class EndUserDetail(TemplateView):
             errors = response.get("errors")
             if errors.get("text"):
                 error = errors.get("text")[0]
-                error = error.replace("This field", "Case note")
-                error = error.replace("this field", "the case note")  # TODO: Move to API
 
             else:
                 error_list = []
