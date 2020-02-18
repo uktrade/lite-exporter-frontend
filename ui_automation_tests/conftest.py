@@ -2,6 +2,7 @@ import datetime
 import os
 import time
 
+from faker import Faker
 from pytest_bdd import given, when, then, parsers
 from selenium.webdriver.common.by import By
 
@@ -66,6 +67,7 @@ from pages.which_location_form_page import WhichLocationFormPage
 from ui_automation_tests.pages.add_goods_grading_page import AddGoodGradingPage
 
 strict_gherkin = False
+fake = Faker()
 
 
 def pytest_addoption(parser):
@@ -174,11 +176,11 @@ def enter_application_name(driver, context):  # noqa
     functions.click_submit(driver)
 
 
-def enter_type_of_application(driver, type, context):  # noqa
-    context.type = type
+def enter_type_of_application(driver, _type, context):  # noqa
+    context.type = _type
     # type needs to be standard or open
     apply = ApplyForALicencePage(driver)
-    apply.click_export_licence(type)
+    apply.click_export_licence(_type)
     functions.click_submit(driver)
 
 
@@ -426,6 +428,18 @@ def click_back_link(driver):  # noqa
     functions.click_back_link(driver)
 
 
+@when("I add a note to the draft application")  # noqa
+def add_a_note_to_draft_application(driver, context):  # noqa
+    GenericApplicationTaskListPage(driver).click_notes()
+    case_note_text = fake.paragraph(nb_sentences=3, variable_nb_sentences=True, ext_word_list=None)
+
+    enter_case_note_text(driver, case_note_text, context)
+    click_post_note(driver)
+    SubmittedApplicationsPages(driver).assert_case_note_exists([case_note_text])
+
+    functions.click_back_link(driver)
+
+
 @when("I click the notes tab")  # noqa
 def click_notes_tab(driver):  # noqa
     application_page = ApplicationPage(driver)
@@ -478,9 +492,9 @@ def enter_case_note_text(driver, text, context):  # noqa
 
 
 @when("I click post note")  # noqa
-def click_post_note(driver, context):  # noqa
+def click_post_note(driver):  # noqa
     application_page = SubmittedApplicationsPages(driver)
-    application_page.click_post_note_btn()
+    application_page.click_post_note_button()
 
 
 @when(parsers.parse('I upload a file "{filename}"'))  # noqa
