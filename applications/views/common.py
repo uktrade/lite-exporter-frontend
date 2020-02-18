@@ -34,7 +34,7 @@ from applications.services import (
     get_status_properties,
     get_application_generated_documents,
 )
-from conf.constants import HMRC, APPLICANT_EDITING, NEWLINE
+from conf.constants import HMRC, APPLICANT_EDITING
 from core.helpers import str_to_bool, convert_dict_to_query_params
 from core.services import get_organisation
 from lite_content.lite_exporter_frontend import strings

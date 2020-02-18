@@ -11,6 +11,7 @@ class GenericApplicationTaskListPage(BasePage):
     OPEN_GOODS_LINK = "link-products"
     LINK_END_USER_ID = "link-end-user"
     LINK_CONSIGNEE_ID = "link-consignee"
+    LINK_NOTES_ID = "link-notes"
     LINK_SUPPORTING_DOCUMENTS_ID = "link-supporting-documents"
     ULTIMATE_END_USER_LINK = "link-ultimate_end_users"  # ID
     GOODS_ON_APPLICATION = "[id^=good-on-application-row]"  # CSS
@@ -110,3 +111,6 @@ class GenericApplicationTaskListPage(BasePage):
 
     def get_text_of_lite_task_list_items(self):
         return self.driver.find_element_by_css_selector(self.LITE_TASK_LIST_ITEMS).text
+
+    def click_notes(self):
+        self.driver.find_element_by_id(self.LINK_NOTES_ID).click()

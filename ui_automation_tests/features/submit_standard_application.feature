@@ -33,7 +33,8 @@ Feature: I want to indicate the standard licence I want
     And I upload a file "file_for_doc_upload_test_1.txt"
     Then wait for download link
     When I click the back link
-    When I submit the application
+    And I add a note to the draft application
+    And I submit the application
     Then application is submitted
     When I go to exporter homepage
     And I click applications
