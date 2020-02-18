@@ -224,7 +224,7 @@ def get_application_ecju_queries(request, pk):
 
 
 def get_case_generated_documents(request, pk):
-    data = get(request, CASES_URL + pk + GENERATED_DOCUMENTS_URL + "exporter/")
+    data = get(request, CASES_URL + pk + GENERATED_DOCUMENTS_URL)
     return data.json(), data.status_code
 
 
