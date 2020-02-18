@@ -34,7 +34,6 @@ from applications.services import (
     get_application,
     set_application_status,
     get_status_properties,
-    get_application_generated_documents,
     copy_application,
 )
 from conf.constants import HMRC, APPLICANT_EDITING, NEWLINE
