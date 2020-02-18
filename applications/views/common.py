@@ -344,7 +344,7 @@ class ApplicationCopy(MultiFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
         application = get_application(request, self.object_pk)
-        self.forms = application_copy_form(application["application_type"]["key"])
+        self.forms = application_copy_form(application["case_type"]["sub_type"]["key"])
         self.action = copy_application
 
     def get_success_url(self):
