@@ -17,7 +17,7 @@ from pages.standard_application.good_details import StandardApplicationGoodDetai
 from pages.standard_application.goods import StandardApplicationGoodsPage
 from pages.add_new_external_location_form_page import AddNewExternalLocationFormPage
 from shared import functions
-from shared.tools.wait import wait_for_element, wait_for_download_button
+from shared.tools.wait import wait_for_download_button
 
 from ui_automation_tests.fixtures.env import environment  # noqa
 from ui_automation_tests.fixtures.register_organisation import (  # noqa
