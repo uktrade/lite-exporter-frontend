@@ -228,11 +228,6 @@ def get_case_generated_documents(request, pk):
     return data.json(), data.status_code
 
 
-def get_generated_document(request, pk, doc_pk):
-    data = get(request, APPLICATIONS_URL + pk + GENERATED_DOCUMENTS_URL + str(doc_pk) + "/")
-    return data.json(), data.status_code
-
-
 def get_status_properties(request, status):
     data = get(request, STATUS_PROPERTIES_URL + status)
     return data.json(), data.status_code
