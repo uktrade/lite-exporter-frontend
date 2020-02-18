@@ -33,7 +33,7 @@ class SubmittedApplicationsPages(BasePage):
     def find_case_note_text_area(self):
         return self.driver.find_elements_by_id(self.INPUT_CASE_NOTE_ID)
 
-    def assert_case_note_exists(self, notes: List[str]):
+    def assert_case_notes_exists(self, notes: List[str]):
         """
         Takes a list of strings (each representing case note text)
         First asserts that the list of notes on the page is correct

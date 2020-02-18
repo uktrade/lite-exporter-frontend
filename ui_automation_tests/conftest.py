@@ -435,7 +435,7 @@ def add_a_note_to_draft_application(driver, context):  # noqa
 
     enter_case_note_text(driver, case_note_text, context)
     click_post_note(driver)
-    SubmittedApplicationsPages(driver).assert_case_note_exists([case_note_text])
+    SubmittedApplicationsPages(driver).assert_case_notes_exists([case_note_text])
 
     functions.click_back_link(driver)
 
