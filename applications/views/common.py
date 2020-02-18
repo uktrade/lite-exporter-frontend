@@ -34,7 +34,7 @@ from applications.services import (
     set_application_status,
     get_status_properties,
 )
-from conf.constants import HMRC_QUERY, APPLICANT_EDITING, NEWLINE
+from conf.constants import HMRC, APPLICANT_EDITING, NEWLINE
 from core.helpers import str_to_bool, convert_dict_to_query_params
 from core.services import get_organisation
 from lite_content.lite_exporter_frontend import strings
@@ -161,7 +161,7 @@ class ApplicationDetail(TemplateView):
             "activity": get_activity(request, self.application_id),
         }
 
-        if self.application["application_type"]["key"] != HMRC_QUERY:
+        if self.application["case_type"]["sub_type"]["key"] != HMRC:
             if self.view_type == "case-notes":
                 context["notes"] = get_case_notes(request, self.case_id)["case_notes"]
 
