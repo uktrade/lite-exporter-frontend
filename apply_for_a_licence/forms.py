@@ -121,7 +121,6 @@ def export_licence_questions(application_type):
                 default_button_name=generic.CONTINUE if application_type == STANDARD else generic.SAVE_AND_CONTINUE,
             ),
             *conditional(application_type == STANDARD, [goods_categories(), have_you_been_informed()], []),
-
         ]
     )
 
