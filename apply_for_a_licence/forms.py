@@ -95,7 +95,7 @@ def export_licence_questions(application_type, is_transhipment=False):
                             conditional(
                                 not is_transhipment,
                                 Option(
-                                    key=OPEN_LICENCE,
+                                    key=OPEN,
                                     value=ExportLicenceQuestions.ExportLicenceQuestion.OPEN_LICENCE,
                                     description=ExportLicenceQuestions.ExportLicenceQuestion.OPEN_LICENCE_DESCRIPTION,
                                 ),
