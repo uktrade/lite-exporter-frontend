@@ -145,10 +145,8 @@ class GenericApplicationTaskListPage(BasePage):
     def get_text_of_lite_task_list_items(self):
         return self.driver.find_element_by_css_selector(self.LITE_TASK_LIST_ITEMS).text
 
-<<<<<<< HEAD
     def click_notes(self):
         self.driver.find_element_by_id(self.LINK_NOTES_ID).click()
-=======
     def check_good_section_status(self, status):
         assert status == self.driver.find_element_by_id(self.SECTION_GOOD_STATUS_ID).get_attribute("data-status")
 
@@ -167,4 +165,3 @@ class GenericApplicationTaskListPage(BasePage):
         assert status == self.driver.find_element_by_id(self.SECTION_SUPPORTING_DOCUMENT_STATUS_ID).get_attribute(
             "data-status"
         )
->>>>>>> origin/master
