@@ -147,6 +147,7 @@ class GenericApplicationTaskListPage(BasePage):
 
     def click_notes(self):
         self.driver.find_element_by_id(self.LINK_NOTES_ID).click()
+
     def check_good_section_status(self, status):
         assert status == self.driver.find_element_by_id(self.SECTION_GOOD_STATUS_ID).get_attribute("data-status")
 
