@@ -29,7 +29,6 @@ from ui_automation_tests.fixtures.add_goods_query import add_goods_clc_query  # 
 from ui_automation_tests.fixtures.add_end_user_advisory import add_end_user_advisory  # noqa
 from ui_automation_tests.fixtures.sso_sign_in import sso_sign_in  # noqa
 from ui_automation_tests.fixtures.manage_case import manage_case_status_to_withdrawn, approve_case  # noqa
-from ui_automation_tests.shared.fixtures.add_a_draft import add_a_draft  # noqa
 from ui_automation_tests.shared.fixtures.apply_for_application import (  # noqa
     apply_for_standard_application,
     add_an_ecju_query,
@@ -38,6 +37,7 @@ from ui_automation_tests.shared.fixtures.apply_for_application import (  # noqa
     apply_for_f680_clearance,
     apply_for_gifting_clearance,
 )
+from ui_automation_tests.shared.fixtures.add_a_draft import add_a_draft  # noqa
 from ui_automation_tests.shared.fixtures.add_a_document_template import (  # noqa
     add_a_document_template,
     get_paragraph_text,
