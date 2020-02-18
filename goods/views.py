@@ -15,6 +15,7 @@ from applications.services import (
     add_document_data,
     download_document_from_s3,
     get_status_properties,
+    get_case_generated_documents,
 )
 from core.helpers import convert_dict_to_query_params
 from core.services import get_control_list_entry

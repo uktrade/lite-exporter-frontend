@@ -7,14 +7,13 @@ from conf.constants import (
     GOODS_QUERY_URL,
     DOCUMENT_SENSITIVITY_URL,
     MISSING_DOCUMENT_REASONS_URL,
-    GENERATED_DOCUMENTS_URL,
     CASES_URL,
     ADDITIONAL_DOCUMENT_URL,
     DOWNLOAD_URL,
 )
-from goods.helpers import process_pv_grading_for_post
 from core.helpers import convert_parameters_to_query_params
 from core.services import get_document_download_stream
+from goods.helpers import process_pv_grading_for_post
 
 
 def get_goods(request, page: int = 1, description=None, part_number=None, control_rating=None, for_application=None):
