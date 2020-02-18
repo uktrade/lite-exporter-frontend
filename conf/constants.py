@@ -7,16 +7,11 @@ ORGANISATIONS_URL = "/organisations/"
 EXPORTER_USERS_PERMISSIONS_URL = ORGANISATIONS_URL + "permissions/"
 APPLICATIONS_URL = "/applications/"
 APPLICATION_SUBMIT_URL = "/submit/"
+APPLICATION_COPY_URL = "/copy/"
 CASES_URL = "/cases/"
 GOODS_URL = "/goods/"
 DOCUMENTS_URL = "/documents/"
-END_USER_URL = "/end-user/"
-END_USER_DOCUMENT_URL = "/end-user/document/"
-ULTIMATE_END_USER_URL = "/ultimate-end-user/"
-ULTIMATE_END_USERS_URL = "/ultimate-end-users/"
-CONSIGNEE_URL = "/consignee/"
-CONSIGNEE_DOCUMENT_URL = "/consignee/document/"
-THIRD_PARTIES_URL = "/third-parties/"
+PARTIES_URL = "/parties/"
 DOCUMENT_URL = "/document/"
 GOODSTYPES_URL = "/goodstypes/"
 GOODSTYPE_URL = "/goodstype/"
@@ -55,10 +50,32 @@ MISSING_DOCUMENT_REASONS_URL = STATIC_URL + "missing-document-reasons/"
 DOWNLOAD_URL = "/download/"
 
 # Applications constants
-STANDARD_LICENCE = "standard_licence"
-OPEN_LICENCE = "open_licence"
-HMRC_QUERY = "hmrc_query"
-EXHIBITION_CLEARANCE = "exhibition_clearance"
+STANDARD = "standard"
+OPEN = "open"
+HMRC = "hmrc"
+EXHIBITION = "exhibition_clearance"
+GIFTING = "gifting_clearance"
+F680 = "f680_clearance"
+
+# Case type task list sections
+CASE_SECTIONS = {
+    "HMRC": HMRC,
+    "F680": F680,
+    "HAS_LICENCE_TYPE": [STANDARD, OPEN],
+    "HAS_TOLD_BY_OFFICIAL": [STANDARD],
+    "HAS_GOODS": [STANDARD, EXHIBITION, GIFTING, F680],
+    "HAS_GOODS_TYPES": [OPEN, HMRC],
+    "HAS_LOCATIONS": [STANDARD, OPEN, HMRC, EXHIBITION],
+    "HAS_COUNTRIES": OPEN,
+    "HAS_END_USER": [STANDARD, EXHIBITION, F680, GIFTING],
+    "HAS_ULTIMATE_END_USERS": [STANDARD, HMRC, EXHIBITION],
+    "HAS_CONSIGNEE": [STANDARD, HMRC, EXHIBITION],
+    "HAS_THIRD_PARTIES": [STANDARD, EXHIBITION, F680, GIFTING],
+    "HAS_OPTIONAL_NOTE": [HMRC],
+    "HAS_NOTES": [STANDARD, OPEN, EXHIBITION, F680, GIFTING],
+}
+
+PERMANENT = "permanent"
 
 APPLICANT_EDITING = "applicant_editing"
 
@@ -83,8 +100,7 @@ class Permissions:
     MANAGE_ORGANISATION_PERMISSIONS = [ADMINISTER_SITES, ADMINISTER_USERS, EXPORTER_ADMINISTER_ROLES]
 
 
-class CaseType:
+class NotificationType:
     APPLICATION = "application"
-    GOODS_QUERY = "goods_query"
-    EUA_QUERY = "end_user_advisory_query"
-    HMRC_QUERY = "hmrc_query"
+    GOODS = "goods"
+    EUA = "end_user_advisory"

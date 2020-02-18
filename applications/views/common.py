@@ -5,13 +5,14 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
+from applications.forms.application_actions import withdraw_application_confirmation, surrender_application_confirmation
 from applications.forms.common import (
     respond_to_query_form,
     ecju_query_respond_confirmation_form,
     edit_type_form,
     application_success_page,
+    application_copy_form,
 )
-from applications.forms.application_actions import withdraw_application_confirmation, surrender_application_confirmation
 from applications.helpers.check_your_answers import convert_application_to_check_your_answers
 from applications.helpers.summaries import draft_summary
 from applications.helpers.task_lists import get_application_task_list
@@ -27,21 +28,22 @@ from applications.services import (
     get_application_ecju_queries,
     get_ecju_query,
     put_ecju_query,
-    post_application_case_notes,
+    post_case_notes,
     submit_application,
     get_application,
     set_application_status,
     get_status_properties,
     get_application_generated_documents,
+    copy_application,
 )
-from conf.constants import HMRC_QUERY, APPLICANT_EDITING, NEWLINE
+from conf.constants import HMRC, APPLICANT_EDITING
 from core.helpers import str_to_bool, convert_dict_to_query_params
 from core.services import get_organisation
 from lite_content.lite_exporter_frontend import strings
 from lite_forms.components import HiddenField
 from lite_forms.generators import confirm_form
 from lite_forms.generators import error_page, form_page
-from lite_forms.views import SingleFormView
+from lite_forms.views import SingleFormView, MultiFormView
 
 
 class ApplicationsList(TemplateView):
@@ -158,9 +160,11 @@ class ApplicationDetail(TemplateView):
             "status_is_read_only": status_props["is_read_only"],
             "status_is_terminal": status_props["is_terminal"],
             "activity": get_activity(request, self.application_id),
+            "error": kwargs.get("error"),
+            "text": kwargs.get("text", ""),
         }
 
-        if self.application["application_type"]["key"] != HMRC_QUERY:
+        if self.application["case_type"]["sub_type"]["key"] != HMRC:
             if self.view_type == "case-notes":
                 context["notes"] = get_case_notes(request, self.case_id)["case_notes"]
 
@@ -176,21 +180,10 @@ class ApplicationDetail(TemplateView):
         if self.view_type != "case-notes":
             return Http404
 
-        response, _ = post_application_case_notes(request, self.case_id, request.POST)
+        response, _ = post_case_notes(request, self.case_id, request.POST)
 
         if "errors" in response:
-            errors = response.get("errors")
-            if errors.get("text"):
-                error = errors.get("text")[0]
-                error = error.replace("This field", "Case note")
-                error = error.replace("this field", "the case note")  # TODO: Move to API
-
-            else:
-                error_list = []
-                for key in errors:
-                    error_list.append("{field}: {error}".format(field=key, error=errors[key][0]))
-                error = NEWLINE.join(error_list)
-            return error_page(request, error)
+            return self.get(request, error=response["errors"]["text"][0], text=request.POST.get("text"), **kwargs)
 
         return redirect(
             reverse_lazy("applications:application", kwargs={"pk": self.application_id, "type": "case-notes"})
@@ -300,6 +293,31 @@ class SurrenderApplication(SingleFormView):
         self.success_url = reverse_lazy("applications:application", kwargs={"pk": self.object_pk})
 
 
+class Notes(TemplateView):
+    def get(self, request, **kwargs):
+        application_id = str(kwargs["pk"])
+        application = get_application(request, application_id)
+        notes = get_case_notes(request, application_id)["case_notes"]
+
+        context = {
+            "application": application,
+            "notes": notes,
+            "post_url": reverse_lazy("applications:notes", kwargs={"pk": application_id}),
+            "error": kwargs.get("error"),
+            "text": kwargs.get("text", ""),
+        }
+        return render(request, "applications/case-notes.html", context)
+
+    def post(self, request, **kwargs):
+        application_id = str(kwargs["pk"])
+        response, _ = post_case_notes(request, application_id, request.POST)
+
+        if "errors" in response:
+            return self.get(request, error=response["errors"]["text"][0], text=request.POST.get("text"), **kwargs)
+
+        return redirect(reverse_lazy("applications:notes", kwargs={"pk": application_id}))
+
+
 class CheckYourAnswers(TemplateView):
     def get(self, request, **kwargs):
         application_id = kwargs["pk"]
@@ -336,3 +354,15 @@ class ApplicationSubmitSuccessPage(TemplateView):
             raise Http404
 
         return application_success_page(request, application["reference_code"])
+
+
+class ApplicationCopy(MultiFormView):
+    def init(self, request, **kwargs):
+        self.object_pk = kwargs["pk"]
+        application = get_application(request, self.object_pk)
+        self.forms = application_copy_form(application["case_type"]["sub_type"]["key"])
+        self.action = copy_application
+
+    def get_success_url(self):
+        id = self.get_validated_data()["data"]
+        return reverse_lazy("applications:task_list", kwargs={"pk": id})

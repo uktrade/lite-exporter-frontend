@@ -1,9 +1,12 @@
+from apply_for_a_licence.forms import reference_name_form, have_you_been_informed
+from conf.constants import STANDARD
 from lite_content.lite_exporter_frontend import strings
 from django.urls import reverse_lazy
 
 from lite_content.lite_exporter_frontend.applications import ApplicationSuccessPage
-from lite_forms.components import HiddenField, Form, BackLink, TextArea, HTMLBlock, RadioButtons, Option
+from lite_forms.components import HiddenField, Form, BackLink, TextArea, HTMLBlock, RadioButtons, Option, FormGroup
 from lite_forms.generators import confirm_form, success_page
+from lite_forms.helpers import conditional
 
 
 def respond_to_query_form(application_id, ecju_query):
@@ -15,19 +18,14 @@ def respond_to_query_form(application_id, ecju_query):
                 + ecju_query["question"]
                 + "</div><br><br>"
             ),
-            TextArea(
-                name="response",
-                title="Your response",
-                description="You won't be able to edit this once you've submitted it.",
-                extras={"max_length": 2200,},
-            ),
+            TextArea(name="response", title="Your response", description="", extras={"max_length": 2200,},),
             HiddenField(name="form_name", value="respond_to_query"),
         ],
         back_link=BackLink(
             strings.BACK_TO_APPLICATION,
             reverse_lazy("applications:application", kwargs={"pk": application_id, "type": "ecju-queries"}),
         ),
-        default_button_name="Submit response",
+        default_button_name="Submit",
     )
 
 
@@ -37,7 +35,7 @@ def ecju_query_respond_confirmation_form(edit_response_url):
         confirmation_name="confirm_response",
         hidden_field="ecju_query_response_confirmation",
         yes_label="Confirm and send the response",
-        no_label="Cancel and change the response",
+        no_label="Cancel",
         back_link_text="Back to edit response",
         back_url=edit_response_url,
         submit_button_text=strings.CONTINUE,
@@ -66,8 +64,7 @@ def edit_type_form(application_id):
             )
         ],
         back_link=BackLink(
-            strings.BACK_TO_APPLICATION,
-            reverse_lazy("applications:application", kwargs={"pk": application_id, "type": "ecju-queries"}),
+            strings.BACK_TO_APPLICATION, reverse_lazy("applications:application", kwargs={"pk": application_id}),
         ),
         default_button_name=strings.CONTINUE,
     )
@@ -85,4 +82,10 @@ def application_success_page(request, application_reference_code):
             ApplicationSuccessPage.APPLY_AGAIN: reverse_lazy("apply_for_a_licence:start"),
             ApplicationSuccessPage.RETURN_TO_DASHBOARD: reverse_lazy("core:hub"),
         },
+    )
+
+
+def application_copy_form(application_type=None):
+    return FormGroup(
+        forms=[reference_name_form(), conditional((application_type == STANDARD), have_you_been_informed()),]
     )

@@ -9,7 +9,7 @@ from s3chunkuploader.file_handler import S3FileUploadHandler
 from applications.services import (
     get_application_ecju_queries,
     get_case_notes,
-    post_application_case_notes,
+    post_case_notes,
     get_ecju_query,
     put_ecju_query,
     add_document_data,
@@ -49,7 +49,7 @@ from goods.services import (
 )
 from lite_content.lite_exporter_frontend.goods import AttachDocumentForm
 from lite_forms.views import SingleFormView, MultiFormView
-from lite_content.lite_exporter_frontend import strings
+from lite_content.lite_exporter_frontend import strings, goods
 from lite_forms.components import HiddenField, BackLink
 from lite_forms.generators import error_page, form_page
 
@@ -117,6 +117,8 @@ class GoodsDetail(TemplateView):
             "documents": documents,
             "type": self.view_type,
             "control_list_entry_text": control_list_entry_text,
+            "error": kwargs.get("error"),
+            "text": kwargs.get("text", ""),
         }
 
         if self.good["query"]:
@@ -147,21 +149,10 @@ class GoodsDetail(TemplateView):
         good_id = kwargs["pk"]
         data, _ = get_good(request, str(good_id))
 
-        response, _ = post_application_case_notes(request, data["case_id"], request.POST)
+        response, _ = post_case_notes(request, data["case_id"], request.POST)
 
         if "errors" in response:
-            errors = response.get("errors")
-            if errors.get("text"):
-                error = errors.get("text")[0]
-                error = error.replace("This field", "Case note")
-                error = error.replace("this field", "the case note")  # TODO: Move to API
-
-            else:
-                error_list = []
-                for key in errors:
-                    error_list.append("{field}: {error}".format(field=key, error=errors[key][0]))
-                error = "\n".join(error_list)
-            return error_page(request, error)
+            return self.get(request, error=response["errors"]["text"][0], text=request.POST.get("text"), **kwargs)
 
         return redirect(reverse_lazy("goods:good_detail", kwargs={"pk": good_id, "type": "case-notes"}))
 
@@ -331,11 +322,9 @@ class DeleteDocument(TemplateView):
 
         good, _ = get_good(request, good_id)
         document = get_good_document(request, good_id, file_pk)
-        original_file_name = document["name"]
 
         context = {
-            "title": "Are you sure you want to delete this file?",
-            "description": original_file_name,
+            "title": goods.DeleteGoodDocumentPage.TITLE,
             "good": good,
             "document": document,
         }
@@ -420,7 +409,7 @@ class RespondToQuery(TemplateView):
                     request, respond_to_query_form(self.clc_query_case_id, self.ecju_query), data=request.POST
                 )
             else:
-                error = {"required": ["This field is required"]}
+                error = {"required": ["Select yes to confirm you want to delete the file"]}
                 form = ecju_query_respond_confirmation_form(
                     reverse_lazy("goods:respond_to_query", kwargs={"pk": self.good_id, "query_pk": self.ecju_query_id})
                 )

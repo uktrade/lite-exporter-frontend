@@ -11,7 +11,7 @@ from lite_forms.submitters import submit_paged_form
 from applications.services import (
     get_case_notes,
     get_application_ecju_queries,
-    post_application_case_notes,
+    post_case_notes,
     get_ecju_query,
     put_ecju_query,
 )
@@ -48,6 +48,7 @@ class CopyAdvisory(TemplateView):
             "end_user.website": query["end_user"]["website"],
             "end_user.address": query["end_user"]["address"],
             "end_user.country": query["end_user"]["country"]["id"],
+            "end_user.type": query["end_user"]["type"],
             "reasoning": query.get("reasoning", ""),
             "note": query.get("note", ""),
             "copy_of": query["id"],
@@ -103,7 +104,6 @@ class ApplyForAnAdvisory(TemplateView):
 
     def post(self, request, **kwargs):
         response, data = submit_paged_form(request, self.forms, post_end_user_advisories)
-
         if response:
             return response
 
@@ -136,6 +136,8 @@ class EndUserDetail(TemplateView):
             "case_id": self.case_id,
             "end_user_advisory": self.end_user_advisory,
             "type": self.view_type,
+            "error": kwargs.get("error"),
+            "text": kwargs.get("text", ""),
         }
 
         if self.view_type == "case-notes":
@@ -151,21 +153,10 @@ class EndUserDetail(TemplateView):
         if self.view_type != "case-notes":
             return Http404
 
-        response, _ = post_application_case_notes(request, self.case_id, request.POST)
+        response, _ = post_case_notes(request, self.case_id, request.POST)
 
         if "errors" in response:
-            errors = response.get("errors")
-            if errors.get("text"):
-                error = errors.get("text")[0]
-                error = error.replace("This field", "Case note")
-                error = error.replace("this field", "the case note")  # TODO: Move to API
-
-            else:
-                error_list = []
-                for key in errors:
-                    error_list.append("{field}: {error}".format(field=key, error=errors[key][0]))
-                error = "\n".join(error_list)
-            return error_page(request, error)
+            return self.get(request, error=response["errors"]["text"][0], text=request.POST.get("text"), **kwargs)
 
         return redirect(
             reverse_lazy("end_users:end_user_detail", kwargs={"pk": self.end_user_advisory_id, "type": "case-notes"})
@@ -253,7 +244,7 @@ class RespondToQuery(TemplateView):
                     request, respond_to_query_form(self.end_user_advisory_id, self.ecju_query), data=request.POST
                 )
             else:
-                error = {"required": ["This field is required"]}
+                error = {"required": ["Select yes to confirm you want to send the response"]}
                 form = ecju_query_respond_confirmation_form(
                     reverse_lazy(
                         "end_users:respond_to_query",
