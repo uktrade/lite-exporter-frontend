@@ -112,7 +112,6 @@ class GoodsDetail(TemplateView):
             control_list_entry_text = get_control_list_entry(request, self.good["control_code"])["text"]
 
         context = {
-            "case_id": self.good["query"]["id"],
             "good": self.good,
             "documents": documents,
             "type": self.view_type,
@@ -120,6 +119,7 @@ class GoodsDetail(TemplateView):
         }
 
         if self.good["query"]:
+            context["case_id"] = self.good["query"]["id"]
             status_props, _ = get_status_properties(request, self.good["case_status"]["key"])
             context["status_is_read_only"] = status_props["is_read_only"]
             context["status_is_terminal"] = status_props["is_terminal"]
