@@ -624,7 +624,7 @@ def wait_for_download_link(driver):  # noqa
     assert wait_for_download_button(driver, page=Shared(driver))
 
 
-@then(parsers.parse('Wait for "{element_id}" to be present'))  # noqa
+@when(parsers.parse('Wait for "{element_id}" to be present'))  # noqa
 def wait_for_element_to_be_present(driver, element_id):  # noqa
     assert wait_for_element(driver, element_id)
 
