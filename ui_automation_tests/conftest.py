@@ -624,11 +624,6 @@ def wait_for_download_link(driver):  # noqa
     assert wait_for_download_button(driver, page=Shared(driver))
 
 
-@when(parsers.parse('Wait for "{element_id}" to be present'))  # noqa
-def wait_for_element_to_be_present(driver, element_id):  # noqa
-    assert wait_for_element(driver, element_id)
-
-
 @when("I change my reference name")  # noqa
 def change_ref_name(driver, context):  # noqa
     driver.find_element_by_id("link-reference-name").click()

@@ -71,12 +71,12 @@ Feature: I want to indicate the standard licence I want
     When I click on end user
     And I add an end user of sub_type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
     And I upload a file "file_for_doc_upload_test_1.txt"
-    And Wait for "end_user_document_download" to be present
+    Then wait for download link
     When I click the back link
     And I click on consignees
     And I add an end user of sub_type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
     And I upload a file "file_for_doc_upload_test_1.txt"
-    And Wait for "consignee_document_download" to be present
+    Then wait for download link
     When I click the back link
     And I submit the application
     And I click applications
