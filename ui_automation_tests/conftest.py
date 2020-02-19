@@ -410,6 +410,15 @@ def switch_organisations_to_my_second_organisation(driver, context):  # noqa
     functions.click_submit(driver)
 
 
+@when("I choose a clearance level for my application")
+def choose_application_clearance_level(driver, context):
+    no = utils.get_element_index_by_text(Shared(driver).get_radio_buttons_elements(), "uk_unclassified")
+
+    Shared(driver).click_on_radio_buttons(no)
+
+    functions.click_submit(driver)
+
+
 @when("I choose to make major edits")  # noqa
 def i_choose_to_make_minor_edits(driver):  # noqa
     application_edit_type_page = ApplicationEditTypePage(driver)
@@ -586,6 +595,11 @@ def add_new_external_location(driver, name, address, country):  # noqa
 @when("I click on goods")  # noqa
 def i_click_on_goods(driver):  # noqa
     StandardApplicationTaskListPage(driver).click_goods_link()
+
+
+@when("I click on clearance level")  # noqa
+def i_click_on_goods(driver):  # noqa
+    StandardApplicationTaskListPage(driver).click_clearance_level_link()
 
 
 @when("I add a non-incorporated good to the application")  # noqa
