@@ -15,6 +15,7 @@ from applications.services import (
     delete_application_preexisting_good,
     add_document_data,
 )
+from conf.constants import EXHIBITION
 from core.helpers import convert_dict_to_query_params
 from core.services import get_units
 
@@ -41,9 +42,11 @@ class DraftGoodsList(TemplateView):
         draft_id = str(kwargs["pk"])
         application = get_application(request, draft_id)
         goods = get_application_goods(request, draft_id)
-        goods_value = get_total_goods_value(goods)
+        exhibition = application["case_type"]["sub_type"]["key"] == EXHIBITION
 
-        context = {"goods": goods, "application": application, "goods_value": goods_value}
+        context = {"goods": goods, "application": application, "exhibition": exhibition}
+        if not exhibition:
+            context["goods_value"] = get_total_goods_value(goods)
         return render(request, "applications/goods/index.html", context)
 
 
