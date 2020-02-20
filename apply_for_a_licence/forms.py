@@ -1,13 +1,14 @@
 from django.urls import reverse_lazy
 
-from conf.constants import STANDARD, OPEN, EXHIBITION, F680, GIFTING
 from applications.forms.edit import goods_categories, reference_name_form
+from conf.constants import EXHIBITION, F680, GIFTING, CaseTypes
 from lite_content.lite_exporter_frontend import strings, generic
 from lite_content.lite_exporter_frontend.applications import (
     InitialApplicationQuestionsForms,
     ExportLicenceQuestions,
     MODQuestions,
-    TranshipmentQuestions)
+    TranshipmentQuestions,
+)
 from lite_forms.components import RadioButtons, Form, TextInput, Option, FormGroup, Breadcrumbs, BackLink
 from lite_forms.helpers import conditional
 
@@ -88,12 +89,12 @@ def export_licence_questions(application_type):
                         name="application_type",
                         options=[
                             Option(
-                                key='siel',
+                                key=CaseTypes.SIEL,
                                 value=ExportLicenceQuestions.ExportLicenceQuestion.STANDARD_LICENCE,
                                 description=ExportLicenceQuestions.ExportLicenceQuestion.STANDARD_LICENCE_DESCRIPTION,
                             ),
                             Option(
-                                key='oiel',
+                                key=CaseTypes.OIEL,
                                 value=ExportLicenceQuestions.ExportLicenceQuestion.OPEN_LICENCE,
                                 description=ExportLicenceQuestions.ExportLicenceQuestion.OPEN_LICENCE_DESCRIPTION,
                             ),
@@ -118,9 +119,11 @@ def export_licence_questions(application_type):
                         ],
                     ),
                 ],
-                default_button_name=generic.CONTINUE if application_type == STANDARD else generic.SAVE_AND_CONTINUE,
+                default_button_name=generic.CONTINUE
+                if application_type == CaseTypes.SIEL
+                else generic.SAVE_AND_CONTINUE,
             ),
-            *conditional(application_type == STANDARD, [goods_categories(), have_you_been_informed()], []),
+            *conditional(application_type == CaseTypes.SIEL, [goods_categories(), have_you_been_informed()], []),
         ]
     )
 
@@ -136,7 +139,7 @@ def transhipment_questions(application_type):
                         name="application_type",
                         options=[
                             Option(
-                                key='sitl',
+                                key=CaseTypes.SITL,
                                 value=TranshipmentQuestions.TranshipmentLicenceQuestion.STANDARD_LICENCE,
                                 description=TranshipmentQuestions.TranshipmentLicenceQuestion.STANDARD_LICENCE_DESCRIPTION,
                             ),
@@ -161,9 +164,10 @@ def transhipment_questions(application_type):
                         ],
                     ),
                 ],
-                default_button_name=generic.CONTINUE if application_type == STANDARD else generic.SAVE_AND_CONTINUE,
+                default_button_name=generic.CONTINUE,
             ),
-            *conditional(application_type == STANDARD, [goods_categories(), have_you_been_informed()], []),
+            goods_categories(),
+            have_you_been_informed(),
         ]
     )
 
