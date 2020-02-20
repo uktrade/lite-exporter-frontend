@@ -4,7 +4,18 @@ from lite_content.lite_exporter_frontend import strings
 from django.urls import reverse_lazy
 
 from lite_content.lite_exporter_frontend.applications import ApplicationSuccessPage
-from lite_forms.components import HiddenField, Form, BackLink, TextArea, HTMLBlock, RadioButtons, Option, FormGroup
+from lite_forms.components import (
+    HiddenField,
+    Form,
+    BackLink,
+    TextArea,
+    HTMLBlock,
+    RadioButtons,
+    Option,
+    FormGroup,
+    TextInput,
+    DateInput,
+)
 from lite_forms.generators import confirm_form, success_page
 from lite_forms.helpers import conditional
 
@@ -88,4 +99,28 @@ def application_success_page(request, application_reference_code):
 def application_copy_form(application_type=None):
     return FormGroup(
         forms=[reference_name_form(), conditional((application_type == STANDARD), have_you_been_informed()),]
+    )
+
+
+def exhibition_details_form():
+    return Form(
+        title="Exhibition details",
+        questions=[
+            TextInput(title="Name", name="title"),
+            DateInput(
+                title="Exhibition start date",
+                description="For example, 12 11 2020",
+                prefix="first_exhibition_date",
+                name="first_exhibition_date",
+            ),
+            DateInput(
+                title="Date the clearance is need",
+                description="For example, 12 11 2020",
+                prefix="required_by_date",
+                name="required_by_date",
+            ),
+            TextArea(
+                title="The reason the clearance is needed by this date", name="reason_for_clearance", optional=True
+            ),
+        ],
     )

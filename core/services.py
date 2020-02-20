@@ -39,9 +39,7 @@ def get_item_types(request):
                     key=k,
                     value=v,
                     components=[
-                        TextArea(
-                            title="", description="", name="other_item_type", extras={"max_length": 100}, classes=[]
-                        ),
+                        TextArea(title="", description="", name="other_item_type", extras={"max_length": 100},),
                     ],
                 )
             )
