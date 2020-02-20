@@ -17,7 +17,7 @@ from lite_forms.components import (
 
 def good_on_application_form(request, good, sub_case_type):
 
-    if sub_case_type == EXHIBITION:
+    if sub_case_type["key"] != EXHIBITION:
         return Form(
             title=AddGoodToApplicationForm.TITLE,
             description=AddGoodToApplicationForm.DESCRIPTION,
