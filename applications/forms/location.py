@@ -76,7 +76,7 @@ def new_location_form(application_type):
         title="Add an external location",
         questions=[
             TextInput(title="Name", name="name"),
-            TextArea("address", "Address"),
+            TextArea("address", "Address", optional=application_type == CaseTypes.SITL),
             country_question(prefix="", countries=countries),
         ],
         default_button_name=strings.SAVE_AND_CONTINUE,
