@@ -41,7 +41,7 @@ def convert_application_to_check_your_answers(application, editable=False):
 
 def _convert_exhibition_clearance(application, editable=False):
     return {
-        applications.ApplicationSummaryPage.GOODS: _convert_goods(application["goods"]),
+        applications.ApplicationSummaryPage.GOODS: _convert_goods(application["goods"], True),
         applications.ApplicationSummaryPage.GOODS_LOCATIONS: _convert_goods_locations(application["goods_locations"]),
         applications.ApplicationSummaryPage.END_USER: convert_party(application["end_user"], application, editable),
         applications.ApplicationSummaryPage.ULTIMATE_END_USERS: [
@@ -139,18 +139,30 @@ def _convert_hmrc_query(application, editable=False):
     }
 
 
-def _convert_goods(goods):
-    return [
-        {
-            "Description": good["good"]["description"],
-            "Part number": default_na(good["good"]["part_number"]),
-            "Controlled": friendly_boolean(good["good"]["is_good_controlled"]),
-            "CLC": default_na(good["good"]["control_code"]),
-            "Quantity": intcomma(good["quantity"]) + " " + pluralise_unit(good["unit"]["value"], good["quantity"]),
-            "Value": "£" + good["value"],
-        }
-        for good in goods
-    ]
+def _convert_goods(goods, is_exhibition=False):
+    if is_exhibition:
+        return [
+            {
+                "Description": good["good"]["description"],
+                "Part number": default_na(good["good"]["part_number"]),
+                'Controlled': friendly_boolean(good["good"]["is_good_controlled"]),
+                "CLC": default_na(good["good"]["control_code"]),
+                "Item type": good["other_item_type"] if good["other_item_type"] else good["item_type"],
+            }
+            for good in goods
+        ]
+    else:
+        return [
+            {
+                "Description": good["good"]["description"],
+                "Part number": default_na(good["good"]["part_number"]),
+                'Controlled': friendly_boolean(good["good"]["is_good_controlled"]),
+                "CLC": default_na(good["good"]["control_code"]),
+                "Quantity": intcomma(good["quantity"]) + " " + pluralise_unit(good["unit"]["value"], good["quantity"]),
+                "Value": "£" + good["value"],
+            }
+            for good in goods
+        ]
 
 
 def _convert_goods_types(goods_types):
@@ -216,15 +228,15 @@ def _convert_goods_locations(goods_locations):
             {
                 "Site": site["name"],
                 "Address": site["address"]["address_line_1"]
-                + NEWLINE
-                + (site["address"]["address_line_2"] + NEWLINE if site["address"]["address_line_2"] else "")
-                + site["address"]["city"]
-                + NEWLINE
-                + site["address"]["region"]
-                + NEWLINE
-                + site["address"]["postcode"]
-                + NEWLINE
-                + site["address"]["country"]["name"],
+                           + NEWLINE
+                           + (site["address"]["address_line_2"] + NEWLINE if site["address"]["address_line_2"] else "")
+                           + site["address"]["city"]
+                           + NEWLINE
+                           + site["address"]["region"]
+                           + NEWLINE
+                           + site["address"]["postcode"]
+                           + NEWLINE
+                           + site["address"]["country"]["name"],
             }
             for site in goods_locations["data"]
         ]
