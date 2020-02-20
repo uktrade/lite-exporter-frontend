@@ -3,6 +3,7 @@ from http import HTTPStatus
 from django.http import StreamingHttpResponse
 from s3chunkuploader.file_handler import s3_client
 
+from core.objects import Application
 from conf.client import get, post, put, delete
 from conf.constants import (
     ACTIVITY_URL,
@@ -40,9 +41,9 @@ def get_applications(request, page: int = 1, submitted: bool = True):
     return data.json()
 
 
-def get_application(request, pk):
+def get_application(request, pk) -> Application:
     data = get(request, APPLICATIONS_URL + str(pk))
-    return data.json()
+    return Application(data.json())
 
 
 def post_applications(request, json):

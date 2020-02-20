@@ -32,7 +32,7 @@ def get_application_task_list(request, application, errors=None):
     """
     Returns a correctly formatted task list page for the supplied application
     """
-    if application["case_type"]["sub_type"]["key"] == HMRC:
+    if application.get_application_sub_type() == HMRC:
         return _get_hmrc_query_task_list(request, application)
     else:
         return _get_task_list(request, application, errors)
@@ -60,7 +60,7 @@ def _get_task_list(request, application, errors=None):
     additional_documents, _ = get_additional_documents(request, application["id"])
     sites, _ = get_sites_on_draft(request, application["id"])
     external_locations, _ = get_external_locations_on_draft(request, application["id"])
-    application_type = application["case_type"]["sub_type"]["key"]
+    application_type = application.get_application_sub_type()
     edit = get_edit_type(application)
 
     context = {

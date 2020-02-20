@@ -92,8 +92,15 @@ def post_external_locations_on_draft(request, pk, json):
 
 
 def post_external_locations(request, pk, json):
-    data = post(request, ORGANISATIONS_URL + pk + EXTERNAL_LOCATIONS_URL, json)
-    return data.json(), data.status_code
+    data = post(request, ORGANISATIONS_URL + str(request.user.organisation) + EXTERNAL_LOCATIONS_URL, json)
+
+    if 'errors' in data.json():
+        return data.json(), data.status_code
+
+    # Append the new external location to the list of external locations rather than clearing them
+    _id = data.json()["external_location"]["id"]
+    data = {"external_locations": [_id], "method": "append_location"}
+    return post_external_locations_on_draft(request, str(pk), data)
 
 
 def get_notifications(request):
