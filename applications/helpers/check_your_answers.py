@@ -12,7 +12,7 @@ from conf.constants import (
     GIFTING,
     F680,
 )
-from core.builtins.custom_tags import default_na, friendly_boolean, pluralise_unit
+from core.builtins.custom_tags import default_na, friendly_boolean, pluralise_unit, date_display
 from core.helpers import convert_to_link
 from lite_content.lite_exporter_frontend import applications
 from lite_content.lite_exporter_frontend.strings import Parties
@@ -41,6 +41,7 @@ def convert_application_to_check_your_answers(application, editable=False):
 
 def _convert_exhibition_clearance(application, editable=False):
     return {
+        applications.ApplicationSummaryPage.EXHIBITION_DETAILS: _get_exhibition_details(application),
         applications.ApplicationSummaryPage.GOODS: _convert_goods(application["goods"], True),
         applications.ApplicationSummaryPage.GOODS_LOCATIONS: _convert_goods_locations(application["goods_locations"]),
         applications.ApplicationSummaryPage.END_USER: convert_party(application["end_user"], application, editable),
@@ -163,6 +164,17 @@ def _convert_goods(goods, is_exhibition=False):
             }
             for good in goods
         ]
+
+
+def _get_exhibition_details(application):
+    data = {
+        "Title": application["title"],
+        "Exhibition start date": date_display(application["first_exhibition_date"]),
+        "Required by": date_display(application["required_by_date"]),
+    }
+    if application["reason_for_clearance"]:
+        data["reason for clearance"] = application["reason_for_clearance"]
+    return data
 
 
 def _convert_goods_types(goods_types):

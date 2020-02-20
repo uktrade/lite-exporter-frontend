@@ -1,6 +1,9 @@
+from django.urls import reverse_lazy
+
 from conf.constants import EXHIBITION
 from core.services import get_units, get_item_types
 from goods.helpers import good_summary
+from lite_content.lite_exporter_frontend import strings
 from lite_content.lite_exporter_frontend.goods import AddGoodToApplicationForm
 from lite_forms.components import (
     Form,
@@ -11,11 +14,11 @@ from lite_forms.components import (
     CurrencyInput,
     RadioButtons,
     Option,
-    TextArea,
+    BackLink,
 )
 
 
-def good_on_application_form(request, good, sub_case_type):
+def good_on_application_form(request, good, sub_case_type, application_id):
 
     if sub_case_type["key"] != EXHIBITION:
         return Form(
@@ -55,6 +58,10 @@ def good_on_application_form(request, good, sub_case_type):
                     classes=["govuk-radios--inline"],
                 ),
             ],
+            back_link=BackLink(
+                strings.BACK_TO_APPLICATION,
+                reverse_lazy("applications:preexisting_good", kwargs={"pk": application_id}),
+            ),
             javascript_imports=["/assets/javascripts/add_good.js"],
         )
     else:
@@ -65,4 +72,8 @@ def good_on_application_form(request, good, sub_case_type):
                 HiddenField(name="good_id", value=good.get("id")),
                 RadioButtons(title="", description="", name="item_type", options=get_item_types(request)),
             ],
+            back_link=BackLink(
+                strings.BACK_TO_APPLICATION,
+                reverse_lazy("applications:preexisting_good", kwargs={"pk": application_id}),
+            ),
         )
