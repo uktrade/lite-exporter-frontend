@@ -7,7 +7,7 @@ from lite_content.lite_exporter_frontend.applications import (
     InitialApplicationQuestionsForms,
     ExportLicenceQuestions,
     MODQuestions,
-)
+    TranshipmentQuestions)
 from lite_forms.components import RadioButtons, Form, TextInput, Option, FormGroup, Breadcrumbs, BackLink
 from lite_forms.helpers import conditional
 
@@ -77,7 +77,7 @@ def have_you_been_informed():
     )
 
 
-def export_licence_questions(application_type, is_transhipment=False):
+def export_licence_questions(application_type):
     return FormGroup(
         [
             Form(
@@ -88,17 +88,14 @@ def export_licence_questions(application_type, is_transhipment=False):
                         name="application_type",
                         options=[
                             Option(
-                                key=STANDARD,
+                                key='siel',
                                 value=ExportLicenceQuestions.ExportLicenceQuestion.STANDARD_LICENCE,
                                 description=ExportLicenceQuestions.ExportLicenceQuestion.STANDARD_LICENCE_DESCRIPTION,
                             ),
-                            conditional(
-                                not is_transhipment,
-                                Option(
-                                    key=OPEN,
-                                    value=ExportLicenceQuestions.ExportLicenceQuestion.OPEN_LICENCE,
-                                    description=ExportLicenceQuestions.ExportLicenceQuestion.OPEN_LICENCE_DESCRIPTION,
-                                ),
+                            Option(
+                                key='oiel',
+                                value=ExportLicenceQuestions.ExportLicenceQuestion.OPEN_LICENCE,
+                                description=ExportLicenceQuestions.ExportLicenceQuestion.OPEN_LICENCE_DESCRIPTION,
                             ),
                         ],
                     ),
@@ -106,6 +103,49 @@ def export_licence_questions(application_type, is_transhipment=False):
                 default_button_name=generic.CONTINUE,
                 back_link=BackLink(
                     ExportLicenceQuestions.ExportLicenceQuestion.BACK, reverse_lazy("apply_for_a_licence:start")
+                ),
+            ),
+            reference_name_form(),
+            Form(
+                title=ExportLicenceQuestions.ExportType.TITLE,
+                description=ExportLicenceQuestions.ExportType.DESCRIPTION,
+                questions=[
+                    RadioButtons(
+                        name="export_type",
+                        options=[
+                            Option("temporary", ExportLicenceQuestions.ExportType.TEMPORARY),
+                            Option("permanent", ExportLicenceQuestions.ExportType.PERMANENT),
+                        ],
+                    ),
+                ],
+                default_button_name=generic.CONTINUE if application_type == STANDARD else generic.SAVE_AND_CONTINUE,
+            ),
+            *conditional(application_type == STANDARD, [goods_categories(), have_you_been_informed()], []),
+        ]
+    )
+
+
+def transhipment_questions(application_type):
+    return FormGroup(
+        [
+            Form(
+                title=TranshipmentQuestions.TranshipmentLicenceQuestion.TITLE,
+                description=TranshipmentQuestions.TranshipmentLicenceQuestion.DESCRIPTION,
+                questions=[
+                    RadioButtons(
+                        name="application_type",
+                        options=[
+                            Option(
+                                key='sitl',
+                                value=TranshipmentQuestions.TranshipmentLicenceQuestion.STANDARD_LICENCE,
+                                description=TranshipmentQuestions.TranshipmentLicenceQuestion.STANDARD_LICENCE_DESCRIPTION,
+                            ),
+                        ],
+                    ),
+                ],
+                default_button_name=generic.CONTINUE,
+                back_link=BackLink(
+                    TranshipmentQuestions.TranshipmentLicenceQuestion.BACK, reverse_lazy("apply_for_a_licence:start")
                 ),
             ),
             reference_name_form(),
