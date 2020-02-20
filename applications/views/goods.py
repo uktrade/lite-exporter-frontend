@@ -17,7 +17,6 @@ from applications.services import (
 )
 from conf.constants import EXHIBITION
 from core.helpers import convert_dict_to_query_params
-from core.services import get_units
 
 from goods.forms import document_grading_form, attach_documents_form, add_good_form_group
 from goods.services import (
