@@ -5,7 +5,7 @@ from django.http import StreamingHttpResponse
 
 from core.helpers import convert_parameters_to_query_params
 from lite_content.lite_exporter_frontend.generic import Document
-from lite_forms.components import Option
+from lite_forms.components import Option, TextArea
 
 from conf.client import get, post, put, delete
 from conf.constants import (
@@ -32,8 +32,21 @@ def get_units(request):
 def get_item_types(request):
     data = get(request, ITEM_TYPES_URL).json().get("item_types")
     options = []
-    for item in data:
-        options.append(Option(key=list(item.keys())[0], value=list(item.values())[0]))
+    for k, v in data.items():
+        if k == "other":
+            options.append(
+                Option(
+                    key=k,
+                    value=v,
+                    components=[
+                        TextArea(
+                            title="", description="", name="other_item_type", extras={"max_length": 100}, classes=[]
+                        ),
+                    ],
+                )
+            )
+        else:
+            options.append(Option(key=k, value=v))
     return options
 
 

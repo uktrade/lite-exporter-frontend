@@ -60,9 +60,9 @@ def good_on_application_form(request, good, sub_case_type):
     else:
         return Form(
             title="Select what will be exhibited for the product",
+            description="",
             questions=[
                 HiddenField(name="good_id", value=good.get("id")),
                 RadioButtons(title="", description="", name="item_type", options=get_item_types(request)),
-                TextArea(title="", description="", name="other_item_type", extras={"max_length": 100}, classes=[]),
             ],
         )
