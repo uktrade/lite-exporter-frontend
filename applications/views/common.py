@@ -375,8 +375,21 @@ class ApplicationCopy(MultiFormView):
 class ExhibitionDetail(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
+        self.data = get_application(request, self.object_pk)
         self.form = exhibition_details_form()
         self.action = post_exhibition
+
+    def get_data(self):
+        data = self.data
+        date_fields = ["first_exhibition_date", "required_by_date"]
+        for field in date_fields:
+            if data.get(field, False):
+                date_split = data[field].split("-")
+                data[field + "day"] = date_split[2]
+                data[field + "month"] = date_split[1]
+                data[field + "year"] = date_split[0]
+
+        return data
 
     def get_success_url(self):
         return reverse_lazy("applications:task_list", kwargs={"pk": self.object_pk})

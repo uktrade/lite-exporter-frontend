@@ -145,7 +145,7 @@ def _convert_goods(goods, is_exhibition=False):
             {
                 "Description": good["good"]["description"],
                 "Part number": default_na(good["good"]["part_number"]),
-                'Controlled': friendly_boolean(good["good"]["is_good_controlled"]),
+                "Controlled": friendly_boolean(good["good"]["is_good_controlled"]),
                 "CLC": default_na(good["good"]["control_code"]),
                 "Item type": good["other_item_type"] if good["other_item_type"] else good["item_type"],
             }
@@ -156,7 +156,7 @@ def _convert_goods(goods, is_exhibition=False):
             {
                 "Description": good["good"]["description"],
                 "Part number": default_na(good["good"]["part_number"]),
-                'Controlled': friendly_boolean(good["good"]["is_good_controlled"]),
+                "Controlled": friendly_boolean(good["good"]["is_good_controlled"]),
                 "CLC": default_na(good["good"]["control_code"]),
                 "Quantity": intcomma(good["quantity"]) + " " + pluralise_unit(good["unit"]["value"], good["quantity"]),
                 "Value": "£" + good["value"],
@@ -228,15 +228,15 @@ def _convert_goods_locations(goods_locations):
             {
                 "Site": site["name"],
                 "Address": site["address"]["address_line_1"]
-                           + NEWLINE
-                           + (site["address"]["address_line_2"] + NEWLINE if site["address"]["address_line_2"] else "")
-                           + site["address"]["city"]
-                           + NEWLINE
-                           + site["address"]["region"]
-                           + NEWLINE
-                           + site["address"]["postcode"]
-                           + NEWLINE
-                           + site["address"]["country"]["name"],
+                + NEWLINE
+                + (site["address"]["address_line_2"] + NEWLINE if site["address"]["address_line_2"] else "")
+                + site["address"]["city"]
+                + NEWLINE
+                + site["address"]["region"]
+                + NEWLINE
+                + site["address"]["postcode"]
+                + NEWLINE
+                + site["address"]["country"]["name"],
             }
             for site in goods_locations["data"]
         ]
