@@ -114,13 +114,16 @@ def exhibition_details_form():
                 name="first_exhibition_date",
             ),
             DateInput(
-                title="Date the clearance is need",
+                title="Date the clearance is needed",
                 description="For example, 12 11 2020",
                 prefix="required_by_date",
                 name="required_by_date",
             ),
             TextArea(
-                title="The reason the clearance is needed by this date", name="reason_for_clearance", optional=True
+                title="The reason the clearance is needed by this date",
+                name="reason_for_clearance",
+                optional=True,
+                extras={"max_length": 2000},
             ),
         ],
     )
