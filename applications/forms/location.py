@@ -83,13 +83,17 @@ def new_location_form(application_type):
     )
 
 
-def external_locations_form(request):
+def external_locations_form(request, application_type):
+    exclude = []
+    if application_type == CaseTypes.SITL:
+        exclude.append("GB")
+
     return Form(
         title="Select locations",
-        description="",
         questions=[
             Filter(),
-            Checkboxes("external_locations", get_external_locations(request, str(request.user.organisation), True)),
+            Checkboxes(name="external_locations[]",
+                       options=get_external_locations(request, str(request.user.organisation), True, exclude)),
         ],
         javascript_imports=["/assets/javascripts/filter-checkbox-list.js"],
         default_button_name=strings.SAVE_AND_CONTINUE,

@@ -54,10 +54,11 @@ def post_sites_on_draft(request, pk, json):
     return data.json(), data.status_code
 
 
-def get_external_locations(request, pk, formatted=False):
-    data = get(request, ORGANISATIONS_URL + str(pk) + EXTERNAL_LOCATIONS_URL)
+def get_external_locations(request, pk, convert_to_options=False, exclude: list = None):
+    data = get(request, ORGANISATIONS_URL + str(pk) + EXTERNAL_LOCATIONS_URL + "?" +
+               convert_value_to_query_param("exclude", exclude))
 
-    if formatted:
+    if convert_to_options:
         external_locations_options = []
 
         for external_location in data.json().get("external_locations"):
@@ -77,7 +78,7 @@ def get_external_locations(request, pk, formatted=False):
 
 
 def get_external_locations_on_draft(request, pk):
-    data = get(request, APPLICATIONS_URL + pk + "/external_locations/")
+    data = get(request, APPLICATIONS_URL + str(pk) + "/external_locations/")
     return data.json(), data.status_code
 
 
@@ -87,7 +88,7 @@ def delete_external_locations_from_draft(request, pk, ext_loc_pk):
 
 
 def post_external_locations_on_draft(request, pk, json):
-    data = post(request, APPLICATIONS_URL + pk + "/external_locations/", json)
+    data = post(request, APPLICATIONS_URL + str(pk) + "/external_locations/", json)
     return data.json(), data.status_code
 
 

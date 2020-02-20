@@ -107,9 +107,7 @@ class AddExternalLocation(SingleFormView):
         application = get_application(request, self.object_pk)
         self.form = new_location_form(application.get_application_type_reference())
         self.action = post_external_locations
-
-    def get_success_url(self):
-        return reverse_lazy("applications:location", kwargs={"pk": self.object_pk})
+        self.success_url = reverse_lazy("applications:location", kwargs={"pk": self.object_pk})
 
 
 class RemoveExternalLocation(TemplateView):
@@ -121,24 +119,14 @@ class RemoveExternalLocation(TemplateView):
         return redirect(reverse_lazy("applications:location", kwargs={"pk": draft_id}))
 
 
-class AddExistingExternalLocation(TemplateView):
-    def get(self, request, **kwargs):
-        draft_id = str(kwargs["pk"])
-        data, _ = get_external_locations_on_draft(request, draft_id)
-
-        return form_page(request, external_locations_form(request), data=data)
-
-    def post(self, request, **kwargs):
-        draft_id = str(kwargs["pk"])
-
-        data = {"external_locations": request.POST.getlist("external_locations")}
-
-        response, status_code = post_external_locations_on_draft(request, draft_id, data)
-
-        if status_code != 201:
-            return form_page(request, external_locations_form(request), errors=response.get("errors"))
-
-        return redirect(reverse_lazy("applications:location", kwargs={"pk": draft_id}))
+class AddExistingExternalLocation(SingleFormView):
+    def init(self, request, **kwargs):
+        self.object_pk = kwargs["pk"]
+        application = get_application(request, self.object_pk)
+        self.data, _ = get_external_locations_on_draft(request, self.object_pk)
+        self.form = external_locations_form(request, application.get_application_type_reference())
+        self.action = post_external_locations_on_draft
+        self.success_url = reverse_lazy("applications:location", kwargs={"pk": self.object_pk})
 
 
 # Countries
