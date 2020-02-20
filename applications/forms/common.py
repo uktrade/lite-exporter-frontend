@@ -102,7 +102,7 @@ def application_copy_form(application_type=None):
     )
 
 
-def exhibition_details_form():
+def exhibition_details_form(application_id):
     return Form(
         title="Exhibition details",
         questions=[
@@ -126,4 +126,7 @@ def exhibition_details_form():
                 extras={"max_length": 2000},
             ),
         ],
+        back_link=BackLink(
+            strings.BACK_TO_APPLICATION, reverse_lazy("applications:application", kwargs={"pk": application_id}),
+        ),
     )

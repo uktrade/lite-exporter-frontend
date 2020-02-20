@@ -376,7 +376,7 @@ class ExhibitionDetail(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
         self.data = get_application(request, self.object_pk)
-        self.form = exhibition_details_form()
+        self.form = exhibition_details_form(self.object_pk)
         self.action = post_exhibition
 
     def get_data(self):
