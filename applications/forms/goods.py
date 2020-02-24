@@ -66,8 +66,8 @@ def good_on_application_form(request, good, sub_case_type, application_id):
         )
     else:
         return Form(
-            title="Select what will be exhibited for the product",
-            description="",
+            title=AddGoodToApplicationForm.Exhibition.TITLE,
+            description=AddGoodToApplicationForm.Exhibition.DESCRIPTION,
             questions=[
                 HiddenField(name="good_id", value=good.get("id")),
                 RadioButtons(title="", description="", name="item_type", options=get_item_types(request)),
