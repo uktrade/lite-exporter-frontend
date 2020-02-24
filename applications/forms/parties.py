@@ -84,7 +84,7 @@ def clearance_level_forms(options):
                 ),
             ],
             default_button_name=strings.SAVE_AND_CONTINUE,
-        )
+        ),
     ]
 
 

@@ -43,18 +43,14 @@ def _convert_exhibition_clearance(application, editable=False):
     return {
         applications.ApplicationSummaryPage.GOODS: _convert_goods(application["goods"]),
         applications.ApplicationSummaryPage.GOODS_LOCATIONS: _convert_goods_locations(application["goods_locations"]),
-        applications.ApplicationSummaryPage.END_USER: convert_party(
-            application["end_user"], application, editable
-        ),
+        applications.ApplicationSummaryPage.END_USER: convert_party(application["end_user"], application, editable),
         applications.ApplicationSummaryPage.ULTIMATE_END_USERS: [
             convert_party(party, application, editable) for party in application["ultimate_end_users"]
         ],
         applications.ApplicationSummaryPage.THIRD_PARTIES: [
             convert_party(party, application, editable) for party in application["third_parties"]
         ],
-        applications.ApplicationSummaryPage.CONSIGNEE: convert_party(
-            application["consignee"], application, editable
-        ),
+        applications.ApplicationSummaryPage.CONSIGNEE: convert_party(application["consignee"], application, editable),
         applications.ApplicationSummaryPage.SUPPORTING_DOCUMENTATION: _get_supporting_documentation(
             application["additional_documents"], application["id"]
         ),
@@ -64,9 +60,7 @@ def _convert_exhibition_clearance(application, editable=False):
 def _convert_f680_clearance(application, editable=False):
     return {
         applications.ApplicationSummaryPage.GOODS: _convert_goods(application["goods"]),
-        applications.ApplicationSummaryPage.END_USER: convert_party(
-            application["end_user"], application, editable
-        ),
+        applications.ApplicationSummaryPage.END_USER: convert_party(application["end_user"], application, editable),
         applications.ApplicationSummaryPage.THIRD_PARTIES: [
             convert_party(party, application, editable) for party in application["third_parties"]
         ],
@@ -79,9 +73,7 @@ def _convert_f680_clearance(application, editable=False):
 def _convert_gifting_clearance(application, editable=False):
     return {
         applications.ApplicationSummaryPage.GOODS: _convert_goods(application["goods"]),
-        applications.ApplicationSummaryPage.END_USER: convert_party(
-            application["end_user"], application, editable
-        ),
+        applications.ApplicationSummaryPage.END_USER: convert_party(application["end_user"], application, editable),
         applications.ApplicationSummaryPage.THIRD_PARTIES: [
             convert_party(party, application, editable) for party in application["third_parties"]
         ],
@@ -95,18 +87,14 @@ def _convert_standard_application(application, editable=False):
     return {
         applications.ApplicationSummaryPage.GOODS: _convert_goods(application["goods"]),
         applications.ApplicationSummaryPage.GOODS_LOCATIONS: _convert_goods_locations(application["goods_locations"]),
-        applications.ApplicationSummaryPage.END_USER: convert_party(
-            application["end_user"], application, editable
-        ),
+        applications.ApplicationSummaryPage.END_USER: convert_party(application["end_user"], application, editable),
         applications.ApplicationSummaryPage.ULTIMATE_END_USERS: [
             convert_party(party, application, editable) for party in application["ultimate_end_users"]
         ],
         applications.ApplicationSummaryPage.THIRD_PARTIES: [
             convert_party(party, application, editable) for party in application["third_parties"]
         ],
-        applications.ApplicationSummaryPage.CONSIGNEE: convert_party(
-            application["consignee"], application, editable
-        ),
+        applications.ApplicationSummaryPage.CONSIGNEE: convert_party(application["consignee"], application, editable),
         applications.ApplicationSummaryPage.SUPPORTING_DOCUMENTATION: _get_supporting_documentation(
             application["additional_documents"], application["id"]
         ),
@@ -136,18 +124,14 @@ def _convert_hmrc_query(application, editable=False):
             {applications.ApplicationSummaryPage.GOODS_DEPARTED: "Yes"},
             _convert_goods_locations(application["goods_locations"]),
         ),
-        applications.ApplicationSummaryPage.END_USER: convert_party(
-            application["end_user"], application, editable
-        ),
+        applications.ApplicationSummaryPage.END_USER: convert_party(application["end_user"], application, editable),
         applications.ApplicationSummaryPage.ULTIMATE_END_USERS: [
             convert_party(party, application, editable) for party in application["ultimate_end_users"]
         ],
         applications.ApplicationSummaryPage.THIRD_PARTIES: [
             convert_party(party, application, editable) for party in application["third_parties"]
         ],
-        applications.ApplicationSummaryPage.CONSIGNEE: convert_party(
-            application["consignee"], application, editable
-        ),
+        applications.ApplicationSummaryPage.CONSIGNEE: convert_party(application["consignee"], application, editable),
         applications.ApplicationSummaryPage.SUPPORTING_DOCUMENTATION: _get_supporting_documentation(
             application["supporting_documentation"], application["id"]
         ),

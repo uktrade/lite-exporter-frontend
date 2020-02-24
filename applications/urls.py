@@ -11,7 +11,8 @@ from applications.views import (
     told_by_an_official,
     optional_note,
     goods_types,
-    clearance)
+    clearance,
+)
 
 app_name = "applications"
 urlpatterns = [

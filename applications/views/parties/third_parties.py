@@ -15,7 +15,7 @@ class ThirdParties(TemplateView):
         context = {
             "application": application,
             "third_parties": application["third_parties"],
-            "has_clearance": application["case_type"]["sub_type"]["value"] in ["MOD F680 Clearance"]
+            "has_clearance": application["case_type"]["sub_type"]["value"] in ["MOD F680 Clearance"],
         }
         return render(request, "applications/parties/third-parties.html", context)
 
