@@ -23,8 +23,8 @@ from conf.constants import (
     EXISTING_PARTIES_URL,
     COUNTRIES_URL,
     PARTIES_URL,
-    APPLICATION_COPY_URL,
-    CLEARANCE)
+    APPLICATION_COPY_URL
+)
 from conf.settings import AWS_STORAGE_BUCKET_NAME, STREAMING_CHUNK_SIZE
 from core.helpers import remove_prefix, convert_parameters_to_query_params, add_validate_only_to_data
 

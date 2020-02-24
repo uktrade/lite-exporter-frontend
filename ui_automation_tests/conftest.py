@@ -410,8 +410,8 @@ def switch_organisations_to_my_second_organisation(driver, context):  # noqa
     functions.click_submit(driver)
 
 
-@when("I choose a clearance level for my application")
-def choose_application_clearance_level(driver, context):
+@when("I choose a clearance level for my application")  # noqa
+def choose_application_clearance_level(driver, context):  # noqa
     no = utils.get_element_index_by_text(Shared(driver).get_radio_buttons_elements(), "uk_unclassified")
 
     Shared(driver).click_on_radio_buttons(no)
