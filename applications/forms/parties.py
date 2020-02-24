@@ -1,9 +1,9 @@
-from applications.views.clearance import clearance_level_form
-from lite_content.lite_exporter_frontend import strings
 from django.urls import reverse_lazy
 
 from applications.components import back_to_task_list
-from core.services import get_countries, get_pv_gradings
+from core.services import get_countries
+from lite_content.lite_exporter_frontend import strings
+from lite_content.lite_exporter_frontend.applications import PartyForm, PartyTypeForm, DeletePartyDocumentForm
 from lite_forms.common import country_question
 from lite_forms.components import (
     BackLink,
@@ -17,7 +17,6 @@ from lite_forms.components import (
     Label,
 )
 from lite_forms.generators import confirm_form
-from lite_content.lite_exporter_frontend.applications import PartyForm, PartyTypeForm, DeletePartyDocumentForm
 
 
 def party_create_new_or_copy_existing_form(application_id):
@@ -70,16 +69,16 @@ def party_address_form(title, button):
 def clearance_level_forms(options):
     return [
         Form(
-            title="Select which level of clearance.",
-            description="Clearance is important",
+            title=strings.Parties.Clearance.Level.TITLE,
+            description=strings.Parties.Clearance.Level.DESCRIPTION,
             questions=[RadioButtons(name="clearance_level", options=options)],
         ),
         Form(
-            title="Descriptors, caveats or codewords",
+            title=strings.Parties.Clearance.Descriptors.TITLE,
             questions=[
                 TextInput(
-                    title="TITLE",
-                    description="Please eh",
+                    title=strings.Parties.Clearance.Descriptors.TITLE,
+                    description=strings.Parties.Clearance.Descriptors.DESCRIPTION,
                     name="descriptors",
                     optional=True,
                 ),
