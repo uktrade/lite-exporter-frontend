@@ -126,13 +126,9 @@ class CopyAndSetParty(SetParty):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
         application = get_application(request, self.object_pk)
-        has_clearance = application["case_type"]["sub_type"]["value"] in ["MOD F680 Clearance"]
         self.data = copy_party(request=request, pk=self.object_pk, party_pk=kwargs["obj_pk"])
         self.data["type"] = self.party_type
 
-        if has_clearance:
-            clearance_options = get_pv_gradings(request, convert_to_options=True)
-            self.forms = self.form(application, self.strings, self.back_url, clearance_options=clearance_options)
-        else:
-            self.data.pop("clearance_level")
-            self.forms = self.form(application, self.strings, self.back_url)
+        has_clearance = application["case_type"]["sub_type"]["value"] in ["MOD F680 Clearance"]
+        clearance_options = get_pv_gradings(request, convert_to_options=True) if has_clearance else None
+        self.forms = self.form(application, self.strings, self.back_url, clearance_options=clearance_options)

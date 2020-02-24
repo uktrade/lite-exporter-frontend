@@ -22,9 +22,8 @@ class EndUser(TemplateView):
                 "remove_url": reverse_lazy("applications:remove_end_user", kwargs=kwargs),
                 "answers": convert_party(
                     party=application["end_user"],
-                    application_id=application_id,
+                    application=application,
                     editable=application["status"]["value"] == "draft",
-                    has_clearance=application["case_type"]["sub_type"]["value"] in ["MOD F680 Clearance"]
                 ),
                 "highlight": ["Document"] if not application["end_user"]["document"] else {},
             }

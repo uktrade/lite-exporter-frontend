@@ -22,9 +22,8 @@ class Consignee(TemplateView):
                 "remove_url": reverse_lazy("applications:remove_consignee", kwargs=kwargs),
                 "answers": convert_party(
                     party=application["consignee"],
-                    application_id=application_id,
+                    application=application,
                     editable=application["status"]["value"] == "draft",
-                    has_clearance=application["case_type"]["sub_type"]["value"] in ["MOD F680 Clearance"]
                 ),
             }
             return render(request, "applications/check-your-answer.html", context)

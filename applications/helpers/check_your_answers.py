@@ -44,16 +44,16 @@ def _convert_exhibition_clearance(application, editable=False):
         applications.ApplicationSummaryPage.GOODS: _convert_goods(application["goods"]),
         applications.ApplicationSummaryPage.GOODS_LOCATIONS: _convert_goods_locations(application["goods_locations"]),
         applications.ApplicationSummaryPage.END_USER: convert_party(
-            application["end_user"], application["id"], editable
+            application["end_user"], application, editable
         ),
-        applications.ApplicationSummaryPage.ULTIMATE_END_USERS: _convert_ultimate_end_users(
-            application["ultimate_end_users"], application["id"], editable
-        ),
-        applications.ApplicationSummaryPage.THIRD_PARTIES: _convert_third_parties(
-            application["third_parties"], application["id"], editable
-        ),
+        applications.ApplicationSummaryPage.ULTIMATE_END_USERS: [
+            convert_party(party, application, editable) for party in application["ultimate_end_users"]
+        ],
+        applications.ApplicationSummaryPage.THIRD_PARTIES: [
+            convert_party(party, application, editable) for party in application["third_parties"]
+        ],
         applications.ApplicationSummaryPage.CONSIGNEE: convert_party(
-            application["consignee"], application["id"], editable
+            application["consignee"], application, editable
         ),
         applications.ApplicationSummaryPage.SUPPORTING_DOCUMENTATION: _get_supporting_documentation(
             application["additional_documents"], application["id"]
@@ -65,11 +65,11 @@ def _convert_f680_clearance(application, editable=False):
     return {
         applications.ApplicationSummaryPage.GOODS: _convert_goods(application["goods"]),
         applications.ApplicationSummaryPage.END_USER: convert_party(
-            application["end_user"], application["id"], editable
+            application["end_user"], application, editable
         ),
-        applications.ApplicationSummaryPage.THIRD_PARTIES: _convert_third_parties(
-            application["third_parties"], application["id"], editable
-        ),
+        applications.ApplicationSummaryPage.THIRD_PARTIES: [
+            convert_party(party, application, editable) for party in application["third_parties"]
+        ],
         applications.ApplicationSummaryPage.SUPPORTING_DOCUMENTATION: _get_supporting_documentation(
             application["additional_documents"], application["id"]
         ),
@@ -80,11 +80,11 @@ def _convert_gifting_clearance(application, editable=False):
     return {
         applications.ApplicationSummaryPage.GOODS: _convert_goods(application["goods"]),
         applications.ApplicationSummaryPage.END_USER: convert_party(
-            application["end_user"], application["id"], editable
+            application["end_user"], application, editable
         ),
-        applications.ApplicationSummaryPage.THIRD_PARTIES: _convert_third_parties(
-            application["third_parties"], application["id"], editable
-        ),
+        applications.ApplicationSummaryPage.THIRD_PARTIES: [
+            convert_party(party, application, editable) for party in application["third_parties"]
+        ],
         applications.ApplicationSummaryPage.SUPPORTING_DOCUMENTATION: _get_supporting_documentation(
             application["additional_documents"], application["id"]
         ),
@@ -96,16 +96,16 @@ def _convert_standard_application(application, editable=False):
         applications.ApplicationSummaryPage.GOODS: _convert_goods(application["goods"]),
         applications.ApplicationSummaryPage.GOODS_LOCATIONS: _convert_goods_locations(application["goods_locations"]),
         applications.ApplicationSummaryPage.END_USER: convert_party(
-            application["end_user"], application["id"], editable
+            application["end_user"], application, editable
         ),
-        applications.ApplicationSummaryPage.ULTIMATE_END_USERS: _convert_ultimate_end_users(
-            application["ultimate_end_users"], application["id"], editable
-        ),
-        applications.ApplicationSummaryPage.THIRD_PARTIES: _convert_third_parties(
-            application["third_parties"], application["id"], editable
-        ),
+        applications.ApplicationSummaryPage.ULTIMATE_END_USERS: [
+            convert_party(party, application, editable) for party in application["ultimate_end_users"]
+        ],
+        applications.ApplicationSummaryPage.THIRD_PARTIES: [
+            convert_party(party, application, editable) for party in application["third_parties"]
+        ],
         applications.ApplicationSummaryPage.CONSIGNEE: convert_party(
-            application["consignee"], application["id"], editable
+            application["consignee"], application, editable
         ),
         applications.ApplicationSummaryPage.SUPPORTING_DOCUMENTATION: _get_supporting_documentation(
             application["additional_documents"], application["id"]
@@ -137,16 +137,16 @@ def _convert_hmrc_query(application, editable=False):
             _convert_goods_locations(application["goods_locations"]),
         ),
         applications.ApplicationSummaryPage.END_USER: convert_party(
-            application["end_user"], application["id"], editable
+            application["end_user"], application, editable
         ),
-        applications.ApplicationSummaryPage.ULTIMATE_END_USERS: _convert_ultimate_end_users(
-            application["ultimate_end_users"], application["id"], editable
-        ),
-        applications.ApplicationSummaryPage.THIRD_PARTIES: _convert_third_parties(
-            application["third_parties"], application["id"], editable
-        ),
+        applications.ApplicationSummaryPage.ULTIMATE_END_USERS: [
+            convert_party(party, application, editable) for party in application["ultimate_end_users"]
+        ],
+        applications.ApplicationSummaryPage.THIRD_PARTIES: [
+            convert_party(party, application, editable) for party in application["third_parties"]
+        ],
         applications.ApplicationSummaryPage.CONSIGNEE: convert_party(
-            application["consignee"], application["id"], editable
+            application["consignee"], application, editable
         ),
         applications.ApplicationSummaryPage.SUPPORTING_DOCUMENTATION: _get_supporting_documentation(
             application["supporting_documentation"], application["id"]
@@ -184,18 +184,20 @@ def _convert_countries(countries):
     return [{"Name": country["name"]} for country in countries]
 
 
-def convert_party(party, application_id, editable, has_clearance=False):
+def convert_party(party, application, editable):
     if not party:
         return {}
+
+    has_clearance = application["case_type"]["sub_type"]["value"] in ["MOD F680 Clearance"]
 
     document_type = party["type"] if party["type"] != "end_user" else "end-user"
 
     if party.get("document"):
-        document = _convert_document(party, document_type, application_id, editable)
+        document = _convert_document(party, document_type, application["id"], editable)
     else:
         document = convert_to_link(
             reverse_lazy(
-                f"applications:{party['type']}_attach_document", kwargs={"pk": application_id, "obj_pk": party["id"]}
+                f"applications:{party['type']}_attach_document", kwargs={"pk": application["id"], "obj_pk": party["id"]}
             ),
             "Attach document",
         )
@@ -218,49 +220,6 @@ def convert_party(party, application_id, editable, has_clearance=False):
         data.pop("Descriptors")
 
     return data
-
-
-def _convert_ultimate_end_users(ultimate_end_users, application_id, editable):
-    return [
-        {
-            **convert_party(ultimate_end_user, application_id, editable),
-            "Document": _convert_attachable_document(
-                reverse_lazy(
-                    "applications:ultimate_end_user_download_document",
-                    kwargs={"pk": application_id, "obj_pk": ultimate_end_user["id"]},
-                ),
-                reverse_lazy(
-                    "applications:ultimate_end_user_attach_document",
-                    kwargs={"pk": application_id, "obj_pk": ultimate_end_user["id"]},
-                ),
-                ultimate_end_user["document"],
-                editable,
-            ),
-        }
-        for ultimate_end_user in ultimate_end_users
-    ]
-
-
-def _convert_third_parties(third_parties, application_id, editable):
-    return [
-        {
-            "Name": third_party["name"],
-            "Type": third_party["sub_type"]["value"],
-            "Role": third_party["role"]["value"],
-            "Address": third_party["address"] + NEWLINE + third_party["country"]["name"],
-            "Website": convert_to_link(third_party["website"]),
-            "Document": _convert_attachable_document(
-                reverse_lazy(
-                    "applications:third_party_download_document",
-                    kwargs={"pk": application_id, "obj_pk": third_party["id"]},
-                ),
-                reverse_lazy("applications:third_party_attach_document", kwargs={"pk": application_id}),
-                third_party["document"],
-                editable,
-            ),
-        }
-        for third_party in third_parties
-    ]
 
 
 def _convert_goods_locations(goods_locations):

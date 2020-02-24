@@ -105,7 +105,6 @@
 			</div>
 		</dl>
 	</div>
-
 	<div class="lite-tabs__container">
 		<div class="lite-tabs">
 			<a href="{% url 'applications:application' application.id %}" class="lite-tabs__tab {% if not type %}lite-tabs__tab--selected{% endif %}" id="link-details">
@@ -142,7 +141,6 @@
 			</a>
 		</div>
 	</div>
-
 	{% if not type %}
 		{% for key, value in answers.items %}
 			<h2 class="govuk-heading-m">{{ key }}</h2>
@@ -165,7 +163,7 @@
 									{{ key }}
 								</dt>
 								<dd class="govuk-summary-list__value">
-									{{ value|linebreaksbr }}
+									{{ value|linebreaksbr|default_na }}
 								</dd>
 							</div>
 						{% endfor %}
