@@ -90,11 +90,6 @@ def post_good_on_application(request, pk, json):
     return data.json(), data.status_code
 
 
-# def post_clearance_level_on_application(request, pk, json):
-#     data = post(request, APPLICATIONS_URL + str(pk) + APPLICATIONS_URL, json)
-#     return data.json(), data.status_code
-
-
 def get_data_from_post_good_on_app(json):
     if json.get("good_on_app_value") or json.get("good_on_app_value") == "":
         post_data = remove_prefix(json, "good_on_app_")
