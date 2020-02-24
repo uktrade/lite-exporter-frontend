@@ -598,7 +598,7 @@ def i_click_on_goods(driver):  # noqa
 
 
 @when("I click on clearance level")  # noqa
-def i_click_on_goods(driver):  # noqa
+def i_click_on_clearance_level(driver):  # noqa
     StandardApplicationTaskListPage(driver).click_clearance_level_link()
 
 

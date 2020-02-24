@@ -1,7 +1,7 @@
 from django.urls import reverse_lazy
 
 from applications.components import back_to_task_list
-from applications.services import put_application
+from applications.services import put_application, get_application
 from core.services import get_pv_gradings
 from lite_forms.components import Form, RadioButtons
 from lite_forms.views import SingleFormView
@@ -23,3 +23,5 @@ class SetClearanceLevel(SingleFormView):
         self.form = clearance_level_form(application_id=kwargs["pk"], options=pv_grading_options)
         self.action = put_application
         self.success_url = reverse_lazy("applications:task_list", kwargs={"pk": self.object_pk})
+        application = get_application(request, self.object_pk)
+        self.data = {"clearance_level": application["clearance_level"]}
