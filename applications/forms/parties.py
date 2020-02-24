@@ -1,8 +1,9 @@
+from applications.views.clearance import clearance_level_form
 from lite_content.lite_exporter_frontend import strings
 from django.urls import reverse_lazy
 
 from applications.components import back_to_task_list
-from core.services import get_countries
+from core.services import get_countries, get_pv_gradings
 from lite_forms.common import country_question
 from lite_forms.components import (
     BackLink,
@@ -66,16 +67,42 @@ def party_address_form(title, button):
     )
 
 
-def new_party_form_group(application, strings, back_url):
+def clearance_level_forms(options):
+    return [
+        Form(
+            title="Select which level of clearance.",
+            description="Clearance is important",
+            questions=[RadioButtons(name="clearance_level", options=options)],
+        ),
+        Form(
+            title="Descriptors, caveats or codewords",
+            questions=[
+                TextInput(
+                    title="TITLE",
+                    description="Please eh",
+                    name="descriptors",
+                    optional=True,
+                ),
+            ],
+            default_button_name=strings.SAVE_AND_CONTINUE,
+        )
+    ]
+
+
+def new_party_form_group(application, strings, back_url, clearance_options=None):
     back_link = BackLink(PartyTypeForm.BACK_LINK, reverse_lazy(back_url, kwargs={"pk": application["id"]}))
-    return FormGroup(
-        [
-            party_type_form(application, strings.TITLE, strings.BUTTON, back_link),
-            party_name_form(strings.NAME_FORM_TITLE, strings.BUTTON),
-            party_website_form(strings.WEBSITE_FORM_TITLE, strings.BUTTON),
-            party_address_form(strings.ADDRESS_FORM_TITLE, strings.SUBMIT_BUTTON),
-        ]
-    )
+
+    forms = [
+        party_type_form(application, strings.TITLE, strings.BUTTON, back_link),
+        party_name_form(strings.NAME_FORM_TITLE, strings.BUTTON),
+        party_website_form(strings.WEBSITE_FORM_TITLE, strings.BUTTON),
+        party_address_form(strings.ADDRESS_FORM_TITLE, strings.SUBMIT_BUTTON),
+    ]
+
+    if clearance_options:
+        forms.extend(clearance_level_forms(clearance_options))
+
+    return FormGroup(forms)
 
 
 def attach_document_form(application_id, title, return_later_text, description_text=None):

@@ -1,6 +1,7 @@
 from django.urls import reverse_lazy
 
-from applications.forms.parties import party_name_form, party_website_form, party_address_form, party_type_form
+from applications.forms.parties import party_name_form, party_website_form, party_address_form, party_type_form, \
+    clearance_level_forms
 from conf.constants import PERMANENT
 from lite_content.lite_exporter_frontend.applications import ThirdPartyForm, PartyForm, PartyTypeForm
 from lite_forms.components import BackLink, RadioButtons, Form, Option, FormGroup
@@ -25,7 +26,7 @@ def _third_party_role_form(application, title, button, options, back_url):
     )
 
 
-def third_party_forms(application, strings, back_url):
+def third_party_forms(application, strings, back_url, clearance_options=None):
     form_options = role_option_list.copy()
     export_type = application.get("export_type")
     if not export_type or export_type.get("key") == PERMANENT:
@@ -33,12 +34,15 @@ def third_party_forms(application, strings, back_url):
 
     options = [Option(key, value) for key, value in form_options.items()]
     options.append(Option("other", PartyForm.Options.OTHER, show_or=True))
-    return FormGroup(
-        [
-            _third_party_role_form(application, strings.ROLE_TITLE, strings.BUTTON, options, back_url),
-            party_type_form(application, strings.TYPE_TITLE, strings.BUTTON, BackLink()),
-            party_name_form(strings.NAME_FORM_TITLE, strings.BUTTON),
-            party_website_form(strings.WEBSITE_FORM_TITLE, strings.BUTTON),
-            party_address_form(strings.ADDRESS_FORM_TITLE, strings.SUBMIT_BUTTON),
-        ]
-    )
+    forms = [
+        _third_party_role_form(application, strings.ROLE_TITLE, strings.BUTTON, options, back_url),
+        party_type_form(application, strings.TYPE_TITLE, strings.BUTTON, BackLink()),
+        party_name_form(strings.NAME_FORM_TITLE, strings.BUTTON),
+        party_website_form(strings.WEBSITE_FORM_TITLE, strings.BUTTON),
+        party_address_form(strings.ADDRESS_FORM_TITLE, strings.SUBMIT_BUTTON),
+    ]
+
+    if clearance_options:
+        forms.extend(clearance_level_forms(clearance_options))
+
+    return FormGroup(forms)

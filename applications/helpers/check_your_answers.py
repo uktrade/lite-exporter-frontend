@@ -184,7 +184,7 @@ def _convert_countries(countries):
     return [{"Name": country["name"]} for country in countries]
 
 
-def convert_party(party, application_id, editable):
+def convert_party(party, application_id, editable, has_clearance=False):
     if not party:
         return {}
 
@@ -199,13 +199,25 @@ def convert_party(party, application_id, editable):
             ),
             "Attach document",
         )
-    return {
+
+    data = {
         "Name": party["name"],
         "Type": party["sub_type"]["value"],
+        "Clearance level": None,
+        "Descriptors": None,
         "Address": party["address"] + NEWLINE + party["country"]["name"],
         "Website": convert_to_link(party["website"]),
         "Document": document,
     }
+
+    if has_clearance:
+        data["Clearance level"] = party["clearance_level"].get("value") if party["clearance_level"] else None
+        data["Descriptors"] = party["descriptors"]
+    else:
+        data.pop("Clearance level")
+        data.pop("Descriptors")
+
+    return data
 
 
 def _convert_ultimate_end_users(ultimate_end_users, application_id, editable):

@@ -24,6 +24,7 @@ class EndUser(TemplateView):
                     party=application["end_user"],
                     application_id=application_id,
                     editable=application["status"]["value"] == "draft",
+                    has_clearance=application["case_type"]["sub_type"]["value"] in ["MOD F680 Clearance"]
                 ),
                 "highlight": ["Document"] if not application["end_user"]["document"] else {},
             }

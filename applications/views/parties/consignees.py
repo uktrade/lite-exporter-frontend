@@ -24,6 +24,7 @@ class Consignee(TemplateView):
                     party=application["consignee"],
                     application_id=application_id,
                     editable=application["status"]["value"] == "draft",
+                    has_clearance=application["case_type"]["sub_type"]["value"] in ["MOD F680 Clearance"]
                 ),
             }
             return render(request, "applications/check-your-answer.html", context)
