@@ -66,25 +66,32 @@ def party_address_form(title, button):
     )
 
 
+def party_clearance_level_form(options):
+    return Form(
+        title=strings.Parties.Clearance.Level.TITLE,
+        description=strings.Parties.Clearance.Level.DESCRIPTION,
+        questions=[RadioButtons(name="clearance_level", options=options)],
+    )
+
+
+def party_descriptor_form():
+    return Form(
+        title=strings.Parties.Clearance.Descriptors.TITLE,
+        questions=[
+            TextInput(
+                title=strings.Parties.Clearance.Descriptors.TITLE,
+                description=strings.Parties.Clearance.Descriptors.DESCRIPTION,
+                name="descriptors",
+                optional=True,
+            ),
+        ],
+    )
+
+
 def clearance_level_forms(options):
     return [
-        Form(
-            title=strings.Parties.Clearance.Level.TITLE,
-            description=strings.Parties.Clearance.Level.DESCRIPTION,
-            questions=[RadioButtons(name="clearance_level", options=options)],
-        ),
-        Form(
-            title=strings.Parties.Clearance.Descriptors.TITLE,
-            questions=[
-                TextInput(
-                    title=strings.Parties.Clearance.Descriptors.TITLE,
-                    description=strings.Parties.Clearance.Descriptors.DESCRIPTION,
-                    name="descriptors",
-                    optional=True,
-                ),
-            ],
-            default_button_name=strings.SAVE_AND_CONTINUE,
-        ),
+        party_clearance_level_form(options),
+        party_descriptor_form()
     ]
 
 

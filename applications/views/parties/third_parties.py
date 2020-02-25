@@ -39,6 +39,19 @@ class SetThirdParty(SetParty):
             post_action=post_party,
         )
 
+    def on_submission(self, request, **kwargs):
+        application = get_application(request, self.object_pk)
+        has_clearance = application["case_type"]["sub_type"]["value"] in ["MOD F680 Clearance"]
+        if not has_clearance:
+            self.forms = self.form(
+                application, self.strings, self.back_url, sub_type=self.request.POST.get("sub_type")
+            )
+
+        if int(self.request.POST.get("form_pk")) == len(self.forms.forms) - 1:
+            self.action = self.post_action
+        else:
+            self.action = self.validate_action
+
 
 class RemoveThirdParty(DeleteParty):
     def __init__(self, **kwargs):
@@ -63,3 +76,16 @@ class CopyThirdParty(CopyAndSetParty):
             validate_action=validate_party,
             post_action=post_party,
         )
+
+    def on_submission(self, request, **kwargs):
+        application = get_application(request, self.object_pk)
+        has_clearance = application["case_type"]["sub_type"]["value"] in ["MOD F680 Clearance"]
+        if not has_clearance:
+            self.forms = self.form(
+                application, self.strings, self.back_url, sub_type=self.request.POST.get("sub_type")
+            )
+
+        if int(self.request.POST.get("form_pk")) == len(self.forms.forms) - 1:
+            self.action = self.post_action
+        else:
+            self.action = self.validate_action
