@@ -172,7 +172,7 @@ def convert_party(party, application, editable):
     if not party:
         return {}
 
-    has_clearance = application["case_type"]["sub_type"]["value"] in ["MOD F680 Clearance"]
+    has_clearance = application["case_type"]["sub_type"]["key"] == F680
 
     document_type = party["type"] if party["type"] != "end_user" else "end-user"
 

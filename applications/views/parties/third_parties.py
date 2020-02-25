@@ -4,6 +4,7 @@ from django.views.generic import TemplateView
 from applications.forms.third_party import third_party_forms
 from applications.services import get_application, post_party, delete_party, validate_party
 from applications.views.parties.base import AddParty, CopyParties, SetParty, DeleteParty, CopyAndSetParty
+from conf.constants import F680
 from lite_content.lite_exporter_frontend.applications import ThirdPartyForm, ThirdPartyPage
 
 
@@ -15,7 +16,7 @@ class ThirdParties(TemplateView):
         context = {
             "application": application,
             "third_parties": application["third_parties"],
-            "has_clearance": application["case_type"]["sub_type"]["value"] in ["MOD F680 Clearance"],
+            "has_clearance": application["case_type"]["sub_type"]["key"] == F680,
         }
         return render(request, "applications/parties/third-parties.html", context)
 
@@ -41,7 +42,7 @@ class SetThirdParty(SetParty):
 
     def on_submission(self, request, **kwargs):
         application = get_application(request, self.object_pk)
-        has_clearance = application["case_type"]["sub_type"]["value"] in ["MOD F680 Clearance"]
+        has_clearance = application["case_type"]["sub_type"]["key"] == F680
         if not has_clearance:
             self.forms = self.form(
                 application, self.strings, self.back_url, sub_type=self.request.POST.get("sub_type")
@@ -79,7 +80,7 @@ class CopyThirdParty(CopyAndSetParty):
 
     def on_submission(self, request, **kwargs):
         application = get_application(request, self.object_pk)
-        has_clearance = application["case_type"]["sub_type"]["value"] in ["MOD F680 Clearance"]
+        has_clearance = application["case_type"]["sub_type"]["key"] == F680
         if not has_clearance:
             self.forms = self.form(
                 application, self.strings, self.back_url, sub_type=self.request.POST.get("sub_type")
