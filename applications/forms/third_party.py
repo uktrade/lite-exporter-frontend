@@ -20,6 +20,7 @@ role_option_list = {
     "consultant": ThirdPartyForm.Options.CONSULTANT,
     "contact": ThirdPartyForm.Options.CONTACT,
     "exporter": ThirdPartyForm.Options.EXPORTER,
+    "customer": ThirdPartyForm.Options.CUSTOMER,
 }
 
 
