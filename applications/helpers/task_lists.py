@@ -101,6 +101,7 @@ def _get_hmrc_query_task_list(request, application):
         "consignee_status": DONE if application["consignee"] else NOT_STARTED,
         "supporting_documentation_status": DONE if application["supporting_documentation"] else NOT_STARTED,
         "optional_note_status": DONE if application["reasoning"] else NOT_STARTED,
+        "strings": applications.HMRCApplicationTaskList,
     }
 
     context["show_submit_button"] = (
