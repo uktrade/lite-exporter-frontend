@@ -19,7 +19,7 @@
 				{% include "includes/task-list-item.html" with id="goods" title=strings.GOODS url=goods_url status=application.goods_types|task_list_item_status %}
 
 				{% url 'applications:location' application.id as goods_location_url %}
-				{% include "includes/task-list-item.html" with id="goods-location" title=strings.GOODS_LOCATION url=goods_location_url status=goods_locations_status %}
+				{% include "includes/task-list-item.html" with id="goods-location" title=strings.GOODS_LOCATION url=goods_location_url status=locations|task_list_item_status %}
 
 				{% url 'applications:end_user' application.id as end_user_url %}
 				{% include "includes/task-list-item.html" with id="end-user" title=strings.END_USER url=end_user_url status=application.end_user|get_parties_status %}
