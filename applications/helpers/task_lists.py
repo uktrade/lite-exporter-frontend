@@ -91,24 +91,10 @@ def _get_task_list(request, application, errors=None):
 def _get_hmrc_query_task_list(request, application):
     context = {
         "application": application,
-        "goods_types_status": DONE if application["goods_types"] else NOT_STARTED,
         "goods_locations_status": DONE
         if application["goods_locations"] or application["have_goods_departed"]
         else NOT_STARTED,
-        "end_user_status": check_all_parties_have_a_document([application["end_user"]]),
-        "ultimate_end_users_status": check_all_parties_have_a_document(application["ultimate_end_users"]),
-        "third_parties_status": DONE if application["third_parties"] else NOT_STARTED,
-        "consignee_status": DONE if application["consignee"] else NOT_STARTED,
-        "supporting_documentation_status": DONE if application["supporting_documentation"] else NOT_STARTED,
-        "optional_note_status": DONE if application["reasoning"] else NOT_STARTED,
         "strings": applications.HMRCApplicationTaskList,
     }
-
-    context["show_submit_button"] = (
-        context["goods_types_status"] == DONE
-        and context["goods_locations_status"] == DONE
-        and context["end_user_status"] == DONE
-        and context["ultimate_end_users_status"] != IN_PROGRESS
-    )
 
     return render(request, "applications/hmrc-application.html", context)
