@@ -173,7 +173,7 @@ def _get_exhibition_details(application):
         "Required by": date_display(application["required_by_date"]),
     }
     if application["reason_for_clearance"]:
-        data["reason for clearance"] = application["reason_for_clearance"]
+        data["Reason for clearance"] = application["reason_for_clearance"]
     return data
 
 
