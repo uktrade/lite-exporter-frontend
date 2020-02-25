@@ -257,7 +257,8 @@ def add_new_end_user(driver, type, name, website, address, country, context):  #
 
 @when(  # noqa
     parsers.parse(
-        'I add an end user with clearance of sub_type: "{type}", name: "{name}", website: "{website}", clearance: "{clearance}", address: "{address}" and country "{'
+        'I add an end user with clearance of sub_type: "{type}", name: "{name}",'
+        'website: "{website}", clearance: "{clearance}", address: "{address}" and country "{'
         'country}"'
     )
 )
