@@ -89,10 +89,7 @@ def party_descriptor_form():
 
 
 def clearance_level_forms(options):
-    return [
-        party_clearance_level_form(options),
-        party_descriptor_form()
-    ]
+    return [party_clearance_level_form(options), party_descriptor_form()]
 
 
 def new_party_form_group(application, strings, back_url, clearance_options=None):
