@@ -66,15 +66,16 @@ def party_address_form(title, button):
     )
 
 
-def party_clearance_level_form(options):
+def party_clearance_level_form(options, button):
     return Form(
         title=strings.Parties.Clearance.Level.TITLE,
         description=strings.Parties.Clearance.Level.DESCRIPTION,
         questions=[RadioButtons(name="clearance_level", options=options)],
+        default_button_name=button,
     )
 
 
-def party_descriptor_form():
+def party_descriptor_form(button):
     return Form(
         title=strings.Parties.Clearance.Descriptors.TITLE,
         questions=[
@@ -85,11 +86,12 @@ def party_descriptor_form():
                 optional=True,
             ),
         ],
+        default_button_name=button,
     )
 
 
-def clearance_level_forms(options):
-    return [party_clearance_level_form(options), party_descriptor_form()]
+def clearance_level_forms(options, button):
+    return [party_clearance_level_form(options, button), party_descriptor_form(button)]
 
 
 def new_party_form_group(application, strings, back_url, clearance_options=None):
@@ -99,11 +101,12 @@ def new_party_form_group(application, strings, back_url, clearance_options=None)
         party_type_form(application, strings.TITLE, strings.BUTTON, back_link),
         party_name_form(strings.NAME_FORM_TITLE, strings.BUTTON),
         party_website_form(strings.WEBSITE_FORM_TITLE, strings.BUTTON),
-        party_address_form(strings.ADDRESS_FORM_TITLE, strings.SUBMIT_BUTTON),
     ]
 
     if clearance_options:
-        forms.extend(clearance_level_forms(clearance_options))
+        forms.extend(clearance_level_forms(clearance_options, strings.BUTTON))
+
+    forms.append(party_address_form(strings.ADDRESS_FORM_TITLE, strings.SUBMIT_BUTTON))
 
     return FormGroup(forms)
 
