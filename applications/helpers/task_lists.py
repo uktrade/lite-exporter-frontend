@@ -81,6 +81,8 @@ def _get_task_list(request, application, errors=None):
     if application_type == OPEN:
         context["countries"] = get_application_countries(request, application["id"])
         context["goodstypes"] = get_application_goods_types(request, application["id"])
+        destination_countries = [goods_type["countries"] for goods_type in application.get("goods_types")][0]
+        context["destinations"] = set([destination["id"] for destination in destination_countries])
     else:
         context["goods"] = get_application_goods(request, application["id"])
         context["ultimate_end_users_required"] = True in [good["is_good_incorporated"] for good in context["goods"]]
