@@ -90,6 +90,7 @@ def _get_task_list(request, application, errors=None):
 
 def _get_hmrc_query_task_list(request, application):
     context = {
+        "strings": _get_strings(application["case_type"]["sub_type"]["key"]),
         "application": application,
         "goods_types_status": DONE if application["goods_types"] else NOT_STARTED,
         "goods_locations_status": DONE
