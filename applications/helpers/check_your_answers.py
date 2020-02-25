@@ -190,7 +190,7 @@ def convert_party(party, application, editable):
         "Name": party["name"],
         "Type": party["sub_type"]["value"],
         "Clearance level": None,
-        "Descriptors": None,
+        "Descriptors": party.get("descriptors"),
         "Address": party["address"] + NEWLINE + party["country"]["name"],
         "Website": convert_to_link(party["website"]),
         "Document": document,
@@ -198,10 +198,11 @@ def convert_party(party, application, editable):
 
     if has_clearance:
         data["Clearance level"] = party["clearance_level"].get("value") if party["clearance_level"] else None
-        data["Descriptors"] = party["descriptors"]
     else:
         data.pop("Clearance level")
-        data.pop("Descriptors")
+        # Only display descriptors on third parties for non F680 applications
+        if party["type"] != "third_party" and not data.get("Descriptors"):
+            data.pop("Descriptors")
 
     return data
 
