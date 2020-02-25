@@ -38,7 +38,7 @@
 		</li>
 	</ol>
 
-<ol class="lite-task-list">
+	<ol class="lite-task-list">
 		<li>
 			<h2 class="lite-task-list__section">
 				{% if is_editing %}
@@ -52,21 +52,21 @@
 				{% if application_type|application_type_in_list:"HAS_GOODS_TYPES" %}
 					{% url 'applications:goods_types' application.id as goods_url %}
 					{% tld goodstypes 'product' 'products' as goods_description %}
-					{% include "includes/task-list-item.html" with id='products' title=strings.GOODS url=goods_url status=goodstypes|task_list_item_status description=goods_description %}
+					{% include "includes/task-list-item.html" with id='goods' title=strings.GOODS url=goods_url status=goodstypes|task_list_item_status description=goods_description %}
 				{% endif %}
 
 				{# Goods #}
 				{% if application_type|application_type_in_list:"HAS_GOODS" %}
 					{% url 'applications:goods' application.id as goods_url %}
 					{% tld goods 'product' 'products' as goods_description %}
-					{% include "includes/task-list-item.html" with id='products' title=strings.GOODS url=goods_url status=goods|task_list_item_status description=goods_description %}
+					{% include "includes/task-list-item.html" with id='goods' title=strings.GOODS url=goods_url status=goods|task_list_item_status description=goods_description %}
 				{% endif %}
 
 				{# Location #}
 				{% if application_type|application_type_in_list:"HAS_LOCATIONS" %}
 					{% url 'applications:location' application.id as goods_url %}
 					{% tld locations 'location' 'locations' as location_description %}
-					{% include "includes/task-list-item.html" with id='locations' title=strings.GOODS_LOCATION url=goods_url status=locations|task_list_item_status description=location_description %}
+					{% include "includes/task-list-item.html" with id='location' title=strings.GOODS_LOCATION url=goods_url status=locations|task_list_item_status description=location_description %}
 				{% endif %}
 
 				{# Countries #}
@@ -84,7 +84,7 @@
 				{# End User #}
 				{% if application_type|application_type_in_list:"HAS_END_USER" %}
 					{% url 'applications:end_user' application.id as end_user_url %}
-					{% include "includes/task-list-item.html" with id="end-user" title=strings.END_USER url=end_user_url status=application.end_user|get_parties_status optional=application_type|application_type_in_list:"F680" %}
+					{% include "includes/task-list-item.html" with id="end_user" title=strings.END_USER url=end_user_url status=application.end_user|get_parties_status optional=application_type|application_type_in_list:"F680" %}
 				{% endif %}
 
 				{# Ultimate End Users #}

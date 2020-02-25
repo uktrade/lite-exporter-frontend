@@ -1,14 +1,11 @@
-{% extends 'layouts/two-pane.html' %}
+{% extends 'layouts/task-list.html' %}
 
-{% block back_link %}{% endblock %}
+{% block title %}
+	Raise a query for {{ application.organisation.name }}
+{% endblock %}
 
-{% block two_thirds %}
-	<h1 class="govuk-heading-xl govuk-!-margin-bottom-9">
-		{% block title %}
-			Raise a query for {{ application.organisation.name }}
-		{% endblock %}
-	</h1>
 
+{% block tasks %}
 	<ol class="lite-task-list">
 		<li>
 			<h2 class="lite-task-list__section">
@@ -19,10 +16,10 @@
 				{% include "includes/task-list-item.html" with id="goods" title=strings.GOODS url=goods_url status=application.goods_types|task_list_item_status %}
 
 				{% url 'applications:location' application.id as goods_location_url %}
-				{% include "includes/task-list-item.html" with id="goods-location" title=strings.GOODS_LOCATION url=goods_location_url status=locations|task_list_item_status %}
+				{% include "includes/task-list-item.html" with id="location" title=strings.GOODS_LOCATION url=goods_location_url status=locations|task_list_item_status %}
 
 				{% url 'applications:end_user' application.id as end_user_url %}
-				{% include "includes/task-list-item.html" with id="end-user" title=strings.END_USER url=end_user_url status=application.end_user|get_parties_status %}
+				{% include "includes/task-list-item.html" with id="end_user" title=strings.END_USER url=end_user_url status=application.end_user|get_parties_status %}
 
 				{% url 'applications:ultimate_end_users' application.id as ultimate_end_user_url %}
 				{% include "includes/task-list-item.html" with title=strings.ULTIMATE_END_USERS url=ultimate_end_user_url status=application.ultimate_end_users|get_parties_status optional=True %}
@@ -48,16 +45,8 @@
 				<span class="lite-task-list__section-number">2. </span> Check your answers
 			</h2>
 			<ul class="lite-task-list__items">
-				{% if show_submit_button %}
-					{% url 'applications:check_your_answers' application.id as check_your_answers_url %}
-					{% include "includes/task-list-item.html" with title="applications.HMRCApplicationTaskList.CHECK_YOUR_ANSWERS" url=check_your_answers_url hide_tag=True %}
-				{% else %}
-					<li class="lite-task-list__item">
-						<div class="lite-task-list__item-header">
-							{% lcs 'applications.HMRCApplicationTaskList.CHECK_YOUR_ANSWERS' %}
-						</div>
-					</li>
-				{% endif %}
+				{% url 'applications:check_your_answers' application.id as check_your_answers_url %}
+				{% include "includes/task-list-item.html" with title=strings.CHECK_YOUR_ANSWERS url=check_your_answers_url hide_tag=True %}
 			</ul>
 		</li>
 		<li>
