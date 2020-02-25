@@ -282,8 +282,6 @@ def add_new_end_user_with_clearance(driver, type, name, website, clearance, addr
     functions.click_submit(driver)
 
 
-
-
 @when(parsers.parse('I select "{choice}" for where my goods are located'))  # noqa
 def choose_location_type(driver, choice):  # noqa
     which_location_form = WhichLocationFormPage(driver)
