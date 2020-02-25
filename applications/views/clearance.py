@@ -3,14 +3,15 @@ from django.urls import reverse_lazy
 from applications.components import back_to_task_list
 from applications.services import put_application, get_application
 from core.services import get_pv_gradings
+from lite_content.lite_exporter_frontend.applications import ClearanceLevel
 from lite_forms.components import Form, RadioButtons
 from lite_forms.views import SingleFormView
 
 
 def clearance_level_form(application_id, options):
     return Form(
-        title="Select which level of clearance.",
-        description="Clearance is important",
+        title=ClearanceLevel.TITLE,
+        description=ClearanceLevel.DESCRIPTION,
         questions=[RadioButtons(name="clearance_level", options=options)],
         back_link=back_to_task_list(application_id),
     )
