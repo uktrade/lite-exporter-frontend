@@ -46,8 +46,7 @@ Feature: I want to create MOD Licence Applications
     And I add a non-incorporated good to the application
     Then the good is added to the application
     When I click on end user
-    And I add an end user of sub_type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
-    And I choose a clearance level for my application
+    And I add an end user with clearance of sub_type: "government", name: "Mr Smith", website: "https://www.smith.com", clearance: "uk_unclassified", address: "London" and country "Ukraine"
     And I click continue
     And I upload a file "file_for_doc_upload_test_1.txt"
     Then wait for download link
