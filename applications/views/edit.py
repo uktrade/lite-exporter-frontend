@@ -1,6 +1,7 @@
 from django.urls import reverse_lazy
 
 from applications.forms.edit import reference_name_form, goods_categories
+from applications.forms.f680_details import f680_details_form
 from applications.helpers.get_application_edit_type import get_application_edit_type, ApplicationEditTypes
 from applications.services import get_application, put_application
 from lite_content.lite_exporter_frontend import applications
@@ -36,3 +37,14 @@ class EditGoodsCategories(SingleFormView):
             return {"goods_categories": []}
 
         return data
+
+
+class EditF680Details(SingleFormView):
+    def init(self, request, **kwargs):
+        application = get_application(request, self.object_pk)
+        self.data = {"goods_categories": [x["key"] for x in application["goods_categories"]]}
+        self.form = f680_details_form(self.object_pk)
+        self.action = put_application
+
+        self.success_url = reverse_lazy("applications:task_list", kwargs={"pk": self.object_pk})
+        # return render(request, "applications/f680-details.html", {"application": application})

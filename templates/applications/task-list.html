@@ -25,6 +25,13 @@
 {% endblock %}
 
 {% block main_tasks %}
+	{# F680 clearance types #}
+	{% if application_type|application_type_in_list:"F680" %}
+		{% url 'applications:f680_details' application.id as f680_details_url %}
+		{% tld f680details 'f680detail' 'f680details' as f680_details %}
+		{% include "includes/task-list-item.html" with id='f680-details' title=strings.F680_DETAILS url=f680_details_url status=f680details|task_list_item_status description=f680_details %}
+	{% endif %}
+
 	{# Good types #}
 	{% if application_type|application_type_in_list:"HAS_GOODS_TYPES" %}
 		{% url 'applications:goods_types' application.id as goods_url %}
