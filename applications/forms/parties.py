@@ -83,7 +83,7 @@ def party_descriptor_form(button):
         title=strings.Parties.Clearance.Descriptors.TITLE,
         questions=[
             TextInput(
-                title=strings.Parties.Clearance.Descriptors.TITLE,
+                title=strings.Parties.Clearance.Descriptors.DESCRIPTION,
                 description=strings.Parties.Clearance.Descriptors.DESCRIPTION,
                 name="descriptors",
                 optional=True,
