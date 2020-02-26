@@ -54,7 +54,7 @@ def third_party_forms(application, strings, back_url, sub_type=None, clearance_o
     if clearance_options:
         forms.extend(clearance_level_forms(clearance_options, strings.BUTTON))
     elif sub_type == "other":
-        forms.append(party_descriptor_form(strings.BUTTON))
+        forms.append(party_descriptor_form(strings.BUTTON, optional=False))
 
     forms.append(party_address_form(strings.ADDRESS_FORM_TITLE, strings.SUBMIT_BUTTON))
 

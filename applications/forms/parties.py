@@ -51,11 +51,11 @@ def party_type_form(application, title, button, back_link):
 
 
 def party_name_form(title, button):
-    return Form(title=title, questions=[TextInput("name"),], default_button_name=button)
+    return Form(title=title, questions=[TextInput("name")], default_button_name=button)
 
 
 def party_website_form(title, button):
-    return Form(title=title, questions=[TextInput("website", optional=True),], default_button_name=button,)
+    return Form(title=title, questions=[TextInput("website")], default_button_name=button,)
 
 
 def party_address_form(title, button):
@@ -75,23 +75,21 @@ def party_clearance_level_form(options, button):
     )
 
 
-def party_descriptor_form(button):
+def party_descriptor_form(button, optional=False):
+    title = (
+        strings.Parties.Clearance.Descriptors.TITLE_OPTIONAL
+        if optional
+        else strings.Parties.Clearance.Descriptors.TITLE
+    )
     return Form(
-        title=strings.Parties.Clearance.Descriptors.TITLE,
-        questions=[
-            TextInput(
-                title=strings.Parties.Clearance.Descriptors.DESCRIPTION,
-                description=strings.Parties.Clearance.Descriptors.DESCRIPTION,
-                name="descriptors",
-                optional=True,
-            ),
-        ],
+        title=title,
+        questions=[TextInput(title=strings.Parties.Clearance.Descriptors.DESCRIPTION, name="descriptors")],
         default_button_name=button,
     )
 
 
 def clearance_level_forms(options, button):
-    return [party_clearance_level_form(options, button), party_descriptor_form(button)]
+    return [party_clearance_level_form(options, button), party_descriptor_form(button, optional=True)]
 
 
 def new_party_form_group(application, strings, back_url, clearance_options=None):
