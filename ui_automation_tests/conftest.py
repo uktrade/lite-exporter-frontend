@@ -29,6 +29,7 @@ from ui_automation_tests.fixtures.add_goods_query import add_goods_clc_query  # 
 from ui_automation_tests.fixtures.add_end_user_advisory import add_end_user_advisory  # noqa
 from ui_automation_tests.fixtures.sso_sign_in import sso_sign_in  # noqa
 from ui_automation_tests.fixtures.manage_case import manage_case_status_to_withdrawn, approve_case  # noqa
+from ui_automation_tests.pages.mod_clearances.ExhibitionClearanceDetails import ExhibitionClearanceDetailsPage
 from ui_automation_tests.shared.fixtures.apply_for_application import (  # noqa
     apply_for_standard_application,
     add_an_ecju_query,
@@ -762,3 +763,17 @@ def i_click_confirm(driver):  # noqa
 @then("the document is removed from the application")
 def no_documents_are_set_on_the_application(driver):  # noqa
     assert not GenericApplicationTaskListPage(driver).does_remove_additional_document_exist(driver)
+
+
+@when("I click on the Exhibition details link")
+def exhibition_details_link(driver):
+    GenericApplicationTaskListPage(driver).click_application_details_link()
+
+
+@when(parsers.parse('I enter Exhibition details with the name "{name}"'))
+def enter_exhibition_details(driver, name):
+    exhibition_details_page = ExhibitionClearanceDetailsPage(driver)
+    exhibition_details_page.enter_exhibition_name(name)
+    exhibition_details_page.enter_exhibition_start_date("1", "1", "2100")
+    exhibition_details_page.enter_exhibition_required_by_date("1", "1", "2100")
+    functions.click_submit(driver)

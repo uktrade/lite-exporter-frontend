@@ -4,14 +4,14 @@ Feature: I want to create MOD Licence Applications
   I want to apply for an MOD clearance for equipment or information if I need one
   So that I can get approval to provide the relevant equipment or information to a third party outside the UK
 
-  @LT_1169_exhibition_clearance @setup @smoke @rory
+  @LT_1169_exhibition_clearance @setup @smoke
   Scenario: Submit Exhibition Clearance Application
     Given I go to exporter homepage and choose Test Org
     When I select a licence of type "mod"
     And I select a MOD licence of type "exhibition_clearance"
     And I enter a licence name
     And I click on the Exhibition details link
-    And I enter Exhibition details
+    And I enter Exhibition details with the name "abc"
     Then The Exhibition details section is complete
     When I click on application locations link
     And I select "organisation" for where my goods are located

@@ -18,20 +18,6 @@ def create_mod_application(driver, context, type):  # noqa
     functions.click_submit(driver)
 
 
-@when("I click on the Exhibition details link")
-def exhibition_details_link(driver):
-    GenericApplicationTaskListPage(driver).click_application_details_link()
-
-
-@when("I enter Exhibition details")
-def enter_exhibition_details(driver):
-    exhibition_details_page = ExhibitionClearanceDetailsPage(driver)
-    exhibition_details_page.enter_exhibition_name("abc")
-    exhibition_details_page.enter_exhibition_start_date("1", "1", "2100")
-    exhibition_details_page.enter_exhibition_required_by_date("1", "1", "2100")
-    functions.click_submit(driver)
-
-
 @then("The Exhibition details section is complete")
 def exhibition_details_done(driver):
     GenericApplicationTaskListPage(driver).check_exhibition_details_section_status("done")
