@@ -766,12 +766,12 @@ def no_documents_are_set_on_the_application(driver):  # noqa
 
 
 @when("I click on the Exhibition details link")
-def exhibition_details_link(driver):
+def exhibition_details_link(driver):  # noqa
     GenericApplicationTaskListPage(driver).click_application_details_link()
 
 
 @when(parsers.parse('I enter Exhibition details with the name "{name}"'))
-def enter_exhibition_details(driver, name):
+def enter_exhibition_details(driver, name):  # noqa
     exhibition_details_page = ExhibitionClearanceDetailsPage(driver)
     exhibition_details_page.enter_exhibition_name(name)
     exhibition_details_page.enter_exhibition_start_date("1", "1", "2100")
