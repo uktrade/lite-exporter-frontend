@@ -9,6 +9,9 @@ from lite_forms.views import SingleFormView
 
 
 def clearance_level_form(application_id, options):
+    for option in options:
+        option.value = option.value.upper()
+
     return Form(
         title=ClearanceLevel.TITLE,
         description=ClearanceLevel.DESCRIPTION,
