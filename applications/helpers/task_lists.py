@@ -60,26 +60,25 @@ def get_application_task_list(request, application, errors=None):
         "errors": errors,
     }
 
-    if application_type != HMRC:
-        context["can_submit"] = Permissions.SUBMIT_LICENCE_APPLICATION in user_permissions
-        context["supporting_documents"] = additional_documents["documents"]
-        context["locations"] = sites["sites"] or external_locations["external_locations"]
-
-        if application_type == STANDARD:
-            context["reference_number_description"] = get_reference_number_description(application)
-
-        if application_type == OPEN:
-            context["countries"] = get_application_countries(request, application["id"])
-            context["goodstypes"] = get_application_goods_types(request, application["id"])
-            if application.get("goods_types"):
-                destination_countries = [goods_type["countries"] for goods_type in application.get("goods_types")][0]
-                context["destinations"] = set([destination["id"] for destination in destination_countries])
-        else:
-            context["goods"] = get_application_goods(request, application["id"])
-            context["ultimate_end_users_required"] = True in [good["is_good_incorporated"] for good in context["goods"]]
-
-        return render(request, "applications/task-list.html", context)
-
-    else:
+    if application_type == HMRC:
         context["locations"] = application["goods_locations"] or application["have_goods_departed"]
         return render(request, "applications/hmrc-application.html", context)
+
+    context["can_submit"] = Permissions.SUBMIT_LICENCE_APPLICATION in user_permissions
+    context["supporting_documents"] = additional_documents["documents"]
+    context["locations"] = sites["sites"] or external_locations["external_locations"]
+
+    if application_type == STANDARD:
+        context["reference_number_description"] = get_reference_number_description(application)
+
+    if application_type == OPEN:
+        context["countries"] = get_application_countries(request, application["id"])
+        context["goodstypes"] = get_application_goods_types(request, application["id"])
+        if application.get("goods_types"):
+            destination_countries = [goods_type["countries"] for goods_type in application.get("goods_types")][0]
+            context["destinations"] = set([destination["id"] for destination in destination_countries])
+    else:
+        context["goods"] = get_application_goods(request, application["id"])
+        context["ultimate_end_users_required"] = True in [good["is_good_incorporated"] for good in context["goods"]]
+
+    return render(request, "applications/task-list.html", context)
