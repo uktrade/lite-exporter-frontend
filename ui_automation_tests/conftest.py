@@ -632,16 +632,16 @@ def i_click_on_clearance_level(driver):  # noqa
 
 @when("I add a non-incorporated good to the application")  # noqa
 def i_add_a_non_incorporated_good_to_the_application(driver, context):  # noqa
-    StandardApplicationGoodsPage(driver).click_add_preexisting_good_button()
-
-    # Click the "Add to application" link on the first good
-    driver.find_elements_by_css_selector(".govuk-table__row .govuk-link")[0].click()
+    goods_page = StandardApplicationGoodsPage(driver)
+    goods_page.click_add_preexisting_good_button()
+    goods_page.click_add_to_application()
 
     # Enter good details
-    StandardApplicationGoodDetails(driver).enter_value("1")
-    StandardApplicationGoodDetails(driver).enter_quantity("2")
-    StandardApplicationGoodDetails(driver).select_unit("Number of articles")
-    StandardApplicationGoodDetails(driver).check_is_good_incorporated_false()
+    goods_details_page = StandardApplicationGoodDetails(driver)
+    goods_details_page.enter_value("1")
+    goods_details_page.enter_quantity("2")
+    goods_details_page.select_unit("Number of articles")
+    goods_details_page.check_is_good_incorporated_false()
     context.is_good_incorporated = "No"
 
     functions.click_submit(driver)

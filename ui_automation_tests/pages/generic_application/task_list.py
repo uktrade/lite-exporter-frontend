@@ -40,6 +40,10 @@ class GenericApplicationTaskListPage(BasePage):
     LINK_SUPPORTING_DOCUMENTS_ID = LINK + SECTION_SUPPORTING_DOCUMENT_ID
     SECTION_SUPPORTING_DOCUMENT_STATUS_ID = SECTION_SUPPORTING_DOCUMENT_ID + STATUS
 
+    SECTION_EXHIBITION_DETAILS_ID = "exhibition-details"
+    LINK_EXHIBITION_DETAILS_ID = LINK + SECTION_EXHIBITION_DETAILS_ID
+    SECTION_EXHIBITION_DETAILS_STATUS_ID = SECTION_EXHIBITION_DETAILS_ID + STATUS
+
     LOCATION_LINK = "link-locations"
     OPEN_GOODS_LINK = "link-products"
     LINK_END_USER_ID = "link-end-user"
@@ -110,6 +114,9 @@ class GenericApplicationTaskListPage(BasePage):
         self.driver.find_element_by_id(self.DELETE_ADDITIONAL_DOC_CONFIRM_YES).click()
         functions.click_submit(self.driver)
 
+    def click_application_details_link(self):
+        self.driver.find_element_by_id(self.LINK_EXHIBITION_DETAILS_ID).click()
+
     def click_application_locations_link(self):
         self.driver.execute_script("document.getElementById('" + self.LOCATION_LINK + "').scrollIntoView(true);")
         self.driver.find_element_by_id(self.LOCATION_LINK).click()
@@ -164,5 +171,10 @@ class GenericApplicationTaskListPage(BasePage):
 
     def check_supporting_documents_section_status(self, status):
         assert status == self.driver.find_element_by_id(self.SECTION_SUPPORTING_DOCUMENT_STATUS_ID).get_attribute(
+            "data-status"
+        )
+
+    def check_exhibition_details_section_status(self, status):
+        assert status == self.driver.find_element_by_id(self.SECTION_EXHIBITION_DETAILS_STATUS_ID).get_attribute(
             "data-status"
         )
