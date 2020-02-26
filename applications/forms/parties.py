@@ -67,9 +67,6 @@ def party_address_form(title, button):
 
 
 def party_clearance_level_form(options, button):
-    for option in options:
-        option.value = option.value.upper()
-
     return Form(
         title=strings.Parties.Clearance.Level.TITLE,
         description=strings.Parties.Clearance.Level.DESCRIPTION,
