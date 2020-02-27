@@ -11,7 +11,9 @@ from applications.views import (
     told_by_an_official,
     optional_note,
     goods_types,
-    f680_details)
+    f680_details,
+    clearance,
+)
 
 app_name = "applications"
 urlpatterns = [
@@ -256,6 +258,7 @@ urlpatterns = [
         documents.DownloadGeneratedDocument.as_view(),
         name="download_generated_document",
     ),
+    path("<uuid:pk>/clearance/", clearance.SetClearanceLevel.as_view(), name="clearance_level"),
     # This HAS to be at the bottom, otherwise it will swallow other url calls
     path("<uuid:pk>/", common.ApplicationDetail.as_view(), name="application"),
     path("<uuid:pk>/<str:type>/", common.ApplicationDetail.as_view(), name="application"),

@@ -30,6 +30,11 @@
 		{% url 'applications:f680_details' application.id as f680_details_url %}
 		{% tld f680details 'f680detail' 'f680details' as f680_details %}
 		{% include "includes/task-list-item.html" with id='f680-details' title=strings.F680_DETAILS url=f680_details_url status=f680details|task_list_item_status description=f680_details %}
+	{# Clearance Level #}
+	{% if application_type|application_type_in_list:"HAS_CLEARANCE_LEVEL" %}
+		{% url 'applications:clearance_level' application.id as clearance_url %}
+		{% tld clearance 'clearance' 'clearances' as clearance_level %}
+		{% include "includes/task-list-item.html" with id='clearance' title=strings.CLEARANCE url=clearance_url status=application.clearance_level|task_list_item_status description=clearance_description %}
 	{% endif %}
 
 	{# Good types #}
