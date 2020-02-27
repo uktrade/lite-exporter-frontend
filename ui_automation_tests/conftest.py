@@ -714,11 +714,11 @@ def no_documents_are_set_on_the_application(driver):  # noqa
     assert not AdditionalDocumentsPage(driver).does_remove_additional_document_exist(driver)
 
 
-@when(parsers.parse('I click on the "{section}" section')) # noqa
+@when(parsers.parse('I click on the "{section}" section'))  # noqa
 def go_to_task_list_section(driver, section):  # noqa
     TaskListPage(driver).click_on_task_list_section(section)
 
 
-@then(parsers.parse('The "{section}" section is set to status "{status}"')) # noqa
+@then(parsers.parse('The "{section}" section is set to status "{status}"'))  # noqa
 def go_to_task_list_section(driver, section, status):  # noqa
     assert TaskListPage(driver).get_section_status(section) == status
