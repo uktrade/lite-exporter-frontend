@@ -19,6 +19,7 @@ from conf.constants import (
     CONTROL_LIST_ENTRIES_URL,
     NEWLINE,
     PV_GRADINGS_URL,
+    ITEM_TYPES_URL,
 )
 from lite_forms.generators import error_page
 
@@ -26,6 +27,14 @@ from lite_forms.generators import error_page
 def get_units(request):
     data = get(request, UNITS_URL).json().get("units")
     return [Option(key, value) for key, value in data.items()]
+
+
+def get_item_types(request):
+    data = get(request, ITEM_TYPES_URL).json().get("item_types")
+    options = []
+    for item in data:
+        options.append(Option(key=list(item.keys())[0], value=list(item.values())[0]))
+    return options
 
 
 def get_countries(request, convert_to_options=False):
