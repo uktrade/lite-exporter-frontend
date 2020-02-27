@@ -7,32 +7,32 @@ from core.builtins.custom_tags import str_date
 class Application(Munch):
     @property
     def type_reference(self):
-        return getattr(self, "case_type")["reference"]["key"]
+        return self["case_type"]["reference"]["key"]
 
     @property
     def type_reference_value(self):
-        return getattr(self, "case_type")["reference"]["value"]
+        return self["case_type"]["reference"]["value"]
 
     @property
     def sub_type(self):
-        return getattr(self, "case_type")["sub_type"]["key"]
+        return self["case_type"]["sub_type"]["key"]
 
     @property
     def sub_type_value(self):
-        return getattr(self, "case_type")["sub_type"]["value"]
+        return self["case_type"]["sub_type"]["value"]
 
     @property
     def status(self):
         # Status can sometime be null, hence use a get
-        return getattr(self, "status").get("key")
+        return self["status"].get("key")
 
     @property
     def created_at(self):
-        return str_date(getattr(self, "created_at"))
+        return str_date(self["created_at"])
 
     @property
     def submitted_at(self):
-        return str_date(getattr(self, "submitted_at"))
+        return str_date(self["submitted_at"])
 
     def is_editable(self):
         if self.status:
