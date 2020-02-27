@@ -73,7 +73,7 @@ def good_on_application_form(request, good, sub_case_type, application_id):
                 RadioButtons(title="", description="", name="item_type", options=get_item_types(request)),
             ],
             back_link=BackLink(
-                strings.BACK_TO_APPLICATION,
+                AddGoodToApplicationForm.Exhibition.BACK_LINK,
                 reverse_lazy("applications:preexisting_good", kwargs={"pk": application_id}),
             ),
         )

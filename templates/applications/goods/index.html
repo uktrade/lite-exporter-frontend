@@ -58,9 +58,9 @@
 						{% if exhibition %}
 							<td class="govuk-table__cell">
 								{% if good_on_application.other_item_type %}
-									{{ good_on_application.other_item_type }}
+									{{ good_on_application.other_item_type|title }}
 								{% else %}
-									{{ good_on_application.item_type }}
+									{{ good_on_application.item_type|title }}
 								{% endif %}
 							</td>
 						{% else %}
