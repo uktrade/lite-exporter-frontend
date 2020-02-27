@@ -28,5 +28,3 @@ class TaskListPage(BasePage):
             return self.driver.find_element_by_css_selector(self.REMOVE_PARTY_LINK)
         except NoSuchElementException:
             return None
-
-
