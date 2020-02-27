@@ -7,8 +7,9 @@ class ApplyForALicencePage(BasePage):
     NAME_OR_REFERENCE_INPUT_ID = "name"
     LICENCE_TYPE_PARTIAL_ID = "licence_type-"
     MOD_APPLICATION_TYPE_PARTIAL_ID = "application_type-"
-    BUTTON_STANDARD_LICENCE = "input#application_type-standard"
-    BUTTON_OPEN_LICENCE = "input#application_type-open"
+    RADIOBUTTON_SIEL_LICENCE = "input#application_type-siel"
+    RADIOBUTTON_OIEL_LICENCE = "input#application_type-oiel"
+    RADIOBUTTON_SITL_LICENCE = "input#application_type-sitl"
     EXPORT_BUTTON = "export_type-"
     EXPORT_LICENCE_YES_OR_NO = "have_you_been_informed-"
     REFERENCE_NUMBER = "reference_number_on_information_form"
@@ -36,9 +37,9 @@ class ApplyForALicencePage(BasePage):
 
     def click_export_licence(self, export_type):
         if export_type == "standard":
-            return self.driver.find_element_by_css_selector(self.BUTTON_STANDARD_LICENCE).click()
+            return self.driver.find_element_by_css_selector(self.RADIOBUTTON_SIEL_LICENCE).click()
         elif export_type == "open":
-            return self.driver.find_element_by_css_selector(self.BUTTON_OPEN_LICENCE).click()
+            return self.driver.find_element_by_css_selector(self.RADIOBUTTON_OIEL_LICENCE).click()
 
     def select_goods_categories(self):
         checkboxes = self.driver.find_elements_by_name(self.CHECKBOXES_GOODS_CATEGORIES_NAME)
