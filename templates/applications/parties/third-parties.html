@@ -64,8 +64,7 @@
 						</a>
 					{% endif %}
 					<td class="govuk-table__cell govuk-table__cell--numeric">
-						<a href="{% url 'applications:remove_third_party' application.id third_party.id %}" class="govuk-link lite-link--icon">
-							{% svg 'close' %}
+						<a href="{% url 'applications:remove_third_party' application.id third_party.id %}" class="govuk-link">
 							{% lcs 'generic.Document.REMOVE' %}
 						</a>
 					</td>
