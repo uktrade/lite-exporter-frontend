@@ -1,5 +1,6 @@
 from applications.components import back_to_task_list
-from lite_content.lite_exporter_frontend import applications, generic
+from lite_content.lite_exporter_frontend import applications, generic, strings
+from lite_content.lite_exporter_frontend.applications import ExportLicenceQuestions
 from lite_forms.components import Form, TextInput, Option, Checkboxes, RadioButtons
 from lite_forms.helpers import conditional
 
@@ -36,19 +37,19 @@ def goods_categories(application_id=None):
 
 def told_by_an_official_form(application_id=None):
     return Form(
-        title="Have you been informed under an ‘end use control’ that you need to apply for a licence?",
-        description="An end use control is an official letter or email from Border Force or HMRC.",
+        title=ExportLicenceQuestions.HaveYouBeenInformedQuestion.TITLE,
+        description=ExportLicenceQuestions.HaveYouBeenInformedQuestion.DESCRIPTION,
         questions=[
             RadioButtons(
                 name="have_you_been_informed",
                 options=[
                     Option(
                         key="yes",
-                        value="Yes",
+                        value=strings.YES,
                         components=[
                             TextInput(
-                                title="Reference number",
-                                description="The reference number is on the official letter or email.",
+                                title=ExportLicenceQuestions.HaveYouBeenInformedQuestion.WHAT_WAS_THE_REFERENCE_CODE_TITLE,
+                                description=ExportLicenceQuestions.HaveYouBeenInformedQuestion.WHAT_WAS_THE_REFERENCE_CODE_DESCRIPTION,
                                 name="reference_number_on_information_form",
                                 optional=True,
                             ),
