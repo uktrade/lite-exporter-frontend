@@ -61,14 +61,14 @@ def _get_task_list(request, application, errors=None):
     sites, _ = get_sites_on_draft(request, application["id"])
     external_locations, _ = get_external_locations_on_draft(request, application["id"])
     application_type = application.get_application_sub_type()
-    edit = get_edit_type(application)
+    is_editing, edit_type = get_edit_type(application)
 
     context = {
         "strings": _get_strings(application_type),
         "application": application,
         "application_type": application_type,
-        "is_editing": edit[0],
-        "edit_type": edit[1],
+        "is_editing": is_editing,
+        "edit_type": edit_type,
         "errors": errors,
         "can_submit": Permissions.SUBMIT_LICENCE_APPLICATION in user_permissions,
         "supporting_documents": additional_documents["documents"],

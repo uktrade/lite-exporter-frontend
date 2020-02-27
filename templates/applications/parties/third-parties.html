@@ -74,6 +74,6 @@
 			</tbody>
 		</table>
 	{% else %}
-		<p class="govuk-caption-l">{% lcs 'applications.ThirdPartiesPage.NO_RESULTS' %}</p>
+		{% include 'includes/notice.html' with text='applications.ThirdPartiesPage.NO_RESULTS' %}
 	{% endif %}
 {% endblock %}

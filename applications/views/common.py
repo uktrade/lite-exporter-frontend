@@ -350,7 +350,7 @@ class ApplicationSubmitSuccessPage(TemplateView):
         application_id = kwargs["pk"]
         application = get_application(request, application_id)
 
-        if application["status"]["key"] != "submitted":
+        if application.get_status() != "submitted":
             raise Http404
 
         return application_success_page(request, application["reference_code"])
@@ -364,5 +364,5 @@ class ApplicationCopy(MultiFormView):
         self.action = copy_application
 
     def get_success_url(self):
-        id = self.get_validated_data()["data"]
-        return reverse_lazy("applications:task_list", kwargs={"pk": id})
+        _id = self.get_validated_data()["data"]
+        return reverse_lazy("applications:task_list", kwargs={"pk": _id})

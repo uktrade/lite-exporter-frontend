@@ -101,12 +101,12 @@ def get_data_from_post_good_on_app(json):
 
 # Countries
 def get_application_countries(request, pk):
-    data = get(request, APPLICATIONS_URL + pk + COUNTRIES_URL)
+    data = get(request, APPLICATIONS_URL + str(pk) + COUNTRIES_URL)
     return data.json()["countries"]
 
 
 def post_application_countries(request, pk, json):
-    data = post(request, APPLICATIONS_URL + pk + COUNTRIES_URL, json)
+    data = post(request, APPLICATIONS_URL + str(pk) + COUNTRIES_URL, json)
     return data.json(), data.status_code
 
 

@@ -1,6 +1,6 @@
 from django.urls import reverse_lazy
 
-from applications.forms.edit import goods_categories, reference_name_form
+from applications.forms.edit import goods_categories, reference_name_form, told_by_an_official_form
 from conf.constants import EXHIBITION, F680, GIFTING, CaseTypes
 from lite_content.lite_exporter_frontend import strings, generic
 from lite_content.lite_exporter_frontend.applications import (
@@ -54,30 +54,6 @@ def opening_question():
     )
 
 
-def have_you_been_informed():
-    return Form(
-        title=ExportLicenceQuestions.HaveYouBeenInformedQuestion.TITLE,
-        description=ExportLicenceQuestions.HaveYouBeenInformedQuestion.DESCRIPTION,
-        questions=[
-            RadioButtons(
-                name="have_you_been_informed",
-                options=[
-                    Option("yes", strings.YES, show_pane="pane_reference_number_on_information_form"),
-                    Option("no", strings.NO),
-                ],
-                classes=["govuk-radios--inline"],
-            ),
-            TextInput(
-                title=ExportLicenceQuestions.HaveYouBeenInformedQuestion.WHAT_WAS_THE_REFERENCE_CODE_TITLE,
-                description=ExportLicenceQuestions.HaveYouBeenInformedQuestion.WHAT_WAS_THE_REFERENCE_CODE_DESCRIPTION,
-                name="reference_number_on_information_form",
-                optional=True,
-            ),
-        ],
-        default_button_name=strings.SAVE_AND_CONTINUE,
-    )
-
-
 def export_licence_questions(application_type):
     return FormGroup(
         [
@@ -123,12 +99,12 @@ def export_licence_questions(application_type):
                 if application_type == CaseTypes.SIEL
                 else generic.SAVE_AND_CONTINUE,
             ),
-            *conditional(application_type == CaseTypes.SIEL, [goods_categories(), have_you_been_informed()], []),
+            *conditional(application_type == CaseTypes.SIEL, [goods_categories(), told_by_an_official_form()], []),
         ]
     )
 
 
-def transhipment_questions(application_type):
+def transhipment_questions():
     return FormGroup(
         [
             Form(
@@ -167,7 +143,7 @@ def transhipment_questions(application_type):
                 default_button_name=generic.CONTINUE,
             ),
             goods_categories(),
-            have_you_been_informed(),
+            told_by_an_official_form(),
         ]
     )
 
