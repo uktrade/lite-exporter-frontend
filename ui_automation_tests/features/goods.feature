@@ -33,7 +33,7 @@ Feature: I want to edit and remove goods on the goods list
   Scenario: Add a new good directly to a standard application
     Given I go to exporter homepage and choose Test Org
     When I create a standard application
-    And I click to manage goods on a standard application
+    And I click on the "goods" section
     Then I see there are no goods on the application
     When I click Add a new good
     And I add a new good with description "New good for application" part number "P123" controlled "Yes" control code "ML8a25b" and graded "yes"
