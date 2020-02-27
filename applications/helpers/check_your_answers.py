@@ -44,14 +44,6 @@ def _convert_exhibition_clearance(application, editable=False):
         applications.ApplicationSummaryPage.EXHIBITION_DETAILS: _get_exhibition_details(application),
         applications.ApplicationSummaryPage.GOODS: _convert_goods(application["goods"], True),
         applications.ApplicationSummaryPage.GOODS_LOCATIONS: _convert_goods_locations(application["goods_locations"]),
-        applications.ApplicationSummaryPage.END_USER: convert_party(application["end_user"], application, editable),
-        applications.ApplicationSummaryPage.ULTIMATE_END_USERS: [
-            convert_party(party, application, editable) for party in application["ultimate_end_users"]
-        ],
-        applications.ApplicationSummaryPage.THIRD_PARTIES: [
-            convert_party(party, application, editable) for party in application["third_parties"]
-        ],
-        applications.ApplicationSummaryPage.CONSIGNEE: convert_party(application["consignee"], application, editable),
         applications.ApplicationSummaryPage.SUPPORTING_DOCUMENTATION: _get_supporting_documentation(
             application["additional_documents"], application["id"]
         ),
