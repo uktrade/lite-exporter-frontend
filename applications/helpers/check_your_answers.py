@@ -23,7 +23,7 @@ def convert_application_to_check_your_answers(application, editable=False):
     """
     Returns a correctly formatted check your answers page for the supplied application
     """
-    sub_type = application.get_application_sub_type()
+    sub_type = application.sub_type
     if sub_type == STANDARD:
         return _convert_standard_application(application, editable)
     elif sub_type == OPEN:

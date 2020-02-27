@@ -40,11 +40,11 @@ class EditGoodsLocation(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
         application = get_application(request, self.object_pk)
-        self.form = which_location_form(self.object_pk, application.get_application_sub_type())
+        self.form = which_location_form(self.object_pk, application.sub_type)
         self.action = validate_and_update_goods_location_choice
         self.data = {"choice": Locations.DEPARTED if application.get("have_goods_departed") else ""}
 
-        if application.get_status() == "submitted":
+        if application.status == "submitted":
             if application["goods_locations"]:
                 return reverse_lazy("applications:location", kwargs={"pk": self.object_pk})
             elif application["sites"]:
@@ -79,11 +79,11 @@ class ExistingSites(SingleFormView):
         self.object_pk = kwargs["pk"]
         application = get_application(request, self.object_pk)
 
-        if application.get_status() == "submitted" and not application["sites"]:
+        if application.status == "submitted" and not application["sites"]:
             raise Http404
 
         self.data, _ = get_sites_on_draft(request, self.object_pk)
-        self.form = sites_form(request, application.get_application_type_reference())
+        self.form = sites_form(request, application.type_reference)
         self.action = post_sites_on_draft
         self.success_url = reverse_lazy("applications:location", kwargs={"pk": self.object_pk})
 
@@ -92,7 +92,7 @@ class AddExternalLocation(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
         application = get_application(request, self.object_pk)
-        self.form = new_location_form(application.get_application_type_reference())
+        self.form = new_location_form(application.type_reference)
         self.action = post_external_locations
         self.success_url = reverse_lazy("applications:location", kwargs={"pk": self.object_pk})
 
@@ -111,7 +111,7 @@ class AddExistingExternalLocation(SingleFormView):
         self.object_pk = kwargs["pk"]
         application = get_application(request, self.object_pk)
         self.data, _ = get_external_locations_on_draft(request, self.object_pk)
-        self.form = external_locations_form(request, application.get_application_type_reference())
+        self.form = external_locations_form(request, application.type_reference)
         self.action = post_external_locations_on_draft
         self.success_url = reverse_lazy("applications:location", kwargs={"pk": self.object_pk})
 

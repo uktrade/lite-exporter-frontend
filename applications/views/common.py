@@ -164,7 +164,7 @@ class ApplicationDetail(TemplateView):
             "text": kwargs.get("text", ""),
         }
 
-        if self.application.get_application_sub_type() != HMRC:
+        if self.application.sub_type != HMRC:
             if self.view_type == "case-notes":
                 context["notes"] = get_case_notes(request, self.case_id)["case_notes"]
 
@@ -350,7 +350,7 @@ class ApplicationSubmitSuccessPage(TemplateView):
         application_id = kwargs["pk"]
         application = get_application(request, application_id)
 
-        if application.get_status() != "submitted":
+        if application.status != "submitted":
             raise Http404
 
         return application_success_page(request, application["reference_code"])
@@ -360,7 +360,7 @@ class ApplicationCopy(MultiFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
         application = get_application(request, self.object_pk)
-        self.forms = application_copy_form(application.get_application_sub_type())
+        self.forms = application_copy_form(application.sub_type)
         self.action = copy_application
 
     def get_success_url(self):
