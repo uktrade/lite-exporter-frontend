@@ -11,6 +11,7 @@ from applications.views import (
     told_by_an_official,
     optional_note,
     goods_types,
+    clearance,
 )
 
 app_name = "applications"
@@ -246,12 +247,13 @@ urlpatterns = [
     path("<uuid:pk>/notes/", common.Notes.as_view(), name="notes"),
     path("<uuid:pk>/withdraw/", common.WithdrawApplication.as_view(), name="withdraw"),
     path("<uuid:pk>/surrender/", common.SurrenderApplication.as_view(), name="surrender"),
-    # Case-relevant documentation
+    # Download generated documents
     path(
-        "<uuid:pk>/generated-documents/<uuid:obj_pk>/download",
-        documents.DownloadDocument.as_view(),
+        "<uuid:case_pk>/documents/<uuid:document_pk>/download/",
+        documents.DownloadGeneratedDocument.as_view(),
         name="download_generated_document",
     ),
+    path("<uuid:pk>/clearance/", clearance.SetClearanceLevel.as_view(), name="clearance_level"),
     # This HAS to be at the bottom, otherwise it will swallow other url calls
     path("<uuid:pk>/", common.ApplicationDetail.as_view(), name="application"),
     path("<uuid:pk>/<str:type>/", common.ApplicationDetail.as_view(), name="application"),
