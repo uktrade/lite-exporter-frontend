@@ -21,13 +21,15 @@ def goods_type_form(application_type: str):
                         name="is_good_controlled",
                         options=[
                             Option(
-                                key="yes", value=CreateGoodsTypeForm.IsControlled.YES, components=[
+                                key="yes",
+                                value=CreateGoodsTypeForm.IsControlled.YES,
+                                components=[
                                     control_list_entry_question(
                                         control_list_entries=get_control_list_entries(None, convert_to_options=True),
                                         name="control_code",
                                         inset_text=False,
                                     ),
-                                ]
+                                ],
                             ),
                             Option(key="no", value=CreateGoodsTypeForm.IsControlled.NO),
                         ],

@@ -42,18 +42,19 @@ def told_by_an_official_form(application_id=None):
             RadioButtons(
                 name="have_you_been_informed",
                 options=[
-                    Option(key="yes",
-                           value="Yes",
-                           components=[
-                               TextInput(
-                                   title="Reference number",
-                                   description="The reference number is on the official letter or email.",
-                                   name="reference_number_on_information_form",
-                                   optional=True,
-                               ),
-                           ]),
-                    Option(key="no",
-                           value="No"),
+                    Option(
+                        key="yes",
+                        value="Yes",
+                        components=[
+                            TextInput(
+                                title="Reference number",
+                                description="The reference number is on the official letter or email.",
+                                name="reference_number_on_information_form",
+                                optional=True,
+                            ),
+                        ],
+                    ),
+                    Option(key="no", value="No"),
                 ],
             ),
         ],
