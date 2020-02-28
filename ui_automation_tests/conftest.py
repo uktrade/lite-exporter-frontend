@@ -1,6 +1,5 @@
 import datetime
 import os
-import time
 
 from faker import Faker
 from pytest_bdd import given, when, then, parsers
@@ -14,7 +13,6 @@ from ui_automation_tests.pages.respond_to_ecju_query_page import RespondToEcjuQu
 from ui_automation_tests.pages.submitted_applications_page import SubmittedApplicationsPages
 from ui_automation_tests.pages.standard_application.good_details import StandardApplicationGoodDetails
 from ui_automation_tests.pages.standard_application.goods import StandardApplicationGoodsPage
-from ui_automation_tests.pages.add_new_external_location_form_page import AddNewExternalLocationFormPage
 from ui_automation_tests.shared import functions
 from ui_automation_tests.shared.tools.wait import wait_for_download_button
 
