@@ -1,8 +1,5 @@
-import time
-
-from shared.BasePage import BasePage
 from shared import functions
-from shared.tools.helpers import scroll_to_element_by_id
+from shared.BasePage import BasePage
 
 
 class AddEndUserPages(BasePage):

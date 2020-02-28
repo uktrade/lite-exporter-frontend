@@ -2,6 +2,7 @@ from applications.components import back_to_task_list
 from conf.constants import HMRC, CaseTypes
 from core.services import get_countries, get_external_locations
 from lite_content.lite_exporter_frontend import goods, strings, generic
+from lite_content.lite_exporter_frontend.goods import NewLocationForm
 from lite_forms.common import country_question
 from lite_forms.components import Form, RadioButtons, Option, TextArea, Filter, Checkboxes, TextInput
 from lite_forms.helpers import conditional
@@ -73,10 +74,19 @@ def new_location_form(application_type):
     countries = get_countries(None, True, exclude)
 
     return Form(
-        title="Add an external location",
+        title=NewLocationForm.TITLE,
+        description=NewLocationForm.DESCRIPTION,
         questions=[
-            TextInput(title="Name", name="name"),
-            TextArea("address", "Address", optional=application_type == CaseTypes.SITL),
+            TextInput(name="name", title=NewLocationForm.Name.TITLE),
+            TextArea(
+                name="address",
+                title=NewLocationForm.Address.TITLE,
+                description=conditional(
+                    application_type == CaseTypes.SITL,
+                    NewLocationForm.Address.SITL_DESCRIPTION,
+                    NewLocationForm.Address.DESCRIPTION,
+                ),
+            ),
             country_question(prefix="", countries=countries),
         ],
         default_button_name=strings.SAVE_AND_CONTINUE,

@@ -4,7 +4,7 @@ from django.views.generic import TemplateView
 
 from applications.forms.hmrc import confirm_organisation_form
 from applications.services import post_applications
-from conf.constants import HMRC, CaseTypes
+from conf.constants import CaseTypes
 from core.helpers import convert_dict_to_query_params
 from core.permissions import validate_is_in_organisation_type
 from core.services import get_organisations, get_organisation
