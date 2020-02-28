@@ -53,7 +53,7 @@ Feature: I want to indicate the standard licence I want
     And I add an end user of sub_type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
     When I upload a file "file_for_doc_upload_test_1.txt"
     And I wait for download link
-    And "Delete" link is present
+    Then "Delete" link is present
     When I click on the add button
     And I add an end user of sub_type: "commercial", name: "Mr Jones", website: " ", address: "London" and country "Ukraine"
     And I upload a file "file_for_doc_upload_test_1.txt"

@@ -6,7 +6,6 @@ from faker import Faker
 from pytest_bdd import given, when, then, parsers
 from selenium.webdriver.common.by import By
 
-from step_defs.test_goods import get_file_upload_path
 from ui_automation_tests.pages.add_end_user_pages import AddEndUserPages
 from ui_automation_tests.pages.application_edit_type_page import ApplicationEditTypePage
 from ui_automation_tests.pages.application_page import ApplicationPage
@@ -15,7 +14,6 @@ from ui_automation_tests.pages.respond_to_ecju_query_page import RespondToEcjuQu
 from ui_automation_tests.pages.submitted_applications_page import SubmittedApplicationsPages
 from ui_automation_tests.pages.standard_application.good_details import StandardApplicationGoodDetails
 from ui_automation_tests.pages.standard_application.goods import StandardApplicationGoodsPage
-from ui_automation_tests.pages.add_new_external_location_form_page import AddNewExternalLocationFormPage
 from ui_automation_tests.shared import functions
 from ui_automation_tests.shared.tools.wait import wait_for_download_button
 
@@ -55,7 +53,6 @@ from ui_automation_tests.shared.fixtures.core import (  # noqa
 from ui_automation_tests.shared.fixtures.urls import exporter_url, api_url  # noqa
 
 import ui_automation_tests.shared.tools.helpers as utils
-from ui_automation_tests.pages.add_goods_page import AddGoodPage
 from ui_automation_tests.pages.generic_application.task_list import TaskListPage
 from ui_automation_tests.pages.generic_application.additional_documents import AdditionalDocumentsPage
 from ui_automation_tests.pages.apply_for_a_licence_page import ApplyForALicencePage
@@ -516,3 +513,13 @@ def go_to_task_list_section(driver, section):  # noqa
 @then(parsers.parse('The "{section}" section is set to status "{status}"'))  # noqa
 def go_to_task_list_section(driver, section, status):  # noqa
     assert TaskListPage(driver).get_section_status(section) == status
+
+
+def get_file_upload_path(filename):  # noqa
+    # Path gymnastics to get the absolute path for $PWD/../resources/(file_to_upload_x) that works everywhere
+    file_to_upload_abs_path = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, "resources", filename))
+    if "ui_automation_tests" not in file_to_upload_abs_path:
+        file_to_upload_abs_path = os.path.abspath(
+            os.path.join(os.path.dirname(__file__), os.pardir, "ui_automation_tests/resources", filename)
+        )
+    return file_to_upload_abs_path

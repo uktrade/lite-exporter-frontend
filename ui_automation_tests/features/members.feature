@@ -44,7 +44,7 @@ Feature: I want to manage my organisation's members
     When I select the member that was just added
     And I reactivate them
     Then the member is reactivated
-    And I click on the manage my organisation link
+    When I click on the manage my organisation link
     And I show filters
     And filter status has been changed to "Active"
     Then I see the new member

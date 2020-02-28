@@ -1,9 +1,9 @@
 from pytest_bdd import scenarios, when, then, parsers, given
 
 import ui_automation_tests.shared.tools.helpers as utils
+from pages.exporter_hub_page import ExporterHubPage
 from ui_automation_tests.shared import functions
 from ui_automation_tests.conftest import (
-    click_apply_licence,
     enter_type_of_application,
     enter_application_name,
     enter_permanent_or_temporary,
@@ -93,7 +93,7 @@ def see_all_or_no_selected(driver, assigned_or_unassigned):
 
 @when("I create an open application")  # noqa
 def create_open_app(driver, context):  # noqa
-    click_apply_licence(driver)
+    ExporterHubPage(driver).click_apply_for_a_licence()
     ApplyForALicencePage(driver).select_licence_type("export_licence")
     functions.click_submit(driver)
     enter_type_of_application(driver, "open", context)

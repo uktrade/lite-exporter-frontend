@@ -12,6 +12,8 @@ from ui_automation_tests.pages.shared import Shared
 from ui_automation_tests.pages.standard_application.goods import StandardApplicationGoodsPage
 from ui_automation_tests.pages.standard_application.good_details import StandardApplicationGoodDetails
 from ui_automation_tests.shared import functions
+import ui_automation_tests.shared.tools.helpers as utils
+
 
 scenarios("../features/goods.feature", strict_gherkin=False)
 
@@ -249,13 +251,3 @@ def add_good_grading(driver, prefix, grading, suffix, issuing_authority, referen
     date = date_of_issue.split("-")
     goods_grading_page.enter_date_of_issue(date[0], date[1], date[2])
     functions.click_submit(driver)
-
-
-def get_file_upload_path(filename):  # noqa
-    # Path gymnastics to get the absolute path for $PWD/../resources/(file_to_upload_x) that works everywhere
-    file_to_upload_abs_path = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, "resources", filename))
-    if "ui_automation_tests" not in file_to_upload_abs_path:
-        file_to_upload_abs_path = os.path.abspath(
-            os.path.join(os.path.dirname(__file__), os.pardir, "ui_automation_tests/resources", filename)
-        )
-    return file_to_upload_abs_path
