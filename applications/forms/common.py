@@ -104,23 +104,23 @@ def application_copy_form(application_type=None):
 
 def exhibition_details_form(application_id):
     return Form(
-        title="Exhibition details",
+        title=strings.Exhibition.EXHIBITION_TITLE,
         questions=[
             TextInput(title="Name", name="title"),
             DateInput(
-                title="Exhibition start date",
-                description="For example, 12 11 2020",
+                title=strings.Exhibition.FIRST_EXHIBITION_DATE,
+                description=strings.Exhibition.DATE_DESCRIPTION,
                 prefix="first_exhibition_date",
                 name="first_exhibition_date",
             ),
             DateInput(
-                title="Date the clearance is needed",
-                description="For example, 12 11 2020",
+                title=strings.Exhibition.REQUIRED_BY_DATE,
+                description=strings.Exhibition.DATE_DESCRIPTION,
                 prefix="required_by_date",
                 name="required_by_date",
             ),
             TextArea(
-                title="The reason the clearance is needed by this date",
+                title=strings.Exhibition.REASON_FOR_CLEARANCE,
                 name="reason_for_clearance",
                 optional=True,
                 extras={"max_length": 2000},
