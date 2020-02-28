@@ -8,7 +8,7 @@ Feature: I want to create MOD Licence Applications
   Scenario: Submit Exhibition Clearance Application
     Given I go to exporter homepage and choose Test Org
     When I select a licence of type "mod"
-    And I select a MOD licence of type "exhibition_clearance"
+    And I select a MOD licence of type "exhc"
     And I enter a licence name
     And I click on application locations link
     And I select "organisation" for where my goods are located
@@ -38,7 +38,7 @@ Feature: I want to create MOD Licence Applications
   Scenario: Submit F680 Application
     Given I go to exporter homepage and choose Test Org
     When I select a licence of type "mod"
-    And I select a MOD licence of type "f680_clearance"
+    And I select a MOD licence of type "f680"
     And I enter a licence name
     When I click on clearance level
     And I choose a clearance level for my application
@@ -61,7 +61,7 @@ Feature: I want to create MOD Licence Applications
   Scenario: Submit Gifting Application
     Given I go to exporter homepage and choose Test Org
     When I select a licence of type "mod"
-    And I select a MOD licence of type "gifting_clearance"
+    And I select a MOD licence of type "gift"
     And I enter a licence name
     When I click on goods
     And I add a non-incorporated good to the application
