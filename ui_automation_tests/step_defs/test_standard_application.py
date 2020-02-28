@@ -168,7 +168,7 @@ def party_website_autofill(driver, context):
 @then("I see the party address and country is already filled in")
 def party_address_autofill(driver, context):
     assert AddEndUserPages(driver).get_address() == context.end_user["address"]
-    assert AddEndUserPages(driver).get_country() == context.end_user["country"]["id"]
+    assert AddEndUserPages(driver).get_country() == context.end_user["country"]["name"]
 
 
 @when("I skip uploading a document")
