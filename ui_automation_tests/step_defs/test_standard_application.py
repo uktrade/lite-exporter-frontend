@@ -1,7 +1,13 @@
 from pytest_bdd import scenarios, when, then, parsers, given
 
-from conftest import enter_type_of_application, enter_application_name, enter_permanent_or_temporary, \
-    enter_export_licence, enter_case_note_text, click_post_note
+from conftest import (
+    enter_type_of_application,
+    enter_application_name,
+    enter_permanent_or_temporary,
+    enter_export_licence,
+    enter_case_note_text,
+    click_post_note,
+)
 from pages.add_new_external_location_form_page import AddNewExternalLocationFormPage
 from pages.apply_for_a_licence_page import ApplyForALicencePage
 from pages.exporter_hub_page import ExporterHubPage
@@ -22,6 +28,7 @@ from ui_automation_tests.pages.generic_application.task_list import TaskListPage
 from ui_automation_tests.pages.generic_application.end_user import EndUserPage
 
 from faker import Faker
+
 fake = Faker()
 
 scenarios(
