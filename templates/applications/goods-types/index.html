@@ -18,7 +18,7 @@
 		</div>
 		{% if application.status.key in 'applicant_editing,draft' %}
 		<div class="lite-app-bar__controls">
-			<a href="{% url 'applications:add_goods_type' application.id %}?next={% url 'applications:goods_types' application.id %}" role='button' draggable='false' class='govuk-button'>
+			<a id="button-add-good" href="{% url 'applications:add_goods_type' application.id %}?next={% url 'applications:goods_types' application.id %}" role='button' draggable='false' class='govuk-button'>
 				{% if goods %}
 					{% lcs "goods_types.OverviewPage.ADD_ANOTHER_GOODS_TYPE_BUTTON" %}
 				{% else %}

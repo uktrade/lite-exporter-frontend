@@ -98,8 +98,7 @@ def assign_all_with_link(driver, assign_or_unassign):
 
 @when("I click Add goods type button")
 def click_goods_type_button(driver):
-    goods_type_page = OpenApplicationGoodsTypesPage(driver)
-    goods_type_page.click_goods_type_button()
+    OpenApplicationGoodsTypesPage(driver).click_add_good_button()
 
 
 @then(parsers.parse('I see all countries are "{assigned_or_unassigned}" to all goods'))
@@ -113,8 +112,7 @@ def see_all_or_no_selected(driver, assigned_or_unassigned):
 
 @when("I click on the goods link from overview")  # noqa
 def click_goods_link_overview(driver):  # noqa
-    overview_page = GenericApplicationTaskListPage(driver)
-    overview_page.click_goods_type_link()
+    GenericApplicationTaskListPage(driver).click_goods_type_link()
 
 
 @when("I create an open application")  # noqa

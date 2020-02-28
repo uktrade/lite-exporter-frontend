@@ -159,17 +159,17 @@ def MOD_questions():
                         name="application_type",
                         options=[
                             Option(
-                                key=F680,
+                                key=CaseTypes.F680,
                                 value=MODQuestions.WhatAreYouApplyingFor.PERMISSION_TITLE,
                                 description=MODQuestions.WhatAreYouApplyingFor.PERMISSION_DESCRIPTION,
                             ),
                             Option(
-                                key=EXHIBITION,
+                                key=CaseTypes.EXHC,
                                 value=MODQuestions.WhatAreYouApplyingFor.EXHIBITION_CLEARANCE_TITLE,
                                 description=MODQuestions.WhatAreYouApplyingFor.EXHIBITION_CLEARANCE_DESCRIPTION,
                             ),
                             Option(
-                                key=GIFTING,
+                                key=CaseTypes.GIFT,
                                 value=MODQuestions.WhatAreYouApplyingFor.GIFTING_CLEARANCE_TITLE,
                                 description=MODQuestions.WhatAreYouApplyingFor.GIFTING_CLEARANCE_DESCRIPTION,
                             ),
