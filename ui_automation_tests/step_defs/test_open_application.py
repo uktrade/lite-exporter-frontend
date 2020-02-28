@@ -12,20 +12,11 @@ from ui_automation_tests.pages.apply_for_a_licence_page import ApplyForALicenceP
 from ui_automation_tests.pages.open_application.countries import OpenApplicationCountriesPage
 from ui_automation_tests.pages.open_application.goods_countries_page import GoodsCountriesPage
 from ui_automation_tests.pages.open_application.goods_types import OpenApplicationGoodsTypesPage
-from ui_automation_tests.pages.shared import Shared
-
 from ui_automation_tests.pages.standard_application.goods import StandardApplicationGoodsPage
 
 scenarios(
     "../features/submit_open_application.feature", "../features/edit_open_application.feature", strict_gherkin=False
 )
-
-
-@then("I see good types error messages")
-def goods_type_errors(driver):
-    shared = Shared(driver)
-    assert "This field may not be blank." in shared.get_text_of_error_messages()
-    assert "This field is required." in shared.get_text_of_error_messages()
 
 
 @then(parsers.parse('I see my goods type added at position "{position}" with a description and a control code'))

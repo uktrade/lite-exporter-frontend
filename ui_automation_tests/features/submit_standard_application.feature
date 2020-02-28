@@ -26,19 +26,19 @@ Feature: I want to indicate the standard licence I want
     When I click on the "end_user" section
     And I add an end user of sub_type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
     And I upload a file "file_for_doc_upload_test_1.txt"
-    Then wait for download link
+    And I wait for download link
     When I click the back link
     And I click on the "consignee" section
     And I add an end user of sub_type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
     And I upload a file "file_for_doc_upload_test_1.txt"
-    Then wait for download link
+    And I wait for download link
     When I click the back link
     And I click on the "notes" section
     And I add a note to the draft application
     And I submit the application
     Then application is submitted
     When I go to exporter homepage
-    And I click applications
+    And I click on applications
     Then I see submitted application
 
   @LT_1091_external @regression
@@ -52,7 +52,7 @@ Feature: I want to indicate the standard licence I want
     And I click on the add button
     And I add an end user of sub_type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
     When I upload a file "file_for_doc_upload_test_1.txt"
-    Then wait for download link
+    And I wait for download link
     And "Delete" link is present
     When I click on the add button
     And I add an end user of sub_type: "commercial", name: "Mr Jones", website: " ", address: "London" and country "Ukraine"
@@ -72,15 +72,15 @@ Feature: I want to indicate the standard licence I want
     When I click on the "end_user" section
     And I add an end user of sub_type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
     And I upload a file "file_for_doc_upload_test_1.txt"
-    Then wait for download link
-    When I click the back link
+    And I wait for download link
+    And I click the back link
     And I click on the "consignee" section
     And I add an end user of sub_type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
     And I upload a file "file_for_doc_upload_test_1.txt"
-    Then wait for download link
-    When I click the back link
+    And I wait for download link
+    And I click the back link
     And I submit the application
-    And I click applications
+    And I click on applications
     Then I see submitted application
 
   @LT_1074_copy_existing_party @regression

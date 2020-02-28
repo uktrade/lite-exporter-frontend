@@ -66,18 +66,3 @@ def clear_site(driver):
 @then("I see last site name as edited")
 def last_site_name_edited(driver, context):
     assert context.new_site_name in Shared(driver).get_text_of_body()
-
-
-@then(parsers.parse('the checkbox I have selected at position "{no}" is "{checked}"'))
-def assert_checkbox_at_position(driver, no, checked):
-    sites_page = SitesPage(driver)
-    if checked == "checked":
-        assert sites_page.get_checked_attribute_of_sites_checkbox(int(no) - 1) == "true"
-    elif checked == "unchecked":
-        assert sites_page.get_checked_attribute_of_sites_checkbox(int(no) - 1) is not "true"
-
-
-@when("I click edit sites button")
-def i_click_edit_sites_button(driver):
-    goods_locations_page = GoodsLocationsPage(driver)
-    goods_locations_page.click_edit_sites_button()

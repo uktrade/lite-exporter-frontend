@@ -1,3 +1,5 @@
+import time
+
 from pytest_bdd import when, scenarios, parsers
 
 from ui_automation_tests.pages.exporter_hub_page import ExporterHubPage
