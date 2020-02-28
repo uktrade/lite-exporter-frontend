@@ -39,12 +39,13 @@ class EditGoodsCategories(SingleFormView):
         return data
 
 
-class EditF680Details(SingleFormView):
-    def init(self, request, **kwargs):
-        application = get_application(request, self.object_pk)
-        self.data = {"goods_categories": [x["key"] for x in application["goods_categories"]]}
-        self.form = f680_details_form(self.object_pk)
-        self.action = put_application
-
-        self.success_url = reverse_lazy("applications:task_list", kwargs={"pk": self.object_pk})
+# class EditF680Details(SingleFormView):
+#     def init(self, request, **kwargs):
+#         self.object_pk = kwargs["pk"]
+#         application = get_application(request, self.object_pk)
+#         self.data = {"goods_categories": [x["key"] for x in application["goods_categories"]]}
+#         self.form = f680_details_form(self.object_pk)
+#         self.action = put_application
+#
+#         self.success_url = reverse_lazy("applications:task_list", kwargs={"pk": self.object_pk})
         # return render(request, "applications/f680-details.html", {"application": application})

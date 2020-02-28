@@ -40,6 +40,11 @@ Feature: I want to create MOD Licence Applications
     When I select a licence of type "mod"
     And I select a MOD licence of type "f680_clearance"
     And I enter a licence name
+
+    When I click on f680 details
+    And I choose a f680 details for my application
+    And the f680 details are added to application
+
     When I click on clearance level
     And I choose a clearance level for my application
     And I click on goods

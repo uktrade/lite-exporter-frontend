@@ -5,6 +5,7 @@ from shared.tools.helpers import scroll_to_element_by_id
 class StandardApplicationTaskListPage(BasePage):
 
     LINK_GOODS_ID = "link-products"
+    LINK_F680_DETAILS = "link-f680-details"
     LINK_CLEARANCE_LEVEL_ID = "link-clearance"
     LINK_GOODS_LOCATIONS_ID = "link-goods-locations"
     LINK_END_USER_ID = "link-end-user"
@@ -19,6 +20,9 @@ class StandardApplicationTaskListPage(BasePage):
 
     def click_goods_link(self):
         self._click_link(self.LINK_GOODS_ID)
+
+    def click_f680_details_link(self):
+        self._click_link(self.LINK_F680_DETAILS)
 
     def click_clearance_level_link(self):
         self._click_link(self.LINK_CLEARANCE_LEVEL_ID)

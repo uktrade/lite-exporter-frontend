@@ -42,13 +42,6 @@ def get_applications(request, page: int = 1, submitted: bool = True):
 
 def get_application(request, pk):
     data = get(request, APPLICATIONS_URL + str(pk))
-
-    print("\n")
-
-    print("application", data.json())
-
-    print("\n")
-
     return data.json()
 
 

@@ -5,14 +5,14 @@ from lite_content.lite_exporter_frontend.goods import F680Details
 from lite_forms.components import Form, Filter, Checkboxes, Option
 
 
-def f680_details_form(application_id):
+def f680_details_form(request, application_id):
     return Form(
         title=F680Details.TITLE,
         description=F680Details.DESCRIPTION,
         questions=[
             Checkboxes(
                 name="f680_clearance_types[]",
-                options=[Option(key, value) for key, value in get_f680_clearance_types(application_id).items()]
+                options=[Option(key, value) for key, value in get_f680_clearance_types(request).items()]
             ),
         ],
         default_button_name=F680Details.BUTTON,
