@@ -1,6 +1,6 @@
 from pytest_bdd import scenarios, when, then, parsers, given
 
-from conftest import (
+from ui_automation_tests.conftest import (
     enter_type_of_application,
     enter_application_name,
     enter_permanent_or_temporary,
@@ -22,10 +22,8 @@ from ui_automation_tests.pages.shared import Shared
 from ui_automation_tests.pages.standard_application.good_details import StandardApplicationGoodDetails
 from ui_automation_tests.pages.standard_application.goods import StandardApplicationGoodsPage
 from ui_automation_tests.shared import functions
-from ui_automation_tests.shared.tools.helpers import scroll_to_element_by_id
 
 from ui_automation_tests.pages.generic_application.task_list import TaskListPage
-from ui_automation_tests.pages.generic_application.end_user import EndUserPage
 
 from faker import Faker
 
