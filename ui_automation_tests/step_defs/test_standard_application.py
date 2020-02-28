@@ -19,6 +19,7 @@ from ui_automation_tests.shared import functions
 from ui_automation_tests.shared.tools.helpers import scroll_to_element_by_id
 
 from ui_automation_tests.pages.generic_application.task_list import TaskListPage
+from ui_automation_tests.pages.generic_application.end_user import EndUserPage
 
 from faker import Faker
 fake = Faker()

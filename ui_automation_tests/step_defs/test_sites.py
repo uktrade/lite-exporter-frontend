@@ -6,7 +6,6 @@ from ui_automation_tests.pages.hub_page import Hub
 from ui_automation_tests.pages.new_site_page import NewSite
 from ui_automation_tests.pages.site_list_overview_page import SitesListOverview
 from ui_automation_tests.pages.site_page import SitePage
-from ui_automation_tests.pages.sites_page import SitesPage
 
 from ui_automation_tests.pages.shared import Shared
 

@@ -14,6 +14,7 @@ from ui_automation_tests.pages.respond_to_ecju_query_page import RespondToEcjuQu
 from ui_automation_tests.pages.submitted_applications_page import SubmittedApplicationsPages
 from ui_automation_tests.pages.standard_application.good_details import StandardApplicationGoodDetails
 from ui_automation_tests.pages.standard_application.goods import StandardApplicationGoodsPage
+from ui_automation_tests.pages.add_new_external_location_form_page import AddNewExternalLocationFormPage
 from ui_automation_tests.shared import functions
 from ui_automation_tests.shared.tools.wait import wait_for_download_button
 
@@ -62,7 +63,6 @@ from ui_automation_tests.pages.hub_page import Hub
 from ui_automation_tests.pages.shared import Shared
 from ui_automation_tests.pages.sites_page import SitesPage
 from ui_automation_tests.pages.which_location_form_page import WhichLocationFormPage
-from ui_automation_tests.pages.add_goods_grading_page import AddGoodGradingPage
 
 strict_gherkin = False
 fake = Faker()

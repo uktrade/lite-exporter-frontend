@@ -14,7 +14,6 @@ from ui_automation_tests.pages.standard_application.good_details import Standard
 from ui_automation_tests.shared import functions
 import ui_automation_tests.shared.tools.helpers as utils
 
-
 scenarios("../features/goods.feature", strict_gherkin=False)
 
 
