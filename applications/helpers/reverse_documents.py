@@ -5,11 +5,8 @@ from applications.services import (
     post_additional_document,
     get_additional_document,
     delete_additional_party_document,
-    post_goods_type_document,
-    delete_goods_type_document,
-    get_goods_type_document,
 )
-from lite_content.lite_exporter_frontend import strings  # noqa
+from lite_content.lite_exporter_frontend import strings
 
 
 def document_switch(path):

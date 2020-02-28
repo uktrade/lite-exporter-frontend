@@ -1,6 +1,8 @@
 from django.urls import reverse_lazy
 
+from lite_content.lite_exporter_frontend.applications import DeletePartyDocumentForm
 from lite_forms.components import Form, FileUpload, TextArea, BackLink, Label
+from lite_forms.generators import confirm_form
 
 
 def attach_document_form(application_id, strings, back_link):
