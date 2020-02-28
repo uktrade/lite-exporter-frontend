@@ -12,7 +12,7 @@ def f680_details_form(request, application_id):
         questions=[
             Checkboxes(
                 name="f680_clearance_types[]",
-                options=[Option(key, value) for key, value in get_f680_clearance_types(request).items()]
+                options=[Option(key, value) for key, value in get_f680_clearance_types(request).items()],
             ),
         ],
         default_button_name=F680Details.BUTTON,

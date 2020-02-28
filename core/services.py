@@ -19,7 +19,8 @@ from conf.constants import (
     CONTROL_LIST_ENTRIES_URL,
     NEWLINE,
     PV_GRADINGS_URL,
-    STATIC_F680_CLEARANCE_TYPES_URL)
+    STATIC_F680_CLEARANCE_TYPES_URL,
+)
 from lite_forms.generators import error_page
 
 

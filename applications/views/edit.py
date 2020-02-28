@@ -48,4 +48,4 @@ class EditGoodsCategories(SingleFormView):
 #         self.action = put_application
 #
 #         self.success_url = reverse_lazy("applications:task_list", kwargs={"pk": self.object_pk})
-        # return render(request, "applications/f680-details.html", {"application": application})
+# return render(request, "applications/f680-details.html", {"application": application})
