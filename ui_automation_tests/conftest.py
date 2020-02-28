@@ -14,7 +14,7 @@ from ui_automation_tests.pages.submitted_applications_page import SubmittedAppli
 from ui_automation_tests.pages.standard_application.good_details import StandardApplicationGoodDetails
 from ui_automation_tests.pages.standard_application.goods import StandardApplicationGoodsPage
 from ui_automation_tests.shared import functions
-from ui_automation_tests.shared.tools.wait import wait_for_download_button
+from ui_automation_tests.shared.tools.wait import wait_for_download_button_on_exporter_main_content
 
 from ui_automation_tests.fixtures.env import environment  # noqa
 from ui_automation_tests.fixtures.register_organisation import (  # noqa
@@ -431,7 +431,7 @@ def the_good_is_added_to_the_application(driver, context):  # noqa
 
 @then("download link is present")  # noqa
 def wait_for_download_link(driver):  # noqa
-    assert wait_for_download_button(driver, page=Shared(driver))
+    assert wait_for_download_button_on_exporter_main_content(driver, page=Shared(driver))
 
 
 @then("I see my edited reference name")
