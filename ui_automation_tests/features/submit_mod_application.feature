@@ -22,13 +22,13 @@ Feature: I want to create MOD Licence Applications
     When I click on the "end_user" section
     And I add an end user of sub_type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
     And I upload a file "file_for_doc_upload_test_1.txt"
-    And I wait for download link
-    And I click the back link
+    Then download link is present
+    When I click the back link
     And I click on the "consignee" section
     And I add an end user of sub_type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
     And I upload a file "file_for_doc_upload_test_1.txt"
-    And I wait for download link
-    And I click the back link
+    Then download link is present
+    When I click the back link
     And I submit the application
     Then application is submitted
     When I go to exporter homepage
@@ -50,8 +50,8 @@ Feature: I want to create MOD Licence Applications
     And I add an end user with clearance of sub_type: "government", name: "Mr Smith", website: "https://www.smith.com", clearance: "uk_unclassified", address: "London" and country "Ukraine"
     And I click continue
     And I upload a file "file_for_doc_upload_test_1.txt"
-    And I wait for download link
-    And I click the back link
+    Then download link is present
+    When I click the back link
     And I submit the application
     Then application is submitted
     When I go to exporter homepage
@@ -70,8 +70,8 @@ Feature: I want to create MOD Licence Applications
     When I click on the "end_user" section
     And I add an end user of sub_type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
     And I upload a file "file_for_doc_upload_test_1.txt"
-    And I wait for download link
-    And I click the back link
+    Then download link is present
+    When I click the back link
     And I submit the application
     Then application is submitted
     When I go to exporter homepage

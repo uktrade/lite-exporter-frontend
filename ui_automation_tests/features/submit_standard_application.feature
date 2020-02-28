@@ -26,12 +26,12 @@ Feature: I want to indicate the standard licence I want
     When I click on the "end_user" section
     And I add an end user of sub_type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
     And I upload a file "file_for_doc_upload_test_1.txt"
-    And I wait for download link
+    Then download link is present
     When I click the back link
     And I click on the "consignee" section
     And I add an end user of sub_type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
     And I upload a file "file_for_doc_upload_test_1.txt"
-    And I wait for download link
+    Then download link is present
     When I click the back link
     And I click on the "notes" section
     And I add a note to the draft application
@@ -52,8 +52,8 @@ Feature: I want to indicate the standard licence I want
     And I click on the add button
     And I add an end user of sub_type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
     When I upload a file "file_for_doc_upload_test_1.txt"
-    And I wait for download link
-    Then "Delete" link is present
+    Then download link is present
+    And "Delete" link is present
     When I click on the add button
     And I add an end user of sub_type: "commercial", name: "Mr Jones", website: " ", address: "London" and country "Ukraine"
     And I upload a file "file_for_doc_upload_test_1.txt"
@@ -72,13 +72,13 @@ Feature: I want to indicate the standard licence I want
     When I click on the "end_user" section
     And I add an end user of sub_type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
     And I upload a file "file_for_doc_upload_test_1.txt"
-    And I wait for download link
-    And I click the back link
+    Then download link is present
+    When I click the back link
     And I click on the "consignee" section
     And I add an end user of sub_type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
     And I upload a file "file_for_doc_upload_test_1.txt"
-    And I wait for download link
-    And I click the back link
+    Then download link is present
+    When I click the back link
     And I submit the application
     And I click on applications
     Then I see submitted application

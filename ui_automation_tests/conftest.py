@@ -429,7 +429,7 @@ def the_good_is_added_to_the_application(driver, context):  # noqa
     functions.click_back_link(driver)
 
 
-@when("I wait for download link")  # noqa
+@then("download link is present")  # noqa
 def wait_for_download_link(driver):  # noqa
     assert wait_for_download_button(driver, page=Shared(driver))
 
