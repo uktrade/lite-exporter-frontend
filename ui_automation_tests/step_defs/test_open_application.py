@@ -1,7 +1,7 @@
 from pytest_bdd import scenarios, when, then, parsers, given
 
 import ui_automation_tests.shared.tools.helpers as utils
-from pages.exporter_hub_page import ExporterHubPage
+from ui_automation_tests.pages.exporter_hub_page import ExporterHubPage
 from ui_automation_tests.shared import functions
 from ui_automation_tests.conftest import (
     enter_type_of_application,

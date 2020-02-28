@@ -2,7 +2,7 @@ import os
 
 from pytest_bdd import scenarios, when, then, parsers
 
-from pages.add_goods_grading_page import AddGoodGradingPage
+from ui_automation_tests.pages.add_goods_grading_page import AddGoodGradingPage
 from ui_automation_tests.conftest import get_file_upload_path
 from ui_automation_tests.pages.add_goods_page import AddGoodPage
 from ui_automation_tests.pages.attach_document_page import AttachDocumentPage

@@ -8,11 +8,11 @@ from ui_automation_tests.conftest import (
     enter_case_note_text,
     click_post_note,
 )
-from pages.add_new_external_location_form_page import AddNewExternalLocationFormPage
-from pages.apply_for_a_licence_page import ApplyForALicencePage
-from pages.exporter_hub_page import ExporterHubPage
-from pages.submitted_applications_page import SubmittedApplicationsPages
-from pages.which_location_form_page import WhichLocationFormPage
+from ui_automation_tests.pages.add_new_external_location_form_page import AddNewExternalLocationFormPage
+from ui_automation_tests.pages.apply_for_a_licence_page import ApplyForALicencePage
+from ui_automation_tests.pages.exporter_hub_page import ExporterHubPage
+from ui_automation_tests.pages.submitted_applications_page import SubmittedApplicationsPages
+from ui_automation_tests.pages.which_location_form_page import WhichLocationFormPage
 from ui_automation_tests.pages.add_end_user_pages import AddEndUserPages
 from ui_automation_tests.pages.attach_document_page import AttachDocumentPage
 from ui_automation_tests.pages.external_locations_page import ExternalLocationsPage

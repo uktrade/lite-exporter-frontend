@@ -1,8 +1,8 @@
 from pytest_bdd import scenarios, when, parsers
 
-from pages.add_end_user_pages import AddEndUserPages
-from pages.exporter_hub_page import ExporterHubPage
-from pages.shared import Shared
+from ui_automation_tests.pages.add_end_user_pages import AddEndUserPages
+from ui_automation_tests.pages.exporter_hub_page import ExporterHubPage
+from ui_automation_tests.pages.shared import Shared
 from ui_automation_tests.pages.apply_for_a_licence_page import ApplyForALicencePage
 from ui_automation_tests.shared import functions
 import ui_automation_tests.shared.tools.helpers as utils
