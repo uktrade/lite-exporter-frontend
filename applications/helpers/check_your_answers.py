@@ -140,7 +140,7 @@ def _convert_goods(goods, is_exhibition=False):
                 "Part number": default_na(good["good"]["part_number"]),
                 "Controlled": friendly_boolean(good["good"]["is_good_controlled"]),
                 "CLC": default_na(good["good"]["control_code"]),
-                "Item type": good["other_item_type"] if good["other_item_type"] else good["item_type"],
+                "Product type": good["other_item_type"] if good["other_item_type"] else good["item_type"],
             }
             for good in goods
         ]
