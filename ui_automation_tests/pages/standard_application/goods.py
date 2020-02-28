@@ -17,7 +17,7 @@ class StandardApplicationGoodsPage(BasePage):
     GOOD_ENTRY = ".govuk-table__body .govuk-table__row"
     TABLE_BODY = "tbody"
     TABLE_ROW = "tr"
-    ADD_TO_APPLICATION_CSS = ".govuk-table__row .govuk-link"
+    ADD_TO_APPLICATION_ID = "add-to-application"
 
     def click_add_new_good_button(self):
         self.driver.find_element_by_id(self.BUTTON_ADD_NEW_GOOD_ID).click()
@@ -58,4 +58,4 @@ class StandardApplicationGoodsPage(BasePage):
 
     def click_add_to_application(self):
         # Click the "Add to application" link on the first good
-        self.driver.find_element_by_css_selector(self.ADD_TO_APPLICATION_CSS).click()
+        self.driver.find_element_by_id(self.ADD_TO_APPLICATION_ID).click()

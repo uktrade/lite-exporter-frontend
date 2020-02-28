@@ -385,10 +385,7 @@ class ExhibitionDetail(SingleFormView):
         for field in date_fields:
             if data.get(field, False):
                 date_split = data[field].split("-")
-                data[field + "day"] = date_split[2]
-                data[field + "month"] = date_split[1]
-                data[field + "year"] = date_split[0]
-
+                data[field + "year"], data[field + "month"], data[field + "day"] = date_split
         return data
 
     def get_success_url(self):

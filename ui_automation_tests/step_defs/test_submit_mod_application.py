@@ -38,7 +38,7 @@ def i_add_a_non_incorporated_good_to_the_application(driver, context):  # noqa
 @then("the good is added to the Exhibition Clearance")  # noqa
 def the_good_is_added_to_the_application(driver, context):  # noqa
     assert len(StandardApplicationGoodsPage(driver).get_goods()) == 1  # Only one good added
-    assert context.good_type in Shared(driver).get_table_row(1).text
+    assert "Equipment" in Shared(driver).get_table_row(1).text
 
     # Go back to task list
     functions.click_back_link(driver)

@@ -32,19 +32,19 @@ def get_units(request):
 def get_item_types(request):
     data = get(request, ITEM_TYPES_URL).json().get("item_types")
     options = []
-    for k, v in data.items():
-        if k == "other":
+    for key, value in data.items():
+        if key == "other":
             options.append(
                 Option(
-                    key=k,
-                    value=v,
+                    key=key,
+                    value=value,
                     components=[
-                        TextArea(title="", description="", name="other_item_type", extras={"max_length": 100},),
+                        TextArea(name="other_item_type", extras={"max_length": 100},),
                     ],
                 )
             )
         else:
-            options.append(Option(key=k, value=v))
+            options.append(Option(key=key, value=value))
     return options
 
 

@@ -17,53 +17,55 @@ from lite_forms.components import (
     BackLink,
 )
 
+def exhibition_good_on_application_form(request, good, application_id):
+    return Form(
+                title=AddGoodToApplicationForm.TITLE,
+                description=AddGoodToApplicationForm.DESCRIPTION,
+                questions=[
+                    good_summary(good),
+                    HiddenField(name="good_id", value=good.get("id")),
+                    CurrencyInput(
+                        title=AddGoodToApplicationForm.VALUE.TITLE,
+                        description=AddGoodToApplicationForm.VALUE.DESCRIPTION,
+                        name="value",
+                    ),
+                    SideBySideSection(
+                        questions=[
+                            QuantityInput(
+                                title=AddGoodToApplicationForm.Quantity.TITLE,
+                                description=AddGoodToApplicationForm.Quantity.DESCRIPTION,
+                                name="quantity",
+                            ),
+                            Select(
+                                title=AddGoodToApplicationForm.Units.TITLE,
+                                description=AddGoodToApplicationForm.Units.DESCRIPTION,
+                                name="unit",
+                                options=get_units(request),
+                            ),
+                        ]
+                    ),
+                    RadioButtons(
+                        name="is_good_incorporated",
+                        title=AddGoodToApplicationForm.Incorporated.TITLE,
+                        description=AddGoodToApplicationForm.Incorporated.DESCRIPTION,
+                        options=[
+                            Option(True, AddGoodToApplicationForm.Incorporated.YES),
+                            Option(False, AddGoodToApplicationForm.Incorporated.NO),
+                        ],
+                        classes=["govuk-radios--inline"],
+                    ),
+                ],
+                back_link=BackLink(
+                    strings.BACK_TO_APPLICATION,
+                    reverse_lazy("applications:preexisting_good", kwargs={"pk": application_id}),
+                ),
+                javascript_imports=["/assets/javascripts/add_good.js"],
+            )
+
 
 def good_on_application_form(request, good, sub_case_type, application_id):
-
     if sub_case_type["key"] != EXHIBITION:
-        return Form(
-            title=AddGoodToApplicationForm.TITLE,
-            description=AddGoodToApplicationForm.DESCRIPTION,
-            questions=[
-                good_summary(good),
-                HiddenField(name="good_id", value=good.get("id")),
-                CurrencyInput(
-                    title=AddGoodToApplicationForm.VALUE.TITLE,
-                    description=AddGoodToApplicationForm.VALUE.DESCRIPTION,
-                    name="value",
-                ),
-                SideBySideSection(
-                    questions=[
-                        QuantityInput(
-                            title=AddGoodToApplicationForm.Quantity.TITLE,
-                            description=AddGoodToApplicationForm.Quantity.DESCRIPTION,
-                            name="quantity",
-                        ),
-                        Select(
-                            title=AddGoodToApplicationForm.Units.TITLE,
-                            description=AddGoodToApplicationForm.Units.DESCRIPTION,
-                            name="unit",
-                            options=get_units(request),
-                        ),
-                    ]
-                ),
-                RadioButtons(
-                    name="is_good_incorporated",
-                    title=AddGoodToApplicationForm.Incorporated.TITLE,
-                    description=AddGoodToApplicationForm.Incorporated.DESCRIPTION,
-                    options=[
-                        Option(True, AddGoodToApplicationForm.Incorporated.YES),
-                        Option(False, AddGoodToApplicationForm.Incorporated.NO),
-                    ],
-                    classes=["govuk-radios--inline"],
-                ),
-            ],
-            back_link=BackLink(
-                strings.BACK_TO_APPLICATION,
-                reverse_lazy("applications:preexisting_good", kwargs={"pk": application_id}),
-            ),
-            javascript_imports=["/assets/javascripts/add_good.js"],
-        )
+        return exhibition_good_on_application_form(request, good, application_id)
     else:
         return Form(
             title=AddGoodToApplicationForm.Exhibition.TITLE,

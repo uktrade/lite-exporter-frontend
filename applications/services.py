@@ -3,6 +3,7 @@ from http import HTTPStatus
 from django.http import StreamingHttpResponse
 from s3chunkuploader.file_handler import s3_client
 
+from applications.helpers.date_fields import format_date_fields
 from conf.client import get, post, put, delete
 from conf.constants import (
     ACTIVITY_URL,
@@ -331,18 +332,6 @@ def copy_application(request, pk, data):
 # Exhibition
 def post_exhibition(request, pk, data):
     post_data = data
-
-    # Convert date
-    date_fields = ["first_exhibition_date", "required_by_date"]
-    for date_field in date_fields:
-        year = data.get(date_field + "year", "")
-        month = data.get(date_field + "month", "")
-        if len(month) == 1:
-            month = "0" + month
-        day = data.get(date_field + "day", "")
-        if len(day) == 1:
-            day = "0" + day
-        post_data[date_field] = f"{year}-{month}-{day}"
-
+    post_data = format_date_fields(post_data)
     data = post(request, APPLICATIONS_URL + str(pk) + "/exhibition-details/", json=post_data)
     return data.json(), data.status_code
