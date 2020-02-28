@@ -36,11 +36,7 @@ def get_item_types(request):
         if key == "other":
             options.append(
                 Option(
-                    key=key,
-                    value=value,
-                    components=[
-                        TextArea(name="other_item_type", extras={"max_length": 100},),
-                    ],
+                    key=key, value=value, components=[TextArea(name="other_item_type", extras={"max_length": 100},),],
                 )
             )
         else:

@@ -1,4 +1,3 @@
-
 def format_date(data, date_field):
     year = data.get(date_field + "year", "")
     month = data.get(date_field + "month", "")
