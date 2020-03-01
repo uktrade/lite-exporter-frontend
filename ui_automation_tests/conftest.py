@@ -625,6 +625,11 @@ def i_click_on_goods(driver):  # noqa
     StandardApplicationTaskListPage(driver).click_goods_link()
 
 
+@when("I click on f680 details")  # noqa
+def i_click_on_f680_details(driver):  # noqa
+    StandardApplicationTaskListPage(driver).click_f680_details_link()
+
+
 @when("I click on clearance level")  # noqa
 def i_click_on_clearance_level(driver):  # noqa
     StandardApplicationTaskListPage(driver).click_clearance_level_link()
