@@ -11,6 +11,6 @@ def export_vars(request):
         "GOOGLE_ANALYTICS_KEY": env("GOOGLE_ANALYTICS_KEY"),
         "CURRENT_PATH": request.get_full_path(),
         "CURRENT_PATH_WITHOUT_PARAMS": request.get_full_path().split("?")[0].split("#")[0],
-        "USER_PERMISSIONS": Permissions
+        "USER_PERMISSIONS": Permissions,
     }
     return data
