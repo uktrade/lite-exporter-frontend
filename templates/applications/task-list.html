@@ -34,9 +34,12 @@
 					{% url 'applications:edit_told_by_an_official' application.id as told_by_an_official_url %}
 					{% include "includes/task-list-item.html" with id="told-by-an-official" title=strings.END_USE_CONTROL url=told_by_an_official_url status="done" description=reference_number_description %}
 				{% endif %}
-				{% if application_type|application_type_in_list:"EXHIBITION" %}
+				{% if application_type|application_type_in_list:"EXHIBITION" and edit_type != "minor_edit" %}
 					{% url 'applications:exhibition_details' application.id as exhibition_details_url %}
-					{% include "includes/task-list-item.html" with id="exhibition-details" title=strings.DETAILS url=exhibition_details_url status=application.title|task_list_item_status description=application.title %}
+					{% include "includes/task-list-item.html" with id="exhibition-details" title=strings.DETAILS url=exhibition_details_url status=application.title|task_list_item_status description=application.title%}
+				{% elif application_type|application_type_in_list:"EXHIBITION" %}
+					{% url 'applications:exhibition_details' application.id as exhibition_details_url %}
+					{% include "includes/task-list-item.html" with id="exhibition-details" title=strings.DETAILS url=exhibition_details_url status=application.title|task_list_item_status description=application.title disabled=True %}
 				{% endif %}
 			</ul>
 		</li>
