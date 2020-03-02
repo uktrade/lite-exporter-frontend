@@ -104,5 +104,3 @@ def new_party_form_group(application, strings, back_url, clearance_options=None)
     forms.append(party_address_form(strings.ADDRESS_FORM_TITLE, strings.SUBMIT_BUTTON))
 
     return FormGroup(forms)
-
-

@@ -16,7 +16,7 @@ def document_switch(path):
             "download": get_party_document,
             "delete": delete_party_document,
             "homepage": "applications:ultimate_end_users",
-            "strings": strings.UltimateEndUser.Documents.AttachDocuments
+            "strings": strings.UltimateEndUser.Documents.AttachDocuments,
         }
     elif "end-user" in path:
         return {
@@ -24,7 +24,7 @@ def document_switch(path):
             "download": get_party_document,
             "delete": delete_party_document,
             "homepage": "applications:end_user",
-            "strings": strings.EndUser.Documents.AttachDocuments
+            "strings": strings.EndUser.Documents.AttachDocuments,
         }
     elif "consignee" in path:
         return {
