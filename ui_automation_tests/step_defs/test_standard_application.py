@@ -1,6 +1,6 @@
 from pytest_bdd import scenarios, when, then, parsers, given
 
-from conftest import (
+from ui_automation_tests.conftest import (
     click_apply_licence,
     enter_application_name,
     enter_type_of_application,
