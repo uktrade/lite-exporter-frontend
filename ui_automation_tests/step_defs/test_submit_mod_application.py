@@ -1,11 +1,8 @@
 from pytest_bdd import scenarios, when, parsers, then
 
 from ui_automation_tests.pages.apply_for_a_licence_page import ApplyForALicencePage
-from ui_automation_tests.pages.generic_application.task_list import GenericApplicationTaskListPage
-from ui_automation_tests.pages.mod_clearances.ExhibitionClearanceDetails import ExhibitionClearanceDetailsPage
 from ui_automation_tests.pages.mod_clearances.ExhibitionClearanceGood import ExhibitionClearanceGoodPage
 from ui_automation_tests.pages.shared import Shared
-from ui_automation_tests.pages.standard_application.good_details import StandardApplicationGoodDetails
 from ui_automation_tests.pages.standard_application.goods import StandardApplicationGoodsPage
 from ui_automation_tests.shared import functions
 
@@ -16,11 +13,6 @@ scenarios("../features/submit_mod_application.feature", strict_gherkin=False)
 def create_mod_application(driver, context, type):  # noqa
     ApplyForALicencePage(driver).select_mod_application_type(type)
     functions.click_submit(driver)
-
-
-@then("The Exhibition details section is complete")
-def exhibition_details_done(driver):
-    GenericApplicationTaskListPage(driver).check_exhibition_details_section_status("done")
 
 
 @when("I add a good to the Exhibition Clearance")  # noqa

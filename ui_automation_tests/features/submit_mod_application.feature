@@ -13,7 +13,7 @@ Feature: I want to create MOD Licence Applications
     Then I see my edited reference name
     When I click on the "exhibition-details" section
     And I enter Exhibition details with the name "abc"
-    Then The Exhibition details section is complete
+    Then The "exhibition-details" section is set to status "done"
     When I click on the "location" section
     And I select "organisation" for where my goods are located
     And I select the site at position "1"

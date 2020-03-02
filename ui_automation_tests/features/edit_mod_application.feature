@@ -16,7 +16,7 @@ Feature: I want to be able to edit MOD Licence Applications
     Then I see my edited reference name
     When I click on the "exhibition-details" section
     And I enter Exhibition details with the name "123"
-    Then The Exhibition details section is complete
+    Then The "exhibition-details" section is set to status "done"
     When I click on the "goods" section
     And I remove a good from the application
     Then the good has been removed from the application
