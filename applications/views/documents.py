@@ -33,7 +33,7 @@ def get_delete_confirmation_page(path, pk):
     paths = document_switch(path)
     return delete_document_confirmation_form(
         overview_url=reverse(paths["homepage"], kwargs={"pk": pk}),
-        back_link_text=paths["delete_conf_back_link_string"],
+        strings=paths["strings"],
     )
 
 

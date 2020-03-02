@@ -22,10 +22,10 @@ def attach_document_form(application_id, strings, back_link):
     )
 
 
-def delete_document_confirmation_form(overview_url, back_link_text):
+def delete_document_confirmation_form(overview_url, strings):
     return confirm_form(
         title=DeletePartyDocumentForm.TITLE,
         confirmation_name="delete_document_confirmation",
-        back_link_text=back_link_text,
+        back_link_text=strings.BACK,
         back_url=overview_url,
     )
