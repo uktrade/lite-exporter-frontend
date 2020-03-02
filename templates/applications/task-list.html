@@ -100,8 +100,10 @@
 
 				{# End User #}
 				{% if application_type|application_type_in_list:"HAS_END_USER" %}
-					{% url 'applications:end_user' application.id as end_user_url %}
-					{% include "includes/task-list-item.html" with id="end_user" title=strings.END_USER url=end_user_url status=application.end_user|get_parties_status optional=application_type|application_type_in_list:"F680" %}
+					{%  if not is_editing or edit_type == 'major_edit' %}
+						{% url 'applications:end_user' application.id as end_user_url %}
+						{% include "includes/task-list-item.html" with id="end_user" title=strings.END_USER url=end_user_url status=application.end_user|get_parties_status optional=application_type|application_type_in_list:"F680" %}
+					{% endif %}
 				{% endif %}
 
 				{# Ultimate End Users #}
