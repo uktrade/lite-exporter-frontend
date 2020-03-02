@@ -219,18 +219,6 @@ def create_standard_application(driver, context):  # noqa
     enter_export_licence(driver, "yes", "123456", context)
 
 
-@when("I create a standard individual transhipment application")  # noqa
-def create_standard_individual_transhipment_application(driver, context):  # noqa
-    click_apply_licence(driver)
-    ApplyForALicencePage(driver).select_licence_type("transhipment")
-    functions.click_submit(driver)
-    enter_type_of_application(driver, "sitl", context)
-    enter_application_name(driver, context)
-    enter_permanent_or_temporary(driver, "permanent", context)
-    select_goods_categories(driver)
-    enter_export_licence(driver, "yes", "123456", context)
-
-
 @when(parsers.parse('I select a licence of type "{type}"'))  # noqa
 def create_mod_application(driver, context, type):  # noqa
     ExporterHubPage(driver).click_apply_for_a_licence()

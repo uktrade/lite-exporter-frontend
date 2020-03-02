@@ -103,7 +103,7 @@ Feature: I want to indicate the standard licence I want
     When I click continue
     And I skip uploading a document
 
-  @LT_1208_standard_individual_transhipment_application @setup @smoke
+  @LT_1208_standard_individual_transhipment_application @regression
   Scenario: Submit a standard individual transhipment application
     Given I go to exporter homepage and choose Test Org
     When I create a standard individual transhipment application
@@ -112,7 +112,7 @@ Feature: I want to indicate the standard licence I want
     And I select the site at position "1"
     And I click continue
     And I click the back link
-    When I click on the "goods" section
+    And I click on the "goods" section
     And I add a non-incorporated good to the application
     Then the good is added to the application
     When I click on the "end_user" section
