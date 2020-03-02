@@ -76,10 +76,6 @@ def export_licence_questions(application_type):
                             ),
                         ],
                     ),
-                    DetailComponent(
-                        InitialApplicationQuestionsForms.OpeningQuestion.HELP_WITH_CHOOSING_A_LICENCE,
-                        InitialApplicationQuestionsForms.OpeningQuestion.HELP_WITH_CHOOSING_A_LICENCE_CONTENT,
-                    ),
                 ],
                 default_button_name=generic.CONTINUE,
                 back_link=BackLink(

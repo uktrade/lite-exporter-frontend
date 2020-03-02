@@ -632,7 +632,7 @@ def the_good_is_added_to_the_application(driver, context):  # noqa
 
 @then("wait for download link")  # noqa
 def wait_for_download_link(driver):  # noqa
-    assert wait_for_download_button(driver, page=Shared(driver))
+    assert wait_for_download_button(driver)
 
 
 @then("I see my edited reference name")
