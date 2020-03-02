@@ -228,7 +228,7 @@ def create_mod_application(driver, context, type):  # noqa
 
 @when(  # noqa
     parsers.parse(
-        'I add an party of sub_type: "{type}", name: "{name}", website: "{website}", address: "{address}" and country "{'
+        'I add a party of sub_type: "{type}", name: "{name}", website: "{website}", address: "{address}" and country "{'
         'country}"'
     )
 )

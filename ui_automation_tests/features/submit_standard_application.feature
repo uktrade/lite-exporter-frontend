@@ -24,12 +24,12 @@ Feature: I want to indicate the standard licence I want
     And I add a non-incorporated good to the application
     Then the good is added to the application
     When I click on the "end_user" section
-    And I add an party of sub_type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
+    And I add a party of sub_type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
     And I upload a file "file_for_doc_upload_test_1.txt"
     Then wait for download link
     When I click the back link
     And I click on the "consignee" section
-    And I add an party of sub_type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
+    And I add a party of sub_type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
     And I upload a file "file_for_doc_upload_test_1.txt"
     Then wait for download link
     When I click the back link
@@ -50,12 +50,12 @@ Feature: I want to indicate the standard licence I want
     Then the good is added to the application
     When I click on the "ultimate-end-users" section
     And I click on the add button
-    And I add an party of sub_type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
+    And I add a party of sub_type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
     When I upload a file "file_for_doc_upload_test_1.txt"
     Then wait for download link
     And "Delete" link is present
     When I click on the add button
-    And I add an party of sub_type: "commercial", name: "Mr Jones", website: " ", address: "London" and country "Ukraine"
+    And I add a party of sub_type: "commercial", name: "Mr Jones", website: " ", address: "London" and country "Ukraine"
     And I upload a file "file_for_doc_upload_test_1.txt"
     And I remove an ultimate end user so there is one less
     Then there is only one ultimate end user
@@ -70,12 +70,12 @@ Feature: I want to indicate the standard licence I want
     And I select the location at position "2" in external locations list and continue
     And I click the back link
     When I click on the "end_user" section
-    And I add an party of sub_type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
+    And I add a party of sub_type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
     And I upload a file "file_for_doc_upload_test_1.txt"
     Then wait for download link
     When I click the back link
     And I click on the "consignee" section
-    And I add an party of sub_type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
+    And I add a party of sub_type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
     And I upload a file "file_for_doc_upload_test_1.txt"
     Then wait for download link
     When I click the back link
