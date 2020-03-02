@@ -43,7 +43,6 @@ class ApplyForALicencePage(BasePage):
             checkbox.click()
 
     def select_types_of_clearance(self):
-
         checkboxes = self.driver.find_elements_by_name(self.F680_CLEARANCE_TYPE_CHECKBOXES_NAME)
         for checkbox in checkboxes:
             checkbox.click()

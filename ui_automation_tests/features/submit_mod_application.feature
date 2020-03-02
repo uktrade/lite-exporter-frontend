@@ -43,7 +43,7 @@ Feature: I want to create MOD Licence Applications
     And I enter a licence name
     When I click on the "f680-details" section
     Then I see the correct number of clearance types
-    When I choose types of clearance I need
+    When I choose the types of clearance I need
     And I click on the "clearance" section
     And I choose a clearance level for my application
     And I click on the "goods" section
