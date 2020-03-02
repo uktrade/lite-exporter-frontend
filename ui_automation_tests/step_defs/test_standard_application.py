@@ -145,7 +145,7 @@ def party_website_autofill(driver, context):
 @then("I see the party address and country is already filled in")
 def party_address_autofill(driver, context):
     assert AddEndUserPages(driver).get_address() == context.end_user["address"]
-    assert AddEndUserPages(driver).get_country() == context.end_user["country"]["id"]
+    assert AddEndUserPages(driver).get_country() == context.end_user["country"]["name"]
 
 
 @when("I skip uploading a document")
@@ -244,3 +244,15 @@ def assert_ref_num(driver):  # noqa
 @when("I change my reference number")
 def change_ref_num(driver, context):  # noqa
     enter_export_licence(driver, "yes", "12345678", context)
+
+
+@when("I create a standard individual transhipment application")  # noqa
+def create_standard_individual_transhipment_application(driver, context):  # noqa
+    ExporterHubPage(driver).click_apply_for_a_licence()
+    ApplyForALicencePage(driver).select_licence_type("transhipment")
+    functions.click_submit(driver)
+    enter_type_of_application(driver, "sitl", context)
+    enter_application_name(driver, context)
+    enter_permanent_or_temporary(driver, "permanent", context)
+    ApplyForALicencePage(driver).select_goods_categories(driver)
+    enter_export_licence(driver, "yes", "123456", context)

@@ -177,11 +177,11 @@ def enter_export_licence(driver, yes_or_no, reference, context):  # noqa
 
 @when(  # noqa
     parsers.parse(
-        'I add an end user of sub_type: "{type}", name: "{name}", website: "{website}", address: "{address}" and country "{'
+        'I add a party of sub_type: "{type}", name: "{name}", website: "{website}", address: "{address}" and country "{'
         'country}"'
     )
 )
-def add_new_end_user(driver, type, name, website, address, country, context):  # noqa
+def add_new_party(driver, type, name, website, address, country, context):  # noqa
     add_end_user_pages = AddEndUserPages(driver)
     add_end_user_pages.create_new_or_copy_existing(copy_existing=False)
     add_end_user_pages.select_type(type)
