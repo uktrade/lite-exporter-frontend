@@ -10,7 +10,7 @@
 			</li>
             {% if USER_PERMISSIONS.ADMINISTER_USERS in signed_in_user.role.permissions %}
                 <li class="govuk-breadcrumbs__list-item">
-                    <a class="govuk-breadcrumbs__link" href="{% url 'users:users' %}">Members</a>
+                    <a class="govuk-breadcrumbs__link" href="{% url 'users:users' %}">{% lcs 'core.HubPage.ORGANISATION' %}</a>
                 </li>
             {% endif %}
 		</ol>
