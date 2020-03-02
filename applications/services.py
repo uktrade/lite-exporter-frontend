@@ -55,6 +55,13 @@ def put_application(request, pk, json):
     return data.json(), data.status_code
 
 
+def put_application_with_clearance_types(request, pk, json):
+    # Inject the clearance types as an empty set into JSON if they are not present
+    json["f680_clearance_types"] = json.get("f680_clearance_types", [])
+    data = put(request, APPLICATIONS_URL + str(pk), json)
+    return data.json(), data.status_code
+
+
 def delete_application(request, pk):
     data = delete(request, APPLICATIONS_URL + str(pk))
     return data.json(), data.status_code
