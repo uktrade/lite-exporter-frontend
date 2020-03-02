@@ -16,7 +16,7 @@ def create_mod_application(driver, context, type):  # noqa
 
 
 @when("I add a good to the Exhibition Clearance")  # noqa
-def i_add_a_non_incorporated_good_to_the_application(driver, context):  # noqa
+def i_add_a_exhibition_style_good_on_application(driver, context):  # noqa
     goods_page = StandardApplicationGoodsPage(driver)
     goods_page.click_add_preexisting_good_button()
     goods_page.click_add_to_application()
@@ -28,7 +28,7 @@ def i_add_a_non_incorporated_good_to_the_application(driver, context):  # noqa
 
 
 @then("the good is added to the Exhibition Clearance")  # noqa
-def the_good_is_added_to_the_application(driver, context):  # noqa
+def the_good_is_added_to_the_exhibition_application(driver, context):  # noqa
     assert len(StandardApplicationGoodsPage(driver).get_goods()) == 1  # Only one good added
     assert "Equipment" in Shared(driver).get_table_row(1).text
 

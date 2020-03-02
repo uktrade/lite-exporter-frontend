@@ -106,7 +106,7 @@ def exhibition_details_form(application_id):
     return Form(
         title=strings.Exhibition.EXHIBITION_TITLE,
         questions=[
-            TextInput(title="Name", name="title"),
+            TextInput(title=strings.Exhibition.TITLE, name="title"),
             DateInput(
                 title=strings.Exhibition.FIRST_EXHIBITION_DATE,
                 description=strings.Exhibition.DATE_DESCRIPTION,
