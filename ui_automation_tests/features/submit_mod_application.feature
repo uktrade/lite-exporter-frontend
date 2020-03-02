@@ -41,7 +41,7 @@ Feature: I want to create MOD Licence Applications
     When I select a licence of type "mod"
     And I select a MOD licence of type "f680"
     And I enter a licence name
-    When I click on the "f680-details" section
+    When I click on the "f680_clearance_types" section
     Then I see the correct number of clearance types
     When I choose the types of clearance I need
     And I click on the "clearance" section
