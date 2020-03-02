@@ -32,8 +32,7 @@ def get_homepage(request, draft_id, obj_pk=None):
 def get_delete_confirmation_page(path, pk):
     paths = document_switch(path)
     return delete_document_confirmation_form(
-        overview_url=reverse(paths["homepage"], kwargs={"pk": pk}),
-        strings=paths["strings"],
+        overview_url=reverse(paths["homepage"], kwargs={"pk": pk}), strings=paths["strings"],
     )
 
 
