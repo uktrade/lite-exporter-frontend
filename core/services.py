@@ -180,7 +180,7 @@ def get_control_list_entries(request, convert_to_options=False):
 # F680 clearance types
 def get_f680_clearance_types(request):
     data = get(request, STATIC_F680_CLEARANCE_TYPES_URL)
-    return data.json().get("f680_clearance_types")
+    return data.json().get("types")
 
 
 # PV gradings
