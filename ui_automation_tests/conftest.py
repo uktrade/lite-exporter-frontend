@@ -249,8 +249,6 @@ def add_new_party(driver, type, name, website, address, country, context):  # no
     functions.click_submit(driver)
 
 
-
-
 @when(parsers.parse('I select "{choice}" for where my goods are located'))  # noqa
 def choose_location_type(driver, choice):  # noqa
     which_location_form = WhichLocationFormPage(driver)
