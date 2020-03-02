@@ -118,17 +118,17 @@ Feature: I want to indicate the standard licence I want
     When I click on the "end_user" section
     And I add a party of sub_type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
     And I upload a file "file_for_doc_upload_test_1.txt"
-    Then wait for download link
+    Then download link is present
     When I click the back link
     And I click on the "consignee" section
     And I add a party of sub_type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
     And I upload a file "file_for_doc_upload_test_1.txt"
-    Then wait for download link
+    Then download link is present
     When I click the back link
     And I click on the "notes" section
     And I add a note to the draft application
     And I submit the application
     Then application is submitted
     When I go to exporter homepage
-    And I click applications
+    And I click on applications
     Then I see submitted application

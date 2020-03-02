@@ -177,7 +177,7 @@ def create_standard_application(driver, context):  # noqa
     ExporterHubPage(driver).click_apply_for_a_licence()
     ApplyForALicencePage(driver).select_licence_type("export_licence")
     functions.click_submit(driver)
-    enter_type_of_application(driver, "standard", context)
+    enter_type_of_application(driver, "siel", context)
     enter_application_name(driver, context)
     enter_permanent_or_temporary(driver, "permanent", context)
     apply = ApplyForALicencePage(driver)
