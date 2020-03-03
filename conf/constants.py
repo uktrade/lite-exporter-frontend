@@ -43,6 +43,7 @@ STATIC_URL = "/static/"
 STATUS_PROPERTIES_URL = STATIC_URL + "statuses/properties/"
 UNITS_URL = STATIC_URL + "units/"
 STATIC_COUNTRIES_URL = STATIC_URL + "countries/"
+STATIC_F680_CLEARANCE_TYPES_URL = STATIC_URL + "f680-clearance-types/"
 CONTROL_LIST_ENTRIES_URL = STATIC_URL + "control-list-entries/"
 PV_GRADINGS_URL = STATIC_URL + "private-venture-gradings/"
 MISSING_DOCUMENT_REASONS_URL = STATIC_URL + "missing-document-reasons/"
@@ -59,10 +60,27 @@ EXHIBITION = "exhibition_clearance"
 GIFTING = "gifting_clearance"
 F680 = "f680_clearance"
 
+
+class CaseTypes:
+    OIEL = "oiel"
+    OGEL = "ogel"
+    OICL = "oicl"
+    SIEL = "siel"
+    SICL = "sicl"
+    SITL = "sitl"
+    F680 = "f680"
+    EXHC = "exhc"
+    GIFT = "gift"
+    CRE = "cre"
+    GQY = "gqy"
+    EUA = "eua"
+
+
 # Case type task list sections
 CASE_SECTIONS = {
     "HMRC": HMRC,
     "F680": F680,
+    "HAS_F680_CLEARANCE_TYPES": F680,
     "HAS_CLEARANCE_LEVEL": [F680],
     "EXHIBITION": EXHIBITION,
     "HAS_LICENCE_TYPE": [STANDARD, OPEN],

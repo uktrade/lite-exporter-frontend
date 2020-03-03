@@ -8,7 +8,7 @@ Feature: I want to create MOD Licence Applications
   Scenario: Submit Exhibition Clearance Application
     Given I go to exporter homepage and choose Test Org
     When I select a licence of type "mod"
-    And I select a MOD licence of type "exhibition_clearance"
+    And I select a MOD licence of type "exhc"
     And I enter a licence name
     Then I see my edited reference name
     When I click on the "exhibition-details" section
@@ -32,16 +32,18 @@ Feature: I want to create MOD Licence Applications
   Scenario: Submit F680 Application
     Given I go to exporter homepage and choose Test Org
     When I select a licence of type "mod"
-    And I select a MOD licence of type "f680_clearance"
+    And I select a MOD licence of type "f680"
     And I enter a licence name
-    When I click on the "clearance" section
+    When I click on the "types" section
+    Then I see the correct number of clearance types
+    When I choose the types of clearance I need
+    And I click on the "clearance" section
     And I choose a clearance level for my application
     And I click on the "goods" section
     And I add a non-incorporated good to the application
     Then the good is added to the application
     When I click on the "end_user" section
     And I add an end user with clearance of sub_type: "government", name: "Mr Smith", website: "https://www.smith.com", clearance: "uk_unclassified", address: "London" and country "Ukraine"
-    And I click continue
     And I upload a file "file_for_doc_upload_test_1.txt"
     Then wait for download link
     When I click the back link
@@ -55,13 +57,13 @@ Feature: I want to create MOD Licence Applications
   Scenario: Submit Gifting Application
     Given I go to exporter homepage and choose Test Org
     When I select a licence of type "mod"
-    And I select a MOD licence of type "gifting_clearance"
+    And I select a MOD licence of type "gift"
     And I enter a licence name
     When I click on the "goods" section
     And I add a non-incorporated good to the application
     Then the good is added to the application
     When I click on the "end_user" section
-    And I add an end user of sub_type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
+    And I add a party of sub_type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
     And I upload a file "file_for_doc_upload_test_1.txt"
     Then wait for download link
     When I click the back link

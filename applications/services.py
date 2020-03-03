@@ -4,6 +4,7 @@ from django.http import StreamingHttpResponse
 from s3chunkuploader.file_handler import s3_client
 
 from applications.helpers.date_fields import format_date_fields
+from core.objects import Application
 from conf.client import get, post, put, delete
 from conf.constants import (
     ACTIVITY_URL,
@@ -41,9 +42,9 @@ def get_applications(request, page: int = 1, submitted: bool = True):
     return data.json()
 
 
-def get_application(request, pk):
+def get_application(request, pk) -> Application:
     data = get(request, APPLICATIONS_URL + str(pk))
-    return data.json()
+    return Application(data.json())
 
 
 def post_applications(request, json):
@@ -52,6 +53,13 @@ def post_applications(request, json):
 
 
 def put_application(request, pk, json):
+    data = put(request, APPLICATIONS_URL + str(pk), json)
+    return data.json(), data.status_code
+
+
+def put_application_with_clearance_types(request, pk, json):
+    # Inject the clearance types as an empty set into JSON if they are not present
+    json["types"] = json.get("types", [])
     data = put(request, APPLICATIONS_URL + str(pk), json)
     return data.json(), data.status_code
 
@@ -101,12 +109,12 @@ def get_data_from_post_good_on_app(json):
 
 # Countries
 def get_application_countries(request, pk):
-    data = get(request, APPLICATIONS_URL + pk + COUNTRIES_URL)
+    data = get(request, APPLICATIONS_URL + str(pk) + COUNTRIES_URL)
     return data.json()["countries"]
 
 
 def post_application_countries(request, pk, json):
-    data = post(request, APPLICATIONS_URL + pk + COUNTRIES_URL, json)
+    data = post(request, APPLICATIONS_URL + str(pk) + COUNTRIES_URL, json)
     return data.json(), data.status_code
 
 
