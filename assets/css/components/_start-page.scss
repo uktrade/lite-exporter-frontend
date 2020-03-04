@@ -1,0 +1,49 @@
+.app-start-page__register-container {
+	display: flex;
+	align-items: center;
+}
+
+$great-brand-colour: #1C1448;
+
+.app-start-page__great-button {
+	@include govuk-font($size: 19);
+	position: relative;
+	background-color: lighten($great-brand-colour, 30%);
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+	color: govuk-colour("white")!important;
+	text-decoration: none;
+	height: 46px;
+	padding-right: govuk-spacing(3);
+
+	svg {
+		margin-right: govuk-spacing(3);
+		height: 46px;
+	}
+
+	span {
+		margin-left: govuk-spacing(1);
+		font-weight: bold;
+	}
+
+	&::after {
+		content: "";
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		height: $govuk-border-width-form-element;
+		background: govuk-colour("black");
+		opacity: .5;
+	}
+
+	&:hover {
+		background-color: lighten($great-brand-colour, 20%);
+	}
+
+	&:active {
+		background-color: lighten($great-brand-colour, 10%);
+	}
+}
