@@ -108,9 +108,9 @@ Feature: I want to indicate the standard licence I want
     Given I go to exporter homepage and choose Test Org
     When I create a standard individual transhipment application
     And I click on the "location" section
-    And I select "organisation" for where my goods are located
-    And I select the site at position "1"
-    And I click continue
+    And I select "external" for where my goods are located
+    And I select "new" for whether or not I want a new or existing location to be added
+    And I fill in new external location form with name: "32 Lime Street", address: "London" and country: "Ukraine" and continue
     And I click the back link
     And I click on the "goods" section
     And I add a non-incorporated good to the application
