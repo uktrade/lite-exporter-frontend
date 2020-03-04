@@ -1,7 +1,6 @@
-from pytest_bdd import scenarios, when, parsers
+from pytest_bdd import scenarios, when, parsers, then
 
 from ui_automation_tests.pages.add_end_user_pages import AddEndUserPages
-from ui_automation_tests.pages.exporter_hub_page import ExporterHubPage
 from ui_automation_tests.pages.shared import Shared
 from ui_automation_tests.pages.apply_for_a_licence_page import ApplyForALicencePage
 from ui_automation_tests.shared import functions
@@ -16,11 +15,15 @@ def create_mod_application(driver, context, type):  # noqa
     functions.click_submit(driver)
 
 
-@when(parsers.parse('I select a licence of type "{type}"'))  # noqa
-def create_mod_application(driver, context, type):  # noqa
-    ExporterHubPage(driver).click_apply_for_a_licence()
-    ApplyForALicencePage(driver).select_licence_type(type)
+@when("I choose the types of clearance I need")
+def choose_types_of_clearance(driver):
+    ApplyForALicencePage(driver).select_types_of_clearance()
     functions.click_submit(driver)
+
+
+@then("I see the correct number of clearance types")
+def correct_number_of_types(driver):
+    assert len(driver.find_elements_by_name(ApplyForALicencePage(driver).F680_CLEARANCE_TYPE_CHECKBOXES_NAME)) == 6
 
 
 @when(  # noqa
