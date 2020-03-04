@@ -1,0 +1,55 @@
+{% extends 'layouts/two-pane.html' %}
+
+{% load svg %}
+
+{% block header_title %}{% endblock %}
+
+{% block back_link %}
+	<div class="govuk-breadcrumbs">
+		<ol class="govuk-breadcrumbs__list">
+			<li class="govuk-breadcrumbs__list-item">
+				<a class="govuk-breadcrumbs__link" href="{{ GOV_UK_URL }}">Home</a>
+			</li>
+			<li class="govuk-breadcrumbs__list-item">
+				<a class="govuk-breadcrumbs__link" href="https://www.gov.uk/topic/business-enterprise">Business and enterprise</a>
+			</li>
+			<li class="govuk-breadcrumbs__list-item">
+				<a class="govuk-breadcrumbs__link" href="https://www.gov.uk/topic/business-enterprise/importing-exporting">Trade restrictions on exports</a>
+			</li>
+			<li class="govuk-breadcrumbs__list-item">
+				Licencing for International Trade and Enterprise
+			</li>
+		</ol>
+	</div>
+{% endblock %}
+
+{% block two_thirds %}
+	<h1 class="govuk-heading-xl">
+		{% block title %}
+			Export control account: sign in or set up
+		{% endblock %}
+	</h1>
+
+	<p class="govuk-body">You can use your export control account to:</p>
+	<ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-7">
+		<li>check if you need an export licence</li>
+		<li>apply for an export licence</li>
+		<li>register for an Open General Export Licence</li>
+		<li>raise an end user advisory query</li>
+		<li>add products to your database</li>
+	</ul>
+
+	<div class="govuk-inset-text govuk-!-margin-bottom-7">
+		<p class="govuk-body">There are different services if you want to <a class="govuk-link" href="https://www.gov.uk/guidance/export-drugs-and-medicines-special-rules" target="_blank">export drugs and medicines</a>, <a class="govuk-link" href="https://www.artscouncil.org.uk/export-controls/export-licensing"
+			 target="_blank">export fine art</a> or <a class="govuk-link" href="https://www.gov.uk/guidance/export-livestock-and-poultry" target="_blank">export livestock</a></p>
+	</div>
+
+	<div class="app-start-page__register-container govuk-!-margin-bottom-2">
+		<a href="{% url 'auth:login' %}" role="button" draggable="false" class="great-button" data-module="govuk-button">
+			{% svg 'union-jack' %}
+			Sign in with <span>GREAT</span>
+		</a>
+
+		<p class="govuk-hint govuk-!-margin-0 govuk-!-margin-left-3">or<a href="https://great.uat.uktrade.digital/profile/enrol/" class="govuk-link govuk-link--no-visited-state govuk-!-margin-left-2">register an account</a></p>
+	</div>
+{% endblock %}
