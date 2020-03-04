@@ -4,20 +4,19 @@
 
 {% block header_title %}{% endblock %}
 
+{% block service_name %}{% endblock %}
+
 {% block back_link %}
 	<div class="govuk-breadcrumbs">
 		<ol class="govuk-breadcrumbs__list">
+			{% lcs 'core.StartPage.BREADCRUMBS' as breadcrumbs %}
+			{% for breadcrumb in breadcrumbs %}
+				<li class="govuk-breadcrumbs__list-item">
+					<a class="govuk-breadcrumbs__link" href="{{ breadcrumb.1 }}">{{ breadcrumb.0 }}</a>
+				</li>
+			{% endfor %}
 			<li class="govuk-breadcrumbs__list-item">
-				<a class="govuk-breadcrumbs__link" href="{{ GOV_UK_URL }}">Home</a>
-			</li>
-			<li class="govuk-breadcrumbs__list-item">
-				<a class="govuk-breadcrumbs__link" href="https://www.gov.uk/topic/business-enterprise">Business and enterprise</a>
-			</li>
-			<li class="govuk-breadcrumbs__list-item">
-				<a class="govuk-breadcrumbs__link" href="https://www.gov.uk/topic/business-enterprise/importing-exporting">Trade restrictions on exports</a>
-			</li>
-			<li class="govuk-breadcrumbs__list-item">
-				Licencing for International Trade and Enterprise
+				{{ SERVICE_NAME }}
 			</li>
 		</ol>
 	</div>
@@ -26,30 +25,28 @@
 {% block two_thirds %}
 	<h1 class="govuk-heading-xl">
 		{% block title %}
-			Export control account: sign in or set up
+			{% lcs 'core.StartPage.TITLE' %}
 		{% endblock %}
 	</h1>
 
-	<p class="govuk-body">You can use your export control account to:</p>
+	<p class="govuk-body">{% lcs 'core.StartPage.DESCRIPTION' %}</p>
 	<ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-7">
-		<li>check if you need an export licence</li>
-		<li>apply for an export licence</li>
-		<li>register for an Open General Export Licence</li>
-		<li>raise an end user advisory query</li>
-		<li>add products to your database</li>
+		{% lcs 'core.StartPage.BULLET_POINTS' as bullet_points %}
+		{% for point in bullet_points %}
+			<li>{{ point }}</li>
+		{% endfor %}
 	</ul>
 
 	<div class="govuk-inset-text govuk-!-margin-bottom-7">
-		<p class="govuk-body">There are different services if you want to <a class="govuk-link" href="https://www.gov.uk/guidance/export-drugs-and-medicines-special-rules" target="_blank">export drugs and medicines</a>, <a class="govuk-link" href="https://www.artscouncil.org.uk/export-controls/export-licensing"
-			 target="_blank">export fine art</a> or <a class="govuk-link" href="https://www.gov.uk/guidance/export-livestock-and-poultry" target="_blank">export livestock</a></p>
+		{% lcs 'core.StartPage.NOTICE' %}
 	</div>
 
 	<div class="app-start-page__register-container govuk-!-margin-bottom-2">
 		<a href="{% url 'auth:login' %}" role="button" draggable="false" class="great-button" data-module="govuk-button">
 			{% svg 'union-jack' %}
-			Sign in with <span>GREAT</span>
+			{% lcs 'core.StartPage.SIGN_IN_BUTTON' %}<span>{% lcs 'core.StartPage.SIGN_IN_BUTTON_SUFFIX' %}</span>
 		</a>
 
-		<p class="govuk-hint govuk-!-margin-0 govuk-!-margin-left-3">or<a href="https://great.uat.uktrade.digital/profile/enrol/" class="govuk-link govuk-link--no-visited-state govuk-!-margin-left-2">register an account</a></p>
+		<p class="govuk-hint govuk-!-margin-0 govuk-!-margin-left-3">{% lcs 'core.StartPage.OR' %}<a href="{{ AUTHBROKER_URL }}/profile/enrol/" class="govuk-link govuk-link--no-visited-state govuk-!-margin-left-2">{% lcs 'core.StartPage.REGISTER_ACCOUNT_LINK' %}</a></p>
 	</div>
 {% endblock %}
