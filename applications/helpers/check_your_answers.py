@@ -134,29 +134,26 @@ def _convert_hmrc_query(application, editable=False):
 
 
 def _convert_goods(goods, is_exhibition=False):
-    if is_exhibition:
-        return [
-            {
-                "Description": good["good"]["description"],
-                "Part number": default_na(good["good"]["part_number"]),
-                "Controlled": friendly_boolean(good["good"]["is_good_controlled"]),
-                "CLC": default_na(good["good"]["control_code"]),
-                "Product type": good["other_item_type"] if good["other_item_type"] else good["item_type"],
-            }
-            for good in goods
-        ]
-    else:
-        return [
-            {
-                "Description": good["good"]["description"],
-                "Part number": default_na(good["good"]["part_number"]),
-                "Controlled": friendly_boolean(good["good"]["is_good_controlled"]),
-                "CLC": default_na(good["good"]["control_code"]),
-                "Quantity": intcomma(good["quantity"]) + " " + pluralise_unit(good["unit"]["value"], good["quantity"]),
-                "Value": "£" + good["value"],
-            }
-            for good in goods
-        ]
+    goods_list = []
+
+    for good in goods:
+        goods_dict = {
+            "Description": good["good"]["description"],
+            "Part number": default_na(good["good"]["part_number"]),
+            "Controlled": friendly_boolean(good["good"]["is_good_controlled"]),
+            "CLC": default_na(good["good"]["control_code"]),
+        }
+        if is_exhibition:
+            goods_dict["Product type"] = good["other_item_type"] if good["other_item_type"] else good["item_type"]
+        else:
+            goods_dict["Quantity"] = (
+                intcomma(good["quantity"]) + " " + pluralise_unit(good["unit"]["value"], good["quantity"])
+            )
+            goods_dict["Value"] = "£" + good["value"]
+
+        goods_list.append(goods_dict)
+
+    return goods_list
 
 
 def _get_exhibition_details(application):
