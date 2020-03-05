@@ -6,11 +6,12 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
 from conf.constants import Permissions, NotificationType
-from core.forms import select_your_organisation_form
+from core.forms import select_your_organisation_form, register_an_organisation
 from core.helpers import Section, Tile, generate_notification_string
 from core.services import get_notifications, get_organisation
 from lite_content.lite_exporter_frontend import strings
 from lite_forms.generators import form_page
+from lite_forms.views import MultiFormView
 from users.services import get_user
 
 
@@ -133,3 +134,8 @@ class PickOrganisation(TemplateView):
         request.user.save()
 
         return redirect("/")
+
+
+class RegisterAnOrganisation(MultiFormView):
+    def init(self, request, **kwargs):
+        self.forms = register_an_organisation()

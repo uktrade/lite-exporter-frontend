@@ -1,4 +1,4 @@
-from lite_forms.components import RadioButtons, Option, Form
+from lite_forms.components import RadioButtons, Option, Form, FormGroup, TextInput, Breadcrumbs
 
 from core.helpers import str_date_only
 
@@ -18,3 +18,20 @@ def select_your_organisation_form(organisations):
         default_button_name="Save and continue",
         back_link=None,
     )
+
+
+def register_an_organisation():
+    return FormGroup([
+        Form(title="I Am Easy to Find",
+             questions=[
+                 TextInput("Hello")
+             ], back_link=Breadcrumbs),
+        Form(title="I Am Easy to Find",
+             questions=[
+                 TextInput("Hello")
+             ]),
+        Form(title="I Am Easy to Find",
+             questions=[
+                 TextInput("Hello")
+             ]),
+    ])

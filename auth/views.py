@@ -1,4 +1,3 @@
-from lite_content.lite_exporter_frontend import strings
 from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseServerError
@@ -64,12 +63,7 @@ class AuthCallbackView(View):
 
         response, status_code = authenticate_exporter_user(profile)
         if status_code != 200:
-            return error_page(
-                None,
-                title=strings.Authentication.UserDoesNotExist.TITLE,
-                description=strings.Authentication.UserDoesNotExist.DESCRIPTION,
-                show_back_link=False,
-            )
+            return redirect("core:register_an_organisation")
 
         # Create the user in the session
         user = authenticate(request)
