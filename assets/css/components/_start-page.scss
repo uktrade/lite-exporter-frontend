@@ -1,6 +1,22 @@
 .app-start-page__register-container {
 	display: flex;
 	align-items: center;
+
+	@include govuk-media-query($until: tablet) {
+		display: grid;
+		grid-template-rows: 1fr 1fr 1fr;
+
+		p {
+			text-align: center;
+			margin: 0!important;
+			line-height: 45px!important;
+			margin-top: govuk-spacing(3);
+
+			a {
+				margin-left: govuk-spacing(1);
+			}
+		}
+	}
 }
 
 $great-brand-colour: #1C1448;
@@ -16,11 +32,15 @@ $great-brand-colour: #1C1448;
 	color: govuk-colour("white")!important;
 	text-decoration: none;
 	height: 46px;
+	padding-left: 11px + govuk-spacing(3);
 	padding-right: govuk-spacing(3);
+	white-space: nowrap;
 
 	svg {
-		margin-right: govuk-spacing(3);
-		height: 46px;
+		position: absolute;
+		top: 0;
+		left: 0;
+		bottom: 0;
 	}
 
 	span {

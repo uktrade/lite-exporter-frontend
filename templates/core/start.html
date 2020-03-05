@@ -38,7 +38,8 @@
 	</ul>
 
 	<div class="govuk-inset-text govuk-!-margin-bottom-7">
-		{% lcs 'core.StartPage.NOTICE' %}
+		{% lcs 'core.StartPage.NOTICE' as notice %}
+		{{ notice|markdown }}
 	</div>
 
 	<div class="app-start-page__register-container govuk-!-margin-bottom-2">
