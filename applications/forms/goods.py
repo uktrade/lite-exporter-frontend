@@ -20,25 +20,25 @@ def good_on_application_form(good, units):
         questions=[
             conditional(good, good_summary(good)),
             conditional(good, HiddenField(name="good_id", value=good.get("id"))),
-            CurrencyInput(
-                title=AddGoodToApplicationForm.VALUE.TITLE,
-                description=AddGoodToApplicationForm.VALUE.DESCRIPTION,
-                name="value",
-            ),
             SideBySideSection(
                 questions=[
-                    QuantityInput(
-                        title=AddGoodToApplicationForm.Quantity.TITLE,
-                        description=AddGoodToApplicationForm.Quantity.DESCRIPTION,
-                        name="quantity",
-                    ),
                     Select(
                         title=AddGoodToApplicationForm.Units.TITLE,
                         description=AddGoodToApplicationForm.Units.DESCRIPTION,
                         name="unit",
                         options=units,
                     ),
+                    QuantityInput(
+                        title=AddGoodToApplicationForm.Quantity.TITLE,
+                        description=AddGoodToApplicationForm.Quantity.DESCRIPTION,
+                        name="quantity",
+                    ),
                 ]
+            ),
+            CurrencyInput(
+                title=AddGoodToApplicationForm.VALUE.TITLE,
+                description=AddGoodToApplicationForm.VALUE.DESCRIPTION,
+                name="value",
             ),
             RadioButtons(
                 name="is_good_incorporated",
