@@ -10,7 +10,6 @@ Feature: I want to manage my organisation's members
     When I click on the manage my organisation link
     And I add a member to the organisation
     And I select the member that was just added
-    # Edit the user
     And I deactivate them
     Then the member is deactivated
     When I reactivate them

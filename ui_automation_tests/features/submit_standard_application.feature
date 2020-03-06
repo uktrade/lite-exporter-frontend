@@ -70,26 +70,6 @@ Feature: I want to indicate the standard licence I want
     And I select the location at position "2" in external locations list and continue
     And I click the back link
     When I click on the "end_user" section
-    And I add a party of sub_type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
-    And I upload a file "file_for_doc_upload_test_1.txt"
-    Then download link is present
-    When I click the back link
-    And I click on the "consignee" section
-    And I add a party of sub_type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
-    And I upload a file "file_for_doc_upload_test_1.txt"
-    Then download link is present
-    When I click the back link
-    And I submit the application
-    And I click on applications
-    Then I see submitted application
-
-  @LT_1074_copy_existing_party @regression
-  Scenario: Submit standard application with external locations and ultimate end users and copy party
-    Given I go to exporter homepage and choose Test Org
-    And I create a draft
-    And I seed an end user for the draft
-    When I create a standard application
-    And I click on the "end_user" section
     And I select that I want to copy an existing party
     When I filter for my previously created end user
     Then I can select the existing party in the table
@@ -101,7 +81,17 @@ Feature: I want to indicate the standard licence I want
     When I click continue
     Then I see the party address and country is already filled in
     When I click continue
-    And I skip uploading a document
+    And I upload a file "file_for_doc_upload_test_1.txt"
+    Then download link is present
+    When I click the back link
+    And I click on the "consignee" section
+    And I add a party of sub_type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
+    And I upload a file "file_for_doc_upload_test_1.txt"
+    Then download link is present
+    When I click the back link
+    And I submit the application
+    And I click on applications
+    Then I see submitted application
 
   @LT_1208_standard_individual_transhipment_application @regression
   Scenario: Submit a standard individual transhipment application
