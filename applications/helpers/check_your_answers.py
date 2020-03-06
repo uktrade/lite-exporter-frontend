@@ -269,7 +269,7 @@ def _convert_document(party, document_type, application_id, editable):
     if editable:
         return convert_to_link(
             f"/applications/{application_id}/{document_type}/{party['id']}/document/download",
-            "Download",
+            Parties.Documents.DOWNLOAD + " " + document["name"],
             include_br=True,
         ) + convert_to_link(
             f"/applications/{application_id}/{document_type}/{party['id']}/document/delete", Parties.Documents.DELETE
@@ -277,7 +277,7 @@ def _convert_document(party, document_type, application_id, editable):
     else:
         return convert_to_link(
             f"/applications/{application_id}/{document_type}/{party['id']}/document/download",
-            Parties.Documents.DOWNLOAD,
+            Parties.Documents.DOWNLOAD + " " + document["name"],
             include_br=True,
         )
 
