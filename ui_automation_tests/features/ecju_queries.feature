@@ -15,7 +15,7 @@ So that I can quickly identify where action is required by me and respond to any
     And I select "yes" for submitting response and click submit
     Then I see my ecju query is closed
 
-  @LT_996_clc @nightly
+  @LT_996_clc @regression
    Scenario: view and respond to a ecju query in a good
     Given I go to exporter homepage and choose Test Org
     When I click on an CLC query previously created

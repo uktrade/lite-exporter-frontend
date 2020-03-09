@@ -70,17 +70,7 @@ Feature: I want to indicate the standard licence I want
     And I select the location at position "2" in external locations list and continue
     And I click the back link
     When I click on the "end_user" section
-    And I select that I want to copy an existing party
-    When I filter for my previously created end user
-    Then I can select the existing party in the table
-    When I click copy party
-    And I click continue
-    Then I see the party name is already filled in
-    When I click continue
-    Then I see the party website is already filled in
-    When I click continue
-    Then I see the party address and country is already filled in
-    When I click continue
+    And I add a party of sub_type: "commercial", name: "Mr Jones", website: " ", address: "London" and country "Ukraine"
     And I upload a file "file_for_doc_upload_test_1.txt"
     Then download link is present
     When I click the back link
