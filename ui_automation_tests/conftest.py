@@ -1,10 +1,8 @@
 import datetime
 import os
 
-import faker
-from faker import Faker
+from faker import Faker  # noqa
 from pytest_bdd import given, when, then, parsers
-from selenium.webdriver.common.by import By
 
 from ui_automation_tests.pages.add_end_user_pages import AddEndUserPages
 from ui_automation_tests.pages.application_edit_type_page import ApplicationEditTypePage
