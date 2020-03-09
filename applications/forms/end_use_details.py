@@ -17,7 +17,6 @@ def is_military_end_use_controls_form():
         questions=[
             RadioButtons(
                 name="is_military_end_use_controls",
-                title="",
                 options=[
                     Option(
                         key="yes",
@@ -103,8 +102,19 @@ def is_eu_military_form():
                 name="is_eu_military",
                 title="",
                 options=[
-                    Option(True, "Yes"),
-                    Option(False, "No"),
+                    Option(
+                        key="yes",
+                        value="Yes",
+                        components=[
+                            TextArea(
+                                name="eu_military_ref",
+                                title="",
+                                description="Provide details",
+                                extras={"max_length": 2200},
+                            )
+                        ],
+                    ),
+                    Option(key="no", value="No"),
                 ],
                 classes=["govuk-radios--inline"],
             )
