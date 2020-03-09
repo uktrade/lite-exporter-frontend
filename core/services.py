@@ -26,7 +26,8 @@ def get_units(request, units=[]):
     if units:
         return units
     data = get(request, UNITS_URL).json().get("units")
-    [units.append(Option(key, value)) for key, value in data.items()]
+    for key, value in data.items():
+        units.append(Option(key, value))
     return units
 
 
