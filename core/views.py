@@ -229,7 +229,8 @@ class RegisterAnOrganisationConfirmation(TemplateView):
             secondary_title="We're currently processing your application.",
             description="",
             what_happens_next=[
-                "Export Control Joint Unit (ECJU) is processing your request for an export control account. We'll send you an email when we've made a final decision."
+                "Export Control Joint Unit (ECJU) is processing your request for an export control account. "
+                "We'll send you an email when we've made a final decision."
             ],
             links={},
             back_link=conditional(
