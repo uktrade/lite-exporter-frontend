@@ -17,6 +17,7 @@ def is_military_end_use_controls_form():
         questions=[
             RadioButtons(
                 name="is_military_end_use_controls",
+                short_title="Military end use controls",
                 options=[
                     Option(
                         key="yes",
@@ -26,7 +27,7 @@ def is_military_end_use_controls_form():
                                 title="",
                                 description="This reference is on the ECJU letter",
                                 name="military_end_use_controls_ref",
-                                optional=True,
+                                optional=False,
                             ),
                         ],
                     ),
@@ -44,6 +45,7 @@ def is_informed_wmd_form():
         questions=[
             RadioButtons(
                 name="is_informed_wmd",
+                short_title="Informed WMD",
                 title="",
                 options=[
                     Option(
@@ -54,7 +56,7 @@ def is_informed_wmd_form():
                                 title="",
                                 description="This reference is on the ECJU letter",
                                 name="informed_wmd_ref",
-                                optional=True,
+                                optional=False,
                             ),
                         ],
                     ),
@@ -72,6 +74,7 @@ def is_suspected_wmd_form():
         questions=[
             RadioButtons(
                 name="is_suspected_wmd",
+                short_title="Suspected",
                 title="",
                 options=[
                     Option(
@@ -83,6 +86,7 @@ def is_suspected_wmd_form():
                                 title="",
                                 description="Provide details",
                                 extras={"max_length": 2200},
+                                optional=False
                             )
                         ],
                     ),
@@ -100,6 +104,7 @@ def is_eu_military_form():
         questions=[
             RadioButtons(
                 name="is_eu_military",
+                short_title="EU Military",
                 title="",
                 options=[
                     Option(
@@ -111,6 +116,7 @@ def is_eu_military_form():
                                 title="",
                                 description="Provide details",
                                 extras={"max_length": 2200},
+                                optional=False
                             )
                         ],
                     ),

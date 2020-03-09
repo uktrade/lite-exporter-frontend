@@ -16,7 +16,7 @@ class EndUseDetails(SummaryListFormView):
         self.action = put_application
         self.data = self._parse_end_use_details(application)
         self.success_url = reverse_lazy("applications:task_list", kwargs={"pk": self.object_pk})
-        self.validate_only_until_final_submission = False
+        self.validate_only_until_final_submission = True
         self.summary_list_title = "WMD end use summary list"
         self.summary_list_notice_title = ""
         self.summary_list_notice_text = ""
