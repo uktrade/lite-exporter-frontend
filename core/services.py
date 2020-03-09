@@ -22,9 +22,12 @@ from lite_forms.components import Option
 from lite_forms.generators import error_page
 
 
-def get_units(request):
+def get_units(request, units=[]):
+    if units:
+        return units
     data = get(request, UNITS_URL).json().get("units")
-    return [Option(key, value) for key, value in data.items()]
+    [units.append(Option(key, value)) for key, value in data.items()]
+    return units
 
 
 def get_country(request, pk):
