@@ -115,21 +115,25 @@ def register_a_commercial_organisation_group():
                     TextInput(
                         title=RegisterAnOrganisation.Commercial.EORI_NUMBER,
                         description=RegisterAnOrganisation.Commercial.EORI_NUMBER_DESCRIPTION,
+                        short_title="EORI number",
                         name="eori_number",
                     ),
                     TextInput(
                         title=RegisterAnOrganisation.Commercial.SIC_NUMBER,
                         description=RegisterAnOrganisation.Commercial.SIC_NUMBER_DESCRIPTION,
+                        short_title="SIC number",
                         name="sic_number",
                     ),
                     TextInput(
                         title=RegisterAnOrganisation.Commercial.VAT_NUMBER,
                         description=RegisterAnOrganisation.Commercial.VAT_NUMBER_DESCRIPTION,
+                        short_title="UK VAT number",
                         name="vat_number",
                     ),
                     TextInput(
                         title=RegisterAnOrganisation.Commercial.CRN_NUMBER,
                         description=RegisterAnOrganisation.Commercial.CRN_NUMBER_DESCRIPTION,
+                        short_title="Registration number",
                         name="registration_number",
                     ),
                 ],
@@ -156,11 +160,13 @@ def register_an_individual_group():
                     TextInput(
                         title=RegisterAnOrganisation.Individual.EORI_NUMBER,
                         description=RegisterAnOrganisation.Individual.EORI_NUMBER_DESCRIPTION,
+                        short_title="EORI number",
                         name="eori_number",
                     ),
                     TextInput(
                         title=RegisterAnOrganisation.Individual.VAT_NUMBER,
                         description=RegisterAnOrganisation.Individual.VAT_NUMBER_DESCRIPTION,
+                        short_title="UK VAT number",
                         optional=True,
                         name="vat_number",
                     ),
