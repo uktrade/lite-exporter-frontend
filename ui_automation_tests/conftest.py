@@ -335,7 +335,7 @@ def submit_response_confirmation(driver, value):  # noqa
     driver.find_element_by_xpath('//button[@type="submit"]').click()
 
 
-@when(parsers.parse('I enter text for case note'))  # noqa
+@when(parsers.parse("I enter text for case note"))  # noqa
 def enter_case_note_text(driver, context):  # noqa
     application_page = SubmittedApplicationsPages(driver)
     context.text = fake.catch_phrase()
