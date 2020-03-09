@@ -27,3 +27,22 @@ $('#quantity').on('input propertychange paste', function() {
 		}
 	}
 });
+
+$('#unit').on('input', function() {
+	let quantity_for = "quantity";
+	let quantity_label = $('label[for=' + quantity_for + ']');
+	let value_for = "value";
+	let value_label = $('label[for=' + value_for + ']');
+
+	if ($(this).val() === 'ITG') {
+		if (!quantity_label.text().endsWith('(optional)')) {
+			quantity_label.text(quantity_label.text() + " (optional)");
+			value_label.text(value_label.text() + " (optional)");
+		}
+	} else {
+		if (quantity_label.text().endsWith('(optional)')) {
+			quantity_label.text(quantity_label.text().substring(0, quantity_label.text().indexOf("(optional)", 0)));
+			value_label.text(value_label.text().substring(0, value_label.text().indexOf("(optional)", 0)));
+		}
+	}
+});
