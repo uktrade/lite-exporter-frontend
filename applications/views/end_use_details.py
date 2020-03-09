@@ -11,7 +11,7 @@ class EndUseDetails(SummaryListFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
         application = get_application(request, self.object_pk)
-        is_application_type_standard = application["case_type"]["sub_type"]["key"] == STANDARD
+        is_application_type_standard = application.sub_type == STANDARD
         self.forms = end_use_details_form(is_application_type_standard)
         self.action = put_application
         self.data = self._parse_end_use_details(application)
