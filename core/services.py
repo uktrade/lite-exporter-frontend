@@ -3,10 +3,6 @@ from urllib.parse import urlencode
 
 from django.http import StreamingHttpResponse
 
-from core.helpers import convert_parameters_to_query_params, convert_value_to_query_param
-from lite_content.lite_exporter_frontend.generic import Document
-from lite_forms.components import Option
-
 from conf.client import get, post, put, delete
 from conf.constants import (
     UNITS_URL,
@@ -15,12 +11,14 @@ from conf.constants import (
     EXTERNAL_LOCATIONS_URL,
     NOTIFICATIONS_URL,
     ORGANISATIONS_URL,
-    CASES_URL,
     CONTROL_LIST_ENTRIES_URL,
     NEWLINE,
     PV_GRADINGS_URL,
     STATIC_F680_CLEARANCE_TYPES_URL,
 )
+from core.helpers import convert_parameters_to_query_params, convert_value_to_query_param
+from lite_content.lite_exporter_frontend.generic import Document
+from lite_forms.components import Option
 from lite_forms.generators import error_page
 
 
@@ -153,21 +151,15 @@ def put_organisation_user(request, user_pk, json):
     return data.json(), data.status_code
 
 
-# Cases
-def get_case(request, pk):
-    data = get(request, CASES_URL + pk)
-    return data.json().get("case") if data.status_code == HTTPStatus.OK else None
-
-
-# Control List Entries
-def get_control_list_entries(request, convert_to_options=False):
+def get_control_list_entries(request, convert_to_options=False, converted_control_list_entries_cache=[]):
     if convert_to_options:
-        data = get(request, CONTROL_LIST_ENTRIES_URL + "?flatten=True")
-
-        converted_units = []
+        if converted_control_list_entries_cache:
+            return converted_control_list_entries_cache
+        else:
+            data = get(request, CONTROL_LIST_ENTRIES_URL + "?flatten=True")
 
         for control_list_entry in data.json().get("control_list_entries"):
-            converted_units.append(
+            converted_control_list_entries_cache.append(
                 Option(
                     key=control_list_entry["rating"],
                     value=control_list_entry["rating"],
@@ -175,7 +167,7 @@ def get_control_list_entries(request, convert_to_options=False):
                 )
             )
 
-        return converted_units
+        return converted_control_list_entries_cache
 
     data = get(request, CONTROL_LIST_ENTRIES_URL)
     return data.json().get("control_list_entries")
