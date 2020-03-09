@@ -339,17 +339,11 @@ def submit_response_confirmation(driver, value):  # noqa
     driver.find_element_by_xpath('//button[@type="submit"]').click()
 
 
-@when(parsers.parse('I enter "{text}" for case note'))  # noqa
-def enter_case_note_text(driver, text, context):  # noqa
+@when(parsers.parse('I enter text for case note'))  # noqa
+def enter_case_note_text(driver, context):  # noqa
     application_page = SubmittedApplicationsPages(driver)
-    if text == "the maximum limit with spaces":
-        text = " " * 2200
-    elif text == "the maximum limit":
-        text = "T" * 2200
-    elif text == "the maximum limit plus 1":
-        text = "T" * 2201
-    context.text = text
-    application_page.enter_case_note(text)
+    context.text = fake.catch_phrase()
+    application_page.enter_case_note(context.text)
 
 
 @when("I click post note")  # noqa
