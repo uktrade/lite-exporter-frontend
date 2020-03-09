@@ -1,6 +1,7 @@
 import datetime
 import os
 
+import faker
 from faker import Faker
 from pytest_bdd import given, when, then, parsers
 from selenium.webdriver.common.by import By
@@ -144,9 +145,7 @@ def go_to_exporter_when(driver, exporter_url):  # noqa
 @when("I enter a licence name")  # noqa
 def enter_application_name(driver, context):  # noqa
     apply = ApplyForALicencePage(driver)
-    app_time_id = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    context.app_time_id = app_time_id
-    app_name = "Request for Nimbus 2000 " + app_time_id
+    app_name = fake.bs()
     apply.enter_name_or_reference_for_application(app_name)
     context.app_name = app_name
     functions.click_submit(driver)
@@ -231,10 +230,9 @@ def application_is_submitted(driver):  # noqa
 
 @then("I see submitted application")  # noqa
 def application_is_submitted(driver, context):  # noqa
-    assert utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'" + context.app_time_id + "')]]")
 
     elements = driver.find_elements_by_css_selector("tr")
-    element_number = utils.get_element_index_by_text(elements, context.app_time_id, complete_match=False)
+    element_number = utils.get_element_index_by_text(elements, context.app_name, complete_match=False)
     element_row = elements[element_number].text
     assert "Submitted" in element_row
     assert utils.search_for_correct_date_regex_in_element(element_row)

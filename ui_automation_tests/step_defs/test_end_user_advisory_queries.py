@@ -114,5 +114,5 @@ def notification_on_notes_tab(driver, context):
 
 
 @then(parsers.parse('I can view text in case notes'))
-def notification_on_notes_tab(driver, text, context):
+def notification_on_notes_tab(driver, context):
     assert context.text in EndUserAdvisoryPage(driver).latest_case_note_text()
