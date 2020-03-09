@@ -29,6 +29,10 @@ def get_units(request):
     return [Option(key, value) for key, value in data.items()]
 
 
+def get_country(request, pk):
+    return get(request, STATIC_COUNTRIES_URL + pk).json()
+
+
 def get_countries(request, convert_to_options=False, exclude: list = None):
     """
     Returns a list of GOV.UK countries and territories
@@ -212,3 +216,20 @@ def get_document_download_stream(request, url):
     else:
         error = Document.DOWNLOAD_ERROR
     return error_page(request, error)
+
+
+def _register_organisation(request, json, _type):
+    data = {
+        "type": _type,
+        "user": {"email": request.user.email,},
+    }
+    response = post(request, ORGANISATIONS_URL, {**json, **data})
+    return response.json(), response.status_code
+
+
+def register_commercial_organisation(request, json):
+    return _register_organisation(request, json, "commercial")
+
+
+def register_private_individual(request, json):
+    return _register_organisation(request, json, "individual")

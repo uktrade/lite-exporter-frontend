@@ -8,7 +8,7 @@ from django.templatetags.tz import do_timezone
 from conf import decorators
 from conf.constants import ISO8601_FMT
 from core.builtins.custom_tags import default_na
-from roles.services import get_user_permissions
+from organisation.roles.services import get_user_permissions
 
 
 class Section:

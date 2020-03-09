@@ -3,15 +3,13 @@ from pytest_bdd import scenarios, when, then, parsers
 from selenium.webdriver.support.select import Select
 
 from ui_automation_tests.pages.add_member import AddMemberPage
-from ui_automation_tests.pages.exporter_hub_page import ExporterHubPage
 from ui_automation_tests.pages.member_page import MemberPage
 from ui_automation_tests.pages.members_page import MembersPage
 from ui_automation_tests.pages.shared import Shared
 from ui_automation_tests.shared import functions
+from ui_automation_tests.shared.tools.helpers import paginated_item_exists
 from ui_automation_tests.shared.tools.helpers import scroll_to_element_by_id
 from ui_automation_tests.shared.tools.utils import get_lite_client
-
-from ui_automation_tests.shared.tools.helpers import paginated_item_exists
 
 scenarios("../features/members.feature", strict_gherkin=False)
 

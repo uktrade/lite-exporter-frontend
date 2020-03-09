@@ -1,6 +1,6 @@
 from django.urls import path
 
-from roles import views
+from organisation.roles import views
 
 app_name = "roles"
 urlpatterns = [
