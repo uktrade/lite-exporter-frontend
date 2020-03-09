@@ -17,6 +17,8 @@ class EndUseDetails(SummaryListFormView):
         self.data = self._parse_end_use_details(application)
         self.success_url = reverse_lazy("applications:task_list", kwargs={"pk": self.object_pk})
         self.validate_only_until_final_submission = False
+        self.summary_list_notice_text = ""
+        self.summary_list_button = "Save and continue"
 
     def _parse_end_use_details(self, application):
         end_use_fields = ["is_military_end_use_controls",
