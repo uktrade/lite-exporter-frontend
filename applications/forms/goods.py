@@ -47,7 +47,7 @@ def good_on_application_form(request, good, sub_case_type, application_id):
                     questions=[
                         Select(
                             title=AddGoodToApplicationForm.Units.TITLE,
-                            description=AddGoodToApplicationForm.Units.DESCRIPTION,
+                            description="<noscript>" + AddGoodToApplicationForm.Units.DESCRIPTION + "</noscript>",
                             name="unit",
                             options=get_units(request),
                         ),
