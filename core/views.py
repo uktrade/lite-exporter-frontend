@@ -232,6 +232,8 @@ class RegisterAnOrganisationConfirmation(TemplateView):
                 "Export Control Joint Unit (ECJU) is processing your request for an export control account. We'll send you an email when we've made a final decision."
             ],
             links={},
-            back_link=conditional(request.GET.get("show_back_link", False), BackLink(generic.BACK, reverse_lazy("core:pick_organisation"))),
+            back_link=conditional(
+                request.GET.get("show_back_link", False), BackLink(generic.BACK, reverse_lazy("core:pick_organisation"))
+            ),
             additional_context={"user_in_limbo": True},
         )
