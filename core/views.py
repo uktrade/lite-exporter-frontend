@@ -22,8 +22,10 @@ from core.services import (
     register_private_individual,
 )
 from core.validators import validate_register_organisation_triage
-from lite_content.lite_exporter_frontend import strings
+from lite_content.lite_exporter_frontend import strings, generic
+from lite_forms.components import BackLink
 from lite_forms.generators import form_page, success_page
+from lite_forms.helpers import conditional
 from lite_forms.views import SummaryListFormView, MultiFormView
 from organisation.members.services import get_user
 
@@ -135,7 +137,11 @@ class PickOrganisation(TemplateView):
             return form_page(request, self.form, errors={"organisation": ["Select an organisation to use"]})
 
         request.user.organisation = request.POST["organisation"]
-        organisation = get_organisation(request, request.user.organisation)
+        organisation = get_organisation(request, request.POST["organisation"])
+
+        if "errors" in organisation:
+            return redirect(reverse_lazy("core:register_an_organisation_confirm") + "?show_back_link=True")
+
         request.user.organisation_name = organisation["name"]
         request.user.save()
 
@@ -226,5 +232,6 @@ class RegisterAnOrganisationConfirmation(TemplateView):
                 "Export Control Joint Unit (ECJU) is processing your request for an export control account. We'll send you an email when we've made a final decision."
             ],
             links={},
+            back_link=conditional(request.GET.get("show_back_link", False), BackLink(generic.BACK, reverse_lazy("core:pick_organisation"))),
             additional_context={"user_in_limbo": True},
         )
