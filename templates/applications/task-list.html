@@ -87,6 +87,13 @@
 					{% include "includes/task-list-item.html" with id='goods' title=strings.GOODS url=goods_url status=goods|task_list_item_status description=goods_description %}
 				{% endif %}
 
+                {# End use details #}
+				{% if application_type|application_type_in_list:"HAS_LICENCE_TYPE" %}
+					{% url 'applications:goods' application.id as goods_url %}
+					{% tld goods 'product' 'products' as goods_description %}
+					{% include "includes/task-list-item.html" with id='goods' title="End use details" url="end-use-details" status=goods|task_list_item_status description=goods_description %}
+				{% endif %}
+
 				{# Location #}
 				{% if application_type|application_type_in_list:"HAS_LOCATIONS" %}
 					{% url 'applications:location' application.id as goods_url %}
