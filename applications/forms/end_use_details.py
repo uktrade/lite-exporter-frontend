@@ -5,7 +5,7 @@ from lite_forms.helpers import conditional
 
 
 def end_use_details_form(application, request):
-    is_eu_military = request.POST.get("is_eu_military", "").lower() == "yes" or application.is_eu_military
+    is_eu_military = request.POST.get("is_eu_military", "").lower() == "true" or application.is_eu_military
 
     return FormGroup(
         [
