@@ -43,20 +43,16 @@ def good_on_application_form(request, good, sub_case_type, application_id):
             questions=[
                 good_summary(good),
                 HiddenField(name="good_id", value=good.get("id")),
-                SideBySideSection(
-                    questions=[
-                        Select(
-                            title=AddGoodToApplicationForm.Units.TITLE,
-                            description="<noscript>" + AddGoodToApplicationForm.Units.DESCRIPTION + "</noscript>",
-                            name="unit",
-                            options=get_units(request),
-                        ),
-                        QuantityInput(
-                            title=AddGoodToApplicationForm.Quantity.TITLE,
-                            description=AddGoodToApplicationForm.Quantity.DESCRIPTION,
-                            name="quantity",
-                        ),
-                    ]
+                Select(
+                    title=AddGoodToApplicationForm.Units.TITLE,
+                    description="<noscript>" + AddGoodToApplicationForm.Units.DESCRIPTION + "</noscript>",
+                    name="unit",
+                    options=get_units(request),
+                ),
+                QuantityInput(
+                    title=AddGoodToApplicationForm.Quantity.TITLE,
+                    description=AddGoodToApplicationForm.Quantity.DESCRIPTION,
+                    name="quantity",
                 ),
                 CurrencyInput(
                     title=AddGoodToApplicationForm.VALUE.TITLE,
