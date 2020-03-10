@@ -40,7 +40,7 @@ $('#unit').on('input', function() {
 
 	// if Intangible is selected, add (optional) to the quantity and value titles
 	if ($(this).val() === 'ITG') {
-		if (optional_quantity) {
+		if (!optional_quantity.length) {
 			quantity_label.wrap('<span></span>');
 			quantity_label.css('display', 'inline-block');
 			$('<label class="govuk-label lite-form-optional" for="quantity-optional" style="display: inline-block">' +
@@ -53,7 +53,7 @@ $('#unit').on('input', function() {
 		}
 	} else {
 		// remove the (optional) if any other type of unit is selected
-		if (optional_quantity) {
+		if (optional_quantity.length) {
 			if (quantity_label.parent().is('span')) {
 				quantity_label.unwrap();
 				value_label.unwrap();
