@@ -2,7 +2,6 @@ from django.urls import reverse_lazy
 
 from applications.forms.end_use_details import end_use_details_form
 from applications.services import put_application, get_application
-from conf.constants import STANDARD
 from lite_content.lite_exporter_frontend.applications import EndUseDetailsForm
 from lite_forms.views import SummaryListFormView
 
@@ -11,8 +10,7 @@ class EndUseDetails(SummaryListFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
         application = get_application(request, self.object_pk)
-        is_application_type_standard = application.sub_type == STANDARD
-        self.forms = end_use_details_form(is_application_type_standard)
+        self.forms = end_use_details_form(application, request)
         self.action = put_application
         self.data = self._parse_end_use_details(application)
         self.success_url = reverse_lazy("applications:task_list", kwargs={"pk": self.object_pk})
@@ -38,7 +36,7 @@ class EndUseDetails(SummaryListFormView):
             end_use_reference = end_use_detail + "_ref"
 
             application_end_use_question = application.get(end_use_question)
-            if application_end_use_question:
+            if application_end_use_question is not None:
                 data[end_use_question] = application_end_use_question
 
             application_end_use_reference = application.get(end_use_reference)
