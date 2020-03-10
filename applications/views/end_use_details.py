@@ -3,6 +3,7 @@ from django.urls import reverse_lazy
 from applications.forms.end_use_details import end_use_details_form
 from applications.services import put_application, get_application
 from conf.constants import STANDARD
+from lite_content.lite_exporter_frontend.applications import EndUseDetailsForm
 from lite_forms.views import SummaryListFormView
 
 
@@ -15,12 +16,13 @@ class EndUseDetails(SummaryListFormView):
         self.action = put_application
         self.data = self._parse_end_use_details(application)
         self.success_url = reverse_lazy("applications:task_list", kwargs={"pk": self.object_pk})
-        self.summary_list_title = "WMD end use summary list"
+        self.summary_list_title = EndUseDetailsForm.EndUseDetailsSummaryList.TITLE
         self.summary_list_notice_title = ""
         self.summary_list_notice_text = ""
         self.summary_list_button = "Save and continue"
 
-    def _parse_end_use_details(self, application):
+    @staticmethod
+    def _parse_end_use_details(application):
         end_use_detail_questions = [
             "is_military_end_use_controls",
             "is_informed_wmd",

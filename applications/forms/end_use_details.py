@@ -1,3 +1,4 @@
+from lite_content.lite_exporter_frontend.applications import EndUseDetailsForm
 from lite_forms.components import Form, RadioButtons, FormGroup, Option, TextInput, TextArea
 from lite_forms.helpers import conditional
 
@@ -15,11 +16,11 @@ def end_use_details_form(is_standard_application):
 
 def is_military_end_use_controls_form():
     return Form(
-        title="Have you received a letter from ECJU...",
+        title=EndUseDetailsForm.INFORMED_TO_APPLY,
         questions=[
             RadioButtons(
                 name="is_military_end_use_controls",
-                short_title="Military end use controls",
+                short_title=EndUseDetailsForm.EndUseDetailsSummaryList.INFORMED_TO_APPLY,
                 options=[
                     Option(
                         key="yes",
@@ -27,7 +28,7 @@ def is_military_end_use_controls_form():
                         components=[
                             TextInput(
                                 title="",
-                                description="This reference is on the ECJU letter",
+                                description=EndUseDetailsForm.REFERENCE_ECJU_LETTER,
                                 name="military_end_use_controls_ref",
                                 optional=False,
                             ),
@@ -43,11 +44,11 @@ def is_military_end_use_controls_form():
 
 def is_informed_wmd_form():
     return Form(
-        title="Have you been informed by ECJU that the products may be intended for ...",
+        title=EndUseDetailsForm.INFORMED_WMD,
         questions=[
             RadioButtons(
                 name="is_informed_wmd",
-                short_title="Informed WMD",
+                short_title=EndUseDetailsForm.EndUseDetailsSummaryList.INFORMED_WMD,
                 title="",
                 options=[
                     Option(
@@ -56,7 +57,7 @@ def is_informed_wmd_form():
                         components=[
                             TextInput(
                                 title="",
-                                description="This reference is on the ECJU letter",
+                                description=EndUseDetailsForm.REFERENCE_ECJU_LETTER,
                                 name="informed_wmd_ref",
                                 optional=False,
                             ),
@@ -72,11 +73,11 @@ def is_informed_wmd_form():
 
 def is_suspected_wmd_form():
     return Form(
-        title="Do you know or suspect that the products might be used...",
+        title=EndUseDetailsForm.SUSPECTED_WMD,
         questions=[
             RadioButtons(
                 name="is_suspected_wmd",
-                short_title="Suspected",
+                short_title=EndUseDetailsForm.EndUseDetailsSummaryList.SUSPECTED_WMD,
                 title="",
                 options=[
                     Option(
@@ -86,7 +87,7 @@ def is_suspected_wmd_form():
                             TextArea(
                                 name="suspected_wmd_ref",
                                 title="",
-                                description="Provide details",
+                                description=EndUseDetailsForm.PROVIDE_DETAILS,
                                 extras={"max_length": 2200},
                                 optional=False,
                             )
@@ -102,11 +103,11 @@ def is_suspected_wmd_form():
 
 def is_eu_military_form():
     return Form(
-        title="Have you received European military products...",
+        title=EndUseDetailsForm.EU_MILITARY,
         questions=[
             RadioButtons(
                 name="is_eu_military",
-                short_title="EU Military",
+                short_title=EndUseDetailsForm.EndUseDetailsSummaryList.EU_MILITARY,
                 title="",
                 options=[
                     Option(
@@ -116,7 +117,7 @@ def is_eu_military_form():
                             TextArea(
                                 name="eu_military_ref",
                                 title="",
-                                description="Provide details",
+                                description=EndUseDetailsForm.PROVIDE_DETAILS,
                                 extras={"max_length": 2200},
                                 optional=False,
                             )
