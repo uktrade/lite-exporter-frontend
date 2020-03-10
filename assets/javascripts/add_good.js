@@ -34,21 +34,34 @@ $('#unit').on('input', function() {
 	let value_for = "value";
 	let value_label = $('label[for=' + value_for + ']');
 
+	let optional_quantity = $('label[for=' + quantity_for + '-optional' + ']');
+	let optional_value = $('label[for=' + value_for + '-optional' + ']');
+
+
 	// if Intangible is selected, add (optional) to the quantity and value titles
 	if ($(this).val() === 'ITG') {
-		if (!quantity_label.text().endsWith('(optional)')) {
-			quantity_label.text(quantity_label.text() + " (optional)");
-			quantity_label.toggleClass("lite-form-optional");
-			value_label.text(value_label.text() + " (optional)");
-			value_label.toggleClass("lite-form-optional");
+		if (optional_quantity) {
+			quantity_label.wrap('<span></span>');
+			quantity_label.css('display', 'inline-block');
+			$('<label class="govuk-label lite-form-optional" for="quantity-optional" style="display: inline-block">' +
+				'(optional)</label>').insertAfter(quantity_label);
+
+			value_label.wrap('<span></span>');
+			value_label.css('display', 'inline-block');
+			$('<label class="govuk-label lite-form-optional" for="value-optional" style="display: inline-block">' +
+				'(optional)</label>').insertAfter(value_label);
 		}
 	} else {
 		// remove the (optional) if any other type of unit is selected
-		if (quantity_label.text().endsWith('(optional)')) {
-			quantity_label.text(quantity_label.text().substring(0, quantity_label.text().indexOf(" (optional)", 0)));
-			quantity_label.toggleClass("lite-form-optional");
-			value_label.text(value_label.text().substring(0, value_label.text().indexOf(" (optional)", 0)));
-			value_label.toggleClass("lite-form-optional");
+		if (optional_quantity) {
+			if (quantity_label.parent().is('span')) {
+				quantity_label.unwrap();
+				value_label.unwrap();
+			}
+			quantity_label.removeAttr('style');
+			value_label.removeAttr('style');
+			optional_quantity.remove();
+			optional_value.remove();
 		}
 	}
 });
