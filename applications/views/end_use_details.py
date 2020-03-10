@@ -40,7 +40,7 @@ class EndUseDetails(SummaryListFormView):
         for end_use_question in end_use_detail_questions:
             application_end_use_question = application.get(end_use_question)
             if application_end_use_question:
-                data[end_use_question] = application_end_use_question["key"]
+                data[end_use_question] = application_end_use_question
         for end_use_reference in end_use_detail_references:
             application_end_use_reference = application.get(end_use_reference)
             if application_end_use_reference:

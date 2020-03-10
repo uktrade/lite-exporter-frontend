@@ -114,12 +114,22 @@ def is_eu_military_form():
                         key="yes",
                         value="Yes",
                         components=[
-                            TextArea(
-                                name="eu_military_ref",
-                                title="",
-                                description=EndUseDetailsForm.PROVIDE_DETAILS,
-                                extras={"max_length": 2200},
-                                optional=False,
+                            RadioButtons(
+                                name="is_compliant_limitations_eu",
+                                title=EndUseDetailsForm.IS_COMPLIANT_LIMITATIONS_EU,
+                                short_title=EndUseDetailsForm.EndUseDetailsSummaryList.IS_COMPLIANT_LIMITATIONS_EU,
+                                options=[
+                                    Option(key="yes", value="Yes"),
+                                    Option(key="no", value="No", components=[
+                                        TextArea(
+                                            name="is_compliant_limitations_eu_ref",
+                                            title="",
+                                            description=EndUseDetailsForm.PROVIDE_DETAILS,
+                                            extras={"max_length": 2200},
+                                            optional=False,
+                                        )
+                                    ])
+                                ]
                             )
                         ],
                     ),
