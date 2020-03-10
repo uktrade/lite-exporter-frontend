@@ -13,7 +13,8 @@ from applications.views import (
     goods_types,
     f680_details,
     clearance,
-    end_use_details)
+    end_use_details,
+)
 
 app_name = "applications"
 urlpatterns = [

@@ -3,12 +3,14 @@ from lite_forms.helpers import conditional
 
 
 def end_use_details_form(is_standard_application):
-    return FormGroup([
-        is_military_end_use_controls_form(),
-        is_informed_wmd_form(),
-        is_suspected_wmd_form(),
-        conditional(is_standard_application, is_eu_military_form())
-    ])
+    return FormGroup(
+        [
+            is_military_end_use_controls_form(),
+            is_informed_wmd_form(),
+            is_suspected_wmd_form(),
+            conditional(is_standard_application, is_eu_military_form()),
+        ]
+    )
 
 
 def is_military_end_use_controls_form():
@@ -35,7 +37,7 @@ def is_military_end_use_controls_form():
                 ],
                 classes=["govuk-radios--inline"],
             )
-        ]
+        ],
     )
 
 
@@ -64,7 +66,7 @@ def is_informed_wmd_form():
                 ],
                 classes=["govuk-radios--inline"],
             )
-        ]
+        ],
     )
 
 
@@ -86,7 +88,7 @@ def is_suspected_wmd_form():
                                 title="",
                                 description="Provide details",
                                 extras={"max_length": 2200},
-                                optional=False
+                                optional=False,
                             )
                         ],
                     ),
@@ -94,7 +96,7 @@ def is_suspected_wmd_form():
                 ],
                 classes=["govuk-radios--inline"],
             )
-        ]
+        ],
     )
 
 
@@ -116,7 +118,7 @@ def is_eu_military_form():
                                 title="",
                                 description="Provide details",
                                 extras={"max_length": 2200},
-                                optional=False
+                                optional=False,
                             )
                         ],
                     ),
@@ -124,5 +126,5 @@ def is_eu_military_form():
                 ],
                 classes=["govuk-radios--inline"],
             )
-        ]
+        ],
     )
