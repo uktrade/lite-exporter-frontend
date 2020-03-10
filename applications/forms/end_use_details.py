@@ -27,7 +27,7 @@ def is_military_end_use_controls_form():
                 short_title=EndUseDetailsForm.EndUseDetailsSummaryList.INFORMED_TO_APPLY,
                 options=[
                     Option(
-                        key="yes",
+                        key=True,
                         value="Yes",
                         components=[
                             TextInput(
@@ -38,7 +38,7 @@ def is_military_end_use_controls_form():
                             ),
                         ],
                     ),
-                    Option(key="no", value="No"),
+                    Option(key=False, value="No"),
                 ],
                 classes=["govuk-radios--inline"],
             )
@@ -56,7 +56,7 @@ def is_informed_wmd_form():
                 title="",
                 options=[
                     Option(
-                        key="yes",
+                        key=True,
                         value="Yes",
                         components=[
                             TextInput(
@@ -67,7 +67,7 @@ def is_informed_wmd_form():
                             ),
                         ],
                     ),
-                    Option(key="no", value="No"),
+                    Option(key=False, value="No"),
                 ],
                 classes=["govuk-radios--inline"],
             )
@@ -85,7 +85,7 @@ def is_suspected_wmd_form():
                 title="",
                 options=[
                     Option(
-                        key="yes",
+                        key=True,
                         value="Yes",
                         components=[
                             TextArea(
@@ -97,7 +97,7 @@ def is_suspected_wmd_form():
                             )
                         ],
                     ),
-                    Option(key="no", value="No"),
+                    Option(key=False, value="No"),
                 ],
                 classes=["govuk-radios--inline"],
             )
@@ -113,7 +113,7 @@ def is_eu_military_form():
                 name="is_eu_military",
                 short_title=EndUseDetailsForm.EndUseDetailsSummaryList.EU_MILITARY,
                 title="",
-                options=[Option(key="yes", value="Yes"), Option(key="no", value="No")],
+                options=[Option(key=True, value="Yes"), Option(key=False, value="No")],
                 classes=["govuk-radios--inline"],
             )
         ],
@@ -128,9 +128,9 @@ def is_compliant_limitations_eu_form():
                 name="is_compliant_limitations_eu",
                 short_title=EndUseDetailsForm.EndUseDetailsSummaryList.IS_COMPLIANT_LIMITATIONS_EU,
                 options=[
-                    Option(key="yes", value="Yes"),
+                    Option(key=True, value="Yes"),
                     Option(
-                        key="no",
+                        key=False,
                         value="No",
                         components=[
                             TextArea(
