@@ -38,13 +38,17 @@ $('#unit').on('input', function() {
 	if ($(this).val() === 'ITG') {
 		if (!quantity_label.text().endsWith('(optional)')) {
 			quantity_label.text(quantity_label.text() + " (optional)");
+			quantity_label.toggleClass("lite-form-optional");
 			value_label.text(value_label.text() + " (optional)");
+			value_label.toggleClass("lite-form-optional");
 		}
 	} else {
 		// remove the (optional) if any other type of unit is selected
 		if (quantity_label.text().endsWith('(optional)')) {
 			quantity_label.text(quantity_label.text().substring(0, quantity_label.text().indexOf(" (optional)", 0)));
+			quantity_label.toggleClass("lite-form-optional");
 			value_label.text(value_label.text().substring(0, value_label.text().indexOf(" (optional)", 0)));
+			value_label.toggleClass("lite-form-optional");
 		}
 	}
 });
