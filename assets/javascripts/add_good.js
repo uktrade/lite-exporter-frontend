@@ -33,10 +33,8 @@ $('#unit').on('input', function() {
 	let quantity_label = $('label[for=' + quantity_for + ']');
 	let value_for = "value";
 	let value_label = $('label[for=' + value_for + ']');
-
 	let optional_quantity = $('label[for=' + quantity_for + '-optional' + ']');
 	let optional_value = $('label[for=' + value_for + '-optional' + ']');
-
 
 	// if Intangible is selected, add (optional) to the quantity and value titles
 	if ($(this).val() === 'ITG') {
