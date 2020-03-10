@@ -89,9 +89,8 @@
 
                 {# End use details #}
 				{% if application_type|application_type_in_list:"HAS_LICENCE_TYPE" %}
-					{% url 'applications:goods' application.id as goods_url %}
-					{% tld goods 'product' 'products' as goods_description %}
-					{% include "includes/task-list-item.html" with id='goods' title="End use details" url="end-use-details" status=goods|task_list_item_status description=goods_description %}
+					{% url 'applications:end_use_details' application.id as end_use_details_url %}
+					{% include "includes/task-list-item.html" with id='goods' title=strings.END_USE_DETAILS url=end_use_details_url %}
 				{% endif %}
 
 				{# Location #}
