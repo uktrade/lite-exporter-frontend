@@ -125,7 +125,7 @@ def has_permission(request, permission):
     Returns true if the user has a given permission, else false
     """
     user_permissions = get_user_permissions(request)
-    return permission in user_permissions
+    return permission in user_permissions, user_permissions
 
 
 def decorate_patterns_with_permission(patterns, permission, ignore: List[str] = None):

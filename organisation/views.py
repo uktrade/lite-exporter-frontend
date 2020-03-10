@@ -21,9 +21,10 @@ class OrganisationView(TemplateView):
     def get(self, request, **kwargs):
         self.organisation_id = str(request.user.organisation)
         self.organisation = get_organisation(request, self.organisation_id)
-        user_permissions = get_user_permissions(request)
+        user_permissions = kwargs.get("permissions", get_user_permissions(request))
         can_administer_sites = Permissions.ADMINISTER_SITES in user_permissions
         can_administer_roles = Permissions.EXPORTER_ADMINISTER_ROLES in user_permissions
+        user_permissions = {}
 
         context = {
             "organisation": self.organisation,
