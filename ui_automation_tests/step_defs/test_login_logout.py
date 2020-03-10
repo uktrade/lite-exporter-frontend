@@ -1,4 +1,5 @@
-from pytest_bdd import scenarios, then, parsers, when
+from pytest_bdd import scenarios, then, parsers, when, given
+from directory_sso_api_client.client import sso_api_client
 
 scenarios("../features/login_logout.feature", strict_gherkin=False)
 
@@ -16,3 +17,9 @@ def click_the_logout_link(driver):
 @then("I am taken to the GREAT.GOV.UK page")
 def taken_to_the_great_page(driver):
     assert "logout" in driver.current_url
+
+
+@given("I create a new user")
+def create_new_user():
+    response = sso_api_client.get("/testapi/user-by-email/email_here/")
+    print(response)

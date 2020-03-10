@@ -1,6 +1,6 @@
 import datetime
+from django.conf import settings
 import os
-
 from faker import Faker
 from pytest_bdd import given, when, then, parsers
 from selenium.webdriver.common.by import By
@@ -65,6 +65,13 @@ from ui_automation_tests.pages.which_location_form_page import WhichLocationForm
 
 strict_gherkin = False
 fake = Faker()
+
+settings.configure(
+    DIRECTORY_SSO_API_CLIENT_API_KEY=os.environ.get(str("DIRECTORY_SSO_API_CLIENT_API_KEY")),
+    DIRECTORY_SSO_API_CLIENT_BASE_URL=os.environ.get(str("DIRECTORY_SSO_API_CLIENT_BASE_URL")),
+    DIRECTORY_SSO_API_CLIENT_DEFAULT_TIMEOUT=30,
+    DIRECTORY_SSO_API_CLIENT_SENDER_ID="directory",
+    )
 
 
 def pytest_addoption(parser):
