@@ -37,8 +37,8 @@ $('#unit').on('input', function() {
 	// if Intangible is selected, add (optional) to the quantity and value titles
 	if ($(this).val() === 'ITG') {
 		if (!quantity_label.children().is('span')) {
-			quantity_label.append('<span class="lite-form-optional" style="display: inline-block">(optional)</span>');
-			value_label.append('<span class="lite-form-optional" style="display: inline-block">(optional)</span>');
+			quantity_label.append('<span class="lite-form-optional">(optional)</span>');
+			value_label.append('<span class="lite-form-optional">(optional)</span>');
 		}
 	} else {
 		quantity_label.children().remove();
