@@ -8,7 +8,6 @@ from lite_content.lite_exporter_frontend.goods import AddGoodToApplicationForm
 from lite_forms.components import (
     Form,
     HiddenField,
-    SideBySideSection,
     Select,
     QuantityInput,
     CurrencyInput,
