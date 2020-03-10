@@ -37,9 +37,12 @@ class EndUseDetails(SummaryListFormView):
 
         data = {}
         for end_use_question in end_use_detail_questions:
-            end_use_question_answer = application.get(end_use_question)
-            if end_use_question_answer:
-                data[end_use_question] = end_use_question_answer["key"]
-        for ref_end_use_field in end_use_detail_references:
-            data[ref_end_use_field] = application.get(ref_end_use_field)
+            application_end_use_question = application.get(end_use_question)
+            if application_end_use_question:
+                data[end_use_question] = application_end_use_question["key"]
+        for end_use_reference in end_use_detail_references:
+            application_end_use_reference = application.get(end_use_reference)
+            if application_end_use_reference:
+                data[end_use_reference] = application_end_use_reference
+
         return data
