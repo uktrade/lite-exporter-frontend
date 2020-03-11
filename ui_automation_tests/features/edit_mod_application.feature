@@ -39,6 +39,8 @@ Feature: I want to be able to edit MOD Licence Applications
     Then I see my edited reference name
     When I click on the "clearance" section
     And I choose a clearance level for my application
+    When I click on the "questions" section
+    And I add additional information
     When I click on the "goods" section
     And I remove a good from the application
     Then the good has been removed from the application

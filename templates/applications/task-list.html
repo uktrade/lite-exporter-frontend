@@ -66,8 +66,14 @@
 					{% endif %}
 				{% endif %}
 
+				{# Additional Information #}
+				{% if application_type|application_type_in_list:"HAS_ADDITIONAL_INFORMATION" %}
+					{% url 'applications:questions' application.id as questions_url %}
+					{% include "includes/task-list-item.html" with id='questions' title=strings.ADDITIONAL_INFORMATION url=questions_url status=application.questions|task_list_item_status %}
+				{% endif %}
+
 				{# Clearance Level #}
-				{% if application_type|application_type_in_list:"HAS_CLEARANCE_LEVEL" %}
+				{% if application_type|application_type_in_list:"HAS_ADDITIONAL_INFORMATION" %}
 					{% url 'applications:clearance_level' application.id as clearance_url %}
 					{% tld clearance 'clearance' 'clearances' as clearance_level %}
 					{% include "includes/task-list-item.html" with id='clearance' title=strings.CLEARANCE url=clearance_url status=application.clearance_level|task_list_item_status description=clearance_description %}

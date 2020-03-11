@@ -25,6 +25,7 @@ from conf.constants import (
     EXISTING_PARTIES_URL,
     COUNTRIES_URL,
     PARTIES_URL,
+    QUESTIONS_URL,
     APPLICATION_COPY_URL,
 )
 from conf.settings import AWS_STORAGE_BUCKET_NAME, STREAMING_CHUNK_SIZE
@@ -105,6 +106,17 @@ def get_data_from_post_good_on_app(json):
     else:
         post_data = json
     return post_data
+
+
+# Questions
+def get_application_questions(request, pk):
+    data = get(request, APPLICATIONS_URL + str(pk) + QUESTIONS_URL)
+    return data.json()["questions"]
+
+
+def post_application_questions(request, pk, data):
+    data = post(request, APPLICATIONS_URL + str(pk) + QUESTIONS_URL, json=data)
+    return data.json(), data.status_code
 
 
 # Countries

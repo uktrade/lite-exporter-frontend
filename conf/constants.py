@@ -13,6 +13,7 @@ GOODS_URL = "/goods/"
 CLEARANCE = "/clearance/"
 DOCUMENTS_URL = "/documents/"
 PARTIES_URL = "/parties/"
+QUESTIONS_URL = "/questions/"
 DOCUMENT_URL = "/document/"
 GOODSTYPES_URL = "/goodstypes/"
 GOODSTYPE_URL = "/goodstype/"
@@ -82,6 +83,7 @@ CASE_SECTIONS = {
     "F680": F680,
     "HAS_F680_CLEARANCE_TYPES": F680,
     "HAS_CLEARANCE_LEVEL": [F680],
+    "HAS_ADDITIONAL_INFORMATION": [F680],
     "EXHIBITION": EXHIBITION,
     "HAS_LICENCE_TYPE": [STANDARD, OPEN],
     "HAS_TOLD_BY_OFFICIAL": [STANDARD],

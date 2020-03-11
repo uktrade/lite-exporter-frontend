@@ -9,7 +9,7 @@ from lite_content.lite_exporter_frontend.applications import (
     MODQuestions,
     TranshipmentQuestions,
 )
-from lite_forms.components import Form, RadioButtons, Option, Breadcrumbs, BackLink, FormGroup, DetailComponent
+from lite_forms.components import Form, RadioButtons, Option, Breadcrumbs, BackLink, FormGroup, DetailComponent, Label
 from lite_forms.helpers import conditional
 
 
@@ -152,7 +152,7 @@ def transhipment_questions():
     )
 
 
-def MOD_questions():
+def MOD_questions(application_type=None):
     return FormGroup(
         [
             Form(
@@ -183,6 +183,14 @@ def MOD_questions():
                 default_button_name=generic.CONTINUE,
                 back_link=BackLink(MODQuestions.WhatAreYouApplyingFor.BACK, reverse_lazy("apply_for_a_licence:start")),
             ),
+            conditional(application_type == CaseTypes.F680, Form(
+                title=MODQuestions.ConfirmationStatement.TITLE,
+                description=MODQuestions.ConfirmationStatement.DESCRIPTION,
+                questions=[
+                    Label(MODQuestions.ConfirmationStatement.LABEL)
+                ],
+                default_button_name=generic.CONFIRM_AND_CONTINUE,
+            )),
             reference_name_form(),
         ]
     )
