@@ -24,7 +24,6 @@ class OrganisationView(TemplateView):
         user_permissions = kwargs.get("permissions", get_user_permissions(request))
         can_administer_sites = Permissions.ADMINISTER_SITES in user_permissions
         can_administer_roles = Permissions.EXPORTER_ADMINISTER_ROLES in user_permissions
-        user_permissions = {}
 
         context = {
             "organisation": self.organisation,
