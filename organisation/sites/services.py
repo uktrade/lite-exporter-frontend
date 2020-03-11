@@ -11,7 +11,7 @@ def get_sites(request, organisation_id, convert_to_options=False, exclude: list 
         ORGANISATIONS_URL + str(organisation_id) + SITES_URL + "?" + convert_value_to_query_param("exclude", exclude),
     ).json()["sites"]
 
-    primary_site = strings.sites.SitesPage.PRIMARY_SITE
+    primary_site = " " + strings.sites.SitesPage.PRIMARY_SITE
 
     if convert_to_options:
         sites_options = []
@@ -21,7 +21,7 @@ def get_sites(request, organisation_id, convert_to_options=False, exclude: list 
                 primary_site = ""
 
             site_id = site.get("id")
-            site_name = site.get("name") + " " + primary_site
+            site_name = site.get("name") + primary_site
             address = site.get("address")
 
             site_address = NEWLINE.join(

@@ -108,3 +108,8 @@ def do_not_see_new_user(driver, context):
     driver.set_timeout_to(0)
     assert paginated_item_exists(context.email_to_search, driver, exists=False), "Item couldn't be found"
     driver.set_timeout_to(10)
+
+
+@when("I go back to the members page")
+def i_go_back_to_the_members_page(driver):
+    driver.find_element_by_css_selector("a[href='/organisation/members/']").click()
