@@ -217,6 +217,10 @@ def fill_in_end_use(driver):
     form.enter_additional_details()
     functions.click_submit(driver)
 
+    element = driver.find_element_by_css_selector("button[value='finish']")
+    driver.execute_script("arguments[0].scrollIntoView();", element)
+    driver.execute_script("arguments[0].click();", element)
+
 
 @when(parsers.parse('I select "{choice}" for where my goods are located'))  # noqa
 def choose_location_type(driver, choice):  # noqa
