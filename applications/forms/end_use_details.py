@@ -43,6 +43,7 @@ def is_military_end_use_controls_form():
                 classes=["govuk-radios--inline"],
             )
         ],
+        default_button_name="Save and continue",
     )
 
 
@@ -72,6 +73,7 @@ def is_informed_wmd_form():
                 classes=["govuk-radios--inline"],
             )
         ],
+        default_button_name="Save and continue",
     )
 
 
@@ -102,6 +104,7 @@ def is_suspected_wmd_form():
                 classes=["govuk-radios--inline"],
             )
         ],
+        default_button_name="Save and continue",
     )
 
 
@@ -117,6 +120,7 @@ def is_eu_military_form():
                 classes=["govuk-radios--inline"],
             )
         ],
+        default_button_name="Save and continue",
     )
 
 
@@ -146,4 +150,5 @@ def is_compliant_limitations_eu_form():
                 classes=["govuk-radios--inline"],
             )
         ],
+        default_button_name="Save and continue",
     )
