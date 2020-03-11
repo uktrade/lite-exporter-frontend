@@ -236,5 +236,6 @@ class RegisterAnOrganisationConfirmation(TemplateView):
             back_link=conditional(
                 request.GET.get("show_back_link", False), BackLink(generic.BACK, reverse_lazy("core:pick_organisation"))
             ),
+            animated=True,
             additional_context={"user_in_limbo": True},
         )
