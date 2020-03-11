@@ -24,7 +24,7 @@ from conf.constants import (
 from lite_forms.generators import error_page
 
 
-def get_units(request, units=[]):
+def get_units(request, units=[]):  # noqa
     if units:
         return units
     data = get(request, UNITS_URL).json().get("units")
@@ -172,7 +172,7 @@ def put_organisation_user(request, user_pk, json):
     return data.json(), data.status_code
 
 
-def get_control_list_entries(request, convert_to_options=False, converted_control_list_entries_cache=[]):
+def get_control_list_entries(request, convert_to_options=False, converted_control_list_entries_cache=[]):  # noqa
     if convert_to_options:
         if converted_control_list_entries_cache:
             return converted_control_list_entries_cache
