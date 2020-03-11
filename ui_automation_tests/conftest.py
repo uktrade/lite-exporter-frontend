@@ -4,6 +4,7 @@ import os
 from faker import Faker  # noqa
 from pytest_bdd import given, when, then, parsers
 
+from ui_automation_tests.pages.end_use_details_form_page import EndUseDetailsFormPage
 from ui_automation_tests.pages.add_end_user_pages import AddEndUserPages
 from ui_automation_tests.pages.application_edit_type_page import ApplicationEditTypePage
 from ui_automation_tests.pages.application_page import ApplicationPage
@@ -193,6 +194,27 @@ def add_new_party(driver, type, name, website, address, country, context):  # no
     add_end_user_pages.enter_address(address)
     context.address_end_user = address
     add_end_user_pages.enter_country(country)
+    functions.click_submit(driver)
+
+
+@when(parsers.parse("I fill in the end use details section"))  # noqa
+def fill_in_end_use(driver):
+    form = EndUseDetailsFormPage(driver)
+    form.click_on_yes_radiobutton()
+    form.enter_reference_number()
+    functions.click_submit(driver)
+
+    form.click_on_no_radiobutton()
+    functions.click_submit(driver)
+
+    form.click_on_no_radiobutton()
+    functions.click_submit(driver)
+
+    form.click_on_yes_radiobutton()
+    functions.click_submit(driver)
+
+    form.click_on_no_radiobutton()
+    form.enter_additional_details()
     functions.click_submit(driver)
 
 

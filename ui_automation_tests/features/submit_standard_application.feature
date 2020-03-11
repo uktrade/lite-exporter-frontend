@@ -20,6 +20,9 @@ Feature: I want to indicate the standard licence I want
     And I select the site at position "1"
     And I click continue
     And I click the back link
+    And I click on the "end_use_details" section
+    And I fill in the end use details section
+    And I click continue
     When I click on the "goods" section
     And I add a non-incorporated good to the application
     Then the good is added to the application

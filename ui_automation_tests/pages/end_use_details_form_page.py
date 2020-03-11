@@ -17,4 +17,3 @@ class EndUseDetailsFormPage(BasePage):
         details_field = self.driver.find_element_by_class_name("govuk-textarea").click()
         details_field.clear()
         details_field.send_keys("jhkfsahjkfakbjnfkbjefbjkefskbjfeasbkjfaeskbjfeakbjbjknaefsbkjasefkbjfewbk")
-
