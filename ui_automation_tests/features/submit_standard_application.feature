@@ -22,7 +22,7 @@ Feature: I want to indicate the standard licence I want
     And I click the back link
     And I click on the "end_use_details" section
     And I fill in the end use details section
-    When I click on the "goods" section
+    And I click on the "goods" section
     And I add a non-incorporated good to the application
     Then the good is added to the application
     When I click on the "end_user" section
@@ -76,6 +76,8 @@ Feature: I want to indicate the standard licence I want
     And I upload a file "file_for_doc_upload_test_1.txt"
     Then download link is present
     When I click the back link
+    And I click on the "end_use_details" section
+    And I fill in the end use details section
     And I click on the "consignee" section
     And I add a party of sub_type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
     And I upload a file "file_for_doc_upload_test_1.txt"
@@ -114,6 +116,8 @@ Feature: I want to indicate the standard licence I want
     And I select "new" for whether or not I want a new or existing location to be added
     And I fill in new external location form with name: "32 Lime Street", address: "London" and country: "Ukraine" and continue
     And I click the back link
+    And I click on the "end_use_details" section
+    And I fill in the end use details section
     And I click on the "goods" section
     And I add a non-incorporated good to the application
     Then the good is added to the application

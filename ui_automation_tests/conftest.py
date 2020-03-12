@@ -198,7 +198,7 @@ def add_new_party(driver, type, name, website, address, country, context):  # no
 
 
 @when(parsers.parse("I fill in the end use details section"))  # noqa
-def fill_in_end_use(driver):
+def fill_in_end_use(driver):  # noqa
     form = EndUseDetailsFormPage(driver)
     form.click_on_yes_radiobutton()
     form.enter_reference_number()
