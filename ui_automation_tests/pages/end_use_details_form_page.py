@@ -18,11 +18,6 @@ class EndUseDetailsFormPage(BasePage):
         ref_field.clear()
         ref_field.send_keys(ref_number)
 
-    def enter_reference_number_2(self, ref_number):
-        ref_field = self.driver.find_element_by_class_name(self.INPUT_FIELD_CLASS)
-        ref_field.clear()
-        ref_field.send_keys(ref_number)
-
     def enter_additional_details(self, field_id, details):
         self.driver.execute_script(f'document.getElementById("{field_id}").value = "{details[:-1]}"')
         self.driver.find_element_by_id(field_id).send_keys(details[-1:])
