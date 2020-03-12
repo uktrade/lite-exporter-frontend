@@ -21,7 +21,12 @@ Feature: I want to indicate the standard licence I want
     And I click continue
     And I click the back link
     And I click on the "end_use_details" section
-    And I fill in the end use details section
+    And I answer "Yes" for informed by ECJU to apply
+    And I answer "No" for informed by ECJU about WMD use
+    And I answer "Yes" for suspected WMD use
+    And I answer "Yes" for products received under transfer licence from the EU
+    And I answer "No" for compliance with the terms of export from the EU
+    And I save and continue on the summary page
     And I click on the "goods" section
     And I add a non-incorporated good to the application
     Then the good is added to the application
@@ -77,7 +82,12 @@ Feature: I want to indicate the standard licence I want
     Then download link is present
     When I click the back link
     And I click on the "end_use_details" section
-    And I fill in the end use details section
+    And I answer "No" for informed by ECJU to apply
+    And I answer "Yes" for informed by ECJU about WMD use
+    And I answer "No" for suspected WMD use
+    And I answer "Yes" for products received under transfer licence from the EU
+    And I answer "No" for compliance with the terms of export from the EU
+    And I save and continue on the summary page
     And I click on the "consignee" section
     And I add a party of sub_type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
     And I upload a file "file_for_doc_upload_test_1.txt"
@@ -117,7 +127,11 @@ Feature: I want to indicate the standard licence I want
     And I fill in new external location form with name: "32 Lime Street", address: "London" and country: "Ukraine" and continue
     And I click the back link
     And I click on the "end_use_details" section
-    And I fill in the end use details section
+    And I answer "Yes" for informed by ECJU to apply
+    And I answer "No" for informed by ECJU about WMD use
+    And I answer "Yes" for suspected WMD use
+    And I answer "No" for products received under transfer licence from the EU
+    And I save and continue on the summary page
     And I click on the "goods" section
     And I add a non-incorporated good to the application
     Then the good is added to the application
