@@ -9,16 +9,7 @@ from lite_content.lite_exporter_frontend.applications import (
     MODQuestions,
     TranshipmentQuestions,
 )
-from lite_forms.components import (
-    DetailComponent,
-    RadioButtons,
-    Form,
-    TextInput,
-    Option,
-    FormGroup,
-    Breadcrumbs,
-    BackLink,
-)
+from lite_forms.components import Form, RadioButtons, Option, Breadcrumbs, BackLink, FormGroup, DetailComponent
 from lite_forms.helpers import conditional
 
 
@@ -51,10 +42,6 @@ def opening_question():
                         description=InitialApplicationQuestionsForms.OpeningQuestion.LicenceTypes.MOD_CLEARANCE_DESCRIPTION,
                     ),
                 ],
-            ),
-            DetailComponent(
-                InitialApplicationQuestionsForms.OpeningQuestion.HELP_WITH_CHOOSING_A_LICENCE,
-                InitialApplicationQuestionsForms.OpeningQuestion.HELP_WITH_CHOOSING_A_LICENCE_CONTENT,
             ),
         ],
         default_button_name=generic.CONTINUE,
