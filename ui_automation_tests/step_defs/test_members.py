@@ -2,16 +2,14 @@ from faker import Faker
 from pytest_bdd import scenarios, when, then, parsers
 from selenium.webdriver.support.select import Select
 
-from pages.add_member import AddMemberPage
-from pages.exporter_hub_page import ExporterHubPage
-from pages.member_page import MemberPage
-from pages.members_page import MembersPage
-from pages.shared import Shared
-from shared import functions
-from shared.tools.helpers import scroll_to_element_by_id
-from shared.tools.utils import get_lite_client
-
+from ui_automation_tests.pages.add_member import AddMemberPage
+from ui_automation_tests.pages.member_page import MemberPage
+from ui_automation_tests.pages.members_page import MembersPage
+from ui_automation_tests.pages.shared import Shared
+from ui_automation_tests.shared import functions
 from ui_automation_tests.shared.tools.helpers import paginated_item_exists
+from ui_automation_tests.shared.tools.helpers import scroll_to_element_by_id
+from ui_automation_tests.shared.tools.utils import get_lite_client
 
 scenarios("../features/members.feature", strict_gherkin=False)
 
@@ -37,15 +35,24 @@ def select_the_member_that_was_just_added(driver, context):
     MembersPage(driver).click_view_member_link(context.email_to_search)
 
 
-@when("I deactivate them, then the member is deactivated")
+@when("I deactivate them")
 def user_deactivate(driver):
     MemberPage(driver).click_deactivate_button()
+
+
+@then("the member is deactivated")
+def user_deactivate(driver):
+    # TODO get rid of this body.
     assert "Deactivated" in Shared(driver).get_text_of_body(), "user status was expected to be Deactivated"
 
 
-@when("I reactivate them, then the member is reactivated")
+@when("I reactivate them")
 def user_reactivate(driver):
     MemberPage(driver).click_reactivate_button()
+
+
+@then("the member is reactivated")
+def user_reactivate(driver):
     assert "Active" in Shared(driver).get_text_of_body(), "user status was expected to be Deactivated"
 
 
@@ -64,7 +71,7 @@ def change_members_role(driver, context, api_client_config):
     assert site["name"] in Shared(driver).get_text_of_body(), "user was expected to be assigned to site"
 
 
-@then("I change their role")
+@when("I change their role to Super User")
 def change_members_role(driver):
     MemberPage(driver).click_change_role_button()
 
@@ -72,17 +79,10 @@ def change_members_role(driver):
     role_select.select_by_visible_text("Super User")
     functions.click_submit(driver)
 
+
+@then("role is changed")
+def change_members_role(driver):
     assert "Super User" in Shared(driver).get_text_of_body(), "user role was expected to be Super User"
-
-
-@when("I try to deactivate myself I cannot")
-def cant_deactivate_self(driver, context):
-    exporter_hub = ExporterHubPage(driver)
-    exporter_hub.click_user_profile()
-
-    member_page = MemberPage(driver)
-    member_page.try_click_more_actions_button()
-    assert not functions.element_with_id_exists(driver, member_page.BUTTON_DEACTIVATE_ID)
 
 
 @when("I show filters")
@@ -108,3 +108,8 @@ def do_not_see_new_user(driver, context):
     driver.set_timeout_to(0)
     assert paginated_item_exists(context.email_to_search, driver, exists=False), "Item couldn't be found"
     driver.set_timeout_to(10)
+
+
+@when("I go back to the members page")
+def i_go_back_to_the_members_page(driver):
+    driver.find_element_by_css_selector("a[href='/organisation/members/']").click()

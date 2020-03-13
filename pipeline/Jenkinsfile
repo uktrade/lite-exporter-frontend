@@ -30,7 +30,7 @@ spec:
       choice(name: 'DRIVER', description: 'Choose browser', choices: 'chrome\nfirefox\nheadless')
 
       // Define environment to run tests on
-      choice(name: 'ENVIRONMENT', description: 'choose what environment to run in', choices: 'dev\nqa\ndevpopcorn\nsandbox\nstaging\nuat')
+      choice(name: 'ENVIRONMENT', description: 'choose what environment to run in', choices: 'dev\nqa\ndevpopcorn\ndevkoala\nsandbox\nstaging\nuat')
 
       // Define test path to run
       string(name: 'TESTS_TO_RUN', defaultValue: '', description: 'choose test to run e.g. LT_928_edit')
@@ -83,6 +83,7 @@ spec:
             } catch (error) {
                     archiveArtifacts artifacts: "ui_automation_tests/allure-results/**.*"
                     error.message
+		    currentBuild.result = "UNSTABLE"
                   }
 
             }
@@ -97,12 +98,13 @@ spec:
       script {
        //unarchive mapping: ['ui_automation_tests/allure-results/**.*': '.']
        generateAllureReport()
-       // Send Slack notification
-       sendSlackNotification()
       }
     }
+    changed {
+       // Send Slack notification
+       sendSlackNotification()
+    }
   }
-
 }
 
 // Generate Allure report function
@@ -138,7 +140,7 @@ def sendSlackNotification()
         emoji = "🔥"
     }
 
-	def message = "${emoji}   UAT ${buildStatus} \n📇   *lite-exporter-frontend* \n🔗   ${env.BUILD_URL}"
+	def message = "${emoji}   UAT ${buildStatus} \n💼   *lite-exporter-frontend* \n🔗   ${env.BUILD_URL}"
 
 	// Set notification colour based on build status
 	if ("${params.ENVIRONMENT}" == "uat" && (buildStatus == "SUCCESS" || buildStatus == "UNSTABLE" || buildStatus == "FAILURE")) {
@@ -151,7 +153,7 @@ def sendSlackNotification()
 		}
 
 		// Set slack channel
-		channel = "lite-development-team"
+		channel = "lite-merging"
 
 		// Send notifications
 		slackSend (color: colourCode, message: message, channel: "#${channel}")

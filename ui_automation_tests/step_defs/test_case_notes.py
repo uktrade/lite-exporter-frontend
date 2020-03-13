@@ -1,7 +1,7 @@
 from pytest_bdd import when, then, scenarios
 
-import shared.tools.helpers as utils
-from pages.submitted_applications_page import SubmittedApplicationsPages
+import ui_automation_tests.shared.tools.helpers as utils
+from ui_automation_tests.pages.submitted_applications_page import SubmittedApplicationsPages
 
 scenarios("../features/case_notes.feature", strict_gherkin=False)
 
@@ -22,6 +22,6 @@ def i_click_cancel_button(driver):
 
 
 @then("entered text is no longer in case note field")
-def entered_text_no_longer_in_case_field(driver):
+def entered_text_no_longer_in_case_field(driver, context):
     application_page = SubmittedApplicationsPages(driver)
-    assert "Case note to cancel" not in application_page.get_text_of_case_note_field()
+    assert context.text not in application_page.get_text_of_case_note_field()

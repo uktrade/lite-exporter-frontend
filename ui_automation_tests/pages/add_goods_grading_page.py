@@ -1,6 +1,6 @@
 from selenium.webdriver.support.select import Select
 
-from shared.BasePage import BasePage
+from ui_automation_tests.shared.BasePage import BasePage
 
 
 class AddGoodGradingPage(BasePage):
@@ -8,7 +8,6 @@ class AddGoodGradingPage(BasePage):
     PREFIX_ID = "prefix"
     GRADING_ID = "grading"
     SUFFIX_ID = "suffix"
-    CUSTOM_GRADING_ID = "custom_grading"
     ISSUING_AUTHORITY_ID = "issuing_authority"
     REFERENCE_ID = "reference"
     DATE_OF_ISSUE_DAY_ID = "date_of_issueday"
@@ -19,13 +18,10 @@ class AddGoodGradingPage(BasePage):
         self.driver.find_element_by_id(self.PREFIX_ID).send_keys(prefix)
 
     def enter_good_grading(self, grading):
-        Select(self.driver.find_element_by_id(self.GRADING_ID)).select_by_visible_text(grading)
+        Select(self.driver.find_element_by_id(self.GRADING_ID)).select_by_value(grading)
 
     def enter_suffix_of_goods_grading(self, suffix):
         self.driver.find_element_by_id(self.SUFFIX_ID).send_keys(suffix)
-
-    def enter_custom_grading_goods(self, grading):
-        self.driver.find_element_by_id(self.CUSTOM_GRADING_ID).send_keys(grading)
 
     def enter_issuing_authority(self, issuing_authority):
         self.driver.find_element_by_id(self.ISSUING_AUTHORITY_ID).send_keys(issuing_authority)

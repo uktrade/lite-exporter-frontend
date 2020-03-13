@@ -3,18 +3,7 @@
 {% load svg static %}
 
 {% block back_link %}
-	<div class="govuk-breadcrumbs">
-		<ol class="govuk-breadcrumbs__list">
-			<li class="govuk-breadcrumbs__list-item">
-				<a class="govuk-breadcrumbs__link" href="{% url 'core:hub' %}">
-					{{ SERVICE_NAME }}
-				</a>
-			</li>
-			<li class="govuk-breadcrumbs__list-item">
-				{% lcs 'goods.GoodsList.TITLE' %}
-			</li>
-		</ol>
-	</div>
+	{% include 'includes/breadcrumbs.html' with title='goods.GoodsList.TITLE' %}
 {% endblock %}
 
 {% block body %}
@@ -76,13 +65,19 @@
 		</form>
 	{% endif %}
 
-	<p class="govuk-caption-m govuk-!-margin-top-1">
-		{% if not filtered %}
-			{% include 'includes/pluralise.html' with count=goods.count base_constant='goods.GoodsList.Count.ORGANISATION' %}
-		{% else %}
-			{% include 'includes/pluralise.html' with count=goods.count base_constant='goods.GoodsList.Count.FILTERED' %}
-		{% endif %}
-	</p>
+	{% if not filtered and not goods.count %}
+		{% include "includes/notice.html" with text='goods.GoodsList.Count.ORGANISATION_ZERO' %}
+	{% elif not goods.count %}
+		{% include "includes/notice.html" with text='goods.GoodsList.Count.FILTERED_ZERO' %}
+	{% else %}
+		<p class="govuk-caption-m govuk-!-margin-top-1">
+			{% if not filtered %}
+				{% include 'includes/pluralise.html' with count=goods.count base_constant='goods.GoodsList.Count.ORGANISATION' %}
+			{% else %}
+				{% include 'includes/pluralise.html' with count=goods.count base_constant='goods.GoodsList.Count.FILTERED' %}
+			{% endif %}
+		</p>
+	{% endif %}
 
 	{% if goods.count %}
 		<table class="govuk-table">

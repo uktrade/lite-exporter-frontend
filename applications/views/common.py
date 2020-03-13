@@ -12,6 +12,7 @@ from applications.forms.common import (
     edit_type_form,
     application_success_page,
     application_copy_form,
+    exhibition_details_form,
 )
 from applications.helpers.check_your_answers import convert_application_to_check_your_answers
 from applications.helpers.summaries import draft_summary
@@ -35,6 +36,7 @@ from applications.services import (
     set_application_status,
     get_status_properties,
     copy_application,
+    post_exhibition,
 )
 from conf.constants import HMRC, APPLICANT_EDITING
 from core.helpers import str_to_bool, convert_dict_to_query_params
@@ -165,7 +167,7 @@ class ApplicationDetail(TemplateView):
             "text": kwargs.get("text", ""),
         }
 
-        if self.application["case_type"]["sub_type"]["key"] != HMRC:
+        if self.application.sub_type != HMRC:
             if self.view_type == "case-notes":
                 context["notes"] = get_case_notes(request, self.case_id)["case_notes"]
 
@@ -352,7 +354,7 @@ class ApplicationSubmitSuccessPage(TemplateView):
         application_id = kwargs["pk"]
         application = get_application(request, application_id)
 
-        if application["status"]["key"] != "submitted":
+        if application.status != "submitted":
             raise Http404
 
         return application_success_page(request, application["reference_code"])
@@ -362,9 +364,29 @@ class ApplicationCopy(MultiFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
         application = get_application(request, self.object_pk)
-        self.forms = application_copy_form(application["case_type"]["sub_type"]["key"])
+        self.forms = application_copy_form(application.sub_type)
         self.action = copy_application
 
     def get_success_url(self):
         id = self.get_validated_data()["data"]
         return reverse_lazy("applications:task_list", kwargs={"pk": id})
+
+
+class ExhibitionDetail(SingleFormView):
+    def init(self, request, **kwargs):
+        self.object_pk = kwargs["pk"]
+        self.data = get_application(request, self.object_pk)
+        self.form = exhibition_details_form(self.object_pk)
+        self.action = post_exhibition
+
+    def get_data(self):
+        data = self.data
+        date_fields = ["first_exhibition_date", "required_by_date"]
+        for field in date_fields:
+            if data.get(field, False):
+                date_split = data[field].split("-")
+                data[field + "year"], data[field + "month"], data[field + "day"] = date_split
+        return data
+
+    def get_success_url(self):
+        return reverse_lazy("applications:task_list", kwargs={"pk": self.object_pk})

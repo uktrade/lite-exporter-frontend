@@ -11,6 +11,8 @@ from applications.views import (
     told_by_an_official,
     optional_note,
     goods_types,
+    f680_details,
+    clearance,
 )
 
 app_name = "applications"
@@ -51,6 +53,8 @@ urlpatterns = [
         goods.RemovePreexistingGood.as_view(),
         name="remove_preexisting_good",
     ),
+    # F680 details
+    path("<uuid:pk>/f680-details/", f680_details.F680Details.as_view(), name="f680_details"),
     # Goods Types
     path("<uuid:pk>/goods-types/", goods_types.GoodsTypeList.as_view(), name="goods_types"),
     path("<uuid:pk>/goods-types/countries/", goods_types.GoodsTypeCountries.as_view(), name="goods_countries"),
@@ -252,7 +256,9 @@ urlpatterns = [
         documents.DownloadGeneratedDocument.as_view(),
         name="download_generated_document",
     ),
+    path("<uuid:pk>/clearance/", clearance.SetClearanceLevel.as_view(), name="clearance_level"),
     # This HAS to be at the bottom, otherwise it will swallow other url calls
     path("<uuid:pk>/", common.ApplicationDetail.as_view(), name="application"),
+    path("<uuid:pk>/exhibition-details", common.ExhibitionDetail.as_view(), name="exhibition_details"),
     path("<uuid:pk>/<str:type>/", common.ApplicationDetail.as_view(), name="application"),
 ]

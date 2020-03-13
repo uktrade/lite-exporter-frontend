@@ -1,9 +1,9 @@
 from pytest_bdd import scenarios, given, when, then
 
-from pages.hub_page import Hub
-from pages.shared import Shared
-from shared.tools import helpers
-from shared.tools.utils import get_lite_client
+from ui_automation_tests.pages.hub_page import Hub
+from ui_automation_tests.pages.shared import Shared
+from ui_automation_tests.shared.tools import helpers
+from ui_automation_tests.shared.tools.utils import get_lite_client
 
 scenarios("../features/notifications.feature", strict_gherkin=False)
 
@@ -27,14 +27,14 @@ def notification_exists(driver, context):
 @when("I click on my application")
 def click_on_application(driver, context):
     elements = Shared(driver).get_gov_table_cell_links()
-    no = helpers.get_element_index_by_text(elements, context.app_time_id, complete_match=False)
+    no = helpers.get_element_index_by_text(elements, context.app_name, complete_match=False)
     elements[no].click()
 
 
 @then("I see a notification on application list")
 def notification_on_application_list(driver, context):
     elements = driver.find_elements_by_css_selector(".govuk-table__row")
-    no = helpers.get_element_index_by_text(elements, context.app_time_id, complete_match=False)
+    no = helpers.get_element_index_by_text(elements, context.app_name, complete_match=False)
     assert elements[no].find_element_by_css_selector(Shared(driver).NOTIFICATION).is_displayed()
 
 
