@@ -187,8 +187,7 @@ def MOD_questions(application_type=None):
                 application_type == CaseTypes.F680,
                 Form(
                     title=MODQuestions.ConfirmationStatement.TITLE,
-                    description=MODQuestions.ConfirmationStatement.DESCRIPTION,
-                    questions=[Label(MODQuestions.ConfirmationStatement.LABEL)],
+                    questions=[Label(x) for x in MODQuestions.ConfirmationStatement.DESCRIPTION.split("\n")],
                     default_button_name=generic.CONFIRM_AND_CONTINUE,
                 ),
             ),
