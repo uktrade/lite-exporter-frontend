@@ -1,4 +1,4 @@
-from pytest_bdd import scenarios, given, when
+from pytest_bdd import scenarios, given
 
 from ui_automation_tests.shared import functions
 

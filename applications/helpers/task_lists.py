@@ -1,9 +1,6 @@
 from django.shortcuts import render
 
-from applications.helpers.task_list_sections import (
-    get_reference_number_description,
-    get_edit_type,
-)
+from applications.helpers.task_list_sections import get_reference_number_description, get_edit_type, get_end_use_details
 from applications.services import (
     get_application_countries,
     get_application_goods_types,
@@ -21,7 +18,7 @@ from conf.constants import (
 )
 from core.services import get_sites_on_draft, get_external_locations_on_draft
 from lite_content.lite_exporter_frontend.strings import applications
-from roles.services import get_user_permissions
+from organisation.roles.services import get_user_permissions
 
 
 def _get_strings(application_type):
@@ -70,9 +67,11 @@ def get_application_task_list(request, application, errors=None):
 
     if application_type == STANDARD:
         context["reference_number_description"] = get_reference_number_description(application)
+        context["end_use_details"] = get_end_use_details(application, True)
 
     if application_type == OPEN:
         context["countries"] = get_application_countries(request, application["id"])
+        context["end_use_details"] = get_end_use_details(application)
         context["goodstypes"] = get_application_goods_types(request, application["id"])
         if application.get("goods_types"):
             destination_countries = [goods_type["countries"] for goods_type in application.get("goods_types")][0]

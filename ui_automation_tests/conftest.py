@@ -1,10 +1,10 @@
 import datetime
 import os
 
-from faker import Faker
+from faker import Faker  # noqa
 from pytest_bdd import given, when, then, parsers
-from selenium.webdriver.common.by import By
 
+from ui_automation_tests.pages.end_use_details_form_page import EndUseDetailsFormPage
 from ui_automation_tests.pages.add_end_user_pages import AddEndUserPages
 from ui_automation_tests.pages.application_edit_type_page import ApplicationEditTypePage
 from ui_automation_tests.pages.application_page import ApplicationPage
@@ -144,9 +144,7 @@ def go_to_exporter_when(driver, exporter_url):  # noqa
 @when("I enter a licence name")  # noqa
 def enter_application_name(driver, context):  # noqa
     apply = ApplyForALicencePage(driver)
-    app_time_id = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    context.app_time_id = app_time_id
-    app_name = "Request for Nimbus 2000 " + app_time_id
+    app_name = fake.bs()
     apply.enter_name_or_reference_for_application(app_name)
     context.app_name = app_name
     functions.click_submit(driver)
@@ -199,6 +197,68 @@ def add_new_party(driver, type, name, website, address, country, context):  # no
     functions.click_submit(driver)
 
 
+@when(parsers.parse('I click on the "{section}" section'))  # noqa
+def go_to_task_list_section(driver, section):  # noqa
+    TaskListPage(driver).click_on_task_list_section(section)
+
+
+@when(parsers.parse('I answer "{choice}" for informed by ECJU to apply'))  # noqa
+def military_end_use_details(driver, choice):  # noqa
+    end_use_details = EndUseDetailsFormPage(driver)
+    if choice == "Yes":
+        end_use_details.answer_military_end_use_controls(True, fake.ean(length=13))
+    else:
+        end_use_details.answer_military_end_use_controls(False)
+    functions.click_submit(driver)
+
+
+@when(parsers.parse('I answer "{choice}" for informed by ECJU about WMD use'))  # noqa
+def informed_wmd_end_use_details(driver, choice):  # noqa
+    end_use_details = EndUseDetailsFormPage(driver)
+    if choice == "Yes":
+        end_use_details.answer_is_informed_wmd(True, fake.ean(length=13))
+    else:
+        end_use_details.answer_is_informed_wmd(False)
+    functions.click_submit(driver)
+
+
+@when(parsers.parse('I answer "{choice}" for suspected WMD use'))  # noqa
+def suspected_wmd_end_use_details(driver, choice):  # noqa
+    end_use_details = EndUseDetailsFormPage(driver)
+    if choice == "Yes":
+        end_use_details.answer_is_suspected_wmd(True, fake.sentence(nb_words=30))
+    else:
+        end_use_details.answer_is_suspected_wmd(False)
+    functions.click_submit(driver)
+
+
+@when(parsers.parse('I answer "{choice}" for products received under transfer licence from the EU'))  # noqa
+def eu_military_end_use_details(driver, choice):  # noqa
+    end_use_details = EndUseDetailsFormPage(driver)
+    if choice == "Yes":
+        end_use_details.answer_is_eu_military(True)
+    else:
+        end_use_details.answer_is_eu_military(False)
+    functions.click_submit(driver)
+
+
+@when(parsers.parse('I answer "{choice}" for compliance with the terms of export from the EU'))  # noqa
+def eu_compliant_limitations_end_use_details(driver, choice):  # noqa
+    end_use_details = EndUseDetailsFormPage(driver)
+    if choice == "Yes":
+        end_use_details.answer_is_compliant_limitations_eu(True)
+    else:
+        end_use_details.answer_is_compliant_limitations_eu(False, fake.sentence(nb_words=30))
+    functions.click_submit(driver)
+
+
+@when(parsers.parse("I save and continue on the summary page"))  # noqa
+def save_continue_summary_list(driver):  # noqa
+    element = driver.find_element_by_css_selector("button[value='finish']")
+    driver.execute_script("arguments[0].scrollIntoView();", element)
+    driver.execute_script("arguments[0].click();", element)
+
+
 @when(parsers.parse('I select "{choice}" for where my goods are located'))  # noqa
 def choose_location_type(driver, choice):  # noqa
     which_location_form = WhichLocationFormPage(driver)
@@ -231,10 +291,9 @@ def application_is_submitted(driver):  # noqa
 
 @then("I see submitted application")  # noqa
 def application_is_submitted(driver, context):  # noqa
-    assert utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'" + context.app_time_id + "')]]")
 
     elements = driver.find_elements_by_css_selector("tr")
-    element_number = utils.get_element_index_by_text(elements, context.app_time_id, complete_match=False)
+    element_number = utils.get_element_index_by_text(elements, context.app_name, complete_match=False)
     element_row = elements[element_number].text
     assert "Submitted" in element_row
     assert utils.search_for_correct_date_regex_in_element(element_row)
@@ -256,7 +315,7 @@ def submit_the_application(driver, context):  # noqa
 @when("I click on the manage my organisation link")  # noqa
 def click_users_link(driver):  # noqa
     exporter_hub = ExporterHubPage(driver)
-    exporter_hub.click_users()
+    exporter_hub.click_manage_my_organisation_tile()
 
 
 @given("I have a second set up organisation")  # noqa
@@ -339,17 +398,11 @@ def submit_response_confirmation(driver, value):  # noqa
     driver.find_element_by_xpath('//button[@type="submit"]').click()
 
 
-@when(parsers.parse('I enter "{text}" for case note'))  # noqa
-def enter_case_note_text(driver, text, context):  # noqa
+@when(parsers.parse("I enter text for case note"))  # noqa
+def enter_case_note_text(driver, context):  # noqa
     application_page = SubmittedApplicationsPages(driver)
-    if text == "the maximum limit with spaces":
-        text = " " * 2200
-    elif text == "the maximum limit":
-        text = "T" * 2200
-    elif text == "the maximum limit plus 1":
-        text = "T" * 2201
-    context.text = text
-    application_page.enter_case_note(text)
+    context.text = fake.catch_phrase()
+    application_page.enter_case_note(context.text)
 
 
 @when("I click post note")  # noqa
@@ -511,11 +564,6 @@ def enter_exhibition_details(driver, name):  # noqa
     exhibition_details_page.enter_exhibition_start_date("1", "1", "2100")
     exhibition_details_page.enter_exhibition_required_by_date("1", "1", "2100")
     functions.click_submit(driver)
-
-
-@when(parsers.parse('I click on the "{section}" section'))  # noqa
-def go_to_task_list_section(driver, section):  # noqa
-    TaskListPage(driver).click_on_task_list_section(section)
 
 
 @then(parsers.parse('The "{section}" section is set to status "{status}"'))  # noqa
