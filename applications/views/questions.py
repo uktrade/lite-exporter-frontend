@@ -1,5 +1,6 @@
 from http import HTTPStatus
 
+from django.contrib.humanize.templatetags.humanize import intcomma
 from django.urls import reverse_lazy
 
 from applications.forms.questions import questions_forms
@@ -31,13 +32,21 @@ class QuestionsFormView(SummaryListFormView):
 
     def post_form_4(self, request, **kwargs):
         draft_id = str(kwargs["pk"])
-        data, error = add_document_data(request)
-        if error:
-            return {"documents": [error]}
+        if request.POST.get("electronic_warfare_requirement", False):
+            data, error = add_document_data(request)
+            if error:
+                return {}, {"documents": [error]}
 
-        action = post_additional_document
-        data, status_code = action(request, draft_id, data)
-        if status_code == HTTPStatus.CREATED:
-            return
+            action = post_additional_document
+            data, status_code = action(request, draft_id, data)
 
-        return {"errors": strings.applications.AttachDocumentPage.UPLOAD_FAILURE_ERROR}
+            if status_code == HTTPStatus.CREATED:
+                return {"electronic_warfare_requirement_attachment": data["document"]["id"]}, None
+
+            return {}, {"errors": strings.applications.AttachDocumentPage.UPLOAD_FAILURE_ERROR}
+
+    def prettify_data(self, data):
+        data = super().prettify_data(data)
+        if "question_7" in data and data["question_7"]:
+            data["question_7"] = "£" + intcomma(data["question_7"])
+        return data
