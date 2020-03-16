@@ -4,8 +4,12 @@ from django.urls import reverse_lazy
 from s3chunkuploader.file_handler import S3FileUploadHandler
 
 from applications.forms.questions import questions_forms
-from applications.services import post_application_questions, get_application_questions, add_document_data, \
-    post_additional_document
+from applications.services import (
+    post_application_questions,
+    get_application_questions,
+    add_document_data,
+    post_additional_document,
+)
 from applications.views.documents import get_upload_page
 from lite_content.lite_exporter_frontend import strings
 from lite_forms.views import SummaryListFormView

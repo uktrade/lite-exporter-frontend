@@ -262,7 +262,7 @@ def set_application_status(request, pk, status):
 
 
 def add_document_data(request):
-    print('\n\nADDING DOCUMENT DATA')
+    print("\n\nADDING DOCUMENT DATA")
     files = request.FILES.getlist("file")
     if not files:
         return None, "Attach a file"

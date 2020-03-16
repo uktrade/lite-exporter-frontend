@@ -183,14 +183,15 @@ def MOD_questions(application_type=None):
                 default_button_name=generic.CONTINUE,
                 back_link=BackLink(MODQuestions.WhatAreYouApplyingFor.BACK, reverse_lazy("apply_for_a_licence:start")),
             ),
-            conditional(application_type == CaseTypes.F680, Form(
-                title=MODQuestions.ConfirmationStatement.TITLE,
-                description=MODQuestions.ConfirmationStatement.DESCRIPTION,
-                questions=[
-                    Label(MODQuestions.ConfirmationStatement.LABEL)
-                ],
-                default_button_name=generic.CONFIRM_AND_CONTINUE,
-            )),
+            conditional(
+                application_type == CaseTypes.F680,
+                Form(
+                    title=MODQuestions.ConfirmationStatement.TITLE,
+                    description=MODQuestions.ConfirmationStatement.DESCRIPTION,
+                    questions=[Label(MODQuestions.ConfirmationStatement.LABEL)],
+                    default_button_name=generic.CONFIRM_AND_CONTINUE,
+                ),
+            ),
             reference_name_form(),
         ]
     )
