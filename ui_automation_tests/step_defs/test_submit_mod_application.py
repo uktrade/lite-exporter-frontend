@@ -36,7 +36,6 @@ def i_add_additonal_information_to_the_application(driver, context):  # noqa
     pass
 
 
-
 @then("the good is added to the Exhibition Clearance")  # noqa
 def the_good_is_added_to_the_exhibition_application(driver, context):  # noqa
     assert len(StandardApplicationGoodsPage(driver).get_goods()) == 1  # Only one good added
