@@ -15,6 +15,9 @@ from lite_forms.views import SummaryListFormView
 
 
 def questions_action(request, pk, json):
+    if json.get("expedited", False):
+        if "year" in json and "month" in json and "day" in json:
+            json["expedited_date"] = f"{json['year']}-{json['month']}-{json['day']}"
     return post_application_questions(request, pk, json)
 
 
@@ -44,6 +47,7 @@ class QuestionsFormView(SummaryListFormView):
                 return {"electronic_warfare_requirement_attachment": data["document"]["id"]}, None
 
             return {}, {"errors": strings.applications.AttachDocumentPage.UPLOAD_FAILURE_ERROR}
+        return {}, None
 
     def prettify_data(self, data):
         data = super().prettify_data(data)

@@ -118,9 +118,9 @@ def questions_forms():
                                         title="Please select whether the equipment is:",
                                         name="uk_service_equipment_type",
                                         options=[
-                                            Option(key=True, value="MOD funded"),
-                                            Option(key=False, value="Part MOD funded / part private venture"),
-                                            Option(key=False, value="Private venture"),
+                                            Option(key="mod_funded", value="MOD funded"),
+                                            Option(key="part_mod_part_venture", value="Part MOD funded / part private venture"),
+                                            Option(key="private_venture", value="Private venture"),
                                         ],
                                     ),
                                 ],
