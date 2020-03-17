@@ -1,12 +1,12 @@
-#@exporter @all
-#Feature: I want to register an organisation
-#  As an exporter-to-be
-#  I want to register an organisation
-#  So that I can export my products in the future
-#
-#  @LT_1024_register_an_organisation @regression
-#  Scenario: Register a commercial organisation
-#    Given I am logged in but I don't belong to an organisation
+@exporter @all
+Feature: I want to register an organisation
+  As an exporter-to-be
+  I want to register an organisation
+  So that I can export my products in the future
+
+  @LT_1024_register_an_organisation @regression
+  Scenario: Register a commercial organisation
+    Given I am logged in but I don't belong to an organisation
 #    Then I should be given the option to register
 #    When I click the register button
 #    Then I see the option to register a commercial organisation or a private individual organisation
