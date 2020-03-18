@@ -186,6 +186,7 @@ def _convert_countries(countries):
 
 def _get_end_use_details(application):
     fields = [
+        ("intended_end_use", "", applications.EndUseDetails.CheckYourAnswers.INTENDED_END_USE_TITLE),
         (
             "is_military_end_use_controls",
             "military_end_use_controls_ref",

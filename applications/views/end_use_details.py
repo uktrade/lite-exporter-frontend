@@ -2,6 +2,7 @@ from django.urls import reverse_lazy
 
 from applications.forms.end_use_details import end_use_details_form
 from applications.services import put_end_use_details, get_application
+from conf.constants import F680
 from lite_content.lite_exporter_frontend.applications import EndUseDetails as strings
 from lite_forms.views import SummaryListFormView
 
