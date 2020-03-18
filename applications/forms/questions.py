@@ -134,7 +134,7 @@ def questions_forms():
             Form(
                 title="What is the total value of the application prospect",
                 questions=[
-                    CurrencyInput(name="question_7")
+                    CurrencyInput(name="value")
                 ],
                 default_button_name="Save and continue",
             ),

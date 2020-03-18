@@ -1,3 +1,4 @@
+import ast
 from http import HTTPStatus
 
 from django.contrib.humanize.templatetags.humanize import intcomma
@@ -18,6 +19,21 @@ def questions_action(request, pk, json):
     if json.get("expedited", False):
         if "year" in json and "month" in json and "day" in json:
             json["expedited_date"] = f"{json['year']}-{json['month']}-{json['day']}"
+
+    empty_keys = []
+    for key in json:
+        try:
+            # Try to cast to dict if str in order to handle key|value pairs
+            json[key] = ast.literal_eval(json[key])
+            if isinstance(json[key], dict) and "key" in json[key]:
+                json[key] = json[key]["key"]
+        except (ValueError, SyntaxError):
+            pass
+        if not isinstance(json[key], bool) and not json[key]:
+            empty_keys.append(key)
+    for key in empty_keys:
+        del json[key]
+
     return post_application_questions(request, pk, json)
 
 
@@ -51,6 +67,6 @@ class QuestionsFormView(SummaryListFormView):
 
     def prettify_data(self, data):
         data = super().prettify_data(data)
-        if "question_7" in data and data["question_7"]:
-            data["question_7"] = "£" + intcomma(data["question_7"])
+        if "value" in data and data["value"]:
+            data["value"] = intcomma(data["value"])
         return data

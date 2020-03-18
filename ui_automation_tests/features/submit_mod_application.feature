@@ -33,6 +33,7 @@ Feature: I want to create MOD Licence Applications
     Given I go to exporter homepage and choose Test Org
     When I select a licence of type "mod"
     And I select a MOD licence of type "f680"
+    And I click continue
     And I enter a licence name
     When I click on the "types" section
     Then I see the correct number of clearance types
