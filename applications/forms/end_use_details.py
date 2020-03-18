@@ -9,12 +9,28 @@ def end_use_details_form(application, request):
 
     return FormGroup(
         [
+            intended_end_use_form(),
             is_military_end_use_controls_form(),
             is_informed_wmd_form(),
             is_suspected_wmd_form(),
             conditional(application.sub_type == STANDARD, is_eu_military_form()),
             conditional(is_eu_military, is_compliant_limitations_eu_form()),
         ]
+    )
+
+
+def intended_end_use_form():
+    return Form(
+        title=EndUseDetails.INTENDED_END_USE,
+        questions=[
+            TextArea(
+                name="intended_end_use",
+                short_title=EndUseDetails.EndUseDetailsSummaryList.INTENDED_END_USE,
+                extras={"max_length": 2200},
+                optional=False,
+            )
+        ],
+        default_button_name="Save and continue",
     )
 
 

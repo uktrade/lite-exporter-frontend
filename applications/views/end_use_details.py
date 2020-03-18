@@ -21,8 +21,7 @@ class EndUseDetails(SummaryListFormView):
 
     @staticmethod
     def _parse_end_use_details(application):
-
-        end_use_details = [
+        end_use_linked_details = [
             "military_end_use_controls",
             "informed_wmd",
             "suspected_wmd",
@@ -31,7 +30,7 @@ class EndUseDetails(SummaryListFormView):
         ]
 
         data = {}
-        for end_use_detail in end_use_details:
+        for end_use_detail in end_use_linked_details:
             end_use_question = "is_" + end_use_detail
             end_use_reference = end_use_detail + "_ref"
 
@@ -42,5 +41,9 @@ class EndUseDetails(SummaryListFormView):
             application_end_use_reference = application.get(end_use_reference)
             if application_end_use_reference:
                 data[end_use_reference] = application_end_use_reference
+
+        intended_end_use = application.get("intended_end_use")
+        if intended_end_use:
+            data["intended_end_use"] = intended_end_use
 
         return data
