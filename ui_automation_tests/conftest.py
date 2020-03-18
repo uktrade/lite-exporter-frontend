@@ -68,7 +68,6 @@ fake = Faker()
 
 
 def pytest_addoption(parser):
-    settings.configure()
     settings.configure(
         DIRECTORY_SSO_API_CLIENT_API_KEY=os.environ.get("DIRECTORY_SSO_API_CLIENT_API_KEY"),
         DIRECTORY_SSO_API_CLIENT_BASE_URL=os.environ.get("DIRECTORY_SSO_API_CLIENT_BASE_URL"),
