@@ -16,6 +16,8 @@ from lite_forms.components import (
     FormGroup,
     TextInput,
     DateInput,
+    Label,
+    List,
 )
 from lite_forms.generators import confirm_form, success_page
 from lite_forms.helpers import conditional
@@ -125,6 +127,92 @@ def exhibition_details_form(application_id):
                 name="reason_for_clearance",
                 optional=True,
                 extras={"max_length": 2000},
+            ),
+        ],
+        back_link=BackLink(
+            strings.BACK_TO_APPLICATION, reverse_lazy("applications:task_list", kwargs={"pk": application_id}),
+        ),
+    )
+
+
+def declaration_form(application_id):
+    return Form(
+        title=strings.declaration.TermsAndConditions.TITLE,
+        questions=[
+            Label(strings.declaration.TermsAndConditions.PARAGRAPH_ONE),
+            Label(strings.declaration.TermsAndConditions.PARAGRAPH_TWO),
+            # Licence conditions
+            Label("<b>" + strings.declaration.LicenceConditions.TITLE + "<b>"),
+            # Authorisation
+            Label("<u>" + strings.declaration.LicenceConditions.Authorisation.TITLE + "</u>"),
+            Label(strings.declaration.LicenceConditions.Authorisation.PARAGRAPH_ONE),
+            Label(strings.declaration.LicenceConditions.Authorisation.OPTION_A),
+            Label(strings.declaration.LicenceConditions.Authorisation.OPTION_B),
+            Label(strings.declaration.LicenceConditions.Authorisation.PARAGRAPH_TWO),
+            # Conditions
+            Label("<u>" + strings.declaration.LicenceConditions.Conditions.TITLE + "</u>"),
+            HTMLBlock(
+                "<ol class='govuk-list govuk-list--number'>"
+                "<li>" + strings.declaration.LicenceConditions.Conditions.LIST_ITEM_ONE + "</li>"
+                "<li>" + strings.declaration.LicenceConditions.Conditions.LIST_ITEM_TWO + "</li>"
+                "<li>" + strings.declaration.LicenceConditions.Conditions.LIST_ITEM_THREE + "<ol type='a'>"
+                "<li>" + strings.declaration.LicenceConditions.Conditions.LIST_ITEM_THREE_A + "</li>"
+                "<li>" + strings.declaration.LicenceConditions.Conditions.LIST_ITEM_THREE_B + "</li>"
+                "<li>" + strings.declaration.LicenceConditions.Conditions.LIST_ITEM_THREE_C + "</li>"
+                "</ol>"
+                "</li"
+                "<li>" + strings.declaration.LicenceConditions.Conditions.LIST_ITEM_FOUR + "</li>"
+                "<li>" + strings.declaration.LicenceConditions.Conditions.LIST_ITEM_FIVE + "<ol type='a'>"
+                "<li>" + strings.declaration.LicenceConditions.Conditions.LIST_ITEM_FIVE_A + "</li>"
+                "<li>" + strings.declaration.LicenceConditions.Conditions.LIST_ITEM_FIVE_B + "<ol type='i'>"
+                "<li>" + strings.declaration.LicenceConditions.Conditions.LIST_ITEM_FIVE_B_I + "</li>"
+                "<li>" + strings.declaration.LicenceConditions.Conditions.LIST_ITEM_FIVE_B_II + "</li>"
+                "</ol>"
+                "</li>"
+                "<li>" + strings.declaration.LicenceConditions.Conditions.LIST_ITEM_FIVE_C + "<ol type='i'>"
+                "<li>" + strings.declaration.LicenceConditions.Conditions.LIST_ITEM_FIVE_C_I + "</li>"
+                "<li>" + strings.declaration.LicenceConditions.Conditions.LIST_ITEM_FIVE_C_II + "</li>"
+                "<li>" + strings.declaration.LicenceConditions.Conditions.LIST_ITEM_FIVE_C_III + "</li>"
+                "</ol>"
+                "</li>"
+                "<li>" + strings.declaration.LicenceConditions.Conditions.LIST_ITEM_FIVE_D + "</li>"
+                "</ol>"
+                "</li>"
+                "<li>" + strings.declaration.LicenceConditions.Conditions.LIST_ITEM_SIX + "</li>"
+                "<li>" + strings.declaration.LicenceConditions.Conditions.LIST_ITEM_SEVEN + "</li>"
+                "</ol>"
+            ),
+            # Standard conditions
+            Label("<u>" + strings.declaration.LicenceConditions.StandardConditions.TITLE + "</u>"),
+            List(strings.declaration.LicenceConditions.StandardConditions.BULLET_POINTS, type=List.ListType.NUMBERED),
+            # General notes
+            Label("<u>" + strings.declaration.LicenceConditions.GeneralNotes.TITLE + "</u>"),
+            Label(
+                strings.declaration.LicenceConditions.GeneralNotes.LINK_TEXT
+                + "<a href>"
+                + strings.declaration.LicenceConditions.GeneralNotes.LINK
+                + "</a>"
+            ),
+            Label(strings.declaration.LicenceConditions.GeneralNotes.PARAGRAPH_ONE),
+            Label(strings.declaration.LicenceConditions.GeneralNotes.PARAGRAPH_TWO),
+            Label(strings.declaration.LicenceConditions.GeneralNotes.PARAGRAPH_THREE),
+            # Radio buttons
+            RadioButtons(
+                name="agreed_to_foi",
+                title=strings.declaration.FOI.TITLE,
+                options=[
+                    Option(True, strings.declaration.FOI.AGREE_TO_FOI),
+                    Option(False, strings.declaration.FOI.DISAGREE_TO_FOI),
+                ],
+                classes=["govuk-radios--inline"],
+            ),
+            RadioButtons(
+                name="agreed_to_declaration",
+                title=strings.declaration.Declaration.TITLE,
+                options=[
+                    Option(True, strings.declaration.Declaration.AGREE_TO_DECLARATION),
+                ],
+                classes=["govuk-radios--inline"],
             ),
         ],
         back_link=BackLink(

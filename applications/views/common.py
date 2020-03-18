@@ -13,7 +13,7 @@ from applications.forms.common import (
     application_success_page,
     application_copy_form,
     exhibition_details_form,
-)
+    declaration_form)
 from applications.helpers.check_your_answers import convert_application_to_check_your_answers
 from applications.helpers.summaries import draft_summary
 from applications.helpers.task_lists import get_application_task_list
@@ -37,7 +37,7 @@ from applications.services import (
     get_status_properties,
     copy_application,
     post_exhibition,
-)
+    post_declaration)
 from conf.constants import HMRC, APPLICANT_EDITING
 from core.helpers import str_to_bool, convert_dict_to_query_params
 from core.services import get_organisation
@@ -390,3 +390,12 @@ class ExhibitionDetail(SingleFormView):
 
     def get_success_url(self):
         return reverse_lazy("applications:task_list", kwargs={"pk": self.object_pk})
+
+
+class Declaration(SingleFormView):
+    def init(self, request, **kwargs):
+        self.object_pk = kwargs["pk"]
+        self.data = get_application(request, self.object_pk)
+        self.form = declaration_form(self.object_pk)
+        self.action = post_declaration
+

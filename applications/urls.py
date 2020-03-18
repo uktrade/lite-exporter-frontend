@@ -263,5 +263,6 @@ urlpatterns = [
     # This HAS to be at the bottom, otherwise it will swallow other url calls
     path("<uuid:pk>/", common.ApplicationDetail.as_view(), name="application"),
     path("<uuid:pk>/exhibition-details", common.ExhibitionDetail.as_view(), name="exhibition_details"),
+    path("<uuid:pk>/declaration", common.Declaration.as_view(), name="declaration"),
     path("<uuid:pk>/<str:type>/", common.ApplicationDetail.as_view(), name="application"),
 ]
