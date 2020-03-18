@@ -15,4 +15,3 @@ def new_log_in():
     # print(response)
     # response = sso_api_client.post("/testapi/test-users/", data={})
     # response = response.json()["email"]
-
