@@ -65,7 +65,9 @@ def get_application_task_list(request, application, errors=None):
     context["supporting_documents"] = additional_documents["documents"]
     context["locations"] = sites["sites"] or external_locations["external_locations"]
 
-    if application_type == STANDARD:
+    if application_type == F680:
+        context["end_use_details"] = get_end_use_details(application)
+    elif application_type == STANDARD:
         context["reference_number_description"] = get_reference_number_description(application)
         context["end_use_details"] = get_end_use_details(application)
     elif application_type == OPEN:
@@ -75,9 +77,8 @@ def get_application_task_list(request, application, errors=None):
         if application.get("goods_types"):
             destination_countries = [goods_type["countries"] for goods_type in application.get("goods_types")][0]
             context["destinations"] = set([destination["id"] for destination in destination_countries])
-    elif application_type == F680:
-        context["end_use_details"] = get_end_use_details(application)
-    else:
+
+    if not application_type == OPEN:
         context["goods"] = get_application_goods(request, application["id"])
         context["ultimate_end_users_required"] = True in [good["is_good_incorporated"] for good in context["goods"]]
 
