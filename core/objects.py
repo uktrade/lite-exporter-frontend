@@ -56,3 +56,7 @@ class Application(Munch):
     @property
     def is_eu_military(self):
         return self.get("is_eu_military", False)
+
+    @property
+    def intended_end_use(self):
+        return self.get("intended_end_use", None)

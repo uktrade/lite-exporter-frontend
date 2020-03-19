@@ -1,9 +1,8 @@
-from conf.constants import STANDARD, OPEN, F680
+from conf.constants import STANDARD, OPEN
 from lite_content.lite_exporter_frontend.applications import (
     EndUseDetails,
     StandardApplicationTaskList,
     OpenApplicationTaskList,
-    F680ClearanceTaskList,
 )
 from lite_forms.components import Form, RadioButtons, FormGroup, Option, TextInput, TextArea
 from lite_forms.helpers import conditional
@@ -17,23 +16,17 @@ def end_use_details_form(application, request):
         caption = StandardApplicationTaskList.END_USE_DETAILS
     elif application.sub_type == OPEN:
         caption = OpenApplicationTaskList.END_USE_DETAILS
-    elif application.sub_type == F680:
-        caption = F680ClearanceTaskList.END_USE_DETAILS
 
-    forms = [intended_end_use_form(caption)]
-    if application.sub_type in [STANDARD, OPEN]:
-        forms += [
+    return FormGroup(
+        [
+            intended_end_use_form(caption),
             is_military_end_use_controls_form(caption),
             is_informed_wmd_form(caption),
             is_suspected_wmd_form(caption),
+            conditional(application.sub_type == STANDARD, is_eu_military_form(caption)),
+            conditional(is_eu_military, is_compliant_limitations_eu_form(caption)),
         ]
-        if application.sub_type == STANDARD:
-            forms += [
-                is_eu_military_form(caption),
-                conditional(is_eu_military, is_compliant_limitations_eu_form(caption)),
-            ]
-
-    return FormGroup(forms)
+    )
 
 
 def intended_end_use_form(caption):
