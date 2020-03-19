@@ -4,6 +4,7 @@ from django.views.generic import TemplateView
 from applications.forms.end_use_details import end_use_details_form, intended_end_use_form
 from applications.services import put_end_use_details, get_application
 from conf.constants import F680
+from lite_content.lite_exporter_frontend import generic
 from lite_content.lite_exporter_frontend.applications import EndUseDetails as strings, F680ClearanceTaskList
 from lite_forms.views import SummaryListFormView, SingleFormView
 
@@ -63,7 +64,7 @@ class EndUseDetails(TemplateView):
         summary_list_form_view.summary_list_title = strings.EndUseDetailsSummaryList.TITLE
         summary_list_form_view.summary_list_notice_title = ""
         summary_list_form_view.summary_list_notice_text = ""
-        summary_list_form_view.summary_list_button = "Save and continue"
+        summary_list_form_view.summary_list_button = generic.SAVE_AND_CONTINUE
         summary_list_form_view.forms = end_use_details_form(self.application, request)
         summary_list_form_view.action = put_end_use_details
         summary_list_form_view.success_url = self.success_url

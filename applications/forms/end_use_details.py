@@ -1,4 +1,5 @@
 from conf.constants import STANDARD, OPEN
+from lite_content.lite_exporter_frontend import generic
 from lite_content.lite_exporter_frontend.applications import (
     EndUseDetails,
     StandardApplicationTaskList,
@@ -41,7 +42,7 @@ def intended_end_use_form(caption):
                 optional=False,
             )
         ],
-        default_button_name="Save and continue",
+        default_button_name=generic.SAVE_AND_CONTINUE,
     )
 
 
@@ -71,7 +72,7 @@ def is_military_end_use_controls_form(caption):
                 classes=["govuk-radios--inline"],
             )
         ],
-        default_button_name="Save and continue",
+        default_button_name=generic.SAVE_AND_CONTINUE,
     )
 
 
@@ -102,7 +103,7 @@ def is_informed_wmd_form(caption):
                 classes=["govuk-radios--inline"],
             )
         ],
-        default_button_name="Save and continue",
+        default_button_name=generic.SAVE_AND_CONTINUE,
     )
 
 
@@ -134,7 +135,7 @@ def is_suspected_wmd_form(caption):
                 classes=["govuk-radios--inline"],
             )
         ],
-        default_button_name="Save and continue",
+        default_button_name=generic.SAVE_AND_CONTINUE,
     )
 
 
@@ -151,7 +152,7 @@ def is_eu_military_form(caption):
                 classes=["govuk-radios--inline"],
             )
         ],
-        default_button_name="Save and continue",
+        default_button_name=generic.SAVE_AND_CONTINUE,
     )
 
 
@@ -182,5 +183,5 @@ def is_compliant_limitations_eu_form(caption):
                 classes=["govuk-radios--inline"],
             )
         ],
-        default_button_name="Save and continue",
+        default_button_name=generic.SAVE_AND_CONTINUE,
     )
