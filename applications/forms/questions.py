@@ -1,11 +1,13 @@
 from lite_forms.components import FormGroup, Form, RadioButtons, Option, TextArea, FileUpload, DateInput, CurrencyInput
+from lite_content.lite_exporter_frontend.applications import F680Questions
+from lite_content.lite_exporter_frontend import generic
 
 
 def questions_forms():
     return FormGroup(
         [
             Form(
-                title="Does your application need to be expedited?",
+                title=F680Questions.Expedited.TITLE,
                 questions=[
                     RadioButtons(
                         name="expedited",
@@ -14,17 +16,21 @@ def questions_forms():
                                 key=True,
                                 value="Yes",
                                 components=[
-                                    DateInput(title="Enter a date", name="expedited_date", prefix="")
+                                    DateInput(title=F680Questions.Expedited.DATE, name="expedited_date", prefix=""),
+                                    TextArea(
+                                        name="expedited_description",
+                                        description=F680Questions.Expedited.DESCRIPTION,
+                                    )
                                 ],
                             ),
                             Option(key=False, value="No"),
                         ],
                     )
                 ],
-                default_button_name="Save and continue",
+                default_button_name=generic.SAVE_AND_CONTINUE,
             ),
             Form(
-                title="Is any foreign technology or information is involved in the proposed release",
+                title=F680Questions.ForeignTechnology.TITLE,
                 questions=[
                     RadioButtons(
                         name="foreign_technology",
@@ -35,7 +41,7 @@ def questions_forms():
                                 components=[
                                     TextArea(
                                         name="foreign_technology_description",
-                                        description="Include written release agreements or clearances from the originating nations",
+                                        description=F680Questions.ForeignTechnology.DESCRIPTION,
                                     )
                                 ],
                             ),
@@ -43,10 +49,10 @@ def questions_forms():
                         ],
                     )
                 ],
-                default_button_name="Save and continue",
+                default_button_name=generic.SAVE_AND_CONTINUE,
             ),
             Form(
-                title="Is local assembly/local manufacture of the product is required",
+                title=F680Questions.LocallyManufactured.TITLE,
                 questions=[
                     RadioButtons(
                         name="locally_manufactured",
@@ -56,7 +62,8 @@ def questions_forms():
                                 value="Yes",
                                 components=[
                                     TextArea(
-                                        name="locally_manufactured_description", description="Additional information"
+                                        name="locally_manufactured_description",
+                                        description=F680Questions.LocallyManufactured.DESCRIPTION
                                     )
                                 ],
                             ),
@@ -64,10 +71,10 @@ def questions_forms():
                         ],
                     )
                 ],
-                default_button_name="Save and continue",
+                default_button_name=generic.SAVE_AND_CONTINUE,
             ),
             Form(
-                title="Are the goods rated under the Missile Technology Control Regime (MTCR)",
+                title=F680Questions.MtcrType.TITLE,
                 questions=[
                     RadioButtons(
                         name="mtcr_type",
@@ -79,10 +86,10 @@ def questions_forms():
                         ],
                     )
                 ],
-                default_button_name="Save and continue",
+                default_button_name=generic.SAVE_AND_CONTINUE,
             ),
             Form(
-                title="Is there is a requirement to release UK MOD owned electronic warfare (EW) data or information in support of this export",
+                title=F680Questions.EWRequirement.TITLE,
                 questions=[
                     RadioButtons(
                         name="electronic_warfare_requirement",
@@ -93,7 +100,7 @@ def questions_forms():
                                 components=[
                                     FileUpload(
                                         name="electronic_warfare_requirement_attachment",
-                                        description="Please attach part A of the EW data release capture form",
+                                        description=F680Questions.EWRequirement.ATTACHMENT,
                                     )
                                 ],
                             ),
@@ -101,10 +108,10 @@ def questions_forms():
                         ],
                     )
                 ],
-                default_button_name="Save and continue",
+                default_button_name=generic.SAVE_AND_CONTINUE,
             ),
             Form(
-                title="Is the equipment or a version of it due to enter service with the UK armed forces",
+                title=F680Questions.UKServiceEquipment.TITLE,
                 questions=[
                     RadioButtons(
                         name="uk_service_equipment",
@@ -113,15 +120,9 @@ def questions_forms():
                                 key=True,
                                 value="Yes",
                                 components=[
-                                    TextArea(name="uk_service_equipment_description", description="Please elabortate"),
-                                    RadioButtons(
-                                        title="Please select whether the equipment is:",
-                                        name="uk_service_equipment_type",
-                                        options=[
-                                            Option(key="mod_funded", value="MOD funded"),
-                                            Option(key="part_mod_part_venture", value="Part MOD funded / part private venture"),
-                                            Option(key="private_venture", value="Private venture"),
-                                        ],
+                                    TextArea(
+                                        name="uk_service_equipment_description",
+                                        description=F680Questions.UKServiceEquipment.DESCRIPTION
                                     ),
                                 ],
                             ),
@@ -129,14 +130,27 @@ def questions_forms():
                         ],
                     )
                 ],
-                default_button_name="Save and continue",
+                default_button_name=generic.SAVE_AND_CONTINUE,
             ),
             Form(
-                title="What is the total value of the application prospect",
+                title=F680Questions.UKServiceEquipment.TYPE,
+                questions=[
+                    RadioButtons(
+                        name="uk_service_equipment_type",
+                        options=[
+                            Option(key="mod_funded", value="MOD funded"),
+                            Option(key="part_mod_part_venture", value="Part MOD funded / part private venture"),
+                            Option(key="private_venture", value="Private venture"),
+                        ],
+                    ),
+                ]
+            ),
+            Form(
+                title=F680Questions.ProspectValue.TITLE,
                 questions=[
                     CurrencyInput(name="value")
                 ],
-                default_button_name="Save and continue",
+                default_button_name=generic.SAVE_AND_CONTINUE,
             ),
         ],
         show_progress_indicators=True
