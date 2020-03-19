@@ -18,7 +18,9 @@ from lite_forms.components import (
     DateInput,
     Label,
     List,
-    DetailComponent, Link)
+    Link,
+    Checkboxes,
+)
 from lite_forms.generators import confirm_form, success_page
 from lite_forms.helpers import conditional
 
@@ -192,7 +194,10 @@ def declaration_form(application_id):
             ),
             # Standard conditions
             Label("<u>" + strings.declaration.LicenceConditions.StandardConditions.TITLE + "</u>"),
-            List(strings.declaration.LicenceConditions.StandardConditions.BULLET_POINTS, type=List.ListType.NUMBERED),
+            List(
+                strings.declaration.LicenceConditions.StandardConditions.BULLET_POINTS,
+                type=List.ListType.NUMBERED,
+            ),
             # General notes
             Label("<u>" + strings.declaration.LicenceConditions.GeneralNotes.TITLE + "</u>"),
             Label(strings.declaration.LicenceConditions.GeneralNotes.LINK_TEXT),
@@ -214,24 +219,22 @@ def declaration_form(application_id):
                 + strings.declaration.Declaration.PARAGRAPH_THREE
                 + "<br><br>"
                 + strings.declaration.Declaration.PARAGRAPH_FOUR
-                + "<br><br>"
             ),
-            RadioButtons(
-                name="agreed_to_declaration",
-                title=strings.declaration.Declaration.RADIO_TITLE,
-                options=[Option(True, strings.declaration.Declaration.AGREE_TO_DECLARATION),],
-                classes=["govuk-radios--inline"],
-            ),
-            # Radio buttons
+            # User input
             RadioButtons(
                 name="agreed_to_foi",
                 title=strings.declaration.FOI.TITLE,
-                optional=True,
                 options=[
                     Option(True, strings.declaration.FOI.AGREE_TO_FOI),
                     Option(False, strings.declaration.FOI.DISAGREE_TO_FOI),
                 ],
                 classes=["govuk-radios--inline"],
+            ),
+            Checkboxes(
+                name="agreed_to_declaration",
+                title=strings.declaration.Declaration.RADIO_TITLE,
+                options=[Option(True, strings.declaration.Declaration.AGREE_TO_DECLARATION),],
+                classes=["govuk-checkboxes--small"],
             ),
         ],
         default_button_name=strings.declaration.Declaration.BUTTON_TITLE,

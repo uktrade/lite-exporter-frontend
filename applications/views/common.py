@@ -134,6 +134,8 @@ class ApplicationTaskList(TemplateView):
         if status_code != HTTPStatus.OK:
             return get_application_task_list(request, application, errors=data.get("errors"))
 
+        # fix this comment below
+
         # Redirect to the success page to prevent the user going back after the Post
         # Follows this pattern: https://en.wikipedia.org/wiki/Post/Redirect/Get
         return HttpResponseRedirect(reverse_lazy("applications:declaration", kwargs={"pk": application_id}))
