@@ -128,6 +128,7 @@ class ApplicationTaskList(TemplateView):
     def post(self, request, **kwargs):
         application_id = str(kwargs["pk"])
         application = get_application(request, str(kwargs["pk"]))
+
         data, status_code = submit_application(request, application_id)
 
         if status_code != HTTPStatus.OK:
@@ -135,7 +136,7 @@ class ApplicationTaskList(TemplateView):
 
         # Redirect to the success page to prevent the user going back after the Post
         # Follows this pattern: https://en.wikipedia.org/wiki/Post/Redirect/Get
-        return HttpResponseRedirect(reverse_lazy("applications:success_page", kwargs={"pk": application_id}))
+        return HttpResponseRedirect(reverse_lazy("applications:declaration", kwargs={"pk": application_id}))
 
 
 class ApplicationDetail(TemplateView):
@@ -398,4 +399,7 @@ class Declaration(SingleFormView):
         self.data = get_application(request, self.object_pk)
         self.form = declaration_form(self.object_pk)
         self.action = post_declaration
+
+    def get_success_url(self):
+        return reverse_lazy("applications:success_page", kwargs={"pk": self.object_pk})
 
