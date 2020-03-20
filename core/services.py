@@ -163,7 +163,7 @@ def get_organisation_users(request, pk, params):
 
 def get_organisation_user(request, pk, user_pk):
     data = get(request, ORGANISATIONS_URL + pk + "/users/" + user_pk)
-    return data.json()["user"]
+    return data.json()
 
 
 def put_organisation_user(request, user_pk, json):

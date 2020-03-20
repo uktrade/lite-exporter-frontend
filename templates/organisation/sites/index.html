@@ -32,15 +32,20 @@
 						{% endif %}
 					</td>
 					<td class="govuk-table__cell">
-						{{ site.address.address_line_1 }}<br/>
-						{% if site.address.address_line_2 %}
-							{{ site.address.address_line_2 }}<br/>
+						{% if site.address %}
+							{{ site.address.address_line_1 }}<br/>
+							{% if site.address.address_line_2 %}
+								{{ site.address.address_line_2 }}<br/>
+							{% endif %}
+							{{ site.address.city }}<br/>
+							{{ site.address.postcode }}<br/>
+							{{ site.address.country.name }}
+						{% else %}
+							{{ site.foreign_address.address }}<br/>
+							{{ site.foreign_address.country.name }}
 						{% endif %}
-						{{ site.address.city }}<br/>
-						{{ site.address.postcode }}<br/>
-						{{ site.address.country.name }}
 					</td>
-					<td class="govuk-table__cell">{{ site.users|length }} member{{ site.users|pluralize }}</td>
+					<td class="govuk-table__cell">{{ site.assigned_users_count }} member{{ site.assigned_users_count|pluralize }}</td>
 					<td class="govuk-table__cell govuk-table__cell--numeric">
 						<a id="link-view-site-{{ site.id }}" href="{% url 'organisation:sites:site' site.id %}" class="govuk-link govuk-link--no-visited-state">View</a>
 					</td>

@@ -22,12 +22,13 @@ def get_sites(request, organisation_id, convert_to_options=False, exclude: list 
 
             site_id = site.get("id")
             site_name = site.get("name") + primary_site
-            address = site.get("address")
+            address = site.get("address") or site.get("foreign_address")
 
             site_address = NEWLINE.join(
                 filter(
                     None,
                     [
+                        address.get("address"),
                         address.get("address_line_1"),
                         address.get("address_line_2"),
                         address.get("city"),
@@ -55,7 +56,7 @@ def put_site(request, organisation_id, pk, json):
 
 
 def post_sites(request, organisation_id, json):
-    data = post(request, ORGANISATIONS_URL + organisation_id + SITES_URL, json)
+    data = post(request, ORGANISATIONS_URL + str(organisation_id) + SITES_URL, json)
     return data.json(), data.status_code
 
 

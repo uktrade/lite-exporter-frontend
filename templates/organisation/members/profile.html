@@ -131,13 +131,18 @@
 					{{ site.name }}
 				</dd>
 				<dd class="govuk-summary-list__value govuk-hint">
-					{{ site.address.address_line_1 }}<br/>
-					{% if site.address.address_line_2 %}
-						{{ site.address.address_line_2 }}<br/>
+					{% if site.address %}
+						{{ site.address.address_line_1 }}<br/>
+						{% if site.address.address_line_2 %}
+							{{ site.address.address_line_2 }}<br/>
+						{% endif %}
+						{{ site.address.city }}<br/>
+						{{ site.address.postcode }}<br/>
+						{{ site.address.country.name }}
+					{% else %}
+						{{ site.foreign_address.address }}<br/>
+						{{ site.foreign_address.country.name }}
 					{% endif %}
-					{{ site.address.city }}<br/>
-					{{ site.address.postcode }}<br/>
-					{{ site.address.country.name }}
 				</dd>
 				<dd class="govuk-summary-list__actions">
 					<a class="govuk-link" href="{% url 'organisation:sites:site' site.id %}">

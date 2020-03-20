@@ -149,6 +149,10 @@ class PickOrganisation(TemplateView):
 
 
 class RegisterAnOrganisationTriage(MultiFormView):
+    class Locations:
+        UNITED_KINGDOM = "united_kingdom"
+        ABROAD = "abroad"
+
     def init(self, request, **kwargs):
         self.forms = register_triage()
         self.action = validate_register_organisation_triage
@@ -165,19 +169,23 @@ class RegisterAnOrganisationTriage(MultiFormView):
             raise Http404
 
     def get_success_url(self):
-        return reverse("core:register_an_organisation", kwargs={"type": self.get_validated_data()["type"]})
+        return reverse(
+            "core:register_an_organisation",
+            kwargs={"type": self.get_validated_data()["type"], "location": self.get_validated_data()["location"]},
+        )
 
 
 class RegisterAnOrganisation(SummaryListFormView):
     def init(self, request, **kwargs):
+        _type = self.kwargs["type"]
+        location = self.kwargs["location"]
+
         self.forms = (
-            register_a_commercial_organisation_group()
-            if self.kwargs["type"] == "commercial"
-            else register_an_individual_group()
+            register_a_commercial_organisation_group(location)
+            if _type == "commercial"
+            else register_an_individual_group(location)
         )
-        self.action = (
-            register_commercial_organisation if self.kwargs["type"] == "commercial" else register_private_individual
-        )
+        self.action = register_commercial_organisation if _type == "commercial" else register_private_individual
         self.hide_components = ["site.address.address_line_2"]
         self.additional_context = {"user_in_limbo": True}
 
