@@ -346,6 +346,5 @@ def post_exhibition(request, pk, data):
 
 
 def post_declaration(request, pk, data):
-    # make api endpoint
     data = post(request, APPLICATIONS_URL + str(pk) + "/declaration/", json=data)
     return data.json(), data.status_code
