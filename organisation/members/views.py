@@ -47,25 +47,20 @@ class ViewUser(TemplateView):
         request_user = get_organisation_user(request, str(request.user.organisation), str(kwargs["pk"]))
         user = get_user(request)
 
-        print('\n')
-        print('user')
-        print(request_user)
-        print('\n')
+        is_request_user_super_user = is_super_user(request_user)
+        is_user_super_user = is_super_user(user)
+        is_self_editing = user["id"] == request_user["id"]
 
-        # is_request_user_super_user = is_super_user(request_user)
-        # is_user_super_user = is_super_user(user)
-        # is_self_editing = user["id"] == request_user["id"]
-        #
-        # show_change_status = not is_self_editing and is_user_super_user and not is_request_user_super_user
-        # show_change_role = not is_self_editing and is_user_super_user
-        # show_assign_sites = not is_self_editing and not is_request_user_super_user
+        show_change_status = not is_self_editing and is_user_super_user and not is_request_user_super_user
+        show_change_role = not is_self_editing and is_user_super_user
+        show_assign_sites = not is_self_editing and not is_request_user_super_user
 
         context = {
             "signed_in_user": user,
             "profile": request_user,
-            # "show_change_status": show_change_status,
-            # "show_change_role": show_change_role,
-            # "show_assign_sites": show_assign_sites,
+            "show_change_status": show_change_status,
+            "show_change_role": show_change_role,
+            "show_assign_sites": show_assign_sites,
         }
         return render(request, "organisation/members/profile.html", context)
 

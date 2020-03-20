@@ -156,8 +156,20 @@ def get_organisation(request, pk):
     return data.json()
 
 
-def get_organisation_users(request, pk, params):
-    data = get(request, ORGANISATIONS_URL + pk + "/users/?" + urlencode(params))
+def get_organisation_users(request, pk, params, convert_to_options=False):
+    data = get(request, ORGANISATIONS_URL + str(pk) + "/users/?" + urlencode(params))
+
+    if convert_to_options:
+        options = []
+
+        for user in data.json():
+            title = user["first_name"] + " " + user["last_name"] if user["first_name"] else user["email"]
+            description = user["email"] if user["first_name"] else ""
+
+            options.append(Option(user["id"], title, description))
+
+        return options
+
     return data.json(), data.status_code
 
 
