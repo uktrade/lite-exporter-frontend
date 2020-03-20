@@ -55,6 +55,7 @@ def _convert_f680_clearance(application, editable=False):
     return {
         applications.ApplicationSummaryPage.GOODS: _convert_goods(application["goods"]),
         applications.ApplicationSummaryPage.ADDITIONAL_INFORMATION: _get_additional_information(application),
+        applications.ApplicationSummaryPage.END_USE_DETAILS: _get_end_use_details(application),
         applications.ApplicationSummaryPage.END_USER: convert_party(application["end_user"], application, editable),
         applications.ApplicationSummaryPage.THIRD_PARTIES: [
             convert_party(party, application, editable) for party in application["third_parties"]
@@ -218,6 +219,7 @@ def _get_additional_information(application):
 
 def _get_end_use_details(application):
     fields = [
+        ("intended_end_use", "", applications.EndUseDetails.CheckYourAnswers.INTENDED_END_USE_TITLE),
         (
             "is_military_end_use_controls",
             "military_end_use_controls_ref",
@@ -239,6 +241,13 @@ def _get_end_use_details(application):
         if application.get(main_field) is not None:
             ds["Description"] = display_string
             ds["Answer"] = friendly_boolean(application.get(main_field)) + NEWLINE + (application.get(ref_field) or "")
+            if not isinstance(application.get(main_field), str):
+                ds["Answer"] = (
+                    friendly_boolean(application.get(main_field)) + NEWLINE + (application.get(ref_field) or "")
+                )
+            else:
+                ds["Answer"] = application.get(main_field)
+        if ds:
             values_to_print.append(ds)
 
     return values_to_print

@@ -42,6 +42,8 @@ Feature: I want to create MOD Licence Applications
     And I add additional information
     And I click on the "clearance" section
     And I choose a clearance level for my application
+    And I click on the "end_use_details" section
+    And I provide details of the intended end use of the products
     And I click on the "goods" section
     And I add a non-incorporated good to the application
     Then the good is added to the application
