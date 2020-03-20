@@ -38,7 +38,7 @@
 					<td class="govuk-table__cell">{{ user.status }}</td>
 					<td class="govuk-table__cell govuk-table__cell--numeric">
 						<a id="link-view-{{ user.email }}" href="{% url 'organisation:members:user' user.id %}" class="govuk-link govuk-link--no-visited-state">
-							{% lcs 'generic.VIEW' %}
+							{% lcs 'generic.VIEW' %} <span class="govuk-visually-hidden">{% if user.first_name %}{{ user.first_name }} {{ user.last_name }}'s{% else %}{{ user.email }}{% endif %} profile</span>
 						</a>
 					</td>
 				</tr>
