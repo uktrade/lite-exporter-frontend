@@ -9,6 +9,7 @@ from ui_automation_tests.pages.shared import Shared
 from ui_automation_tests.pages.standard_application.goods import StandardApplicationGoodsPage
 from ui_automation_tests.shared import functions
 import ui_automation_tests.shared.tools.helpers as utils
+from ui_automation_tests.step_defs.test_edit_mod_application import click_radio_button
 
 scenarios("../features/submit_mod_application.feature", strict_gherkin=False)
 
@@ -89,3 +90,24 @@ def add_new_end_user_with_clearance(driver, type, name, website, clearance, addr
     context.address_end_user = address
     add_end_user_pages.enter_country(country)
     functions.click_submit(driver)
+
+
+@when("I add additional information")
+def add_new_additional_information(driver, context):  # noqa
+    click_radio_button(driver, "expedited-False")
+    functions.click_submit(driver)
+    click_radio_button(driver, "foreign_technology-False")
+    functions.click_submit(driver)
+    click_radio_button(driver, "locally_manufactured-False")
+    functions.click_submit(driver)
+    click_radio_button(driver, "mtcr_type-mtcr_category_2")
+    functions.click_submit(driver)
+    click_radio_button(driver, "electronic_warfare_requirement-False")
+    functions.click_submit(driver)
+    click_radio_button(driver, "uk_service_equipment-False")
+    functions.click_submit(driver)
+    click_radio_button(driver, "uk_service_equipment_type-mod_funded")
+    functions.click_submit(driver)
+    functions.enter_value(driver, element_id="value", value=100)
+    functions.click_submit(driver)
+    functions.click_submit(driver, button_value="finish")

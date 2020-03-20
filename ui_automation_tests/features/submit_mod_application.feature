@@ -38,6 +38,8 @@ Feature: I want to create MOD Licence Applications
     When I click on the "types" section
     Then I see the correct number of clearance types
     When I choose the types of clearance I need
+    When I click on the "questions" section
+    And I add additional information
     And I click on the "clearance" section
     And I choose a clearance level for my application
     And I click on the "goods" section
