@@ -110,10 +110,10 @@ def mtcr_form():
             RadioButtons(
                 name="mtcr_type",
                 options=[
-                    Option(key="mtcr_category_1", value="Yes, Category 1"),
-                    Option(key="mtcr_category_2", value="Yes, Category 2"),
-                    Option(key="none", value="No"),
-                    Option(key="unknown", value="I don't know", show_or=True),
+                    Option(key="mtcr_category_1", value=F680Questions.MtcrType.Categories.ONE),
+                    Option(key="mtcr_category_2", value=F680Questions.MtcrType.Categories.TWO),
+                    Option(key="none", value=F680Questions.MtcrType.Categories.NO),
+                    Option(key="unknown", value=F680Questions.MtcrType.Categories.I_DONT_KNOW, show_or=True),
                 ],
             )
         ],
@@ -164,9 +164,11 @@ def uk_service_equipment_type_form():
             RadioButtons(
                 name="uk_service_equipment_type",
                 options=[
-                    Option(key="mod_funded", value="MOD funded"),
-                    Option(key="part_mod_part_venture", value="Part MOD funded / part private venture"),
-                    Option(key="private_venture", value="Private venture"),
+                    Option(key="mod_funded", value=F680Questions.UKServiceEquipment.Types.MOD_FUNDED),
+                    Option(
+                        key="part_mod_part_venture", value=F680Questions.UKServiceEquipment.Types.MOD_VENTURE_FUNDED
+                    ),
+                    Option(key="private_venture", value=F680Questions.UKServiceEquipment.Types.PRIVATE_VENTURE),
                 ],
             ),
         ],
