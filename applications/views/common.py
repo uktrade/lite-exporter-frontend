@@ -38,7 +38,7 @@ from applications.services import (
     copy_application,
     post_exhibition,
     post_declaration)
-from conf.constants import HMRC, APPLICANT_EDITING
+from conf.constants import HMRC, APPLICANT_EDITING, NotificationType
 from core.helpers import str_to_bool, convert_dict_to_query_params
 from core.services import get_organisation
 from lite_content.lite_exporter_frontend import strings
@@ -134,11 +134,12 @@ class ApplicationTaskList(TemplateView):
         if status_code != HTTPStatus.OK:
             return get_application_task_list(request, application, errors=data.get("errors"))
 
-        # fix this comment below
-
-        # Redirect to the success page to prevent the user going back after the Post
-        # Follows this pattern: https://en.wikipedia.org/wiki/Post/Redirect/Get
-        return HttpResponseRedirect(reverse_lazy("applications:declaration", kwargs={"pk": application_id}))
+        if application.sub_type not in [HMRC, NotificationType.EUA, NotificationType.GOODS]:
+            return HttpResponseRedirect(reverse_lazy("applications:declaration", kwargs={"pk": application_id}))
+        else:
+            # Redirect to the success page to prevent the user going back after the Post
+            # Follows this pattern: https://en.wikipedia.org/wiki/Post/Redirect/Get
+            return HttpResponseRedirect(reverse_lazy("applications:success_page", kwargs={"pk": application_id}))
 
 
 class ApplicationDetail(TemplateView):
@@ -403,5 +404,7 @@ class Declaration(SingleFormView):
         self.action = post_declaration
 
     def get_success_url(self):
+        # Redirect to the success page to prevent the user going back after the Post
+        # Follows this pattern: https://en.wikipedia.org/wiki/Post/Redirect/Get
         return reverse_lazy("applications:success_page", kwargs={"pk": self.object_pk})
 
