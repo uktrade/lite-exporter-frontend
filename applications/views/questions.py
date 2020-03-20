@@ -11,9 +11,23 @@ from lite_forms.views import SummaryListFormView
 
 
 def questions_action(request, pk, json):
-    if json.get("expedited", False):
+    def to_bool(val):
+        if isinstance(val, bool):
+            return val
+        elif isinstance(val, str):
+            if val.lower() == "false":
+                return False
+            elif val.lower() == "true":
+                return True
+        return False
+
+    if to_bool(json.get("expedited", False)):
         if "year" in json and "month" in json and "day" in json:
             json["expedited_date"] = f"{json['year']}-{json['month']}-{json['day']}"
+
+    else:
+        if "expedited_date" in json:
+            del json["expedited_date"]
 
     empty_keys = []
     for key in json:
@@ -28,7 +42,6 @@ def questions_action(request, pk, json):
             empty_keys.append(key)
     for key in empty_keys:
         del json[key]
-
     return post_application_questions(request, pk, json)
 
 
