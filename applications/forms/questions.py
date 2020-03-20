@@ -1,8 +1,6 @@
 from lite_content.lite_exporter_frontend import generic
 from lite_content.lite_exporter_frontend.applications import F680Questions
-from lite_forms.components import (
-    FormGroup, Form, RadioButtons, Option, TextArea, DateInput, CurrencyInput, Label
-)
+from lite_forms.components import FormGroup, Form, RadioButtons, Option, TextArea, DateInput, CurrencyInput
 
 
 def questions_forms():
@@ -15,9 +13,9 @@ def questions_forms():
             electronic_warfare_form(),
             uk_service_equipment_form(),
             uk_service_equipment_type_form(),
-            prospect_value_form()
+            prospect_value_form(),
         ],
-        show_progress_indicators=True
+        show_progress_indicators=True,
     )
 
 
@@ -130,11 +128,7 @@ def electronic_warfare_form():
             RadioButtons(
                 name="electronic_warfare_requirement",
                 options=[
-                    Option(
-                        key=True,
-                        description=F680Questions.EWRequirement.ATTACHMENT,
-                        value="Yes",
-                    ),
+                    Option(key=True, description=F680Questions.EWRequirement.ATTACHMENT, value="Yes",),
                     Option(key=False, value="No"),
                 ],
             )
@@ -153,12 +147,7 @@ def uk_service_equipment_form():
                     Option(
                         key=True,
                         value="Yes",
-                        components=[
-                            TextArea(
-                                name="uk_service_equipment_description",
-                                extras={"max_length": 2200},
-                            ),
-                        ],
+                        components=[TextArea(name="uk_service_equipment_description", extras={"max_length": 2200},),],
                     ),
                     Option(key=False, value="No"),
                 ],
@@ -180,16 +169,13 @@ def uk_service_equipment_type_form():
                     Option(key="private_venture", value="Private venture"),
                 ],
             ),
-        ]
+        ],
     )
 
 
 def prospect_value_form():
     return Form(
         title=F680Questions.ProspectValue.TITLE,
-        questions=[
-            CurrencyInput(name="value")
-        ],
+        questions=[CurrencyInput(name="value")],
         default_button_name=generic.SAVE_AND_CONTINUE,
     )
-
