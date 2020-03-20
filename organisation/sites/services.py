@@ -1,3 +1,5 @@
+from http import HTTPStatus
+
 from conf.client import get, post, put
 from conf.constants import SITES_URL, ORGANISATIONS_URL, NEWLINE, USERS_URL
 from core.helpers import convert_value_to_query_param
@@ -56,6 +58,10 @@ def put_site(request, organisation_id, pk, json):
 
 
 def post_sites(request, organisation_id, json):
+    if "location" not in json:
+        # TODO strings!
+        return {"errors": {"location": ["Select a location"]}}, HTTPStatus.BAD_REQUEST
+
     data = post(request, ORGANISATIONS_URL + str(organisation_id) + SITES_URL, json)
     return data.json(), data.status_code
 
