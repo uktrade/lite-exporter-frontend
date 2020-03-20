@@ -264,9 +264,9 @@ def set_application_status(request, pk, status):
 def add_document_data(request):
     files = request.FILES.getlist("file")
     if not files:
-        return None, "Attach a file"
+        return None, "No files attached"
     if len(files) != 1:
-        return None, "Don't upload more than one file"
+        return None, "Multiple files attached"
     file = files[0]
     try:
         original_name = file.original_name
