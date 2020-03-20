@@ -62,8 +62,5 @@ class Application(Munch):
         return self.get("intended_end_use", None)
 
     @property
-    def licence_duration(self):
-        licence = self.get("licence")
-        if licence:
-            return licence.get("duration")
-        return None
+    def licence(self):
+        return self.get("licence")
