@@ -207,7 +207,8 @@ def _get_additional_information(application):
                     "Description": title,
                     "Answer": (
                         friendly_boolean(application["questions"][field])
-                        if not isinstance(value, dict) else value["value"]
+                        if not isinstance(value, dict)
+                        else value["value"]
                     ),
                 }
             )
