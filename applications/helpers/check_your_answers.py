@@ -205,7 +205,10 @@ def _get_additional_information(application):
             values_to_print.append(
                 {
                     "Description": title,
-                    "Answer": application["questions"][field] if not isinstance(value, dict) else value["value"],
+                    "Answer": (
+                        friendly_boolean(application["questions"][field])
+                        if not isinstance(value, dict) else value["value"]
+                    ),
                 }
             )
 
