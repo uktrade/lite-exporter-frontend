@@ -194,10 +194,7 @@ def declaration_form(application_id):
             ),
             # Standard conditions
             Label("<u>" + strings.declaration.LicenceConditions.StandardConditions.TITLE + "</u>"),
-            List(
-                strings.declaration.LicenceConditions.StandardConditions.BULLET_POINTS,
-                type=List.ListType.NUMBERED,
-            ),
+            List(strings.declaration.LicenceConditions.StandardConditions.BULLET_POINTS, type=List.ListType.NUMBERED,),
             # General notes
             Label("<u>" + strings.declaration.LicenceConditions.GeneralNotes.TITLE + "</u>"),
             Label(strings.declaration.LicenceConditions.GeneralNotes.LINK_TEXT),

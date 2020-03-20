@@ -13,7 +13,8 @@ from applications.forms.common import (
     application_success_page,
     application_copy_form,
     exhibition_details_form,
-    declaration_form)
+    declaration_form,
+)
 from applications.helpers.check_your_answers import convert_application_to_check_your_answers
 from applications.helpers.summaries import draft_summary
 from applications.helpers.task_lists import get_application_task_list
@@ -37,7 +38,8 @@ from applications.services import (
     get_status_properties,
     copy_application,
     post_exhibition,
-    post_declaration)
+    post_declaration,
+)
 from conf.constants import HMRC, APPLICANT_EDITING, NotificationType
 from core.helpers import str_to_bool, convert_dict_to_query_params
 from core.services import get_organisation
@@ -404,7 +406,4 @@ class Declaration(SingleFormView):
         self.action = post_declaration
 
     def get_success_url(self):
-        # Redirect to the success page to prevent the user going back after the Post
-        # Follows this pattern: https://en.wikipedia.org/wiki/Post/Redirect/Get
         return reverse_lazy("applications:success_page", kwargs={"pk": self.object_pk})
-
