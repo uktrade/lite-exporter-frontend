@@ -106,10 +106,10 @@
 				</p>
 			</div>
 			{% if request.GET|get:'return_to' %}
-				<a href="{{ request.GET|get:'return_to' }}" id="back-link" class="govuk-back-link">Back</a>
+				<a href="{{ request.GET|get:'return_to' }}" id="back-link" class="govuk-back-link">{% lcs 'generic.BACK' %}</a>
 			{% else %}
 				{% block back_link %}
-					<a href="#" id="back-link" class="govuk-back-link">Back</a>
+					<a href="#" id="back-link" class="govuk-back-link">{% lcs 'generic.BACK' %}</a>
 				{% endblock %}
 			{% endif %}
 		</section>
