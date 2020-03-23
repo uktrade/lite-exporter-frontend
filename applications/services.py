@@ -351,6 +351,7 @@ def post_exhibition(request, pk, data):
     return data.json(), data.status_code
 
 
+# Declaration
 def post_declaration(request, pk, data):
     data = post(request, APPLICATIONS_URL + str(pk) + "/declaration/", json=data)
     return data.json(), data.status_code

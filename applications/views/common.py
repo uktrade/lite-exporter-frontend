@@ -137,6 +137,7 @@ class ApplicationTaskList(TemplateView):
             return get_application_task_list(request, application, errors=data.get("errors"))
 
         if application.sub_type not in [HMRC, NotificationType.EUA, NotificationType.GOODS]:
+            # All other application types require agreement to the declaration
             return HttpResponseRedirect(reverse_lazy("applications:declaration", kwargs={"pk": application_id}))
         else:
             # Redirect to the success page to prevent the user going back after the Post
