@@ -1,4 +1,6 @@
-from pytest_bdd import scenarios, then, given
+from pytest_bdd import scenarios, then, given, when
+
+from shared.api_client.sub_helpers.users import post_user_to_great_sso
 
 scenarios("../features/register_an_organisation.feature", strict_gherkin=False)
 
@@ -8,10 +10,13 @@ def success():
     raise NotImplementedError("STEP: Then I should see a success page")
 
 
-@given("I am logged in but I don't belong to an organisation")
-def new_log_in():
+@given("I register but I don't belong to an organisation")
+def new_log_in(context):
+    response = post_user_to_great_sso()
+    context.newly_registered_email = response["email"],
+    context.newly_registered_password = response["password"],
+
+
+@when("I click the register button")
+def register():
     pass
-    # response = sso_api_client.get("/testapi/user-by-email/email_here/")
-    # print(response)
-    # response = sso_api_client.post("/testapi/test-users/", data={})
-    # response = response.json()["email"]

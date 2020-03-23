@@ -4,6 +4,8 @@ from django.conf import settings
 from faker import Faker  # noqa
 from pytest_bdd import given, when, then, parsers
 
+from pages.great_signin_page import GreatSigninPage
+from pages.start_page import StartPage
 from ui_automation_tests.pages.end_use_details_form_page import EndUseDetailsFormPage
 from ui_automation_tests.pages.add_end_user_pages import AddEndUserPages
 from ui_automation_tests.pages.application_edit_type_page import ApplicationEditTypePage
@@ -143,8 +145,13 @@ def go_to_exporter(driver, register_organisation, sso_sign_in, exporter_url, con
 
 
 @when("I go to exporter homepage")  # noqa
-def go_to_exporter_when(driver, exporter_url):  # noqa
+def go_to_exporter_when(driver, exporter_url, context):  # noqa
     driver.get(exporter_url)
+    StartPage(driver).try_click_sign_in_button()
+
+    if "login" in driver.current_url:
+        GreatSigninPage(driver).sign_in(context.newly_registered_email, context.newly_registered_password)
+
 
 
 @when("I enter a licence name")  # noqa
