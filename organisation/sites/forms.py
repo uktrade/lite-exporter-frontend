@@ -15,7 +15,8 @@ from lite_forms.components import (
     FormGroup,
     HiddenField,
     Checkboxes,
-    Filter)
+    Filter,
+)
 from lite_forms.helpers import conditional
 from lite_forms.styles import HeadingStyle
 
