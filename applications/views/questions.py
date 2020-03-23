@@ -80,6 +80,4 @@ class AdditionalInformationFormView(SummaryListFormView):
             "prospect_value",
         ]
         application = get_application(request, application_id)
-        return {
-            field: application[field] for field in fields if application.get(field) is not None
-        }
+        return {field: application[field] for field in fields if application.get(field) is not None}
