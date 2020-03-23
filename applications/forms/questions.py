@@ -178,6 +178,6 @@ def uk_service_equipment_type_form():
 def prospect_value_form():
     return Form(
         title=F680Questions.ProspectValue.TITLE,
-        questions=[CurrencyInput(name="value")],
+        questions=[CurrencyInput(name="prospect_value")],
         default_button_name=generic.SAVE_AND_CONTINUE,
     )

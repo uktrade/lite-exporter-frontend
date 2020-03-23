@@ -4,7 +4,7 @@ from django.contrib.humanize.templatetags.humanize import intcomma
 from django.urls import reverse_lazy
 
 from applications.forms.questions import questions_forms
-from applications.services import post_application_questions, get_application_questions
+from applications.services import put_application, get_application
 from lite_content.lite_exporter_frontend import applications
 from lite_content.lite_exporter_frontend import generic
 from lite_forms.views import SummaryListFormView
@@ -40,15 +40,13 @@ def questions_action(request, pk, json):
             pass
         if not isinstance(json[key], bool) and not json[key]:
             empty_keys.append(key)
-    for key in empty_keys:
-        del json[key]
-    return post_application_questions(request, pk, json)
+    return put_application(request, pk, json)
 
 
-class QuestionsFormView(SummaryListFormView):
+class AdditionalInformationFormView(SummaryListFormView):
     def init(self, request, **kwargs):
         self.object_pk = str(kwargs["pk"])
-        self.data = get_application_questions(request, self.object_pk)
+        self.data = self.get_additional_information(request, self.object_pk)
         self.forms = questions_forms()
         self.action = questions_action
         self.success_url = reverse_lazy("applications:task_list", kwargs={"pk": self.object_pk})
@@ -63,3 +61,25 @@ class QuestionsFormView(SummaryListFormView):
         if "value" in data and data["value"]:
             data["value"] = f"£{intcomma(data['value'])}"
         return data
+
+    @staticmethod
+    def get_additional_information(request, application_id):
+        fields = [
+            "expedited",
+            "expedited_date",
+            "expedited_description",
+            "foreign_technology",
+            "foreign_technology_description",
+            "locally_manufactured",
+            "locally_manufactured_description",
+            "mtcr_type",
+            "electronic_warfare_requirement",
+            "uk_service_equipment",
+            "uk_service_equipment_description",
+            "uk_service_equipment_type",
+            "prospect_value",
+        ]
+        application = get_application(request, application_id)
+        return {
+            field: application[field] for field in fields if application.get(field) is not None
+        }

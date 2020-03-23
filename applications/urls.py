@@ -57,7 +57,7 @@ urlpatterns = [
     ),
     # F680 details
     path("<uuid:pk>/f680-details/", f680_details.F680Details.as_view(), name="f680_details"),
-    path("<uuid:pk>/questions/", questions.QuestionsFormView.as_view(), name="questions"),
+    path("<uuid:pk>/questions/", questions.AdditionalInformationFormView.as_view(), name="questions"),
     # Goods Types
     path("<uuid:pk>/goods-types/", goods_types.GoodsTypeList.as_view(), name="goods_types"),
     path("<uuid:pk>/goods-types/countries/", goods_types.GoodsTypeCountries.as_view(), name="goods_countries"),

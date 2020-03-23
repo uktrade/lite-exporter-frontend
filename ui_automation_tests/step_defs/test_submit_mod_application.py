@@ -113,6 +113,6 @@ def add_new_additional_information(driver, context):  # noqa
     functions.click_submit(driver)
     click_radio_button(driver, "uk_service_equipment_type-mod_funded")
     functions.click_submit(driver)
-    functions.enter_value(driver, element_id="value", value=100)
+    functions.enter_value(driver, element_id="prospect_value", value=100)
     functions.click_submit(driver)
     functions.click_submit(driver, button_value="finish")
