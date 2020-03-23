@@ -81,7 +81,8 @@
 			</dd>
 			<dt class="govuk-summary-list__actions">
 				<a href="{% url 'organisation:sites:site' organisation.primary_site.id %}?return_to={{ request.path }}" class="govuk-link govuk-link--no-visited-state">
-					{% lcs 'generic.VIEW' %} <span class="govuk-visually-hidden">{% lcs 'organisation.Details.PRIMARY_SITE' %}</span>
+					{% lcs 'generic.VIEW' %}
+					<span class="govuk-visually-hidden"> {% lcs 'organisation.Details.PRIMARY_SITE' %}</span>
 				</a>
 			</dt>
 		</div>
