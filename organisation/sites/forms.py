@@ -88,9 +88,7 @@ def new_site_forms(request):
 def edit_site_name_form(site):
     return Form(
         title=strings.sites.SitesPage.EDIT + site["name"],
-        questions=[
-            TextInput(title="Name", name="name"),
-        ],
+        questions=[TextInput(title="Name", name="name"),],
         back_link=BackLink(
             strings.sites.SitesPage.BACK_TO + site["name"],
             reverse_lazy("organisation:sites:site", kwargs={"pk": site["id"]}),
@@ -101,9 +99,7 @@ def edit_site_name_form(site):
 def edit_site_address_form(site):
     return Form(
         title=strings.sites.SitesPage.EDIT + site["name"],
-        questions=[
-            *address_questions(get_countries(None, True)),
-        ],
+        questions=[*address_questions(get_countries(None, True)),],
         back_link=BackLink(
             strings.sites.SitesPage.BACK_TO + site["name"],
             reverse_lazy("organisation:sites:site", kwargs={"pk": site["id"]}),
