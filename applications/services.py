@@ -26,6 +26,7 @@ from conf.constants import (
     COUNTRIES_URL,
     PARTIES_URL,
     APPLICATION_COPY_URL,
+    END_USE_DETAILS_URL,
 )
 from conf.settings import AWS_STORAGE_BUCKET_NAME, STREAMING_CHUNK_SIZE
 from core.helpers import remove_prefix, convert_parameters_to_query_params, add_validate_only_to_data
@@ -59,6 +60,11 @@ def put_application(request, pk, json):
 
 def put_application_route_of_goods(request, pk, json):
     data = put(request, APPLICATIONS_URL + str(pk) + "/route-of-goods/", json)
+    return data.json(), data.status_code
+
+
+def put_end_use_details(request, pk, json):
+    data = put(request, APPLICATIONS_URL + str(pk) + END_USE_DETAILS_URL, json)
     return data.json(), data.status_code
 
 
