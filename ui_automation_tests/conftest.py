@@ -150,13 +150,8 @@ def go_to_exporter(driver, register_organisation, sso_sign_in, exporter_url, con
 
 
 @when("I go to exporter homepage")  # noqa
-def go_to_exporter_when(driver, exporter_url, context):  # noqa
+def go_to_exporter_when(driver, exporter_url):  # noqa
     driver.get(exporter_url)
-    StartPage(driver).try_click_sign_in_button()
-
-    if "login" in driver.current_url:
-        GreatSigninPage(driver).sign_in(context.newly_registered_email, context.newly_registered_password)
-
 
 
 @when("I enter a licence name")  # noqa
