@@ -13,6 +13,7 @@ from lite_forms.components import (
     BackLink,
     Label,
     List,
+    HiddenField,
 )
 from lite_forms.helpers import conditional
 from lite_forms.styles import ButtonStyle
@@ -150,6 +151,7 @@ def register_a_commercial_organisation_group(location):
                 description=RegisterAnOrganisation.Commercial.DESCRIPTION,
                 caption="Step 3 of 4",
                 questions=[
+                    HiddenField("location", location),
                     TextInput(
                         title=RegisterAnOrganisation.Commercial.NAME,
                         description=RegisterAnOrganisation.Commercial.NAME_DESCRIPTION,
@@ -203,6 +205,7 @@ def register_an_individual_group(location):
                 description=RegisterAnOrganisation.Individual.DESCRIPTION,
                 caption="Step 3 of 4",
                 questions=[
+                    HiddenField("location", location),
                     TextInput(
                         title=RegisterAnOrganisation.Individual.NAME,
                         description=RegisterAnOrganisation.Individual.NAME_DESCRIPTION,

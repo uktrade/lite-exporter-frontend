@@ -122,7 +122,7 @@ class ChangeUserStatus(TemplateView):
 class AssignSites(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
-        self.data = get_user(request, self.object_pk)
+        self.data = get_user(request, self.object_pk)["user"]
         self.form = assign_sites(request)
         self.action = put_assign_sites
         self.success_url = reverse_lazy("organisation:members:user", kwargs={"pk": self.object_pk})
