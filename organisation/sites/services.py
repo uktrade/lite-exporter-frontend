@@ -49,7 +49,7 @@ def get_sites(request, organisation_id, convert_to_options=False, exclude: list 
 
 def get_site(request, organisation_id, pk):
     data = get(request, ORGANISATIONS_URL + str(organisation_id) + SITES_URL + str(pk))
-    return data.json()["site"]
+    return data.json()
 
 
 def update_site(request, pk, json):
