@@ -4,6 +4,7 @@ from conf.client import get, post, put, patch
 from conf.constants import SITES_URL, ORGANISATIONS_URL, NEWLINE, USERS_URL
 from core.helpers import convert_value_to_query_param
 from lite_content.lite_exporter_frontend import strings
+from lite_content.lite_exporter_frontend.sites import AddSiteForm
 from lite_forms.components import Option
 
 
@@ -59,8 +60,7 @@ def update_site(request, pk, json):
 
 def post_sites(request, organisation_id, json):
     if "location" not in json:
-        # TODO strings!
-        return {"errors": {"location": ["Select a location"]}}, HTTPStatus.BAD_REQUEST
+        return {"errors": {"location": [AddSiteForm.WhereIsYourSiteBased.ERROR]}}, HTTPStatus.BAD_REQUEST
 
     data = post(request, ORGANISATIONS_URL + str(organisation_id) + SITES_URL, json)
     return data.json(), data.status_code

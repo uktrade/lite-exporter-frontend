@@ -1,16 +1,16 @@
 from http import HTTPStatus
 
+from lite_content.lite_exporter_frontend.core import RegisterAnOrganisation
+
 
 def validate_register_organisation_triage(_, json):
     errors = {}
 
-    # TODO strings!
-
     if not json.get("type"):
-        errors["type"] = ["Select the type of organisation you're registering for"]
+        errors["type"] = [RegisterAnOrganisation.CommercialOrIndividual.ERROR]
 
     if not json.get("location"):
-        errors["location"] = ["Select the type of organisation you're registering for"]
+        errors["location"] = [RegisterAnOrganisation.WhereIsYourOrganisationBased.ERROR]
 
     if errors:
         return {"errors": errors}, HTTPStatus.BAD_REQUEST

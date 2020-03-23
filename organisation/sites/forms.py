@@ -28,14 +28,22 @@ def new_site_forms(request):
         [
             Form(
                 caption="Step 1 of 3",
-                title="Where is your site based?",
-                description="",
+                title=AddSiteForm.WhereIsYourSiteBased.TITLE,
+                description=AddSiteForm.WhereIsYourSiteBased.DESCRIPTION,
                 questions=[
                     RadioButtons(
                         name="location",
                         options=[
-                            Option("united_kingdom", "In the United Kingdom"),
-                            Option("abroad", "Outside the United Kingdom"),
+                            Option(
+                                key="united_kingdom",
+                                value=AddSiteForm.WhereIsYourSiteBased.IN_THE_UK,
+                                description=AddSiteForm.WhereIsYourSiteBased.IN_THE_UK_DESCRIPTION,
+                            ),
+                            Option(
+                                key="abroad",
+                                value=AddSiteForm.WhereIsYourSiteBased.OUTSIDE_THE_UK,
+                                description=AddSiteForm.WhereIsYourSiteBased.OUTSIDE_THE_UK_DESCRIPTION,
+                            ),
                         ],
                     )
                 ],
@@ -44,12 +52,13 @@ def new_site_forms(request):
             ),
             Form(
                 caption="Step 2 of 3",
-                title="Site details",
+                title=AddSiteForm.Details.TITLE,
+                description=AddSiteForm.Details.DESCRIPTION,
                 questions=[
-                    TextInput(title="Name", name="name"),
+                    TextInput(title=AddSiteForm.Details.NAME, name="name"),
                     Heading(
                         conditional(
-                            in_uk, "Where in the United Kingdom is your site based?", "Where is your site based?"
+                            in_uk, AddSiteForm.Details.ADDRESS_HEADER_UK, AddSiteForm.Details.ADDRESS_HEADER_ABROAD
                         ),
                         HeadingStyle.M,
                     ),
@@ -62,10 +71,10 @@ def new_site_forms(request):
             ),
             Form(
                 caption="Step 3 of 3",
-                title="Assign users to the site (optional)",
-                description="Users with the permission to manage sites will still be able to access the site. You can still assign users later.",
+                title=AddSiteForm.AssignUsers.TITLE,
+                description=AddSiteForm.AssignUsers.DESCRIPTION,
                 questions=[
-                    Filter(placeholder="Filter users"),
+                    Filter(placeholder=AddSiteForm.AssignUsers.FILTER),
                     Checkboxes(
                         name="users[]",
                         options=get_organisation_users(

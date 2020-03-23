@@ -157,12 +157,12 @@ def get_organisation(request, pk):
 
 
 def get_organisation_users(request, pk, params, convert_to_options=False):
-    data = get(request, ORGANISATIONS_URL + str(pk) + "/users/?" + urlencode(params))
+    response = get(request, ORGANISATIONS_URL + str(pk) + "/users/?" + urlencode(params))
 
     if convert_to_options:
         options = []
 
-        for user in data.json():
+        for user in response.json():
             title = user["first_name"] + " " + user["last_name"] if user["first_name"] else user["email"]
             description = user["email"] if user["first_name"] else ""
 
@@ -170,7 +170,7 @@ def get_organisation_users(request, pk, params, convert_to_options=False):
 
         return options
 
-    return data.json(), data.status_code
+    return response.json()
 
 
 def get_organisation_user(request, pk, user_pk):
@@ -249,12 +249,6 @@ def _register_organisation(request, json, _type):
         "user": {"email": request.user.email,},
     }
     response = post(request, ORGANISATIONS_URL, {**json, **data})
-    print("\n")
-    print("\n")
-    print("response")
-    print(response.json())
-    print("\n")
-    print("\n")
     return response.json(), response.status_code
 
 

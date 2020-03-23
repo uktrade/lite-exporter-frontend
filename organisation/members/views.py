@@ -19,7 +19,7 @@ class Members(OrganisationView):
     def get_additional_context(self):
         status = self.request.GET.get("status", "active")
         params = {"page": int(self.request.GET.get("page", 1)), "status": status}
-        data, _ = get_organisation_users(self.request, str(self.request.user.organisation), params)
+        users = get_organisation_users(self.request, str(self.request.user.organisation), params)
         statuses = [
             Option(option["key"], option["value"])
             for option in [{"key": "active", "value": "Active"}, {"key": "", "value": "All"}]
@@ -28,7 +28,7 @@ class Members(OrganisationView):
 
         return {
             "status": status,
-            "data": data,
+            "data": users,
             "page": params.pop("page"),
             "params_str": convert_dict_to_query_params(params),
             "filters": filters,
