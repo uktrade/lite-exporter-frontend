@@ -249,6 +249,12 @@ def _register_organisation(request, json, _type):
         "user": {"email": request.user.email,},
     }
     response = post(request, ORGANISATIONS_URL, {**json, **data})
+    print('\n')
+    print('\n')
+    print('response')
+    print(response.json())
+    print('\n')
+    print('\n')
     return response.json(), response.status_code
 
 

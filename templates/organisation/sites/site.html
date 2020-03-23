@@ -17,30 +17,35 @@
 {% endblock %}
 
 {% block full_width %}
-	<div class="lite-app-bar">
-		<div class="lite-app-bar__content">
-			<h1 class="govuk-heading-xl">
-				{% block title %}
-					{{ site.name }}
-				{% endblock %}
-			</h1>
-		</div>
-		<div class="lite-app-bar__controls">
-			<a id="button-edit" href="{% url 'organisation:sites:edit' site.id %}" class="govuk-button govuk-button--secondary">
-				{% lcs "sites.SitesPage.EDIT_SITE" %}
-			</a>
-		</div>
-	</div>
+	<h1 class="govuk-heading-xl">
+		{% block title %}
+			{{ site.name }}
+		{% endblock %}
+	</h1>
 {% endblock %}
 
 {% block two_thirds %}
 	{% if site.id == organisation.primary_site.id %}
 		<div class="govuk-!-margin-bottom-8">
-			<span class="govuk-inset-text">{% lcs "sites.SitesPage.PRIMARY_SITE_DETAIL" %}</span>
+			<span class="govuk-inset-text">{% lcs "sites.SitePage.PRIMARY_SITE_DETAIL" %}</span>
 		</div>
 	{% endif %}
 
 	<dl class="govuk-summary-list govuk-summary-list--no-border">
+		<div class="govuk-summary-list__row">
+			<dt class="govuk-summary-list__key">
+				{% lcs "sites.SitePage.SummaryList.NAME" %}
+			</dt>
+			<dd class="govuk-summary-list__value">
+				{{ site.name }}
+			</dd>
+			<dd class="govuk-summary-list__actions">
+				<a href="{% url 'organisation:sites:edit_name' site.id %}#name" class="govuk-link govuk-link--no-visited-state">
+					{% lcs 'generic.CHANGE' %}
+					<span class="govuk-visually-hidden">{% lcs "sites.SitePage.SummaryList.NAME" %}</span>
+				</a>
+			</dd>
+		</div>
 		{% if site.address %}
 			<div class="govuk-summary-list__row">
 				<dt class="govuk-summary-list__key">
@@ -48,6 +53,9 @@
 				</dt>
 				<dd class="govuk-summary-list__value">
 					{{ site.address.address_line_1 }}
+				</dd>
+				<dd class="govuk-summary-list__actions">
+					<a href="#" class="govuk-link govuk-link--no-visited-state">{% lcs 'generic.CHANGE' %} <span class="govuk-visually-hidden">{% lcs "generic.Address.ADDRESS" %}</span></a>
 				</dd>
 			</div>
 			{% if site.address.address_line_2 %}
@@ -98,6 +106,9 @@
 				<dd class="govuk-summary-list__value">
 					{{ site.foreign_address.address }}
 				</dd>
+				<dd class="govuk-summary-list__actions">
+					<a href="#" class="govuk-link govuk-link--no-visited-state">{% lcs 'generic.CHANGE' %} <span class="govuk-visually-hidden">{% lcs "generic.Address.ADDRESS" %}</span></a>
+				</dd>
 			</div>
 			<div class="govuk-summary-list__row">
 				<dt class="govuk-summary-list__key">
@@ -112,7 +123,7 @@
 
 	<hr class="lite-horizontal-separator">
 
-	<h2 class="govuk-heading-m">{% lcs "sites.SitesPage.MEMBERS" %}</h2>
+	<h2 class="govuk-heading-m">{% lcs "sites.SitePage.MEMBERS" %}</h2>
 	<dl class="govuk-summary-list govuk-summary-list--no-border">
 		{% for user in site.users %}
 			<div class="govuk-summary-list__row">
@@ -129,8 +140,8 @@
 					{{ user.email }}
 				</dd>
 				<dd class="govuk-summary-list__actions">
-					<a class="govuk-link" href="{% url 'organisation:members:user' user.id %}">
-						{% lcs 'generic.VIEW' %}
+					<a class="govuk-link govuk-link--no-visited-state" href="{% url 'organisation:members:user' user.id %}?return_to={{ request.path }}">
+						{% lcs 'generic.VIEW' %} <span class="govuk-visually-hidden">{% if user.first_name %}{{ user.first_name }} {{ user.last_name }}'s{% else %}{{ user.email }}{% endif %} profile</span>
 					</a>
 				</dd>
 			</div>

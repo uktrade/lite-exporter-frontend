@@ -4,21 +4,6 @@ from lite_forms.components import Option
 from organisation.members.services import get_user
 
 
-def get_site(request, organisation_id, pk):
-    data = get(request, ORGANISATIONS_URL + organisation_id + SITES_URL + pk)
-    return data.json(), data.status_code
-
-
-def put_site(request, organisation_id, pk, json):
-    data = put(request, ORGANISATIONS_URL + organisation_id + SITES_URL + pk + "/", json=json)
-    return data.json(), data.status_code
-
-
-def post_sites(request, organisation_id, json):
-    data = post(request, ORGANISATIONS_URL + organisation_id + SITES_URL, json)
-    return data.json(), data.status_code
-
-
 def get_roles(request, organisation_id, convert_to_options=False):
     data = get(request, ORGANISATIONS_URL + str(organisation_id) + ROLES_URL).json()["results"]
 

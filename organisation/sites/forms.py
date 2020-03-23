@@ -1,7 +1,8 @@
 from conf.constants import Permissions
-from lite_content.lite_exporter_frontend import strings
+from lite_content.lite_exporter_frontend import strings, generic
 from django.urls import reverse_lazy
 
+from lite_content.lite_exporter_frontend.sites import AddSiteForm
 from lite_forms.common import address_questions, foreign_address_questions
 from lite_forms.components import (
     Heading,
@@ -39,8 +40,8 @@ def new_site_forms(request):
                         ],
                     )
                 ],
-                default_button_name="Continue",
-                back_link=BackLink("Back to sites", reverse_lazy("organisation:sites:sites")),
+                default_button_name=generic.CONTINUE,
+                back_link=BackLink(AddSiteForm.BACK_LINK, reverse_lazy("organisation:sites:sites")),
             ),
             Form(
                 caption="Step 2 of 3",
@@ -58,12 +59,12 @@ def new_site_forms(request):
                     ),
                     HiddenField("validate_only", True),
                 ],
-                default_button_name="Save and continue",
+                default_button_name=generic.CONTINUE,
             ),
             Form(
                 caption="Step 3 of 3",
                 title="Assign users to the site (optional)",
-                description="Users with the permission to manage sites will still be able to access the site",
+                description="Users with the permission to manage sites will still be able to access the site. You can still assign users later.",
                 questions=[
                     Filter(placeholder="Filter users"),
                     Checkboxes(
@@ -78,18 +79,29 @@ def new_site_forms(request):
                     HiddenField("validate_only", False),
                 ],
                 javascript_imports=["/assets/javascripts/filter-checkbox-list.js"],
-                default_button_name="Save and continue",
+                default_button_name=generic.SAVE_AND_CONTINUE,
             ),
         ]
     )
 
 
-def edit_site_form(site):
+def edit_site_name_form(site):
     return Form(
         title=strings.sites.SitesPage.EDIT + site["name"],
         questions=[
             TextInput(title="Name", name="name"),
-            Heading("Address", HeadingStyle.M),
+        ],
+        back_link=BackLink(
+            strings.sites.SitesPage.BACK_TO + site["name"],
+            reverse_lazy("organisation:sites:site", kwargs={"pk": site["id"]}),
+        ),
+    )
+
+
+def edit_site_address_form(site):
+    return Form(
+        title=strings.sites.SitesPage.EDIT + site["name"],
+        questions=[
             *address_questions(get_countries(None, True)),
         ],
         back_link=BackLink(

@@ -38,7 +38,7 @@ class Home(TemplateView):
         try:
             user = get_user(request)
             user_permissions = user["role"]["permissions"]
-        except (JSONDecodeError, TypeError):
+        except (JSONDecodeError, TypeError, KeyError):
             return redirect("auth:login")
 
         if Permissions.ADMINISTER_USERS in user_permissions:
@@ -202,6 +202,8 @@ class RegisterAnOrganisation(SummaryListFormView):
     def prettify_data(self, data):
         if "site.address.country" in data and data["site.address.country"]:
             data["site.address.country"] = get_country(self.request, data["site.address.country"])["name"]
+        if "site.foreign_address.country" in data and data["site.foreign_address.country"]:
+            data["site.foreign_address.country"] = get_country(self.request, data["site.foreign_address.country"])["name"]
         if "site.address.address_line_2" in data and data["site.address.address_line_2"]:
             data["site.address.address_line_1"] = (
                 data["site.address.address_line_1"] + NEWLINE + data["site.address.address_line_2"]

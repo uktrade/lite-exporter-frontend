@@ -1,6 +1,6 @@
 from http import HTTPStatus
 
-from conf.client import get, post, put
+from conf.client import get, post, put, patch
 from conf.constants import SITES_URL, ORGANISATIONS_URL, NEWLINE, USERS_URL
 from core.helpers import convert_value_to_query_param
 from lite_content.lite_exporter_frontend import strings
@@ -52,9 +52,9 @@ def get_site(request, organisation_id, pk):
     return data.json()["site"]
 
 
-def put_site(request, organisation_id, pk, json):
-    data = put(request, ORGANISATIONS_URL + organisation_id + SITES_URL + pk + "/", json=json)
-    return data.json(), data.status_code
+def update_site(request, pk, json):
+    response = patch(request, ORGANISATIONS_URL + str(request.user.organisation) + SITES_URL + str(pk) + "/", json=json)
+    return response.json(), response.status_code
 
 
 def post_sites(request, organisation_id, json):

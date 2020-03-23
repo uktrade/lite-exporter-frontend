@@ -131,8 +131,8 @@ def site_form(is_individual, location):
             ),
             *conditional(
                 location == "united_kingdom",
-                [*address_questions(None, False, "site.address."), HiddenField("country", "gb")],
-                foreign_address_questions(get_countries(None, True)),
+                address_questions(None, "site.address."),
+                foreign_address_questions(get_countries(None, True, ["GB"]), "site.foreign_address."),
             ),
         ],
         default_button_name=generic.CONTINUE,
