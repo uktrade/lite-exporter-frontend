@@ -1,5 +1,6 @@
 from random import randint
 
+import pytest
 from pytest_bdd import scenarios, then, given, when
 
 from conftest import fake
@@ -60,6 +61,7 @@ def go_to_exporter_when(driver, exporter_url, context):  # noqa
     driver.get(exporter_url.rstrip("/") + "/auth/logout")
     if "accounts/logout" in driver.current_url:
         driver.find_element_by_css_selector("[action='/sso/accounts/logout/'] button").click()
+    driver.get(exporter_url)
     StartPage(driver).try_click_sign_in_button()
 
     if "login" in driver.current_url:
