@@ -1,4 +1,3 @@
-from lite_content.lite_exporter_frontend import strings
 from ui_automation_tests.shared.BasePage import BasePage
 from ui_automation_tests.shared.tools.helpers import scroll_to_element_by_id
 
