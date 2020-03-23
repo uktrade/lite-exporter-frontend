@@ -40,7 +40,7 @@ class ViewSite(TemplateView):
         return render(request, "organisation/sites/site.html", context)
 
 
-class EditSite(SingleFormView):
+class EditSiteName(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
         site = get_site(request, request.user.organisation, self.object_pk)

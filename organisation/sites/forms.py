@@ -1,7 +1,8 @@
-from conf.constants import Permissions
-from lite_content.lite_exporter_frontend import strings, generic
 from django.urls import reverse_lazy
 
+from conf.constants import Permissions
+from core.services import get_countries, get_organisation_users
+from lite_content.lite_exporter_frontend import strings, generic
 from lite_content.lite_exporter_frontend.sites import AddSiteForm
 from lite_forms.common import address_questions, foreign_address_questions
 from lite_forms.components import (
@@ -14,12 +15,9 @@ from lite_forms.components import (
     FormGroup,
     HiddenField,
     Checkboxes,
-    Filter,
-)
+    Filter)
 from lite_forms.helpers import conditional
 from lite_forms.styles import HeadingStyle
-
-from core.services import get_countries, get_organisation_users
 
 
 def new_site_forms(request):
@@ -89,17 +87,6 @@ def edit_site_name_form(site):
     return Form(
         title=strings.sites.SitesPage.EDIT + site["name"],
         questions=[TextInput(title="Name", name="name"),],
-        back_link=BackLink(
-            strings.sites.SitesPage.BACK_TO + site["name"],
-            reverse_lazy("organisation:sites:site", kwargs={"pk": site["id"]}),
-        ),
-    )
-
-
-def edit_site_address_form(site):
-    return Form(
-        title=strings.sites.SitesPage.EDIT + site["name"],
-        questions=[*address_questions(get_countries(None, True)),],
         back_link=BackLink(
             strings.sites.SitesPage.BACK_TO + site["name"],
             reverse_lazy("organisation:sites:site", kwargs={"pk": site["id"]}),
