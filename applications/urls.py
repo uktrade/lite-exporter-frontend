@@ -261,7 +261,7 @@ urlpatterns = [
     ),
     path("<uuid:pk>/clearance/", clearance.SetClearanceLevel.as_view(), name="clearance_level"),
     path("<uuid:pk>/exhibition-details", common.ExhibitionDetail.as_view(), name="exhibition_details"),
-    path("<uuid:pk>/declaration", common.Declaration.as_view(), name="declaration"),
+    path("<uuid:pk>/declaration", common.ApplicationDeclaration.as_view(), name="declaration"),
     # This HAS to be at the bottom, otherwise it will swallow other url calls
     path("<uuid:pk>/", common.ApplicationDetail.as_view(), name="application"),
 ]

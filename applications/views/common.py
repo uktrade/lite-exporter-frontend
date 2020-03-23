@@ -398,7 +398,7 @@ class ExhibitionDetail(SingleFormView):
         return reverse_lazy("applications:task_list", kwargs={"pk": self.object_pk})
 
 
-class Declaration(SingleFormView):
+class ApplicationDeclaration(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
         self.data = get_application(request, self.object_pk)
