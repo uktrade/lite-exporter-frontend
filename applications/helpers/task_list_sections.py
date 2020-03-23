@@ -56,3 +56,9 @@ def get_end_use_details(application, is_standard_application=False):
         if application[field] is None:
             return False
     return True
+
+
+def get_route_of_goods(application):
+    if application["is_shipped_waybill_or_lading"] is None:
+        return False
+    return True

@@ -1,6 +1,11 @@
 from django.shortcuts import render
 
-from applications.helpers.task_list_sections import get_reference_number_description, get_edit_type, get_end_use_details
+from applications.helpers.task_list_sections import (
+    get_reference_number_description,
+    get_edit_type,
+    get_end_use_details,
+    get_route_of_goods,
+)
 from applications.services import (
     get_application_countries,
     get_application_goods_types,
@@ -68,6 +73,7 @@ def get_application_task_list(request, application, errors=None):
     if application_type == STANDARD:
         context["reference_number_description"] = get_reference_number_description(application)
         context["end_use_details"] = get_end_use_details(application, True)
+        context["route_of_goods"] = get_route_of_goods(application)
 
     if application_type == OPEN:
         context["countries"] = get_application_countries(request, application["id"])
@@ -76,6 +82,7 @@ def get_application_task_list(request, application, errors=None):
         if application.get("goods_types"):
             destination_countries = [goods_type["countries"] for goods_type in application.get("goods_types")][0]
             context["destinations"] = set([destination["id"] for destination in destination_countries])
+        context["route_of_goods"] = get_route_of_goods(application)
     else:
         context["goods"] = get_application_goods(request, application["id"])
         context["ultimate_end_users_required"] = True in [good["is_good_incorporated"] for good in context["goods"]]

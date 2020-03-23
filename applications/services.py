@@ -57,6 +57,11 @@ def put_application(request, pk, json):
     return data.json(), data.status_code
 
 
+def put_application_route_of_goods(request, pk, json):
+    data = put(request, APPLICATIONS_URL + str(pk) + "/route-of-goods/", json)
+    return data.json(), data.status_code
+
+
 def put_application_with_clearance_types(request, pk, json):
     # Inject the clearance types as an empty set into JSON if they are not present
     json["types"] = json.get("types", [])
