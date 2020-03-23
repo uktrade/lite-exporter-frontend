@@ -130,7 +130,7 @@ def site_form(is_individual, location):
                 name="site.name",
             ),
             *conditional(
-                location == "united_kingdom",
+                is_in_uk,
                 address_questions(None, "site.address."),
                 foreign_address_questions(get_countries(None, True, ["GB"]), "site.foreign_address."),
             ),
