@@ -77,8 +77,8 @@ def register_triage():
                 default_button_name=generic.CONTINUE,
             ),
             Form(
-                title="Where is your organisation based?",
-                description="",
+                title=RegisterAnOrganisation.WhereIsYourOrganisationBased.TITLE,
+                description=RegisterAnOrganisation.WhereIsYourOrganisationBased.DESCRIPTION,
                 caption="Step 2 of 4",
                 questions=[
                     RadioButtons(
@@ -86,13 +86,13 @@ def register_triage():
                         options=[
                             Option(
                                 key=RegisterAnOrganisationTriage.Locations.UNITED_KINGDOM,
-                                value="In the United Kingdom",
-                                description="",
+                                value=RegisterAnOrganisation.WhereIsYourOrganisationBased.IN_THE_UK,
+                                description=RegisterAnOrganisation.WhereIsYourOrganisationBased.IN_THE_UK_DESCRIPTION,
                             ),
                             Option(
                                 key=RegisterAnOrganisationTriage.Locations.ABROAD,
-                                value="Outside of the United Kingdom",
-                                description="",
+                                value=RegisterAnOrganisation.WhereIsYourOrganisationBased.OUTSIDE_THE_UK,
+                                description=RegisterAnOrganisation.WhereIsYourOrganisationBased.OUTSIDE_THE_UK_DESCRIPTION,
                             ),
                         ],
                     )
@@ -106,16 +106,16 @@ def register_triage():
 def site_form(is_individual, location):
     from core.views import RegisterAnOrganisationTriage
 
+    is_in_uk = location == RegisterAnOrganisationTriage.Locations.UNITED_KINGDOM
+
     return Form(
         title=conditional(
             not is_individual,
             conditional(
-                location == RegisterAnOrganisationTriage.Locations.UNITED_KINGDOM,
-                RegisterAnOrganisation.Headquarters.TITLE,
-                RegisterAnOrganisation.Headquarters.TITLE_FOREIGN,
+                is_in_uk, RegisterAnOrganisation.Headquarters.TITLE, RegisterAnOrganisation.Headquarters.TITLE_FOREIGN,
             ),
             conditional(
-                location == RegisterAnOrganisationTriage.Locations.UNITED_KINGDOM,
+                is_in_uk,
                 RegisterAnOrganisation.Headquarters.TITLE_INDIVIDUAL,
                 RegisterAnOrganisation.Headquarters.TITLE_INDIVIDUAL_FOREIGN,
             ),
@@ -139,6 +139,10 @@ def site_form(is_individual, location):
 
 
 def register_a_commercial_organisation_group(location):
+    from core.views import RegisterAnOrganisationTriage
+
+    is_in_uk = location == RegisterAnOrganisationTriage.Locations.UNITED_KINGDOM
+
     return FormGroup(
         [
             Form(
@@ -156,24 +160,28 @@ def register_a_commercial_organisation_group(location):
                         description=RegisterAnOrganisation.Commercial.EORI_NUMBER_DESCRIPTION,
                         short_title=RegisterAnOrganisation.Commercial.EORI_NUMBER_SHORT_TITLE,
                         name="eori_number",
+                        optional=not is_in_uk,
                     ),
                     TextInput(
                         title=RegisterAnOrganisation.Commercial.SIC_NUMBER,
                         description=RegisterAnOrganisation.Commercial.SIC_NUMBER_DESCRIPTION,
                         short_title=RegisterAnOrganisation.Commercial.SIC_NUMBER_SHORT_TITLE,
                         name="sic_number",
+                        optional=not is_in_uk,
                     ),
                     TextInput(
                         title=RegisterAnOrganisation.Commercial.VAT_NUMBER,
                         description=RegisterAnOrganisation.Commercial.VAT_NUMBER_DESCRIPTION,
                         short_title=RegisterAnOrganisation.Commercial.VAT_NUMBER_SHORT_TITLE,
                         name="vat_number",
+                        optional=not is_in_uk,
                     ),
                     TextInput(
                         title=RegisterAnOrganisation.Commercial.CRN_NUMBER,
                         description=RegisterAnOrganisation.Commercial.CRN_NUMBER_DESCRIPTION,
                         short_title=RegisterAnOrganisation.Commercial.CRN_NUMBER_SHORT_TITLE,
                         name="registration_number",
+                        optional=not is_in_uk,
                     ),
                 ],
                 default_button_name=generic.CONTINUE,
@@ -184,6 +192,10 @@ def register_a_commercial_organisation_group(location):
 
 
 def register_an_individual_group(location):
+    from core.views import RegisterAnOrganisationTriage
+
+    is_in_uk = location == RegisterAnOrganisationTriage.Locations.UNITED_KINGDOM
+
     return FormGroup(
         [
             Form(
@@ -201,6 +213,7 @@ def register_an_individual_group(location):
                         description=RegisterAnOrganisation.Individual.EORI_NUMBER_DESCRIPTION,
                         short_title=RegisterAnOrganisation.Individual.EORI_NUMBER_SHORT_TITLE,
                         name="eori_number",
+                        optional=not is_in_uk,
                     ),
                     TextInput(
                         title=RegisterAnOrganisation.Individual.VAT_NUMBER,
