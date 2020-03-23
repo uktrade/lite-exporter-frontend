@@ -1,5 +1,5 @@
 from conf.client import get, post, put
-from conf.constants import SITES_URL, ORGANISATIONS_URL, ROLES_URL, EXPORTER_USERS_PERMISSIONS_URL
+from conf.constants import ORGANISATIONS_URL, ROLES_URL, EXPORTER_USERS_PERMISSIONS_URL
 from lite_forms.components import Option
 from organisation.members.services import get_user
 
