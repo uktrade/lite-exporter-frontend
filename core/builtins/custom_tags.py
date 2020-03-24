@@ -12,6 +12,7 @@ from conf.constants import CASE_SECTIONS
 from conf.constants import ISO8601_FMT, NOT_STARTED, DONE, IN_PROGRESS
 
 from lite_content.lite_exporter_frontend import strings
+from applications.constants import F680
 
 register = template.Library()
 STRING_NOT_FOUND_ERROR = "STRING_NOT_FOUND"
@@ -216,25 +217,16 @@ def task_list_additional_information_status(data):
     """
     Returns 'not started' if length of data given is none, else returns 'done'
     """
-    required_fields = [
-        "expedited",
-        "foreign_technology",
-        "locally_manufactured",
-        "mtcr_type",
-        "electronic_warfare_requirement",
-        "uk_service_equipment",
-        "prospect_value",
-    ]
     required_secondary_fields = {
         "foreign_technology": "foreign_technology_description",
         "expedited": "expedited_date",
         "locally_manufactured": "locally_manufactured_description",
     }
 
-    if all([data.get(field) in ["", None] for field in required_fields]):
+    if all([data.get(field) in ["", None] for field in F680.REQUIRED_FIELDS]):
         return NOT_STARTED
 
-    for field in required_fields:
+    for field in F680.REQUIRED_FIELDS:
         if field in data:
             if data[field] is None or data[field] == "":
                 return IN_PROGRESS

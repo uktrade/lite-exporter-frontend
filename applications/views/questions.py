@@ -3,25 +3,17 @@ import ast
 from django.contrib.humanize.templatetags.humanize import intcomma
 from django.urls import reverse_lazy
 
+from applications.constants import F680
 from applications.forms.questions import questions_forms
 from applications.services import put_application, get_application
+from core.helpers import str_to_bool
 from lite_content.lite_exporter_frontend import applications
 from lite_content.lite_exporter_frontend import generic
 from lite_forms.views import SummaryListFormView
 
 
 def questions_action(request, pk, json):
-    def to_bool(val):
-        if isinstance(val, bool):
-            return val
-        elif isinstance(val, str):
-            if val.lower() == "false":
-                return False
-            elif val.lower() == "true":
-                return True
-        return False
-
-    if to_bool(json.get("expedited", False)):
+    if str_to_bool(json.get("expedited", False)):
         if "year" in json and "month" in json and "day" in json:
             json["expedited_date"] = f"{json['year']}-{str(json['month']).zfill(2)}-{str(json['day']).zfill(2)}"
 
@@ -64,20 +56,5 @@ class AdditionalInformationFormView(SummaryListFormView):
 
     @staticmethod
     def get_additional_information(request, application_id):
-        fields = [
-            "expedited",
-            "expedited_date",
-            "expedited_description",
-            "foreign_technology",
-            "foreign_technology_description",
-            "locally_manufactured",
-            "locally_manufactured_description",
-            "mtcr_type",
-            "electronic_warfare_requirement",
-            "uk_service_equipment",
-            "uk_service_equipment_description",
-            "uk_service_equipment_type",
-            "prospect_value",
-        ]
         application = get_application(request, application_id)
-        return {field: application[field] for field in fields if application.get(field) is not None}
+        return {field: application[field] for field in F680.FIELDS if application.get(field) is not None}

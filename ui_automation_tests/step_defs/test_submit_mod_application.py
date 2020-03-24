@@ -1,13 +1,17 @@
+from datetime import datetime, timedelta
+
 from pytest_bdd import scenarios, when, parsers, then
 
-import ui_automation_tests.shared.tools.helpers as utils
 from ui_automation_tests.pages.add_end_user_pages import AddEndUserPages
-from ui_automation_tests.pages.apply_for_a_licence_page import ApplyForALicencePage
 from ui_automation_tests.pages.exporter_hub_page import ExporterHubPage
+from ui_automation_tests.pages.f680_additional_information_page import F680AdditionalInformationPage
+from ui_automation_tests.pages.shared import Shared
+from ui_automation_tests.pages.apply_for_a_licence_page import ApplyForALicencePage
 from ui_automation_tests.pages.mod_clearances.ExhibitionClearanceGood import ExhibitionClearanceGoodPage
 from ui_automation_tests.pages.shared import Shared
 from ui_automation_tests.pages.standard_application.goods import StandardApplicationGoodsPage
 from ui_automation_tests.shared import functions
+import ui_automation_tests.shared.tools.helpers as utils
 from ui_automation_tests.step_defs.test_edit_mod_application import click_radio_button
 
 scenarios("../features/submit_mod_application.feature", strict_gherkin=False)
@@ -93,20 +97,13 @@ def add_new_end_user_with_clearance(driver, type, name, website, clearance, addr
 
 @when("I add additional information")
 def add_new_additional_information(driver, context):  # noqa
-    click_radio_button(driver, "expedited-False")
-    functions.click_submit(driver)
-    click_radio_button(driver, "foreign_technology-False")
-    functions.click_submit(driver)
-    click_radio_button(driver, "locally_manufactured-False")
-    functions.click_submit(driver)
-    click_radio_button(driver, "mtcr_type-mtcr_category_2")
-    functions.click_submit(driver)
-    click_radio_button(driver, "electronic_warfare_requirement-False")
-    functions.click_submit(driver)
-    click_radio_button(driver, "uk_service_equipment-False")
-    functions.click_submit(driver)
-    click_radio_button(driver, "uk_service_equipment_type-mod_funded")
-    functions.click_submit(driver)
-    functions.enter_value(driver, element_id="prospect_value", value=100)
-    functions.click_submit(driver)
+    page = F680AdditionalInformationPage(driver)
+    page.enter_no_date()
+    page.enter_foreign_technology()
+    page.enter_locally_manufactured()
+    page.enter_mtcr_type()
+    page.enter_electronic_warfare_requirement()
+    page.enter_uk_service_equipment()
+    page.enter_uk_service_equipment_type()
+    page.enter_prospect_value()
     functions.click_submit(driver, button_value="finish")
