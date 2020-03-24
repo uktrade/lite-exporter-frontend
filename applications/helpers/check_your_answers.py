@@ -192,19 +192,15 @@ def _get_additional_information(application):
         "expedited": applications.AdditionalInformation.EXPEDITED,
         "expedited_date": applications.AdditionalInformation.EXPEDITED_DATE,
         "foreign_technology": applications.AdditionalInformation.FOREIGN_TECHNOLOGY,
-        "foreign_technology_description": applications.AdditionalInformation.FOREIGN_TECHNOLOGY_DESCRIPTION,
         "foreign_technology_type": applications.AdditionalInformation.FOREIGN_TECHNOLOGY_TYPE,
         "locally_manufactured": applications.AdditionalInformation.LOCALLY_MANUFACTURED,
-        "locally_manufactured_description": applications.AdditionalInformation.LOCALLY_MANUFACTURED_DESCRIPTION,
         "mtcr_type": applications.AdditionalInformation.MTCR_TYPE,
         "uk_service_equipment": applications.AdditionalInformation.UK_SERVICE_EQUIPMENT,
-        "uk_service_equipment_description": applications.AdditionalInformation.UK_SERVICE_EQUIPMENT_DESCRIPTION,
         "uk_service_equipment_type": applications.AdditionalInformation.UK_SERVICE_EQUIPMENT_TYPE,
         "value": applications.AdditionalInformation.VALUE,
     }
 
     values_to_print = []
-
     for field, title in field_titles.items():
         value = application.get(field)
         if value is not None:
@@ -212,7 +208,9 @@ def _get_additional_information(application):
                 {
                     "Description": title,
                     "Answer": (
-                        friendly_boolean(value)
+                        friendly_boolean(value) + NEWLINE + application.get(f"{field}_description")
+                        if isinstance(value, bool) and application.get(f"{field}_description") is not None
+                        else friendly_boolean(value)
                         if isinstance(value, bool)
                         else value["value"]
                         if isinstance(value, dict)

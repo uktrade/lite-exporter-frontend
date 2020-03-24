@@ -1,6 +1,6 @@
 from lite_content.lite_exporter_frontend import generic
 from lite_content.lite_exporter_frontend.applications import F680Questions
-from lite_forms.components import FormGroup, Form, RadioButtons, Option, TextArea, DateInput, CurrencyInput
+from lite_forms.components import FormGroup, Form, RadioButtons, Option, TextArea, DateInput, CurrencyInput, Label
 
 
 def questions_forms():
@@ -15,12 +15,12 @@ def questions_forms():
             uk_service_equipment_type_form(),
             prospect_value_form(),
         ],
-        show_progress_indicators=True,
     )
 
 
 def expedited_form():
     return Form(
+        caption=F680Questions.CAPTION,
         title=F680Questions.Expedited.TITLE,
         questions=[
             RadioButtons(
@@ -41,6 +41,7 @@ def expedited_form():
 
 def foreign_technology_form():
     return Form(
+        caption=F680Questions.CAPTION,
         title=F680Questions.ForeignTechnology.TITLE,
         questions=[
             RadioButtons(
@@ -69,6 +70,7 @@ def foreign_technology_form():
 
 def locally_manufactured_form():
     return Form(
+        caption=F680Questions.CAPTION,
         title=F680Questions.LocallyManufactured.TITLE,
         questions=[
             RadioButtons(
@@ -96,6 +98,7 @@ def locally_manufactured_form():
 
 def mtcr_form():
     return Form(
+        caption=F680Questions.CAPTION,
         title=F680Questions.MtcrType.TITLE,
         questions=[
             RadioButtons(
@@ -114,12 +117,13 @@ def mtcr_form():
 
 def electronic_warfare_form():
     return Form(
+        caption=F680Questions.CAPTION,
         title=F680Questions.EWRequirement.TITLE,
         questions=[
             RadioButtons(
                 name="electronic_warfare_requirement",
                 options=[
-                    Option(key=True, description=F680Questions.EWRequirement.ATTACHMENT, value="Yes",),
+                    Option(key=True, value="Yes", components=[Label(text=F680Questions.EWRequirement.ATTACHMENT)]),
                     Option(key=False, value="No"),
                 ],
             )
@@ -130,6 +134,7 @@ def electronic_warfare_form():
 
 def uk_service_equipment_form():
     return Form(
+        caption=F680Questions.CAPTION,
         title=F680Questions.UKServiceEquipment.TITLE,
         questions=[
             RadioButtons(
@@ -156,6 +161,7 @@ def uk_service_equipment_form():
 
 def uk_service_equipment_type_form():
     return Form(
+        caption=F680Questions.CAPTION,
         title=F680Questions.UKServiceEquipment.TYPE,
         questions=[
             RadioButtons(
@@ -174,6 +180,7 @@ def uk_service_equipment_type_form():
 
 def prospect_value_form():
     return Form(
+        caption=F680Questions.CAPTION,
         title=F680Questions.ProspectValue.TITLE,
         questions=[CurrencyInput(name="prospect_value")],
         default_button_name=generic.SAVE_AND_CONTINUE,
