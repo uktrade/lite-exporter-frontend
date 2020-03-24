@@ -4,7 +4,7 @@ import os
 from faker import Faker  # noqa
 from pytest_bdd import given, when, then, parsers
 
-from pages.route_of_goods_form_page import RouteOfGoodsFormPage
+from ui_automation_tests.pages.route_of_goods_form_page import RouteOfGoodsFormPage
 from ui_automation_tests.pages.end_use_details_form_page import EndUseDetailsFormPage
 from ui_automation_tests.pages.add_end_user_pages import AddEndUserPages
 from ui_automation_tests.pages.application_edit_type_page import ApplicationEditTypePage
