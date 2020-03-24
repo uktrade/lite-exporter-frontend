@@ -51,7 +51,7 @@ def foreign_technology_form():
                         value="Yes",
                         components=[
                             TextArea(
-                                title=F680Questions.PROVIDE_DETAILS,
+                                title=F680Questions.ForeignTechnology.PROVIDE_DETAILS,
                                 name="foreign_technology_description",
                                 description=F680Questions.ForeignTechnology.DESCRIPTION,
                                 extras={"max_length": 2200},
@@ -79,7 +79,7 @@ def locally_manufactured_form():
                         value="Yes",
                         components=[
                             TextArea(
-                                title=F680Questions.PROVIDE_DETAILS,
+                                title=F680Questions.LocallyManufactured.PROVIDE_DETAILS,
                                 name="locally_manufactured_description",
                                 extras={"max_length": 2200},
                                 optional=False,
@@ -140,7 +140,7 @@ def uk_service_equipment_form():
                         value="Yes",
                         components=[
                             TextArea(
-                                title=F680Questions.PROVIDE_DETAILS_OPTIONAL,
+                                title=F680Questions.UKServiceEquipment.PROVIDE_DETAILS_OPTIONAL,
                                 name="uk_service_equipment_description",
                                 extras={"max_length": 2200},
                             )
