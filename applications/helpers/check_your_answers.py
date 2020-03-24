@@ -247,7 +247,6 @@ def _get_end_use_details(application):
         ds = {}
         if application.get(main_field) is not None:
             ds["Description"] = display_string
-            ds["Answer"] = friendly_boolean(application.get(main_field)) + NEWLINE + (application.get(ref_field) or "")
             if not isinstance(application.get(main_field), str):
                 ds["Answer"] = (
                     friendly_boolean(application.get(main_field)) + NEWLINE + (application.get(ref_field) or "")
