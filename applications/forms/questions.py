@@ -142,7 +142,7 @@ def uk_service_equipment_form():
                             TextArea(
                                 title=F680Questions.PROVIDE_DETAILS_OPTIONAL,
                                 name="uk_service_equipment_description",
-                                extras={"max_length": 2200}
+                                extras={"max_length": 2200},
                             )
                         ],
                     ),
