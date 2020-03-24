@@ -191,7 +191,7 @@ def _get_route_of_goods(application):
     return [
         {
             "Description": "Shipped air waybill or lading",
-            "Answer": friendly_boolean(application.get("is_shipped_air_waybill_or_lading"))
+            "Answer": friendly_boolean(application.get("is_shipped_waybill_or_lading"))
             + NEWLINE
             + (application.get("non_waybill_or_lading_route_details") or ""),
         }
