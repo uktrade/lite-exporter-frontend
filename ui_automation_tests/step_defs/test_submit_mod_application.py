@@ -1,17 +1,13 @@
-from datetime import datetime, timedelta
-
 from pytest_bdd import scenarios, when, parsers, then
 
+import ui_automation_tests.shared.tools.helpers as utils
 from ui_automation_tests.pages.add_end_user_pages import AddEndUserPages
-from ui_automation_tests.pages.exporter_hub_page import ExporterHubPage
-from ui_automation_tests.pages.f680_additional_information_page import F680AdditionalInformationPage
-from ui_automation_tests.pages.shared import Shared
 from ui_automation_tests.pages.apply_for_a_licence_page import ApplyForALicencePage
+from ui_automation_tests.pages.exporter_hub_page import ExporterHubPage
 from ui_automation_tests.pages.mod_clearances.ExhibitionClearanceGood import ExhibitionClearanceGoodPage
 from ui_automation_tests.pages.shared import Shared
 from ui_automation_tests.pages.standard_application.goods import StandardApplicationGoodsPage
 from ui_automation_tests.shared import functions
-import ui_automation_tests.shared.tools.helpers as utils
 from ui_automation_tests.step_defs.test_edit_mod_application import click_radio_button
 
 scenarios("../features/submit_mod_application.feature", strict_gherkin=False)
@@ -97,10 +93,8 @@ def add_new_end_user_with_clearance(driver, type, name, website, clearance, addr
 
 @when("I add additional information")
 def add_new_additional_information(driver, context):  # noqa
-    page = F680AdditionalInformationPage(driver)
-    click_radio_button(driver, "expedited-True")
-    date = datetime.today() + timedelta(days=10)
-    page.enter_date_of_issue(day=date.day, month=date.month, year=date.year)
+    click_radio_button(driver, "expedited-False")
+    functions.click_submit(driver)
     click_radio_button(driver, "foreign_technology-False")
     functions.click_submit(driver)
     click_radio_button(driver, "locally_manufactured-False")
