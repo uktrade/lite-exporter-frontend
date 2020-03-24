@@ -20,7 +20,6 @@ def questions_action(request, pk, json):
     else:
         if "expedited_date" in json:
             del json["expedited_date"]
-
     empty_keys = []
     for key in json:
         try:

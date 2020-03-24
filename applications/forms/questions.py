@@ -1,6 +1,6 @@
 from lite_content.lite_exporter_frontend import generic
 from lite_content.lite_exporter_frontend.applications import F680Questions
-from lite_forms.components import FormGroup, Form, RadioButtons, Option, TextArea, DateInput, CurrencyInput
+from lite_forms.components import FormGroup, Form, RadioButtons, Option, TextArea, DateInput, CurrencyInput, Label
 
 
 def questions_forms():
@@ -119,7 +119,7 @@ def electronic_warfare_form():
             RadioButtons(
                 name="electronic_warfare_requirement",
                 options=[
-                    Option(key=True, description=F680Questions.EWRequirement.ATTACHMENT, value="Yes",),
+                    Option(key=True, value="Yes", components=[Label(text=F680Questions.EWRequirement.ATTACHMENT,)]),
                     Option(key=False, value="No"),
                 ],
             )

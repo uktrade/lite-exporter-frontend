@@ -217,12 +217,6 @@ def task_list_additional_information_status(data):
     """
     Returns 'not started' if length of data given is none, else returns 'done'
     """
-    required_secondary_fields = {
-        "foreign_technology": "foreign_technology_description",
-        "expedited": "expedited_date",
-        "locally_manufactured": "locally_manufactured_description",
-    }
-
     if all([data.get(field) in ["", None] for field in F680.REQUIRED_FIELDS]):
         return NOT_STARTED
 
@@ -231,7 +225,7 @@ def task_list_additional_information_status(data):
             if data[field] is None or data[field] == "":
                 return IN_PROGRESS
             if data[field] is True:
-                secondary_field = required_secondary_fields.get(field, False)
+                secondary_field = F680.REQUIRED_SECONDARY_FIELDS.get(field, False)
                 if secondary_field and not data.get(secondary_field):
                     return IN_PROGRESS
     return DONE

@@ -23,3 +23,9 @@ class F680:
         "uk_service_equipment",
         "prospect_value",
     ]
+
+    REQUIRED_SECONDARY_FIELDS = {
+        "foreign_technology": "foreign_technology_description",
+        "expedited": "expedited_date",
+        "locally_manufactured": "locally_manufactured_description",
+    }
