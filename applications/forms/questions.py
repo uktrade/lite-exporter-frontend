@@ -138,7 +138,13 @@ def uk_service_equipment_form():
                     Option(
                         key=True,
                         value="Yes",
-                        components=[TextArea(name="uk_service_equipment_description", extras={"max_length": 2200},),],
+                        components=[
+                            TextArea(
+                                title=F680Questions.PROVIDE_DETAILS_OPTIONAL,
+                                name="uk_service_equipment_description",
+                                extras={"max_length": 2200}
+                            )
+                        ],
                     ),
                     Option(key=False, value="No"),
                 ],
