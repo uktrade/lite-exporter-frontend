@@ -18,7 +18,7 @@ class RouteOfGoods(SingleFormView):
         application = get_application(request, self.object_pk)
         data = {}
         if application["is_shipped_waybill_or_lading"]:
-           data["is_shipped_waybill_or_lading"] = application["is_shipped_waybill_or_lading"]
+            data["is_shipped_waybill_or_lading"] = application["is_shipped_waybill_or_lading"]
 
         if application["non_waybill_or_lading_route_details"]:
             data["non_waybill_or_lading_route_details"] = application["non_waybill_or_lading_route_details"]
