@@ -267,7 +267,6 @@ def route_of_goods(driver, choice):  # noqa
         route_of_goods.answer_route_of_goods_question(True, "Not shipped air waybill.")
     else:
         route_of_goods.answer_route_of_goods_question(False)
-    functions.click_submit(driver)
 
 
 @when(parsers.parse("I save and continue on the summary page"))  # noqa
