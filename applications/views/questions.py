@@ -23,7 +23,7 @@ def questions_action(request, pk, json):
 
     if to_bool(json.get("expedited", False)):
         if "year" in json and "month" in json and "day" in json:
-            json["expedited_date"] = f"{json['year']}-{json['month']}-{json['day']}"
+            json["expedited_date"] = f"{json['year']}-{str(json['month']).zfill(2)}-{str(json['day']).zfill(2)}"
 
     else:
         if "expedited_date" in json:
