@@ -590,7 +590,7 @@ def get_file_upload_path(filename):  # noqa
 
 
 @when("I agree to the declaration")
-def agree_to_the_declaration(driver): # noqa
+def agree_to_the_declaration(driver):  # noqa
     declaration_page = DeclarationPage(driver)
     declaration_page.agree_to_foi()
     declaration_page.agree_to_declaration()
