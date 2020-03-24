@@ -1,4 +1,4 @@
-from ast import literal_eval
+import json
 
 from django.contrib.humanize.templatetags.humanize import intcomma
 from django.urls import reverse_lazy
@@ -24,13 +24,14 @@ def questions_action(request, pk, data):
     for key in data:
         try:
             # Try to cast to dict if str in order to handle key|value pairs
-            data[key] = literal_eval(data[key])
+            data[key] = json.loads(data[key])
             if isinstance(data[key], dict) and "key" in data[key]:
                 data[key] = data[key]["key"]
         except (TypeError, ValueError, SyntaxError):
             pass
         if not isinstance(data[key], bool) and not data[key]:
             empty_keys.append(key)
+
     return put_application(request, pk, data)
 
 
