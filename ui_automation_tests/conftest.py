@@ -312,9 +312,7 @@ def application_is_submitted(driver, context):  # noqa
 
 @when("I submit the application")  # noqa
 def submit_the_application(driver, context):  # noqa
-    apply = ApplyForALicencePage(driver)
     functions.click_submit(driver)
-    # assert apply.is_success_panel_present()
     context.time_date_submitted = datetime.datetime.now().strftime("%I:%M%p").lstrip("0").replace(
         " 0", " "
     ).lower() + datetime.datetime.now().strftime(" %d %B %Y")
