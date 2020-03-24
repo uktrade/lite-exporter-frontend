@@ -31,13 +31,6 @@ def expedited_form():
                         value="Yes",
                         components=[
                             DateInput(title=F680Questions.Expedited.DATE, name="expedited_date", prefix=""),
-                            TextArea(
-                                name="expedited_description",
-                                title="",
-                                description=F680Questions.PROVIDE_DETAILS,
-                                extras={"max_length": 2200},
-                                optional=False,
-                            ),
                         ],
                     ),
                     Option(key=False, value="No"),
