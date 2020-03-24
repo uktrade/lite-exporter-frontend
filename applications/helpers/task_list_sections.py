@@ -61,6 +61,6 @@ def get_end_use_details(application):
 
 
 def get_route_of_goods(application):
-    if application["is_shipped_waybill_or_lading"] is None:
+    if application.get("is_shipped_waybill_or_lading") is None:
         return False
     return True

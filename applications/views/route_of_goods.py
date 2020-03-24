@@ -20,7 +20,7 @@ class RouteOfGoods(SingleFormView):
         if application["is_shipped_waybill_or_lading"] is not None:
             data["is_shipped_waybill_or_lading"] = application["is_shipped_waybill_or_lading"]
 
-        if application["non_waybill_or_lading_route_details"] is not None:
+        if application["non_waybill_or_lading_route_details"]:
             data["non_waybill_or_lading_route_details"] = application["non_waybill_or_lading_route_details"]
 
         return data
