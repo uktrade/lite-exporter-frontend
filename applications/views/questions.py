@@ -1,4 +1,4 @@
-import ast
+import json
 
 from django.contrib.humanize.templatetags.humanize import intcomma
 from django.urls import reverse_lazy
@@ -12,26 +12,26 @@ from lite_content.lite_exporter_frontend import generic
 from lite_forms.views import SummaryListFormView
 
 
-def questions_action(request, pk, json):
-    if str_to_bool(json.get("expedited", False)):
-        if "year" in json and "month" in json and "day" in json:
-            json["expedited_date"] = f"{json['year']}-{str(json['month']).zfill(2)}-{str(json['day']).zfill(2)}"
+def questions_action(request, pk, data):
+    if str_to_bool(data.get("expedited", False)):
+        if "year" in data and "month" in data and "day" in data:
+            data["expedited_date"] = f"{data['year']}-{str(data['month']).zfill(2)}-{str(data['day']).zfill(2)}"
 
     else:
-        if "expedited_date" in json:
-            del json["expedited_date"]
+        if "expedited_date" in data:
+            del data["expedited_date"]
     empty_keys = []
-    for key in json:
+    for key in data:
         try:
             # Try to cast to dict if str in order to handle key|value pairs
-            json[key] = ast.literal_eval(json[key])
-            if isinstance(json[key], dict) and "key" in json[key]:
-                json[key] = json[key]["key"]
-        except (ValueError, SyntaxError):
+            data[key] = json.loads(data[key])
+            if isinstance(data[key], dict) and "key" in data[key]:
+                data[key] = data[key]["key"]
+        except (TypeError, ValueError, SyntaxError):
             pass
-        if not isinstance(json[key], bool) and not json[key]:
+        if not isinstance(data[key], bool) and not data[key]:
             empty_keys.append(key)
-    return put_application(request, pk, json)
+    return put_application(request, pk, data)
 
 
 class AdditionalInformationFormView(SummaryListFormView):
