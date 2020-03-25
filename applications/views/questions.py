@@ -43,9 +43,9 @@ class AdditionalInformationFormView(SummaryListFormView):
         self.action = questions_action
         self.success_url = reverse_lazy("applications:task_list", kwargs={"pk": self.object_pk})
         self.summary_list_title = applications.F680ClearanceTaskList.ADDITIONAL_INFORMATION
-        self.summary_list_notice_title = ""
-        self.summary_list_notice_text = ""
-        self.summary_list_button = generic.SAVE_AND_RETURN
+        self.summary_list_notice_title = applications.F680ClearanceTaskList.NOTICE_TITLE
+        self.summary_list_notice_text = applications.F680ClearanceTaskList.NOTICE_TEXT
+        self.summary_list_button = applications.F680ClearanceTaskList.SAVE_AND_RETURN
         self.validate_only_until_final_submission = False
 
     def prettify_data(self, data):

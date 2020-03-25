@@ -37,6 +37,8 @@ Feature: I want to be able to edit MOD Licence Applications
     And I click on the "reference-name" section
     And I enter a licence name
     Then I see my edited reference name
+    When I click on the "additional_information" section
+    And I edit additional information
     When I click on the "clearance" section
     And I choose a clearance level for my application
     When I click on the "goods" section

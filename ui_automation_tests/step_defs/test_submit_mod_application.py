@@ -93,7 +93,7 @@ def add_new_end_user_with_clearance(driver, type, name, website, clearance, addr
 
 @when("I add additional information")
 def add_new_additional_information(driver, context):  # noqa
-    page = F680AdditionalInformationPage(driver)
+    page = F680AdditionalInformationPage(driver, "submit")
     page.enter_no_date()
     page.enter_foreign_technology()
     page.enter_locally_manufactured()
