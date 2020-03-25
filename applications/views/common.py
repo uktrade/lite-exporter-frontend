@@ -38,7 +38,6 @@ from applications.services import (
     get_status_properties,
     copy_application,
     post_exhibition,
-    post_declaration,
 )
 from conf.constants import HMRC, APPLICANT_EDITING, NotificationType
 from core.helpers import str_to_bool, convert_dict_to_query_params
