@@ -11,7 +11,6 @@ from core.helpers import convert_dict_to_query_params
 from core.permissions import validate_is_in_organisation_type
 from core.services import get_organisations, get_organisation
 from lite_forms.generators import form_page
-from lite_forms.views import SingleFormView
 
 
 class SelectAnOrganisation(TemplateView):

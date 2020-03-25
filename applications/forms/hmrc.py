@@ -1,8 +1,6 @@
-from django.urls import reverse_lazy
-
-from lite_content.lite_exporter_frontend import strings
 from applications.components import back_to_task_list
 from core.helpers import str_date_only
+from lite_content.lite_exporter_frontend import strings
 from lite_forms.components import Form, TextArea, TextInput, Summary, HiddenField
 
 
