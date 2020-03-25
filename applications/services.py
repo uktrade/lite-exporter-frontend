@@ -350,9 +350,3 @@ def post_exhibition(request, pk, data):
     post_data = format_date_fields(post_data)
     data = post(request, APPLICATIONS_URL + str(pk) + "/exhibition-details/", json=post_data)
     return data.json(), data.status_code
-
-
-# Declaration
-def post_declaration(request, pk, data):
-    data = post(request, APPLICATIONS_URL + str(pk) + "/declaration/", json=data)
-    return data.json(), data.status_code
