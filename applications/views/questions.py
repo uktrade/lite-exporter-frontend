@@ -8,7 +8,6 @@ from applications.forms.questions import questions_forms
 from applications.services import put_application, get_application
 from core.helpers import str_to_bool
 from lite_content.lite_exporter_frontend import applications
-from lite_content.lite_exporter_frontend import generic
 from lite_forms.views import SummaryListFormView
 
 
