@@ -402,9 +402,9 @@ class ExhibitionDetail(SingleFormView):
 class ApplicationDeclaration(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
-        self.data = get_application(request, self.object_pk)
+        application = get_application(request, self.object_pk)
         self.form = declaration_form(self.object_pk)
-        self.action = post_declaration
+        self.action = submit_application
 
     def get_success_url(self):
         return reverse_lazy("applications:success_page", kwargs={"pk": self.object_pk})

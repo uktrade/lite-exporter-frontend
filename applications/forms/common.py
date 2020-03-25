@@ -141,6 +141,7 @@ def declaration_form(application_id):
     return Form(
         title=strings.declaration.Declaration.TITLE,
         questions=[
+            HiddenField(name="submit_declaration", value=True),
             # Terms and conditions
             Label("<b>" + strings.declaration.TermsAndConditions.TITLE + "</b>"),
             Label(strings.declaration.TermsAndConditions.PARAGRAPH_ONE),
