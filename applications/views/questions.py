@@ -49,8 +49,8 @@ class AdditionalInformationFormView(SummaryListFormView):
 
     def prettify_data(self, data):
         data = super().prettify_data(data)
-        if "value" in data and data["value"]:
-            data["value"] = f"£{intcomma(data['value'])}"
+        if "prospect_value" in data and data["prospect_value"]:
+            data["prospect_value"] = f"£{intcomma(data['prospect_value'])}"
         return data
 
     @staticmethod
