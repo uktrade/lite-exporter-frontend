@@ -402,7 +402,6 @@ class ExhibitionDetail(SingleFormView):
 class ApplicationDeclaration(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
-        application = get_application(request, self.object_pk)
         self.form = declaration_form(self.object_pk)
         self.action = submit_application
 
