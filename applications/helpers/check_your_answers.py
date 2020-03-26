@@ -80,7 +80,7 @@ def _convert_gifting_clearance(application, editable=False):
 
 
 def _convert_standard_application(application, editable=False):
-    return {
+    converted_application = {
         applications.ApplicationSummaryPage.GOODS: _convert_goods(application["goods"]),
         applications.ApplicationSummaryPage.END_USE_DETAILS: _get_end_use_details(application),
         applications.ApplicationSummaryPage.GOODS_LOCATIONS: _convert_goods_locations(application["goods_locations"]),
@@ -100,9 +100,16 @@ def _convert_standard_application(application, editable=False):
         ),
     }
 
+    if application.get("export_type").get("key") == "temporary":
+        converted_application[
+            applications.ApplicationSummaryPage.TEMPORARY_EXPORT_DETAILS
+        ] = _get_temporary_export_details(application)
+
+    return converted_application
+
 
 def _convert_open_application(application, editable=False):
-    return {
+    converted_application = {
         applications.ApplicationSummaryPage.GOODS: _convert_goods_types(application["goods_types"]),
         applications.ApplicationSummaryPage.END_USE_DETAILS: _get_end_use_details(application),
         applications.ApplicationSummaryPage.GOODS_LOCATIONS: _convert_goods_locations(application["goods_locations"]),
@@ -111,6 +118,13 @@ def _convert_open_application(application, editable=False):
             application["additional_documents"], application["id"]
         ),
     }
+
+    if application.get("export_type").get("key") == "temporary":
+        converted_application[
+            applications.ApplicationSummaryPage.TEMPORARY_EXPORT_DETAILS
+        ] = _get_temporary_export_details(application)
+
+    return converted_application
 
 
 def _convert_hmrc_query(application, editable=False):
@@ -251,6 +265,31 @@ def _get_end_use_details(application):
                 )
             else:
                 ds["Answer"] = application.get(main_field)
+        if ds:
+            values_to_print.append(ds)
+
+    return values_to_print
+
+
+def _get_temporary_export_details(application):
+    fields = [
+        ("temp_export_details", "short title"),
+        ("is_temp_direct_control", "short title"),
+        ("proposed_return_date", "short title"),
+    ]
+
+    values_to_print = []
+    for field, display_string in fields:
+        ds = {}
+        if application.get(field) is not None:
+            ds["Description"] = display_string
+            ds["Answer"] = (
+                friendly_boolean(application.get(field))
+                + NEWLINE
+                + (application.get("temp_direct_control_details") or "")
+                if field == "is_temp_direct_control"
+                else application.get(field)
+            )
         if ds:
             values_to_print.append(ds)
 

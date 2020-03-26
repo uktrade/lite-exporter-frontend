@@ -58,3 +58,15 @@ def get_end_use_details(application):
         if application.get(field) is None:
             return False
     return True
+
+
+def get_temporary_export_details(application):
+    fields = [
+        "temp_export_details",
+        "is_temp_direct_control",
+        "proposed_return_date",
+    ]
+    for field in fields:
+        if application.get(field) is None:
+            return False
+    return True

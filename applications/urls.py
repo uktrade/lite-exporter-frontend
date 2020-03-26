@@ -15,6 +15,7 @@ from applications.views import (
     clearance,
     questions,
     end_use_details,
+    temporary_export_details,
 )
 
 app_name = "applications"
@@ -157,6 +158,12 @@ urlpatterns = [
     ),
     # End use details
     path("<uuid:pk>/end-use-details/", end_use_details.EndUseDetails.as_view(), name="end_use_details"),
+    # Temporary export details
+    path(
+        "<uuid:pk>/temporary-export-details/",
+        temporary_export_details.TemporaryExportDetails.as_view(),
+        name="temporary_export_details",
+    ),
     # Ultimate end users
     path("<uuid:pk>/ultimate-end-users/", ultimate_end_users.UltimateEndUsers.as_view(), name="ultimate_end_users"),
     path(

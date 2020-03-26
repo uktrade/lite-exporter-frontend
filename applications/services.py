@@ -1,3 +1,4 @@
+import json
 from http import HTTPStatus
 
 from django.http import StreamingHttpResponse
@@ -26,6 +27,7 @@ from conf.constants import (
     PARTIES_URL,
     APPLICATION_COPY_URL,
     END_USE_DETAILS_URL,
+    TEMPORARY_EXPORT_DETAILS_URL,
 )
 from conf.settings import AWS_STORAGE_BUCKET_NAME, STREAMING_CHUNK_SIZE
 from core.helpers import remove_prefix, convert_parameters_to_query_params, add_validate_only_to_data
@@ -60,6 +62,14 @@ def put_application(request, pk, json):
 
 def put_end_use_details(request, pk, json):
     data = put(request, APPLICATIONS_URL + str(pk) + END_USE_DETAILS_URL, json)
+    return data.json(), data.status_code
+
+
+def put_temporary_export_details(request, pk, json):
+    if "year" in json and "month" in json and "day" in json:
+        json["proposed_return_date"] = f"{json['year']}-{str(json['month']).zfill(2)}-{str(json['day']).zfill(2)}"
+
+    data = put(request, APPLICATIONS_URL + str(pk) + TEMPORARY_EXPORT_DETAILS_URL, json)
     return data.json(), data.status_code
 
 
