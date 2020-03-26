@@ -134,7 +134,7 @@
 					{{ site.name }}
 				</dd>
 				<dd class="govuk-summary-list__value govuk-hint">
-					{% if site.address %}
+					{% if site.address.address_line_1 %}
 						{{ site.address.address_line_1 }}<br/>
 						{% if site.address.address_line_2 %}
 							{{ site.address.address_line_2 }}<br/>
@@ -143,8 +143,8 @@
 						{{ site.address.postcode }}<br/>
 						{{ site.address.country.name }}
 					{% else %}
-						{{ site.foreign_address.address }}<br/>
-						{{ site.foreign_address.country.name }}
+						{{ site.address.address }}<br/>
+						{{ site.address.country.name }}
 					{% endif %}
 				</dd>
 				<dd class="govuk-summary-list__actions">

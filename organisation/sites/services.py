@@ -25,7 +25,7 @@ def get_sites(request, organisation_id, convert_to_options=False, exclude: list 
 
             site_id = site.get("id")
             site_name = site.get("name") + primary_site
-            address = site.get("address") or site.get("foreign_address")
+            address = site.get("address")
 
             site_address = NEWLINE.join(
                 filter(

@@ -343,27 +343,26 @@ def get_address(data):
     from {'address': {'address_line_1': '10 Downing St', ...}
     or {'address': '10 Downing St ...', 'country': {'name': United Kingdom'}}
     """
-    if data and "address" in data:
+    if data:
         address = data["address"]
 
         if isinstance(address, str):
             return address + ", " + data["country"]["name"]
 
-        address = [
-            address["address_line_1"],
-            address["address_line_2"],
-            address["city"],
-            address["region"],
-            address["postcode"],
-            address["country"]["name"],
-        ]
-        return ", ".join([x for x in address if x])
-    if data and "foreign_address" in data:
-        address = data["foreign_address"]
+        if "address_line_1" in address:
+            address = [
+                address["address_line_1"],
+                address["address_line_2"],
+                address["city"],
+                address["region"],
+                address["postcode"],
+                address["country"]["name"],
+            ]
+        else:
+            address = [
+                address["address"],
+                address["country"]["name"],
+            ]
 
-        address = [
-            address["address"],
-            address["country"]["name"],
-        ]
         return ", ".join([x for x in address if x])
     return ""

@@ -132,7 +132,7 @@ def site_form(is_individual, location):
             *conditional(
                 is_in_uk,
                 address_questions(None, "site.address."),
-                foreign_address_questions(get_countries(None, True, ["GB"]), "site.foreign_address."),
+                foreign_address_questions(get_countries(None, True, ["GB"]), "site.address."),
             ),
         ],
         default_button_name=generic.CONTINUE,

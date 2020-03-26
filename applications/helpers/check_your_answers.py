@@ -280,7 +280,7 @@ def convert_party(party, application, editable):
         "Type": party["sub_type"]["value"],
         "Clearance level": None,
         "Descriptors": party.get("descriptors"),
-        "Address": get_address({"foreign_address": party}),
+        "Address": get_address(party),
         "Website": convert_to_link(party["website"]),
         "Document": document,
     }
@@ -304,7 +304,7 @@ def _convert_goods_locations(goods_locations):
         return [{"Site": site["name"], "Address": get_address(site)} for site in goods_locations["data"]]
     else:
         return [
-            {"Name": external_location["name"], "Address": get_address({"foreign_address": external_location}),}
+            {"Name": external_location["name"], "Address": get_address(external_location),}
             for external_location in goods_locations["data"]
         ]
 

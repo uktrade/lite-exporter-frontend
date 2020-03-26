@@ -46,7 +46,7 @@
 				</a>
 			</dd>
 		</div>
-		{% if site.address %}
+		{% if site.address.address_line_1 %}
 			<div class="govuk-summary-list__row">
 				<dt class="govuk-summary-list__key">
 					{% lcs "generic.Address.ADDRESS_LINE_1" %}
@@ -102,10 +102,7 @@
 					{% lcs "generic.Address.ADDRESS" %}
 				</dt>
 				<dd class="govuk-summary-list__value">
-					{{ site.foreign_address.address }}
-				</dd>
-				<dd class="govuk-summary-list__actions">
-					<a href="#" class="govuk-link govuk-link--no-visited-state">{% lcs 'generic.CHANGE' %} <span class="govuk-visually-hidden">{% lcs "generic.Address.ADDRESS" %}</span></a>
+					{{ site.address.address }}
 				</dd>
 			</div>
 			<div class="govuk-summary-list__row">
@@ -113,7 +110,7 @@
 					{% lcs "generic.Address.COUNTRY" %}
 				</dt>
 				<dd class="govuk-summary-list__value">
-					{{ site.foreign_address.country.name }}
+					{{ site.address.country.name }}
 				</dd>
 			</div>
 		{% endif %}
