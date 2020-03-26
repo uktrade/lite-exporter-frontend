@@ -1,6 +1,6 @@
 from applications.components import back_to_task_list
 from core.helpers import str_date_only
-from lite_content.lite_exporter_frontend import strings
+from lite_content.lite_exporter_frontend import strings, applications
 from lite_forms.components import Form, TextArea, TextInput, Summary, HiddenField
 
 
@@ -34,8 +34,8 @@ def query_explanation_form(application_id):
 
 def reference_name_form():
     return Form(
-        title="Enter a reference for this HMRC Query",
-        description="Give the query a reference name so you can refer back to it when needed.",
+        title=applications.HMRCQuery.InitialQuestions.REFERENCE_NAME_TITLE,
+        description=applications.HMRCQuery.InitialQuestions.REFERENCE_NAME_DESCRIPTION,
         questions=[TextInput(name="name"),],
         default_button_name="Continue",
     )
