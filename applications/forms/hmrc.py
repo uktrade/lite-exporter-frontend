@@ -37,5 +37,5 @@ def reference_name_form():
         title=applications.HMRCQuery.InitialQuestions.REFERENCE_NAME_TITLE,
         description=applications.HMRCQuery.InitialQuestions.REFERENCE_NAME_DESCRIPTION,
         questions=[TextInput(name="name"),],
-        default_button_name="Continue",
+        default_button_name=applications.HMRCQuery.InitialQuestions.REFERENCE_NAME_BUTTON,
     )
