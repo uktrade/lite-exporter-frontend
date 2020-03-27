@@ -65,6 +65,9 @@ Feature: I want to indicate the open licence I want
     And I answer "No" for whether the products remain under my direct control
     And I enter the date "27", "03", "2026" when the products will return to the UK
     And I save and continue on the summary page
+    And I click on the "route_of_goods" section
+    And I answer "Yes" for shipping air waybill or lading
+    And I click continue
     And I click on the "goods" section
     And I add a goods type with description "Sniper" controlled "Yes" control code "ML1a" incorporated "Yes"
     Then I see my goods type added at position "1" with a description and a control code
