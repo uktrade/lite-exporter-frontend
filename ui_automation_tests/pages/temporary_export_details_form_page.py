@@ -24,7 +24,7 @@ class TemporaryExportDetailsFormPage(BasePage):
     def answer_temp_export_details(self, details):
         self.enter_details(self.TEMP_EXPORT_DETAILS_FIELD_ID, details)
 
-    def answer_is_temp_direct_control(self, flag: bool, details):
+    def answer_is_temp_direct_control(self, flag: bool, details=None):
         if flag:
             self.click_on_yes_radiobutton()
         else:
