@@ -60,6 +60,12 @@ def get_end_use_details(application):
     return True
 
 
+def get_route_of_goods(application):
+    if application.get("is_shipped_waybill_or_lading") is None:
+        return False
+    return True
+
+
 def get_temporary_export_details(application):
     fields = [
         "temp_export_details",

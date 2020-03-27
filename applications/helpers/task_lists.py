@@ -4,6 +4,7 @@ from applications.helpers.task_list_sections import (
     get_reference_number_description,
     get_edit_type,
     get_end_use_details,
+    get_route_of_goods,
     get_temporary_export_details,
 )
 from applications.services import (
@@ -75,6 +76,7 @@ def get_application_task_list(request, application, errors=None):
     elif application_type == STANDARD:
         context["reference_number_description"] = get_reference_number_description(application)
         context["end_use_details"] = get_end_use_details(application)
+        context["route_of_goods"] = get_route_of_goods(application)
         if application.get("export_type").get("key") == "temporary":
             context["temporary_export_details"] = get_temporary_export_details(application)
     elif application_type == OPEN:
@@ -84,6 +86,7 @@ def get_application_task_list(request, application, errors=None):
         if application.get("goods_types"):
             destination_countries = [goods_type["countries"] for goods_type in application.get("goods_types")][0]
             context["destinations"] = set([destination["id"] for destination in destination_countries])
+        context["route_of_goods"] = get_route_of_goods(application)
         if application.get("export_type").get("key") == "temporary":
             context["temporary_export_details"] = get_temporary_export_details(application)
 
