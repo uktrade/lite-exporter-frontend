@@ -117,7 +117,7 @@
 					{% if application.export_type.value == 'Temporary' %}
 						{% if not is_editing or edit_type == 'major_edit' %}
 							{% url 'applications:temporary_export_details' application.id as temporary_export_details_url %}
-							{% include "includes/task-list-item.html" with id='temporary_export_details' status=temporary_export_details|task_list_item_status title="Temporary Export Details" url=temporary_export_details_url %}
+							{% include "includes/task-list-item.html" with id='temporary_export_details' status=temporary_export_details|task_list_item_status title=strings.TEMPORARY_EXPORT_DETAILS url=temporary_export_details_url %}
 						{% endif %}
 					{% endif %}
 				{% endif %}

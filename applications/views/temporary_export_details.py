@@ -4,6 +4,7 @@ from applications.forms.temporary_export_details import temporary_export_details
 from applications.helpers.date_fields import date_splitter
 from applications.services import get_application, put_temporary_export_details
 from lite_content.lite_exporter_frontend import generic
+from lite_content.lite_exporter_frontend.applications import TemporaryExportDetails as strings
 from lite_forms.views import SummaryListFormView
 
 
@@ -15,7 +16,7 @@ class TemporaryExportDetails(SummaryListFormView):
         self.action = put_temporary_export_details
         self.data = self._parse_temporary_export_details(application)
         self.success_url = reverse_lazy("applications:task_list", kwargs={"pk": self.object_pk})
-        self.summary_list_title = "Temporary Export Details"
+        self.summary_list_title = strings.SummaryList.TITLE
         self.summary_list_notice_title = ""
         self.summary_list_notice_text = ""
         self.summary_list_button = generic.SAVE_AND_RETURN

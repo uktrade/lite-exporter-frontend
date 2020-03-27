@@ -1,13 +1,14 @@
 from lite_content.lite_exporter_frontend import generic
+from lite_content.lite_exporter_frontend.applications import TemporaryExportDetails
 from lite_forms.components import FormGroup, TextArea, Form, RadioButtons, Option, DateInput
 
 
 def temporary_export_details_form():
     return FormGroup(
         [
-            provide_export_details_form("Temporary export details"),
-            is_temp_direct_control_form("Temporary export details"),
-            proposed_product_return_date_form("Temporary export details"),
+            provide_export_details_form(TemporaryExportDetails.TEMPORARY_EXPORT_DETAILS_CAPTION),
+            is_temp_direct_control_form(TemporaryExportDetails.TEMPORARY_EXPORT_DETAILS_CAPTION),
+            proposed_product_return_date_form(TemporaryExportDetails.TEMPORARY_EXPORT_DETAILS_CAPTION),
         ]
     )
 
@@ -15,11 +16,11 @@ def temporary_export_details_form():
 def provide_export_details_form(caption):
     return Form(
         caption=caption,
-        title="Provide details of why the export is temporary",
+        title=TemporaryExportDetails.TEMPORARY_EXPORT_DETAILS,
         questions=[
             TextArea(
                 name="temp_export_details",
-                short_title="Temporary export details",
+                short_title=TemporaryExportDetails.SummaryList.TEMPORARY_EXPORT_DETAILS,
                 extras={"max_length": 2200},
                 optional=False,
             )
@@ -31,11 +32,11 @@ def provide_export_details_form(caption):
 def is_temp_direct_control_form(caption):
     return Form(
         caption=caption,
-        title="Will the products remain under your direct control whilst overseas",
+        title=TemporaryExportDetails.PRODUCTS_UNDER_DIRECT_CONTROL,
         questions=[
             RadioButtons(
                 name="is_temp_direct_control",
-                short_title="Products remaining under your direct control",
+                short_title=TemporaryExportDetails.SummaryList.PRODUCTS_UNDER_DIRECT_CONTROL,
                 options=[
                     Option(key=True, value="Yes"),
                     Option(
@@ -44,7 +45,7 @@ def is_temp_direct_control_form(caption):
                         components=[
                             TextArea(
                                 name="temp_direct_control_details",
-                                title="Provide details of who will be in control of the products while overseas and their relationship to you",
+                                title=TemporaryExportDetails.PRODUCTS_UNDER_DIRECT_CONTROL_DETAILS,
                                 description="",
                                 extras={"max_length": 2200},
                                 optional=False,
@@ -62,12 +63,12 @@ def is_temp_direct_control_form(caption):
 def proposed_product_return_date_form(caption):
     return Form(
         caption=caption,
-        title="Proposed date the products will return to the UK",
+        title=TemporaryExportDetails.PROPOSED_RETURN_DATE,
         questions=[
             DateInput(
                 title="",
-                short_title="Date products returning to the UK",
-                description="For example, 12 11 2020",
+                short_title=TemporaryExportDetails.SummaryList.PROPOSED_RETURN_DATE,
+                description=TemporaryExportDetails.PROPOSED_DATE_HINT,
                 name="proposed_return_date",
                 prefix="",
                 optional=False,
