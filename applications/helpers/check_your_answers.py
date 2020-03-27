@@ -101,7 +101,7 @@ def _convert_standard_application(application, editable=False):
         ),
     }
 
-    if application.get("export_type").get("key") == "temporary":
+    if _is_application_export_type_temporary(application):
         converted_application[
             applications.ApplicationSummaryPage.TEMPORARY_EXPORT_DETAILS
         ] = _get_temporary_export_details(application)
@@ -121,7 +121,7 @@ def _convert_open_application(application, editable=False):
         ),
     }
 
-    if application.get("export_type").get("key") == "temporary":
+    if _is_application_export_type_temporary(application):
         converted_application[
             applications.ApplicationSummaryPage.TEMPORARY_EXPORT_DETAILS
         ] = _get_temporary_export_details(application)
@@ -286,25 +286,25 @@ def _get_end_use_details(application):
 
 def _get_temporary_export_details(application):
     fields = [
-        ("temp_export_details", "short title"),
-        ("is_temp_direct_control", "short title"),
-        ("proposed_return_date", "short title"),
+        ("temp_export_details", applications.TemporaryExportDetails.CheckYourAnswers.TEMPORARY_EXPORT_DETAILS),
+        ("is_temp_direct_control", applications.TemporaryExportDetails.CheckYourAnswers.PRODUCTS_UNDER_DIRECT_CONTROL),
+        ("proposed_return_date", applications.TemporaryExportDetails.CheckYourAnswers.PROPOSED_RETURN_DATE),
     ]
 
     values_to_print = []
     for field, display_string in fields:
-        ds = {}
+        display_entry = {}
         if application.get(field) is not None:
-            ds["Description"] = display_string
-            ds["Answer"] = (
+            display_entry["Description"] = display_string
+            display_entry["Answer"] = (
                 friendly_boolean(application.get(field))
                 + NEWLINE
                 + (application.get("temp_direct_control_details") or "")
                 if field == "is_temp_direct_control"
                 else application.get(field)
             )
-        if ds:
-            values_to_print.append(ds)
+        if display_entry:
+            values_to_print.append(display_entry)
 
     return values_to_print
 
@@ -434,3 +434,7 @@ def get_total_goods_value(goods: list):
     for good in goods:
         total_value += Decimal(good["value"]).quantize(Decimal(".01"))
     return total_value
+
+
+def _is_application_export_type_temporary(application):
+    return application.get("export_type").get("key") == "temporary"
