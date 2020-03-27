@@ -23,12 +23,8 @@ def format_date_fields(data):
 def date_splitter(date, delimiter: str):
     """
     Split a date in the YYYY MM DD format with a given delimiter
-    into its day, month and year components.
+    into its year, month, day components
     Useful for prepopulated fields
     """
     split_date = re.split("[%s]" % ("".join(delimiter)), date)
-    return {
-        "year": split_date[0],
-        "month": split_date[1],
-        "day": split_date[2],
-    }
+    return split_date[0], split_date[1], split_date[2]

@@ -53,9 +53,7 @@ class TemporaryExportDetails(SummaryListFormView):
 
         proposed_return_date = application.get("proposed_return_date")
         if proposed_return_date:
-            date_components = date_splitter(proposed_return_date, "-")
-            data["year"] = date_components["year"]
-            data["month"] = date_components["month"]
-            data["day"] = date_components["day"]
+            # Pre-populate the date fields
+            data["year"], data["month"], data["day"] = date_splitter(proposed_return_date, "-")
 
         return data
