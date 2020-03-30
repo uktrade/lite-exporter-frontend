@@ -277,7 +277,7 @@ def save_continue_summary_list(driver):  # noqa
     driver.execute_script("arguments[0].click();", element)
 
 
-@when(parsers.parse("I provide details of why my export is temporary"))  # noqa
+@when("I provide details of why my export is temporary")  # noqa
 def enter_temporary_export_details(driver):  # noqa
     temporary_export_details = TemporaryExportDetailsFormPage(driver)
     temporary_export_details.answer_temp_export_details(fake.sentence(nb_words=30))
