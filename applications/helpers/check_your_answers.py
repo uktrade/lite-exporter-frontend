@@ -11,6 +11,7 @@ from conf.constants import (
     EXHIBITION,
     GIFTING,
     F680,
+    TEMPORARY,
 )
 from core.builtins.custom_tags import default_na, friendly_boolean, pluralise_unit, date_display
 from core.helpers import convert_to_link
@@ -437,4 +438,4 @@ def get_total_goods_value(goods: list):
 
 
 def _is_application_export_type_temporary(application):
-    return application.get("export_type").get("key") == "temporary"
+    return application.get("export_type").get("key") == TEMPORARY

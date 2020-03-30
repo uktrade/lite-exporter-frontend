@@ -1,7 +1,7 @@
 from django.urls import reverse_lazy
 
 from applications.forms.temporary_export_details import temporary_export_details_form
-from applications.helpers.date_fields import date_splitter
+from applications.helpers.date_fields import split_date_into_components, create_formatted_date_from_components
 from applications.services import get_application, put_temporary_export_details
 from lite_content.lite_exporter_frontend import generic
 from lite_content.lite_exporter_frontend.applications import TemporaryExportDetails as strings
@@ -26,7 +26,7 @@ class TemporaryExportDetails(SummaryListFormView):
         data = super().get_validated_data()
         # to ensure date is changed and displayed on the summary list
         if data.get("year") and data.get("month") and data.get("day"):
-            data["proposed_return_date"] = f"{data['year']}-{str(data['month']).zfill(2)}-{str(data['day']).zfill(2)}"
+            data["proposed_return_date"] = create_formatted_date_from_components(data)
         return data
 
     def prettify_data(self, data):
@@ -54,6 +54,6 @@ class TemporaryExportDetails(SummaryListFormView):
         proposed_return_date = application.get("proposed_return_date")
         if proposed_return_date:
             # Pre-populate the date fields
-            data["year"], data["month"], data["day"] = date_splitter(proposed_return_date, "-")
+            data["year"], data["month"], data["day"] = split_date_into_components(proposed_return_date, "-")
 
         return data

@@ -3,7 +3,7 @@ from http import HTTPStatus
 from django.http import StreamingHttpResponse
 from s3chunkuploader.file_handler import s3_client
 
-from applications.helpers.date_fields import format_date_fields
+from applications.helpers.date_fields import format_date_fields, create_formatted_date_from_components
 from conf.client import get, post, put, delete
 from conf.constants import (
     ACTIVITY_URL,
@@ -71,7 +71,7 @@ def put_end_use_details(request, pk, json):
 
 def put_temporary_export_details(request, pk, json):
     if "year" in json and "month" in json and "day" in json:
-        json["proposed_return_date"] = f"{json['year']}-{str(json['month']).zfill(2)}-{str(json['day']).zfill(2)}"
+        json["proposed_return_date"] = create_formatted_date_from_components(json)
 
     data = put(request, APPLICATIONS_URL + str(pk) + TEMPORARY_EXPORT_DETAILS_URL, json)
     return data.json(), data.status_code

@@ -102,6 +102,7 @@ CASE_SECTIONS = {
 }
 
 PERMANENT = "permanent"
+TEMPORARY = "temporary"
 
 APPLICANT_EDITING = "applicant_editing"
 

@@ -1,5 +1,6 @@
 from django.shortcuts import render
 
+from applications.helpers.check_your_answers import _is_application_export_type_temporary
 from applications.helpers.task_list_sections import (
     get_reference_number_description,
     get_edit_type,
@@ -77,18 +78,18 @@ def get_application_task_list(request, application, errors=None):
         context["reference_number_description"] = get_reference_number_description(application)
         context["end_use_details"] = get_end_use_details(application)
         context["route_of_goods"] = get_route_of_goods(application)
-        if application.get("export_type").get("key") == "temporary":
+        if _is_application_export_type_temporary(application):
             context["temporary_export_details"] = get_temporary_export_details(application)
     elif application_type == OPEN:
         context["countries"] = get_application_countries(request, application["id"])
         context["end_use_details"] = get_end_use_details(application)
         context["goodstypes"] = get_application_goods_types(request, application["id"])
+        if _is_application_export_type_temporary(application):
+            context["temporary_export_details"] = get_temporary_export_details(application)
         if application.get("goods_types"):
             destination_countries = [goods_type["countries"] for goods_type in application.get("goods_types")][0]
             context["destinations"] = set([destination["id"] for destination in destination_countries])
         context["route_of_goods"] = get_route_of_goods(application)
-        if application.get("export_type").get("key") == "temporary":
-            context["temporary_export_details"] = get_temporary_export_details(application)
 
     if not application_type == OPEN:
         context["goods"] = get_application_goods(request, application["id"])
