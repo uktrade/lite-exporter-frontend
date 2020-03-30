@@ -277,7 +277,10 @@ def _get_temporary_export_details(application):
     if _is_application_export_type_temporary(application):
         fields = [
             ("temp_export_details", applications.TemporaryExportDetails.CheckYourAnswers.TEMPORARY_EXPORT_DETAILS),
-            ("is_temp_direct_control", applications.TemporaryExportDetails.CheckYourAnswers.PRODUCTS_UNDER_DIRECT_CONTROL),
+            (
+                "is_temp_direct_control",
+                applications.TemporaryExportDetails.CheckYourAnswers.PRODUCTS_UNDER_DIRECT_CONTROL,
+            ),
             ("proposed_return_date", applications.TemporaryExportDetails.CheckYourAnswers.PROPOSED_RETURN_DATE),
         ]
 
