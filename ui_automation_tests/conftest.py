@@ -601,5 +601,5 @@ def get_file_upload_path(filename):  # noqa
 def agree_to_the_declaration(driver):  # noqa
     declaration_page = DeclarationPage(driver)
     declaration_page.agree_to_foi()
-    declaration_page.agree_to_declaration()
+    declaration_page.agree_to_declaration(driver)
     functions.click_submit(driver)
