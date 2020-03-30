@@ -81,10 +81,11 @@ def _convert_gifting_clearance(application, editable=False):
 
 
 def _convert_standard_application(application, editable=False):
-    converted_application = {
+    return {
         applications.ApplicationSummaryPage.GOODS: _convert_goods(application["goods"]),
         applications.ApplicationSummaryPage.END_USE_DETAILS: _get_end_use_details(application),
         applications.ApplicationSummaryPage.ROUTE_OF_GOODS: _get_route_of_goods(application),
+        applications.ApplicationSummaryPage.TEMPORARY_EXPORT_DETAILS: _get_temporary_export_details(application),
         applications.ApplicationSummaryPage.GOODS_LOCATIONS: _convert_goods_locations(application["goods_locations"]),
         applications.ApplicationSummaryPage.END_USER: convert_party(application["end_user"], application, editable),
         applications.ApplicationSummaryPage.ULTIMATE_END_USERS: [
@@ -102,32 +103,19 @@ def _convert_standard_application(application, editable=False):
         ),
     }
 
-    if _is_application_export_type_temporary(application):
-        converted_application[
-            applications.ApplicationSummaryPage.TEMPORARY_EXPORT_DETAILS
-        ] = _get_temporary_export_details(application)
-
-    return converted_application
-
 
 def _convert_open_application(application, editable=False):
-    converted_application = {
+    return {
         applications.ApplicationSummaryPage.GOODS: _convert_goods_types(application["goods_types"]),
         applications.ApplicationSummaryPage.END_USE_DETAILS: _get_end_use_details(application),
         applications.ApplicationSummaryPage.ROUTE_OF_GOODS: _get_route_of_goods(application),
+        applications.ApplicationSummaryPage.TEMPORARY_EXPORT_DETAILS: _get_temporary_export_details(application),
         applications.ApplicationSummaryPage.GOODS_LOCATIONS: _convert_goods_locations(application["goods_locations"]),
         applications.ApplicationSummaryPage.COUNTRIES: _convert_countries(application["destinations"]["data"]),
         applications.ApplicationSummaryPage.SUPPORTING_DOCUMENTATION: _get_supporting_documentation(
             application["additional_documents"], application["id"]
         ),
     }
-
-    if _is_application_export_type_temporary(application):
-        converted_application[
-            applications.ApplicationSummaryPage.TEMPORARY_EXPORT_DETAILS
-        ] = _get_temporary_export_details(application)
-
-    return converted_application
 
 
 def _convert_hmrc_query(application, editable=False):
@@ -286,28 +274,29 @@ def _get_end_use_details(application):
 
 
 def _get_temporary_export_details(application):
-    fields = [
-        ("temp_export_details", applications.TemporaryExportDetails.CheckYourAnswers.TEMPORARY_EXPORT_DETAILS),
-        ("is_temp_direct_control", applications.TemporaryExportDetails.CheckYourAnswers.PRODUCTS_UNDER_DIRECT_CONTROL),
-        ("proposed_return_date", applications.TemporaryExportDetails.CheckYourAnswers.PROPOSED_RETURN_DATE),
-    ]
+    if _is_application_export_type_temporary(application):
+        fields = [
+            ("temp_export_details", applications.TemporaryExportDetails.CheckYourAnswers.TEMPORARY_EXPORT_DETAILS),
+            ("is_temp_direct_control", applications.TemporaryExportDetails.CheckYourAnswers.PRODUCTS_UNDER_DIRECT_CONTROL),
+            ("proposed_return_date", applications.TemporaryExportDetails.CheckYourAnswers.PROPOSED_RETURN_DATE),
+        ]
 
-    values_to_print = []
-    for field, display_string in fields:
-        display_entry = {}
-        if application.get(field) is not None:
-            display_entry["Description"] = display_string
-            display_entry["Answer"] = (
-                friendly_boolean(application.get(field))
-                + NEWLINE
-                + (application.get("temp_direct_control_details") or "")
-                if field == "is_temp_direct_control"
-                else application.get(field)
-            )
-        if display_entry:
-            values_to_print.append(display_entry)
+        values_to_print = []
+        for field, display_string in fields:
+            display_entry = {}
+            if application.get(field) is not None:
+                display_entry["Description"] = display_string
+                display_entry["Answer"] = (
+                    friendly_boolean(application.get(field))
+                    + NEWLINE
+                    + (application.get("temp_direct_control_details") or "")
+                    if field == "is_temp_direct_control"
+                    else application.get(field)
+                )
+            if display_entry:
+                values_to_print.append(display_entry)
 
-    return values_to_print
+        return values_to_print
 
 
 def convert_party(party, application, editable):
