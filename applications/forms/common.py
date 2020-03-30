@@ -232,7 +232,7 @@ def declaration_form(application_id):
                 name="agreed_to_declaration",
                 title=strings.declaration.Declaration.RADIO_TITLE,
                 options=[
-                    Option("True", strings.declaration.Declaration.AGREE_TO_DECLARATION, id="agreed_to_declaration")
+                    Option("True", strings.declaration.Declaration.AGREE_TO_DECLARATION)
                 ],
                 classes=["govuk-checkboxes--small"],
             ),
