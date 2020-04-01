@@ -8,8 +8,16 @@
 
 {% block back_link %}{% endblock %}
 
+{% block navbar %}
+	Hello World!
+{% endblock %}
+
+
 {% block body %}
-	<h1 class="govuk-heading-xl govuk-!-margin-bottom-4">
+	<h1 class="govuk-caption-xl">
+		Export control account
+	</h1>
+	<h1 class="govuk-heading-xl">
 		{{ organisation.name }}
 	</h1>
 
@@ -19,17 +27,82 @@
 		</div>
 	{% endif %}
 
-	{% for section in sections %}
-		<section class="govuk-form-group">
-			<h3 class="govuk-heading-m">{{ section.title }}</h3>
-			<div class="app-tiles">
-				{% for tile in section.tiles %}
-					<a href="{{ tile.url }}" class="app-tile" role="button" draggable="false">
-						<h4>{{ tile.title }}</h4>
-						<p>{{ tile.description }}</p>
-					</a>
-				{% endfor %}
+	{# First section #}
+	<section class="govuk-form-group">
+		<h3 class="govuk-heading-m">{{ sections.0.title }}</h3>
+		<div class="app-tiles">
+			{# Apply tile #}
+			<div class="app-tile">
+				<a href="{{ sections.0.tiles.0.url }}" role="button" draggable="false">
+					<h4 class="govuk-heading-s">{{ sections.0.tiles.0.title }}</h4>
+				</a>
+				<p>Apply for:</p>
+				<ul class="govuk-list govuk-list--bullet govuk-!-font-size-16">
+  					<li>export licences</li>
+					<li>transhipment licences</li>
+					<li>trade control licences</li>
+					<li>MOD clearances</li>
+				</ul>
+				<p>Register for open general export licences (OGELs).</p>
 			</div>
-		</section>
-	{% endfor %}
+
+			{# Applications tile #}
+			<div class="app-tile">
+				<a href="{{ sections.0.tiles.1.url }}" role="button" draggable="false">
+					<h4 class="govuk-heading-s">{{ sections.0.tiles.1.title }}</h4>
+				</a>
+				<p>Check the progress of submitted applications and registrations.</p>
+				<p>Edit, withdraw or copy applications.</p>
+			</div>
+
+			{# View and manage licences tile #}
+			<div class="app-tile">
+				<a href="{{ sections.0.tiles.2.url }}" role="button" draggable="false">
+					<h4 class="govuk-heading-s">{{ sections.0.tiles.2.title }}</h4>
+				</a>
+			</div>
+		</div>
+	</section>
+
+	<section class="govuk-form-group">
+		<div class="app-tiles">
+			{# Product list tile #}
+			<div class="app-tile">
+				<a href="{{ sections.1.tiles.0.url }}" role="button" draggable="false">
+					<h4 class="govuk-heading-s">{{ sections.1.tiles.0.title }}</h4>
+				</a>
+				<p>View and manage your organisation's product database.</p>
+				<p>Products include goods, items, technology, data and services.</p>
+				<a href="{{ sections.0.tiles.0.url }}" role="button" draggable="false">
+					Create a control list classification (CLC) query
+				</a>
+				<br>
+				<a href="{{ sections.0.tiles.0.url }}" role="button" draggable="false">
+					Apply for a security grading
+				</a>
+			</div>
+
+			{# End user query tile #}
+			<div class="app-tile">
+				<a href="{{ sections.1.tiles.1.url }}" role="button" draggable="false">
+					<h4 class="govuk-heading-s">{{ sections.1.tiles.1.title }}</h4>
+				</a>
+				<p>Ask for advice about any overseas company, government or individual in your export.</p>
+			</div>
+		</div>
+	</section>
+
+{#	{% for section in sections %}#}
+{#		<section class="govuk-form-group">#}
+{#			<h3 class="govuk-heading-m">{{ section.title }}</h3>#}
+{#			<div class="app-tiles">#}
+{#				{% for tile in section.tiles %}#}
+{#					<a href="{{ tile.url }}" class="app-tile" role="button" draggable="false">#}
+{#						<h4>{{ tile.title }}</h4>#}
+{#						<p>{{ tile.description }}</p>#}
+{#					</a>#}
+{#				{% endfor %}#}
+{#			</div>#}
+{#		</section>#}
+{#	{% endfor %}#}
 {% endblock %}

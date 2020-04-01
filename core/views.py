@@ -68,16 +68,25 @@ class Home(TemplateView):
         else:
             sections = [
                 Section(
-                    "", [Tile(strings.hub.Tiles.APPLY_FOR_LICENCE, "", reverse_lazy("apply_for_a_licence:start"))],
-                ),
-                Section(
-                    strings.hub.Header.MANAGE,
+                    "",
                     [
+                        Tile(strings.hub.Tiles.APPLY_FOR_LICENCE, "", reverse_lazy("apply_for_a_licence:start"),),
                         Tile(
                             strings.hub.Tiles.APPLICATIONS,
                             generate_notification_string(notifications, case_types=[NotificationType.APPLICATION]),
                             reverse_lazy("applications:applications"),
                         ),
+                        Tile(
+                            strings.hub.Tiles.VIEW_AND_MANAGE_LICENCES,
+                            # will need new notifications and url !!!
+                            generate_notification_string(notifications, case_types=[NotificationType.APPLICATION]),
+                            reverse_lazy("applications:applications"),
+                        ),
+                    ],
+                ),
+                Section(
+                    "",
+                    [
                         Tile(
                             strings.hub.Tiles.GOODS,
                             generate_notification_string(notifications, case_types=[NotificationType.GOODS]),
