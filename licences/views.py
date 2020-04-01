@@ -26,7 +26,12 @@ class ApplicationsList(TemplateView):
                 Select(name="clc", title="CLC", options=get_control_list_entries(request, convert_to_options=True)),
                 Select(name="country", title="Country", options=get_countries(request, convert_to_options=True)),
                 TextInput(name="end_user", title="End User",),
-                Checkboxes(name="active_only", title="Current licences & clearances only", options=[Option(key=True, value=True)], classes=["govuk-checkboxes--small"]),
+                Checkboxes(
+                    name="active_only",
+                    title="Current licences & clearances only",
+                    options=[Option(key=True, value=True)],
+                    classes=["govuk-checkboxes--small"],
+                ),
                 HiddenField(name="type", value=params["type"]),
                 HiddenField(name="page", value=params["page"]),
             ]
