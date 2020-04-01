@@ -19,7 +19,7 @@ class RegisterOrganisation(BasePage):
     REG_ID = "registration_number"
     SITE_NAME_ID = "site.name"
     SITE_ADDRESS_LINE_1_ID = "site.address.address_line_1"
-    SITE_ADDRESS= "site.address.address"
+    SITE_ADDRESS = "site.address.address"
     SITE_CITY_ID = "site.address.city"
     SITE_REGION_ID = "site.address.region"
     SITE_POSTCODE_ID = "site.address.postcode"
