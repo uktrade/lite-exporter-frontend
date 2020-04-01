@@ -63,6 +63,9 @@
 							{{ licence.application.status.value }}
 						</td>
 						<td class="govuk-table__cell">
+							{% for document in licence.application.documents %}
+								<a href="{% url 'applications:download_generated_document' document.id licence.application.id %}" class="govuk-link govuk-link--no-visited-state" id="document-download">{{ document.advice_type.value }}.pdf</a>
+							{% endfor %}
 						</td>
 					</tr>
 				{% endfor %}
