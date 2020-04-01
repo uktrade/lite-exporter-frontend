@@ -134,7 +134,7 @@ def i_click_edit_application(driver):  # noqa
 
 @given("I go to exporter homepage and choose Test Org")  # noqa
 def go_to_exporter(driver, register_organisation, sso_sign_in, exporter_url, context):  # noqa
-    if "successfully registered" in driver.title:
+    if "pick-organisation" not in driver.current_url:
         driver.get(exporter_url.rstrip("/") + "/auth/logout")
         if "accounts/logout" in driver.current_url:
             driver.find_element_by_css_selector("[action='/sso/accounts/logout/'] button").click()
