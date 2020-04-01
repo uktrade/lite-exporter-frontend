@@ -1,8 +1,11 @@
 from random import randint
 
-from conftest import fake
+from faker import Faker
+
 from shared import functions
 from shared.BasePage import BasePage
+
+fake = Faker()
 
 
 class RegisterOrganisation(BasePage):
