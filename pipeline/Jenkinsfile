@@ -14,7 +14,7 @@ spec:
   nodeSelector:
     role: worker
   containers:
-  - name: lite-selenium-test
+  - name: lite-selenium-test:more-libs
     image: quay.io/uktrade/lite-selenium-base
     imagePullPolicy: Always
     command:
