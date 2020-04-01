@@ -13,15 +13,17 @@
 
 	<div class="lite-tabs__container">
 		<div class="lite-tabs">
-			<a href="{% url 'licences:licences' %}" class="lite-tabs__tab lite-tabs__tab--selected">
-				Licences
-			</a>
-			<a href="{% url 'licences:licences' %}" class="lite-tabs__tab lite-tabs__tab">
-				Clearances
-			</a>
-			<a href="{% url 'licences:licences' %}" class="lite-tabs__tab lite-tabs__tab">
-				NLRs
-			</a>
+			{% with request.GET.type as type %}
+				<a href="{% url 'licences:licences' %}?type=licence" class="lite-tabs__tab lite-tabs__tab{% if not type or type == "licence" %}--selected{% endif %}">
+					Licences
+				</a>
+				<a href="{% url 'licences:licences' %}?type=clearance" class="lite-tabs__tab lite-tabs__tab{% if type == "clearance" %}--selected{% endif %}">
+					Clearances
+				</a>
+				<a href="{% url 'licences:licences' %}?type=nlr" class="lite-tabs__tab lite-tabs__tab{% if type == "nlr" %}--selected{% endif %}">
+					NLRs
+				</a>
+			{% endwith %}
 		</div>
 	</div>
 
