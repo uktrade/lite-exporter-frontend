@@ -1,10 +1,10 @@
 from pytest_bdd import scenarios, then, given, when
 
-from pages.great_signin_page import GreatSigninPage
-from pages.register_organisation import RegisterOrganisation
-from pages.start_page import StartPage
-from shared import functions
-from shared.api_client.sub_helpers.users import post_user_to_great_sso
+from ui_automation_tests.pages.great_signin_page import GreatSigninPage
+from ui_automation_tests.pages.register_organisation import RegisterOrganisation
+from ui_automation_tests.pages.start_page import StartPage
+from ui_automation_tests.shared import functions
+from ui_automation_tests.shared.api_client.sub_helpers.users import post_user_to_great_sso
 
 scenarios("../features/register_an_organisation.feature", strict_gherkin=False)
 
