@@ -4,7 +4,7 @@ from django.views.generic import TemplateView
 from core.helpers import convert_dict_to_query_params
 from core.services import get_control_list_entries, get_countries
 from licences.services import get_licences
-from lite_forms.components import FiltersBar, TextInput, HiddenField, Select
+from lite_forms.components import FiltersBar, TextInput, HiddenField, Select, Checkboxes, Option
 
 
 class ApplicationsList(TemplateView):
@@ -16,6 +16,7 @@ class ApplicationsList(TemplateView):
             "clc": request.GET.get("clc"),
             "country": request.GET.get("country"),
             "end_user": request.GET.get("end_user"),
+            "active_only": request.GET.get("active_only"),
         }
         licences = get_licences(request, convert_dict_to_query_params(params))
 
@@ -25,6 +26,7 @@ class ApplicationsList(TemplateView):
                 Select(name="clc", title="CLC", options=get_control_list_entries(request, convert_to_options=True)),
                 Select(name="country", title="Country", options=get_countries(request, convert_to_options=True)),
                 TextInput(name="end_user", title="End User",),
+                Checkboxes(name="active_only", title="Current licences & clearances only", options=[Option(key=True, value=True)], classes=["govuk-checkboxes--small"]),
                 HiddenField(name="type", value=params["type"]),
                 HiddenField(name="page", value=params["page"]),
             ]
