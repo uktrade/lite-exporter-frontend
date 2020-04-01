@@ -4,8 +4,6 @@ from django.conf import settings
 from faker import Faker  # noqa
 from pytest_bdd import given, when, then, parsers
 
-from pages.great_signin_page import GreatSigninPage
-from pages.start_page import StartPage
 from ui_automation_tests.pages.temporary_export_details_form_page import TemporaryExportDetailsFormPage
 from ui_automation_tests.pages.route_of_goods_form_page import RouteOfGoodsFormPage
 from ui_automation_tests.pages.end_use_details_form_page import EndUseDetailsFormPage
