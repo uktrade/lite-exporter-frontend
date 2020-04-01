@@ -42,6 +42,10 @@ $card-shadow: 3px;
 		line-height: 1.5;
 	}
 
+	a {
+		color: $govuk-brand-colour!important;
+	}
+
 	&:focus {
 		box-shadow: none!important;
 	}
