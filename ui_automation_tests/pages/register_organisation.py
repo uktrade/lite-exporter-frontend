@@ -2,8 +2,8 @@ from random import randint
 
 from faker import Faker
 
-from shared import functions
-from shared.BasePage import BasePage
+from ui_automation_tests.shared import functions
+from ui_automation_tests.shared.BasePage import BasePage
 
 fake = Faker()
 
