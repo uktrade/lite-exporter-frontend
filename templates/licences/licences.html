@@ -1,0 +1,76 @@
+{% extends 'layouts/base.html' %}
+
+{% block back_link %}
+	{% include 'includes/breadcrumbs.html' with title='hub.Tiles.LICENCES' %}
+{% endblock %}
+
+{% block body %}
+	<div class="lite-app-bar">
+		<div class="lite-app-bar__content">
+			<h1 class="govuk-heading-l">{% block title %}Licences{% endblock %}</h1>
+		</div>
+	</div>
+
+	<div class="lite-tabs__container">
+		<div class="lite-tabs">
+			<a href="{% url 'licences:licences' %}" class="lite-tabs__tab lite-tabs__tab--selected">
+				Licences
+			</a>
+			<a href="{% url 'licences:licences' %}" class="lite-tabs__tab lite-tabs__tab">
+				Clearances
+			</a>
+			<a href="{% url 'licences:licences' %}" class="lite-tabs__tab lite-tabs__tab">
+				NLRs
+			</a>
+		</div>
+	</div>
+
+	{% if licences.results %}
+		<table class="govuk-table">
+			<thead class="govuk-table__head">
+				<tr class="govuk-table__row">
+					<th class="govuk-table__header" scope="col">Reference</th>
+					<th class="govuk-table__header" scope="col">Product description</th>
+					<th class="govuk-table__header" scope="col">Usage</th>
+					<th class="govuk-table__header" scope="col">Destination</th>
+					<th class="govuk-table__header" scope="col">Status</th>
+					<th class="govuk-table__header" scope="col">Decision</th>
+				</tr>
+			</thead>
+			<tbody class="govuk-table__body">
+				{% for licence in licences.results %}
+					<tr class="govuk-table__row">
+						<td class="govuk-table__cell">
+							{{ licence.application.reference_code }}
+						</td>
+						<td class="govuk-table__cell">
+							{% for good in licence.application.goods %}
+								{{ forloop.counter }}. {{ good.good.control_code }}, {{ good.good.description|summarise:10 }}
+							{% endfor %}
+						</td>
+						<td class="govuk-table__cell">
+							{# TODO Add usage here #}
+							{% for good in licence.application.goods %}
+								0 of {{ good.quantity }}
+							{% endfor %}
+						</td>
+						<td class="govuk-table__cell">
+							{% with licence.application.end_user.party as party %}
+								{{ party.country.name }} - {{ party.name }}
+							{% endwith %}
+						</td>
+						<td class="govuk-table__cell">
+							{{ licence.application.status.value }}
+						</td>
+						<td class="govuk-table__cell">
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+		{% include "includes/pagination.html" with data=licences %}
+	{% else %}
+		{% include "includes/notice.html" with text="licences.LicencesList.NO_CONTENT_NOTICE" %}
+	{% endif %}
+{% endblock %}
