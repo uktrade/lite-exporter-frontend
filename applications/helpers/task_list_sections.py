@@ -1,5 +1,5 @@
 from applications.services import get_party_document, get_ultimate_end_users
-from conf.constants import APPLICANT_EDITING
+from conf.constants import APPLICANT_EDITING, STANDARD, OPEN
 
 
 def get_reference_number_description(application):
@@ -48,11 +48,31 @@ def get_ultimate_end_users_section(request, application):
     return ultimate_end_users, ultimate_end_users_documents_complete
 
 
-def get_end_use_details(application, is_standard_application=False):
-    fields = ["is_military_end_use_controls", "is_informed_wmd", "is_suspected_wmd"]
-    if is_standard_application:
-        fields.append("is_eu_military")
+def get_end_use_details(application):
+    fields = ["intended_end_use"]
+    if application.sub_type in [STANDARD, OPEN]:
+        fields += ["is_military_end_use_controls", "is_informed_wmd", "is_suspected_wmd"]
+        if application.sub_type == STANDARD:
+            fields.append("is_eu_military")
     for field in fields:
-        if application[field] is None:
+        if application.get(field) is None:
+            return False
+    return True
+
+
+def get_route_of_goods(application):
+    if application.get("is_shipped_waybill_or_lading") is None:
+        return False
+    return True
+
+
+def get_temporary_export_details(application):
+    fields = [
+        "temp_export_details",
+        "is_temp_direct_control",
+        "proposed_return_date",
+    ]
+    for field in fields:
+        if application.get(field) is None:
             return False
     return True

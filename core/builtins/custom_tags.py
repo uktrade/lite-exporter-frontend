@@ -12,6 +12,7 @@ from conf.constants import CASE_SECTIONS
 from conf.constants import ISO8601_FMT, NOT_STARTED, DONE, IN_PROGRESS
 
 from lite_content.lite_exporter_frontend import strings
+from applications.constants import F680
 
 register = template.Library()
 STRING_NOT_FOUND_ERROR = "STRING_NOT_FOUND"
@@ -211,6 +212,25 @@ def task_list_item_status(data):
     return DONE
 
 
+@register.filter
+def task_list_additional_information_status(data):
+    """
+    Returns 'not started' if length of data given is none, else returns 'done'
+    """
+    if all([data.get(field) in ["", None] for field in F680.REQUIRED_FIELDS]):
+        return NOT_STARTED
+
+    for field in F680.REQUIRED_FIELDS:
+        if field in data:
+            if data[field] is None or data[field] == "":
+                return IN_PROGRESS
+            if data[field] is True:
+                secondary_field = F680.REQUIRED_SECONDARY_FIELDS.get(field, False)
+                if secondary_field and not data.get(secondary_field):
+                    return IN_PROGRESS
+    return DONE
+
+
 @register.simple_tag(name="tld")
 def task_list_item_list_description(data, singular, plural):
     """
@@ -313,3 +333,36 @@ def join_key_value_list(_list, _join=", "):
 @register.filter()
 def equals(ob1, ob2):
     return ob1 == ob2
+
+
+@register.filter()
+def get_address(data):
+    """
+    Returns a correctly formatted address
+    such as 10 Downing St, London, Westminster, SW1A 2AA, United Kingdom
+    from {'address': {'address_line_1': '10 Downing St', ...}
+    or {'address': '10 Downing St ...', 'country': {'name': United Kingdom'}}
+    """
+    if data:
+        address = data["address"]
+
+        if isinstance(address, str):
+            return address + ", " + data["country"]["name"]
+
+        if "address_line_1" in address:
+            address = [
+                address["address_line_1"],
+                address["address_line_2"],
+                address["city"],
+                address["region"],
+                address["postcode"],
+                address["country"]["name"],
+            ]
+        else:
+            address = [
+                address["address"],
+                address["country"]["name"],
+            ]
+
+        return ", ".join([x for x in address if x])
+    return ""

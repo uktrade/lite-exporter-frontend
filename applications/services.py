@@ -3,8 +3,7 @@ from http import HTTPStatus
 from django.http import StreamingHttpResponse
 from s3chunkuploader.file_handler import s3_client
 
-from applications.helpers.date_fields import format_date_fields
-from core.objects import Application
+from applications.helpers.date_fields import format_date_fields, create_formatted_date_from_components
 from conf.client import get, post, put, delete
 from conf.constants import (
     ACTIVITY_URL,
@@ -26,9 +25,12 @@ from conf.constants import (
     COUNTRIES_URL,
     PARTIES_URL,
     APPLICATION_COPY_URL,
+    END_USE_DETAILS_URL,
+    TEMPORARY_EXPORT_DETAILS_URL,
 )
 from conf.settings import AWS_STORAGE_BUCKET_NAME, STREAMING_CHUNK_SIZE
 from core.helpers import remove_prefix, convert_parameters_to_query_params, add_validate_only_to_data
+from core.objects import Application
 
 
 def get_applications(request, page: int = 1, submitted: bool = True):
@@ -57,6 +59,24 @@ def put_application(request, pk, json):
     return data.json(), data.status_code
 
 
+def put_application_route_of_goods(request, pk, json):
+    data = put(request, APPLICATIONS_URL + str(pk) + "/route-of-goods/", json)
+    return data.json(), data.status_code
+
+
+def put_end_use_details(request, pk, json):
+    data = put(request, APPLICATIONS_URL + str(pk) + END_USE_DETAILS_URL, json)
+    return data.json(), data.status_code
+
+
+def put_temporary_export_details(request, pk, json):
+    if "year" in json and "month" in json and "day" in json:
+        json["proposed_return_date"] = create_formatted_date_from_components(json)
+
+    data = put(request, APPLICATIONS_URL + str(pk) + TEMPORARY_EXPORT_DETAILS_URL, json)
+    return data.json(), data.status_code
+
+
 def put_application_with_clearance_types(request, pk, json):
     # Inject the clearance types as an empty set into JSON if they are not present
     json["types"] = json.get("types", [])
@@ -69,8 +89,9 @@ def delete_application(request, pk):
     return data.json(), data.status_code
 
 
-def submit_application(request, pk):
-    data = put(request, APPLICATIONS_URL + str(pk) + APPLICATION_SUBMIT_URL, json={})
+def submit_application(request, pk, json=None):
+    json = json or {}
+    data = put(request, APPLICATIONS_URL + str(pk) + APPLICATION_SUBMIT_URL, json=json)
     return data.json(), data.status_code
 
 
@@ -255,7 +276,6 @@ def add_document_data(request):
         return None, "No files attached"
     if len(files) != 1:
         return None, "Multiple files attached"
-
     file = files[0]
     try:
         original_name = file.original_name

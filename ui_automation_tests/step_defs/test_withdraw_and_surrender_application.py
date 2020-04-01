@@ -65,3 +65,13 @@ def edit_button_not_present(driver):
 @given("The application has been approved")
 def approve_application(approve_case):
     pass
+
+
+@given("An approval decision document has been generated")
+def approval_decision(context, api_test_client, add_a_document_template):
+    api_test_client.cases.add_generated_document(context.case_id, context.document_template_id, advice_type="approve")
+
+
+@given("The licence is finalised")
+def finalise_licence(context, api_test_client):
+    api_test_client.cases.finalise_licence(context.case_id)

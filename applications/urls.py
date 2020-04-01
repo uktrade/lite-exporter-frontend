@@ -13,7 +13,10 @@ from applications.views import (
     goods_types,
     f680_details,
     clearance,
+    questions,
     end_use_details,
+    route_of_goods,
+    temporary_export_details,
 )
 
 app_name = "applications"
@@ -56,6 +59,7 @@ urlpatterns = [
     ),
     # F680 details
     path("<uuid:pk>/f680-details/", f680_details.F680Details.as_view(), name="f680_details"),
+    path("<uuid:pk>/questions/", questions.AdditionalInformationFormView.as_view(), name="questions"),
     # Goods Types
     path("<uuid:pk>/goods-types/", goods_types.GoodsTypeList.as_view(), name="goods_types"),
     path("<uuid:pk>/goods-types/countries/", goods_types.GoodsTypeCountries.as_view(), name="goods_countries"),
@@ -155,6 +159,13 @@ urlpatterns = [
     ),
     # End use details
     path("<uuid:pk>/end-use-details/", end_use_details.EndUseDetails.as_view(), name="end_use_details"),
+    path("<uuid:pk>/route-of-goods/", route_of_goods.RouteOfGoods.as_view(), name="route_of_goods"),
+    # Temporary export details
+    path(
+        "<uuid:pk>/temporary-export-details/",
+        temporary_export_details.TemporaryExportDetails.as_view(),
+        name="temporary_export_details",
+    ),
     # Ultimate end users
     path("<uuid:pk>/ultimate-end-users/", ultimate_end_users.UltimateEndUsers.as_view(), name="ultimate_end_users"),
     path(
@@ -262,6 +273,7 @@ urlpatterns = [
     path("<uuid:pk>/clearance/", clearance.SetClearanceLevel.as_view(), name="clearance_level"),
     # This HAS to be at the bottom, otherwise it will swallow other url calls
     path("<uuid:pk>/", common.ApplicationDetail.as_view(), name="application"),
-    path("<uuid:pk>/exhibition-details", common.ExhibitionDetail.as_view(), name="exhibition_details"),
+    path("<uuid:pk>/exhibition-details/", common.ExhibitionDetail.as_view(), name="exhibition_details"),
+    path("<uuid:pk>/declaration/", common.ApplicationDeclaration.as_view(), name="declaration"),
     path("<uuid:pk>/<str:type>/", common.ApplicationDetail.as_view(), name="application"),
 ]

@@ -6,10 +6,13 @@ from pytest_bdd import given, when, then, parsers
 
 from pages.great_signin_page import GreatSigninPage
 from pages.start_page import StartPage
+from ui_automation_tests.pages.temporary_export_details_form_page import TemporaryExportDetailsFormPage
+from ui_automation_tests.pages.route_of_goods_form_page import RouteOfGoodsFormPage
 from ui_automation_tests.pages.end_use_details_form_page import EndUseDetailsFormPage
 from ui_automation_tests.pages.add_end_user_pages import AddEndUserPages
 from ui_automation_tests.pages.application_edit_type_page import ApplicationEditTypePage
 from ui_automation_tests.pages.application_page import ApplicationPage
+from ui_automation_tests.pages.generic_application.declaration import DeclarationPage
 from ui_automation_tests.pages.open_application.add_goods_type import OpenApplicationAddGoodsType
 from ui_automation_tests.pages.respond_to_ecju_query_page import RespondToEcjuQueryPage
 from ui_automation_tests.pages.submitted_applications_page import SubmittedApplicationsPages
@@ -50,7 +53,7 @@ from ui_automation_tests.shared.fixtures.core import (  # noqa
     context,
     exporter_info,
     internal_info,
-    api_client_config,
+    api_test_client,
 )
 from ui_automation_tests.shared.fixtures.urls import exporter_url, api_url  # noqa
 
@@ -215,6 +218,13 @@ def go_to_task_list_section(driver, section):  # noqa
     TaskListPage(driver).click_on_task_list_section(section)
 
 
+@when(parsers.parse("I provide details of the intended end use of the products"))  # noqa
+def intended_end_use_details(driver):  # noqa
+    end_use_details = EndUseDetailsFormPage(driver)
+    end_use_details.answer_intended_end_use_details(fake.sentence(nb_words=30))
+    functions.click_submit(driver)
+
+
 @when(parsers.parse('I answer "{choice}" for informed by ECJU to apply'))  # noqa
 def military_end_use_details(driver, choice):  # noqa
     end_use_details = EndUseDetailsFormPage(driver)
@@ -265,11 +275,44 @@ def eu_compliant_limitations_end_use_details(driver, choice):  # noqa
     functions.click_submit(driver)
 
 
+@when(parsers.parse('I answer "{choice}" for shipping air waybill or lading'))  # noqa
+def route_of_goods(driver, choice):  # noqa
+    route_of_goods = RouteOfGoodsFormPage(driver)
+    if choice == "No":
+        route_of_goods.answer_route_of_goods_question(True, "Not shipped air waybill.")
+    else:
+        route_of_goods.answer_route_of_goods_question(False)
+
+
 @when(parsers.parse("I save and continue on the summary page"))  # noqa
 def save_continue_summary_list(driver):  # noqa
     element = driver.find_element_by_css_selector("button[value='finish']")
     driver.execute_script("arguments[0].scrollIntoView();", element)
     driver.execute_script("arguments[0].click();", element)
+
+
+@when("I provide details of why my export is temporary")  # noqa
+def enter_temporary_export_details(driver):  # noqa
+    temporary_export_details = TemporaryExportDetailsFormPage(driver)
+    temporary_export_details.answer_temp_export_details(fake.sentence(nb_words=30))
+    functions.click_submit(driver)
+
+
+@when(parsers.parse('I answer "{choice}" for whether the products remain under my direct control'))  # noqa
+def temporary_export_direct_control(driver, choice):  # noqa
+    temporary_export_details = TemporaryExportDetailsFormPage(driver)
+    if choice == "Yes":
+        temporary_export_details.answer_is_temp_direct_control(True)
+    else:
+        temporary_export_details.answer_is_temp_direct_control(False, fake.sentence(nb_words=30))
+    functions.click_submit(driver)
+
+
+@when(parsers.parse('I enter the date "{day}", "{month}", "{year}" when the products will return to the UK'))  # noqa
+def enter_proposed_return_date(driver, day, month, year):  # noqa
+    temporary_export_details = TemporaryExportDetailsFormPage(driver)
+    temporary_export_details.proposed_return_date(day, month, year)
+    functions.click_submit(driver)
 
 
 @when(parsers.parse('I select "{choice}" for where my goods are located'))  # noqa
@@ -317,9 +360,7 @@ def application_is_submitted(driver, context):  # noqa
 
 @when("I submit the application")  # noqa
 def submit_the_application(driver, context):  # noqa
-    apply = ApplyForALicencePage(driver)
     functions.click_submit(driver)
-    assert apply.is_success_panel_present()
     context.time_date_submitted = datetime.datetime.now().strftime("%I:%M%p").lstrip("0").replace(
         " 0", " "
     ).lower() + datetime.datetime.now().strftime(" %d %B %Y")
@@ -592,3 +633,11 @@ def get_file_upload_path(filename):  # noqa
             os.path.join(os.path.dirname(__file__), os.pardir, "ui_automation_tests/resources", filename)
         )
     return file_to_upload_abs_path
+
+
+@when("I agree to the declaration")
+def agree_to_the_declaration(driver):  # noqa
+    declaration_page = DeclarationPage(driver)
+    declaration_page.agree_to_foi()
+    declaration_page.agree_to_declaration(driver)
+    functions.click_submit(driver)
