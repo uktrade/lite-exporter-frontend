@@ -1,9 +1,5 @@
-from random import randint
-
-import pytest
 from pytest_bdd import scenarios, then, given, when
 
-from conftest import fake
 from pages.great_signin_page import GreatSigninPage
 from pages.register_organisation import RegisterOrganisation
 from pages.start_page import StartPage
