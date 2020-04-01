@@ -15,16 +15,20 @@ class ApplicationsList(TemplateView):
             "reference": request.GET.get("reference"),
             "clc": request.GET.get("clc"),
             "country": request.GET.get("country"),
+            "end_user": request.GET.get("end_user"),
         }
         licences = get_licences(request, convert_dict_to_query_params(params))
 
-        filters = FiltersBar([
-            TextInput(name="reference", title="Reference",),
-            Select(name="clc", title="CLC", options=get_control_list_entries(request, convert_to_options=True)),
-            Select(name="country", title="Country", options=get_countries(request, convert_to_options=True)),
-            HiddenField(name="type", value=params["type"]),
-            HiddenField(name="page", value=params["page"]),
-        ])
+        filters = FiltersBar(
+            [
+                TextInput(name="reference", title="Reference",),
+                Select(name="clc", title="CLC", options=get_control_list_entries(request, convert_to_options=True)),
+                Select(name="country", title="Country", options=get_countries(request, convert_to_options=True)),
+                TextInput(name="end_user", title="End User",),
+                HiddenField(name="type", value=params["type"]),
+                HiddenField(name="page", value=params["page"]),
+            ]
+        )
 
         context = {
             "licences": licences,
