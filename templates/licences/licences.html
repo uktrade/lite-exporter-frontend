@@ -38,7 +38,7 @@
 					<th class="govuk-table__header" scope="col">Reference</th>
 					<th class="govuk-table__header govuk-!-width-one-third" scope="col">Product description</th>
 					<th class="govuk-table__header govuk-!-width-one-third" scope="col">Usage</th>
-					<th class="govuk-table__header" scope="col">Destination</th>
+					<th class="govuk-table__header govuk-!-width-one-third" scope="col">Destination</th>
 					<th class="govuk-table__header" scope="col">Status</th>
 					<th class="govuk-table__header" scope="col">Decision</th>
 				</tr>
@@ -51,43 +51,58 @@
 						</td>
 						<td class="govuk-table__cell">
 							{% for good in licence.application.goods|slice:":3" %}
-								<div>
-									{{ forloop.counter }}. {{ good.good.control_code }}, {{ good.good.description|summarise:10 }}
+								<div class="app-expanded-row__item--invert">
+									{{ forloop.counter }}. {{ good.good.control_code }}, {{ good.good.description|summarise:5 }}
 									{% if licence.application.goods|length > 3 and forloop.counter == 3 %}
-										<span class="lite-hint app-expanded-row__item--invert">
+										<br>
+										<span class="lite-hint">
 											 (3 of {{ licence.application.goods|length }})
 										</span>
 									{% endif %}
 								</div>
 							{% endfor %}
-							{% for good in licence.application.goods|slice:"3:" %}
+							{% for good in licence.application.goods %}
 								<div class="app-expanded-row__item">
-									{{ forloop.counter|add:3 }}. {{ good.good.control_code }}, {{ good.good.description|summarise:10 }}
+									{{ forloop.counter }}. {{ good.good.control_code }}, {{ good.good.description }}
 								</div>
 							{% endfor %}
 						</td>
 						<td class="govuk-table__cell">
 							{# TODO Add usage and licenced quantity here #}
 							{% for good in licence.application.goods|slice:":3" %}
-								<div>
-									0 of {{ good.quantity }}
+								<div class="app-expanded-row__item--invert">
+									0 of {{ good.quantity|summarise:5 }}
 									{% if licence.application.goods|length > 3 and forloop.counter == 3 %}
-										<span class="lite-hint app-expanded-row__item--invert">
+										<br>
+										<span class="lite-hint">
 											 (3 of {{ licence.application.goods|length }})
 										</span>
 									{% endif %}
 								</div>
 							{% endfor %}
-							{% for good in licence.application.goods|slice:"3:" %}
+							{% for good in licence.application.goods %}
 								<div class="app-expanded-row__item">
 									0 of {{ good.quantity }}
 								</div>
 							{% endfor %}
 						</td>
 						<td class="govuk-table__cell">
-							{% with licence.application.end_user.party as party %}
-								{{ party.country.name }} - {{ party.name }}
-							{% endwith %}
+							{% for destination in licence.application.destinations|slice:":3" %}
+								<div class="app-expanded-row__item--invert">
+									{{ destination.country.name }}{% if destination.name %} - {{ destination.name|summarise:5 }}{% endif %}
+									{% if licence.application.destinations|length > 3 and forloop.counter == 3 %}
+										<br>
+										<span class="lite-hint">
+											 (3 of {{ licence.application.destinations|length }})
+										</span>
+									{% endif %}
+								</div>
+							{% endfor %}
+							{% for destination in licence.application.destinations %}
+								<div class="app-expanded-row__item">
+									{{ destination.country.name }}{% if destination.name %} - {{ destination.name }}{% endif %}
+								</div>
+							{% endfor %}
 						</td>
 						<td class="govuk-table__cell">
 							{{ licence.application.status.value }}
@@ -98,11 +113,9 @@
 							{% endfor %}
 						</td>
 						<td>
-							{% if licence.application.goods|length > 3 %}
-								<a id="expand-flags-{{ licence.id }}" class="lite-accordian-table__chevron" onclick="return openTableFold(this);">
-									{% svg 'chevron' %}
-								</a>
-							{% endif %}
+							<a id="expand-{{ licence.id }}" class="lite-accordian-table__chevron" onclick="return openTableFold(this);">
+								{% svg 'chevron' %}
+							</a>
 						</td>
 					</tr>
 				{% endfor %}

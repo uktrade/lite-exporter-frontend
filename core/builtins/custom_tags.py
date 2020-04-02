@@ -370,7 +370,7 @@ def get_address(data):
 
 @register.filter()
 def summarise(string, length):
-    if len(string) <= length:
+    if len(str(string)) <= length:
         return string
     else:
-        return string[:length] + "..."
+        return str(string)[:length] + "..."
