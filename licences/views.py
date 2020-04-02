@@ -28,8 +28,7 @@ class ApplicationsList(TemplateView):
                 TextInput(name="end_user", title="End User",),
                 Checkboxes(
                     name="active_only",
-                    title="Current licences & clearances only",
-                    options=[Option(key=True, value=True)],
+                    options=[Option(key=True, value="Current licences & clearances only")],
                     classes=["govuk-checkboxes--small"],
                 ),
                 HiddenField(name="type", value=params["type"]),
