@@ -52,7 +52,11 @@
 						<td class="govuk-table__cell">
 							{% for good in licence.application.goods|slice:":3" %}
 								<div class="app-expanded-row__item--invert">
-									{{ forloop.counter }}. {{ good.good.control_code }}, {{ good.good.description|summarise:5 }}
+									{% if good.good %}
+										{{ forloop.counter }}. {{ good.good.control_code }}, {{ good.good.description|summarise:5 }}
+									{% else %}
+										{{ forloop.counter }}. {{ good.control_code }}, {{ good.description|summarise:5 }}
+									{% endif %}
 									{% if licence.application.goods|length > 3 and forloop.counter == 3 %}
 										<br>
 										<span class="lite-hint">
@@ -69,22 +73,25 @@
 						</td>
 						<td class="govuk-table__cell">
 							{# TODO Add usage and licenced quantity here #}
-							{% for good in licence.application.goods|slice:":3" %}
-								<div class="app-expanded-row__item--invert">
-									0 of {{ good.quantity|summarise:5 }}
-									{% if licence.application.goods|length > 3 and forloop.counter == 3 %}
-										<br>
-										<span class="lite-hint">
-											 (3 of {{ licence.application.goods|length }})
-										</span>
-									{% endif %}
-								</div>
-							{% endfor %}
-							{% for good in licence.application.goods %}
-								<div class="app-expanded-row__item">
-									0 of {{ good.quantity }}
-								</div>
-							{% endfor %}
+							{% if licence.application.goods.0.quantity %}
+								{# Check that goods have quantity (not goods type) #}
+								{% for good in licence.application.goods|slice:":3" %}
+									<div class="app-expanded-row__item--invert">
+										0 of {{ good.quantity|summarise:5 }}
+										{% if licence.application.goods|length > 3 and forloop.counter == 3 %}
+											<br>
+											<span class="lite-hint">
+												 (3 of {{ licence.application.goods|length }})
+											</span>
+										{% endif %}
+									</div>
+								{% endfor %}
+								{% for good in licence.application.goods %}
+									<div class="app-expanded-row__item">
+										0 of {{ good.quantity }}
+									</div>
+								{% endfor %}
+							{% endif %}
 						</td>
 						<td class="govuk-table__cell">
 							{% for destination in licence.application.destinations|slice:":3" %}
