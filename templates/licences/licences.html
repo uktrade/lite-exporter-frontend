@@ -1,5 +1,7 @@
 {% extends 'layouts/base.html' %}
 
+{% load svg static %}
+
 {% block back_link %}
 	{% include 'includes/breadcrumbs.html' with title='hub.Tiles.LICENCES' %}
 {% endblock %}
@@ -34,8 +36,8 @@
 			<thead class="govuk-table__head">
 				<tr class="govuk-table__row">
 					<th class="govuk-table__header" scope="col">Reference</th>
-					<th class="govuk-table__header" scope="col">Product description</th>
-					<th class="govuk-table__header" scope="col">Usage</th>
+					<th class="govuk-table__header govuk-!-width-one-third" scope="col">Product description</th>
+					<th class="govuk-table__header govuk-!-width-one-third" scope="col">Usage</th>
 					<th class="govuk-table__header" scope="col">Destination</th>
 					<th class="govuk-table__header" scope="col">Status</th>
 					<th class="govuk-table__header" scope="col">Decision</th>
@@ -43,19 +45,43 @@
 			</thead>
 			<tbody class="govuk-table__body">
 				{% for licence in licences.results %}
-					<tr class="govuk-table__row">
+					<tr class="govuk-table__row lite-accordian-table__row" id="{{ licence.id }}">
 						<td class="govuk-table__cell">
 							{{ licence.application.reference_code }}
 						</td>
 						<td class="govuk-table__cell">
-							{% for good in licence.application.goods %}
-								{{ forloop.counter }}. {{ good.good.control_code }}, {{ good.good.description|summarise:10 }}
+							{% for good in licence.application.goods|slice:":3" %}
+								<div>
+									{{ forloop.counter }}. {{ good.good.control_code }}, {{ good.good.description|summarise:10 }}
+									{% if licence.application.goods|length > 3 and forloop.counter == 3 %}
+										<span class="lite-hint app-expanded-row__item--invert">
+											 (3 of {{ licence.application.goods|length }})
+										</span>
+									{% endif %}
+								</div>
+							{% endfor %}
+							{% for good in licence.application.goods|slice:"3:" %}
+								<div class="app-expanded-row__item">
+									{{ forloop.counter|add:3 }}. {{ good.good.control_code }}, {{ good.good.description|summarise:10 }}
+								</div>
 							{% endfor %}
 						</td>
 						<td class="govuk-table__cell">
-							{# TODO Add usage here #}
-							{% for good in licence.application.goods %}
-								0 of {{ good.quantity }}
+							{# TODO Add usage and licenced quantity here #}
+							{% for good in licence.application.goods|slice:":3" %}
+								<div>
+									0 of {{ good.quantity }}
+									{% if licence.application.goods|length > 3 and forloop.counter == 3 %}
+										<span class="lite-hint app-expanded-row__item--invert">
+											 (3 of {{ licence.application.goods|length }})
+										</span>
+									{% endif %}
+								</div>
+							{% endfor %}
+							{% for good in licence.application.goods|slice:"3:" %}
+								<div class="app-expanded-row__item">
+									0 of {{ good.quantity }}
+								</div>
 							{% endfor %}
 						</td>
 						<td class="govuk-table__cell">
@@ -71,6 +97,13 @@
 								<a href="{% url 'applications:download_generated_document' document.id licence.application.id %}" class="govuk-link govuk-link--no-visited-state" id="document-download">{{ document.advice_type.value }}.pdf</a>
 							{% endfor %}
 						</td>
+						<td>
+							{% if licence.application.goods|length > 3 %}
+								<a id="expand-flags-{{ licence.id }}" class="lite-accordian-table__chevron" onclick="return openTableFold(this);">
+									{% svg 'chevron' %}
+								</a>
+							{% endif %}
+						</td>
 					</tr>
 				{% endfor %}
 			</tbody>
@@ -80,4 +113,8 @@
 	{% else %}
 		{% include "includes/notice.html" with text="licences.LicencesList.NO_CONTENT_NOTICE" %}
 	{% endif %}
+{% endblock %}
+
+{% block javascript %}
+	<script src="{% static 'shared/lite-frontend/javascripts/accordian.js' %}"></script>
 {% endblock %}
