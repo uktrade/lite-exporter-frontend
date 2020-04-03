@@ -47,7 +47,7 @@
 				{% for licence in licences.results %}
 					<tr class="govuk-table__row lite-accordian-table__row" id="licence-{{ licence.id }}">
 						<td class="govuk-table__cell">
-							{{ licence.application.name|summarise:40 }}
+							<a href="{% url 'applications:application' licence.application.id %}" class="govuk-link govuk-link--no-visited-state">{{ licence.application.name|summarise:40 }}</a>
 						</td>
 						<td class="govuk-table__cell">
 							{{ licence.application.reference_code }}
