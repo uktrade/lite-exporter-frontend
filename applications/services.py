@@ -44,6 +44,16 @@ def get_applications(request, page: int = 1, submitted: bool = True):
     return data.json()
 
 
+def get_existing(request):
+    """
+    Returns two booleans
+    Whether there are any existing applications for an org
+    Whether there are any existing licences for an org
+    """
+    data = get(request, APPLICATIONS_URL + "existing-applications/")
+    return data.json()
+
+
 def get_application(request, pk) -> Application:
     data = get(request, APPLICATIONS_URL + str(pk))
     return Application(data.json())

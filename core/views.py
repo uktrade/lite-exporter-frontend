@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import TemplateView
 
+from applications.services import get_existing
 from auth.services import authenticate_exporter_user
 from conf.constants import Permissions, NotificationType, NEWLINE
 from core.forms import (
@@ -13,7 +14,7 @@ from core.forms import (
     register_triage,
     register_an_individual_group,
 )
-from core.helpers import Section, Tile, generate_notification_string
+from core.helpers import Section, Tile, generate_notification_string, str_to_bool
 from core.services import (
     get_notifications,
     get_organisation,
@@ -49,6 +50,7 @@ class Home(TemplateView):
 
         organisation = get_organisation(request, str(request.user.organisation))
         notifications, _ = get_notifications(request)
+        existing = get_existing(request)
 
         if organisation.get("type").get("key") == "hmrc":
             sections = [
@@ -117,6 +119,7 @@ class Home(TemplateView):
             "sections": sections,
             "user_data": user,
             "notifications": notifications,
+            "existing": existing,
         }
 
         return render(request, "core/hub.html", context)
