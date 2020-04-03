@@ -9,7 +9,7 @@
 {% block body %}
 	<div class="lite-app-bar">
 		<div class="lite-app-bar__content">
-			<h1 class="govuk-heading-l">{% block title %}Licences{% endblock %}</h1>
+			<h1 class="govuk-heading-l">{% block title %}{% lcs "licences.LicencesList.TITLE" %}{% endblock %}</h1>
 		</div>
 	</div>
 
@@ -17,13 +17,13 @@
 		<div class="lite-tabs">
 			{% with request.GET.type as type %}
 				<a id="licences-tab" href="{% url 'licences:licences' %}?type=licence" class="lite-tabs__tab lite-tabs__tab{% if not type or type == "licence" %}--selected{% endif %}">
-					Licences
+					{% lcs "licences.LicencesList.Tabs.LICENCE" %}
 				</a>
 				<a id="clearances-tab" href="{% url 'licences:licences' %}?type=clearance" class="lite-tabs__tab lite-tabs__tab{% if type == "clearance" %}--selected{% endif %}">
-					Clearances
+					{% lcs "licences.LicencesList.Tabs.CLEARANCE" %}
 				</a>
 				<a id="nlrs-tab" href="{% url 'licences:licences' %}?type=nlr" class="lite-tabs__tab lite-tabs__tab{% if type == "nlr" %}--selected{% endif %}">
-					NLRs
+					{% lcs "licences.LicencesList.Tabs.NLR" %}
 				</a>
 			{% endwith %}
 		</div>
@@ -35,12 +35,12 @@
 		<table class="govuk-table">
 			<thead class="govuk-table__head">
 				<tr class="govuk-table__row">
-					<th class="govuk-table__header" scope="col">Reference</th>
-					<th class="govuk-table__header govuk-!-width-one-third" scope="col">Product description</th>
-					<th class="govuk-table__header govuk-!-width-one-third" scope="col">Usage</th>
-					<th class="govuk-table__header govuk-!-width-one-third" scope="col">Destination</th>
-					<th class="govuk-table__header" scope="col">Status</th>
-					<th class="govuk-table__header" scope="col">Decision</th>
+					<th class="govuk-table__header" scope="col">{% lcs "licences.LicencesList.Table.REFERENCE_COLUMN" %}</th>
+					<th class="govuk-table__header govuk-!-width-one-third" scope="col">{% lcs "licences.LicencesList.Table.GOODS_COLUMN" %}</th>
+					<th class="govuk-table__header govuk-!-width-one-third" scope="col">{% lcs "licences.LicencesList.Table.USAGE_COLUMN" %}</th>
+					<th class="govuk-table__header govuk-!-width-one-third" scope="col">{% lcs "licences.LicencesList.Table.DESTINATION_COLUMN" %}</th>
+					<th class="govuk-table__header" scope="col">{% lcs "licences.LicencesList.Table.STATUS_COLUMN" %}</th>
+					<th class="govuk-table__header" scope="col">{% lcs "licences.LicencesList.Table.DOCUMENTS_COLUMN" %}</th>
 				</tr>
 			</thead>
 			<tbody class="govuk-table__body">
