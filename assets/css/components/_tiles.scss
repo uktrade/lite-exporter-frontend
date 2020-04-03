@@ -54,7 +54,6 @@ $card-shadow: 3px;
 .navigation {
     position: relative;
     border-bottom: 1px solid #bfc1c3;
-
     width: 100%;
     float: left;
 	color: #0b0c0c;
@@ -64,7 +63,7 @@ $card-shadow: 3px;
     color: #0b0c0c !important;
     float: left;
     display: inline-block;
-    padding: 12px 16px 8px 22px;
+    padding: 6px 0px 6px 0px;
     text-decoration: none;
 	&:hover {
 		border-bottom: 4px solid #bfc1c3;
@@ -74,14 +73,19 @@ $card-shadow: 3px;
 .nav-items {
     float: right;
     margin: 0;
-
-	li,a {
-		display: inline-block;
-		text-decoration: none;
-		color: #0b0c0c;
-		padding: 5px 14px 5px 0px;
-	}
+	display: inline-block;
+	text-decoration: none;
+	color: #0b0c0c;
+	padding: 6px 0px 6px 0px;
 	&:hover {
 		border-bottom: 4px solid #bfc1c3;
 	}
+}
+
+.no-bottom-margin {
+	margin-bottom: 25px!important;
+}
+
+.float-left {
+    float: left;
 }

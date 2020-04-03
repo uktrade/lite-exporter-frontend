@@ -10,10 +10,8 @@
 
 {% block navigation %}
 	<div class="navigation govuk-body-s">
-		<a href="#" class="home-link">Account home</a>
-		<ul class="nav-items">
-			<li><a href="your-account.html">Your account</a></li>
-    	</ul>
+		<a href="{% url 'core:home' %}" class="home-link">{% lcs 'hub.Navigation.ACCOUNT_HOME' %}</a>
+		<a href="{% url 'organisation:members:members' %}" class="nav-items">{% lcs 'hub.Navigation.YOUR_ACCOUNT' %}</a>
 	</div>
 {% endblock %}
 
@@ -22,7 +20,7 @@
 	<h1 class="govuk-caption-xl">
 		{% lcs 'hub.ACCOUNT' %}
 	</h1>
-	<h1 class="govuk-heading-xl">
+	<h1 class="govuk-heading-xl no-bottom-margin">
 		{{ organisation.name }}
 	</h1>
 
@@ -31,11 +29,12 @@
 			<a class="govuk-link govuk-link--no-visited-state govuk-!-font-size-16" href="{% url 'core:pick_organisation' %}" id="switch-link">Switch organisation</a>
 		</div>
 	{% endif %}
-
 	{% if organisation.type.key != 'hmrc' %}
 		{# First section #}
 		<section class="govuk-form-group">
-			<h3 class="govuk-heading-m">{{ sections.0.title }}</h3>
+			<h3 class="govuk-heading-m">
+				{{ sections.0.title }}
+			</h3>
 			<div class="app-tiles">
 				{# Apply tile #}
 				<div class="app-tile">
@@ -63,14 +62,14 @@
 					</div>
 				{% endif %}
 
-				{% if existing.licences %}
+{#				{% if existing.licences %}#}
 				{# View and manage licences tile #}
 					<div class="app-tile">
 						<a href="{{ sections.0.tiles.2.url }}" role="button" draggable="false">
 							<h4 class="govuk-heading-s">{{ sections.0.tiles.2.title }}</h4>
 						</a>
 					</div>
-				{% endif %}
+{#				{% endif %}#}
 			</div>
 		</section>
 
