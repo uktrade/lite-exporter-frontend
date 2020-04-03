@@ -45,7 +45,7 @@
 			</thead>
 			<tbody class="govuk-table__body">
 				{% for licence in licences.results %}
-					<tr class="govuk-table__row lite-accordian-table__row" id="{{ licence.id }}">
+					<tr class="govuk-table__row lite-accordian-table__row" id="licence-{{ licence.id }}">
 						<td class="govuk-table__cell">
 							{{ licence.application.reference_code }}
 						</td>
