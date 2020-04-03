@@ -37,7 +37,6 @@
 				<tr class="govuk-table__row">
 					<th class="govuk-table__header" scope="col">{% lcs "licences.LicencesList.Table.REFERENCE_COLUMN" %}</th>
 					<th class="govuk-table__header govuk-!-width-one-third" scope="col">{% lcs "licences.LicencesList.Table.GOODS_COLUMN" %}</th>
-					<th class="govuk-table__header govuk-!-width-one-third" scope="col">{% lcs "licences.LicencesList.Table.USAGE_COLUMN" %}</th>
 					<th class="govuk-table__header govuk-!-width-one-third" scope="col">{% lcs "licences.LicencesList.Table.DESTINATION_COLUMN" %}</th>
 					<th class="govuk-table__header" scope="col">{% lcs "licences.LicencesList.Table.STATUS_COLUMN" %}</th>
 					<th class="govuk-table__header" scope="col">{% lcs "licences.LicencesList.Table.DOCUMENTS_COLUMN" %}</th>
@@ -74,28 +73,6 @@
 									{% endif %}
 								</div>
 							{% endfor %}
-						</td>
-						<td class="govuk-table__cell">
-							{# TODO Add usage and licenced quantity here #}
-							{% if licence.application.goods.0.quantity %}
-								{# Check that goods have quantity (not goods type) #}
-								{% for good in licence.application.goods|slice:":3" %}
-									<div class="app-expanded-row__item--invert">
-										0 of {{ good.quantity|summarise:5 }}
-										{% if licence.application.goods|length > 3 and forloop.counter == 3 %}
-											<br>
-											<span class="lite-hint govuk-!-margin-0">
-												(3 of {{ licence.application.goods|length }})
-											</span>
-										{% endif %}
-									</div>
-								{% endfor %}
-								{% for good in licence.application.goods %}
-									<div class="app-expanded-row__item">
-										0 of {{ good.quantity }}
-									</div>
-								{% endfor %}
-							{% endif %}
 						</td>
 						<td class="govuk-table__cell">
 							{% for destination in licence.application.destinations|slice:":3" %}
