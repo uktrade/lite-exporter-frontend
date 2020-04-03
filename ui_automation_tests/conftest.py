@@ -116,8 +116,8 @@ def standard_application_exists(apply_for_standard_application):  # noqa
     pass
 
 
-@given("I create an open application via api")
-def open_application_exists(apply_for_open_application):
+@given("I create an open application via api")  # noqa
+def open_application_exists(apply_for_open_application):  # noqa
     pass
 
 

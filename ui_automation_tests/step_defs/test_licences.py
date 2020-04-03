@@ -22,7 +22,9 @@ def final_advice_open(context, decision, api_test_client):
 
 @given(parsers.parse('I create a licence for my application with "{decision}" decision document'))
 def create_licence(context, decision, api_test_client):
-    document_template = api_test_client.document_templates.add_template(api_test_client.picklists, case_types=["oiel", "siel", "exhc"])
+    document_template = api_test_client.document_templates.add_template(
+        api_test_client.picklists, case_types=["oiel", "siel", "exhc"]
+    )
     api_test_client.cases.add_generated_document(context.case_id, document_template["id"], decision)
     api_test_client.cases.finalise_case(context.case_id, "approve")
     api_test_client.cases.finalise_licence(context.case_id)
