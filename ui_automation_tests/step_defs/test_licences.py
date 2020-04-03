@@ -30,3 +30,15 @@ def licence_row(context, driver):
     assert context.end_user["country"]["name"] in row
     assert context.end_user["name"] in row
     assert "Finalised" in row
+
+
+@then("I see my open licence")
+def licence_row(context, driver):
+    licences_page = LicencesPage(driver)
+    find_paginated_item_by_id(licences_page.LICENCE_ROW_PARTIAL_ID + context.licence, driver)
+    row = licences_page.licence_row_properties(context.licence)
+    assert context.reference_code in row
+    assert context.goods_type["control_code"] in row
+    assert context.goods_type["description"] in row
+    assert context.country["name"] in row
+    assert "Finalised" in row

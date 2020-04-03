@@ -67,7 +67,11 @@
 							{% endfor %}
 							{% for good in licence.application.goods %}
 								<div class="app-expanded-row__item">
-									{{ forloop.counter }}. {{ good.good.control_code }}, {{ good.good.description }}
+									{% if good.good %}
+										{{ forloop.counter }}. {{ good.good.control_code }}, {{ good.good.description }}
+									{% else %}
+										{{ forloop.counter }}. {{ good.control_code }}, {{ good.description }}
+									{% endif %}
 								</div>
 							{% endfor %}
 						</td>
