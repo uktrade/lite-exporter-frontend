@@ -43,7 +43,6 @@ def standard_licence_row(context, driver):
     assert context.reference_code in row
     assert context.good["good"]["control_code"] in row
     assert context.good["good"]["description"] in row
-    assert str(context.good["quantity"]) in row
     assert context.end_user["country"]["name"] in row
     assert context.end_user["name"] in row
     assert "Finalised" in row
