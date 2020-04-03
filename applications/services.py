@@ -50,7 +50,7 @@ def get_existing(request):
     Whether there are any existing applications for an org
     Whether there are any existing licences for an org
     """
-    data = get(request, APPLICATIONS_URL + "existing-applications/")
+    data = get(request, APPLICATIONS_URL + "existing/")
     return data.json()
 
 
