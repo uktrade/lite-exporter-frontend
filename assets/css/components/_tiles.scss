@@ -45,6 +45,12 @@ $card-shadow: 3px;
 	a {
 		color: $govuk-brand-colour!important;
 	}
+	span {
+		@include govuk-font($size: 14, $weight: bold);
+		margin-left: 5px;
+		color: white!important;
+
+	}
 
 	&:focus {
 		box-shadow: none!important;

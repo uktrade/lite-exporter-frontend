@@ -29,12 +29,10 @@
 			<a class="govuk-link govuk-link--no-visited-state govuk-!-font-size-16" href="{% url 'core:pick_organisation' %}" id="switch-link">Switch organisation</a>
 		</div>
 	{% endif %}
+
 	{% if organisation.type.key != 'hmrc' %}
 		{# First section #}
 		<section class="govuk-form-group">
-			<h3 class="govuk-heading-m">
-				{{ sections.0.title }}
-			</h3>
 			<div class="app-tiles">
 				{# Apply tile #}
 				<div class="app-tile">
@@ -50,13 +48,15 @@
 					</ul>
 					<p>{% lcs 'hub.Tiles.Apply.REGISTER_OGEL' %}</p>
 				</div>
-
 				{# Applications tile #}
 				{% if existing.applications %}
 					<div class="app-tile">
-						<a href="{{ sections.0.tiles.1.url }}" role="button" draggable="false">
+						<a href="{{ sections.0.tiles.1.url }}" role="button" draggable="false" class="float-left">
 							<h4 class="govuk-heading-s">{{ sections.0.tiles.1.title }}</h4>
 						</a>
+						{% if notifications.notifications.application %}
+							<span class="lite-notification-bubble">{{ notifications.notifications.application }}</span>
+						{% endif %}
 						<p>{% lcs 'hub.Tiles.Applications.CHECK_PROGRESS' %}</p>
 						<p>{% lcs 'hub.Tiles.Applications.EDIT_APPLICATIONS' %}</p>
 					</div>
@@ -78,9 +78,12 @@
 			<div class="app-tiles">
 				{# Product list tile #}
 				<div class="app-tile">
-					<a href="{{ sections.1.tiles.0.url }}" role="button" draggable="false">
+					<a href="{{ sections.1.tiles.0.url }}" role="button" draggable="false" class="float-left">
 						<h4 class="govuk-heading-s">{{ sections.1.tiles.0.title }}</h4>
 					</a>
+					{% if notifications.notifications.goods %}
+						<span class="lite-notification-bubble">{{ notifications.notifications.goods }}</span>
+					{% endif %}
 					<p>{% lcs 'hub.Tiles.ProductList.MANAGE_PRODUCTS' %}</p>
 					<p>{% lcs 'hub.Tiles.ProductList.PRODUCTS_INCLUDE' %}</p>
 					<a href="{% url 'goods:add' %}" role="button" draggable="false">
@@ -94,9 +97,12 @@
 
 				{# End user query tile #}
 				<div class="app-tile">
-					<a href="{{ sections.1.tiles.1.url }}" role="button" draggable="false">
+					<a href="{{ sections.1.tiles.1.url }}" role="button" draggable="false" class="float-left">
 						<h4 class="govuk-heading-s">{{ sections.1.tiles.1.title }}</h4>
 					</a>
+					{% if notifications.notifications.end_user_advisory %}
+						<span class="lite-notification-bubble">{{ notifications.notifications.end_user_advisory }}</span>
+					{% endif %}
 					<p>{% lcs 'hub.Tiles.EUA.ASK_FOR_ADVICE' %}</p>
 				</div>
 			</div>
