@@ -23,7 +23,7 @@ class UltimateEndUsers(TemplateView):
         context = {
             "application": application,
             "ultimate_end_users": ultimate_end_users,
-            "show_warning": check_all_parties_have_a_document(ultimate_end_users) == "in_progress",
+            # "show_warning": check_all_parties_have_a_document(ultimate_end_users) == "in_progress",
         }
         return render(request, "applications/parties/ultimate-end-users.html", context)
 
