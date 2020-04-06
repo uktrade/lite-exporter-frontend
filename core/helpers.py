@@ -46,7 +46,7 @@ def generate_notification_string(notifications, case_types):
 def generate_notification_total_string(notification_count):
     if not notification_count:
         return ""
-    elif notification_count:
+    elif notification_count == 1:
         return f"You have {notification_count} new notification"
     else:
         return f"You have {notification_count} new notifications"

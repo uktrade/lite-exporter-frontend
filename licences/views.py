@@ -42,5 +42,6 @@ class ApplicationsList(TemplateView):
             "licences": licences,
             "page": page,
             "filters": filters,
+            "row_limit": 3,
         }
         return render(request, "licences/licences.html", context)

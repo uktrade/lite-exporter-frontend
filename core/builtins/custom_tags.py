@@ -369,7 +369,7 @@ def get_address(data):
 
 
 @register.filter()
-def summarise(string, length):
+def abbreviate_string(string, length):
     if len(str(string)) <= length:
         return string
     else:
