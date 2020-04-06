@@ -1,6 +1,6 @@
 from conf.client import get
 from conf.constants import LICENCES_URL
-from core.helpers import convert_dict_to_query_params
+from core.helpers import convert_parameters_to_query_params
 
 
 def get_licences(
@@ -8,5 +8,5 @@ def get_licences(
 ):
     if not page:
         page = 1
-    data = get(request, LICENCES_URL + "?" + convert_dict_to_query_params(locals()))
+    data = get(request, LICENCES_URL + convert_parameters_to_query_params(locals()))
     return data.json()
