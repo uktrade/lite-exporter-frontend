@@ -10,9 +10,9 @@ from lite_forms.components import FiltersBar, TextInput, HiddenField, Select, Ch
 class ApplicationsList(TemplateView):
     def get(self, request, **kwargs):
         page = int(request.GET.get("page", 1))
-        type = request.GET.get("type", "licence")
+        licence_type = request.GET.get("licence_type")
 
-        licences = get_licences(request, page, type=type, **request.GET)
+        licences = get_licences(request, **request.GET)
 
         filters = FiltersBar(
             [
@@ -33,7 +33,7 @@ class ApplicationsList(TemplateView):
                     options=[Option(key=True, value=LicencesList.Filters.ACTIVE)],
                     classes=["govuk-checkboxes--small"],
                 ),
-                HiddenField(name="type", value=type),
+                HiddenField(name="licence_type", value=licence_type),
                 HiddenField(name="page", value=page),
             ]
         )
