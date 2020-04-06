@@ -47,12 +47,21 @@
 				{% for licence in licences.results %}
 					<tr class="govuk-table__row lite-accordian-table__row" id="licence-{{ licence.id }}">
 						<td class="govuk-table__cell">
+							<span class="govuk-table__header" aria-hidden="true">
+								{% lcs "licences.LicencesList.Table.APPLICATION_COLUMN" %}
+							</span>
 							<a href="{% url 'applications:application' licence.application.id %}" class="govuk-link govuk-link--no-visited-state">{{ licence.application.name|summarise:40 }}</a>
 						</td>
 						<td class="govuk-table__cell">
+							<span class="govuk-table__header" aria-hidden="true">
+								{% lcs "licences.LicencesList.Table.LICENCE_COLUMN" %}
+							</span>
 							{{ licence.application.reference_code }}
 						</td>
 						<td class="govuk-table__cell">
+							<span class="govuk-table__header" aria-hidden="true">
+								{% lcs "licences.LicencesList.Table.GOODS_COLUMN" %}
+							</span>
 							{% for good in licence.application.goods|slice:":3" %}
 								<div class="app-expanded-row__item--invert">
 									{% if good.good %}
@@ -79,6 +88,9 @@
 							{% endfor %}
 						</td>
 						<td class="govuk-table__cell">
+							<span class="govuk-table__header" aria-hidden="true">
+								{% lcs "licences.LicencesList.Table.DESTINATION_COLUMN" %}
+							</span>
 							{% for destination in licence.application.destinations|slice:":3" %}
 								<div class="app-expanded-row__item--invert">
 									{{ destination.country.name }}{% if destination.name %} - {{ destination.name|summarise:5 }}{% endif %}
@@ -97,9 +109,15 @@
 							{% endfor %}
 						</td>
 						<td class="govuk-table__cell">
+							<span class="govuk-table__header" aria-hidden="true">
+								{% lcs "licences.LicencesList.Table.STATUS_COLUMN" %}
+							</span>
 							{{ licence.application.status.value }}
 						</td>
 						<td class="govuk-table__cell">
+							<span class="govuk-table__header" aria-hidden="true">
+								{% lcs "licences.LicencesList.Table.DOCUMENTS_COLUMN" %}
+							</span>
 							{% for document in licence.application.documents %}
 								<span class="govuk-visually-hidden">{% lcs "licences.LicencesList.DOWNLOAD_HIDDEN_TEXT" %}</span>
 								<a href="{% url 'applications:download_generated_document' document.id licence.application.id %}" class="govuk-link govuk-link--no-visited-state" id="document-download">{{ document.advice_type.value }}.pdf</a>
