@@ -66,9 +66,9 @@
 							{% for good in licence.application.goods|slice:":3" %}
 								<div class="app-expanded-row__item--invert">
 									{% if good.good %}
-										{{ forloop.counter }}. {{ good.good.control_code }}, {{ good.good.description|summarise:5 }}
+										{{ forloop.counter }}. {{ good.good.control_code }}, {{ good.good.description|summarise:10 }}
 									{% else %}
-										{{ forloop.counter }}. {{ good.control_code }}, {{ good.description|summarise:5 }}
+										{{ forloop.counter }}. {{ good.control_code }}, {{ good.description|summarise:10 }}
 									{% endif %}
 									{% if licence.application.goods|length > 3 and forloop.counter == 3 %}
 										<br>
@@ -94,7 +94,7 @@
 							</span>
 							{% for destination in licence.application.destinations|slice:":3" %}
 								<div class="app-expanded-row__item--invert">
-									{{ destination.country.name }}{% if destination.name %} - {{ destination.name|summarise:5 }}{% endif %}
+									{{ destination.country.name }}{% if destination.name %} - {{ destination.name|summarise:10 }}{% endif %}
 									{% if licence.application.destinations|length > 3 and forloop.counter == 3 %}
 										<br>
 										<span class="govuk-hint govuk-!-margin-0">
