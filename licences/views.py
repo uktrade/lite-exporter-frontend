@@ -16,11 +16,7 @@ class ApplicationsList(TemplateView):
             request,
             page,
             type=type,
-            reference=request.GET.get("reference"),
-            clc=request.GET.get("clc"),
-            country=request.GET.get("country"),
-            end_user=request.GET.get("end_user"),
-            active_only=request.GET.get("active_only"),
+            **request.GET
         )
 
         filters = FiltersBar(

@@ -62,7 +62,7 @@
 									{% endif %}
 									{% if licence.application.goods|length > 3 and forloop.counter == 3 %}
 										<br>
-										<span class="lite-hint govuk-!-margin-0">
+										<span class="govuk-hint govuk-!-margin-0">
 											(3 of {{ licence.application.goods|length }})
 										</span>
 									{% endif %}
@@ -84,7 +84,7 @@
 									{{ destination.country.name }}{% if destination.name %} - {{ destination.name|summarise:5 }}{% endif %}
 									{% if licence.application.destinations|length > 3 and forloop.counter == 3 %}
 										<br>
-										<span class="lite-hint govuk-!-margin-0">
+										<span class="govuk-hint govuk-!-margin-0">
 											(3 of {{ licence.application.destinations|length }})
 										</span>
 									{% endif %}
