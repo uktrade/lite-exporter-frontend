@@ -12,12 +12,7 @@ class ApplicationsList(TemplateView):
         page = int(request.GET.get("page", 1))
         type = request.GET.get("type", "licence")
 
-        licences = get_licences(
-            request,
-            page,
-            type=type,
-            **request.GET
-        )
+        licences = get_licences(request, page, type=type, **request.GET)
 
         filters = FiltersBar(
             [
