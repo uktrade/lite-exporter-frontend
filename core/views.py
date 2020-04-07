@@ -14,7 +14,7 @@ from core.forms import (
     register_triage,
     register_an_individual_group,
 )
-from core.helpers import Section, Tile, generate_notification_string
+from core.helpers import Section, Tile, generate_notification_string, generate_notification_total_string
 from core.services import (
     get_notifications,
     get_organisation,

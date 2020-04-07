@@ -1,6 +1,6 @@
 import datetime
 import os
-
+from django.conf import settings
 from faker import Faker  # noqa
 from pytest_bdd import given, when, then, parsers
 
@@ -51,6 +51,7 @@ from ui_automation_tests.shared.fixtures.core import (  # noqa
     context,
     exporter_info,
     internal_info,
+    api_client,
     api_test_client,
 )
 from ui_automation_tests.shared.fixtures.urls import exporter_url, api_url  # noqa
@@ -71,6 +72,12 @@ fake = Faker()
 
 
 def pytest_addoption(parser):
+    settings.configure(
+        DIRECTORY_SSO_API_CLIENT_API_KEY=os.environ.get("DIRECTORY_SSO_API_CLIENT_API_KEY"),
+        DIRECTORY_SSO_API_CLIENT_BASE_URL=os.environ.get("DIRECTORY_SSO_API_CLIENT_BASE_URL"),
+        DIRECTORY_SSO_API_CLIENT_DEFAULT_TIMEOUT=30,
+        DIRECTORY_SSO_API_CLIENT_SENDER_ID="directory",
+    )
     env = str(os.environ.get("ENVIRONMENT"))
     if env == "None":
         env = "dev"
@@ -116,6 +123,16 @@ def standard_application_exists(apply_for_standard_application):  # noqa
     pass
 
 
+@given("I create an open application via api")  # noqa
+def open_application_exists(apply_for_open_application):  # noqa
+    pass
+
+
+@given("an Exhibition Clearance is created")  # noqa
+def an_exhibition_clearance_is_created(driver, apply_for_exhibition_clearance):  # noqa
+    pass
+
+
 @when("I go to application previously created")  # noqa
 def click_on_an_application(driver, exporter_url, context):  # noqa
     driver.get(exporter_url.rstrip("/") + "/applications/" + context.app_id)
@@ -128,6 +145,11 @@ def i_click_edit_application(driver):  # noqa
 
 @given("I go to exporter homepage and choose Test Org")  # noqa
 def go_to_exporter(driver, register_organisation, sso_sign_in, exporter_url, context):  # noqa
+    if "pick-organisation" not in driver.current_url:
+        driver.get(exporter_url.rstrip("/") + "/auth/logout")
+        if "accounts/logout" in driver.current_url:
+            driver.find_element_by_css_selector("[action='/sso/accounts/logout/'] button").click()
+            driver.get(exporter_url)
     if "pick-organisation" in driver.current_url:
         no = utils.get_element_index_by_text(Shared(driver).get_radio_buttons_elements(), context.org_name)
         Shared(driver).click_on_radio_buttons(no)
