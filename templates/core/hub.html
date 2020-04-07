@@ -18,18 +18,16 @@
 
 {% block body %}
 
-	{% if organisation.type.key != 'hmrc' %}
-		<h1 class="govuk-caption-xl">
-			{% lcs 'hub.ACCOUNT' %}
-		</h1>
-	{% endif %}
+	<h1 class="govuk-caption-xl">
+		{% lcs 'hub.Header.ACCOUNT_HOME' %}
+	</h1>
 	<h1 class="govuk-heading-xl no-bottom-margin">
 		{{ organisation.name }}
 	</h1>
 
 	{% if user_data.organisations|length > 1 %}
 		<div class="govuk-!-margin-bottom-6">
-			<a class="govuk-link govuk-link--no-visited-state govuk-!-font-size-16" href="{% url 'core:pick_organisation' %}" id="switch-link">Switch organisation</a>
+			<a class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19" href="{% url 'core:pick_organisation' %}" id="switch-link">{% lcs 'hub.Header.SWITCH_ORG' %}</a>
 		</div>
 	{% endif %}
 
@@ -71,6 +69,7 @@
 						<a href="{% url 'applications:applications' %}" role="button" draggable="false">
 							<h4 class="govuk-heading-s">{% lcs 'hub.Tiles.VIEW_AND_MANAGE_LICENCES' %}</h4>
 						</a>
+						<p class="float-left">{% lcs 'hub.Tiles.Licences.DESCRIPTION' %}</p>
 					</div>
 				{% endif %}
 			</div>

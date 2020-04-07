@@ -38,85 +38,15 @@ class Home(TemplateView):
 
         try:
             user = get_user(request)
-            user_permissions = user["role"]["permissions"]
         except (JSONDecodeError, TypeError, KeyError):
             return redirect("auth:login")
-
-        if Permissions.ADMINISTER_USERS in user_permissions:
-            manage_organisation_section_link = reverse_lazy("organisation:organisation")
-            title = strings.core.HubPage.ORGANISATION
-        else:
-            manage_organisation_section_link = None
 
         organisation = get_organisation(request, str(request.user.organisation))
         notifications, _ = get_notifications(request)
         existing = get_existing(request)
 
-        if organisation.get("type").get("key") == "hmrc":
-            sections = [
-                Section("", [Tile(strings.hub.Tiles.CUSTOMS_ENQUIRY, "", reverse_lazy("hmrc:raise_a_query")),]),
-                Section(
-                    strings.hub.Header.MANAGE,
-                    [
-                        Tile(strings.hub.Tiles.APPLICATIONS, "", reverse_lazy("applications:applications"),),
-                        Tile(
-                            strings.hub.Tiles.DRAFTS,
-                            "",
-                            reverse_lazy("applications:applications") + "?submitted=False",
-                        ),
-                    ],
-                ),
-            ]
-        else:
-            sections = [
-                Section(
-                    "",
-                    [
-                        Tile(strings.hub.Tiles.APPLY_FOR_LICENCE, "", reverse_lazy("apply_for_a_licence:start"),),
-                        Tile(
-                            strings.hub.Tiles.APPLICATIONS,
-                            generate_notification_string(notifications, case_types=[NotificationType.APPLICATION]),
-                            reverse_lazy("applications:applications"),
-                        ),
-                        Tile(
-                            strings.hub.Tiles.VIEW_AND_MANAGE_LICENCES,
-                            # will need new notifications and url !!!
-                            generate_notification_string(notifications, case_types=[NotificationType.APPLICATION]),
-                            reverse_lazy("applications:applications"),
-                        ),
-                    ],
-                ),
-                Section(
-                    "",
-                    [
-                        Tile(
-                            strings.hub.Tiles.GOODS,
-                            generate_notification_string(notifications, case_types=[NotificationType.GOODS]),
-                            reverse_lazy("goods:goods"),
-                        ),
-                        Tile(
-                            strings.hub.Tiles.END_USER_ADVISORIES,
-                            generate_notification_string(notifications, case_types=[NotificationType.EUA]),
-                            reverse_lazy("end_users:end_users"),
-                        ),
-                    ],
-                ),
-            ]
-
-            if organisation.get("type").get("key") == "individual":
-                sections[1].tiles.append(Tile(strings.hub.Tiles.SITES, "", reverse_lazy("organisation:sites:sites")))
-            elif manage_organisation_section_link:
-                number_permissions = 0
-                for permission in user_permissions:
-                    if permission in Permissions.MANAGE_ORGANISATION_PERMISSIONS:
-                        number_permissions += 1
-                if number_permissions > 1:
-                    title = strings.core.HubPage.ORGANISATION
-                sections[1].tiles.append(Tile(title, "", manage_organisation_section_link))
-
         context = {
             "organisation": organisation,
-            "sections": sections,
             "user_data": user,
             "notifications": notifications,
             "existing": existing,
@@ -220,7 +150,7 @@ class RegisterAnOrganisation(SummaryListFormView):
             ]
         if "site.address.address_line_2" in data and data["site.address.address_line_2"]:
             data["site.address.address_line_1"] = (
-                data["site.address.address_line_1"] + NEWLINE + data["site.address.address_line_2"]
+                    data["site.address.address_line_1"] + NEWLINE + data["site.address.address_line_2"]
             )
         return data
 
