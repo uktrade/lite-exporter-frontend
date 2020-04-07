@@ -25,6 +25,7 @@ $card-shadow: 3px;
 		min-height: 150px;
 	}
 	padding-right: 40px;
+	min-height: 200px!important;
 
 	* {
 		@include govuk-font($size: 16);

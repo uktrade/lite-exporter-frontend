@@ -11,7 +11,7 @@
 {% block navigation %}
 	<div class="navigation govuk-body-s">
 		<a href="{% url 'core:home' %}" class="home-link">{% lcs 'hub.Navigation.ACCOUNT_HOME' %}</a>
-		<a href="{% url 'organisation:members:members' %}" class="nav-item">{% lcs 'hub.Navigation.YOUR_ACCOUNT' %}</a>
+		<a href="{% url 'organisation:members:members' %}" class="nav-item" id="profile-link">{% lcs 'hub.Navigation.YOUR_ACCOUNT' %}</a>
 	</div>
 {% endblock %}
 
@@ -38,7 +38,7 @@
 				{# Apply tile #}
 				<div class="app-tile">
 					<a href="{% url 'apply_for_a_licence:start' %}" role="button" draggable="false">
-						<h4 class="govuk-heading-s">{% lcs 'hub.Tiles.APPLY_FOR_LICENCE' %}</h4>
+						<h4 class="govuk-heading-s" id="apply-link">{% lcs 'hub.Tiles.APPLY_FOR_LICENCE' %}</h4>
 					</a>
 					<p>{% lcs 'hub.Tiles.Apply.APPLY_FOR' %}</p>
 					<ul class="govuk-list govuk-list--bullet govuk-!-font-size-16">
@@ -53,10 +53,10 @@
 				{% if existing.applications %}
 					<div class="app-tile">
 						<a href="{% url 'applications:applications' %}" role="button" draggable="false" class="float-left">
-							<h4 class="govuk-heading-s">{% lcs 'hub.Tiles.APPLICATIONS' %}</h4>
+							<h4 class="govuk-heading-s" id="applications-link">{% lcs 'hub.Tiles.APPLICATIONS' %}</h4>
 						</a>
 						{% if notifications.notifications.application %}
-							<span id="application-notifications" class="lite-notification-bubble">{{ notifications.notifications.application }}</span>
+							<span id="applications-notifications" class="lite-notification-bubble">{{ notifications.notifications.application }}</span>
 						{% endif %}
 						<p class="float-left">{% lcs 'hub.Tiles.Applications.CHECK_PROGRESS' %}</p>
 						<p>{% lcs 'hub.Tiles.Applications.EDIT_APPLICATIONS' %}</p>
@@ -66,8 +66,8 @@
 				{% if existing.licences %}
 					{# View and manage licences tile #}
 					<div class="app-tile">
-						<a href="{% url 'applications:applications' %}" role="button" draggable="false">
-							<h4 class="govuk-heading-s">{% lcs 'hub.Tiles.VIEW_AND_MANAGE_LICENCES' %}</h4>
+						<a href="{% url 'licences:licences' %}" role="button" draggable="false">
+							<h4 class="govuk-heading-s" id="licences-link">{% lcs 'hub.Tiles.VIEW_AND_MANAGE_LICENCES' %}</h4>
 						</a>
 						<p class="float-left">{% lcs 'hub.Tiles.Licences.DESCRIPTION' %}</p>
 					</div>
@@ -81,7 +81,7 @@
 				{# Product list tile #}
 				<div class="app-tile">
 					<a href="{% url 'goods:goods' %}" role="button" draggable="false" class="float-left">
-						<h4 class="govuk-heading-s">{% lcs 'hub.Tiles.GOODS' %}</h4>
+						<h4 class="govuk-heading-s" id="products-link">{% lcs 'hub.Tiles.GOODS' %}</h4>
 					</a>
 					{% if notifications.notifications.goods %}
 						<span class="lite-notification-bubble" id="product-notifications">{{ notifications.notifications.goods }}</span>
@@ -100,7 +100,7 @@
 				{# End user query tile #}
 				<div class="app-tile">
 					<a href="{% url 'end_users:end_users' %}" role="button" draggable="false" class="float-left">
-						<h4 class="govuk-heading-s">{% lcs 'hub.Tiles.END_USER_ADVISORIES' %}</h4>
+						<h4 class="govuk-heading-s" id="eua-link">{% lcs 'hub.Tiles.END_USER_ADVISORIES' %}</h4>
 					</a>
 					{% if notifications.notifications.end_user_advisory %}
 						<span class="lite-notification-bubble" id="eua-notifications">{{ notifications.notifications.end_user_advisory }}</span>
