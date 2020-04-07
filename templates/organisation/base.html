@@ -1,7 +1,7 @@
 {% extends 'layouts/base.html' %}
 
 {% block back_link %}
-	{% include 'includes/breadcrumbs.html' with title='core.HubPage.ORGANISATION' %}
+{#	{% include 'includes/breadcrumbs.html' with title='core.HubPage.ORGANISATION' %}#}
 {% endblock %}
 
 {% block title %}
@@ -13,7 +13,10 @@
 {% endblock %}
 
 {% block body %}
-	<h1 class="govuk-heading-l">{{ organisation.name }}</h1>
+	<h1 class="govuk-caption-xl">
+		{{ organisation.name }}
+	</h1>
+	<h1 class="govuk-heading-l">{{ user.first_name }} {{ user.last_name }}</h1>
 
 	<div class="lite-tabs__container">
 		<div class="lite-tabs">
