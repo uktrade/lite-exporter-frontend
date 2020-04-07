@@ -58,6 +58,8 @@ class AttachDocuments(TemplateView):
         form = get_upload_page(request.path, draft_id, is_permanent_application=is_permanent_application)
         self.request.upload_handlers.insert(0, S3FileUploadHandler(request))
 
+        # Only validate documents if there are any present or are mandatory in the following cases:
+        # standard permanent application end user section, additional documents section
         if (
             request.FILES
             or ("/end-user" in request.path and is_application_export_type_permanent(application))
