@@ -416,5 +416,5 @@ def _is_application_export_type_temporary(application):
     return application.get("export_type").get("key") == TEMPORARY
 
 
-def _is_application_export_type_permanent(application):
-    return application.get("export_type").get("key") == PERMANENT
+def is_application_export_type_permanent(application):
+    return False if not application.get("export_type") else (application.get("export_type").get("key") == PERMANENT)

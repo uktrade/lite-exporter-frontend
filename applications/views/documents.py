@@ -10,7 +10,7 @@ from django.views.generic import TemplateView
 from s3chunkuploader.file_handler import S3FileUploadHandler
 
 from applications.forms.documents import attach_document_form, delete_document_confirmation_form
-from applications.helpers.check_your_answers import _is_application_export_type_permanent
+from applications.helpers.check_your_answers import is_application_export_type_permanent
 from applications.helpers.reverse_documents import document_switch
 from applications.services import add_document_data, download_document_from_s3, get_application
 from goods.services import get_case_document_download
@@ -22,7 +22,7 @@ def get_upload_page(path, draft_id, is_permanent_application=False):
     paths = document_switch(path)
     optional = paths["optional"]
     # For standard permanent only - upload is mandatory
-    if "end-user" in path and is_permanent_application:
+    if "/end-user" in path and is_permanent_application:
         optional = False
     return attach_document_form(
         application_id=draft_id, strings=paths["strings"], back_link=paths["homepage"], optional=optional
@@ -54,13 +54,13 @@ class AttachDocuments(TemplateView):
     def post(self, request, **kwargs):
         draft_id = str(kwargs["pk"])
         application = get_application(request, draft_id)
-        is_permanent_application = _is_application_export_type_permanent(application)
+        is_permanent_application = is_application_export_type_permanent(application)
         form = get_upload_page(request.path, draft_id, is_permanent_application=is_permanent_application)
         self.request.upload_handlers.insert(0, S3FileUploadHandler(request))
 
         if (
             request.FILES
-            or ("/end-user" in request.path and _is_application_export_type_permanent(application))
+            or ("/end-user" in request.path and is_application_export_type_permanent(application))
             or "additional-document" in request.path
         ):
             logging.info(self.request)
