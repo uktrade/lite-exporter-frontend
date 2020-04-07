@@ -5,12 +5,12 @@ from lite_forms.components import Form, FileUpload, TextArea, BackLink, Label
 from lite_forms.generators import confirm_form
 
 
-def attach_document_form(application_id, strings, back_link, optional):
+def attach_document_form(application_id, strings, back_link, is_optional):
     return Form(
         strings.TITLE,
         strings.DESCRIPTION,
         [
-            FileUpload(optional=optional),
+            FileUpload(optional=is_optional),
             TextArea(title=strings.DESCRIPTION_FIELD_TITLE, optional=True, name="description"),
         ],
         back_link=BackLink(strings.BACK, reverse_lazy(back_link, kwargs={"pk": application_id})),

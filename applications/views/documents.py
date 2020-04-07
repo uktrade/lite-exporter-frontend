@@ -20,12 +20,12 @@ from lite_forms.generators import form_page, error_page
 
 def get_upload_page(path, draft_id, is_permanent_application=False):
     paths = document_switch(path)
-    optional = paths["optional"]
+    is_document_optional = paths["optional"]
     # For standard permanent only - upload is mandatory
     if "/end-user" in path and is_permanent_application:
-        optional = False
+        is_document_optional = False
     return attach_document_form(
-        application_id=draft_id, strings=paths["strings"], back_link=paths["homepage"], optional=optional
+        application_id=draft_id, strings=paths["strings"], back_link=paths["homepage"], is_optional=is_document_optional
     )
 
 
