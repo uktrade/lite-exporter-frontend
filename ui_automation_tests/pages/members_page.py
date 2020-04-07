@@ -9,6 +9,7 @@ class MembersPage(BasePage):
     BUTTON_ADD_A_MEMBER_ID = "button-add-a-member"
     BUTTON_APPLY_FILTER_ID = "button-apply-filters"
     FILTERS_LINK_ID = "show-filters-link"
+    EMAIL_FILTER_ID = "email"
     STATUS_ID = "status"
 
     def click_view_member_link(self, email: str):
@@ -20,6 +21,9 @@ class MembersPage(BasePage):
 
     def click_show_filters_link(self):
         self.driver.find_element_by_id(self.FILTERS_LINK_ID).click()
+
+    def enter_email_filter(self, email):
+        self.driver.find_element_by_id(self.EMAIL_FILTER_ID).send_keys(email)
 
     def select_filter_status_from_dropdown(self, status):
         select_visible_text_from_dropdown(self.driver.find_element_by_id(self.STATUS_ID), status)

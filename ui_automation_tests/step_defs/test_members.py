@@ -112,3 +112,10 @@ def do_not_see_new_user(driver, context):
 @when("I go back to the members page")
 def i_go_back_to_the_members_page(driver):
     driver.find_element_by_css_selector("a[href='/organisation/members/']").click()
+
+
+@when("filter email has been set")
+def filter_by_email(driver, context):
+    members_page = MembersPage(driver)
+    members_page.enter_email_filter(context.email_to_search)
+    members_page.click_apply_filters_button()
