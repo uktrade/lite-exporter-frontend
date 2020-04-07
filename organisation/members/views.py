@@ -5,7 +5,7 @@ from django.views.generic import TemplateView
 
 from core.helpers import convert_dict_to_query_params
 from core.services import get_organisation_user, put_organisation_user, get_organisation_users
-from lite_forms.components import Option, FiltersBar, Select
+from lite_forms.components import Option, FiltersBar, Select, TextInput
 from lite_forms.views import SingleFormView
 from organisation.members.forms import add_user_form, edit_user_form, assign_sites
 from organisation.members.services import post_users, get_user, is_super_user
@@ -18,13 +18,16 @@ class Members(OrganisationView):
 
     def get_additional_context(self):
         status = self.request.GET.get("status", "active")
-        params = {"page": int(self.request.GET.get("page", 1)), "status": status}
+        params = {"page": int(self.request.GET.get("page", 1)), "status": status, "email": self.request.GET.get("email")}
         users = get_organisation_users(self.request, str(self.request.user.organisation), params)
         statuses = [
             Option(option["key"], option["value"])
             for option in [{"key": "active", "value": "Active"}, {"key": "", "value": "All"}]
         ]
-        filters = FiltersBar([Select(name="status", title="status", options=statuses)])
+        filters = FiltersBar([
+            Select(name="status", title="status", options=statuses),
+            TextInput(name="email", title="Email"),
+        ])
 
         return {
             "status": status,

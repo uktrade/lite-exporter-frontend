@@ -1,11 +1,6 @@
 from http import HTTPStatus
-from urllib.parse import urlencode
 
 from django.http import StreamingHttpResponse
-
-from core.helpers import convert_parameters_to_query_params, convert_value_to_query_param
-from lite_content.lite_exporter_frontend.generic import Document
-from lite_forms.components import Option, TextArea
 
 from conf.client import get, post, put, delete
 from conf.constants import (
@@ -21,6 +16,9 @@ from conf.constants import (
     ITEM_TYPES_URL,
     STATIC_F680_CLEARANCE_TYPES_URL,
 )
+from core.helpers import convert_parameters_to_query_params, convert_value_to_query_param
+from lite_content.lite_exporter_frontend.generic import Document
+from lite_forms.components import Option, TextArea
 from lite_forms.generators import error_page
 
 
@@ -157,7 +155,7 @@ def get_organisation(request, pk):
 
 
 def get_organisation_users(request, pk, params, convert_to_options=False):
-    response = get(request, ORGANISATIONS_URL + str(pk) + "/users/?" + urlencode(params))
+    response = get(request, ORGANISATIONS_URL + str(pk) + "/users/" + convert_parameters_to_query_params(params))
 
     if convert_to_options:
         options = []
