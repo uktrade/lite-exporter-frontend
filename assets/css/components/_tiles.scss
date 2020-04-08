@@ -29,70 +29,56 @@ $card-shadow: 3px;
 
 	* {
 		@include govuk-font($size: 16);
-		color: black!important;
+		color: $govuk-brand-colour!important;
 	}
 
 	h4 {
 		@include govuk-font($size: 19, $weight: bold);
 		margin-bottom: govuk-spacing(1);
-		color: $govuk-brand-colour!important;
 		text-decoration: underline;
 	}
 
-	p {
-		line-height: 1.5;
-	}
-
-	a {
-		color: $govuk-brand-colour!important;
-	}
 	span {
 		@include govuk-font($size: 14, $weight: bold);
-		margin-left: 5px;
-		color: white!important;
+		margin-left: govuk-spacing(1);
+		color: govuk-colour("white")!important;
 	}
 
-	&:focus {
-		box-shadow: none!important;
+	p,li {
+		color: $govuk-text-colour!important;
 	}
 }
 
-.navigation {
+.app-navigation {
     position: relative;
-    border-bottom: 1px solid #bfc1c3;
+    border-bottom: 1px solid govuk-colour("mid-grey");
     width: 100%;
-    float: left;
-	color: #0b0c0c;
+    display: flex;
+	justify-content: space-between;
 }
 
 .home-link {
-    color: #0b0c0c !important;
-    float: left;
+    color: $govuk-text-colour !important;
     display: inline-block;
-    padding: 10px 0px 6px 0px;
+    padding: govuk-spacing(2) govuk-spacing(0) govuk-spacing(1) govuk-spacing(0);
     text-decoration: none;
 	border-bottom: 4px solid transparent;
 	&:hover {
-		border-bottom: 4px solid #bfc1c3;
+		border-bottom: 4px solid govuk-colour("mid-grey");
 	}
 }
 
 .nav-item {
-    color: #0b0c0c;
-	float: right;
+    color: $govuk-text-colour;
 	display: inline-block;
-	padding: 10px 0px 6px 0px;
+	padding: govuk-spacing(2) govuk-spacing(0) govuk-spacing(1) govuk-spacing(0);
 	text-decoration: none;
 	border-bottom: 4px solid transparent;
 	&:hover {
-		border-bottom: 4px solid #bfc1c3;
+		border-bottom: 4px solid govuk-colour("mid-grey");
 	}
 }
 
-.no-bottom-margin {
-	margin-bottom: 25px!important;
-}
-
-.float-left {
-    float: left;
+notif {
+	padding: 0px;
 }

@@ -6,7 +6,7 @@ class Hub(BasePage):
     SWITCH_LINK = "switch-link"  # ID
     SITES_BTN = "[href*='/sites/']"  # CSS
     APPLICATION_BTN = "a[href*='/applications/']"  # CSS
-    APPLICATIONS_TILE = "applications-notifications"  # ID
+    TILE_APPLICATIONS_ID = "applications-notifications"  # ID
 
     def click_applications(self):
         self.driver.find_element_by_css_selector(self.APPLICATION_BTN).click()
@@ -18,8 +18,8 @@ class Hub(BasePage):
         self.driver.find_element_by_id(self.SWITCH_LINK).click()
 
     def get_text_of_application_tile(self):
-        return self.driver.find_element_by_id(self.APPLICATIONS_TILE).text
+        return self.driver.find_element_by_id(self.TILE_APPLICATIONS_ID).text
 
     def return_number_of_notifications(self):
-        text_of_new_notifications = self.driver.find_element_by_id(self.APPLICATIONS_TILE).text
+        text_of_new_notifications = self.driver.find_element_by_id(self.TILE_APPLICATIONS_ID).text
         return int(text_of_new_notifications)
