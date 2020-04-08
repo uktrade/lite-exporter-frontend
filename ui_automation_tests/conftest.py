@@ -659,8 +659,8 @@ def final_advice(context, decision, api_test_client):  # noqa
     )
 
 
-@given(parsers.parse('I create a licence for my application with "{decision}" decision document'))
-def create_licence(context, decision, api_test_client):
+@given(parsers.parse('I create a licence for my application with "{decision}" decision document'))  # noqa
+def create_licence(context, decision, api_test_client):  # noqa
     document_template = api_test_client.document_templates.add_template(
         api_test_client.picklists, case_types=["oiel", "siel", "exhc"]
     )
