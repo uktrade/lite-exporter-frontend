@@ -652,8 +652,8 @@ def click_licences_link(driver):  # noqa
     ExporterHubPage(driver).click_licences()
 
 
-@given(parsers.parse('I create "{decision}" final advice'))
-def final_advice(context, decision, api_test_client):
+@given(parsers.parse('I create "{decision}" final advice'))  # noqa
+def final_advice(context, decision, api_test_client):  # noqa
     api_test_client.cases.create_final_advice(
         context.case_id, [{"type": decision, "text": "abc", "note": "", "good": context.good["good"]["id"]}]
     )
