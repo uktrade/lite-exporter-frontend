@@ -7,14 +7,13 @@ from django.views.generic import TemplateView
 
 from applications.services import get_existing
 from auth.services import authenticate_exporter_user
-from conf.constants import Permissions, NotificationType, NEWLINE
+from conf.constants import NEWLINE
 from core.forms import (
     select_your_organisation_form,
     register_a_commercial_organisation_group,
     register_triage,
     register_an_individual_group,
 )
-from core.helpers import Section, Tile, generate_notification_string, generate_notification_total_string
 from core.services import (
     get_notifications,
     get_organisation,
@@ -23,7 +22,7 @@ from core.services import (
     register_private_individual,
 )
 from core.validators import validate_register_organisation_triage
-from lite_content.lite_exporter_frontend import strings, generic
+from lite_content.lite_exporter_frontend import generic
 from lite_forms.components import BackLink
 from lite_forms.generators import form_page, success_page
 from lite_forms.helpers import conditional
