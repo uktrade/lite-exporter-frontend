@@ -150,7 +150,7 @@ class RegisterAnOrganisation(SummaryListFormView):
             ]
         if "site.address.address_line_2" in data and data["site.address.address_line_2"]:
             data["site.address.address_line_1"] = (
-                    data["site.address.address_line_1"] + NEWLINE + data["site.address.address_line_2"]
+                data["site.address.address_line_1"] + NEWLINE + data["site.address.address_line_2"]
             )
         return data
 

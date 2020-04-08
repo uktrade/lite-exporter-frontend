@@ -6,7 +6,7 @@ class Hub(BasePage):
     SWITCH_LINK = "switch-link"  # ID
     SITES_BTN = "[href*='/sites/']"  # CSS
     APPLICATION_BTN = "a[href*='/applications/']"  # CSS
-    APPLICATIONS_TILE = 'applications-notifications'  # ID
+    APPLICATIONS_TILE = "applications-notifications"  # ID
 
     def click_applications(self):
         self.driver.find_element_by_css_selector(self.APPLICATION_BTN).click()
