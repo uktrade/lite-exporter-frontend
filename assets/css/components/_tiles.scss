@@ -27,27 +27,35 @@ $card-shadow: 3px;
 	padding-right: 40px;
 	min-height: 200px!important;
 
-	* {
-		@include govuk-font($size: 16);
+	@include govuk-font($size: 16);
 		color: $govuk-brand-colour!important;
-	}
 
-	h4 {
-		@include govuk-font($size: 19, $weight: bold);
-		margin-bottom: govuk-spacing(1);
-		text-decoration: underline;
-	}
-
-	span {
+	.lite-notification-bubble {
 		@include govuk-font($size: 14, $weight: bold);
+		color: govuk-colour("white") !important;
+		text-decoration: none !important;
+		display: inline-block;
 		margin-left: govuk-spacing(1);
-		color: govuk-colour("white")!important;
+
 	}
 
 	p,li {
 		color: $govuk-text-colour!important;
 	}
+
+	.app-tile__heading {
+		@include govuk-font($size: 19, $weight: bold);
+		margin-bottom: govuk-spacing(1);
+		text-decoration: underline;
+		margin-right: govuk-spacing(1);
+	}
+
+	.app-tile__link {
+		@extend .govuk-link;
+		@extend .govuk-link--no-visited-state;
+	}
 }
+
 
 .app-navigation {
     position: relative;
