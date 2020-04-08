@@ -115,7 +115,7 @@
 				{# Make a customs enquiry tile #}
 				<div class="app-tile">
 					<a href="{% url 'hmrc:raise_a_query' %}" role="button" draggable="false">
-						<h4 class="govuk-heading-s">{% lcs 'hub.Tiles.CustomsEnquiry.MAKE_ENQUIRY' %}</h4>
+						<h4 class="govuk-heading-s" id="hmrc-query-link">{% lcs 'hub.Tiles.CustomsEnquiry.MAKE_ENQUIRY' %}</h4>
 					</a>
 					<a href="{% url "applications:applications" %}?submitted=False" role="button" draggable="false">
 						{% lcs 'hub.Tiles.CustomsEnquiry.DRAFT_LINK' %}

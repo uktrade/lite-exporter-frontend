@@ -90,6 +90,9 @@
 				<a href="{% url 'core:home' %}" class="home-link">{% lcs 'hub.Navigation.ACCOUNT_HOME' %}</a>
 			</div>
 		{% endblock %}
+	</div>
+
+	<div class="govuk-width-container">
 		<section aria-label="banner">
 			{% if request.GET|get:'return_to' %}
 				<a href="{{ request.GET|get:'return_to' }}" id="back-link" class="govuk-back-link">{% lcs 'generic.BACK' %}</a>

@@ -8,14 +8,14 @@ class ExporterHubPage(BasePage):
     MY_PROFILE_BTN_ID = "profile-link"
     EUA_BTN_ID = "eua-link"
     LICENCES_BTN_ID = "licences-link"
-    RAISE_HMRC_QUERY_BTN = "a[href*='/raise-a-query/"
+    RAISE_HMRC_QUERY_BTN_ID = "hmrc-query-link"
     USER_PROFILE_BTN = "a[href*='/users/profile/']"
 
     def click_apply_for_a_licence(self):
         self.driver.find_element_by_id(self.APPLY_FOR_A_LICENCE_BTN_ID).click()
 
     def click_raise_hmrc_query(self):
-        self.driver.find_element_by_css_selector(self.RAISE_HMRC_QUERY_BTN).click()
+        self.driver.find_element_by_id(self.RAISE_HMRC_QUERY_BTN_ID).click()
 
     def click_applications(self):
         self.driver.find_element_by_id(self.APPLICATIONS_BTN_ID).click()
