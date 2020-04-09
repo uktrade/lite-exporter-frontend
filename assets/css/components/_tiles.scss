@@ -1,6 +1,3 @@
-$card-color: $govuk-brand-colour;
-$card-shadow: 3px;
-
 .app-tiles {
 	display: grid;
 	@include govuk-media-query($from: mobile) {
