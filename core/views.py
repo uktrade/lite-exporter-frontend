@@ -37,6 +37,7 @@ class Home(TemplateView):
 
         try:
             user = get_user(request)
+            user_permissions = user["role"]["permissions"]
         except (JSONDecodeError, TypeError, KeyError):
             return redirect("auth:login")
 
@@ -49,6 +50,7 @@ class Home(TemplateView):
             "user_data": user,
             "notifications": notifications,
             "existing": existing,
+            "user_permissions": user_permissions
         }
 
         return render(request, "core/hub.html", context)
