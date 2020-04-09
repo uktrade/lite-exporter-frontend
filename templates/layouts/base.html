@@ -87,7 +87,7 @@
 	{% if not user_in_limbo %}
 		<div class="govuk-width-container">
 			{% block navigation %}
-				<div class="app-navigation govuk-body-s govuk-!-margin-0">
+				<div class="app-navigation govuk-body-s govuk-!-margin-0" role="navigation">
 					<a href="{% url 'core:home' %}" class="home-link">{% lcs 'hub.Navigation.ACCOUNT_HOME' %}</a>
 				</div>
 			{% endblock %}
