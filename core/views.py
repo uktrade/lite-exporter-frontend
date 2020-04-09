@@ -50,7 +50,7 @@ class Home(TemplateView):
             "user_data": user,
             "notifications": notifications,
             "existing": existing,
-            "user_permissions": user_permissions
+            "user_permissions": user_permissions,
         }
 
         return render(request, "core/hub.html", context)
