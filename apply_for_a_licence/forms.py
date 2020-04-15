@@ -19,7 +19,7 @@ from lite_forms.components import (
     FormGroup,
     DetailComponent,
     Label,
-    TextInput,
+    TextArea,
 )
 from lite_forms.helpers import conditional
 
@@ -170,10 +170,12 @@ def trade_control_licence_questions():
                                 "other",
                                 "Other",
                                 components=[
-                                    TextInput(
+                                    TextArea(
                                         title=TradeControlLicenceQuestions.ControlActivity.OTHER_DESCRIPTION,
                                         name="tc_activity_other",
                                         optional=False,
+                                        rows=1,
+                                        extras={"max_length": 100},
                                     )
                                 ],
                             ),
