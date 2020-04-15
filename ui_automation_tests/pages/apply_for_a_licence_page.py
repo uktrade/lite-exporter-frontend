@@ -15,6 +15,9 @@ class ApplyForALicencePage(BasePage):
     SUCCESS_BANNER_CLASS = ".govuk-panel--confirmation"
     CHECKBOXES_GOODS_CATEGORIES_NAME = "goods_categories[]"
     F680_CLEARANCE_TYPE_CHECKBOXES_NAME = "types[]"
+    TRADE_CONTROL_ACTIVITY_OTHER = "tc_activity-other"
+    TRADE_CONTROL_ACTIVITY_OTHER_DETAILS = "tc_activity_other"
+    TRADE_CONTROL_PRODUCT_CATEGORY_A = "tc_product_category-category_a"
 
     def enter_name_or_reference_for_application(self, name):
         element = self.driver.find_element_by_id(self.NAME_OR_REFERENCE_INPUT_ID)
@@ -57,3 +60,11 @@ class ApplyForALicencePage(BasePage):
 
     def is_success_panel_present(self):
         return len(self.driver.find_elements_by_css_selector(self.SUCCESS_BANNER_CLASS)) > 0
+
+    def select_trade_control_activity(self):
+        self.driver.find_element_by_id(self.TRADE_CONTROL_ACTIVITY_OTHER).click()
+        self.driver.find_element_by_id(self.TRADE_CONTROL_ACTIVITY_OTHER_DETAILS).clear()
+        self.driver.find_element_by_id(self.TRADE_CONTROL_ACTIVITY_OTHER_DETAILS).send_keys("Other")
+
+    def select_trade_control_product_category(self):
+        self.driver.find_element_by_id(self.TRADE_CONTROL_PRODUCT_CATEGORY_A).click()
