@@ -45,52 +45,47 @@ def add_goods_questions(application_pk=None):
     return Form(
         title=conditional(application_pk, CreateGoodForm.TITLE_APPLICATION, CreateGoodForm.TITLE_GOODS_LIST),
         questions=[
-            control_list_entries_question(
-                control_list_entries=get_control_list_entries(None, convert_to_options=True),
-                title=CreateGoodForm.ControlListEntry.TITLE,
-                description=CreateGoodForm.ControlListEntry.DESCRIPTION,
+            TextArea(
+                title=CreateGoodForm.Description.TITLE,
+                description=CreateGoodForm.Description.DESCRIPTION,
+                name="description",
+                extras={"max_length": 280},
             ),
-            # TextArea(
-            #     title=CreateGoodForm.Description.TITLE,
-            #     description=CreateGoodForm.Description.DESCRIPTION,
-            #     name="description",
-            #     extras={"max_length": 280},
-            # ),
-            # TextInput(title=CreateGoodForm.PartNumber.TITLE, name="part_number", optional=True),
-            # RadioButtons(
-            #     title=CreateGoodForm.IsControlled.TITLE,
-            #     description=conditional(
-            #         application_pk, CreateGoodForm.IsControlled.DESCRIPTION, CreateGoodForm.IsControlled.CLC_REQUIRED,
-            #     ),
-            #     name="is_good_controlled",
-            #     options=[
-            #         Option(
-            #             key="yes",
-            #             value=CreateGoodForm.IsControlled.YES,
-            #             components=[
-            #                 control_list_entries_question(
-            #                     control_list_entries=get_control_list_entries(None, convert_to_options=True),
-            #                     title=CreateGoodForm.ControlListEntry.TITLE,
-            #                     description=CreateGoodForm.ControlListEntry.DESCRIPTION,
-            #                 ),
-            #             ],
-            #         ),
-            #         Option(key="no", value=CreateGoodForm.IsControlled.NO),
-            #         conditional(not application_pk, Option(key="unsure", value=CreateGoodForm.IsControlled.UNSURE)),
-            #     ],
-            # ),
-            # RadioButtons(
-            #     title=CreateGoodForm.IsGraded.TITLE,
-            #     description=CreateGoodForm.IsGraded.DESCRIPTION,
-            #     name="is_pv_graded",
-            #     options=[
-            #         Option(key="yes", value=CreateGoodForm.IsGraded.YES),
-            #         Option(key="no", value=CreateGoodForm.IsGraded.NO),
-            #         conditional(
-            #             not application_pk, Option(key="grading_required", value=CreateGoodForm.IsGraded.RAISE_QUERY)
-            #         ),
-            #     ],
-            # ),
+            TextInput(title=CreateGoodForm.PartNumber.TITLE, name="part_number", optional=True),
+            RadioButtons(
+                title=CreateGoodForm.IsControlled.TITLE,
+                description=conditional(
+                    application_pk, CreateGoodForm.IsControlled.DESCRIPTION, CreateGoodForm.IsControlled.CLC_REQUIRED,
+                ),
+                name="is_good_controlled",
+                options=[
+                    Option(
+                        key="yes",
+                        value=CreateGoodForm.IsControlled.YES,
+                        components=[
+                            control_list_entries_question(
+                                control_list_entries=get_control_list_entries(None, convert_to_options=True),
+                                title=CreateGoodForm.ControlListEntry.TITLE,
+                                description=CreateGoodForm.ControlListEntry.DESCRIPTION,
+                            ),
+                        ],
+                    ),
+                    Option(key="no", value=CreateGoodForm.IsControlled.NO),
+                    conditional(not application_pk, Option(key="unsure", value=CreateGoodForm.IsControlled.UNSURE)),
+                ],
+            ),
+            RadioButtons(
+                title=CreateGoodForm.IsGraded.TITLE,
+                description=CreateGoodForm.IsGraded.DESCRIPTION,
+                name="is_pv_graded",
+                options=[
+                    Option(key="yes", value=CreateGoodForm.IsGraded.YES),
+                    Option(key="no", value=CreateGoodForm.IsGraded.NO),
+                    conditional(
+                        not application_pk, Option(key="grading_required", value=CreateGoodForm.IsGraded.RAISE_QUERY)
+                    ),
+                ],
+            ),
         ],
         back_link=conditional(
             application_pk,
