@@ -10,14 +10,12 @@ from applications.helpers.check_your_answers import get_total_goods_value
 from applications.services import (
     get_application,
     get_application_goods,
-    get_application_goods_types,
     post_good_on_application,
     delete_application_preexisting_good,
     add_document_data,
 )
 from conf.constants import EXHIBITION
 from core.helpers import convert_dict_to_query_params
-
 from goods.forms import document_grading_form, attach_documents_form, add_good_form_group
 from goods.services import (
     get_goods,
@@ -148,19 +146,6 @@ class AttachDocument(TemplateView):
         return redirect(
             reverse_lazy("applications:add_good_to_application", kwargs={"pk": draft_id, "good_pk": good_id})
         )
-
-
-class DraftOpenGoodsTypeList(TemplateView):
-    def get(self, request, **kwargs):
-        application_id = str(kwargs["pk"])
-        application = get_application(request, application_id)
-        goods = get_application_goods_types(request, application_id)
-
-        context = {
-            "goods": goods,
-            "application": application,
-        }
-        return render(request, "applications/goodstype/index.html", context)
 
 
 class AddGoodToApplication(SingleFormView):

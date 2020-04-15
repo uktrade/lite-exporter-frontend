@@ -41,14 +41,16 @@
 		<table class="govuk-table" id="countries_list">
 			<thead class="govuk-table__head">
 				<tr class="govuk-table__row">
-					<th class="govuk-table__header" scope="col">{% lcs "goods.GoodsList.Table.CONTROL_LIST_ENTRY" %}</th>
+					<th class="govuk-table__header" scope="col">Control list entries</th>
 					<th class="govuk-table__header" scope="col">{% lcs "goods.GoodsList.Table.DESCRIPTION" %}</th>
 					<th class="govuk-table__header" scope="col">{% lcs "goods.GoodsList.Table.COUNTRIES" %}</th>
 				</tr>
 			</thead>
 			{% for good in goods %}
 				<tr class="govuk-table__row">
-					<td class="govuk-table__cell">{{ good.control_code|default_na }}</td>
+					<td class="govuk-table__cell">
+						{% include 'includes/control-list-entries.html' with control_list_entries=good.control_list_entries %}
+					</td>
 					<td class="govuk-table__cell">{{ good.description }}</td>
 					<td class="govuk-table__cell">
 						{% for country in countries %}

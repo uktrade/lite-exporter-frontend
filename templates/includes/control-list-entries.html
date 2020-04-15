@@ -1,0 +1,5 @@
+{% for control_list_entry in control_list_entries %}
+	<span data-definition-title="{{ control_list_entry.rating }}" data-definition-text="{{ control_list_entry.text }}">{{ control_list_entry.rating }}</span>{% if not forloop.last %}, {% endif %}
+{% empty %}
+	{{ None|default_na }}
+{% endfor %}

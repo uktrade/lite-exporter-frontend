@@ -10,7 +10,6 @@ from applications.helpers.task_list_sections import (
 )
 from applications.services import (
     get_application_countries,
-    get_application_goods_types,
     get_application_goods,
     get_additional_documents,
 )

@@ -9,7 +9,6 @@ from applications.services import (
     delete_goods_type,
     post_goods_type,
     put_goods_type_countries,
-    get_application_goods_types,
     get_application_countries,
     get_application,
 )
@@ -67,7 +66,7 @@ class GoodsTypeCountries(TemplateView):
     def dispatch(self, request, *args, **kwargs):
         self.application_id = str(kwargs["pk"])
         self.application = get_application(request, self.application_id)
-        self.goods = get_application_goods_types(request, self.application_id)
+        self.goods = self.application["goods_types"]
         self.countries = get_application_countries(request, self.application_id)
 
         # Prevent minor edits from accessing this page
