@@ -7,7 +7,7 @@ from lite_content.lite_exporter_frontend.licences import LicencesList
 from lite_forms.components import FiltersBar, TextInput, HiddenField, Select, Checkboxes, Option
 
 
-class ApplicationsList(TemplateView):
+class Licences(TemplateView):
     def get(self, request, **kwargs):
         page = int(request.GET.get("page", 1))
         licence_type = request.GET.get("licence_type")
