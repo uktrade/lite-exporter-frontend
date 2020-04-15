@@ -30,7 +30,7 @@
 	</div>
 
 	{% if goods %}
-		<table class="govuk-table lite-responsive-table">
+		<table class="govuk-table">
 			<thead class="govuk-table__head">
 				<tr class="govuk-table__row">
 					<th scope="col" class="govuk-table__header">#</th>
@@ -52,12 +52,12 @@
 							{{ forloop.counter }}.
 						</td>
 						<td class="govuk-table__cell">
-							<span class="lite-responsive-table__header">{% lcs "goods_types.Variables.DESCRIPTION" %}</span>
+							<span class="govuk-table__header">{% lcs "goods_types.Variables.DESCRIPTION" %}</span>
 							{{ good_on_application.description }}
 						</td>
 						{% if application.case_type.sub_type.key != 'hmrc' %}
 							<td class="govuk-table__cell">
-								<span class="lite-responsive-table__header">Control list entries</span>
+								<span class="govuk-table__header">Control list entries</span>
 								{% for control_list_entry in good_on_application.control_list_entries %}
 									<span data-definition-title="{{ control_list_entry.rating }}" data-definition-text="{{ control_list_entry.text }}">{{ control_list_entry.rating }}</span>{% if not forloop.last %}, {% endif %}
 								{% empty %}
@@ -65,13 +65,13 @@
 								{% endfor %}
 							</td>
 							<td class="govuk-table__cell">
-								<span class="lite-responsive-table__header">{% lcs "goods_types.Variables.INCORPORATED" %}</span>
+								<span class="govuk-table__header">{% lcs "goods_types.Variables.INCORPORATED" %}</span>
 								{{ good_on_application.is_good_incorporated|friendly_boolean }}
 							</td>
 						{% endif %}
 						{% if application.case_type.sub_type.key == 'hmrc' %}
 							<td class="govuk-table__cell">
-								<span class="lite-responsive-table__header">{% lcs "goods_types.Document.TITLE" %}</span>
+								<span class="govuk-table__header">{% lcs "goods_types.Document.TITLE" %}</span>
 								{% if good_on_application.document %}
 									{%  if good_on_application.document.safe == True %}
 										<a href="{% url 'applications:goods_type_download_document' application.id good_on_application.id %}" id="document_download" class='govuk-link govuk-link--no-visited-state'>
