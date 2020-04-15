@@ -132,7 +132,7 @@ def default_na(value):
     if value:
         return value
     else:
-        return mark_safe('<span class="lite-hint">N/A</span>')  # nosec
+        return mark_safe('<span class="govuk-hint govuk-!-margin-0">N/A</span>')  # nosec
 
 
 @register.filter()

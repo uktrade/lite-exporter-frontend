@@ -36,7 +36,7 @@
 					<th scope="col" class="govuk-table__header">#</th>
 					<th scope="col" class="govuk-table__header govuk-!-width-one-half">{% lcs "goods_types.Variables.DESCRIPTION" %}</th>
 					{% if application.case_type.sub_type.key != 'hmrc' %}
-						<th scope="col" class="govuk-table__header">{% lcs "goods_types.Variables.CONTROL_LIST_ENTRY" %}</th>
+						<th scope="col" class="govuk-table__header">Control list entries</th>
 						<th scope="col" class="govuk-table__header">{% lcs "goods_types.Variables.INCORPORATED" %}</th>
 					{% endif %}
 					{% if application.case_type.sub_type.key == 'hmrc' %}
@@ -57,8 +57,12 @@
 						</td>
 						{% if application.case_type.sub_type.key != 'hmrc' %}
 							<td class="govuk-table__cell">
-								<span class="lite-responsive-table__header">{% lcs "goods_types.Variables.CONTROL_LIST_ENTRY" %}</span>
-								{{ good_on_application.control_code|default_na }}
+								<span class="lite-responsive-table__header">Control list entries</span>
+								{% for control_list_entry in good_on_application.control_list_entries %}
+									<span data-definition-title="{{ control_list_entry.rating }}" data-definition-text="{{ control_list_entry.text }}">{{ control_list_entry.rating }}</span>{% if not forloop.last %}, {% endif %}
+								{% empty %}
+									{{ None|default_na }}
+								{% endfor %}
 							</td>
 							<td class="govuk-table__cell">
 								<span class="lite-responsive-table__header">{% lcs "goods_types.Variables.INCORPORATED" %}</span>
