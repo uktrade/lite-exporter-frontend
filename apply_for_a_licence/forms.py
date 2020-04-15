@@ -168,12 +168,12 @@ def trade_control_licence_questions():
                             Option("provision_of_transportation", "Transportation services"),
                             Option("maritime_anti_piracy", "Maritime anti-piracy"),
                             Option(
-                                "tc_activity_other",
+                                "other",
                                 "Other",
                                 components=[
                                     TextInput(
                                         title=TradeControlLicenceQuestions.ControlActivity.OTHER_DESCRIPTION,
-                                        name="other",
+                                        name="tc_activity_other",
                                         optional=False,
                                     )
                                 ],
