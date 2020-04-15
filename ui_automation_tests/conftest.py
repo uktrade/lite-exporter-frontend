@@ -674,7 +674,7 @@ def create_licence(context, decision, api_test_client):  # noqa
 
 
 @then(parsers.parse('I can see the sections "{sections}" are on the task list'))  # noqa
-def sections_appear_on_task_list(driver, sections):
+def sections_appear_on_task_list(driver, sections):  # noqa
     sections = sections.split(", ")
     for section in sections:
         assert TaskListPage(driver).get_section(section) is not None

@@ -191,9 +191,15 @@ def trade_control_licence_questions():
                     RadioButtons(
                         name="tc_product_category",
                         options=[
-                            Option("category_a", "Category A"),
-                            Option("category_b", "Category B"),
-                            Option("category_c", "Category C"),
+                            Option(
+                                "category_a", "Category A", TradeControlLicenceQuestions.ControlProduct.CATEGORY_A_HINT
+                            ),
+                            Option(
+                                "category_b", "Category B", TradeControlLicenceQuestions.ControlProduct.CATEGORY_B_HINT
+                            ),
+                            Option(
+                                "category_c", "Category C", TradeControlLicenceQuestions.ControlProduct.CATEGORY_C_HINT
+                            ),
                         ],
                     ),
                 ],
