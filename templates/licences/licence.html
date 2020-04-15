@@ -1,0 +1,78 @@
+{% extends 'layouts/base.html' %}
+
+{% block back_link %}
+	{% include 'includes/breadcrumbs.html' with title='licences.LicencesList.BREADCRUMB' %}
+{% endblock %}
+
+{% block body %}
+	<div class="lite-app-bar">
+		<div class="lite-app-bar__content">
+			<h1 class="govuk-heading-l">
+				{% block title %}
+					{% if licence.application.case_type.sub_type.key == "standard" or licence.application.case_type.sub_type.key == "open" %}
+						Licence {{ licence.application.reference_code }}
+					{% else %}
+						Clearance {{ licence.application.reference_code }}
+					{% endif %}
+				{% endblock %}
+			</h1>
+			<h2 class="govuk-heading-m">{{ licence.application.case_type.sub_type.value }}</h2>
+		</div>
+	</div>
+
+	<div class="govuk-grid-row">
+		<dl class="govuk-summary-list govuk-summary-list--no-border govuk-grid-column-two-thirds">
+			<div class="govuk-summary-list__row">
+				<dt class="govuk-summary-list__key">
+					Your reference
+				</dt>
+				<dd class="govuk-summary-list__value">
+					<a href="{% url 'applications:application' licence.application.id %}?return_to={{ request.path }}" class="govuk-link govuk-link--no-visited-state">{{ licence.application.name }}</a>
+				</dd>
+			</div>
+			<div class="govuk-summary-list__row">
+				<dt class="govuk-summary-list__key">
+					Licence
+				</dt>
+				<dd class="govuk-summary-list__value">
+					{% for document in licence.application.documents %}
+						<span class="govuk-visually-hidden">{% lcs "licences.LicencesList.DOWNLOAD_HIDDEN_TEXT" %}</span>
+						<a href="{% url 'applications:download_generated_document' document.id licence.application.id %}" class="govuk-link govuk-link--no-visited-state" id="document-download">{{ document.advice_type.value }}.pdf</a>
+					{% endfor %}
+				</dd>
+			</div>
+			<div class="govuk-summary-list__row">
+				<dt class="govuk-summary-list__key">
+					Status
+				</dt>
+				<dd class="govuk-summary-list__value">
+					{{ licence.application.status.value }}
+				</dd>
+			</div>
+			<div class="govuk-summary-list__row">
+				<dt class="govuk-summary-list__key">
+					Start date
+				</dt>
+				<dd class="govuk-summary-list__value">
+					{{ licence.start_date|str_date_only }}
+				</dd>
+			</div>
+			<div class="govuk-summary-list__row">
+				<dt class="govuk-summary-list__key">
+					End date
+				</dt>
+				<dd class="govuk-summary-list__value">
+					{{ licence.start_date|add_months:licence.duration }}
+				</dd>
+			</div>
+			<div class="govuk-summary-list__row">
+				<dt class="govuk-summary-list__key">
+					End date
+				</dt>
+				<dd class="govuk-summary-list__value">
+					{{ licence.start_date|add_months:licence.duration }}
+				</dd>
+			</div>
+		</dl>
+	</div>
+{% endblock %}

@@ -1,4 +1,5 @@
 ISO8601_FMT = "%Y-%m-%dT%H:%M:%S.%fZ"
+DATE_FORMAT = "%Y-%m-%d"
 NEWLINE = "\n"
 
 # URLs

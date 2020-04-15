@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.generic import TemplateView
 
 from core.services import get_control_list_entries, get_countries
-from licences.services import get_licences
+from licences.services import get_licences, get_licence
 from lite_content.lite_exporter_frontend.licences import LicencesList
 from lite_forms.components import FiltersBar, TextInput, HiddenField, Select, Checkboxes, Option
 
@@ -45,3 +45,9 @@ class Licences(TemplateView):
             "row_limit": 3,
         }
         return render(request, "licences/licences.html", context)
+
+
+class Licence(TemplateView):
+    def get(self, request, pk):
+        licence, status_code = get_licence(request, pk)
+        return render(request, "licences/licence.html", {"licence": licence})

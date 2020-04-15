@@ -8,7 +8,7 @@ from django.template.defaultfilters import stringfilter, safe
 from django.templatetags.tz import do_timezone
 from django.utils.safestring import mark_safe
 
-from conf.constants import CASE_SECTIONS
+from conf.constants import CASE_SECTIONS, DATE_FORMAT
 from conf.constants import ISO8601_FMT, NOT_STARTED, DONE, IN_PROGRESS
 
 from lite_content.lite_exporter_frontend import strings
@@ -58,6 +58,29 @@ def str_date(value):
     return (
         return_value.strftime("%-I:%M") + return_value.strftime("%p").lower() + " " + return_value.strftime("%d %B %Y")
     )
+
+
+@register.filter
+@stringfilter
+def str_date_only(value):
+    date_str = do_timezone(datetime.datetime.strptime(value, DATE_FORMAT), "Europe/London")
+    return date_str.strftime("%d %B %Y")
+
+
+@register.filter()
+def add_months(start_date, months):
+    start_date = datetime.datetime.strptime(start_date, "%Y-%m-%d")
+    year = start_date.year
+    month = start_date.month
+
+    for i in range(months):
+        month += 1
+        if month == 13:
+            year += 1
+            month = 1
+
+    new_date = datetime.date(year=year, month=month, day=start_date.day)
+    return new_date.strftime("%d %B %Y")
 
 
 @register.filter()
