@@ -53,7 +53,7 @@
 						</td>
 						<td class="govuk-table__cell">
 							<span class="govuk-table__header">{% lcs "goods_types.Variables.DESCRIPTION" %}</span>
-							{{ good_on_application.description }}
+							<span data-max-length="200">{{ good_on_application.description }}</span>
 						</td>
 						{% if application.case_type.sub_type.key != 'hmrc' %}
 							<td class="govuk-table__cell">

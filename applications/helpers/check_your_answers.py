@@ -182,7 +182,7 @@ def _convert_goods_types(goods_types):
         {
             "Description": good["description"],
             "Controlled": friendly_boolean(good["is_good_controlled"]),
-            "CLC": default_na(good["control_code"]),
+            "Control list entries": default_na([x for x in good["control_list_entries"]]),
         }
         for good in goods_types
     ]
