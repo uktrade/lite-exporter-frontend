@@ -20,7 +20,6 @@ from lite_forms.components import (
     DetailComponent,
     Label,
     TextInput,
-    HiddenField,
 )
 from lite_forms.helpers import conditional
 
