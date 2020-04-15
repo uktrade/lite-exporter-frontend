@@ -19,7 +19,6 @@ from lite_forms.components import (
     FormGroup,
     DetailComponent,
     Label,
-    TextArea,
     TextInput,
     HiddenField,
 )
@@ -160,15 +159,16 @@ def trade_control_licence_questions():
                 description=TradeControlLicenceQuestions.ControlActivity.DESCRIPTION,
                 questions=[
                     RadioButtons(
-                        name="control_activity",
+                        name="tc_activity",
                         options=[
-                            Option("transfer_of_goods", "Transfer of goods",),
-                            Option("provision_of_transportation", "Transportation services",),
-                            Option("provision_of_finance", "Finance or financial services",),
-                            Option("provision_of_insurance", "Insurance or reinsurance",),
-                            Option("provision_of_advertising", "General advertising or promotion services",),
+                            Option("transfer_of_goods", "Transfer of goods"),
+                            Option("provision_of_finance", "Finance or financial services"),
+                            Option("provision_of_advertising", "General advertising or promotion services"),
+                            Option("provision_of_insurance", "Insurance or reinsurance"),
+                            Option("provision_of_transportation", "Transportation services"),
+                            Option("maritime_anti_piracy", "Maritime anti-piracy"),
                             Option(
-                                "other",
+                                "tc_activity_other",
                                 "Other",
                                 components=[
                                     TextInput(
@@ -188,16 +188,13 @@ def trade_control_licence_questions():
                 description=TradeControlLicenceQuestions.ControlProduct.DESCRIPTION,
                 questions=[
                     RadioButtons(
-                        name="control_product",
+                        name="tc_product_category",
                         options=[
                             Option("category_a", "Category A"),
                             Option("category_b", "Category B"),
                             Option("category_c", "Category C"),
                         ],
                     ),
-                    HiddenField(name="export_type", value="permanent"),
-                    HiddenField(name="have_you_been_informed", value="na"),
-                    HiddenField(name="reference_number_on_information_form", value="na"),
                 ],
                 default_button_name=generic.SAVE_AND_CONTINUE,
             ),
