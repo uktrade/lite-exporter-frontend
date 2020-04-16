@@ -1,3 +1,6 @@
+from http import HTTPStatus
+
+from django.http import Http404
 from django.shortcuts import render
 from django.views.generic import TemplateView
 
@@ -50,4 +53,6 @@ class Licences(TemplateView):
 class Licence(TemplateView):
     def get(self, request, pk):
         licence, status_code = get_licence(request, pk)
+        if status_code != HTTPStatus.OK:
+            return Http404
         return render(request, "licences/licence.html", {"licence": licence})
