@@ -3,11 +3,8 @@ from django.urls import reverse_lazy
 from conf.constants import CaseTypes
 from core.services import get_trade_control_activities, get_trade_control_product_categories
 from lite_content.lite_exporter_frontend import generic
-from lite_content.lite_exporter_frontend.applications import (
-    InitialApplicationQuestionsForms,
-    TradeControlLicenceQuestions,
-)
-from lite_forms.components import Form, RadioButtons, Option, BackLink, DetailComponent, TextArea, Checkboxes
+from lite_content.lite_exporter_frontend.applications import TradeControlLicenceQuestions
+from lite_forms.components import Form, RadioButtons, Option, BackLink, TextArea, Checkboxes
 
 
 def application_type_form():
