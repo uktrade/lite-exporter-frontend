@@ -217,7 +217,7 @@ Feature: I want to indicate the standard licence I want
     Then I see submitted application
 
 
-  @LT_1331_standard_individual_trade_control_application @AT
+  @LT_1331_standard_individual_trade_control_application @regression
   Scenario: Apply for a standard individual trade control licence draft
     Given I go to exporter homepage and choose Test Org
     When I create a standard individual trade control draft application

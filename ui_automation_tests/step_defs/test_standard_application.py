@@ -263,9 +263,9 @@ def create_standard_individual_trade_control_application(driver, context):  # no
     apply_for_licence_page = ApplyForALicencePage(driver)
     apply_for_licence_page.select_licence_type("trade_control_licence")
     functions.click_submit(driver)
+
     enter_type_of_application(driver, "sicl", context)
     enter_application_name(driver, context)
+
     apply_for_licence_page.select_trade_control_activity()
-    functions.click_submit(driver)
     apply_for_licence_page.select_trade_control_product_category()
-    functions.click_submit(driver)

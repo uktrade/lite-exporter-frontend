@@ -40,9 +40,6 @@ class TradeControlLicenceQuestions(MultiFormView):
         self.forms = trade_control_licence_questions(request)
         self.action = post_applications
 
-    def on_submission(self, request, **kwargs):
-        self.forms = trade_control_licence_questions(request)
-
     def get_success_url(self):
         pk = self.get_validated_data()["id"]
         return reverse_lazy("applications:task_list", kwargs={"pk": pk})
@@ -52,9 +49,6 @@ class TranshipmentQuestions(MultiFormView):
     def init(self, request, **kwargs):
         self.forms = transhipment_questions()
         self.action = post_applications
-
-    def on_submission(self, request, **kwargs):
-        self.forms = transhipment_questions()
 
     def get_success_url(self):
         pk = self.get_validated_data()["id"]
