@@ -1,6 +1,7 @@
 from django.urls import reverse_lazy
 
 from applications.forms.edit import goods_categories, reference_name_form, told_by_an_official_form
+from apply_for_a_licence.forms.trade_control import application_type_form, activity_form, product_category_form
 from conf.constants import CaseTypes
 from lite_content.lite_exporter_frontend import generic
 from lite_content.lite_exporter_frontend.applications import (
@@ -8,7 +9,6 @@ from lite_content.lite_exporter_frontend.applications import (
     ExportLicenceQuestions,
     MODQuestions,
     TranshipmentQuestions,
-    TradeControlLicenceQuestions,
 )
 from lite_forms.components import (
     Form,
@@ -19,7 +19,6 @@ from lite_forms.components import (
     FormGroup,
     DetailComponent,
     Label,
-    TextArea,
 )
 from lite_forms.helpers import conditional
 
@@ -120,93 +119,7 @@ def export_licence_questions(application_type):
 
 
 def trade_control_licence_questions():
-    return FormGroup(
-        [
-            Form(
-                title=TradeControlLicenceQuestions.TradeControlLicenceQuestion.TITLE,
-                description=TradeControlLicenceQuestions.TradeControlLicenceQuestion.DESCRIPTION,
-                questions=[
-                    RadioButtons(
-                        name="application_type",
-                        options=[
-                            Option(
-                                key=CaseTypes.SICL,
-                                value=TradeControlLicenceQuestions.TradeControlLicenceQuestion.STANDARD_LICENCE,
-                                description=TradeControlLicenceQuestions.TradeControlLicenceQuestion.STANDARD_LICENCE_DESCRIPTION,
-                            ),
-                            Option(
-                                key=CaseTypes.OICL,
-                                value=TradeControlLicenceQuestions.TradeControlLicenceQuestion.OPEN_LICENCE,
-                                description=TradeControlLicenceQuestions.TradeControlLicenceQuestion.OPEN_LICENCE_DESCRIPTION,
-                            ),
-                        ],
-                    ),
-                    DetailComponent(
-                        InitialApplicationQuestionsForms.OpeningQuestion.HELP_WITH_CHOOSING_A_LICENCE,
-                        InitialApplicationQuestionsForms.OpeningQuestion.HELP_WITH_CHOOSING_A_LICENCE_CONTENT,
-                    ),
-                ],
-                default_button_name=generic.CONTINUE,
-                back_link=BackLink(
-                    TradeControlLicenceQuestions.TradeControlLicenceQuestion.BACK,
-                    reverse_lazy("apply_for_a_licence:start"),
-                ),
-            ),
-            reference_name_form(),
-            Form(
-                title=TradeControlLicenceQuestions.ControlActivity.TITLE,
-                description=TradeControlLicenceQuestions.ControlActivity.DESCRIPTION,
-                questions=[
-                    RadioButtons(
-                        name="tc_activity",
-                        options=[
-                            Option("transfer_of_goods", "Transfer of goods"),
-                            Option("provision_of_finance", "Finance or financial services"),
-                            Option("provision_of_advertising", "General advertising or promotion services"),
-                            Option("provision_of_insurance", "Insurance or reinsurance"),
-                            Option("provision_of_transportation", "Transportation services"),
-                            Option("maritime_anti_piracy", "Maritime anti-piracy"),
-                            Option(
-                                "other",
-                                "Other",
-                                components=[
-                                    TextArea(
-                                        title=TradeControlLicenceQuestions.ControlActivity.OTHER_DESCRIPTION,
-                                        name="tc_activity_other",
-                                        optional=False,
-                                        rows=1,
-                                        extras={"max_length": 100},
-                                    )
-                                ],
-                            ),
-                        ],
-                    ),
-                ],
-                default_button_name=generic.CONTINUE,
-            ),
-            Form(
-                title=TradeControlLicenceQuestions.ControlProduct.TITLE,
-                description=TradeControlLicenceQuestions.ControlProduct.DESCRIPTION,
-                questions=[
-                    RadioButtons(
-                        name="tc_product_category",
-                        options=[
-                            Option(
-                                "category_a", "Category A", TradeControlLicenceQuestions.ControlProduct.CATEGORY_A_HINT
-                            ),
-                            Option(
-                                "category_b", "Category B", TradeControlLicenceQuestions.ControlProduct.CATEGORY_B_HINT
-                            ),
-                            Option(
-                                "category_c", "Category C", TradeControlLicenceQuestions.ControlProduct.CATEGORY_C_HINT
-                            ),
-                        ],
-                    ),
-                ],
-                default_button_name=generic.SAVE_AND_CONTINUE,
-            ),
-        ]
-    )
+    return FormGroup([application_type_form(), reference_name_form(), activity_form(), product_category_form()])
 
 
 def transhipment_questions():
