@@ -16,7 +16,7 @@ from core.services import get_document_download_stream
 from goods.helpers import process_pv_grading_for_post
 
 
-def get_goods(request, page: int = 1, description=None, part_number=None, control_rating=None, for_application=None):
+def get_goods(request, page: int = 1, description=None, part_number=None, control_list_entry=None, for_application=None):
     data = get(request, GOODS_URL + convert_parameters_to_query_params(locals()))
     return data.json()
 

@@ -57,31 +57,26 @@ class Goods(TemplateView):
     def get(self, request, **kwargs):
         description = request.GET.get("description", "").strip()
         part_number = request.GET.get("part_number", "").strip()
-        control_rating = request.GET.get("control_rating", "").strip()
+        control_list_entry = request.GET.get("control_list_entry", "").strip()
 
         filters = FiltersBar([
             TextInput(title="description", name="description"),
             TextInput(title="control list entry", name="control_list_entry"),
-            TextInput(title="part number", name="part_number"),
-            Select(title="status", name="status", options=[
-                Option(key="verified", value="Verified"),
-                Option(key="in_review", value="In review"),
-                Option(key="draft", value="Draft"),
-            ])
+            TextInput(title="part number", name="part_number")
         ])
 
         params = {
             "page": int(request.GET.get("page", 1)),
             "description": description,
             "part_number": part_number,
-            "control_rating": control_rating,
+            "control_list_entry": control_list_entry,
         }
 
         context = {
             "goods": get_goods(request, **params),
             "description": description,
             "part_number": part_number,
-            "control_code": control_rating,
+            "control_list_entry": control_list_entry,
             "filters": filters
         }
         return render(request, "goods/goods.html", context)
@@ -110,16 +105,10 @@ class GoodsDetail(TemplateView):
     def get(self, request, **kwargs):
         documents = get_good_documents(request, str(self.good_id))
 
-        # Add the good's control list entry text if possible
-        control_list_entry_text = ""
-        if self.good["control_code"] and self.good["status"]["key"] != "query":
-            control_list_entry_text = get_control_list_entry(request, self.good["control_code"])["text"]
-
         context = {
             "good": self.good,
             "documents": documents,
             "type": self.view_type,
-            "control_list_entry_text": control_list_entry_text,
             "error": kwargs.get("error"),
             "text": kwargs.get("text", ""),
         }
