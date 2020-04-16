@@ -241,6 +241,7 @@ def declaration_form(application_id):
         ],
         default_button_name=strings.declaration.Declaration.BUTTON_TITLE,
         back_link=BackLink(
-            strings.BACK_TO_APPLICATION, reverse_lazy("applications:task_list", kwargs={"pk": application_id}),
+            "Back to summary",
+            reverse_lazy("applications:application", kwargs={"pk": application_id, "type": "summary"}),
         ),
     )

@@ -135,9 +135,11 @@ class ApplicationTaskList(TemplateView):
         if status_code != HTTPStatus.OK:
             return get_application_task_list(request, application, errors=data.get("errors"))
 
-        if application.sub_type not in [HMRC, NotificationType.EUA, NotificationType.GOODS]:
-            # All other application types require agreement to the declaration
-            return HttpResponseRedirect(reverse_lazy("applications:declaration", kwargs={"pk": application_id}))
+        if application.sub_type not in [NotificationType.EUA, NotificationType.GOODS]:
+            # All other application types direct to the summary page
+            return HttpResponseRedirect(
+                reverse_lazy("applications:application", kwargs={"pk": application_id, "type": "summary"})
+            )
         else:
             # Redirect to the success page to prevent the user going back after the Post
             # Follows this pattern: https://en.wikipedia.org/wiki/Post/Redirect/Get
@@ -168,36 +170,59 @@ class ApplicationDetail(TemplateView):
             "answers": {**convert_application_to_check_your_answers(self.application)},
             "status_is_read_only": status_props["is_read_only"],
             "status_is_terminal": status_props["is_terminal"],
-            "activity": get_activity(request, self.application_id),
             "error": kwargs.get("error"),
             "text": kwargs.get("text", ""),
         }
+        # view_type of 'summary' is used to output the summary page on submission of an application
+        if self.view_type != "summary":
+            context["activity"] = get_activity(request, self.application_id) or {}
 
-        if self.application.sub_type != HMRC:
-            if self.view_type == "case-notes":
-                context["notes"] = get_case_notes(request, self.case_id)["case_notes"]
+            if self.application.sub_type != HMRC:
+                if self.view_type == "case-notes":
+                    context["notes"] = get_case_notes(request, self.case_id)["case_notes"]
 
-            if self.view_type == "ecju-queries":
-                context["open_queries"], context["closed_queries"] = get_application_ecju_queries(request, self.case_id)
+                if self.view_type == "ecju-queries":
+                    context["open_queries"], context["closed_queries"] = get_application_ecju_queries(
+                        request, self.case_id
+                    )
 
-        if self.view_type == "generated-documents":
-            generated_documents, _ = get_case_generated_documents(request, self.application_id)
-            context["generated_documents"] = generated_documents["results"]
+            if self.view_type == "generated-documents":
+                generated_documents, _ = get_case_generated_documents(request, self.application_id)
+                context["generated_documents"] = generated_documents["results"]
 
         return render(request, "applications/application.html", context)
 
     def post(self, request, **kwargs):
-        if self.view_type != "case-notes":
-            return Http404
+        if self.view_type == "summary":
+            if self.application.sub_type == HMRC:
+                data, status_code = submit_application(request, self.application_id, json={"summary": "summary"})
 
-        response, _ = post_case_notes(request, self.case_id, request.POST)
+                if status_code != HTTPStatus.OK:
+                    return get_application_task_list(request, self.application, errors=data.get("errors"))
 
-        if "errors" in response:
-            return self.get(request, error=response["errors"]["text"][0], text=request.POST.get("text"), **kwargs)
+                # HMRCs don't require the declaration page, so if it has submitted successfully then bring the user to
+                # the success page
+                return HttpResponseRedirect(
+                    reverse_lazy("applications:success_page", kwargs={"pk": self.application_id})
+                )
+            else:
+                # As it's not an HMRC, bring the user to the declaration page
+                return HttpResponseRedirect(
+                    reverse_lazy("applications:declaration", kwargs={"pk": self.application_id})
+                )
 
-        return redirect(
-            reverse_lazy("applications:application", kwargs={"pk": self.application_id, "type": "case-notes"})
-        )
+        else:
+            if self.view_type != "case-notes":
+                return Http404
+
+            response, _ = post_case_notes(request, self.case_id, request.POST)
+
+            if "errors" in response:
+                return self.get(request, error=response["errors"]["text"][0], text=request.POST.get("text"), **kwargs)
+
+            return redirect(
+                reverse_lazy("applications:application", kwargs={"pk": self.application_id, "type": "case-notes"})
+            )
 
 
 class RespondToQuery(TemplateView):

@@ -358,7 +358,7 @@ def delete_goods_type_document(request, pk, good_pk):
 # Activity
 def get_activity(request, pk):
     data = get(request, CASES_URL + pk + ACTIVITY_URL)
-    return data.json()["activity"]
+    return data.json().get("activity")
 
 
 def copy_application(request, pk, data):
