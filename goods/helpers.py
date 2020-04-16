@@ -2,6 +2,7 @@ from django.utils.safestring import mark_safe
 
 from applications.helpers.date_fields import format_date
 from core.builtins.custom_tags import default_na
+from core.helpers import convert_control_list_entries
 from lite_forms.components import Summary
 
 
@@ -12,22 +13,7 @@ def good_summary(good):
     return Summary(
         values={
             "Description": good["description"],
-            "Control list entries": default_na(
-                mark_safe(
-                    ", ".join(
-                        [
-                            "<span data-definition-title='"
-                            + clc["rating"]
-                            + "' data-definition-text='"
-                            + clc["text"]
-                            + "'>"
-                            + clc["rating"]
-                            + "</span>"
-                            for clc in good["control_list_entries"]
-                        ]
-                    )
-                )
-            ),
+            "Control list entries": convert_control_list_entries(good["control_list_entries"]),
             "Part number": default_na(good["part_number"]),
         },
         classes=["govuk-summary-list--no-border"],
