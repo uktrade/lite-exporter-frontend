@@ -37,11 +37,11 @@ class ExportLicenceQuestions(MultiFormView):
 
 class TradeControlLicenceQuestions(MultiFormView):
     def init(self, request, **kwargs):
-        self.forms = trade_control_licence_questions()
+        self.forms = trade_control_licence_questions(request)
         self.action = post_applications
 
     def on_submission(self, request, **kwargs):
-        self.forms = trade_control_licence_questions()
+        self.forms = trade_control_licence_questions(request)
 
     def get_success_url(self):
         pk = self.get_validated_data()["id"]

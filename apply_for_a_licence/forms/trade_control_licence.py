@@ -1,6 +1,7 @@
 from django.urls import reverse_lazy
 
 from conf.constants import CaseTypes
+from core.services import get_trade_control_activities, get_trade_control_product_categories
 from lite_content.lite_exporter_frontend import generic
 from lite_content.lite_exporter_frontend.applications import (
     InitialApplicationQuestionsForms,
@@ -48,53 +49,41 @@ def application_type_form():
     )
 
 
-def activity_form():
+def activity_form(request):
+    activities = get_trade_control_activities(request)
+    options = []
+
+    for activity in activities:
+        option = Option(activity["key"], activity["value"])
+
+        if activity["key"] == "other":
+            option.components = [
+                TextArea(
+                    title=TradeControlLicenceQuestions.ControlActivity.OTHER_DESCRIPTION,
+                    name="tc_activity_other",
+                    optional=False,
+                    rows=1,
+                    extras={"max_length": 100},
+                )
+            ]
+
+        options.append(option)
+
     return Form(
         title=TradeControlLicenceQuestions.ControlActivity.TITLE,
         description=TradeControlLicenceQuestions.ControlActivity.DESCRIPTION,
-        questions=[
-            RadioButtons(
-                name="tc_activity",
-                options=[
-                    Option("transfer_of_goods", "Transfer of goods"),
-                    Option("provision_of_finance", "Finance or financial services"),
-                    Option("provision_of_advertising", "General advertising or promotion services"),
-                    Option("provision_of_insurance", "Insurance or reinsurance"),
-                    Option("provision_of_transportation", "Transportation services"),
-                    Option("maritime_anti_piracy", "Maritime anti-piracy"),
-                    Option(
-                        "other",
-                        "Other",
-                        components=[
-                            TextArea(
-                                title=TradeControlLicenceQuestions.ControlActivity.OTHER_DESCRIPTION,
-                                name="tc_activity_other",
-                                optional=False,
-                                rows=1,
-                                extras={"max_length": 100},
-                            )
-                        ],
-                    ),
-                ],
-            ),
-        ],
+        questions=[RadioButtons(name="tc_activity", options=options)],
         default_button_name=generic.CONTINUE,
     )
 
 
-def product_category_form():
+def product_category_form(request):
+    product_categories = get_trade_control_product_categories(request)
+    options = [Option(product_category["key"], product_category["value"]) for product_category in product_categories]
+
     return Form(
         title=TradeControlLicenceQuestions.ControlProduct.TITLE,
         description=TradeControlLicenceQuestions.ControlProduct.DESCRIPTION,
-        questions=[
-            RadioButtons(
-                name="tc_product_category",
-                options=[
-                    Option("category_a", "Category A", TradeControlLicenceQuestions.ControlProduct.CATEGORY_A_HINT),
-                    Option("category_b", "Category B", TradeControlLicenceQuestions.ControlProduct.CATEGORY_B_HINT),
-                    Option("category_c", "Category C", TradeControlLicenceQuestions.ControlProduct.CATEGORY_C_HINT),
-                ],
-            ),
-        ],
+        questions=[RadioButtons(name="tc_product_category", options=options)],
         default_button_name=generic.SAVE_AND_CONTINUE,
     )

@@ -118,8 +118,10 @@ def export_licence_questions(application_type):
     )
 
 
-def trade_control_licence_questions():
-    return FormGroup([application_type_form(), reference_name_form(), activity_form(), product_category_form()])
+def trade_control_licence_questions(request):
+    return FormGroup(
+        [application_type_form(), reference_name_form(), activity_form(request), product_category_form(request)]
+    )
 
 
 def transhipment_questions():
