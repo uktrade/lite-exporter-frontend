@@ -59,11 +59,13 @@ class Goods(TemplateView):
         part_number = request.GET.get("part_number", "").strip()
         control_list_entry = request.GET.get("control_list_entry", "").strip()
 
-        filters = FiltersBar([
-            TextInput(title="description", name="description"),
-            TextInput(title="control list entry", name="control_list_entry"),
-            TextInput(title="part number", name="part_number")
-        ])
+        filters = FiltersBar(
+            [
+                TextInput(title="description", name="description"),
+                TextInput(title="control list entry", name="control_list_entry"),
+                TextInput(title="part number", name="part_number"),
+            ]
+        )
 
         params = {
             "page": int(request.GET.get("page", 1)),
@@ -77,7 +79,7 @@ class Goods(TemplateView):
             "description": description,
             "part_number": part_number,
             "control_list_entry": control_list_entry,
-            "filters": filters
+            "filters": filters,
         }
         return render(request, "goods/goods.html", context)
 

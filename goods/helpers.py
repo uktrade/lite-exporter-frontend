@@ -1,4 +1,4 @@
-from django.template.defaultfilters import default
+from django.utils.safestring import mark_safe
 
 from applications.helpers.date_fields import format_date
 from core.builtins.custom_tags import default_na
@@ -12,8 +12,23 @@ def good_summary(good):
     return Summary(
         values={
             "Description": good["description"],
-            "Control list entries": default_na(", ".join([clc["rating"] for clc in good["control_list_entries"]])),
-            "Part number": default(good["part_number"], "N/A"),
+            "Control list entries": default_na(
+                mark_safe(
+                    ", ".join(
+                        [
+                            "<span data-definition-title='"
+                            + clc["rating"]
+                            + "' data-definition-text='"
+                            + clc["text"]
+                            + "'>"
+                            + clc["rating"]
+                            + "</span>"
+                            for clc in good["control_list_entries"]
+                        ]
+                    )
+                )
+            ),
+            "Part number": default_na(good["part_number"]),
         },
         classes=["govuk-summary-list--no-border"],
     )
