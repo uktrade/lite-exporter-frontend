@@ -29,11 +29,7 @@ def application_type_form():
                         description=TradeControlLicenceQuestions.TradeControlLicenceQuestion.OPEN_LICENCE_DESCRIPTION,
                     ),
                 ],
-            ),
-            DetailComponent(
-                InitialApplicationQuestionsForms.OpeningQuestion.HELP_WITH_CHOOSING_A_LICENCE,
-                InitialApplicationQuestionsForms.OpeningQuestion.HELP_WITH_CHOOSING_A_LICENCE_CONTENT,
-            ),
+            )
         ],
         default_button_name=generic.CONTINUE,
         back_link=BackLink(
@@ -72,11 +68,20 @@ def activity_form(request):
 
 def product_category_form(request):
     product_categories = get_trade_control_product_categories(request)
-    options = [Option(product_category["key"], product_category["value"]) for product_category in product_categories]
+    hint_text_map = {
+        "category_a": TradeControlLicenceQuestions.ProductCategory.CATEGORY_A_HINT,
+        "category_b": TradeControlLicenceQuestions.ProductCategory.CATEGORY_B_HINT,
+        "category_c": TradeControlLicenceQuestions.ProductCategory.CATEGORY_C_HINT,
+    }
+
+    options = [
+        Option(product_category["key"], product_category["value"], hint_text_map.get(product_category["key"]))
+        for product_category in product_categories
+    ]
 
     return Form(
-        title=TradeControlLicenceQuestions.ControlProduct.TITLE,
-        description=TradeControlLicenceQuestions.ControlProduct.DESCRIPTION,
+        title=TradeControlLicenceQuestions.ProductCategory.TITLE,
+        description=TradeControlLicenceQuestions.ProductCategory.DESCRIPTION,
         questions=[Checkboxes(name="tc_product_categories[]", options=options)],
         default_button_name=generic.SAVE_AND_CONTINUE,
     )
