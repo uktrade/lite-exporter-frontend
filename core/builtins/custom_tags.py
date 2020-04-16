@@ -73,7 +73,7 @@ def add_months(start_date, months):
     year = start_date.year
     month = start_date.month
 
-    for i in range(months):
+    for _ in range(months):
         month += 1
         if month == 13:
             year += 1
