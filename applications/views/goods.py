@@ -56,13 +56,13 @@ class GoodsList(TemplateView):
         application = get_application(request, application_id)
         description = request.GET.get("description", "").strip()
         part_number = request.GET.get("part_number", "").strip()
-        control_rating = request.GET.get("control_rating", "").strip()
+        control_list_entry = request.GET.get("control_list_entry", "").strip()
 
         params = {
             "page": int(request.GET.get("page", 1)),
             "description": description,
             "part_number": part_number,
-            "control_rating": control_rating,
+            "control_list_entry": control_list_entry,
             "for_application": "True",
         }
         goods_list = get_goods(request, **params)
@@ -72,7 +72,7 @@ class GoodsList(TemplateView):
             "data": goods_list,
             "description": description,
             "part_number": part_number,
-            "control_code": control_rating,
+            "control_list_entry": control_list_entry,
             "draft_id": application_id,
             "params": params,
             "page": params.pop("page"),

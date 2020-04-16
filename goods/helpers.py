@@ -1,6 +1,7 @@
 from django.template.defaultfilters import default
 
 from applications.helpers.date_fields import format_date
+from core.builtins.custom_tags import default_na
 from lite_forms.components import Summary
 
 
@@ -11,7 +12,7 @@ def good_summary(good):
     return Summary(
         values={
             "Description": good["description"],
-            "CLC": default(good["control_code"], "N/A"),
+            "Control list entries": default_na(", ".join([clc["rating"] for clc in good["control_list_entries"]])),
             "Part number": default(good["part_number"], "N/A"),
         },
         classes=["govuk-summary-list--no-border"],
