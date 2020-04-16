@@ -49,7 +49,7 @@ from goods.services import (
 from lite_content.lite_exporter_frontend.goods import AttachDocumentForm
 from lite_forms.views import SingleFormView, MultiFormView
 from lite_content.lite_exporter_frontend import strings, goods
-from lite_forms.components import HiddenField, BackLink
+from lite_forms.components import HiddenField, BackLink, FiltersBar, TextInput, Select, Option
 from lite_forms.generators import error_page, form_page
 
 
@@ -59,7 +59,16 @@ class Goods(TemplateView):
         part_number = request.GET.get("part_number", "").strip()
         control_rating = request.GET.get("control_rating", "").strip()
 
-        filtered = True if (description or part_number or control_rating) else False
+        filters = FiltersBar([
+            TextInput(title="description", name="description"),
+            TextInput(title="control list entry", name="control_list_entry"),
+            TextInput(title="part number", name="part_number"),
+            Select(title="status", name="status", options=[
+                Option(key="verified", value="Verified"),
+                Option(key="in_review", value="In review"),
+                Option(key="draft", value="Draft"),
+            ])
+        ])
 
         params = {
             "page": int(request.GET.get("page", 1)),
@@ -68,17 +77,12 @@ class Goods(TemplateView):
             "control_rating": control_rating,
         }
 
-        goods = get_goods(request, **params)
-
         context = {
-            "goods": goods,
+            "goods": get_goods(request, **params),
             "description": description,
             "part_number": part_number,
             "control_code": control_rating,
-            "filtered": filtered,
-            "params": params,
-            "page": params.pop("page"),
-            "params_str": convert_dict_to_query_params(params),
+            "filters": filters
         }
         return render(request, "goods/goods.html", context)
 
