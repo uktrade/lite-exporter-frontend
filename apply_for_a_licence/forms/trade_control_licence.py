@@ -7,14 +7,7 @@ from lite_content.lite_exporter_frontend.applications import (
     InitialApplicationQuestionsForms,
     TradeControlLicenceQuestions,
 )
-from lite_forms.components import (
-    Form,
-    RadioButtons,
-    Option,
-    BackLink,
-    DetailComponent,
-    TextArea,
-)
+from lite_forms.components import Form, RadioButtons, Option, BackLink, DetailComponent, TextArea, Checkboxes
 
 
 def application_type_form():
@@ -84,6 +77,6 @@ def product_category_form(request):
     return Form(
         title=TradeControlLicenceQuestions.ControlProduct.TITLE,
         description=TradeControlLicenceQuestions.ControlProduct.DESCRIPTION,
-        questions=[RadioButtons(name="tc_product_category", options=options)],
+        questions=[Checkboxes(name="tc_product_categories[]", options=options)],
         default_button_name=generic.SAVE_AND_CONTINUE,
     )

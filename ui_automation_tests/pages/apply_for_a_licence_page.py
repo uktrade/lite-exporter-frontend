@@ -16,7 +16,7 @@ class ApplyForALicencePage(BasePage):
     F680_CLEARANCE_TYPE_CHECKBOXES_NAME = "types[]"
     TRADE_CONTROL_ACTIVITY_OTHER_ID = "tc_activity-other"
     TRADE_CONTROL_ACTIVITY_OTHER_DETAILS_ID = "tc_activity_other"
-    TRADE_CONTROL_PRODUCT_CATEGORY_A_ID = "tc_product_category-category_a"
+    TRADE_CONTROL_PRODUCT_CATEGORY_A_ID = "Category A"
 
     def enter_name_or_reference_for_application(self, name):
         element = self.driver.find_element_by_id(self.NAME_OR_REFERENCE_INPUT_ID)
