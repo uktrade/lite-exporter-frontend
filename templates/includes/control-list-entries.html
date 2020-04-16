@@ -1,7 +1,5 @@
-{% for control_list_entry in control_list_entries %}
-	<span data-definition-title="{{ control_list_entry.rating }}" data-definition-text="{{ control_list_entry.text }}">{{ control_list_entry.rating }}</span>{% if not forloop.last %}, {% endif %}
+{% for item in control_list_entries %}
+	<span {% if item.rating == control_list_entry %}class="lite-highlight"{% endif %} data-definition-title="{{ item.rating }}" data-definition-text="{{ item.text }}">{{ item.rating }}</span>{% if not forloop.last %}, {% endif %}
 {% empty %}
 	{{ None|default_na }}
 {% endfor %}
-
-<!-- NEED TO ADD FILTERING PLEASE REMIND JAN -->
