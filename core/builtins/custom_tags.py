@@ -10,7 +10,7 @@ from django.template.defaultfilters import stringfilter, safe
 from django.templatetags.tz import do_timezone
 from django.utils.safestring import mark_safe
 
-from conf.constants import CASE_SECTIONS, DATE_FORMAT, PAGE_DATE_FORMAT
+from conf.constants import CASE_SECTIONS, DATE_FORMAT, PAGE_DATE_FORMAT, TIMEZONE
 from conf.constants import ISO8601_FMT, NOT_STARTED, DONE, IN_PROGRESS
 
 from lite_content.lite_exporter_frontend import strings
@@ -65,8 +65,8 @@ def str_date(value):
 @register.filter
 @stringfilter
 def str_date_only(value):
-    date_str = do_timezone(datetime.datetime.strptime(value, DATE_FORMAT), "Europe/London")
-    return date_str.strftime("%d %B %Y")
+    date_str = do_timezone(datetime.datetime.strptime(value, DATE_FORMAT), TIMEZONE)
+    return date_str.strftime(PAGE_DATE_FORMAT)
 
 
 @register.filter()
