@@ -671,3 +671,20 @@ def create_licence(context, decision, api_test_client):  # noqa
     api_test_client.cases.finalise_case(context.case_id, "approve")
     api_test_client.cases.finalise_licence(context.case_id)
     context.licence = api_test_client.context["licence"]
+
+
+@given(parsers.parse('I create a licence for my application with "{decision}" decision document and good decisions'))  # noqa
+def create_licence_with_licenced_goods(context, decision, api_test_client):  # noqa
+    document_template = api_test_client.document_templates.add_template(
+        api_test_client.picklists, case_types=["oiel", "siel", "exhc"]
+    )
+    api_test_client.cases.add_generated_document(context.case_id, document_template["id"], decision)
+
+    good_on_application_id = context.good["id"]
+    additional_data = {
+        f"quantity-{good_on_application_id}": context.good["quantity"],
+        f"value-{good_on_application_id}": context.good["value"]
+    }
+    api_test_client.cases.finalise_case(context.case_id, "approve", additional_data)
+    api_test_client.cases.finalise_licence(context.case_id)
+    context.licence = api_test_client.context["licence"]

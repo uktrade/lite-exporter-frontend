@@ -1,5 +1,6 @@
 from pytest_bdd import scenarios, given, parsers, when, then
 
+from ui_automation_tests.pages.licence_page import LicencePage
 from ui_automation_tests.pages.licences_page import LicencesPage
 from ui_automation_tests.shared.tools.helpers import find_paginated_item_by_id
 
@@ -59,3 +60,27 @@ def exhibition_licence_row(context, driver):
 @when("I click on the nlr tab")
 def nlr_tab(driver):
     LicencesPage(driver).click_nlr_tab()
+
+
+@when("I view my licence")
+def view_licence(driver, context):
+    LicencesPage(driver).click_licence(context.licence)
+
+
+@then("I see all the typical licence details")
+def licence_details(driver, context):
+    page = LicencePage(driver)
+    assert context.reference_code in page.get_heading_text()
+    assert page.is_licence_document_present()
+
+
+@then("I see my standard application licence details")
+def standard_licence_details(driver, context):
+    page = LicencePage(driver)
+    assert context.end_user["country"]["name"] in page.get_destination()
+    assert context.end_user["name"] in page.get_end_user()
+    good_row = page.get_good_row()
+    assert context.good["good"]["control_code"] in good_row
+    assert str(context.good["quantity"]) in good_row
+    assert str(context.good["value"]) in good_row
+    assert "0" in page.get_usage()
