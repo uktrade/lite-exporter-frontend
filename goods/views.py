@@ -25,7 +25,7 @@ from goods.forms import (
     document_grading_form,
     raise_a_goods_query,
     add_good_form_group,
-    edit_good_form_group,
+    edit_good_form,
 )
 from goods.services import (
     get_goods,
@@ -182,48 +182,13 @@ class RaiseGoodsQuery(SingleFormView):
         self.success_url = reverse_lazy("goods:good", kwargs={"pk": self.object_pk})
 
 
-class EditGood(MultiFormView):
-    actions = [validate_edit_good, edit_good, edit_good_with_pv_grading]
-
+class EditGood(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = str(kwargs["pk"])
         self.data = get_good(request, self.object_pk)[0]
-        self.forms = edit_good_form_group(self.object_pk)
+        self.form = edit_good_form(self.object_pk)
         self.action = edit_good
-
-    def on_submission(self, request, **kwargs):
-        is_pv_graded = request.POST.copy().get("is_pv_graded", "").lower() == "yes"
-        self.forms = edit_good_form_group(self.object_pk, is_pv_graded)
-        if int(self.request.POST.get("form_pk")) == 1:
-            self.action = self.actions[2]
-        elif (int(self.request.POST.get("form_pk")) == 0) and is_pv_graded:
-            self.action = self.actions[0]
-
-    def get_data(self):
-        data = self.data
-
-        if data.get("pv_grading_details", False):
-            for k, v in data["pv_grading_details"].items():
-                data[k] = v
-            date_of_issue = data["date_of_issue"].split("-")
-            data["date_of_issueday"] = date_of_issue[2]
-            data["date_of_issuemonth"] = date_of_issue[1]
-            data["date_of_issueyear"] = date_of_issue[0]
-
-        return data
-
-    def get_success_url(self):
-        good = get_good(self.request, self.object_pk)[0]
-
-        raise_a_clc_query = "unsure" == good["is_good_controlled"]["key"]
-        raise_a_pv_query = "grading_required" == good["is_pv_graded"]["key"]
-
-        if not good.get("documents") and not good.get("missing_document_reason"):
-            return reverse_lazy("goods:add_document", kwargs={"pk": self.object_pk})
-        elif raise_a_clc_query or raise_a_pv_query:
-            return reverse_lazy("goods:raise_goods_query", kwargs={"pk": self.object_pk})
-        else:
-            return reverse_lazy("goods:good", kwargs={"pk": self.object_pk})
+        self.success_url = reverse_lazy("goods:good", kwargs={"pk": self.object_pk})
 
 
 class DeleteGood(TemplateView):

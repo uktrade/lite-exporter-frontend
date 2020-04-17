@@ -166,29 +166,15 @@ def edit_good_detail_form(good_id):
                         ],
                     ),
                     Option(key="no", value=EditGoodForm.IsControlled.NO),
-                    Option(key="unsure", value=EditGoodForm.IsControlled.UNSURE),
                 ],
             ),
-            RadioButtons(
-                title=CreateGoodForm.IsGraded.TITLE,
-                description=CreateGoodForm.IsGraded.DESCRIPTION,
-                name="is_pv_graded",
-                options=[
-                    Option(key="yes", value=CreateGoodForm.IsGraded.YES),
-                    Option(key="no", value=CreateGoodForm.IsGraded.NO),
-                    Option(key="grading_required", value=CreateGoodForm.IsGraded.RAISE_QUERY),
-                ],
-            ),
-        ],
-        buttons=[
-            Button(EditGoodForm.Buttons.SAVE, "submit", ButtonStyle.DEFAULT),
         ],
         back_link=BackLink(CreateGoodForm.BACK_BUTTON, reverse_lazy("goods:good", kwargs={"pk": good_id})),
     )
 
 
-def edit_good_form_group(good_id, is_pv_graded: bool = None):
-    return FormGroup([edit_good_detail_form(good_id), conditional(is_pv_graded, pv_details_form())])
+def edit_good_form(good_id):
+    return edit_good_detail_form(good_id)
 
 
 def document_grading_form(request, good_id):
