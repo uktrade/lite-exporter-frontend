@@ -275,12 +275,6 @@ def date_display(value):
         "December",
     ]
 
-    return 'TO DO'
-
-    print()
-    print(value)
-    print()
-
     year, month, day = value.split("-")
     month = months[(int(month) - 1)]
 
