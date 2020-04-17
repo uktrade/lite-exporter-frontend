@@ -6,9 +6,9 @@
 			<h1 class="govuk-heading-l" id="heading">
 				{% block title %}
 					{% if licence.application.case_type.sub_type.key == "standard" or licence.application.case_type.sub_type.key == "open" %}
-						Licence {{ licence.application.reference_code }}
+						{% lcs "licences.LicencePage.LICENCE_TITLE" %} {{ licence.application.reference_code }}
 					{% else %}
-						Clearance {{ licence.application.reference_code }}
+						{% lcs "licences.LicencePage.CLEARANCE_TITLE" %} {{ licence.application.reference_code }}
 					{% endif %}
 				{% endblock %}
 			</h1>
@@ -20,7 +20,7 @@
 		<dl class="govuk-summary-list govuk-summary-list--no-border govuk-grid-column-two-thirds">
 			<div class="govuk-summary-list__row">
 				<dt class="govuk-summary-list__key">
-					Your reference
+					{% lcs "licences.LicencePage.Summary.REFERENCE" %}
 				</dt>
 				<dd class="govuk-summary-list__value">
 					<a href="{% url 'applications:application' licence.application.id %}?return_to={{ request.path }}" class="govuk-link govuk-link--no-visited-state">{{ licence.application.name }}</a>
@@ -28,7 +28,7 @@
 			</div>
 			<div class="govuk-summary-list__row">
 				<dt class="govuk-summary-list__key">
-					Licence
+					{% lcs "licences.LicencePage.Summary.LICENCE_DOCUMENT" %}
 				</dt>
 				<dd class="govuk-summary-list__value">
 					{% for document in licence.application.documents %}
@@ -39,7 +39,7 @@
 			</div>
 			<div class="govuk-summary-list__row">
 				<dt class="govuk-summary-list__key">
-					Status
+					{% lcs "licences.LicencePage.Summary.STATUS" %}
 				</dt>
 				<dd class="govuk-summary-list__value">
 					{{ licence.application.status.value }}
@@ -47,7 +47,7 @@
 			</div>
 			<div class="govuk-summary-list__row">
 				<dt class="govuk-summary-list__key">
-					Start date
+					{% lcs "licences.LicencePage.Summary.START_DATE" %}
 				</dt>
 				<dd class="govuk-summary-list__value">
 					{{ licence.start_date|str_date_only }}
@@ -55,7 +55,7 @@
 			</div>
 			<div class="govuk-summary-list__row">
 				<dt class="govuk-summary-list__key">
-					End date
+					{% lcs "licences.LicencePage.Summary.END_DATE" %}
 				</dt>
 				<dd class="govuk-summary-list__value">
 					{{ licence.start_date|add_months:licence.duration }}
@@ -64,7 +64,7 @@
 			{% if licence.application.destinations %}
 				<div class="govuk-summary-list__row">
 					<dt class="govuk-summary-list__key">
-						Destination
+						{% lcs "licences.LicencePage.Summary.DESTINATION" %}
 					</dt>
 					<dd class="govuk-summary-list__value" id="destination">
 						{% for destination in licence.application.destinations %}
@@ -76,7 +76,7 @@
 			{% if licence.application.end_user %}
 				<div class="govuk-summary-list__row">
 					<dt class="govuk-summary-list__key">
-						End User
+						{% lcs "licences.LicencePage.Summary.END_USER" %}
 					</dt>
 					<dd class="govuk-summary-list__value" id="end-user">
 						{{ licence.application.end_user.party.name }}<br>
@@ -89,7 +89,7 @@
 			{% if licence.application.ultimate_end_users %}
 				<div class="govuk-summary-list__row">
 					<dt class="govuk-summary-list__key">
-						Ultimate End Users
+						{% lcs "licences.LicencePage.Summary.ULTIMATE_END_USERS" %}
 					</dt>
 					<dd class="govuk-summary-list__value">
 						{% for user in licence.application.ultimate_end_users %}
@@ -104,7 +104,7 @@
 			{% if licence.application.consignee %}
 				<div class="govuk-summary-list__row">
 					<dt class="govuk-summary-list__key">
-						Consignee
+						{% lcs "licences.LicencePage.Summary.CONSIGNEE" %}
 					</dt>
 					<dd class="govuk-summary-list__value">
 						{{ licence.application.consignee.party.name }}<br>
@@ -117,7 +117,7 @@
 			{% if licence.application.third_parties %}
 				<div class="govuk-summary-list__row">
 					<dt class="govuk-summary-list__key">
-						Third Parties
+						{% lcs "licences.LicencePage.Summary.THIRD_PARTIES" %}
 					</dt>
 					<dd class="govuk-summary-list__value">
 						{% for user in licence.application.third_parties %}
@@ -132,7 +132,7 @@
 			{% endif %}
 			<div class="govuk-summary-list__row">
 				<dt class="govuk-summary-list__key">
-					Supporting Documents
+					{% lcs "licences.LicencePage.Summary.SUPPORTING_DOCUMENTS" %}
 				</dt>
 				<dd class="govuk-summary-list__value">
 					{% for document in licence.application.documents %}
@@ -146,13 +146,13 @@
 	<table class="govuk-table">
 		<thead class="govuk-table__head">
 			<tr class="govuk-table__row">
-				<th class="govuk-table__header" scope="col">Products</th>
+				<th class="govuk-table__header" scope="col">{% lcs "licences.LicencePage.GoodsTable.DETAILS" %}</th>
 				{% if licence.application.goods.0.quantity %}
-					<th class="govuk-table__header" scope="col">Applied for quantity</th>
-					<th class="govuk-table__header" scope="col">Licensed quantity</th>
+					<th class="govuk-table__header" scope="col">{% lcs "licences.LicencePage.GoodsTable.APPLIED_FOR" %}</th>
+					<th class="govuk-table__header" scope="col">{% lcs "licences.LicencePage.GoodsTable.LICENCED" %}</th>
 				{% endif %}
 				{% if licence.application.goods.0.usage != None %}
-					<th class="govuk-table__header" scope="col">Usage</th>
+					<th class="govuk-table__header" scope="col">{% lcs "licences.LicencePage.GoodsTable.USAGE" %}</th>
 				{% endif %}
 			</tr>
 		</thead>
