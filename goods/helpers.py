@@ -21,18 +21,17 @@ def good_summary(good):
 
 
 def process_pv_grading_for_post(json):
-    post_data = json
-    # Convert date
-    date_of_issue = format_date(json, "date_of_issue")
-
-    post_data["pv_grading_details"] = {
-        "grading": post_data["grading"],
-        "custom_grading": post_data["custom_grading"],
-        "prefix": post_data["prefix"],
-        "suffix": post_data["suffix"],
-        "issuing_authority": post_data["issuing_authority"],
-        "reference": post_data["reference"],
-        "date_of_issue": date_of_issue,
+    json = {
+        "is_pv_graded": json["is_pv_graded"],
+        "pv_grading_details": {
+            "grading": json["grading"],
+            "custom_grading": json["custom_grading"],
+            "prefix": json["prefix"],
+            "suffix": json["suffix"],
+            "issuing_authority": json["issuing_authority"],
+            "reference": json["reference"],
+            "date_of_issue": format_date(json, "date_of_issue"),
+        }
     }
 
-    return post_data
+    return json

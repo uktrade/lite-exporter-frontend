@@ -275,6 +275,9 @@ def date_display(value):
         "December",
     ]
 
+    if value.count("-") < 2:
+        return
+
     year, month, day = value.split("-")
     month = months[(int(month) - 1)]
 

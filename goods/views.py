@@ -17,6 +17,7 @@ from applications.services import (
     get_status_properties,
     get_case_generated_documents,
 )
+from core.builtins.custom_tags import pretty_json
 from goods.forms import (
     attach_documents_form,
     respond_to_query_form,
@@ -25,7 +26,7 @@ from goods.forms import (
     document_grading_form,
     raise_a_goods_query,
     add_good_form_group,
-    edit_good_form,
+    edit_good_detail_form, pv_details_form, edit_grading_form,
 )
 from goods.services import (
     get_goods,
@@ -40,9 +41,7 @@ from goods.services import (
     raise_goods_query,
     post_good_document_sensitivity,
     validate_good,
-    post_good_with_pv_grading,
-    validate_edit_good,
-    edit_good_with_pv_grading,
+    post_good_with_pv_grading, edit_good_pv_grading,
 )
 from lite_content.lite_exporter_frontend import strings, goods
 from lite_content.lite_exporter_frontend.goods import AttachDocumentForm
@@ -186,9 +185,47 @@ class EditGood(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = str(kwargs["pk"])
         self.data = get_good(request, self.object_pk)[0]
-        self.form = edit_good_form(self.object_pk)
+        self.form = edit_good_detail_form(self.object_pk)
         self.action = edit_good
         self.success_url = reverse_lazy("goods:good", kwargs={"pk": self.object_pk})
+
+
+class EditGrading(SingleFormView):
+    def init(self, request, **kwargs):
+        self.object_pk = str(kwargs["pk"])
+        self.data = get_good(request, self.object_pk)[0]
+        self.form = edit_grading_form(self.object_pk)
+        self.action = edit_good_pv_grading
+        self.success_url = reverse_lazy("goods:good", kwargs={"pk": self.object_pk})
+
+    def get_data(self):
+        data = self.data
+        if data.get("pv_grading_details", False):
+            for k, v in data["pv_grading_details"].items():
+                data[k] = v
+            date_of_issue = data["date_of_issue"].split("-")
+            data["date_of_issueday"] = date_of_issue[2]
+            data["date_of_issuemonth"] = date_of_issue[1]
+            data["date_of_issueyear"] = date_of_issue[0]
+
+        print()
+        print(pretty_json(data))
+        print()
+
+        return data
+
+    def get_success_url(self):
+        good = get_good(self.request, self.object_pk)[0]
+
+        raise_a_clc_query = "unsure" == good["is_good_controlled"]["key"]
+        raise_a_pv_query = "grading_required" == good["is_pv_graded"]["key"]
+
+        if not good.get("documents") and not good.get("missing_document_reason"):
+            return reverse_lazy("goods:add_document", kwargs={"pk": self.object_pk})
+        elif raise_a_clc_query or raise_a_pv_query:
+            return reverse_lazy("goods:raise_goods_query", kwargs={"pk": self.object_pk})
+        else:
+            return reverse_lazy("goods:good", kwargs={"pk": self.object_pk})
 
 
 class DeleteGood(TemplateView):

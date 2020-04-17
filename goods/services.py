@@ -55,18 +55,8 @@ def edit_good(request, pk, json):
     return data.json(), data.status_code
 
 
-def validate_edit_good(request, pk, json):
-    post_data = json
-
-    post_data["validate_only"] = True
-    return edit_good(request, pk, post_data)
-
-
-def edit_good_with_pv_grading(request, pk, json):
-    post_data = process_pv_grading_for_post(json)
-
-    data = edit_good(request, pk, post_data)
-    return data
+def edit_good_pv_grading(request, pk, json):
+    return edit_good(request, pk, process_pv_grading_for_post(json))
 
 
 def delete_good(request, pk):

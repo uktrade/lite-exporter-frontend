@@ -7,6 +7,7 @@ urlpatterns = [
     path("", views.Goods.as_view(), name="goods"),
     path("add/", views.AddGood.as_view(), name="add"),
     path("<uuid:pk>/edit/", views.EditGood.as_view(), name="edit"),
+    path("<uuid:pk>/edit-grading/", views.EditGrading.as_view(), name="edit_grading"),
     path("<uuid:pk>/delete/", views.DeleteGood.as_view(), name="delete"),
     path("<uuid:pk>/add-document/", views.CheckDocumentGrading.as_view(), name="add_document"),
     path("<uuid:pk>/documents/<uuid:file_pk>/", views.Document.as_view(), name="document"),

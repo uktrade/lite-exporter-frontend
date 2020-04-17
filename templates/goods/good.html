@@ -182,6 +182,7 @@
 					</dd>
 				</div>
 			{% endif %}
+			{% if good.is_pv_graded.key == "yes" %}<br><br>{% endif %}
 			<div class="govuk-summary-list__row">
 				<dt class="govuk-summary-list__key">
 					{% lcs "goods.GoodPage.Table.Grading.IS_GRADED" %}
@@ -189,7 +190,11 @@
 				<dd class="govuk-summary-list__value">
 					{{ good.is_pv_graded.value }}
 				</dd>
-				<dd class="govuk-summary-list__actions"></dd>
+				<dd class="govuk-summary-list__actions">
+					{% if good.status.key == 'draft' %}
+						<a class="govuk-link govuk-link--no-visited-state" href="{% url 'goods:edit_grading' good.id %}#pane_is_good_controlled">Change</a>
+					{% endif %}
+				</dd>
 			</div>
 			{% if good.is_pv_graded.key == "yes" %}
 				<div class="govuk-summary-list__row">
