@@ -182,13 +182,6 @@ def edit_good_detail_form(good_id):
         ],
         buttons=[
             Button(EditGoodForm.Buttons.SAVE, "submit", ButtonStyle.DEFAULT),
-            Button(
-                value=EditGoodForm.Buttons.DELETE,
-                action="",
-                style=ButtonStyle.WARNING,
-                link=reverse_lazy("goods:delete", kwargs={"pk": good_id}),
-                float_right=True,
-            ),
         ],
         back_link=BackLink(CreateGoodForm.BACK_BUTTON, reverse_lazy("goods:good", kwargs={"pk": good_id})),
     )
@@ -331,7 +324,7 @@ def delete_good_form(good):
                 value=EditGoodForm.DeleteConfirmationForm.NO,
                 action="",
                 style=ButtonStyle.SECONDARY,
-                link=reverse_lazy("goods:edit", kwargs={"pk": good["id"]}),
+                link=reverse_lazy("goods:good", kwargs={"pk": good["id"]}),
             ),
         ],
     )

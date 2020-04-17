@@ -40,6 +40,9 @@
 		</div>
 		{% if good.status.key == 'draft' %}
 			<div class="lite-app-bar__controls">
+				<a href="{% url 'goods:delete' good.id %}" id="edit" class="govuk-button govuk-button--secondary">
+					Delete good
+				</a>
 				<a href="{% url 'goods:edit' good.id %}" id="edit" class="govuk-button govuk-button--secondary">
 					{% lcs 'goods.GoodsList.EDIT_GOOD_LINK' %}
 				</a>
