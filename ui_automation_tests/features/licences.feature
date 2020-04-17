@@ -21,6 +21,9 @@ Feature: I want to be able to view licences as an exporter user
     And I create a licence for my application with "approve" decision document
     When I go to the licences page
     Then I see my open licence
+    When I view my licence
+    Then I see all the typical licence details
+    And I see my open application licence details
 
   @LT_1254_view_licences_mod @regression
   Scenario: View my mod application licences
@@ -31,3 +34,6 @@ Feature: I want to be able to view licences as an exporter user
     When I go to the licences page
     And I click on the clearances tab
     Then I see my exhibition licence
+    When I view my licence
+    Then I see all the typical licence details
+    And I see my exhibition application licence details

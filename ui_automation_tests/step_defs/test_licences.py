@@ -84,3 +84,17 @@ def standard_licence_details(driver, context):
     assert str(context.good["quantity"]) in good_row
     assert str(context.good["value"]) in good_row
     assert "0" in page.get_usage()
+
+
+@then("I see my open application licence details")
+def open_licence_details(driver, context):
+    page = LicencePage(driver)
+    assert context.country["name"] in page.get_destination()
+    good_row = page.get_good_row()
+    assert context.goods_type["control_code"] in good_row
+    assert "0" in page.get_usage()
+
+
+@then("I see my exhibition application licence details")
+def exhibition_licence_details(driver, context):
+    assert context.good["good"]["control_code"] in LicencePage(driver).get_good_row()
