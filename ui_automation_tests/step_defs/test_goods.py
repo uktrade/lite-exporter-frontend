@@ -35,11 +35,11 @@ def assert_good_contain_query_details(driver, context, exporter_url):
 
 @when(
     parsers.parse(
-        'I edit the good to description "{description}" part number "{part}" controlled "{controlled}" '
-        'control code "{control_code}" and graded "{graded}"'
+        'I edit the good to description "{description}" part number "{part}" controlled "{controlled}" and '
+        'control list entry "{control_list_entry}"'
     )
 )
-def edit_good(driver, description, part, controlled, control_code, graded, context):
+def edit_good(driver, description, part, controlled, control_list_entry, context):
     goods_list = GoodsListPage(driver)
     add_goods_page = AddGoodPage(driver)
 
@@ -51,7 +51,9 @@ def edit_good(driver, description, part, controlled, control_code, graded, conte
 
     context.edited_description = context.good_description + " " + description
     add_goods_page.enter_description_of_goods(context.edited_description)
-    add_goods_page.select_is_your_good_graded(graded)
+    add_goods_page.enter_part_number(part)
+    add_goods_page.select_is_your_good_controlled(controlled)
+    add_goods_page.enter_control_list_entries(control_list_entry)
 
     functions.click_submit(driver)
 
@@ -59,9 +61,9 @@ def edit_good(driver, description, part, controlled, control_code, graded, conte
 @when("I delete my good")
 def delete_my_good_in_list(driver, context):
     goods_page = GoodsPage(driver)
-    goods_page.click_on_goods_edit_link()
-    goods_page.click_on_delete_link()
-    goods_page.confirm_delete()
+    goods_page.click_delete_button()
+
+    functions.click_submit(driver)
 
 
 @then("my good is no longer in the goods list")

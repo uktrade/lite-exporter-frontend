@@ -37,8 +37,8 @@ class AddGoodPage(BasePage):
         # The only options accepted here are 'yes', 'no' and 'grading_required'
         self.driver.find_element_by_id(self.IS_PV_GRADED + option.lower()).click()
 
-    def enter_control_list_entries(self, code: str):
-        functions.send_tokens_to_token_bar(self.driver, self.TOKEN_BAR_CONTROL_LIST_ENTRIES_SELECTOR, [code])
+    def enter_control_list_entries(self, control_list_entry: str):
+        functions.send_tokens_to_token_bar(self.driver, self.TOKEN_BAR_CONTROL_LIST_ENTRIES_SELECTOR, [control_list_entry])
 
     def enter_control_code_unsure(self, code):
         control_code_tb = self.driver.find_element_by_id(self.UNSURE_CLC_CODE)

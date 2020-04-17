@@ -40,7 +40,7 @@
 		</div>
 		{% if good.status.key == 'draft' %}
 			<div class="lite-app-bar__controls">
-				{% govuk_link_button text='goods.GoodPage.DELETE_GOOD' url='goods:delete' url_param=good.id classes='govuk-button--secondary' %}
+				{% govuk_link_button id='delete-good' text='goods.GoodPage.DELETE_GOOD' url='goods:delete' url_param=good.id classes='govuk-button--secondary' %}
 			</div>
 		{% endif %}
 	</div>
@@ -137,7 +137,7 @@
 				</dd>
 				<dd class="govuk-summary-list__actions">
 					{% if good.status.key == 'draft' %}
-						<a class="govuk-link govuk-link--no-visited-state" href="{% url 'goods:edit' good.id %}#description">Change</a>
+						<a id="link-edit" class="govuk-link govuk-link--no-visited-state" href="{% url 'goods:edit' good.id %}#description">Change</a>
 					{% endif %}
 				</dd>
 			</div>
