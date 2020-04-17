@@ -79,6 +79,6 @@ def product_category_form(request):
     return Form(
         title=TradeControlLicenceQuestions.ProductCategory.TITLE,
         description=TradeControlLicenceQuestions.ProductCategory.DESCRIPTION,
-        questions=[Checkboxes(name="trade_product_categories[]", options=options)],
+        questions=[Checkboxes(name="trade_control_product_categories[]", options=options)],
         default_button_name=generic.SAVE_AND_CONTINUE,
     )
