@@ -14,8 +14,8 @@ class ApplyForALicencePage(BasePage):
     SUCCESS_BANNER_CLASS = ".govuk-panel--confirmation"
     CHECKBOXES_GOODS_CATEGORIES_NAME = "goods_categories[]"
     F680_CLEARANCE_TYPE_CHECKBOXES_NAME = "types[]"
-    TRADE_CONTROL_ACTIVITY_OTHER_ID = "tc_activity-other"
-    TRADE_CONTROL_ACTIVITY_OTHER_DETAILS_ID = "tc_activity_other"
+    TRADE_CONTROL_ACTIVITY_OTHER_ID = "trade_control_activity-other"
+    TRADE_CONTROL_ACTIVITY_OTHER_DETAILS_ID = "trade_control_activity_other"
     TRADE_CONTROL_PRODUCT_CATEGORY_A_ID = "Category A"
 
     def enter_name_or_reference_for_application(self, name):

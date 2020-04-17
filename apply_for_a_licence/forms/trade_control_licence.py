@@ -46,7 +46,7 @@ def activity_form(request):
             option.components = [
                 TextArea(
                     title=TradeControlLicenceQuestions.ControlActivity.OTHER_DESCRIPTION,
-                    name="tc_activity_other",
+                    name="trade_control_activity_other",
                     optional=False,
                     rows=1,
                     extras={"max_length": 100},
@@ -58,7 +58,7 @@ def activity_form(request):
     return Form(
         title=TradeControlLicenceQuestions.ControlActivity.TITLE,
         description=TradeControlLicenceQuestions.ControlActivity.DESCRIPTION,
-        questions=[RadioButtons(name="tc_activity", options=options)],
+        questions=[RadioButtons(name="trade_control_activity", options=options)],
         default_button_name=generic.CONTINUE,
     )
 
@@ -79,6 +79,6 @@ def product_category_form(request):
     return Form(
         title=TradeControlLicenceQuestions.ProductCategory.TITLE,
         description=TradeControlLicenceQuestions.ProductCategory.DESCRIPTION,
-        questions=[Checkboxes(name="tc_product_categories[]", options=options)],
+        questions=[Checkboxes(name="trade_product_categories[]", options=options)],
         default_button_name=generic.SAVE_AND_CONTINUE,
     )
