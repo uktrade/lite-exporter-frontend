@@ -416,4 +416,4 @@ def abbreviate_string(string, length):
 
 @register.filter()
 def get_usage_value(good):
-    return (good["usage"] / good["licenced_quantity"]) * good["licenced_value"]
+    return (good["usage"] / good["licenced_quantity"]) * float(good["licenced_value"])

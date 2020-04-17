@@ -3,7 +3,7 @@
 {% block body %}
 	<div class="lite-app-bar">
 		<div class="lite-app-bar__content">
-			<h1 class="govuk-heading-l">
+			<h1 class="govuk-heading-l" id="heading">
 				{% block title %}
 					{% if licence.application.case_type.sub_type.key == "standard" or licence.application.case_type.sub_type.key == "open" %}
 						Licence {{ licence.application.reference_code }}
@@ -33,7 +33,7 @@
 				<dd class="govuk-summary-list__value">
 					{% for document in licence.application.documents %}
 						<span class="govuk-visually-hidden">{% lcs "licences.LicencesList.DOWNLOAD_HIDDEN_TEXT" %}</span>
-						<a href="{% url 'applications:download_generated_document' document.id licence.application.id %}" class="govuk-link govuk-link--no-visited-state" id="document-download">{{ document.advice_type.value }}.pdf</a>
+						<a href="{% url 'applications:download_generated_document' document.id licence.application.id %}" class="govuk-link govuk-link--no-visited-state" id="licence-document-download">{{ document.advice_type.value }}.pdf</a>
 					{% endfor %}
 				</dd>
 			</div>
@@ -66,7 +66,7 @@
 					<dt class="govuk-summary-list__key">
 						Destination
 					</dt>
-					<dd class="govuk-summary-list__value">
+					<dd class="govuk-summary-list__value" id="destination">
 						{% for destination in licence.application.destinations %}
 							{{ destination.country.name }}{% if not forloop.last %},{% endif %}
 						{% endfor %}
@@ -78,7 +78,7 @@
 					<dt class="govuk-summary-list__key">
 						End User
 					</dt>
-					<dd class="govuk-summary-list__value">
+					<dd class="govuk-summary-list__value" id="end-user">
 						{{ licence.application.end_user.party.name }}<br>
 						{{ licence.application.end_user.party.address }}<br>
 						{{ licence.application.end_user.party.country.name }}<br>
@@ -151,14 +151,14 @@
 					<th class="govuk-table__header" scope="col">Applied for quantity</th>
 					<th class="govuk-table__header" scope="col">Licensed quantity</th>
 				{% endif %}
-				{% if licence.application.goods.0.usage %}
+				{% if licence.application.goods.0.usage != None %}
 					<th class="govuk-table__header" scope="col">Usage</th>
 				{% endif %}
 			</tr>
 		</thead>
 		<tbody class="govuk-table__body">
 			{% for good in licence.application.goods %}
-					<tr class="govuk-table__row">
+					<tr class="govuk-table__row" id="good-row">
 						<td class="govuk-table__cell">
 							{% if good.good %}
 								{{ good.good.control_code }}<br>
@@ -176,8 +176,8 @@
 								{{ good.licenced_quantity }} (£{{ good.licenced_value }})
 							</td>
 						{% endif %}
-						{% if licence.application.goods.0.usage %}
-							<td class="govuk-table__cell">
+						{% if licence.application.goods.0.usage != None %}
+							<td class="govuk-table__cell" id="usage">
 								{{ good.usage }} {% if licence.application.goods.0.quantity %}(£{{ good|get_usage_value }}){% endif %}
 							</td>
 						{% endif %}
