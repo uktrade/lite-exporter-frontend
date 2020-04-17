@@ -121,7 +121,7 @@ def create_a_new_good_in_application(driver, description, part_number, controlle
     add_goods_page = AddGoodPage(driver)
     add_goods_page.enter_description_of_goods(description)
     add_goods_page.select_is_your_good_controlled(controlled)
-    add_goods_page.enter_control_code(control_code)
+    add_goods_page.enter_control_list_entries(control_code)
     add_goods_page.select_is_your_good_graded(graded)
     functions.click_submit(driver)
 
@@ -227,7 +227,7 @@ def add_new_good(driver, description, part, controlled, control_code, graded, co
     elif "empty" not in good_part:
         add_goods_page.enter_part_number(good_part)
     if controlled.lower() == "yes":
-        add_goods_page.enter_control_code(control_code)
+        add_goods_page.enter_control_list_entries(control_code)
     if good_part_needed:
         context.good_id_from_url = driver.current_url.split("/goods/")[1].split("/")[0]
     add_goods_page.select_is_your_good_graded(graded)
