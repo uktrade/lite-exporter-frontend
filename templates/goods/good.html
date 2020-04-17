@@ -16,7 +16,7 @@
 				</a>
 			</li>
 			<li class="govuk-breadcrumbs__list-item">
-				{% lcs 'goods.GoodsList.GOOD' %}
+				{% lcs 'goods.GoodPage.TITLE' %}
 			</li>
 		</ol>
 	</div>
@@ -26,7 +26,7 @@
 	{% if good.status.key == 'verified' %}
 		<div class="lite-info-bar lite-info-bar--no-animation app-info-bar--verified">
 			{% svg 'verified' %}
-			{% lcs 'goods.GoodsList.VERIFIED' %}
+			{% lcs 'goods.GoodPage.VERIFIED' %}
 		</div>
 	{% endif %}
 
@@ -34,15 +34,13 @@
 		<div class="lite-app-bar__content">
 			<h1 class="govuk-heading-l">
 				{% block title %}
-					{% lcs 'goods.GoodsList.GOOD' %}
+					{% lcs 'goods.GoodPage.TITLE' %}
 				{% endblock %}
 			</h1>
 		</div>
 		{% if good.status.key == 'draft' %}
 			<div class="lite-app-bar__controls">
-				<a href="{% url 'goods:delete' good.id %}" id="edit" class="govuk-button govuk-button--secondary">
-					Delete good
-				</a>
+				{% govuk_link_button text='goods.GoodPage.DELETE_GOOD' url='goods:delete' url_param=good.id classes='govuk-button--secondary' %}
 			</div>
 		{% endif %}
 	</div>
@@ -50,14 +48,14 @@
 	<!-- Notify the user if their good has a special status -->
 	{% if good.status.key == 'query' %}
 		<div class="govuk-inset-text govuk-!-margin-top-0">
-			{% lcs 'goods.GoodsList.IN_REVIEW' %}
+			{% lcs 'goods.GoodPage.IN_REVIEW' %}
 		</div>
 		<br>
 	{% endif %}
 
 	{% if good.status.key == 'submitted' %}
 		<div class="govuk-inset-text govuk-!-margin-top-0">
-			{% lcs 'goods.GoodsList.NO_LONGER_CAN_BE_CHANGED' %}
+			{% lcs 'goods.GoodPage.NO_LONGER_CAN_BE_CHANGED' %}
 		</div>
 		<br>
 	{% endif %}
@@ -110,7 +108,7 @@
 
 			<br><br>
 
-			<h3 class="govuk-heading-m">{% lcs 'goods.GoodsList.YOUR_GOOD' %}</h3>
+			<h3 class="govuk-heading-m">{% lcs 'goods.GoodPage.YOUR_GOOD' %}</h3>
 		{% endif %}
 
 		{% if good.status.key == 'draft' %}
