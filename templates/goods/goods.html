@@ -51,17 +51,25 @@
 			<tbody class="govuk-table__body">
 				{% for good in goods.results %}
 					<tr class="govuk-table__row">
-						<td class="govuk-table__cell">{{ good.description|highlight_text:description }}</td>
+						<td class="govuk-table__cell">
+							<span class="govuk-table__header" aria-hidden="true">{% lcs 'goods.GoodsList.Table.DESCRIPTION' %}</span>
+							{{ good.description|highlight_text:description }}
+						</td>
 						<td class="govuk-table__cell govuk-table__cell--tight">
 							{% if good.query.exporter_user_notification_count.total %}
 								<span class="lite-notification-bubble">{{ good.query.exporter_user_notification_count.total }} <span class="govuk-visually-hidden"> {% lcs "goods.GoodsPage.NOTIFICATIONS" %}</span></span>
 							{% endif %}
 						</td>
 						<td class="govuk-table__cell" id="good-control_code">
+							<span class="govuk-table__header" aria-hidden="true">Control list entries</span>
 							{% include 'includes/control-list-entries.html' with control_list_entries=good.control_list_entries %}
 						</td>
-						<td class="govuk-table__cell" id="good-part-number">{{ good.part_number|highlight_text:part_number|default_na }}</td>
+						<td class="govuk-table__cell" id="good-part-number">
+							<span class="govuk-table__header" aria-hidden="true">{% lcs 'goods.GoodsList.Table.PART_NUMBER' %}</span>
+							{{ good.part_number|highlight_text:part_number|default_na }}
+						</td>
 						<td class="govuk-table__cell">
+							<span class="govuk-table__header" aria-hidden="true">{% lcs 'goods.GoodsList.Table.STATUS' %}</span>
 							{% if good.status.key == 'verified' %}<span class="app-verified__symbol">{% svg "verified" %}</span>{% endif %}
 							{{ good.status.value }}
 						</td>

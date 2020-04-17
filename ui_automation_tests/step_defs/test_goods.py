@@ -35,19 +35,24 @@ def assert_good_contain_query_details(driver, context, exporter_url):
 
 @when(
     parsers.parse(
-        'I edit a good to description "{description}" part number "{part}" controlled "{controlled}" '
+        'I edit the good to description "{description}" part number "{part}" controlled "{controlled}" '
         'control code "{control_code}" and graded "{graded}"'
     )
 )
 def edit_good(driver, description, part, controlled, control_code, graded, context):
-    add_goods_page = AddGoodPage(driver)
     goods_list = GoodsListPage(driver)
-    goods_list.select_a_draft_good()
+    add_goods_page = AddGoodPage(driver)
+
+    goods_list.filter_by_description(context.good_description)
+    goods_list.click_view_good(0)
+
     goods_page = GoodsPage(driver)
     goods_page.click_on_goods_edit_link()
+
     context.edited_description = context.good_description + " " + description
     add_goods_page.enter_description_of_goods(context.edited_description)
     add_goods_page.select_is_your_good_graded(graded)
+
     functions.click_submit(driver)
 
 

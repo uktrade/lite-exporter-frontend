@@ -17,8 +17,6 @@ from applications.services import (
     get_status_properties,
     get_case_generated_documents,
 )
-from core.helpers import convert_dict_to_query_params
-from core.services import get_control_list_entry
 from goods.forms import (
     attach_documents_form,
     respond_to_query_form,
@@ -46,11 +44,11 @@ from goods.services import (
     validate_edit_good,
     edit_good_with_pv_grading,
 )
-from lite_content.lite_exporter_frontend.goods import AttachDocumentForm
-from lite_forms.views import SingleFormView, MultiFormView
 from lite_content.lite_exporter_frontend import strings, goods
-from lite_forms.components import HiddenField, BackLink, FiltersBar, TextInput, Select, Option
+from lite_content.lite_exporter_frontend.goods import AttachDocumentForm
+from lite_forms.components import HiddenField, BackLink, FiltersBar, TextInput
 from lite_forms.generators import error_page, form_page
+from lite_forms.views import SingleFormView, MultiFormView
 
 
 class Goods(TemplateView):
@@ -203,6 +201,7 @@ class EditGood(MultiFormView):
 
     def get_data(self):
         data = self.data
+
         if data.get("pv_grading_details", False):
             for k, v in data["pv_grading_details"].items():
                 data[k] = v
