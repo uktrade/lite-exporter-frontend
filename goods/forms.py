@@ -103,17 +103,20 @@ def add_goods_questions(application_pk=None):
 
 
 def edit_grading_form(good_id):
-    return Form(title="Does the product have a security grading?",
-                description="",
-                questions=[
-                    RadioButtons(name="is_pv_graded",
-                                 options=[
-                                     Option(key="yes", value=CreateGoodForm.IsGraded.YES,
-                                            components=pv_details_form().questions),
-                                     Option(key="no", value=CreateGoodForm.IsGraded.NO),
-                                 ])
+    return Form(
+        title="Does the product have a security grading?",
+        description="",
+        questions=[
+            RadioButtons(
+                name="is_pv_graded",
+                options=[
+                    Option(key="yes", value=CreateGoodForm.IsGraded.YES, components=pv_details_form().questions),
+                    Option(key="no", value=CreateGoodForm.IsGraded.NO),
                 ],
-                back_link=BackLink(CreateGoodForm.BACK_BUTTON, reverse_lazy("goods:good", kwargs={"pk": good_id})), )
+            )
+        ],
+        back_link=BackLink(CreateGoodForm.BACK_BUTTON, reverse_lazy("goods:good", kwargs={"pk": good_id})),
+    )
 
 
 def pv_details_form():
@@ -250,7 +253,7 @@ def raise_a_goods_query(good_id, raise_a_clc: bool, raise_a_pv: bool):
                 name="clc_control_code",
                 optional=True,
             ),
-            TextArea(title=GoodsQueryForm.CLCQuery.Details.TITLE, name="clc_raised_reasons", optional=True, ),
+            TextArea(title=GoodsQueryForm.CLCQuery.Details.TITLE, name="clc_raised_reasons", optional=True,),
         ]
 
     if raise_a_pv:
@@ -259,7 +262,7 @@ def raise_a_goods_query(good_id, raise_a_clc: bool, raise_a_pv: bool):
                 Heading(GoodsQueryForm.PVGrading.TITLE, HeadingStyle.M),
             ]
         questions += [
-            TextArea(title=GoodsQueryForm.PVGrading.Details.TITLE, name="pv_grading_raised_reasons", optional=True, ),
+            TextArea(title=GoodsQueryForm.PVGrading.Details.TITLE, name="pv_grading_raised_reasons", optional=True,),
         ]
 
     return Form(

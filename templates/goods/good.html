@@ -217,21 +217,21 @@
 					<dd class="govuk-summary-list__actions"></dd>
 				</div>
 				{% if not good.query.pv_grading_responded %}
+                    <div class="govuk-summary-list__row">
+						<dt class="govuk-summary-list__key">
+							{% lcs "goods.GoodPage.Table.Grading.ISSUING_AUTHORITY" %}
+						</dt>
+						<dd class="govuk-summary-list__value">
+							{{ good.pv_grading_details.issuing_authority }}
+						</dd>
+						<dd class="govuk-summary-list__actions"></dd>
+					</div>
 					<div class="govuk-summary-list__row">
 						<dt class="govuk-summary-list__key">
 							{% lcs "goods.GoodPage.Table.Grading.REFERENCE" %}
 						</dt>
 						<dd class="govuk-summary-list__value">
 							{{ good.pv_grading_details.reference }}
-						</dd>
-						<dd class="govuk-summary-list__actions"></dd>
-					</div>
-					<div class="govuk-summary-list__row">
-						<dt class="govuk-summary-list__key">
-							{% lcs "goods.GoodPage.Table.Grading.ISSUING_AUTHORITY" %}
-						</dt>
-						<dd class="govuk-summary-list__value">
-							{{ good.pv_grading_details.issuing_authority }}
 						</dd>
 						<dd class="govuk-summary-list__actions"></dd>
 					</div>

@@ -1,5 +1,6 @@
 from http import HTTPStatus
 
+from applications.helpers.date_fields import format_date
 from conf.client import get, post, put, delete
 from conf.constants import (
     GOODS_URL,
@@ -39,15 +40,22 @@ def validate_good(request, json):
     post_data = json
     post_data["validate_only"] = True
 
-    data = post_goods(request, post_data)
-    return data
+    return post_goods(request, post_data)
 
 
 def post_good_with_pv_grading(request, json):
-    post_data = process_pv_grading_for_post(json)
+    date_of_issue = format_date(json, "date_of_issue")
 
-    data = post_goods(request, post_data)
-    return data
+    json["pv_grading_details"] = {
+        "grading": json["grading"],
+        "custom_grading": json["custom_grading"],
+        "prefix": json["prefix"],
+        "suffix": json["suffix"],
+        "issuing_authority": json["issuing_authority"],
+        "reference": json["reference"],
+        "date_of_issue": date_of_issue,
+    }
+    return post_goods(request, json)
 
 
 def edit_good(request, pk, json):
@@ -56,7 +64,19 @@ def edit_good(request, pk, json):
 
 
 def edit_good_pv_grading(request, pk, json):
-    return edit_good(request, pk, process_pv_grading_for_post(json))
+    json = {
+        "is_pv_graded": json["is_pv_graded"],
+        "pv_grading_details": {
+            "grading": json["grading"],
+            "custom_grading": json["custom_grading"],
+            "prefix": json["prefix"],
+            "suffix": json["suffix"],
+            "issuing_authority": json["issuing_authority"],
+            "reference": json["reference"],
+            "date_of_issue": format_date(json, "date_of_issue"),
+        },
+    }
+    return edit_good(request, pk, json)
 
 
 def delete_good(request, pk):
