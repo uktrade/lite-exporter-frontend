@@ -15,7 +15,11 @@ from applications.forms.common import (
     exhibition_details_form,
     declaration_form,
 )
-from applications.helpers.check_your_answers import convert_application_to_check_your_answers
+from applications.helpers.check_your_answers import (
+    convert_application_to_check_your_answers,
+    _convert_standard_application,
+    _convert_goods,
+)
 from applications.helpers.summaries import draft_summary
 from applications.helpers.task_lists import get_application_task_list
 from applications.helpers.validators import (
@@ -189,6 +193,8 @@ class ApplicationDetail(TemplateView):
             if self.view_type == "generated-documents":
                 generated_documents, _ = get_case_generated_documents(request, self.application_id)
                 context["generated_documents"] = generated_documents["results"]
+        elif self.view_type == "summary" and self.application.sub_type != HMRC:
+            context["notes"] = get_case_notes(request, self.case_id)["case_notes"]
 
         return render(request, "applications/application.html", context)
 

@@ -82,16 +82,32 @@ def _convert_gifting_clearance(application, editable=False):
 
 
 def _convert_standard_application(application, editable=False):
+    is_incorporated = has_incorporated_goods(application)
+
     return {
         applications.ApplicationSummaryPage.GOODS: _convert_goods(application["goods"]),
         applications.ApplicationSummaryPage.END_USE_DETAILS: _get_end_use_details(application),
         applications.ApplicationSummaryPage.ROUTE_OF_GOODS: _get_route_of_goods(application),
-        applications.ApplicationSummaryPage.TEMPORARY_EXPORT_DETAILS: _get_temporary_export_details(application),
+        **(
+            {
+                applications.ApplicationSummaryPage.TEMPORARY_EXPORT_DETAILS: [
+                    _get_temporary_export_details(application)
+                ],
+            }
+            if _is_application_export_type_temporary(application)
+            else {}
+        ),
         applications.ApplicationSummaryPage.GOODS_LOCATIONS: _convert_goods_locations(application["goods_locations"]),
         applications.ApplicationSummaryPage.END_USER: convert_party(application["end_user"], application, editable),
-        applications.ApplicationSummaryPage.ULTIMATE_END_USERS: [
-            convert_party(party, application, editable) for party in application["ultimate_end_users"]
-        ],
+        **(
+            {
+                applications.ApplicationSummaryPage.ULTIMATE_END_USERS: [
+                    convert_party(party, application, editable) for party in application["ultimate_end_users"]
+                ],
+            }
+            if is_incorporated
+            else {}
+        ),
         applications.ApplicationSummaryPage.THIRD_PARTIES: [
             convert_party(party, application, editable) for party in application["third_parties"]
         ],
@@ -110,7 +126,15 @@ def _convert_open_application(application, editable=False):
         applications.ApplicationSummaryPage.GOODS: _convert_goods_types(application["goods_types"]),
         applications.ApplicationSummaryPage.END_USE_DETAILS: _get_end_use_details(application),
         applications.ApplicationSummaryPage.ROUTE_OF_GOODS: _get_route_of_goods(application),
-        applications.ApplicationSummaryPage.TEMPORARY_EXPORT_DETAILS: _get_temporary_export_details(application),
+        **(
+            {
+                applications.ApplicationSummaryPage.TEMPORARY_EXPORT_DETAILS: [
+                    _get_temporary_export_details(application)
+                ],
+            }
+            if _is_application_export_type_temporary(application)
+            else {}
+        ),
         applications.ApplicationSummaryPage.GOODS_LOCATIONS: _convert_goods_locations(application["goods_locations"]),
         applications.ApplicationSummaryPage.COUNTRIES: _convert_countries(application["destinations"]["data"]),
         applications.ApplicationSummaryPage.SUPPORTING_DOCUMENTATION: _get_supporting_documentation(
@@ -418,3 +442,11 @@ def _is_application_export_type_temporary(application):
 
 def is_application_export_type_permanent(application):
     return False if not application.get("export_type") else (application.get("export_type").get("key") == PERMANENT)
+
+
+def has_incorporated_goods(application):
+    for good in application["goods"]:
+        if good["is_good_incorporated"]:
+            return True
+
+    return False

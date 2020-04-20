@@ -3,7 +3,7 @@
 {% block back_link %}
 	{% if type == "summary" %}
 		<a href="{% url 'applications:task_list' case_id %}" id="back-link" class="govuk-back-link">
-			Back to Task List
+			{% lcs "applications.ApplicationPage.Summary.BACK" %}
 		</a>
 	{% else %}
 		<a href="{% url 'applications:applications' %}" id="back-link" class="govuk-back-link">
@@ -241,10 +241,40 @@
 		{% include "applications/tabs/activity.html" %}
 	{% endif %}
 
+
+
+
 	{% if type == "summary" %}
+		{% if application.case_type.sub_type.key != "hmrc" %}
+			<h2 class="govuk-heading-m">{% lcs "applications.ApplicationPage.Summary.Notes.TITLE" %}</h2>
+			{% if notes %}
+				<table class="govuk-table">
+					<thead class="govuk-table__head">
+						<tr class="govuk-table__row">
+							<th scope="col" class="govuk-table__header">#</th>
+							<th scope="col" class="govuk-table__header">{% lcs "applications.ApplicationPage.Summary.Notes.USER" %}</th>
+							<th scope="col" class="govuk-table__header">{% lcs "applications.ApplicationPage.Summary.Notes.NOTE" %}</th>
+						</tr>
+					</thead>
+					<tbody class="govuk-table__body">
+						{% for item in notes %}
+							<tr class="govuk-table__row">
+								<td scope="col" class="govuk-table__cell govuk-table__cell--line-number">{{ forloop.counter }}.</td>
+								<td class="govuk-table__cell">{{ item.user.first_name }} {{ item.user.last_name }}</td>
+								<td class="govuk-table__cell">{{ item.text|linebreaksbr|default_na }}</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			{% else %}
+				<p class="govuk-caption-m">{% lcs "applications.ApplicationPage.NO_INFORMATION_PROVIDED" %}</p>
+			{% endif %}
+		{% endif %}
+		<hr class="app-check-your-answers-separator">
+
 		<form method="post">
 			{% csrf_token %}
-			<button type="submit" value="submit" class="govuk-button" data-prevent-double-click="true">Accept and Send</button>
+			<button type="submit" value="submit" class="govuk-button" data-prevent-double-click="true">{% lcs "applications.ApplicationPage.Summary.SUBMIT" %}</button>
 		</form>
 	{% endif %}
 {% endblock %}
