@@ -15,11 +15,7 @@ from applications.forms.common import (
     exhibition_details_form,
     declaration_form,
 )
-from applications.helpers.check_your_answers import (
-    convert_application_to_check_your_answers,
-    _convert_standard_application,
-    _convert_goods,
-)
+from applications.helpers.check_your_answers import convert_application_to_check_your_answers
 from applications.helpers.summaries import draft_summary
 from applications.helpers.task_lists import get_application_task_list
 from applications.helpers.validators import (
