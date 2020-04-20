@@ -21,13 +21,13 @@ from lite_content.lite_exporter_frontend.strings import Parties
 from lite_forms.helpers import conditional
 
 
-def convert_application_to_check_your_answers(application, editable=False):
+def convert_application_to_check_your_answers(application, editable=False, summary=False):
     """
     Returns a correctly formatted check your answers page for the supplied application
     """
     sub_type = application.sub_type
     if sub_type == STANDARD:
-        return _convert_standard_application(application, editable)
+        return _convert_standard_application(application, editable, is_summary=summary)
     elif sub_type == OPEN:
         return _convert_open_application(application, editable)
     elif sub_type == HMRC:
@@ -81,22 +81,25 @@ def _convert_gifting_clearance(application, editable=False):
     }
 
 
-def _convert_standard_application(application, editable=False):
-    is_incorporated = has_incorporated_goods(application)
-
+def _convert_standard_application(application, editable=False, is_summary=False):
     return {
         applications.ApplicationSummaryPage.GOODS: _convert_goods(application["goods"]),
-        applications.ApplicationSummaryPage.END_USE_DETAILS: _get_end_use_details(application),
-        applications.ApplicationSummaryPage.ROUTE_OF_GOODS: _get_route_of_goods(application),
         **(
             {
-                applications.ApplicationSummaryPage.TEMPORARY_EXPORT_DETAILS: [
-                    _get_temporary_export_details(application)
+                applications.ApplicationSummaryPage.GOODS_CATEGORIES: [
+                    ", ".join(
+                        [x["value"] for x in application["goods_categories"]]
+                    ),
                 ],
             }
-            if _is_application_export_type_temporary(application)
+            if is_summary is False
             else {}
         ),
+        applications.ApplicationSummaryPage.END_USE_DETAILS: _get_end_use_details(application),
+        applications.ApplicationSummaryPage.ROUTE_OF_GOODS: _get_route_of_goods(application),
+        applications.ApplicationSummaryPage.TEMPORARY_EXPORT_DETAILS: [
+            _get_temporary_export_details(application)
+        ],
         applications.ApplicationSummaryPage.GOODS_LOCATIONS: _convert_goods_locations(application["goods_locations"]),
         applications.ApplicationSummaryPage.END_USER: convert_party(application["end_user"], application, editable),
         **(
@@ -105,18 +108,15 @@ def _convert_standard_application(application, editable=False):
                     convert_party(party, application, editable) for party in application["ultimate_end_users"]
                 ],
             }
-            if is_incorporated
+            if has_incorporated_goods(application)
             else {}
         ),
+        applications.ApplicationSummaryPage.CONSIGNEE: convert_party(application["consignee"], application, editable),
         applications.ApplicationSummaryPage.THIRD_PARTIES: [
             convert_party(party, application, editable) for party in application["third_parties"]
         ],
-        applications.ApplicationSummaryPage.CONSIGNEE: convert_party(application["consignee"], application, editable),
         applications.ApplicationSummaryPage.SUPPORTING_DOCUMENTATION: _get_supporting_documentation(
             application["additional_documents"], application["id"]
-        ),
-        applications.ApplicationSummaryPage.GOODS_CATEGORIES: ", ".join(
-            [x["value"] for x in application["goods_categories"]]
         ),
     }
 
@@ -181,7 +181,7 @@ def _convert_goods(goods, is_exhibition=False):
             goods_dict["Product type"] = good["other_item_type"] if good["other_item_type"] else good["item_type"]
         else:
             goods_dict["Quantity"] = (
-                intcomma(good["quantity"]) + " " + pluralise_unit(good["unit"]["value"], good["quantity"])
+                    intcomma(good["quantity"]) + " " + pluralise_unit(good["unit"]["value"], good["quantity"])
             )
             goods_dict["Value"] = "£" + good["value"]
 
@@ -221,8 +221,8 @@ def _get_route_of_goods(application):
         {
             "Description": "Shipped air waybill or lading",
             "Answer": friendly_boolean(application.get("is_shipped_waybill_or_lading"))
-            + NEWLINE
-            + (application.get("non_waybill_or_lading_route_details") or ""),
+                      + NEWLINE
+                      + (application.get("non_waybill_or_lading_route_details") or ""),
         }
     ]
 
@@ -288,7 +288,7 @@ def _get_end_use_details(application):
             ds["Description"] = display_string
             if not isinstance(application.get(main_field), str):
                 ds["Answer"] = (
-                    friendly_boolean(application.get(main_field)) + NEWLINE + (application.get(ref_field) or "")
+                        friendly_boolean(application.get(main_field)) + NEWLINE + (application.get(ref_field) or "")
                 )
             else:
                 ds["Answer"] = application.get(main_field)
@@ -374,7 +374,7 @@ def _convert_goods_locations(goods_locations):
         return [{"Site": site["name"], "Address": get_address(site)} for site in goods_locations["data"]]
     else:
         return [
-            {"Name": external_location["name"], "Address": get_address(external_location),}
+            {"Name": external_location["name"], "Address": get_address(external_location), }
             for external_location in goods_locations["data"]
         ]
 
@@ -450,3 +450,9 @@ def has_incorporated_goods(application):
             return True
 
     return False
+
+
+def _convert_goods_categories(goods_categories):
+    return ", ".join(
+        [x["value"] for x in goods_categories]
+    ),

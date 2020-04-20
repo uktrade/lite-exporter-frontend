@@ -15,8 +15,9 @@ from applications.forms.common import (
     exhibition_details_form,
     declaration_form,
 )
-from applications.helpers.check_your_answers import convert_application_to_check_your_answers
+from applications.helpers.check_your_answers import convert_application_to_check_your_answers, _convert_goods_categories
 from applications.helpers.summaries import draft_summary
+from applications.helpers.task_list_sections import get_reference_number_description
 from applications.helpers.task_lists import get_application_task_list
 from applications.helpers.validators import (
     validate_withdraw_application,
@@ -39,7 +40,7 @@ from applications.services import (
     copy_application,
     post_exhibition,
 )
-from conf.constants import HMRC, APPLICANT_EDITING, NotificationType
+from conf.constants import HMRC, APPLICANT_EDITING, NotificationType, STANDARD
 from core.helpers import str_to_bool, convert_dict_to_query_params
 from core.services import get_organisation
 from lite_content.lite_exporter_frontend import strings
@@ -162,12 +163,13 @@ class ApplicationDetail(TemplateView):
 
     def get(self, request, **kwargs):
         status_props, _ = get_status_properties(request, self.application["status"]["key"])
+        is_summary = True if self.view_type == "summary" else False
 
         context = {
             "case_id": self.application_id,
             "application": self.application,
             "type": self.view_type,
-            "answers": {**convert_application_to_check_your_answers(self.application)},
+            "answers": {**convert_application_to_check_your_answers(self.application, summary=is_summary)},
             "status_is_read_only": status_props["is_read_only"],
             "status_is_terminal": status_props["is_terminal"],
             "error": kwargs.get("error"),
@@ -191,6 +193,9 @@ class ApplicationDetail(TemplateView):
                 context["generated_documents"] = generated_documents["results"]
         elif self.view_type == "summary" and self.application.sub_type != HMRC:
             context["notes"] = get_case_notes(request, self.case_id)["case_notes"]
+            if self.application.sub_type == STANDARD:
+                context["reference_code"] = get_reference_number_description(self.application)
+                context["goods_categories"] = _convert_goods_categories(self.application["goods_categories"])
 
         return render(request, "applications/application.html", context)
 

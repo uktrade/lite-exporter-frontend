@@ -17,7 +17,11 @@
 		<div class="lite-app-bar__content">
 			<h1 class="govuk-heading-l">
 				{% block title %}
-					{{ application.name|default:application.reference_code }}
+					{% if type == "summary" %}
+						Standard export licence summary
+					{% else %}
+						{{ application.name|default:application.reference_code }}
+					{% endif %}
 				{% endblock %}
 			</h1>
 		</div>
@@ -50,7 +54,7 @@
 
 	<div class="govuk-grid-row">
 		<dl class="govuk-summary-list govuk-summary-list--no-border govuk-grid-column-two-thirds">
-			{% if not application.case_type.sub_type.key == "hmrc" %}
+			{% if not application.case_type.sub_type.key == "hmrc" and type != "summary"%}
 				<div class="govuk-summary-list__row">
 					<dt class="govuk-summary-list__key">
 						{% lcs 'applications.ApplicationSummaryPage.REFERENCE_CODE' %}
@@ -67,6 +71,14 @@
 					{% endif %}
 				</div>
 			{% endif %}
+			{% if type == "summary" %}
+				<dt class="govuk-summary-list__key">
+					Licence
+				</dt>
+				<dd class="govuk-summary-list__value" id="summary-list-reference-code">
+					Exporter
+				</dd>
+			{% endif %}
 			<div class="govuk-summary-list__row">
 				<dt class="govuk-summary-list__key">
 					{% lcs 'applications.ApplicationSummaryPage.TYPE' %}
@@ -75,6 +87,16 @@
 					{{ application.case_type.sub_type.value }}
 				</dd>
 			</div>
+			{% if type == "summary" %}
+				<div class="govuk-summary-list__row">
+					<dt class="govuk-summary-list__key">
+						{% lcs 'applications.ApplicationPage.Summary.NAME_OF_APPLICATION' %}
+					</dt>
+					<dd class="govuk-summary-list__value" id="summary-list-reference-code">
+						{{ application.name|default:application.reference_code }}
+					</dd>
+				</div>
+			{% endif %}
 			{% if application.export_type %}
 				<div class="govuk-summary-list__row">
 					<dt class="govuk-summary-list__key">
@@ -82,6 +104,24 @@
 					</dt>
 					<dd class="govuk-summary-list__value">
 						{{ application.export_type.value }}
+					</dd>
+				</div>
+			{% endif %}
+			{% if type == "summary" and application.case_type.sub_type.key == 'standard'%}
+				<div class="govuk-summary-list__row">
+					<dt class="govuk-summary-list__key">
+						{% lcs 'applications.ApplicationPage.Summary.GOODS_CATEGORIES' %}
+					</dt>
+					<dd class="govuk-summary-list__value" id="summary-list-reference-code">
+						{{ goods_categories.0|default_na }}
+					</dd>
+				</div>
+				<div class="govuk-summary-list__row">
+					<dt class="govuk-summary-list__key">
+						{% lcs 'applications.ApplicationPage.Summary.END_USER_CONTROL' %}
+					</dt>
+					<dd class="govuk-summary-list__value" id="summary-list-reference-code">
+						{{ reference_code }}
 					</dd>
 				</div>
 			{% endif %}
@@ -107,26 +147,28 @@
 					</dd>
 				</div>
 			{% endif %}
-			<div class="govuk-summary-list__row">
-				<dt class="govuk-summary-list__key">
-					{% lcs 'applications.ApplicationSummaryPage.STATUS' %}
-				</dt>
-				<dd id="label-application-status" class="govuk-summary-list__value">
-					{{ application.status.value }}
-				</dd>
-			</div>
-			<div class="govuk-summary-list__row">
-				<dt class="govuk-summary-list__key">
-					{% lcs 'applications.ApplicationSummaryPage.CASE_OFFICER' %}
-				</dt>
-				<dd class="govuk-summary-list__value">
-					{% if application.case_officer.first_name %}
-						{{ application.case_officer.first_name }} {{ application.case_officer.last_name }}
-					{% else %}
-						{% lcs 'applications.ApplicationSummaryPage.NO_ASSIGNED_CASE_OFFICER' %}
-					{% endif %}
-				</dd>
-			</div>
+			{% if type != "summary" %}
+				<div class="govuk-summary-list__row">
+					<dt class="govuk-summary-list__key">
+						{% lcs 'applications.ApplicationSummaryPage.STATUS' %}
+					</dt>
+					<dd id="label-application-status" class="govuk-summary-list__value">
+						{{ application.status.value }}
+					</dd>
+				</div>
+				<div class="govuk-summary-list__row">
+					<dt class="govuk-summary-list__key">
+						{% lcs 'applications.ApplicationSummaryPage.CASE_OFFICER' %}
+					</dt>
+					<dd class="govuk-summary-list__value">
+						{% if application.case_officer.first_name %}
+							{{ application.case_officer.first_name }} {{ application.case_officer.last_name }}
+						{% else %}
+							{% lcs 'applications.ApplicationSummaryPage.NO_ASSIGNED_CASE_OFFICER' %}
+						{% endif %}
+					</dd>
+				</div>
+			{% endif %}
 
 			{% if type != "summary" %}
 				<div class="govuk-summary-list__row">
