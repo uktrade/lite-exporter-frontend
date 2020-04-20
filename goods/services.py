@@ -14,7 +14,6 @@ from conf.constants import (
 )
 from core.helpers import convert_parameters_to_query_params
 from core.services import get_document_download_stream
-from goods.helpers import process_pv_grading_for_post
 
 
 def get_goods(

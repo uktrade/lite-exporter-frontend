@@ -27,7 +27,6 @@ from goods.forms import (
     raise_a_goods_query,
     add_good_form_group,
     edit_good_detail_form,
-    pv_details_form,
     edit_grading_form,
 )
 from goods.services import (

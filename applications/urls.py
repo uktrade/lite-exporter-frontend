@@ -1,6 +1,5 @@
 from django.urls import path
 
-from applications.views.parties import consignees, end_users, third_parties, ultimate_end_users
 from applications.views import (
     goods,
     documents,
@@ -18,6 +17,7 @@ from applications.views import (
     route_of_goods,
     temporary_export_details,
 )
+from applications.views.parties import consignees, end_users, third_parties, ultimate_end_users
 
 app_name = "applications"
 urlpatterns = [
