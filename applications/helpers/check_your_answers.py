@@ -97,9 +97,13 @@ def _convert_standard_application(application, editable=False, is_summary=False)
         ),
         applications.ApplicationSummaryPage.END_USE_DETAILS: _get_end_use_details(application),
         applications.ApplicationSummaryPage.ROUTE_OF_GOODS: _get_route_of_goods(application),
-        applications.ApplicationSummaryPage.TEMPORARY_EXPORT_DETAILS: [
-            _get_temporary_export_details(application)
-        ],
+        **(
+            {
+                applications.ApplicationSummaryPage.TEMPORARY_EXPORT_DETAILS: _get_temporary_export_details(application),
+            }
+            if _is_application_export_type_temporary(application)
+            else {}
+        ),
         applications.ApplicationSummaryPage.GOODS_LOCATIONS: _convert_goods_locations(application["goods_locations"]),
         applications.ApplicationSummaryPage.END_USER: convert_party(application["end_user"], application, editable),
         **(
