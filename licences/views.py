@@ -6,8 +6,9 @@ from django.views.generic import TemplateView
 
 from core.services import get_control_list_entries, get_countries
 from licences.services import get_licences, get_licence
-from lite_content.lite_exporter_frontend.licences import LicencesList
+from lite_content.lite_exporter_frontend.licences import LicencesList, LicencePage
 from lite_forms.components import FiltersBar, TextInput, HiddenField, Select, Checkboxes, Option
+from lite_forms.generators import error_page
 
 
 class Licences(TemplateView):
@@ -53,6 +54,8 @@ class Licences(TemplateView):
 class Licence(TemplateView):
     def get(self, request, pk):
         licence, status_code = get_licence(request, pk)
-        if status_code != HTTPStatus.OK:
+        if status_code == HTTPStatus.NOT_FOUND:
             return Http404
+        elif status_code != HTTPStatus.OK:
+            return error_page(request, LicencePage.ERROR)
         return render(request, "licences/licence.html", {"licence": licence})
