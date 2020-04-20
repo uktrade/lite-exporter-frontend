@@ -24,8 +24,8 @@ def standard_licence_row(context, driver):
     find_paginated_item_by_id(LicencesPage.LICENCE_ROW_PARTIAL_ID + context.licence, driver)
     row = LicencesPage(driver).licence_row_properties(context.licence)
     assert context.reference_code in row
-    assert context.good["good"]["control_code"] in row
-    assert context.good["good"]["description"] in row
+    assert context.goods[0]["good"]["control_code"] in row
+    assert context.goods[0]["good"]["description"] in row
     assert context.end_user["country"]["name"] in row
     assert context.end_user["name"] in row
     assert "Finalised" in row
@@ -52,8 +52,8 @@ def exhibition_licence_row(context, driver):
     find_paginated_item_by_id(LicencesPage.LICENCE_ROW_PARTIAL_ID + context.licence, driver)
     row = LicencesPage(driver).licence_row_properties(context.licence)
     assert context.reference_code in row
-    assert context.good["good"]["control_code"] in row
-    assert context.good["good"]["description"] in row
+    assert context.goods[0]["good"]["control_code"] in row
+    assert context.goods[0]["good"]["description"] in row
     assert "Finalised" in row
 
 
@@ -80,9 +80,9 @@ def standard_licence_details(driver, context):
     assert context.end_user["country"]["name"] in page.get_destination()
     assert context.end_user["name"] in page.get_end_user()
     good_row = page.get_good_row()
-    assert context.good["good"]["control_code"] in good_row
-    assert str(context.good["quantity"]) in good_row
-    assert str(context.good["value"]) in good_row
+    assert context.goods[0]["good"]["control_code"] in good_row
+    assert str(context.goods[0]["quantity"]) in good_row
+    assert str(context.goods[0]["value"]) in good_row
     assert "0" in page.get_usage()
 
 
@@ -97,4 +97,4 @@ def open_licence_details(driver, context):
 
 @then("I see my exhibition application licence details")
 def exhibition_licence_details(driver, context):
-    assert context.good["good"]["control_code"] in LicencePage(driver).get_good_row()
+    assert context.goods[0]["good"]["control_code"] in LicencePage(driver).get_good_row()
