@@ -83,7 +83,6 @@ def _convert_gifting_clearance(application, editable=False):
 
 def _convert_standard_application(application, editable=False, is_summary=False):
     return {
-
         **(
             {
                 applications.ApplicationSummaryPage.GOODS_CATEGORIES: ", ".join(
