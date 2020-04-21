@@ -3,8 +3,19 @@ from _decimal import Decimal
 from django.contrib.humanize.templatetags.humanize import intcomma
 from django.urls import reverse_lazy
 
-from conf.constants import NEWLINE, STANDARD, OPEN, HMRC, EXHIBITION, GIFTING, F680, TEMPORARY, PERMANENT, CaseTypes, \
-    APPLICATION_TYPE_STRINGS
+from conf.constants import (
+    NEWLINE,
+    STANDARD,
+    OPEN,
+    HMRC,
+    EXHIBITION,
+    GIFTING,
+    F680,
+    TEMPORARY,
+    PERMANENT,
+    CaseTypes,
+    APPLICATION_TYPE_STRINGS,
+)
 from core.builtins.custom_tags import default_na, friendly_boolean, pluralise_unit, date_display, get_address
 from core.helpers import convert_to_link
 from lite_content.lite_exporter_frontend import applications
