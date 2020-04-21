@@ -178,7 +178,7 @@
 								{{ good.licenced_quantity|floatformat|intcomma }} {{ good.unit.value }} (£{{ good.licenced_value|floatformat:2|intcomma }})
 							</td>
 						{% endif %}
-						{% if licence.application.goods.0.usage != None %}
+						{% if licence.application.goods.0.usage != None and licence.application.case_type.sub_type.key == "standard" or licence.application.case_type.sub_type.key == "open" %}
 							<td class="govuk-table__cell" id="usage">
 								{{ good.usage|floatformat|intcomma }} {% if good.unit %} {{ good.unit.value }} {% endif %}
 							</td>
