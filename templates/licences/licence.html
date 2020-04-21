@@ -180,7 +180,7 @@
 						{% endif %}
 						{% if licence.application.goods.0.usage != None %}
 							<td class="govuk-table__cell" id="usage">
-								{{ good.usage|floatformat|intcomma }} {% if licence.application.goods.0.quantity %} {{ good.unit.value }} (£{{ good|get_usage_value|floatformat:2|intcomma }}){% endif %}
+								{{ good.usage|floatformat|intcomma }} {% if good.unit %} {{ good.unit.value }} {% endif %}
 							</td>
 						{% endif %}
 					</tr>

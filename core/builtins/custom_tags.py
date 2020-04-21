@@ -412,8 +412,3 @@ def abbreviate_string(string, length):
         return string
     else:
         return str(string)[:length] + "..."
-
-
-@register.filter()
-def get_usage_value(good):
-    return round((good["usage"] / good["licenced_quantity"]) * float(good["licenced_value"]), 2)
