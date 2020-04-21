@@ -7,6 +7,16 @@ class GoodsListPage(BasePage):
 
     BUTTON_ADD_A_GOOD_ID = "button-add-a-good"
     INPUT_DESCRIPTION_FILTER_ID = "description"
+    INPUT_CONTROL_LIST_ENTRY_FILTER_ID = "control_list_entry"
+    INPUT_PART_NUMBER_FILTER_ID = "part_number"
+
+    def get_good_row(self, index: int):
+        """
+        Returns the goods table row at the index given.
+        Args:
+            index: Index of good in table, starts at 0
+        """
+        return self.driver.find_elements_by_css_selector(f"{Shared.GOV_TABLE_ROW}:nth-of-type({index + 1})")
 
     def click_view_good(self, index: int):
         """
@@ -23,4 +33,16 @@ class GoodsListPage(BasePage):
         functions.try_open_filters(self.driver)
         self.driver.find_element_by_id(self.INPUT_DESCRIPTION_FILTER_ID).clear()
         self.driver.find_element_by_id(self.INPUT_DESCRIPTION_FILTER_ID).send_keys(description)
+        self.driver.find_element_by_id("button-apply-filters").click()
+
+    def filter_by_control_list_entry(self, control_list_entry: str):
+        functions.try_open_filters(self.driver)
+        self.driver.find_element_by_id(self.INPUT_CONTROL_LIST_ENTRY_FILTER_ID).clear()
+        self.driver.find_element_by_id(self.INPUT_CONTROL_LIST_ENTRY_FILTER_ID).send_keys(control_list_entry)
+        self.driver.find_element_by_id("button-apply-filters").click()
+
+    def filter_by_part_number(self, part_number: str):
+        functions.try_open_filters(self.driver)
+        self.driver.find_element_by_id(self.INPUT_PART_NUMBER_FILTER_ID).clear()
+        self.driver.find_element_by_id(self.INPUT_PART_NUMBER_FILTER_ID).send_keys(part_number)
         self.driver.find_element_by_id("button-apply-filters").click()
