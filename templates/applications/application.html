@@ -133,25 +133,27 @@
 					</dd>
 				</div>
 			{% endif %}
-			{% if application.trade_control_activity %}
-				<div class="govuk-summary-list__row">
-					<dt class="govuk-summary-list__key">
-						{% lcs 'applications.ApplicationSummaryPage.TRADE_CONTROL_ACTIVITY' %}
-					</dt>
-					<dd class="govuk-summary-list__value">
-						{{ application.trade_control_activity.value }}
-					</dd>
-				</div>
-			{% endif %}
-			{% if application.trade_control_product_categories %}
-				<div class="govuk-summary-list__row">
-					<dt class="govuk-summary-list__key">
-						{% lcs 'applications.ApplicationSummaryPage.TRADE_CONTROL_PRODUCT_CATEGORY' %}
-					</dt>
-					<dd class="govuk-summary-list__value">
-						{{ application.trade_control_product_categories|join_key_value_list }}
-					</dd>
-				</div>
+			{% if application.case_type.reference.key == "sicl" %}
+				{% if application.trade_control_activity %}
+					<div class="govuk-summary-list__row">
+						<dt class="govuk-summary-list__key">
+							{% lcs 'applications.ApplicationSummaryPage.TRADE_CONTROL_ACTIVITY' %}
+						</dt>
+						<dd class="govuk-summary-list__value">
+							{{ application.trade_control_activity.value }}
+						</dd>
+					</div>
+				{% endif %}
+				{% if application.trade_control_product_categories %}
+					<div class="govuk-summary-list__row">
+						<dt class="govuk-summary-list__key">
+							{% lcs 'applications.ApplicationSummaryPage.TRADE_CONTROL_PRODUCT_CATEGORY' %}
+						</dt>
+						<dd class="govuk-summary-list__value">
+							{{ application.trade_control_product_categories|join_key_value_list }}
+						</dd>
+					</div>
+				{% endif %}
 			{% endif %}
 			{% if application.clearance_level %}
 				<div class="govuk-summary-list__row">
@@ -285,7 +287,7 @@
 						<tbody class="govuk-table__body">
 							{% for item in value %}
 								<tr class="govuk-table__row">
-									<td scope="col" class="govuk-table__cell govuk-table__cell--line-number">{{ forloop.counter }}.</td>
+									<td class="govuk-table__cell govuk-table__cell--line-number">{{ forloop.counter }}.</td>
 									{% for key, value in item.items %}
 										<td class="govuk-table__cell">{{ value|linebreaksbr|default_na }}</td>
 									{% endfor %}
@@ -323,7 +325,7 @@
 					<tbody class="govuk-table__body">
 						{% for item in notes %}
 							<tr class="govuk-table__row">
-								<td scope="col" class="govuk-table__cell govuk-table__cell--line-number">{{ forloop.counter }}.</td>
+								<td class="govuk-table__cell govuk-table__cell--line-number">{{ forloop.counter }}.</td>
 								<td class="govuk-table__cell">{{ item.user.first_name }} {{ item.user.last_name }}</td>
 								<td class="govuk-table__cell">{{ item.text|linebreaksbr|default_na }}</td>
 							</tr>
@@ -338,7 +340,13 @@
 
 		<form method="post">
 			{% csrf_token %}
-			<button type="submit" value="submit" class="govuk-button" data-prevent-double-click="true">{% lcs "applications.ApplicationPage.Summary.SUBMIT" %}</button>
+			<button type="submit" value="submit" class="govuk-button" data-prevent-double-click="true">
+				{% if application.case_type.sub_type.key == 'hmrc' %}
+					{% lcs "applications.ApplicationPage.Summary.SUBMIT" %}
+				{% else %}
+					{% lcs "applications.ApplicationPage.Summary.CONTINUE" %}
+				{% endif %}
+			</button>
 		</form>
 	{% endif %}
 {% endblock %}

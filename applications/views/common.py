@@ -210,7 +210,7 @@ class ApplicationDetail(TemplateView):
             # As it's the summary page, either attempt to submit the application (if of type HMRC)
             # or proceed to the declaration page
             if self.application.sub_type == HMRC:
-                data, status_code = submit_application(request, self.application_id, json={"summary": "summary"})
+                data, status_code = submit_application(request, self.application_id, json={"submit_hmrc": True})
                 if status_code != HTTPStatus.OK:
                     return get_application_task_list(request, self.application, errors=data.get("errors"))
 
