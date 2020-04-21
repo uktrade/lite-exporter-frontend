@@ -172,15 +172,15 @@
 						</td>
 						{% if licence.application.goods.0.quantity %}
 							<td class="govuk-table__cell">
-								{{ good.quantity|intcomma }}
+								{{ good.quantity|intcomma }} {{ good.unit.value }}
 							</td>
 							<td class="govuk-table__cell">
-								{{ good.licenced_quantity|intcomma }} (£{{ good.licenced_value|intcomma }})
+								{{ good.licenced_quantity|intcomma }} {{ good.unit.value }} (£{{ good.licenced_value|intcomma }})
 							</td>
 						{% endif %}
 						{% if licence.application.goods.0.usage != None %}
 							<td class="govuk-table__cell" id="usage">
-								{{ good.usage|intcomma }} {% if licence.application.goods.0.quantity %}(£{{ good|get_usage_value|intcomma }}){% endif %}
+								{{ good.usage|intcomma }} {% if licence.application.goods.0.quantity %} {{ good.unit.value }} (£{{ good|get_usage_value|intcomma }}){% endif %}
 							</td>
 						{% endif %}
 					</tr>
