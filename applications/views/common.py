@@ -181,7 +181,7 @@ class ApplicationDetail(TemplateView):
         }
         # view_type of 'summary' is used to output the summary page on submission of an application
         if self.view_type == "summary":
-            context["licence"] = get_licence_string(self.application.sub_type)
+            context["licence"] = get_licence_string(self.application)
             if self.application.sub_type != HMRC:
                 context["notes"] = get_case_notes(request, self.case_id)["case_notes"]
                 if self.application.sub_type == STANDARD:
