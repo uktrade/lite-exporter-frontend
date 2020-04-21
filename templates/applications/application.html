@@ -18,7 +18,7 @@
 			<h1 class="govuk-heading-l">
 				{% block title %}
 					{% if type == "summary" %}
-						Standard export licence summary
+						{% lcs 'applications.ApplicationPage.Summary.TITLE' %}
 					{% else %}
 						{{ application.name|default:application.reference_code }}
 					{% endif %}
@@ -73,15 +73,23 @@
 			{% endif %}
 			{% if type == "summary" %}
 				<dt class="govuk-summary-list__key">
-					Licence
+					{% if application.case_type.sub_type.key == 'hmrc' %}
+						{% lcs 'applications.ApplicationPage.Summary.QUERY' %}
+					{% else %}
+						{% lcs 'applications.ApplicationPage.Summary.LICENCE' %}
+					{% endif %}
 				</dt>
 				<dd class="govuk-summary-list__value" id="summary-list-reference-code">
-					Exporter
+					{{ licence|default_na }}
 				</dd>
 			{% endif %}
 			<div class="govuk-summary-list__row">
 				<dt class="govuk-summary-list__key">
-					{% lcs 'applications.ApplicationSummaryPage.TYPE' %}
+					{% if type == 'summary' %}
+						{% lcs 'applications.ApplicationPage.Summary.TYPE' %}
+					{% else %}
+						{% lcs 'applications.ApplicationSummaryPage.TYPE' %}
+					{% endif %}
 				</dt>
 				<dd class="govuk-summary-list__value">
 					{{ application.case_type.sub_type.value }}

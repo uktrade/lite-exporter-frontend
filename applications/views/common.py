@@ -15,7 +15,11 @@ from applications.forms.common import (
     exhibition_details_form,
     declaration_form,
 )
-from applications.helpers.check_your_answers import convert_application_to_check_your_answers, _convert_goods_categories
+from applications.helpers.check_your_answers import (
+    convert_application_to_check_your_answers,
+    _convert_goods_categories,
+    get_licence_string,
+)
 from applications.helpers.summaries import draft_summary
 from applications.helpers.task_list_sections import get_reference_number_description
 from applications.helpers.task_lists import get_application_task_list
@@ -176,7 +180,14 @@ class ApplicationDetail(TemplateView):
             "text": kwargs.get("text", ""),
         }
         # view_type of 'summary' is used to output the summary page on submission of an application
-        if self.view_type != "summary":
+        if self.view_type == "summary":
+            context["licence"] = get_licence_string(self.application.sub_type)
+            if self.application.sub_type != HMRC:
+                context["notes"] = get_case_notes(request, self.case_id)["case_notes"]
+                if self.application.sub_type == STANDARD:
+                    context["reference_code"] = get_reference_number_description(self.application)
+                    context["goods_categories"] = _convert_goods_categories(self.application["goods_categories"])
+        else:
             context["activity"] = get_activity(request, self.application_id) or {}
 
             if self.application.sub_type != HMRC:
@@ -191,11 +202,6 @@ class ApplicationDetail(TemplateView):
             if self.view_type == "generated-documents":
                 generated_documents, _ = get_case_generated_documents(request, self.application_id)
                 context["generated_documents"] = generated_documents["results"]
-        elif self.view_type == "summary" and self.application.sub_type != HMRC:
-            context["notes"] = get_case_notes(request, self.case_id)["case_notes"]
-            if self.application.sub_type == STANDARD:
-                context["reference_code"] = get_reference_number_description(self.application)
-                context["goods_categories"] = _convert_goods_categories(self.application["goods_categories"])
 
         return render(request, "applications/application.html", context)
 
