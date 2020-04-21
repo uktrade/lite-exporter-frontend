@@ -16,9 +16,9 @@ def add_a_good(context, api_test_client):
     context.control_list_entry = "ML1a"
     context.part_number = fake.ean8()
 
-    good = build_good(description=context.description,
-                      control_list_entry=context.control_list_entry,
-                      part_number=context.part_number)
+    good = build_good(
+        description=context.description, control_list_entry=context.control_list_entry, part_number=context.part_number
+    )
     api_test_client.goods.add_good(good)
 
 
