@@ -1,5 +1,7 @@
 {% extends 'layouts/base.html' %}
 
+{% load humanize %}
+
 {% block body %}
 	<div class="lite-app-bar">
 		<div class="lite-app-bar__content">
@@ -170,15 +172,15 @@
 						</td>
 						{% if licence.application.goods.0.quantity %}
 							<td class="govuk-table__cell">
-								{{ good.quantity }}
+								{{ good.quantity|intcomma }}
 							</td>
 							<td class="govuk-table__cell">
-								{{ good.licenced_quantity }} (£{{ good.licenced_value }})
+								{{ good.licenced_quantity|intcomma }} (£{{ good.licenced_value|intcomma }})
 							</td>
 						{% endif %}
 						{% if licence.application.goods.0.usage != None %}
 							<td class="govuk-table__cell" id="usage">
-								{{ good.usage }} {% if licence.application.goods.0.quantity %}(£{{ good|get_usage_value }}){% endif %}
+								{{ good.usage|intcomma }} {% if licence.application.goods.0.quantity %}(£{{ good|get_usage_value|intcomma }}){% endif %}
 							</td>
 						{% endif %}
 					</tr>
