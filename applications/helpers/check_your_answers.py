@@ -96,7 +96,7 @@ def _convert_standard_application(application, editable=False, is_summary=False)
         applications.ApplicationSummaryPage.END_USE_DETAILS: _get_end_use_details(application),
         applications.ApplicationSummaryPage.ROUTE_OF_GOODS: _get_route_of_goods(application),
         **(
-            {applications.ApplicationSummaryPage.TEMPORARY_EXPORT_DETAILS: _get_temporary_export_details(application), }
+            {applications.ApplicationSummaryPage.TEMPORARY_EXPORT_DETAILS: _get_temporary_export_details(application),}
             if _is_application_export_type_temporary(application)
             else {}
         ),
@@ -181,7 +181,7 @@ def _convert_goods(goods, is_exhibition=False):
             goods_dict["Product type"] = good["other_item_type"] if good["other_item_type"] else good["item_type"]
         else:
             goods_dict["Quantity"] = (
-                    intcomma(good["quantity"]) + " " + pluralise_unit(good["unit"]["value"], good["quantity"])
+                intcomma(good["quantity"]) + " " + pluralise_unit(good["unit"]["value"], good["quantity"])
             )
             goods_dict["Value"] = "£" + good["value"]
 
@@ -221,8 +221,8 @@ def _get_route_of_goods(application):
         {
             "Description": "Shipped air waybill or lading",
             "Answer": friendly_boolean(application.get("is_shipped_waybill_or_lading"))
-                      + NEWLINE
-                      + (application.get("non_waybill_or_lading_route_details") or ""),
+            + NEWLINE
+            + (application.get("non_waybill_or_lading_route_details") or ""),
         }
     ]
 
@@ -288,7 +288,7 @@ def _get_end_use_details(application):
             ds["Description"] = display_string
             if not isinstance(application.get(main_field), str):
                 ds["Answer"] = (
-                        friendly_boolean(application.get(main_field)) + NEWLINE + (application.get(ref_field) or "")
+                    friendly_boolean(application.get(main_field)) + NEWLINE + (application.get(ref_field) or "")
                 )
             else:
                 ds["Answer"] = application.get(main_field)
@@ -374,7 +374,7 @@ def _convert_goods_locations(goods_locations):
         return [{"Site": site["name"], "Address": get_address(site)} for site in goods_locations["data"]]
     else:
         return [
-            {"Name": external_location["name"], "Address": get_address(external_location), }
+            {"Name": external_location["name"], "Address": get_address(external_location),}
             for external_location in goods_locations["data"]
         ]
 
@@ -453,7 +453,7 @@ def has_incorporated_goods(application):
 
 
 def _convert_goods_categories(goods_categories):
-    return ", ".join([x["value"] for x in goods_categories]),
+    return (", ".join([x["value"] for x in goods_categories]),)
 
 
 def get_licence_string(case_type):
@@ -469,5 +469,3 @@ def get_licence_string(case_type):
         return applications.ApplicationPage.Summary.Licence.F680
     elif case_type == EXHIBITION:
         return applications.ApplicationPage.Summary.Licence.EXHIBITION
-
-
