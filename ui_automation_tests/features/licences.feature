@@ -38,4 +38,3 @@ Feature: I want to be able to view licences as an exporter user
     When I go to the licences page
     And I click on the nlr tab
     Then I see my standard licence
-

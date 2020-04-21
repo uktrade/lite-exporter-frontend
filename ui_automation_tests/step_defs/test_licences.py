@@ -35,7 +35,7 @@ def open_licence_row(context, driver):
     find_paginated_item_by_id(LicencesPage.LICENCE_ROW_PARTIAL_ID + context.licence, driver)
     row = LicencesPage(driver).licence_row_properties(context.licence)
     assert context.reference_code in row
-    assert context.goods_type["control_list_entries"] in row
+    assert ", ".join(x["rating"] for x in context.goods_type["control_list_entries"]) in row
     assert context.goods_type["description"] in row
     assert context.country["name"] in row
     assert "Finalised" in row
