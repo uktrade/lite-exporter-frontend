@@ -22,7 +22,7 @@ def filter_by_description(driver, context, description):
 @when(parsers.parse('I filter by control list entry "{control_list}" and click filter'))
 def filter_by_description(driver, context, control_list):
     goods = StandardApplicationGoodsPage(driver)
-    goods.type_into_filter_control_rating_search_box_and_filter(control_list)
+    goods.filter_by_control_list_entry(control_list)
 
 
 @when(
@@ -31,7 +31,7 @@ def filter_by_description(driver, context, control_list):
     )
 )
 def add_a_good(context, description, control_code, part_number, api_test_client):
-    params = {"description": description, "control_rating": control_code, "part_number": part_number}
+    params = {"description": description, "control_list_entry": control_code, "part_number": part_number}
     goods = api_test_client.goods.get_goods(urlencode(params))
     if not len(goods):
         good = build_good(description=description, control_code=control_code, part_number=part_number)

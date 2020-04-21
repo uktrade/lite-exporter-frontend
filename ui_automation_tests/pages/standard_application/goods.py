@@ -11,7 +11,7 @@ class StandardApplicationGoodsPage(BasePage):
     SPAN_GOODS_TOTAL_VALUE = "span-goods-total-value"
     SEARCH_DESCRIPTION_ID = "description"
     SEARCH_PART_NUMBER_ID = "part_number"
-    SEARCH_CONTROL_LIST_ENTRY_ID = "control_rating"
+    SEARCH_CONTROL_LIST_ENTRY_ID = "control_list_entry"
     BUTTON_FILTER_ID = "button-apply-filters"
     LINK_SHOW_FILTERS_ID = "show-filters-link"
     PART_NUMBER = "good-part-number"
@@ -45,7 +45,7 @@ class StandardApplicationGoodsPage(BasePage):
         self.driver.find_element_by_id(self.SEARCH_PART_NUMBER_ID).send_keys(value)
         self.driver.find_element_by_id(self.BUTTON_FILTER_ID).click()
 
-    def type_into_filter_control_rating_search_box_and_filter(self, value):
+    def filter_by_control_list_entry(self, value):
         self.driver.find_element_by_id(self.SEARCH_CONTROL_LIST_ENTRY_ID).send_keys(value)
         self.driver.find_element_by_id(self.BUTTON_FILTER_ID).click()
 

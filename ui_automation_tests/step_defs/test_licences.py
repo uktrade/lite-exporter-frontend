@@ -23,7 +23,7 @@ def standard_licence_row(context, driver):
     find_paginated_item_by_id(LicencesPage.LICENCE_ROW_PARTIAL_ID + context.licence, driver)
     row = LicencesPage(driver).licence_row_properties(context.licence)
     assert context.reference_code in row
-    assert context.good["good"]["control_list_entries"] in row
+    assert ", ".join(context.good["good"]["control_list_entries"]) in row
     assert context.good["good"]["description"] in row
     assert context.end_user["country"]["name"] in row
     assert context.end_user["name"] in row
@@ -35,7 +35,7 @@ def open_licence_row(context, driver):
     find_paginated_item_by_id(LicencesPage.LICENCE_ROW_PARTIAL_ID + context.licence, driver)
     row = LicencesPage(driver).licence_row_properties(context.licence)
     assert context.reference_code in row
-    assert context.goods_type["control_code"] in row
+    assert context.goods_type["control_list_entries"] in row
     assert context.goods_type["description"] in row
     assert context.country["name"] in row
     assert "Finalised" in row
@@ -51,7 +51,7 @@ def exhibition_licence_row(context, driver):
     find_paginated_item_by_id(LicencesPage.LICENCE_ROW_PARTIAL_ID + context.licence, driver)
     row = LicencesPage(driver).licence_row_properties(context.licence)
     assert context.reference_code in row
-    assert context.good["good"]["control_list_entries"] in row
+    assert ", ".join(context.good["good"]["control_list_entries"])
     assert context.good["good"]["description"] in row
     assert "Finalised" in row
 
