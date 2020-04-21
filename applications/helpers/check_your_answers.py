@@ -127,12 +127,8 @@ def _convert_open_application(application, editable=False):
         applications.ApplicationSummaryPage.END_USE_DETAILS: _get_end_use_details(application),
         applications.ApplicationSummaryPage.ROUTE_OF_GOODS: _get_route_of_goods(application),
         **(
-            {
-                applications.ApplicationSummaryPage.ULTIMATE_END_USERS: [
-                    convert_party(party, application, editable) for party in application["ultimate_end_users"]
-                ],
-            }
-            if has_incorporated_goods(application)
+            {applications.ApplicationSummaryPage.TEMPORARY_EXPORT_DETAILS: _get_temporary_export_details(application),}
+            if _is_application_export_type_temporary(application)
             else {}
         ),
         applications.ApplicationSummaryPage.GOODS_LOCATIONS: _convert_goods_locations(application["goods_locations"]),
