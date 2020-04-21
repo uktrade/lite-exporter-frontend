@@ -1,9 +1,8 @@
 from faker import Faker
-from pytest_bdd import when, then, parsers, scenarios
+from pytest_bdd import when, then, scenarios
 
 from pages.goods_list import GoodsListPage
 from shared import functions
-from ui_automation_tests.pages.standard_application.goods import StandardApplicationGoodsPage
 from ui_automation_tests.shared.api_client.libraries.request_data import build_good
 
 fake = Faker()
