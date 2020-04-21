@@ -40,7 +40,7 @@ Feature: I want to indicate the open licence I want
     When I "assign" all countries to all goods with link
     Then I see all countries are "assigned" to all goods
     When I submit the application
-    And I agree to the application summary
+    And I click continue
     And I agree to the declaration
     Then application is submitted
     When I go to exporter homepage
@@ -88,7 +88,7 @@ Feature: I want to indicate the open licence I want
     When I "assign" all countries to all goods with link
     Then I see all countries are "assigned" to all goods
     When I submit the application
-    And I agree to the application summary
+    And I click continue
     And I agree to the declaration
     Then application is submitted
     When I go to exporter homepage

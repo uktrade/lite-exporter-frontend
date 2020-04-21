@@ -650,11 +650,6 @@ def agree_to_the_declaration(driver):  # noqa
     functions.click_submit(driver)
 
 
-@when("I agree to the application summary")
-def agree_to_the_summary(driver):  # noqa
-    functions.click_submit(driver)
-
-
 @when("I click on the my licences link")  # noqa
 def click_licences_link(driver):  # noqa
     ExporterHubPage(driver).click_licences()

@@ -47,7 +47,7 @@ Feature: I want to indicate the standard licence I want
     And I click on the "notes" section
     And I add a note to the draft application
     And I submit the application
-    And I agree to the application summary
+    And I click continue
     And I agree to the declaration
     Then application is submitted
     When I go to exporter homepage
@@ -104,7 +104,7 @@ Feature: I want to indicate the standard licence I want
     Then download link is present
     When I click the back link
     And I submit the application
-    And I agree to the application summary
+    And I click continue
     And I agree to the declaration
     When I go to exporter homepage
     And I click on applications
@@ -165,7 +165,7 @@ Feature: I want to indicate the standard licence I want
     And I click on the "notes" section
     And I add a note to the draft application
     And I submit the application
-    And I agree to the application summary
+    And I click continue
     And I agree to the declaration
     Then application is submitted
     When I go to exporter homepage
@@ -213,7 +213,7 @@ Feature: I want to indicate the standard licence I want
     And I click on the "notes" section
     And I add a note to the draft application
     And I submit the application
-    And I agree to the application summary
+    And I click continue
     And I agree to the declaration
     Then application is submitted
     When I go to exporter homepage
