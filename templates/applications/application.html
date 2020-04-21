@@ -79,8 +79,8 @@
 						{% lcs 'applications.ApplicationPage.Summary.LICENCE' %}
 					{% endif %}
 				</dt>
-				<dd class="govuk-summary-list__value" id="summary-list-reference-code">
-					{{ licence|default_na }}
+				<dd class="govuk-summary-list__value">
+					{{ application_type }}
 				</dd>
 			{% endif %}
 			<div class="govuk-summary-list__row">
@@ -100,7 +100,7 @@
 					<dt class="govuk-summary-list__key">
 						{% lcs 'applications.ApplicationPage.Summary.NAME_OF_APPLICATION' %}
 					</dt>
-					<dd class="govuk-summary-list__value" id="summary-list-reference-code">
+					<dd class="govuk-summary-list__value">
 						{{ application.name|default:application.reference_code }}
 					</dd>
 				</div>
@@ -120,7 +120,7 @@
 					<dt class="govuk-summary-list__key">
 						{% lcs 'applications.ApplicationPage.Summary.GOODS_CATEGORIES' %}
 					</dt>
-					<dd class="govuk-summary-list__value" id="summary-list-reference-code">
+					<dd class="govuk-summary-list__value">
 						{{ goods_categories.0|default_na }}
 					</dd>
 				</div>
@@ -196,8 +196,6 @@
 						{% endif %}
 					</dd>
 				</div>
-			{% endif %}
-			{% if type != "summary" %}
 				<div class="govuk-summary-list__row">
 					<dt class="govuk-summary-list__key">
 						{% lcs 'applications.ApplicationSummaryPage.SUBMITTED_AT' %}

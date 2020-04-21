@@ -18,7 +18,7 @@ from applications.forms.common import (
 from applications.helpers.check_your_answers import (
     convert_application_to_check_your_answers,
     _convert_goods_categories,
-    get_licence_string,
+    get_application_type_string,
 )
 from applications.helpers.summaries import draft_summary
 from applications.helpers.task_list_sections import get_reference_number_description
@@ -176,12 +176,12 @@ class ApplicationDetail(TemplateView):
             "answers": {**convert_application_to_check_your_answers(self.application, summary=is_summary)},
             "status_is_read_only": status_props["is_read_only"],
             "status_is_terminal": status_props["is_terminal"],
-            "error": kwargs.get("error"),
+            "errors": kwargs.get("errors"),
             "text": kwargs.get("text", ""),
         }
         # view_type of 'summary' is used to output the summary page on submission of an application
         if self.view_type == "summary":
-            context["licence"] = get_licence_string(self.application)
+            context["application_type"] = get_application_type_string(self.application)
             if self.application.sub_type != HMRC:
                 context["notes"] = get_case_notes(request, self.case_id)["case_notes"]
                 if self.application.sub_type == STANDARD:
@@ -229,7 +229,7 @@ class ApplicationDetail(TemplateView):
             response, _ = post_case_notes(request, self.case_id, request.POST)
 
             if "errors" in response:
-                return self.get(request, error=response["errors"]["text"][0], text=request.POST.get("text"), **kwargs)
+                return self.get(request, error=response["errors"], text=request.POST.get("text"), **kwargs)
 
             return redirect(
                 reverse_lazy("applications:application", kwargs={"pk": self.application_id, "type": "case-notes"})

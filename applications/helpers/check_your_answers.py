@@ -3,7 +3,8 @@ from _decimal import Decimal
 from django.contrib.humanize.templatetags.humanize import intcomma
 from django.urls import reverse_lazy
 
-from conf.constants import NEWLINE, STANDARD, OPEN, HMRC, EXHIBITION, GIFTING, F680, TEMPORARY, PERMANENT, CaseTypes
+from conf.constants import NEWLINE, STANDARD, OPEN, HMRC, EXHIBITION, GIFTING, F680, TEMPORARY, PERMANENT, CaseTypes, \
+    APPLICATION_TYPE_STRINGS
 from core.builtins.custom_tags import default_na, friendly_boolean, pluralise_unit, date_display, get_address
 from core.helpers import convert_to_link
 from lite_content.lite_exporter_frontend import applications
@@ -442,21 +443,11 @@ def _convert_goods_categories(goods_categories):
     return (", ".join([x["value"] for x in goods_categories]),)
 
 
-def get_licence_string(application):
+def get_application_type_string(application):
     application_type = application.case_type["sub_type"]["key"]
     if application.case_type["reference"]["key"] == CaseTypes.SITL:
         return applications.ApplicationPage.Summary.Licence.TRANSHIPMENT
     elif application.case_type["reference"]["key"] == CaseTypes.SICL:
         return applications.ApplicationPage.Summary.Licence.TRADE_CONTROL
-    elif application_type == STANDARD:
-        return applications.ApplicationPage.Summary.Licence.STANDARD
-    elif application_type == HMRC:
-        return applications.ApplicationPage.Summary.Licence.HMRC
-    elif application_type == OPEN:
-        return applications.ApplicationPage.Summary.Licence.OPEN
-    elif application_type == GIFTING:
-        return applications.ApplicationPage.Summary.Licence.GIFTING
-    elif application_type == F680:
-        return applications.ApplicationPage.Summary.Licence.F680
-    elif application_type == EXHIBITION:
-        return applications.ApplicationPage.Summary.Licence.EXHIBITION
+    else:
+        return APPLICATION_TYPE_STRINGS[application_type]
