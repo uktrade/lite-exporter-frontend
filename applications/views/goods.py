@@ -27,14 +27,15 @@ from goods.services import (
     post_good_with_pv_grading,
 )
 from lite_content.lite_exporter_frontend import strings
+from lite_forms.components import FiltersBar, TextInput
 from lite_forms.generators import error_page, form_page
 from lite_forms.views import SingleFormView, MultiFormView
 
 
-class DraftGoodsList(TemplateView):
+class ApplicationGoodsList(TemplateView):
     def get(self, request, **kwargs):
         """
-        List all goods relating to the draft
+        List all goods relating to the application
         """
         draft_id = str(kwargs["pk"])
         application = get_application(request, draft_id)
@@ -47,16 +48,24 @@ class DraftGoodsList(TemplateView):
         return render(request, "applications/goods/index.html", context)
 
 
-class GoodsList(TemplateView):
+class ExistingGoodsList(TemplateView):
     def get(self, request, **kwargs):
         """
-        List of existing goods  (add-preexisting)
+        List of existing goods (add-preexisting)
         """
         application_id = str(kwargs["pk"])
         application = get_application(request, application_id)
         description = request.GET.get("description", "").strip()
         part_number = request.GET.get("part_number", "").strip()
         control_list_entry = request.GET.get("control_list_entry", "").strip()
+
+        filters = FiltersBar(
+            [
+                TextInput(title="description", name="description"),
+                TextInput(title="control list entry", name="control_list_entry"),
+                TextInput(title="part number", name="part_number"),
+            ]
+        )
 
         params = {
             "page": int(request.GET.get("page", 1)),
@@ -77,6 +86,7 @@ class GoodsList(TemplateView):
             "params": params,
             "page": params.pop("page"),
             "params_str": convert_dict_to_query_params(params),
+            "filters": filters,
         }
         return render(request, "applications/goods/preexisting.html", context)
 

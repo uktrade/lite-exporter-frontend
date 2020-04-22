@@ -42,7 +42,7 @@ urlpatterns = [
     # HMRC Query
     path("<uuid:pk>/optional-note/", optional_note.ApplicationOptionalNote.as_view(), name="optional_note"),
     # Goods
-    path("<uuid:pk>/goods/", goods.DraftGoodsList.as_view(), name="goods"),
+    path("<uuid:pk>/goods/", goods.ApplicationGoodsList.as_view(), name="goods"),
     path("<uuid:pk>/goods/add-new/", goods.AddGood.as_view(), name="new_good"),
     path(
         "<uuid:pk>/goods/add-new/<uuid:good_pk>/add-document/",
@@ -50,7 +50,7 @@ urlpatterns = [
         name="add_document",
     ),
     path("<uuid:pk>/goods/add-new/<uuid:good_pk>/attach/", goods.AttachDocument.as_view(), name="attach_documents"),
-    path("<uuid:pk>/goods/add-preexisting/", goods.GoodsList.as_view(), name="preexisting_good"),
+    path("<uuid:pk>/goods/add-preexisting/", goods.ExistingGoodsList.as_view(), name="preexisting_good"),
     path("<uuid:pk>/goods/<uuid:good_pk>/add/", goods.AddGoodToApplication.as_view(), name="add_good_to_application",),
     path(
         "<uuid:pk>/good-on-application/<uuid:good_on_application_pk>/remove/",
