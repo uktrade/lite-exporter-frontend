@@ -163,7 +163,7 @@ def add_validate_only_to_data(data):
 
 def convert_control_list_entries(control_list_entries):
     return default_na(
-        mark_safe(
+        mark_safe(  # nosec
             ", ".join(
                 [
                     "<span data-definition-title='"
