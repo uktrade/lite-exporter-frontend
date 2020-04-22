@@ -34,8 +34,10 @@
 				</dt>
 				<dd class="govuk-summary-list__value">
 					{% for document in licence.application.documents %}
-						<span class="govuk-visually-hidden">{% lcs "licences.LicencesList.DOWNLOAD_HIDDEN_TEXT" %}</span>
-						<a href="{% url 'applications:download_generated_document' document.id licence.application.id %}" class="govuk-link govuk-link--no-visited-state" id="licence-document-download">{{ document.advice_type.value }}.pdf</a>
+						{% if document.advice_type.key == "approve" %}
+							<span class="govuk-visually-hidden">{% lcs "licences.LicencesList.DOWNLOAD_HIDDEN_TEXT" %}</span>
+							<a href="{% url 'applications:download_generated_document' document.id licence.application.id %}" class="govuk-button" id="licence-document-download">{% lcs "licences.LicencePage.Summary.DOWNLOAD_LICENCE_DOCUMENT" %}</a>
+						{% endif %}
 					{% endfor %}
 				</dd>
 			</div>
