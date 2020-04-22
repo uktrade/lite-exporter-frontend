@@ -225,7 +225,7 @@ class ApplicationSummary(TemplateView):
             "case_id": self.application_id,
             "application": self.application,
             "answers": {**convert_application_to_check_your_answers(self.application, summary=True)},
-            "summary_page": True
+            "summary_page": True,
         }
 
         context["application_type"] = get_application_type_string(self.application)
