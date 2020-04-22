@@ -220,7 +220,6 @@ class ApplicationSummary(TemplateView):
         return super(ApplicationSummary, self).dispatch(request, *args, **kwargs)
 
     def get(self, request, **kwargs):
-        status_props, _ = get_status_properties(request, self.application["status"]["key"])
 
         context = {
             "case_id": self.application_id,
