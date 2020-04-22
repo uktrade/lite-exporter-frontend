@@ -685,7 +685,7 @@ def create_licence_with_licenced_goods(context, decision, api_test_client):  # n
     additional_data = {}
     for good in context.goods:
         additional_data[f"quantity-{good['id']}"] = good["quantity"]
-        additional_data[f"value-{good['id']}"] = good["value"]
+        additional_data[f"value-{good['id']}"] = round(float(good["value"]) * good["quantity"], 2)
 
     api_test_client.cases.finalise_case(context.case_id, "approve", additional_data)
     api_test_client.cases.finalise_licence(context.case_id)

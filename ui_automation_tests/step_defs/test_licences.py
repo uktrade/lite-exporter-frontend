@@ -1,3 +1,4 @@
+from django.contrib.humanize.templatetags.humanize import intcomma
 from pytest_bdd import scenarios, given, parsers, when, then
 
 from ui_automation_tests.pages.licence_page import LicencePage
@@ -81,8 +82,10 @@ def standard_licence_details(driver, context):
     assert context.end_user["name"] in page.get_end_user()
     good_row = page.get_good_row()
     assert context.goods[0]["good"]["control_code"] in good_row
-    assert str(context.goods[0]["quantity"]) in good_row
-    assert str(context.goods[0]["value"]) in good_row
+    formatted_licenced_quantity = intcomma(context.goods[0]["quantity"]).split(".")[0]
+    formatted_licenced_value = intcomma(float(context.goods[0]["value"]) * context.goods[0]["quantity"]).split(".")[0]
+    assert formatted_licenced_quantity in good_row
+    assert formatted_licenced_value in good_row
     assert "0" in page.get_usage()
 
 
