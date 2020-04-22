@@ -1,7 +1,7 @@
 {% extends 'layouts/base.html' %}
 
 {% block back_link %}
-	{% if type == "summary" %}
+	{% if is_summary %}
 		<a href="{% url 'applications:task_list' case_id %}" id="back-link" class="govuk-back-link">
 			{% lcs "applications.ApplicationPage.Summary.BACK" %}
 		</a>
@@ -17,7 +17,7 @@
 		<div class="lite-app-bar__content">
 			<h1 class="govuk-heading-l">
 				{% block title %}
-					{% if type == "summary" %}
+					{% if summary_page %}
 						{% lcs 'applications.ApplicationPage.Summary.TITLE' %}
 					{% else %}
 						{{ application.name|default:application.reference_code }}
@@ -25,7 +25,7 @@
 				{% endblock %}
 			</h1>
 		</div>
-		{% if type != "summary" %}
+		{% if not summary_page %}
 			<div class="lite-app-bar__controls">
 				{% if application.case_type.sub_type.key != 'hmrc' %}
 					{%  if not status_is_terminal %}
@@ -62,7 +62,7 @@
 					<dd class="govuk-summary-list__value" id="summary-list-reference-code">
 						{{ application.reference_code }}
 					</dd>
-					{% if type != "summary" %}
+					{% if not summary_page %}
 						<dd class="govuk-summary-list__actions">
 							<button class="lite-button--link lite-js-only" href="#" id="button-copy-reference-code">
 								{% lcs "applications.ApplicationSummaryPage.COPY_REFERENCE_CODE" %}
@@ -71,7 +71,7 @@
 					{% endif %}
 				</div>
 			{% endif %}
-			{% if type == "summary" %}
+			{% if summary_page %}
 				<dt class="govuk-summary-list__key">
 					{% if application.case_type.sub_type.key == 'hmrc' %}
 						{% lcs 'applications.ApplicationPage.Summary.QUERY' %}
@@ -85,7 +85,7 @@
 			{% endif %}
 			<div class="govuk-summary-list__row">
 				<dt class="govuk-summary-list__key">
-					{% if type == 'summary' %}
+					{% if summary_page %}
 						{% lcs 'applications.ApplicationPage.Summary.TYPE' %}
 					{% else %}
 						{% lcs 'applications.ApplicationSummaryPage.TYPE' %}
@@ -95,7 +95,7 @@
 					{{ application.case_type.sub_type.value }}
 				</dd>
 			</div>
-			{% if type == "summary" %}
+			{% if summary_page %}
 				<div class="govuk-summary-list__row">
 					<dt class="govuk-summary-list__key">
 						{% lcs 'applications.ApplicationPage.Summary.NAME_OF_APPLICATION' %}
@@ -115,7 +115,7 @@
 					</dd>
 				</div>
 			{% endif %}
-			{% if type == "summary" and application.case_type.sub_type.key == 'standard'%}
+			{% if summary_page and application.case_type.sub_type.key == 'standard'%}
 				<div class="govuk-summary-list__row">
 					<dt class="govuk-summary-list__key">
 						{% lcs 'applications.ApplicationPage.Summary.GOODS_CATEGORIES' %}
@@ -177,7 +177,7 @@
 					</dd>
 				</div>
 			{% endif %}
-			{% if type != "summary" %}
+			{% if not summary_page %}
 				<div class="govuk-summary-list__row">
 					<dt class="govuk-summary-list__key">
 						{% lcs 'applications.ApplicationSummaryPage.STATUS' %}
@@ -209,7 +209,7 @@
 			{% endif %}
 		</dl>
 	</div>
-	{% if type != "summary" %}
+	{% if not summary_page %}
 		<div class="lite-tabs__container">
 			<div class="lite-tabs">
 				<a href="{% url 'applications:application' application.id %}" class="lite-tabs__tab {% if not type %}lite-tabs__tab--selected{% endif %}" id="link-details">

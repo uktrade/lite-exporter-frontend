@@ -1,4 +1,4 @@
-{% if not type or type == "summary"%}
+{% if not type %}
 	{% for key, value in answers.items %}
 		<h2 class="govuk-heading-m">{{ key }}</h2>
 		<div>
@@ -61,7 +61,7 @@
 	{% include "applications/tabs/activity.html" %}
 {% endif %}
 
-{% if type == "summary" %}
+{% if summary_page %}
 	{% if application.case_type.sub_type.key != "hmrc" %}
 		<h2 class="govuk-heading-m">{% lcs "applications.ApplicationPage.Summary.Notes.TITLE" %}</h2>
 		{% if notes %}
