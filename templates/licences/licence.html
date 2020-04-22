@@ -153,7 +153,7 @@
 					<th class="govuk-table__header" scope="col">{% lcs "licences.LicencePage.GoodsTable.APPLIED_FOR" %}</th>
 					<th class="govuk-table__header" scope="col">{% lcs "licences.LicencePage.GoodsTable.LICENCED" %}</th>
 				{% endif %}
-				{% if licence.application.goods.0.usage != None %}
+				{% if licence.application.goods.0.usage != None and licence.application.case_type.sub_type.key == "standard" or licence.application.case_type.sub_type.key == "open" %}
 					<th class="govuk-table__header" scope="col">{% lcs "licences.LicencePage.GoodsTable.USAGE" %}</th>
 				{% endif %}
 			</tr>
