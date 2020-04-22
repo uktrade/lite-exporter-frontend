@@ -1,7 +1,7 @@
 {% extends 'layouts/base.html' %}
 
 {% block back_link %}
-	{% if is_summary %}
+	{% if summary_page %}
 		<a href="{% url 'applications:task_list' case_id %}" id="back-link" class="govuk-back-link">
 			{% lcs "applications.ApplicationPage.Summary.BACK" %}
 		</a>
