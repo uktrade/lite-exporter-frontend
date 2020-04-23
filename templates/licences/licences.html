@@ -134,7 +134,7 @@
 			</tbody>
 		</table>
 
-		{% include "includes/pagination.html" with data=licences %}
+		{% pagination with data=licences %}
 	{% else %}
 		{% include "includes/notice.html" with text="licences.LicencesList.NO_CONTENT_NOTICE" %}
 	{% endif %}
