@@ -36,7 +36,7 @@
 					<th scope="col" class="govuk-table__header">#</th>
 					<th scope="col" class="govuk-table__header govuk-!-width-one-half">{% lcs "goods_types.Variables.DESCRIPTION" %}</th>
 					{% if application.case_type.sub_type.key != 'hmrc' %}
-						<th scope="col" class="govuk-table__header">Control list entries</th>
+						<th scope="col" class="govuk-table__header">{% lcs "goods_types.Variables.CONTROL_LIST_ENTRY" %}</th>
 						<th scope="col" class="govuk-table__header">{% lcs "goods_types.Variables.INCORPORATED" %}</th>
 					{% endif %}
 					{% if application.case_type.sub_type.key == 'hmrc' %}

@@ -103,7 +103,7 @@ def add_goods_questions(application_pk=None):
 
 def edit_grading_form(good_id):
     return Form(
-        title="Does the product have a security grading?",
+        title=CreateGoodForm.IsGraded.TITLE,
         description="",
         questions=[
             RadioButtons(
