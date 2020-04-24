@@ -58,11 +58,6 @@ def exhibition_licence_row(context, driver):
     assert "Finalised" in row
 
 
-@when("I click on the nlr tab")
-def nlr_tab(driver):
-    LicencesPage(driver).click_nlr_tab()
-
-
 @when("I view my licence")
 def view_licence(driver, context):
     LicencesPage(driver).click_licence(context.licence)
