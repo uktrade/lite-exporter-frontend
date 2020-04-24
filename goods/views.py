@@ -17,7 +17,6 @@ from applications.services import (
     get_status_properties,
     get_case_generated_documents,
 )
-from core.builtins.custom_tags import pretty_json
 from goods.forms import (
     attach_documents_form,
     respond_to_query_form,
@@ -209,10 +208,6 @@ class EditGrading(SingleFormView):
             data["date_of_issueday"] = date_of_issue[2]
             data["date_of_issuemonth"] = date_of_issue[1]
             data["date_of_issueyear"] = date_of_issue[0]
-
-        print()
-        print(pretty_json(data))
-        print()
 
         return data
 
