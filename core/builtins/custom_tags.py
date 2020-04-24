@@ -299,6 +299,7 @@ def date_display(value):
         "December",
     ]
 
+    # A date without the two '-' delimiters is not a full/valid date
     if value.count("-") < 2:
         return
 
