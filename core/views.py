@@ -65,9 +65,6 @@ class PickOrganisation(TemplateView):
         self.organisations = user["organisations"]
         self.form = select_your_organisation_form(self.organisations)
 
-        if len(self.organisations) == 1:
-            raise Http404()
-
         return super(PickOrganisation, self).dispatch(request, *args, **kwargs)
 
     def get(self, request, **kwargs):
