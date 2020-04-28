@@ -28,7 +28,6 @@ from goods.services import (
     validate_good,
     post_good_with_pv_grading,
 )
-from lite_content.lite_exporter_frontend import strings
 from lite_forms.components import FiltersBar, TextInput
 from lite_forms.generators import error_page, form_page
 from lite_forms.views import SingleFormView, MultiFormView
