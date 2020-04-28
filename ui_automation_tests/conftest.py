@@ -696,3 +696,8 @@ def sections_appear_on_task_list(driver, sections):  # noqa
     sections = sections.split(", ")
     for section in sections:
         assert TaskListPage(driver).get_section(section) is not None
+
+
+@given(parsers.parse('the status is set to "{status}"'))
+def set_status(api_test_client, context, status):
+    api_test_client.applications.set_status(context.app_id, status)
