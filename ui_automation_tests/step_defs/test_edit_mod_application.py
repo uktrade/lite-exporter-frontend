@@ -1,4 +1,4 @@
-from pytest_bdd import scenarios, given, when
+from pytest_bdd import scenarios, given, when, parsers
 
 from ui_automation_tests.pages.f680_additional_information_page import F680AdditionalInformationPage
 from ui_automation_tests.shared import functions
@@ -39,3 +39,8 @@ def add_new_additional_information(driver, context):  # noqa
     page.click_uk_service_equipment_type()
     page.enter_uk_service_equipment_type()
     functions.click_submit(driver, button_value="finish")
+
+
+@given(parsers.parse('the status is set to "{status}"'))
+def set_status(api_test_client, context, status):
+    api_test_client.applications.set_status(context.app_id, status)
