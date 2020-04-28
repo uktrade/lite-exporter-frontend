@@ -358,7 +358,6 @@ def application_is_submitted(driver, context):  # noqa
     elements = driver.find_elements_by_css_selector("tr")
     element_number = utils.get_element_index_by_text(elements, context.app_name, complete_match=False)
     element_row = elements[element_number].text
-    assert "Submitted" in element_row
     assert utils.search_for_correct_date_regex_in_element(element_row)
     assert "0 Goods" or "1 Good" or "2 Goods" in element_row
     assert driver.find_element_by_xpath("// th[text()[contains(., 'Status')]]").is_displayed()
