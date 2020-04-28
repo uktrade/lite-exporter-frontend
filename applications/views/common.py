@@ -410,9 +410,6 @@ class ApplicationSubmitSuccessPage(TemplateView):
         application_id = kwargs["pk"]
         application = get_application(request, application_id)
 
-        if application.status != "submitted":
-            raise Http404
-
         return application_success_page(request, application["reference_code"])
 
 
