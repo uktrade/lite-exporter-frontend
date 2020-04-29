@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.generic import TemplateView
 
 from applications.forms.third_party import third_party_forms
-from applications.services import get_application, post_party, delete_party, validate_party
+from applications.services import get_application, post_party, delete_party, validate_party, get_third_parties
 from applications.views.parties.base import AddParty, CopyParties, SetParty, DeleteParty, CopyAndSetParty
 from conf.constants import F680
 from lite_content.lite_exporter_frontend.applications import ThirdPartyForm, ThirdPartyPage
@@ -15,7 +15,7 @@ class ThirdParties(TemplateView):
 
         context = {
             "application": application,
-            "third_parties": application["third_parties"],
+            "third_parties": get_third_parties(request, application_id),
             "has_clearance": application["case_type"]["sub_type"]["key"] == F680,
         }
         return render(request, "applications/parties/third-parties.html", context)
