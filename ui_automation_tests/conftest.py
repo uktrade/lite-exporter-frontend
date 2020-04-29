@@ -358,7 +358,6 @@ def application_is_submitted(driver, context):  # noqa
     elements = driver.find_elements_by_css_selector("tr")
     element_number = utils.get_element_index_by_text(elements, context.app_name, complete_match=False)
     element_row = elements[element_number].text
-    assert "Submitted" in element_row
     assert utils.search_for_correct_date_regex_in_element(element_row)
     assert "0 Goods" or "1 Good" or "2 Goods" in element_row
     assert driver.find_element_by_xpath("// th[text()[contains(., 'Status')]]").is_displayed()
@@ -504,7 +503,7 @@ def click_my_end_user_advisory_link(driver):  # noqa
 def add_new_goods_type(driver, description, controlled, control_code, incorporated, context):  # noqa
     OpenApplicationAddGoodsType(driver).enter_description(description)
     OpenApplicationAddGoodsType(driver).select_is_your_good_controlled(controlled)
-    OpenApplicationAddGoodsType(driver).enter_control_code(control_code)
+    OpenApplicationAddGoodsType(driver).enter_control_list_entry(control_code)
     OpenApplicationAddGoodsType(driver).select_is_your_good_incorporated(incorporated)
 
     context.good_description = description
@@ -697,3 +696,8 @@ def sections_appear_on_task_list(driver, sections):  # noqa
     sections = sections.split(", ")
     for section in sections:
         assert TaskListPage(driver).get_section(section) is not None
+
+
+@given(parsers.parse('the status is set to "{status}"'))  # noqa
+def set_status(api_test_client, context, status):  # noqa
+    api_test_client.applications.set_status(context.app_id, status)
