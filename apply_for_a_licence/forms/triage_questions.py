@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 from applications.forms.edit import goods_categories, reference_name_form, told_by_an_official_form
 from apply_for_a_licence.forms.trade_control_licence import application_type_form, activity_form, product_category_form
 from conf.constants import CaseTypes
-from lite_content.lite_exporter_frontend import generic
+from lite_content.lite_exporter_frontend import generic, applications
 from lite_content.lite_exporter_frontend.applications import (
     InitialApplicationQuestionsForms,
     ExportLicenceQuestions,
@@ -96,6 +96,7 @@ def export_licence_questions(application_type):
                     ExportLicenceQuestions.ExportLicenceQuestion.BACK, reverse_lazy("apply_for_a_licence:start")
                 ),
             ),
+            *conditional(application_type == CaseTypes.OIEL, [goodstype_category()], []),
             reference_name_form(),
             Form(
                 title=ExportLicenceQuestions.ExportType.TITLE,
@@ -115,6 +116,24 @@ def export_licence_questions(application_type):
             ),
             *conditional(application_type == CaseTypes.SIEL, [goods_categories(), told_by_an_official_form()], []),
         ]
+    )
+
+
+def goodstype_category(application_id=None):
+    return Form(
+        title="Goodstype category",
+        description=applications.GoodsCategories.DESCRIPTION,
+        questions=[
+            RadioButtons(
+                name="goodstype_category",
+                options=[
+                    Option(key="media", value="Media",),
+                    Option(key="not media", value="Definitely not media",),
+                    Option(key="not media", value="Definitely not media",),
+                ],
+            )
+        ],
+        default_button_name=conditional(application_id, generic.SAVE_AND_RETURN, generic.CONTINUE),
     )
 
 
