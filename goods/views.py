@@ -282,8 +282,9 @@ class AttachDocuments(TemplateView):
         if error:
             return error_page(request, error)
 
-        if "errors" in post_good_documents(request, good_id, data):
-            return error_page(request, strings.goods.AttachDocumentPage.UPLOAD_FAILURE_ERROR)
+        data, status_code = post_good_documents(request, good_id, data)
+        if status_code != HTTPStatus.CREATED:
+            return error_page(request, data["errors"]["file"])
 
         raise_a_clc_query = "unsure" == good["is_good_controlled"]["key"]
         raise_a_pv_query = "grading_required" == good["is_pv_graded"]["key"]
