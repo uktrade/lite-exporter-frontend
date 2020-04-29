@@ -110,6 +110,9 @@ urlpatterns = [
         name="add_preexisting_external_location",
     ),
     path("<uuid:pk>/goods-locations/countries/", locations.Countries.as_view(), name="countries"),
+    path(
+        "<uuid:pk>/goods-locations/application-countries/", locations.StaticCountries.as_view(), name="static_countries"
+    ),
     # End User
     path("<uuid:pk>/end-user/", end_users.EndUser.as_view(), name="end_user"),
     path("<uuid:pk>/end-user/add/", end_users.AddEndUser.as_view(), name="add_end_user"),
