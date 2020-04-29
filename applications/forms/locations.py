@@ -1,10 +1,22 @@
+from django.urls import reverse_lazy
+
 from applications.components import back_to_task_list
 from conf.constants import HMRC, CaseTypes
 from core.services import get_countries, get_external_locations
 from lite_content.lite_exporter_frontend import goods, strings, generic
 from lite_content.lite_exporter_frontend.goods import NewLocationForm
 from lite_forms.common import country_question
-from lite_forms.components import Form, RadioButtons, Option, TextArea, Filter, Checkboxes, TextInput
+from lite_forms.components import (
+    Form,
+    RadioButtons,
+    Option,
+    TextArea,
+    Filter,
+    Checkboxes,
+    TextInput,
+    FormGroup,
+    BackLink,
+)
 from lite_forms.helpers import conditional
 from organisation.sites.services import get_sites
 
@@ -66,7 +78,36 @@ def add_external_location():
     )
 
 
-def new_location_form(application_type):
+def new_external_location_form(application_type=None, location_type=None):
+    return FormGroup(
+        forms=[
+            conditional((application_type == CaseTypes.SICL), location_type_form()),
+            new_location_form(application_type, location_type),
+        ]
+    )
+
+
+def location_type_form():
+    return Form(
+        title="Select a location type",
+        description="",
+        questions=[
+            RadioButtons(
+                name="location_type",
+                short_title="Select a location type",
+                title="",
+                options=[
+                    Option(key="land_based", value="Land based"),
+                    Option(key="sea_based", value="Vessel (sea) based"),
+                ],
+                classes=["govuk-radios--inline"],
+            )
+        ],
+        default_button_name=strings.SAVE_AND_CONTINUE,
+    )
+
+
+def new_location_form(application_type, location_type):
     exclude = []
     if application_type in [CaseTypes.SITL, CaseTypes.SICL, CaseTypes.OICL]:
         exclude.append("GB")
@@ -80,14 +121,22 @@ def new_location_form(application_type):
             TextInput(name="name", title=NewLocationForm.Name.TITLE),
             TextArea(
                 name="address",
-                title=NewLocationForm.Address.TITLE,
+                title=conditional(
+                    location_type == "sea_based",
+                    "Enter the address details, including coordinates of the vessel",
+                    NewLocationForm.Address.TITLE,
+                ),
                 description=conditional(
                     application_type == CaseTypes.SITL,
                     NewLocationForm.Address.SITL_DESCRIPTION,
-                    NewLocationForm.Address.DESCRIPTION,
+                    conditional(
+                        location_type == "sea_based",
+                        "For example,\n International Waters,\n 15N, 30E or 15 10.234, 30 -23.456",
+                        NewLocationForm.Address.DESCRIPTION,
+                    ),
                 ),
             ),
-            country_question(prefix="", countries=countries),
+            conditional(location_type != "sea_based", country_question(prefix="", countries=countries), ),
         ],
         default_button_name=strings.SAVE_AND_CONTINUE,
     )

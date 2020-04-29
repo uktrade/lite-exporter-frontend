@@ -11,6 +11,7 @@ from applications.forms.locations import (
     add_external_location,
     Locations,
     sites_form,
+    new_external_location_form,
 )
 from applications.helpers.validators import validate_external_location_choice, validate_and_update_goods_location_choice
 from applications.services import get_application, get_application_countries, post_application_countries
@@ -22,7 +23,7 @@ from core.services import (
     post_external_locations_on_draft,
     delete_external_locations_from_draft,
 )
-from lite_forms.views import SingleFormView
+from lite_forms.views import SingleFormView, MultiFormView
 
 
 class GoodsLocation(TemplateView):
@@ -88,11 +89,12 @@ class ExistingSites(SingleFormView):
         self.success_url = reverse_lazy("applications:location", kwargs={"pk": self.object_pk})
 
 
-class AddExternalLocation(SingleFormView):
+class AddExternalLocation(MultiFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
         application = get_application(request, self.object_pk)
-        self.form = new_location_form(application.type_reference)
+        location_type = request.POST.get("location_type", None)
+        self.forms = new_external_location_form(application.type_reference, location_type)
         self.action = post_external_locations
         self.success_url = reverse_lazy("applications:location", kwargs={"pk": self.object_pk})
 
