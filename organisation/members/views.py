@@ -27,7 +27,7 @@ class Members(OrganisationView):
             for option in [
                 {"key": "active", "value": "Active"},
                 {"key": "deactivated", "value": "Deactivated"},
-                {"key": "", "value": "All"}
+                {"key": "", "value": "All"},
             ]
         ]
         filters = FiltersBar([Select(name="status", title="status", options=statuses)])
