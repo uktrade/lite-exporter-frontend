@@ -64,7 +64,7 @@ def opening_question():
     )
 
 
-def export_licence_questions(application_type):
+def export_licence_questions(application_type, goodstype_category=None):
     return FormGroup(
         [
             Form(
@@ -96,10 +96,10 @@ def export_licence_questions(application_type):
                     ExportLicenceQuestions.ExportLicenceQuestion.BACK, reverse_lazy("apply_for_a_licence:start")
                 ),
             ),
+            *conditional(application_type == CaseTypes.OIEL, [goodstype_category_form()], []),
             *conditional(
-                application_type != CaseTypes.OIEL,
+                goodstype_category != "media",
                 [
-                    reference_name_form(),
                     Form(
                         title=ExportLicenceQuestions.ExportType.TITLE,
                         description=ExportLicenceQuestions.ExportType.DESCRIPTION,
@@ -117,7 +117,7 @@ def export_licence_questions(application_type):
                         else generic.SAVE_AND_CONTINUE,
                     ),
                 ],
-                [goodstype_category(), reference_name_form()],
+                [],
             ),
             reference_name_form(),
             *conditional(application_type == CaseTypes.SIEL, [goods_categories(), told_by_an_official_form()], []),
@@ -125,7 +125,7 @@ def export_licence_questions(application_type):
     )
 
 
-def goodstype_category(application_id=None):
+def goodstype_category_form(application_id=None):
     return Form(
         title="Select the type of open licence you need",
         questions=[

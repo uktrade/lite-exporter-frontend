@@ -27,6 +27,7 @@ class GoodsTypeList(TemplateView):
         context = {
             "application": application,
             "goods": application["goods_types"],
+            "is_application_open_media": application.get("goodstype_category").get("key") == "media",
         }
         return render(request, "applications/goods-types/index.html", context)
 
