@@ -96,24 +96,30 @@ def export_licence_questions(application_type):
                     ExportLicenceQuestions.ExportLicenceQuestion.BACK, reverse_lazy("apply_for_a_licence:start")
                 ),
             ),
-            *conditional(application_type == CaseTypes.OIEL, [goodstype_category()], []),
-            reference_name_form(),
-            Form(
-                title=ExportLicenceQuestions.ExportType.TITLE,
-                description=ExportLicenceQuestions.ExportType.DESCRIPTION,
-                questions=[
-                    RadioButtons(
-                        name="export_type",
-                        options=[
-                            Option("temporary", ExportLicenceQuestions.ExportType.TEMPORARY),
-                            Option("permanent", ExportLicenceQuestions.ExportType.PERMANENT),
+            *conditional(
+                application_type != CaseTypes.OIEL,
+                [
+                    reference_name_form(),
+                    Form(
+                        title=ExportLicenceQuestions.ExportType.TITLE,
+                        description=ExportLicenceQuestions.ExportType.DESCRIPTION,
+                        questions=[
+                            RadioButtons(
+                                name="export_type",
+                                options=[
+                                    Option("temporary", ExportLicenceQuestions.ExportType.TEMPORARY),
+                                    Option("permanent", ExportLicenceQuestions.ExportType.PERMANENT),
+                                ],
+                            ),
                         ],
+                        default_button_name=generic.CONTINUE
+                        if application_type == CaseTypes.SIEL
+                        else generic.SAVE_AND_CONTINUE,
                     ),
                 ],
-                default_button_name=generic.CONTINUE
-                if application_type == CaseTypes.SIEL
-                else generic.SAVE_AND_CONTINUE,
+                [goodstype_category(), reference_name_form()],
             ),
+            reference_name_form(),
             *conditional(application_type == CaseTypes.SIEL, [goods_categories(), told_by_an_official_form()], []),
         ]
     )
@@ -121,15 +127,16 @@ def export_licence_questions(application_type):
 
 def goodstype_category(application_id=None):
     return Form(
-        title="Goodstype category",
-        description=applications.GoodsCategories.DESCRIPTION,
+        title="Select the type of open licence you need",
         questions=[
             RadioButtons(
                 name="goodstype_category",
                 options=[
+                    Option(key="military", value="Military or dual use",),
+                    Option(key="cryptographic", value="Cryptographic",),
                     Option(key="media", value="Media",),
-                    Option(key="not media", value="Definitely not media",),
-                    Option(key="not media", value="Definitely not media",),
+                    Option(key="uk_continental_shelf", value="UK continental shelf",),
+                    Option(key="dealer", value="Dealer",),
                 ],
             )
         ],
