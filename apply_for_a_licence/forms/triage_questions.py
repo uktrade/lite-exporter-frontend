@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 from applications.forms.edit import goods_categories, reference_name_form, told_by_an_official_form
 from apply_for_a_licence.forms.trade_control_licence import application_type_form, activity_form, product_category_form
 from conf.constants import CaseTypes
-from lite_content.lite_exporter_frontend import generic, applications
+from lite_content.lite_exporter_frontend import generic
 from lite_content.lite_exporter_frontend.applications import (
     InitialApplicationQuestionsForms,
     ExportLicenceQuestions,
