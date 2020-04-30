@@ -127,16 +127,21 @@ def export_licence_questions(application_type, goodstype_category=None):
 
 def goodstype_category_form(application_id=None):
     return Form(
-        title="Select the type of open licence you need",
+        title=ExportLicenceQuestions.OpenLicenceCategoryQuestion.TITLE,
         questions=[
             RadioButtons(
                 name="goodstype_category",
                 options=[
-                    Option(key="military", value="Military or dual use",),
-                    Option(key="cryptographic", value="Cryptographic",),
-                    Option(key="media", value="Media",),
-                    Option(key="uk_continental_shelf", value="UK continental shelf",),
-                    Option(key="dealer", value="Dealer",),
+                    Option(key="military", value=ExportLicenceQuestions.OpenLicenceCategoryQuestion.MILITARY,),
+                    Option(
+                        key="cryptographic", value=ExportLicenceQuestions.OpenLicenceCategoryQuestion.CRYPTOGRAPHIC,
+                    ),
+                    Option(key="media", value=ExportLicenceQuestions.OpenLicenceCategoryQuestion.MEDIA,),
+                    Option(
+                        key="uk_continental_shelf",
+                        value=ExportLicenceQuestions.OpenLicenceCategoryQuestion.UK_CONTINENTAL_SHELF,
+                    ),
+                    Option(key="dealer", value=ExportLicenceQuestions.OpenLicenceCategoryQuestion.DEALER,),
                 ],
             )
         ],
