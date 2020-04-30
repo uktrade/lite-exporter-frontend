@@ -8,14 +8,15 @@
 	<div class="lite-app-bar">
 		<div class="lite-app-bar__content">
 			<h1 class="govuk-heading-l">
-			{% block title %}
-			Destinations
-			{% endblock %}
+				{% block title %} {% lcs 'goods.GoodsTypeAllDestinationsPage.DESTINATIONS_TITLE' %} {% endblock %}
 			</h1>
 		</div>
 	</div>
 
-	<p class="govuk-body">These are the destinations you can export to with a media OIEL.</p>
+	<p class="govuk-body">
+		{% lcs 'goods.GoodsTypeAllDestinationsPage.DESTINATIONS_DESCRIPTION_MEDIA_OIEL' %}
+	</p>
+
 	<ul class="govuk-list">
 		{% for country in countries %}
 			<li>{{ country.name }}</li>
