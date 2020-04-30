@@ -7,6 +7,7 @@ from ui_automation_tests.conftest import (
     enter_type_of_application,
     enter_application_name,
     enter_permanent_or_temporary,
+    select_open_licence_category,
 )
 from ui_automation_tests.pages.apply_for_a_licence_page import ApplyForALicencePage
 from ui_automation_tests.pages.open_application.countries import OpenApplicationCountriesPage
@@ -96,6 +97,7 @@ def create_open_app(driver, export_type, context):  # noqa
     ApplyForALicencePage(driver).select_licence_type("export_licence")
     functions.click_submit(driver)
     enter_type_of_application(driver, "oiel", context)
+    select_open_licence_category(driver, context)
     enter_application_name(driver, context)
     enter_permanent_or_temporary(driver, export_type, context)
 
