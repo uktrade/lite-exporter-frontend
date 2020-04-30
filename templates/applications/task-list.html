@@ -132,7 +132,7 @@
 				{# Countries #}
 				{% if application_type|application_type_in_list:"HAS_COUNTRIES" %}
 					{% if application.goodstype_category.key == "media" %}
-						{% url 'applications:static_countries' application.id as countries_url %}
+						{% url 'applications:static_destinations' application.id as countries_url %}
 					{% else %}
 						{% url 'applications:countries' application.id as countries_url %}
 						{% tld countries 'country' 'countries' as countries_description %}

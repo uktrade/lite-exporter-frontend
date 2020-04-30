@@ -12,8 +12,10 @@
 			<h1 class="govuk-heading-l">
 				{% block title %}{% lcs "goods_types.OverviewPage.TITLE" %}{% endblock%}
 			</h1>
-			{% if goods %}
-				<p class="govuk-body-m">You've added {{ goods|length|apnumber }} product{{ goods|pluralize }}.</p>
+			{% if not is_application_open_media %}
+				{% if goods %}
+					<p class="govuk-body-m">You've added {{ goods|length|apnumber }} product{{ goods|pluralize }}.</p>
+				{% endif %}
 			{% endif %}
 		</div>
 		{% if application.status.key in 'applicant_editing,draft' %}
@@ -39,9 +41,7 @@
 					<th scope="col" class="govuk-table__header govuk-!-width-one-half">{% lcs "goods_types.Variables.DESCRIPTION" %}</th>
 					{% if application.case_type.sub_type.key != 'hmrc' %}
 						<th scope="col" class="govuk-table__header">{% lcs "goods_types.Variables.CONTROL_LIST_ENTRY" %}</th>
-						{% if is_application_open_media %}
-							<th scope="col" class="govuk-table__header">Annual Report Summary (ARS)</th>
-						{% else %}
+						{% if not is_application_open_media %}
 							<th scope="col" class="govuk-table__header">{% lcs "goods_types.Variables.INCORPORATED" %}</th>
 						{% endif %}
 					{% endif %}
@@ -66,12 +66,7 @@
 								<span class="govuk-table__header">Control list entries</span>
 								{% include 'includes/control-list-entries.html' with control_list_entries=good_on_application.control_list_entries %}
 							</td>
-							{% if is_application_open_media %}
-								<td class="govuk-table__cell">
-									<span class="govuk-table__header">Annual Report Summary (ARS)</span>
-									{{ good_on_application.report_summary }}
-								</td>
-							{% else %}
+							{% if not is_application_open_media %}
 								<td class="govuk-table__cell">
 									<span class="govuk-table__header">{% lcs "goods_types.Variables.INCORPORATED" %}</span>
 									{{ good_on_application.is_good_incorporated|friendly_boolean }}

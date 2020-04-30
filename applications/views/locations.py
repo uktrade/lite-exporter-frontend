@@ -125,9 +125,9 @@ class Countries(SingleFormView):
         self.success_url = reverse_lazy("applications:task_list", kwargs={"pk": self.object_pk})
 
 
-class StaticCountries(TemplateView):
+class StaticDestinations(TemplateView):
     # To be used for OIEL Media where all countries are preselected and non-modifiable by the user
     def get(self, request, **kwargs):
         application_id = str(kwargs["pk"])
         context = {"application_id": application_id, "countries": get_application_countries(request, application_id)}
-        return render(request, "applications/goods-locations/static-country-list.html", context)
+        return render(request, "applications/goods-locations/static-all-destinations.html", context)
