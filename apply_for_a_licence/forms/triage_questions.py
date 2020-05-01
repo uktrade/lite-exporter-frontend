@@ -96,6 +96,7 @@ def export_licence_questions(application_type, goodstype_category=None):
                     ExportLicenceQuestions.ExportLicenceQuestion.BACK, reverse_lazy("apply_for_a_licence:start")
                 ),
             ),
+            reference_name_form(),
             *conditional(application_type == CaseTypes.OIEL, [goodstype_category_form()], []),
             *conditional(
                 goodstype_category != "media",
@@ -119,7 +120,6 @@ def export_licence_questions(application_type, goodstype_category=None):
                 ],
                 [],
             ),
-            reference_name_form(),
             *conditional(application_type == CaseTypes.SIEL, [goods_categories(), told_by_an_official_form()], []),
         ]
     )
