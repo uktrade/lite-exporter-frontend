@@ -11,6 +11,7 @@ from ui_automation_tests.conftest import (
 from ui_automation_tests.pages.add_new_external_location_form_page import AddNewExternalLocationFormPage
 from ui_automation_tests.pages.apply_for_a_licence_page import ApplyForALicencePage
 from ui_automation_tests.pages.exporter_hub_page import ExporterHubPage
+from ui_automation_tests.pages.location_type_page import LocationTypeFormPage
 from ui_automation_tests.pages.submitted_applications_page import SubmittedApplicationsPages
 from ui_automation_tests.pages.which_location_form_page import WhichLocationFormPage
 from ui_automation_tests.pages.add_end_user_pages import AddEndUserPages
@@ -221,6 +222,12 @@ def choose_location_type(driver, choice):  # noqa
     functions.click_submit(driver)
 
 
+@when(parsers.parse('I select a location type of "{location_type}"'))  # noqa
+def choose_location_type(driver, location_type):  # noqa
+    LocationTypeFormPage(driver).click_on_location_type_radiobutton(location_type)
+    functions.click_submit(driver)
+
+
 @when(  # noqa
     parsers.parse(
         'I fill in new external location form with name: "{name}", address: "{address}" and country: "{country}" and continue'
@@ -231,6 +238,18 @@ def add_new_external_location(driver, name, address, country):  # noqa
     add_new_external_location_form_page.enter_external_location_name(name)
     add_new_external_location_form_page.enter_external_location_address(address)
     add_new_external_location_form_page.enter_external_location_country(country)
+    functions.click_submit(driver)
+
+
+@when(  # noqa
+    parsers.parse(
+        'I fill in new external location form with name: "{name}", address: "{address}" and no country and continue'
+    )
+)
+def add_new_external_location_without_country(driver, name, address):  # noqa
+    add_new_external_location_form_page = AddNewExternalLocationFormPage(driver)
+    add_new_external_location_form_page.enter_external_location_name(name)
+    add_new_external_location_form_page.enter_external_location_address(address)
     functions.click_submit(driver)
 
 
