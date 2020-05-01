@@ -79,7 +79,10 @@ def add_external_location():
 def new_external_location_form(application_type=None, location_type=None, application_id=None):
     return FormGroup(
         forms=[
-            conditional((application_type in [CaseTypes.SICL, CaseTypes.OICL]), location_type_form(application_type, application_id)),
+            conditional(
+                (application_type in [CaseTypes.SICL, CaseTypes.OICL]),
+                location_type_form(application_type, application_id),
+            ),
             new_location_form(application_type, location_type),
         ]
     )
