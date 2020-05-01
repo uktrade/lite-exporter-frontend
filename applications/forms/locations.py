@@ -4,7 +4,7 @@ from applications.components import back_to_task_list
 from conf.constants import HMRC, CaseTypes
 from core.services import get_countries, get_external_locations
 from lite_content.lite_exporter_frontend import goods, strings, generic
-from lite_content.lite_exporter_frontend.goods import NewLocationForm
+from lite_content.lite_exporter_frontend.goods import NewLocationForm, LocationTypeForm
 from lite_forms.common import country_question
 from lite_forms.components import (
     Form,
@@ -16,6 +16,7 @@ from lite_forms.components import (
     TextInput,
     FormGroup,
     BackLink,
+    HiddenField,
 )
 from lite_forms.helpers import conditional
 from organisation.sites.services import get_sites
@@ -78,32 +79,32 @@ def add_external_location():
     )
 
 
-def new_external_location_form(application_type=None, location_type=None):
+def new_external_location_form(application_type=None, location_type=None, application_id=None):
     return FormGroup(
         forms=[
-            conditional((application_type == CaseTypes.SICL), location_type_form()),
+            conditional((application_type == CaseTypes.SICL), location_type_form(application_type, application_id)),
             new_location_form(application_type, location_type),
         ]
     )
 
 
-def location_type_form():
+def location_type_form(application_type=None, application_id=None):
     return Form(
-        title="Select a location type",
-        description="",
+        title=LocationTypeForm.TITLE,
+        description=LocationTypeForm.DESCRIPTION,
         questions=[
+            HiddenField("application_type", application_type),
             RadioButtons(
                 name="location_type",
-                short_title="Select a location type",
                 title="",
                 options=[
-                    Option(key="land_based", value="Land based"),
-                    Option(key="sea_based", value="Vessel (sea) based"),
+                    Option(key="land_based", value=LocationTypeForm.LAND_BASED),
+                    Option(key="sea_based", value=LocationTypeForm.SEA_BASED),
                 ],
                 classes=["govuk-radios--inline"],
-            )
+            ),
         ],
-        default_button_name=strings.SAVE_AND_CONTINUE,
+        default_button_name=strings.CONTINUE,
     )
 
 
@@ -123,7 +124,7 @@ def new_location_form(application_type, location_type):
                 name="address",
                 title=conditional(
                     location_type == "sea_based",
-                    "Enter the address details, including coordinates of the vessel",
+                    NewLocationForm.Address.SEA_BASED_TITLE,
                     NewLocationForm.Address.TITLE,
                 ),
                 description=conditional(
@@ -131,12 +132,12 @@ def new_location_form(application_type, location_type):
                     NewLocationForm.Address.SITL_DESCRIPTION,
                     conditional(
                         location_type == "sea_based",
-                        "For example,\n International Waters,\n 15N, 30E or 15 10.234, 30 -23.456",
+                        NewLocationForm.Address.SEA_BASED_DESCRIPTION,
                         NewLocationForm.Address.DESCRIPTION,
                     ),
                 ),
             ),
-            conditional(location_type != "sea_based", country_question(prefix="", countries=countries), ),
+            conditional(location_type != "sea_based", country_question(prefix="", countries=countries),),
         ],
         default_button_name=strings.SAVE_AND_CONTINUE,
     )

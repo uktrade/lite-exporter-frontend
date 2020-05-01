@@ -92,7 +92,9 @@ def get_external_locations(request, pk, convert_to_options=False, exclude: list 
             external_location_id = external_location.get("id")
             external_location_name = external_location.get("name")
             external_location_address = (
-                external_location.get("address") + NEWLINE + external_location.get("country").get("name")
+                (external_location.get("address") + NEWLINE + external_location.get("country").get("name"))
+                if external_location.get("country")
+                else external_location.get("address")
             )
 
             external_locations_options.append(
