@@ -8,8 +8,11 @@ from conf.settings import env
 def get(request, appended_address):
     url = env("LITE_API_URL") + appended_address
 
+    if not url.endswith("/") and "?" not in url:
+        url = url + "/"
+
     if request:
-        return requests.get(url, headers=_get_headers(request, url, "GET", {}, "text/plain"),)
+        return requests.get(url, headers=_get_headers(request, url, "GET", "text/plain", {}),)
 
     return requests.get(url)
 
@@ -51,16 +54,16 @@ def delete(request, appended_address):
     )
 
 
-def _get_headers(request, url: str, method: str, content: str, content_type: str):
+def _get_headers(request, url: str, method: str, content_type: str, content: str):
     return {
         "EXPORTER-USER-TOKEN": str(request.user.user_token),
         "X-Correlation-Id": str(request.correlation),
         "ORGANISATION-ID": str(request.user.organisation),
-        "Authorization": _get_authorisation_header(url, method, content, content_type),
+        "Authorization": _get_authorisation_header(url, method, content_type, content),
     }
 
 
-def _get_authorisation_header(url: str, method: str, content: str, content_type: str):
+def _get_authorisation_header(url: str, method: str, content_type: str, content: str):
     sender = Sender(
         {"id": "exporter-frontend", "key": "a long, complicated secret", "algorithm": "sha256"},
         url,
