@@ -95,7 +95,7 @@ Feature: I want to indicate the open licence I want
     And I click on applications
     Then I see submitted application
 
-  @LT_1230_open_application_export_licence_media_type
+  @LT_1230_open_application_export_licence_media_type @regression
   Scenario: Submit open application for an export licence of the media type
     Given I go to exporter homepage and choose Test Org
     When I create an open application for an export licence of the "media" licence type
@@ -118,7 +118,7 @@ Feature: I want to indicate the open licence I want
     And I answer "No" for whether the products remain under my direct control
     And I enter the date "11", "05", "2027" when the products will return to the UK
     And I save and continue on the summary page
-    When I click on the "countries" section
+    And I click on the "countries" section
     Then I should see a list of all countries that have been preselected
     When I click the back link
     And I click on the "goods" section
