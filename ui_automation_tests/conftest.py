@@ -173,10 +173,10 @@ def enter_application_name(driver, context):  # noqa
     functions.click_submit(driver)
 
 
-@when(parsers.parse("I select dealer for open licence category"))  # noqa
-def select_open_licence_category(driver, context):  # noqa
+def choose_open_licence_category(driver, type_of_oiel, context):  # noqa
+    # Values allowed: cryptographic, media, military, uk_continental_shelf, dealer
     apply = ApplyForALicencePage(driver)
-    apply.select_dealer()
+    apply.select_open_licence_category(type_of_oiel)
 
 
 def enter_type_of_application(driver, _type, context):  # noqa
