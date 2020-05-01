@@ -174,7 +174,7 @@ def enter_application_name(driver, context):  # noqa
 
 
 @when(parsers.parse("I select dealer for open licence category"))  # noqa
-def select_open_licence_category(driver, context):
+def select_open_licence_category(driver, context):  # noqa
     apply = ApplyForALicencePage(driver)
     apply.select_dealer()
 
