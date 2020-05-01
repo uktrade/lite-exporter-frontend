@@ -6,7 +6,6 @@ from django.views.generic import TemplateView
 from applications.forms.countries import countries_form
 from applications.forms.locations import (
     which_location_form,
-    new_location_form,
     external_locations_form,
     add_external_location,
     Locations,

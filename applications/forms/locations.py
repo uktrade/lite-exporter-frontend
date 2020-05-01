@@ -1,5 +1,3 @@
-from django.urls import reverse_lazy
-
 from applications.components import back_to_task_list
 from conf.constants import HMRC, CaseTypes
 from core.services import get_countries, get_external_locations
@@ -15,7 +13,6 @@ from lite_forms.components import (
     Checkboxes,
     TextInput,
     FormGroup,
-    BackLink,
     HiddenField,
 )
 from lite_forms.helpers import conditional
