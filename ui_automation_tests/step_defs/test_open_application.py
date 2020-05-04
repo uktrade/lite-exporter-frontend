@@ -122,8 +122,8 @@ def create_open_app_of_specific_type(driver, licence_type, context):  # noqa
     ApplyForALicencePage(driver).select_licence_type("export_licence")
     functions.click_submit(driver)
     enter_type_of_application(driver, "oiel", context)
-    enter_application_name(driver, context)
     choose_open_licence_category(driver, licence_type, context)
+    enter_application_name(driver, context)
 
 
 @when("I remove a good type from the application")
