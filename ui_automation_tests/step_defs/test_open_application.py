@@ -111,9 +111,9 @@ def create_open_app(driver, export_type, context):  # noqa
     ApplyForALicencePage(driver).select_licence_type("export_licence")
     functions.click_submit(driver)
     enter_type_of_application(driver, "oiel", context)
-    enter_application_name(driver, context)
-    choose_open_licence_category(driver, "dealer", context)
+    choose_open_licence_category(driver, "military", context)
     enter_permanent_or_temporary(driver, export_type, context)
+    enter_application_name(driver, context)
 
 
 @when(parsers.parse('I create an open application for an export licence of the "{licence_type}" licence type'))  # noqa
