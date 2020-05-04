@@ -20,18 +20,20 @@ class GoodsTypeList(TemplateView):
     def get(self, request, **kwargs):
         application_id = str(kwargs["pk"])
         application = get_application(request, application_id)
-        goodstype_category = None
+        are_goods_noneditable = None
 
         if not application["goods_types"]:
             return redirect(reverse_lazy("applications:add_goods_type", kwargs={"pk": application_id}))
 
+        # UK continental shelf and military OIELs can modify goods
         if application.get("goodstype_category"):
             goodstype_category = application.get("goodstype_category").get("key")
+            are_goods_noneditable = goodstype_category in ["media", "cryptographic", "dealer"]
 
         context = {
             "application": application,
             "goods": application["goods_types"],
-            "goodstype_category": goodstype_category,
+            "are_goods_noneditable": are_goods_noneditable,
         }
         return render(request, "applications/goods-types/index.html", context)
 
