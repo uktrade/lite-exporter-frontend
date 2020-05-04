@@ -20,15 +20,16 @@ def goods_categories(application_id=None):
         title=applications.GoodsCategories.TITLE,
         description=applications.GoodsCategories.DESCRIPTION,
         questions=[
-            Checkboxes(
-                name="goods_categories[]",
+            RadioButtons(
+                name="contains_firearm_goods",
                 options=[
-                    Option(key="anti_piracy", value="Anti-piracy",),
-                    Option(key="maritime_anti_piracy", value="Maritime anti-piracy",),
-                    Option(key="firearms", value="Firearms",),
-                    Option(key="incorporated_goods", value="Incorporated goods",),
+                    Option(
+                        key="yes",
+                        value=strings.YES
+                    ),
+                    Option(key="no", value=strings.NO),
                 ],
-            )
+            ),
         ],
         back_link=back_to_task_list(application_id),
         default_button_name=conditional(application_id, generic.SAVE_AND_RETURN, generic.CONTINUE),
@@ -55,7 +56,7 @@ def told_by_an_official_form(application_id=None):
                             ),
                         ],
                     ),
-                    Option(key="no", value="No"),
+                    Option(key="no", value=strings.NO),
                 ],
             ),
         ],
