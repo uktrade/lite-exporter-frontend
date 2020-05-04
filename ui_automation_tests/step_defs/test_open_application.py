@@ -35,6 +35,13 @@ def i_see_the_goods_types_list(driver, context):
     assert len(goods_types) == 7
 
 
+@then(parsers.parse("I see a list of the preselected cryptographic products"))
+def i_see_the_goods_types_list_cryptographic_oiel(driver, context):
+    goods_type_page = OpenApplicationGoodsTypesPage(driver)
+    goods_types = goods_type_page.get_number_of_goods()
+    assert len(goods_types) == 4
+
+
 @then("I should see a list of countries")
 def i_should_see_a_list_of_countries(driver):
     application_countries_list = OpenApplicationCountriesPage(driver)
@@ -47,6 +54,21 @@ def i_should_see_a_list_of_countries(driver):
     application_countries_list = OpenApplicationCountriesPage(driver)
     page_countries = application_countries_list.get_static_destinations_list()
     assert len(page_countries) == 274
+
+
+@then("I should see a list of the countries permitted for a cryptographic OIEL")
+def i_should_see_a_list_of_countries_cryptographic_oiel(driver):
+    application_countries_list = OpenApplicationCountriesPage(driver)
+    page_countries = application_countries_list.get_static_destinations_list()
+    assert len(page_countries) == 214
+
+
+@then("I should see the UK Continental Shelf as the only permitted destination")
+def i_should_see_a_list_of_countries_uk_continental_shelf_oiel(driver):
+    application_countries_list = OpenApplicationCountriesPage(driver)
+    page_countries = application_countries_list.get_static_destinations_list()
+    assert len(page_countries) == 1
+    assert page_countries[0] == "UK Continental Shelf"
 
 
 @when(parsers.parse('I select "{country}" from the country list'))
@@ -123,6 +145,8 @@ def create_open_app_of_specific_type(driver, licence_type, context):  # noqa
     functions.click_submit(driver)
     enter_type_of_application(driver, "oiel", context)
     choose_open_licence_category(driver, licence_type, context)
+    if licence_type == "uk_continental_shelf":
+        enter_permanent_or_temporary(driver, "permanent", context)
     enter_application_name(driver, context)
 
 
