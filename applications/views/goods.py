@@ -1,3 +1,5 @@
+from http import HTTPStatus
+
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
@@ -10,14 +12,12 @@ from applications.helpers.check_your_answers import get_total_goods_value
 from applications.services import (
     get_application,
     get_application_goods,
-    get_application_goods_types,
     post_good_on_application,
     delete_application_preexisting_good,
     add_document_data,
 )
 from conf.constants import EXHIBITION
 from core.helpers import convert_dict_to_query_params
-
 from goods.forms import document_grading_form, attach_documents_form, add_good_form_group
 from goods.services import (
     get_goods,
@@ -28,15 +28,15 @@ from goods.services import (
     validate_good,
     post_good_with_pv_grading,
 )
-from lite_content.lite_exporter_frontend import strings
+from lite_forms.components import FiltersBar, TextInput
 from lite_forms.generators import error_page, form_page
 from lite_forms.views import SingleFormView, MultiFormView
 
 
-class DraftGoodsList(TemplateView):
+class ApplicationGoodsList(TemplateView):
     def get(self, request, **kwargs):
         """
-        List all goods relating to the draft
+        List all goods relating to the application
         """
         draft_id = str(kwargs["pk"])
         application = get_application(request, draft_id)
@@ -49,22 +49,30 @@ class DraftGoodsList(TemplateView):
         return render(request, "applications/goods/index.html", context)
 
 
-class GoodsList(TemplateView):
+class ExistingGoodsList(TemplateView):
     def get(self, request, **kwargs):
         """
-        List of existing goods  (add-preexisting)
+        List of existing goods (add-preexisting)
         """
         application_id = str(kwargs["pk"])
         application = get_application(request, application_id)
         description = request.GET.get("description", "").strip()
         part_number = request.GET.get("part_number", "").strip()
-        control_rating = request.GET.get("control_rating", "").strip()
+        control_list_entry = request.GET.get("control_list_entry", "").strip()
+
+        filters = FiltersBar(
+            [
+                TextInput(title="description", name="description"),
+                TextInput(title="control list entry", name="control_list_entry"),
+                TextInput(title="part number", name="part_number"),
+            ]
+        )
 
         params = {
             "page": int(request.GET.get("page", 1)),
             "description": description,
             "part_number": part_number,
-            "control_rating": control_rating,
+            "control_list_entry": control_list_entry,
             "for_application": "True",
         }
         goods_list = get_goods(request, **params)
@@ -74,11 +82,12 @@ class GoodsList(TemplateView):
             "data": goods_list,
             "description": description,
             "part_number": part_number,
-            "control_code": control_rating,
+            "control_list_entry": control_list_entry,
             "draft_id": application_id,
             "params": params,
             "page": params.pop("page"),
             "params_str": convert_dict_to_query_params(params),
+            "filters": filters,
         }
         return render(request, "applications/goods/preexisting.html", context)
 
@@ -142,25 +151,13 @@ class AttachDocument(TemplateView):
         if error:
             return error_page(request, error)
 
-        if "errors" in post_good_documents(request, good_id, data):
-            return error_page(request, strings.goods.AttachDocumentPage.UPLOAD_FAILURE_ERROR)
+        data, status_code = post_good_documents(request, good_id, data)
+        if status_code != HTTPStatus.CREATED:
+            return error_page(request, data["errors"]["file"])
 
         return redirect(
             reverse_lazy("applications:add_good_to_application", kwargs={"pk": draft_id, "good_pk": good_id})
         )
-
-
-class DraftOpenGoodsTypeList(TemplateView):
-    def get(self, request, **kwargs):
-        application_id = str(kwargs["pk"])
-        application = get_application(request, application_id)
-        goods = get_application_goods_types(request, application_id)
-
-        context = {
-            "goods": goods,
-            "application": application,
-        }
-        return render(request, "applications/goodstype/index.html", context)
 
 
 class AddGoodToApplication(SingleFormView):

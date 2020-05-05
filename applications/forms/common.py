@@ -1,8 +1,8 @@
+from django.urls import reverse_lazy
+
 from applications.forms.edit import told_by_an_official_form, reference_name_form
 from conf.constants import STANDARD
 from lite_content.lite_exporter_frontend import strings
-from django.urls import reverse_lazy
-
 from lite_content.lite_exporter_frontend.applications import ApplicationSuccessPage
 from lite_forms.components import (
     HiddenField,
@@ -232,7 +232,9 @@ def declaration_form(application_id):
                 title=strings.declaration.Declaration.RADIO_TITLE,
                 options=[
                     Option(
-                        "True", strings.declaration.Declaration.AGREE_TO_DECLARATION, test_id="agreed_to_declaration"
+                        "True",
+                        strings.declaration.Declaration.AGREE_TO_DECLARATION,
+                        data_attribute="agreed_to_declaration",
                     )
                 ],
                 classes=["govuk-checkboxes--small"],

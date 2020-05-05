@@ -9,7 +9,6 @@ from applications.services import (
     delete_goods_type,
     post_goods_type,
     put_goods_type_countries,
-    get_application_goods_types,
     get_application_countries,
     get_application,
 )
@@ -21,14 +20,18 @@ class GoodsTypeList(TemplateView):
     def get(self, request, **kwargs):
         application_id = str(kwargs["pk"])
         application = get_application(request, application_id)
-        goods = get_application_goods_types(request, application_id)
+        is_application_open_media = False
 
         if not application["goods_types"]:
             return redirect(reverse_lazy("applications:add_goods_type", kwargs={"pk": application_id}))
 
+        if application.get("goodstype_category"):
+            is_application_open_media = application.get("goodstype_category").get("key") == "media"
+
         context = {
-            "goods": goods,
             "application": application,
+            "goods": application["goods_types"],
+            "is_application_open_media": is_application_open_media,
         }
         return render(request, "applications/goods-types/index.html", context)
 
@@ -68,7 +71,7 @@ class GoodsTypeCountries(TemplateView):
     def dispatch(self, request, *args, **kwargs):
         self.application_id = str(kwargs["pk"])
         self.application = get_application(request, self.application_id)
-        self.goods = get_application_goods_types(request, self.application_id)
+        self.goods = self.application["goods_types"]
         self.countries = get_application_countries(request, self.application_id)
 
         # Prevent minor edits from accessing this page

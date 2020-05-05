@@ -8,6 +8,8 @@ Feature: I want to be able to edit MOD Licence Applications
   Scenario: Edit a Exhibition Clearance Application
     Given I go to exporter homepage and choose Test Org
     And I create a exhibition clearance application via api
+    # Ensure automation doesn't move application to non-editable state
+    And the status is set to "submitted"
     When I go to application previously created
     And I click edit application
     And I choose to make major edits
@@ -31,6 +33,8 @@ Feature: I want to be able to edit MOD Licence Applications
   Scenario: Edit an F680 Clearance Application
     Given I go to exporter homepage and choose Test Org
     And I create a F680 clearance application via api
+    # Ensure automation doesn't move application to non-editable state
+    And the status is set to "submitted"
     When I go to application previously created
     And I click edit application
     And I choose to make major edits
