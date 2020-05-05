@@ -9,6 +9,7 @@ def get_user(request, pk=None, params=None):
         url = USERS_URL + "me/"
     if params:
         from core.helpers import convert_dict_to_query_params
+
         url = url + "?" + convert_dict_to_query_params(params)
 
     return get(request, url).json()
