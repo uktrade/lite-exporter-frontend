@@ -91,16 +91,10 @@ def get_application_task_list(request, application, errors=None):
         context["route_of_goods"] = get_route_of_goods(application)
 
         if application.get("goodstype_category"):
+            oiel_noneditable_countries = ["media", "cryptographic", "dealer", "uk_continental_shelf"]
             goodstype_category = application.get("goodstype_category").get("key")
-            oiel_noneditable_goodstype_category = goodstype_category in ["media", "cryptographic", "dealer"]
-            context["oiel_noneditable_goodstype_category"] = oiel_noneditable_goodstype_category
             context["is_crypto_application"] = goodstype_category == "cryptographic"
-            context["oiel_noneditable_countries"] = goodstype_category in [
-                "media",
-                "cryptographic",
-                "dealer",
-                "uk_continental_shelf",
-            ]
+            context["oiel_noneditable_countries"] = goodstype_category in oiel_noneditable_countries
 
     if not application_type == OPEN:
         context["goods"] = get_application_goods(request, application["id"])
