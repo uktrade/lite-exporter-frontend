@@ -85,9 +85,14 @@ def get_application_task_list(request, application, errors=None):
         context["goodstypes"] = application["goods_types"]
         if _is_application_export_type_temporary(application):
             context["temporary_export_details"] = get_temporary_export_details(application)
-        if application.get("goods_types"):
-            destination_countries = [goods_type["countries"] for goods_type in application.get("goods_types")][0]
+        goods_types = application.get("goods_types")
+        if goods_types:
+            destination_countries = [goods_type["countries"] for goods_type in goods_types][0]
             context["destinations"] = set([destination["id"] for destination in destination_countries])
+            if application["goodstype_category"]["key"] == "military":
+                context["ultimate_end_users_required"] = True in [
+                    goods_type["is_good_incorporated"] for goods_type in goods_types
+                ]
         context["route_of_goods"] = get_route_of_goods(application)
 
     if not application_type == OPEN:
