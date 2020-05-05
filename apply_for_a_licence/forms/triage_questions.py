@@ -65,6 +65,7 @@ def opening_question():
 
 
 def export_licence_questions(application_type, goodstype_category=None):
+    should_display_firearms_question = application_type == CaseTypes.SIEL or goodstype_category in ["military", "uk_continental_shelf"]
     return FormGroup(
         [
             Form(
@@ -120,7 +121,8 @@ def export_licence_questions(application_type, goodstype_category=None):
                 ],
                 [],
             ),
-            *conditional(application_type == CaseTypes.SIEL, [goods_categories(), told_by_an_official_form()], []),
+            *conditional(should_display_firearms_question, [goods_categories()], []),
+            *conditional(application_type == CaseTypes.SIEL, [told_by_an_official_form()], [])
         ]
     )
 

@@ -125,13 +125,13 @@
 					</dd>
 				</div>
 			{% endif %}
-			{% if summary_page and application.case_type.sub_type.key == 'standard'%}
+			{% if summary_page %}
 				<div class="govuk-summary-list__row">
 					<dt class="govuk-summary-list__key">
 						{% lcs 'applications.ApplicationPage.Summary.GOODS_CATEGORIES' %}
 					</dt>
 					<dd class="govuk-summary-list__value">
-						{{ goods_categories.0|default_na }}
+						{{ contains_firearm_goods }}
 					</dd>
 				</div>
 				<div class="govuk-summary-list__row">

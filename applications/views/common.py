@@ -44,7 +44,7 @@ from applications.services import (
     copy_application,
     post_exhibition,
 )
-from conf.constants import HMRC, APPLICANT_EDITING, NotificationType, STANDARD
+from conf.constants import HMRC, APPLICANT_EDITING, NotificationType, STANDARD, OPEN
 from core.helpers import str_to_bool, convert_dict_to_query_params
 from core.services import get_organisation
 from lite_content.lite_exporter_frontend import strings
@@ -231,9 +231,9 @@ class ApplicationSummary(TemplateView):
         context["application_type"] = get_application_type_string(self.application)
         if self.application.sub_type != HMRC:
             context["notes"] = get_case_notes(request, self.case_id)["case_notes"]
-            if self.application.sub_type == STANDARD:
+            if self.application.sub_type == OPEN:
                 context["reference_code"] = get_reference_number_description(self.application)
-                context["goods_categories"] = _convert_goods_categories(self.application["goods_categories"])
+                context["contains_firearm_goods"] = self.application["contains_firearm_goods"]
 
         return render(request, "applications/application.html", context)
 
