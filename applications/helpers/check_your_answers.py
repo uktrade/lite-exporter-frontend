@@ -138,6 +138,15 @@ def _convert_open_application(application, editable=False):
         applications.ApplicationSummaryPage.SUPPORTING_DOCUMENTATION: _get_supporting_documentation(
             application["additional_documents"], application["id"]
         ),
+        **(
+            {
+                applications.ApplicationSummaryPage.THIRD_PARTIES: [
+                    convert_party(party, application, editable) for party in application["third_parties"]
+                ],
+            }
+            if is_application_oiel_cryptographic(application)
+            else {}
+        ),
     }
 
 
@@ -448,6 +457,14 @@ def has_incorporated_goods(application):
             return True
 
     return False
+
+
+def is_application_oiel_cryptographic(application):
+    return (
+        False
+        if not application.get("goodstype_category")
+        else (application.get("goodstype_category").get("key") == "cryptographic")
+    )
 
 
 def _convert_goods_categories(goods_categories):
