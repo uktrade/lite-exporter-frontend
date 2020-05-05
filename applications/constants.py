@@ -29,3 +29,8 @@ class F680:
         "expedited": "expedited_date",
         "locally_manufactured": "locally_manufactured_description",
     }
+
+
+class OielLicenceTypes:
+    NON_EDITABLE_GOODS = ["media", "cryptographic", "dealer"]
+    NON_EDITABLE_COUNTRIES = ["media", "cryptographic", "dealer", "uk_continental_shelf"]

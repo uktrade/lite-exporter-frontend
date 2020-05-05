@@ -3,6 +3,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
+from applications.constants import OielLicenceTypes
 from applications.forms.goods_types import goods_type_form
 from applications.helpers.get_application_edit_type import get_application_edit_type, ApplicationEditTypes
 from applications.services import (
@@ -28,7 +29,7 @@ class GoodsTypeList(TemplateView):
         # UK continental shelf and military OIELs can modify goods
         if application.get("goodstype_category"):
             goodstype_category = application.get("goodstype_category").get("key")
-            are_goods_noneditable = goodstype_category in ["media", "cryptographic", "dealer"]
+            are_goods_noneditable = goodstype_category in OielLicenceTypes.NON_EDITABLE_GOODS
 
         context = {
             "application": application,

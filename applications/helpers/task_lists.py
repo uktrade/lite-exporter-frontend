@@ -1,5 +1,6 @@
 from django.shortcuts import render
 
+from applications.constants import OielLicenceTypes
 from applications.helpers.check_your_answers import _is_application_export_type_temporary
 from applications.helpers.task_list_sections import (
     get_reference_number_description,
@@ -91,10 +92,9 @@ def get_application_task_list(request, application, errors=None):
         context["route_of_goods"] = get_route_of_goods(application)
 
         if application.get("goodstype_category"):
-            oiel_noneditable_countries = ["media", "cryptographic", "dealer", "uk_continental_shelf"]
             goodstype_category = application.get("goodstype_category").get("key")
             context["is_crypto_application"] = goodstype_category == "cryptographic"
-            context["oiel_noneditable_countries"] = goodstype_category in oiel_noneditable_countries
+            context["oiel_noneditable_countries"] = goodstype_category in OielLicenceTypes.NON_EDITABLE_COUNTRIES
 
     if not application_type == OPEN:
         context["goods"] = get_application_goods(request, application["id"])
