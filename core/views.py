@@ -168,7 +168,7 @@ class RegisterAnOrganisation(SummaryListFormView):
 
 class RegisterAnOrganisationConfirmation(TemplateView):
     def get(self, request, *args, **kwargs):
-        organisation = get_user(request)["organisations"][0]
+        organisation = get_user(request, params={"in_review": True})["organisations"][0]
         organisation_name = organisation["name"]
         organisation_status = organisation["status"]["key"]
 
