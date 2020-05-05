@@ -29,7 +29,7 @@ def i_see_the_goods_types_list(driver, position, context):
 
 
 @then(parsers.parse("I see a list of the preselected media products"))
-def i_see_the_goods_types_list(driver, context):
+def i_see_the_goods_types_list_media_oiel(driver, context):
     goods_type_page = OpenApplicationGoodsTypesPage(driver)
     goods_types = goods_type_page.get_number_of_goods()
     assert len(goods_types) == 7
