@@ -1,5 +1,5 @@
 from applications.components import back_to_task_list
-from conf.constants import HMRC, CaseTypes
+from conf.constants import HMRC, CaseTypes, LocationType
 from core.services import get_countries, get_external_locations
 from lite_content.lite_exporter_frontend import goods, strings, generic
 from lite_content.lite_exporter_frontend.goods import NewLocationForm, LocationTypeForm
@@ -104,7 +104,7 @@ def location_type_form(application_type=None, application_id=None):
                 classes=["govuk-radios--inline"],
             ),
         ],
-        default_button_name=strings.CONTINUE,
+        default_button_name=LocationTypeForm.CONTINUE,
     )
 
 
@@ -123,7 +123,7 @@ def new_location_form(application_type, location_type):
             TextArea(
                 name="address",
                 title=conditional(
-                    location_type == "sea_based",
+                    location_type == LocationType.SEA_BASED,
                     NewLocationForm.Address.SEA_BASED_TITLE,
                     NewLocationForm.Address.TITLE,
                 ),
@@ -131,13 +131,13 @@ def new_location_form(application_type, location_type):
                     application_type == CaseTypes.SITL,
                     NewLocationForm.Address.SITL_DESCRIPTION,
                     conditional(
-                        location_type == "sea_based",
+                        location_type == LocationType.SEA_BASED,
                         NewLocationForm.Address.SEA_BASED_DESCRIPTION,
                         NewLocationForm.Address.DESCRIPTION,
                     ),
                 ),
             ),
-            conditional(location_type != "sea_based", country_question(prefix="", countries=countries),),
+            conditional(location_type != LocationType.SEA_BASED, country_question(prefix="", countries=countries),),
         ],
         default_button_name=strings.SAVE_AND_CONTINUE,
     )

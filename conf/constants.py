@@ -149,3 +149,8 @@ APPLICATION_TYPE_STRINGS = {
     F680: applications.ApplicationPage.Summary.Licence.F680,
     EXHIBITION: applications.ApplicationPage.Summary.Licence.EXHIBITION,
 }
+
+
+class LocationType:
+    SEA_BASED = "sea_based"
+    LAND_BASED = "land_based"
