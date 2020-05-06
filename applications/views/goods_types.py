@@ -29,7 +29,7 @@ class GoodsTypeList(TemplateView):
         # UK continental shelf and military OIELs can modify goods
         if application.get("goodstype_category"):
             goodstype_category = application.get("goodstype_category").get("key")
-            are_goods_noneditable = goodstype_category in OielLicenceTypes.NON_EDITABLE_GOODS
+            are_goods_noneditable = OielLicenceTypes.is_non_editable_good(goodstype_category)
 
         context = {
             "application": application,
