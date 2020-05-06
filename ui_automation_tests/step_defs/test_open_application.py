@@ -60,7 +60,8 @@ def i_should_see_a_list_of_countries(driver):
 def i_should_see_a_list_of_countries_cryptographic_oiel(driver):
     application_countries_list = OpenApplicationCountriesPage(driver)
     page_countries = application_countries_list.get_static_destinations_list()
-    assert len(page_countries) == 214
+    assert len(page_countries) == 213
+    assert "United Kingdom" not in page_countries
 
 
 @then("I should see the UK Continental Shelf as the only permitted destination")
