@@ -126,14 +126,26 @@ def _convert_standard_application(application, editable=False, is_summary=False)
 def _convert_open_application(application, editable=False):
     return {
         applications.ApplicationSummaryPage.GOODS: _convert_goods_types(application["goods_types"]),
-        applications.ApplicationSummaryPage.END_USE_DETAILS: _get_end_use_details(application),
+        **(
+            {applications.ApplicationSummaryPage.END_USE_DETAILS: _get_end_use_details(application),}
+            if not is_application_oiel_cryptographic(application)
+            else {}
+        ),
         applications.ApplicationSummaryPage.ROUTE_OF_GOODS: _get_route_of_goods(application),
         **(
             {applications.ApplicationSummaryPage.TEMPORARY_EXPORT_DETAILS: _get_temporary_export_details(application),}
             if _is_application_export_type_temporary(application)
             else {}
         ),
-        applications.ApplicationSummaryPage.GOODS_LOCATIONS: _convert_goods_locations(application["goods_locations"]),
+        **(
+            {
+                applications.ApplicationSummaryPage.GOODS_LOCATIONS: _convert_goods_locations(
+                    application["goods_locations"]
+                ),
+            }
+            if not is_application_oiel_cryptographic(application)
+            else {}
+        ),
         applications.ApplicationSummaryPage.COUNTRIES: _convert_countries(application["destinations"]["data"]),
         applications.ApplicationSummaryPage.SUPPORTING_DOCUMENTATION: _get_supporting_documentation(
             application["additional_documents"], application["id"]
