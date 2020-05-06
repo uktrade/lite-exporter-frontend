@@ -15,7 +15,7 @@ def reference_name_form(application_id=None):
     )
 
 
-def goods_categories(application_id=None):
+def firearms_form(application_id=None):
     return Form(
         title=applications.GoodsCategories.TITLE,
         description=applications.GoodsCategories.DESCRIPTION,
@@ -24,10 +24,10 @@ def goods_categories(application_id=None):
                 name="contains_firearm_goods",
                 options=[
                     Option(
-                        key="yes",
+                        key="True",
                         value=strings.YES
                     ),
-                    Option(key="no", value=strings.NO),
+                    Option(key="False", value=strings.NO),
                 ],
             ),
         ],

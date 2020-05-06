@@ -127,12 +127,14 @@
 			{% endif %}
 			{% if summary_page %}
 				<div class="govuk-summary-list__row">
+					{% if answered_firearms_question %}
 					<dt class="govuk-summary-list__key">
 						{% lcs 'applications.ApplicationPage.Summary.GOODS_CATEGORIES' %}
 					</dt>
 					<dd class="govuk-summary-list__value">
-						{{ contains_firearm_goods }}
+						{{ application.contains_firearm_goods|friendly_boolean }}
 					</dd>
+					{% endif %}
 				</div>
 				<div class="govuk-summary-list__row">
 					<dt class="govuk-summary-list__key">

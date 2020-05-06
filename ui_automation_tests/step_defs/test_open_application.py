@@ -112,7 +112,7 @@ def create_open_app(driver, export_type, context):  # noqa
     functions.click_submit(driver)
     enter_type_of_application(driver, "oiel", context)
     enter_application_name(driver, context)
-    choose_open_licence_category(driver, "dealer", context)
+    choose_open_licence_category(driver, "military", context)
     enter_permanent_or_temporary(driver, export_type, context)
 
 

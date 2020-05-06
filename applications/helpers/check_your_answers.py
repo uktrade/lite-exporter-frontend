@@ -85,15 +85,6 @@ def _convert_gifting_clearance(application, editable=False):
 
 def _convert_standard_application(application, editable=False, is_summary=False):
     return {
-        **(
-            {
-                applications.ApplicationSummaryPage.GOODS_CATEGORIES: ", ".join(
-                    [x["value"] for x in application["goods_categories"]]
-                ),
-            }
-            if is_summary is False
-            else {}
-        ),
         applications.ApplicationSummaryPage.GOODS: _convert_goods(application["goods"]),
         applications.ApplicationSummaryPage.END_USE_DETAILS: _get_end_use_details(application),
         applications.ApplicationSummaryPage.ROUTE_OF_GOODS: _get_route_of_goods(application),
@@ -448,10 +439,6 @@ def has_incorporated_goods(application):
             return True
 
     return False
-
-
-def _convert_goods_categories(goods_categories):
-    return (", ".join([x["value"] for x in goods_categories]),)
 
 
 def get_application_type_string(application):
