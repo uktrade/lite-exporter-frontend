@@ -9,6 +9,7 @@ from conf.settings import env, DEBUG
 def get(request, appended_address):
     url = env("LITE_API_URL") + appended_address
 
+    # If a URL doesn't end with a slash and doesn't have URL parameter, add the trailing slash
     if not url.endswith("/") and "?" not in url:
         url = url + "/"
 
@@ -97,7 +98,7 @@ def _get_headers(request, sender: Sender):
 
 def _get_hawk_sender(url: str, method: str, content_type: str, content):
     return Sender(
-        {"id": "exporter-frontend", "key": env("HAWK_KEY"), "algorithm": "sha256"},
+        {"id": "exporter-frontend", "key": env("LITE_API_HAWK_KEY"), "algorithm": "sha256"},
         url,
         method,
         content=content,
