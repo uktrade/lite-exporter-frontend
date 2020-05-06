@@ -32,7 +32,11 @@ def post(request, appended_address, request_data):
 
     sender = _get_hawk_sender(url, "POST", "application/json", json.dumps(request_data))
 
-    return requests.post(url, json=request_data, headers=_get_headers(request, sender),)
+    response = requests.post(url, json=request_data, headers=_get_headers(request, sender),)
+
+    _verify_api_response(response, sender)
+
+    return response
 
 
 def put(request, appended_address: str, request_data):
@@ -43,7 +47,11 @@ def put(request, appended_address: str, request_data):
 
     sender = _get_hawk_sender(url, "PUT", "application/json", json.dumps(request_data))
 
-    return requests.put(url, json=request_data, headers=_get_headers(request, sender),)
+    response = requests.put(url, json=request_data, headers=_get_headers(request, sender),)
+
+    _verify_api_response(response, sender)
+
+    return response
 
 
 def patch(request, appended_address: str, request_data):
@@ -54,9 +62,13 @@ def patch(request, appended_address: str, request_data):
 
     sender = _get_hawk_sender(url, "PATCH", "application/json", json.dumps(request_data))
 
-    return requests.patch(
+    response = requests.patch(
         url=env("LITE_API_URL") + appended_address, json=request_data, headers=_get_headers(request, sender),
     )
+
+    _verify_api_response(response, sender)
+
+    return response
 
 
 def delete(request, appended_address):
@@ -67,7 +79,11 @@ def delete(request, appended_address):
 
     sender = _get_hawk_sender(url, "DELETE", "text/plain", {})
 
-    return requests.delete(url=env("LITE_API_URL") + appended_address, headers=_get_headers(request, sender),)
+    response = requests.delete(url=env("LITE_API_URL") + appended_address, headers=_get_headers(request, sender),)
+
+    _verify_api_response(response, sender)
+
+    return response
 
 
 def _get_headers(request, sender: Sender):
@@ -90,8 +106,7 @@ def _get_hawk_sender(url: str, method: str, content_type: str, content):
 
 
 def _verify_api_response(response, sender: Sender):
-    # TODO: Consider getting rid of this if stmt, assuming we expect all API responses to have this header
-    if not DEBUG and "server-authorization" in response.headers:
+    if not DEBUG:
         sender.accept_response(
             response.headers["server-authorization"],
             content=response.content,
