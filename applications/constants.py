@@ -1,3 +1,6 @@
+from enum import Enum
+
+
 class F680:
     FIELDS = [
         "expedited",
@@ -31,7 +34,7 @@ class F680:
     }
 
 
-class OielLicenceTypes:
+class OielLicenceTypes(Enum):
     MEDIA = "media"
     CRYPTOGRAPHIC = "cryptographic"
     DEALER = "dealer"
@@ -39,8 +42,17 @@ class OielLicenceTypes:
 
     @classmethod
     def is_non_editable_good(cls, value):
-        return value in [cls.MEDIA, cls.CRYPTOGRAPHIC, cls.DEALER]
+        return value in [
+            OielLicenceTypes.MEDIA.value,
+            OielLicenceTypes.CRYPTOGRAPHIC.value,
+            OielLicenceTypes.DEALER.value,
+        ]
 
     @classmethod
     def is_non_editable_country(cls, value):
-        return value in [cls.MEDIA, cls.CRYPTOGRAPHIC, cls.DEALER, cls.UK_CONTINENTAL_SHELF]
+        return value in [
+            OielLicenceTypes.MEDIA.value,
+            OielLicenceTypes.CRYPTOGRAPHIC.value,
+            OielLicenceTypes.DEALER.value,
+            OielLicenceTypes.UK_CONTINENTAL_SHELF.value,
+        ]
