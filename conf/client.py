@@ -1,7 +1,9 @@
+import json
+
 import requests
 from mohawk import Sender
 
-from conf.settings import env
+from conf.settings import env, DEBUG
 
 
 def get(request, appended_address):
@@ -22,37 +24,39 @@ def get(request, appended_address):
     return requests.get(url)
 
 
-def post(request, appended_address, json):
+def post(request, appended_address, request_data):
     if not appended_address.endswith("/"):
         appended_address = appended_address + "/"
 
     url = env("LITE_API_URL") + appended_address
 
-    sender = _get_hawk_sender(url, "POST", "application/json", json)
+    sender = _get_hawk_sender(url, "POST", "application/json", json.dumps(request_data))
 
-    return requests.post(url, json=json, headers=_get_headers(request, sender),)
+    return requests.post(url, json=request_data, headers=_get_headers(request, sender),)
 
 
-def put(request, appended_address: str, json):
+def put(request, appended_address: str, request_data):
     if not appended_address.endswith("/"):
         appended_address = appended_address + "/"
 
     url = env("LITE_API_URL") + appended_address
 
-    sender = _get_hawk_sender(url, "PUT", "application/json", json)
+    sender = _get_hawk_sender(url, "PUT", "application/json", json.dumps(request_data))
 
-    return requests.put(url, json=json, headers=_get_headers(request, sender),)
+    return requests.put(url, json=request_data, headers=_get_headers(request, sender),)
 
 
-def patch(request, appended_address: str, json):
+def patch(request, appended_address: str, request_data):
     if not appended_address.endswith("/"):
         appended_address = appended_address + "/"
 
     url = env("LITE_API_URL") + appended_address
 
-    sender = _get_hawk_sender(url, "PATCH", "application/json", json)
+    sender = _get_hawk_sender(url, "PATCH", "application/json", json.dumps(request_data))
 
-    return requests.patch(url=env("LITE_API_URL") + appended_address, json=json, headers=_get_headers(request, sender),)
+    return requests.patch(
+        url=env("LITE_API_URL") + appended_address, json=request_data, headers=_get_headers(request, sender),
+    )
 
 
 def delete(request, appended_address):
@@ -87,7 +91,7 @@ def _get_hawk_sender(url: str, method: str, content_type: str, content):
 
 def _verify_api_response(response, sender: Sender):
     # TODO: Consider getting rid of this if stmt, assuming we expect all API responses to have this header
-    if "server-authorization" in response.headers:
+    if not DEBUG and "server-authorization" in response.headers:
         sender.accept_response(
             response.headers["server-authorization"],
             content=response.content,
