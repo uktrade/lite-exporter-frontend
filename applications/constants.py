@@ -1,6 +1,3 @@
-from enum import Enum
-
-
 class F680:
     FIELDS = [
         "expedited",
