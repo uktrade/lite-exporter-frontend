@@ -34,7 +34,7 @@ class F680:
     }
 
 
-class OielLicenceTypes(Enum):
+class OielLicenceTypes:
     MEDIA = "media"
     CRYPTOGRAPHIC = "cryptographic"
     DEALER = "dealer"
