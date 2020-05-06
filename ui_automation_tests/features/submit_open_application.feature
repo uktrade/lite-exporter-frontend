@@ -131,3 +131,44 @@ Feature: I want to indicate the open licence I want
     When I go to exporter homepage
     And I click on applications
     Then I see submitted application
+
+  @LT_2147_open_application_export_licence_military_type @regression
+  Scenario: Submit open application for an export licence of the military type
+    Given I go to exporter homepage and choose Test Org
+    When I create an open application for an export licence of the "military" licence type
+    And I click on the "location" section
+    And I select "organisation" for where my goods are located
+    And I select the site at position "1"
+    And I click continue
+    And I click the back link
+    And I click on the "end_use_details" section
+    And I provide details of the intended end use of the products
+    And I answer "Yes" for informed by ECJU to apply
+    And I answer "No" for informed by ECJU about WMD use
+    And I answer "Yes" for suspected WMD use
+    And I save and continue on the summary page
+    And I click on the "route_of_goods" section
+    And I answer "Yes" for shipping air waybill or lading
+    And I click continue
+    Then I can see the sections "ultimate-end-users" are not on the task list
+    When I click on the "goods" section
+    And I add a goods type with description "Sniper" controlled "Yes" control code "ML1a" incorporated "Yes"
+    When I click the back link
+    When I click on the "countries" section
+    Then I should see a list of countries
+    When I click select all countries
+    And I click continue
+    Then I can see the sections "ultimate-end-users" are on the task list
+    When I click on the "ultimate-end-users" section
+    And I click on the add button
+    And I add a party of sub_type: "government", name: "Mr Smith", website: "https://www.smith.com", address: "London" and country "Ukraine"
+    When I upload a file "file_for_doc_upload_test_1.txt"
+    Then download link is present
+    When I click the back link
+    And I submit the application
+    And I click continue
+    And I agree to the declaration
+    Then application is submitted
+    When I go to exporter homepage
+    And I click on applications
+    Then I see submitted application
