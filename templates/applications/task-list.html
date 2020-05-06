@@ -204,10 +204,8 @@
 				{% endif %}
 
 				{% if application_type|application_type_in_list:"HAS_NOTES" %}
-					{% if not is_crypto_application %}
-						{% url 'applications:notes' application.id as notes_url %}
-						{% include "includes/task-list-item.html" with id="notes" title=strings.NOTES url=notes_url optional=True %}
-					{% endif %}
+					{% url 'applications:notes' application.id as notes_url %}
+					{% include "includes/task-list-item.html" with id="notes" title=strings.NOTES url=notes_url optional=True %}
 				{% endif %}
 
 				{% if can_submit %}
