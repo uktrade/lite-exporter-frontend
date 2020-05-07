@@ -6,6 +6,7 @@ from ui_automation_tests.shared import functions
 
 scenarios("../features/edit_trade_control_application.feature", strict_gherkin=False)
 
+
 @given("I create a trade control application via api")  # noqa
-def standard_application_exists(apply_for_trade_control_application):  # noqa
+def trade_control_application_exists(apply_for_trade_control_application):  # noqa
     pass

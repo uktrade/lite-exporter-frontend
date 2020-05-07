@@ -69,7 +69,11 @@ class SelectAddExternalLocation(SingleFormView):
     def get_success_url(self):
         choice = self.get_validated_data()["choice"]
         if choice == "new":
-            return reverse_lazy("applications:add_external_location", kwargs={"pk": self.object_pk}) + "?return_to_link=" + self.request.get_full_path()
+            return (
+                reverse_lazy("applications:add_external_location", kwargs={"pk": self.object_pk})
+                + "?return_to_link="
+                + self.request.get_full_path()
+            )
         else:
             return reverse_lazy("applications:add_preexisting_external_location", kwargs={"pk": self.object_pk})
 

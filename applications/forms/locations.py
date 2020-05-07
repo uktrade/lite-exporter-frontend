@@ -14,7 +14,8 @@ from lite_forms.components import (
     TextInput,
     FormGroup,
     HiddenField,
-    BackLink)
+    BackLink,
+)
 from lite_forms.helpers import conditional
 from organisation.sites.services import get_sites
 
@@ -105,7 +106,7 @@ def location_type_form(request, application_type=None, application_id=None):
             ),
         ],
         default_button_name=LocationTypeForm.CONTINUE,
-        back_link=BackLink(url=request.GET.get('return_to_link'))
+        back_link=BackLink(url=request.GET.get("return_to_link")),
     )
 
 
