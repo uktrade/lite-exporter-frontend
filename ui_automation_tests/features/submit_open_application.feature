@@ -202,7 +202,7 @@ Feature: I want to indicate the open licence I want
     And I click on the "route_of_goods" section
     And I answer "Yes" for shipping air waybill or lading
     And I click continue
-    Then I can see the sections "ultimate-end-users" are not on the task list
+    Then I cannot see the sections "ultimate-end-users"
     When I click on the "goods" section
     And I add a goods type with description "Sniper" controlled "Yes" control code "ML1a" incorporated "Yes"
     When I click the back link

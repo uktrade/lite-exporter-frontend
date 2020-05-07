@@ -704,7 +704,7 @@ def sections_appear_on_task_list(driver, sections):  # noqa
         assert TaskListPage(driver).get_section(section) is not None
 
 
-@then(parsers.parse('I can see the sections "{sections}" are not on the task list'))  # noqa
+@then(parsers.parse('I cannot see the sections "{sections}"'))  # noqa
 def sections_did_not_appear_on_task_list(driver, sections):  # noqa
     sections = sections.split(", ")
     for section in sections:
