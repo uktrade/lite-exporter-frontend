@@ -179,8 +179,8 @@ def create_standard_application(driver, export_type, context):  # noqa
     ApplyForALicencePage(driver).select_licence_type("export_licence")
     functions.click_submit(driver)
     enter_type_of_application(driver, "siel", context)
-    enter_permanent_or_temporary(driver, export_type, context)
     enter_application_name(driver, context)
+    enter_permanent_or_temporary(driver, export_type, context)
     apply = ApplyForALicencePage(driver)
     assert len(driver.find_elements_by_name(apply.CHECKBOXES_GOODS_CATEGORIES_NAME)) == 4
     apply.select_goods_categories()
@@ -241,11 +241,15 @@ def add_new_external_location(driver, name, address, country):  # noqa
     functions.click_submit(driver)
 
 
-@when(parsers.parse("I fill in new external location form with name, address and no country and continue"))  # noqa
+@when(  # noqa
+    parsers.parse(
+        'I fill in new external location form with name: "{name}", address: "{address}" and no country and continue'
+    )
+)
 def add_new_external_location_without_country(driver, name, address):  # noqa
     add_new_external_location_form_page = AddNewExternalLocationFormPage(driver)
-    add_new_external_location_form_page.enter_external_location_name(fake.name())
-    add_new_external_location_form_page.enter_external_location_address(fake.street_address())
+    add_new_external_location_form_page.enter_external_location_name(name)
+    add_new_external_location_form_page.enter_external_location_address(address)
     functions.click_submit(driver)
 
 
@@ -256,6 +260,7 @@ def create_standard_individual_transhipment_application(driver, context):  # noq
     functions.click_submit(driver)
     enter_type_of_application(driver, "sitl", context)
     enter_application_name(driver, context)
+    enter_permanent_or_temporary(driver, "permanent", context)
     ApplyForALicencePage(driver).select_goods_categories()
     functions.click_submit(driver)
     enter_export_licence(driver, "yes", "123456", context)

@@ -230,7 +230,7 @@ Feature: I want to indicate the standard licence I want
     And I select "external" for where my goods are located
     And I select "new" for whether or not I want a new or existing location to be added
     And I select a location type of "sea_based"
-    And I fill in new external location form with name, address and no country and continue
+    And I fill in new external location form with name: "32 Lime Street", address: "London" and no country and continue
     And I click on add new address
     And I select a location type of "land_based"
     And I fill in new external location form with name: "32 Lime Street", address: "London" and country: "Ukraine" and continue
