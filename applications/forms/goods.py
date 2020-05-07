@@ -41,7 +41,7 @@ def good_on_application_form(request, good, sub_case_type, application_id):
             description=AddGoodToApplicationForm.DESCRIPTION,
             questions=[
                 good_summary(good),
-                HiddenField(name="good_id", value=good_id),
+                HiddenField(name="good_id", value=good.get("id")),
                 Select(
                     title=AddGoodToApplicationForm.Units.TITLE,
                     description="<noscript>" + AddGoodToApplicationForm.Units.DESCRIPTION + "</noscript>",
