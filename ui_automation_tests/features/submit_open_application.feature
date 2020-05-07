@@ -48,7 +48,7 @@ Feature: I want to indicate the open licence I want
     Then I see submitted application
 
   @LT_1758_open_temporary_application_with_temporary_export_details @regression
-  Scenario: Submit open application
+  Scenario: Submit temporary open application
     Given I go to exporter homepage and choose Test Org
     When I create an open application of a "temporary" export type
     And I click on the "location" section
