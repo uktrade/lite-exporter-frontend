@@ -3,7 +3,7 @@ import json
 import requests
 from mohawk import Sender
 
-from conf.settings import env, DEBUG
+from conf.settings import env
 
 
 def get(request, appended_address):
@@ -16,7 +16,7 @@ def get(request, appended_address):
     sender = _get_hawk_sender(url, "GET", "text/plain", {})
 
     if request:
-        response = requests.get(url, headers=_get_headers(request, sender),)
+        response = requests.get(url, headers=_get_headers(request, sender))
 
         _verify_api_response(response, sender)
 
@@ -33,7 +33,7 @@ def post(request, appended_address, request_data):
 
     sender = _get_hawk_sender(url, "POST", "application/json", json.dumps(request_data))
 
-    response = requests.post(url, json=request_data, headers=_get_headers(request, sender),)
+    response = requests.post(url, json=request_data, headers=_get_headers(request, sender))
 
     _verify_api_response(response, sender)
 
@@ -48,7 +48,7 @@ def put(request, appended_address: str, request_data):
 
     sender = _get_hawk_sender(url, "PUT", "application/json", json.dumps(request_data))
 
-    response = requests.put(url, json=request_data, headers=_get_headers(request, sender),)
+    response = requests.put(url, json=request_data, headers=_get_headers(request, sender))
 
     _verify_api_response(response, sender)
 
@@ -80,7 +80,7 @@ def delete(request, appended_address):
 
     sender = _get_hawk_sender(url, "DELETE", "text/plain", {})
 
-    response = requests.delete(url=env("LITE_API_URL") + appended_address, headers=_get_headers(request, sender),)
+    response = requests.delete(url=env("LITE_API_URL") + appended_address, headers=_get_headers(request, sender))
 
     _verify_api_response(response, sender)
 
@@ -107,9 +107,8 @@ def _get_hawk_sender(url: str, method: str, content_type: str, content):
 
 
 def _verify_api_response(response, sender: Sender):
-    if not DEBUG:
-        sender.accept_response(
-            response.headers["server-authorization"],
-            content=response.content,
-            content_type=response.headers["Content-Type"],
-        )
+    sender.accept_response(
+        response.headers["server-authorization"],
+        content=response.content,
+        content_type=response.headers["Content-Type"],
+    )
