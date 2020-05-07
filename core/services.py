@@ -82,8 +82,13 @@ def post_sites_on_draft(request, pk, json):
 def get_external_locations(request, pk, convert_to_options=False, exclude: list = None, application_type: str = None):
     data = get(
         request,
-        ORGANISATIONS_URL + str(pk) + EXTERNAL_LOCATIONS_URL + "?" + convert_value_to_query_param("exclude", exclude) + "&" +
-        convert_value_to_query_param("application_type", application_type),
+        ORGANISATIONS_URL
+        + str(pk)
+        + EXTERNAL_LOCATIONS_URL
+        + "?"
+        + convert_value_to_query_param("exclude", exclude)
+        + "&"
+        + convert_value_to_query_param("application_type", application_type),
     )
 
     if convert_to_options:
