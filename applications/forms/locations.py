@@ -1,5 +1,3 @@
-from django.urls import reverse_lazy
-
 from applications.components import back_to_task_list
 from conf.constants import HMRC, CaseTypes, LocationType
 from core.services import get_countries, get_external_locations
