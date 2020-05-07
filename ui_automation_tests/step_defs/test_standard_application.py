@@ -243,13 +243,13 @@ def add_new_external_location(driver, name, address, country):  # noqa
 
 @when(  # noqa
     parsers.parse(
-        'I fill in new external location form with name: "{name}", address: "{address}" and no country and continue'
+        'I fill in new external location form with name, address and no country and continue'
     )
 )
 def add_new_external_location_without_country(driver, name, address):  # noqa
     add_new_external_location_form_page = AddNewExternalLocationFormPage(driver)
-    add_new_external_location_form_page.enter_external_location_name(name)
-    add_new_external_location_form_page.enter_external_location_address(address)
+    add_new_external_location_form_page.enter_external_location_name(fake.name())
+    add_new_external_location_form_page.enter_external_location_address(fake.street_address())
     functions.click_submit(driver)
 
 
