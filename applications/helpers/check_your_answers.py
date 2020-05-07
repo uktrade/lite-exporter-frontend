@@ -84,7 +84,12 @@ def _convert_gifting_clearance(application, editable=False):
 
 
 def _convert_standard_application(application, editable=False, is_summary=False):
-    return {
+    converted_app = {
+        **(
+            {applications.ApplicationSummaryPage.GOODS_CATEGORIES: _get_goods_categories(application), }
+            if application.case_type['reference']['key'] in ['siel', 'sitl']
+            else {}
+        ),
         applications.ApplicationSummaryPage.GOODS: _convert_goods(application["goods"]),
         applications.ApplicationSummaryPage.END_USE_DETAILS: _get_end_use_details(application),
         applications.ApplicationSummaryPage.ROUTE_OF_GOODS: _get_route_of_goods(application),
@@ -113,9 +118,19 @@ def _convert_standard_application(application, editable=False, is_summary=False)
         ),
     }
 
+    if application.case_type['reference']['key'] in ['siel', 'sitl']:
+        converted_app[applications.ApplicationSummaryPage.GOODS_CATEGORIES] = _get_goods_categories(application)
+
+    return converted_app
+
 
 def _convert_open_application(application, editable=False):
     return {
+        **(
+            {applications.ApplicationSummaryPage.GOODS_CATEGORIES: _get_goods_categories(application), }
+            if application.case_type['reference']['key'] == 'oiel' and application.goodstype_category['key'] in ['military','uk_continental_shelf']
+            else {}
+        ),
         applications.ApplicationSummaryPage.GOODS: _convert_goods_types(application["goods_types"]),
         **(
             {applications.ApplicationSummaryPage.END_USE_DETAILS: _get_end_use_details(application),}
@@ -233,6 +248,15 @@ def _get_route_of_goods(application):
             "Answer": friendly_boolean(application.get("is_shipped_waybill_or_lading"))
             + NEWLINE
             + (application.get("non_waybill_or_lading_route_details") or ""),
+        }
+    ]
+
+
+def _get_goods_categories(application):
+    return [
+        {
+            "Description": "Contains firearm products",
+            "Answer": friendly_boolean(application.get("contains_firearm_goods"))
         }
     ]
 

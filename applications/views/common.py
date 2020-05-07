@@ -230,9 +230,8 @@ class ApplicationSummary(TemplateView):
         context["application_type"] = get_application_type_string(self.application)
         if self.application.sub_type != HMRC:
             context["notes"] = get_case_notes(request, self.case_id)["case_notes"]
-            if self.application.sub_type == STANDARD or (self.application.sub_type == OPEN and self.application.goodstype_category in ["military", "uk_continental_self"]):
+            if self.application.sub_type == STANDARD:
                 context["reference_code"] = get_reference_number_description(self.application)
-                context["answered_firearms_question"] = True
 
 
         return render(request, "applications/application.html", context)
