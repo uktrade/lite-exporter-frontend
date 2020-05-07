@@ -32,9 +32,9 @@ def exhibition_good_on_application_form(request, good_id, application_id):
     )
 
 
-def good_on_application_form(request, good_id, sub_case_type, application_id):
+def good_on_application_form(request, good, sub_case_type, application_id):
     if sub_case_type["key"] == EXHIBITION:
-        return exhibition_good_on_application_form(request, good_id, application_id)
+        return exhibition_good_on_application_form(request, good.get("id"), application_id)
     else:
         return Form(
             title=AddGoodToApplicationForm.TITLE,
