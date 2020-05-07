@@ -178,8 +178,8 @@ def create_standard_application(driver, export_type, context):  # noqa
     ApplyForALicencePage(driver).select_licence_type("export_licence")
     functions.click_submit(driver)
     enter_type_of_application(driver, "siel", context)
-    enter_application_name(driver, context)
     enter_permanent_or_temporary(driver, export_type, context)
+    enter_application_name(driver, context)
     answer_firearms_question(driver)
     enter_export_licence(driver, "yes", "123456", context)
 

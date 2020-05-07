@@ -66,6 +66,7 @@ def opening_question():
 
 def export_licence_questions(application_type, goodstype_category=None):
     should_display_firearms_question = application_type == CaseTypes.SIEL or goodstype_category in ["military", "uk_continental_shelf"]
+
     return FormGroup(
         [
             Form(
@@ -97,10 +98,9 @@ def export_licence_questions(application_type, goodstype_category=None):
                     ExportLicenceQuestions.ExportLicenceQuestion.BACK, reverse_lazy("apply_for_a_licence:start")
                 ),
             ),
-            reference_name_form(),
             *conditional(application_type == CaseTypes.OIEL, [goodstype_category_form()], []),
             *conditional(
-                goodstype_category != "media",
+                goodstype_category not in ["media", "cryptographic"],
                 [
                     Form(
                         title=ExportLicenceQuestions.ExportType.TITLE,
@@ -121,8 +121,9 @@ def export_licence_questions(application_type, goodstype_category=None):
                 ],
                 [],
             ),
+            reference_name_form(),
+            *conditional(application_type == CaseTypes.SIEL, [told_by_an_official_form()], []),
             *conditional(should_display_firearms_question, [firearms_form()], []),
-            *conditional(application_type == CaseTypes.SIEL, [told_by_an_official_form()], [])
         ]
     )
 
