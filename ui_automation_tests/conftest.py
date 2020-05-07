@@ -87,7 +87,7 @@ def pytest_addoption(parser):
             "--exporter_url", action="store", default=f"http://localhost:{str(os.environ.get('PORT'))}/", help="url"
         )
 
-        lite_api_url = os.environ.get("LOCAL_LITE_API_URL", os.environ.get("LITE_API_URL"),)
+        lite_api_url = os.environ.get("LOCAL_LITE_API_URL", os.environ.get("LITE_API_URL"), )
 
         parser.addoption(
             "--lite_api_url", action="store", default=lite_api_url, help="url",
@@ -564,9 +564,19 @@ def i_remove_a_good_from_the_application(driver):  # noqa
     StandardApplicationGoodsPage(driver).get_remove_good_link().click()
 
 
+@when("I remove a location from the application")
+def i_remove_a_location_from_the_application(driver):  # noqa
+    StandardApplicationGoodsPage(driver).get_remove_location_link().click()
+
+
 @then("the good has been removed from the application")
 def no_goods_are_left_on_the_application(driver):  # noqa
     assert not StandardApplicationGoodsPage(driver).goods_exist_on_the_application()
+
+
+@then("the location has been removed from the application")
+def no_locations_are_left_on_the_application(driver):  # noqa
+    assert not StandardApplicationGoodsPage(driver).locations_exist_on_the_application()
 
 
 @when("I remove the end user off the application")
@@ -707,3 +717,13 @@ def sections_appear_on_task_list(driver, sections):  # noqa
 @given(parsers.parse('the status is set to "{status}"'))  # noqa
 def set_status(api_test_client, context, status):  # noqa
     api_test_client.applications.set_status(context.app_id, status)
+
+
+@then("I see my edited reference number")
+def assert_ref_num(driver):  # noqa
+    assert "12345678" in driver.find_element_by_css_selector(".lite-task-list").text
+
+
+@when("I change my reference number")
+def change_ref_num(driver, context):  # noqa
+    enter_export_licence(driver, "yes", "12345678", context)

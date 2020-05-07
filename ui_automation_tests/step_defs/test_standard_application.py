@@ -253,16 +253,6 @@ def add_new_external_location_without_country(driver, name, address):  # noqa
     functions.click_submit(driver)
 
 
-@then("I see my edited reference number")
-def assert_ref_num(driver):  # noqa
-    assert "12345678" in driver.find_element_by_css_selector(".lite-task-list").text
-
-
-@when("I change my reference number")
-def change_ref_num(driver, context):  # noqa
-    enter_export_licence(driver, "yes", "12345678", context)
-
-
 @when("I create a standard individual transhipment application")  # noqa
 def create_standard_individual_transhipment_application(driver, context):  # noqa
     ExporterHubPage(driver).click_apply_for_a_licence()

@@ -14,7 +14,7 @@ from lite_forms.components import (
     TextInput,
     FormGroup,
     HiddenField,
-)
+    BackLink)
 from lite_forms.helpers import conditional
 from organisation.sites.services import get_sites
 
@@ -76,19 +76,19 @@ def add_external_location():
     )
 
 
-def new_external_location_form(application_type=None, location_type=None, application_id=None):
+def new_external_location_form(request, application_type=None, location_type=None, application_id=None):
     return FormGroup(
         forms=[
             conditional(
                 (application_type in [CaseTypes.SICL, CaseTypes.OICL]),
-                location_type_form(application_type, application_id),
+                location_type_form(request, application_type, application_id),
             ),
             new_location_form(application_type, location_type),
         ]
     )
 
 
-def location_type_form(application_type=None, application_id=None):
+def location_type_form(request, application_type=None, application_id=None):
     return Form(
         title=LocationTypeForm.TITLE,
         description=LocationTypeForm.DESCRIPTION,
@@ -105,6 +105,7 @@ def location_type_form(application_type=None, application_id=None):
             ),
         ],
         default_button_name=LocationTypeForm.CONTINUE,
+        back_link=BackLink(url=request.GET.get('return_to_link'))
     )
 
 
