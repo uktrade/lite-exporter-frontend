@@ -164,7 +164,7 @@ class AddGoodToApplication(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
         application = get_application(self.request, self.object_pk)
-        good = get_good(request, kwargs["good_pk"])
+        good, _ = get_good(request, kwargs["good_pk"])
         self.form = good_on_application_form(request, good, application["case_type"]["sub_type"], self.object_pk)
         self.action = post_good_on_application
         self.success_url = reverse_lazy("applications:goods", kwargs={"pk": self.object_pk})
