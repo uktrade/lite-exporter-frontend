@@ -53,6 +53,6 @@ class StandardApplicationGoodsPage(BasePage):
 
     def find_remove_location_link(self):
         try:
-            return self.driver.find_element_id(self.REMOVE_LOCATION_LINK)
+            return self.driver.find_element_by_id(self.REMOVE_LOCATION_LINK)
         except NoSuchElementException:
             return None

@@ -87,7 +87,7 @@ def pytest_addoption(parser):
             "--exporter_url", action="store", default=f"http://localhost:{str(os.environ.get('PORT'))}/", help="url"
         )
 
-        lite_api_url = os.environ.get("LOCAL_LITE_API_URL", os.environ.get("LITE_API_URL"), )
+        lite_api_url = os.environ.get("LOCAL_LITE_API_URL", os.environ.get("LITE_API_URL"),)
 
         parser.addoption(
             "--lite_api_url", action="store", default=lite_api_url, help="url",
