@@ -155,10 +155,11 @@ class RegisterAnOrganisation(SummaryListFormView):
     def get_success_url(self):
         # Update the signed in user's details so they can make validated API calls
         response, _ = authenticate_exporter_user(
+            self.request,
             {
                 "email": self.request.user.email,
                 "user_profile": {"first_name": self.request.user.first_name, "last_name": self.request.user.last_name},
-            }
+            },
         )
         self.request.user.user_token = response["token"]
         self.request.user.lite_api_user_id = response["lite_api_user_id"]

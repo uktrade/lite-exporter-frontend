@@ -64,7 +64,7 @@ class AuthCallbackView(View):
 
         profile = get_profile(get_client(self.request))
 
-        response, status_code = authenticate_exporter_user(profile)
+        response, status_code = authenticate_exporter_user(request, profile)
         user = authenticate(request)
         bypass = False
         if status_code == 200:

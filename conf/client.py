@@ -1,6 +1,7 @@
 import json
 
 import requests
+from django.contrib.auth.models import AnonymousUser
 from mohawk import Sender
 
 from conf.settings import env
@@ -88,12 +89,16 @@ def delete(request, appended_address):
 
 
 def _get_headers(request, sender: Sender):
-    return {
-        "EXPORTER-USER-TOKEN": str(request.user.user_token),
+    headers = {
         "X-Correlation-Id": str(request.correlation),
-        "ORGANISATION-ID": str(request.user.organisation),
         "Authorization": sender.request_header,
     }
+
+    if not isinstance(request.user, AnonymousUser):
+        headers["EXPORTER-USER-TOKEN"] = str(request.user.user_token)
+        headers["ORGANISATION-ID"] = str(request.user.organisation)
+
+    return headers
 
 
 def _get_hawk_sender(url: str, method: str, content_type: str, content):
