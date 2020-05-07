@@ -157,7 +157,7 @@ def external_locations_form(request, application_type):
             Filter(),
             Checkboxes(
                 name="external_locations[]",
-                options=get_external_locations(request, str(request.user.organisation), True, exclude),
+                options=get_external_locations(request, str(request.user.organisation), True, exclude, application_type),
             ),
         ],
         javascript_imports=["/assets/javascripts/filter-checkbox-list.js"],
