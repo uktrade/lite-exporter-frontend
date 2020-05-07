@@ -87,7 +87,7 @@ def pytest_addoption(parser):
             "--exporter_url", action="store", default=f"http://localhost:{str(os.environ.get('PORT'))}/", help="url"
         )
 
-        lite_api_url = os.environ.get("LOCAL_LITE_API_URL", os.environ.get("LITE_API_URL"),)
+        lite_api_url = os.environ.get("LOCAL_LITE_API_URL", os.environ.get("LITE_API_URL"), )
 
         parser.addoption(
             "--lite_api_url", action="store", default=lite_api_url, help="url",
@@ -576,7 +576,7 @@ def no_goods_are_left_on_the_application(driver):  # noqa
 
 @then("the location has been removed from the application")
 def no_locations_are_left_on_the_application(driver):  # noqa
-    assert not StandardApplicationGoodsPage(driver).locations_exist_on_the_application()
+    assert not StandardApplicationGoodsPage(driver).find_remove_location_link()
 
 
 @when("I remove the end user off the application")

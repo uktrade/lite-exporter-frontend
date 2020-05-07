@@ -53,7 +53,7 @@ class EditGoodsLocation(SingleFormView):
     def get_success_url(self):
         choice = self.get_validated_data()["choice"]
         if choice == Locations.EXTERNAL:
-            return reverse_lazy("applications:select_add_external_location", kwargs={"pk": self.object_pk})
+            return reverse_lazy("applications:select_add_external_location", kwargs={"pk": self.object_pk}) + "?return_to_link=" + self.request.get_full_path()
         elif choice == Locations.ORGANISATION:
             return reverse_lazy("applications:existing_sites", kwargs={"pk": self.object_pk})
         elif choice == Locations.DEPARTED:
@@ -63,7 +63,7 @@ class EditGoodsLocation(SingleFormView):
 class SelectAddExternalLocation(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
-        self.form = add_external_location()
+        self.form = add_external_location(request)
         self.action = validate_external_location_choice
 
     def get_success_url(self):

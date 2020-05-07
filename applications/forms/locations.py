@@ -1,3 +1,5 @@
+from django.urls import reverse_lazy
+
 from applications.components import back_to_task_list
 from conf.constants import HMRC, CaseTypes, LocationType
 from core.services import get_countries, get_external_locations
@@ -61,7 +63,7 @@ def which_location_form(application_id, application_type):
     )
 
 
-def add_external_location():
+def add_external_location(request):
     return Form(
         title=goods.GoodsLocationForm.EXTERNAL_LOCATION_TITLE,
         questions=[
@@ -74,6 +76,7 @@ def add_external_location():
             )
         ],
         default_button_name=strings.CONTINUE,
+        back_link=BackLink(url=request.GET.get("return_to_link")),
     )
 
 

@@ -51,5 +51,8 @@ class StandardApplicationGoodsPage(BasePage):
     def goods_exist_on_the_application(self):
         return functions.element_with_css_selector_exists(self.driver, self.REMOVE_GOOD_LINK)
 
-    def locations_exist_on_the_application(self):
-        return functions.element_with_id_exists(self.driver, self.REMOVE_LOCATION_LINK)
+    def find_remove_location_link(self):
+        try:
+            return self.driver.find_element_id(self.REMOVE_LOCATION_LINK)
+        except NoSuchElementException:
+            return None
