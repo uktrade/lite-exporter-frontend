@@ -179,8 +179,8 @@ def create_standard_application(driver, export_type, context):  # noqa
     ApplyForALicencePage(driver).select_licence_type("export_licence")
     functions.click_submit(driver)
     enter_type_of_application(driver, "siel", context)
-    enter_application_name(driver, context)
     enter_permanent_or_temporary(driver, export_type, context)
+    enter_application_name(driver, context)
     apply = ApplyForALicencePage(driver)
     assert len(driver.find_elements_by_name(apply.CHECKBOXES_GOODS_CATEGORIES_NAME)) == 4
     apply.select_goods_categories()
@@ -271,9 +271,7 @@ def create_standard_individual_trade_control_application(driver, context):  # no
     apply_for_licence_page = ApplyForALicencePage(driver)
     apply_for_licence_page.select_licence_type("trade_control_licence")
     functions.click_submit(driver)
-
     enter_type_of_application(driver, "sicl", context)
     enter_application_name(driver, context)
-
     apply_for_licence_page.select_trade_control_activity()
     apply_for_licence_page.select_trade_control_product_category()
