@@ -249,10 +249,8 @@ def create_standard_individual_transhipment_application(driver, context):  # noq
     functions.click_submit(driver)
     enter_type_of_application(driver, "sitl", context)
     enter_application_name(driver, context)
-    enter_permanent_or_temporary(driver, "permanent", context)
-    answer_firearms_question(driver)
     enter_export_licence(driver, "yes", "123456", context)
-    functions.click_submit(driver)
+    answer_firearms_question(driver)
 
 
 @when("I create a standard individual trade control draft application")  # noqa
