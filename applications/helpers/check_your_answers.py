@@ -15,6 +15,7 @@ from conf.constants import (
     PERMANENT,
     CaseTypes,
     APPLICATION_TYPE_STRINGS,
+    GoodsTypeCategory,
 )
 from core.builtins.custom_tags import default_na, friendly_boolean, pluralise_unit, date_display, get_address
 from core.helpers import convert_to_link, convert_control_list_entries
@@ -153,7 +154,8 @@ def _convert_open_application(application, editable=False):
                     convert_party(party, application, editable) for party in application["ultimate_end_users"]
                 ],
             }
-            if has_incorporated_goods_types(application) and application["goodstype_category"]["key"] == "military"
+            if has_incorporated_goods_types(application)
+            and application["goodstype_category"]["key"] == GoodsTypeCategory.MILITARY
             else {}
         ),
         applications.ApplicationSummaryPage.SUPPORTING_DOCUMENTATION: _get_supporting_documentation(

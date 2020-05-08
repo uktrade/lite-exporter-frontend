@@ -14,15 +14,7 @@ from applications.services import (
     get_application_goods,
     get_additional_documents,
 )
-from conf.constants import (
-    HMRC,
-    OPEN,
-    STANDARD,
-    EXHIBITION,
-    F680,
-    GIFTING,
-    Permissions,
-)
+from conf.constants import HMRC, OPEN, STANDARD, EXHIBITION, F680, GIFTING, Permissions, GoodsTypeCategory
 from core.services import get_sites_on_draft, get_external_locations_on_draft
 from lite_content.lite_exporter_frontend.strings import applications
 from organisation.roles.services import get_user_permissions
@@ -90,7 +82,7 @@ def get_application_task_list(request, application, errors=None):
         if goods_types:
             destination_countries = [goods_type["countries"] for goods_type in goods_types][0]
             context["destinations"] = set([destination["id"] for destination in destination_countries])
-            if application["goodstype_category"]["key"] == "military":
+            if application["goodstype_category"]["key"] == GoodsTypeCategory.MILITARY:
                 context["ultimate_end_users_required"] = True in [
                     goods_type["is_good_incorporated"] for goods_type in goods_types
                 ]
