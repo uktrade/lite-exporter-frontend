@@ -3,7 +3,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
-from applications.forms.countries import countries_form
+from applications.forms.countries import countries_form, contract_type_form, contract_type_per_country_form
 from applications.forms.locations import (
     which_location_form,
     new_location_form,
@@ -12,8 +12,17 @@ from applications.forms.locations import (
     Locations,
     sites_form,
 )
-from applications.helpers.validators import validate_external_location_choice, validate_and_update_goods_location_choice
-from applications.services import get_application, get_application_countries, post_application_countries
+from applications.helpers.validators import (
+    validate_external_location_choice,
+    validate_and_update_goods_location_choice,
+    validate_contract_type_countries_choice,
+)
+from applications.services import (
+    get_application,
+    get_application_countries,
+    post_application_countries,
+    post_contract_type_for_country,
+)
 from core.services import (
     get_sites_on_draft,
     post_sites_on_draft,
@@ -21,6 +30,7 @@ from core.services import (
     get_external_locations_on_draft,
     post_external_locations_on_draft,
     delete_external_locations_from_draft,
+    get_country,
 )
 from lite_forms.views import SingleFormView
 
@@ -122,7 +132,56 @@ class Countries(SingleFormView):
         self.data = {"countries": get_application_countries(request, self.object_pk)}
         self.form = countries_form(self.object_pk)
         self.action = post_application_countries
-        self.success_url = reverse_lazy("applications:task_list", kwargs={"pk": self.object_pk})
+        self.success_url = reverse_lazy("applications:contract_types", kwargs={"pk": self.object_pk})
+
+
+class ContractTypes(SingleFormView):
+    def init(self, request, **kwargs):
+        self.object_pk = kwargs["pk"]
+        self.form = contract_type_form(self.object_pk)
+        self.action = validate_contract_type_countries_choice
+        # application = get_application(request, self.object_pk)
+
+    def get_success_url(self):
+        selected_countries = get_application_countries(self.request, self.object_pk)
+
+        choice = self.get_validated_data()["choice"]
+        if choice == "all":
+            # TODO for all countries at once
+            return reverse_lazy("applications:select_contract_country", kwargs={"pk": self.object_pk, "country": "all"})
+        else:
+            return reverse_lazy(
+                "applications:select_contract_country",
+                kwargs={"pk": self.object_pk, "country": selected_countries[0]["id"]},
+            )
+
+
+class ContractTypePerCountry(SingleFormView):
+    def init(self, request, **kwargs):
+        self.object_pk = kwargs["pk"]
+        current_country = self.kwargs["country"]
+        if current_country != "all":
+            country_name = get_country(request, current_country)["name"]
+            self.form = contract_type_per_country_form(request, self.object_pk, current_country, country_name)
+        else:
+            self.form = self.form = contract_type_per_country_form(
+                request, self.object_pk, current_country, "all selected countries"
+            )
+        # TODO form action - sends country: and contracts[]: and other_text:
+        self.action = post_contract_type_for_country
+
+    def get_success_url(self):
+        selected_countries = get_application_countries(self.request, self.object_pk)
+        current_country = self.request.POST["country"]
+        current_country_index = next(
+            (index for (index, d) in enumerate(selected_countries) if d["id"] == current_country), None
+        )
+        if isinstance(current_country_index, int) and current_country_index < len(selected_countries) - 1:
+            next_country = selected_countries[current_country_index + 1]["id"]
+            return reverse_lazy(
+                "applications:select_contract_country", kwargs={"pk": self.object_pk, "country": next_country}
+            )
+        return reverse_lazy("applications:task_list", kwargs={"pk": self.object_pk})
 
 
 class StaticDestinations(TemplateView):

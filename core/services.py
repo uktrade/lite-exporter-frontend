@@ -69,6 +69,14 @@ def get_countries(request, convert_to_options=False, exclude: list = None):
     return data
 
 
+# Contract types clearance types
+def get_contract_types(request):
+    # TODO will these be returned from the API?
+    # data = get(request, "contract-types/")
+    # return data.json().get("contract_types")
+    return {"1": "One", "2": "Two"}
+
+
 def get_sites_on_draft(request, pk):
     data = get(request, APPLICATIONS_URL + str(pk) + "/sites/")
     return data.json(), data.status_code

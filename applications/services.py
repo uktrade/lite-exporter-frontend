@@ -148,6 +148,13 @@ def post_application_countries(request, pk, json):
     return data.json(), data.status_code
 
 
+def post_contract_type_for_country(request, pk, json):
+    # TODO send the country/all along with the contract type
+    # data = post(request, APPLICATIONS_URL + str(pk), json)
+    # return data.json(), data.status_code
+    return {}, 200
+
+
 # Parties
 def validate_party(request, pk, json):
     json = add_validate_only_to_data(json)

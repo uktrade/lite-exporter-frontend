@@ -111,6 +111,14 @@ urlpatterns = [
     ),
     path("<uuid:pk>/goods-locations/countries/", locations.Countries.as_view(), name="countries"),
     path("<uuid:pk>/goods-locations/destinations/", locations.StaticDestinations.as_view(), name="static_destinations"),
+    path(
+        "<uuid:pk>/goods-locations/countries/contract-types/", locations.ContractTypes.as_view(), name="contract_types"
+    ),
+    path(
+        "<uuid:pk>/goods-locations/countries/<str:country>/contract-types/",
+        locations.ContractTypePerCountry.as_view(),
+        name="select_contract_country",
+    ),
     # End User
     path("<uuid:pk>/end-user/", end_users.EndUser.as_view(), name="end_user"),
     path("<uuid:pk>/end-user/add/", end_users.AddEndUser.as_view(), name="add_end_user"),
