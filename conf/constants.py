@@ -155,7 +155,7 @@ class LocationType:
     SEA_BASED = "sea_based"
     LAND_BASED = "land_based"
 
-    
+
 class GoodsTypeCategory:
     MILITARY = "military"
     CRYPTOGRAPHIC = "cryptographic"
