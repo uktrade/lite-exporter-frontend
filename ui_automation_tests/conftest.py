@@ -564,19 +564,9 @@ def i_remove_a_good_from_the_application(driver):  # noqa
     StandardApplicationGoodsPage(driver).get_remove_good_link().click()
 
 
-@when("I remove a location from the application")
-def i_remove_a_location_from_the_application(driver):  # noqa
-    StandardApplicationGoodsPage(driver).get_remove_location_link().click()
-
-
 @then("the good has been removed from the application")
 def no_goods_are_left_on_the_application(driver):  # noqa
     assert not StandardApplicationGoodsPage(driver).goods_exist_on_the_application()
-
-
-@then("the location has been removed from the application")
-def no_locations_are_left_on_the_application(driver):  # noqa
-    assert not StandardApplicationGoodsPage(driver).find_remove_location_link()
 
 
 @when("I remove the end user off the application")

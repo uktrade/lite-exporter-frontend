@@ -27,7 +27,7 @@ Feature: I want to be able to edit and update an active application
     And I remove the end user off the application
     Then no end user is set on the application
     When I click on the "consignee" section
-    When I remove the consignee off the application
+    And I remove the consignee off the application
     Then no consignee is set on the application
     When I click on the "third-parties" section
     And I remove a third party from the application
