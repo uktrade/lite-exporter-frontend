@@ -65,7 +65,10 @@ def opening_question():
 
 
 def export_licence_questions(application_type, goodstype_category=None):
-    should_display_firearms_question = application_type == CaseTypes.SIEL or goodstype_category in ["military", "uk_continental_shelf"]
+    should_display_firearms_question = application_type == CaseTypes.SIEL or goodstype_category in [
+        "military",
+        "uk_continental_shelf",
+    ]
 
     return FormGroup(
         [

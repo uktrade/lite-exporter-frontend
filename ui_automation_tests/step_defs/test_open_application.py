@@ -8,7 +8,8 @@ from ui_automation_tests.conftest import (
     enter_application_name,
     enter_permanent_or_temporary,
     choose_open_licence_category,
-    answer_firearms_question)
+    answer_firearms_question,
+)
 from ui_automation_tests.pages.apply_for_a_licence_page import ApplyForALicencePage
 from ui_automation_tests.pages.open_application.countries import OpenApplicationCountriesPage
 from ui_automation_tests.pages.open_application.goods_countries_page import GoodsCountriesPage

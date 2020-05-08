@@ -1,7 +1,7 @@
 from applications.components import back_to_task_list
 from lite_content.lite_exporter_frontend import applications, generic, strings
 from lite_content.lite_exporter_frontend.applications import ExportLicenceQuestions
-from lite_forms.components import Form, TextInput, Option, Checkboxes, RadioButtons
+from lite_forms.components import Form, TextInput, Option, RadioButtons
 from lite_forms.helpers import conditional
 
 
@@ -22,13 +22,7 @@ def firearms_form(application_id=None):
         questions=[
             RadioButtons(
                 name="contains_firearm_goods",
-                options=[
-                    Option(
-                        key="True",
-                        value=strings.YES
-                    ),
-                    Option(key="False", value=strings.NO),
-                ],
+                options=[Option(key="True", value=strings.YES), Option(key="False", value=strings.NO),],
             ),
         ],
         back_link=back_to_task_list(application_id),

@@ -43,7 +43,7 @@ from applications.services import (
     copy_application,
     post_exhibition,
 )
-from conf.constants import HMRC, APPLICANT_EDITING, NotificationType, STANDARD, OPEN
+from conf.constants import HMRC, APPLICANT_EDITING, NotificationType, STANDARD
 from core.helpers import str_to_bool, convert_dict_to_query_params
 from core.services import get_organisation
 from lite_content.lite_exporter_frontend import strings
@@ -232,7 +232,6 @@ class ApplicationSummary(TemplateView):
             context["notes"] = get_case_notes(request, self.case_id)["case_notes"]
             if self.application.sub_type == STANDARD:
                 context["reference_code"] = get_reference_number_description(self.application)
-
 
         return render(request, "applications/application.html", context)
 

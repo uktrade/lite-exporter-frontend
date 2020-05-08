@@ -7,7 +7,8 @@ from ui_automation_tests.conftest import (
     enter_export_licence,
     enter_case_note_text,
     click_post_note,
-    answer_firearms_question)
+    answer_firearms_question,
+)
 from ui_automation_tests.pages.add_new_external_location_form_page import AddNewExternalLocationFormPage
 from ui_automation_tests.pages.apply_for_a_licence_page import ApplyForALicencePage
 from ui_automation_tests.pages.exporter_hub_page import ExporterHubPage
