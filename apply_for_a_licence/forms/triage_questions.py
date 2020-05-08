@@ -2,7 +2,7 @@ from django.urls import reverse_lazy
 
 from applications.forms.edit import firearms_form, reference_name_form, told_by_an_official_form
 from apply_for_a_licence.forms.trade_control_licence import application_type_form, activity_form, product_category_form
-from conf.constants import CaseTypes
+from conf.constants import CaseTypes, GoodsTypeCategory
 from lite_content.lite_exporter_frontend import generic
 from lite_content.lite_exporter_frontend.applications import (
     InitialApplicationQuestionsForms,
@@ -66,8 +66,8 @@ def opening_question():
 
 def export_licence_questions(application_type, goodstype_category=None):
     should_display_firearms_question = application_type == CaseTypes.SIEL or goodstype_category in [
-        "military",
-        "uk_continental_shelf",
+        GoodsTypeCategory.MILITARY,
+        GoodsTypeCategory.UK_CONTINENTAL_SHELF,
     ]
 
     return FormGroup(

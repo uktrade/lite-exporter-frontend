@@ -130,7 +130,8 @@ def _convert_open_application(application, editable=False):
         **(
             {applications.ApplicationSummaryPage.GOODS_CATEGORIES: _get_goods_categories(application),}
             if application.case_type["reference"]["key"] == CaseTypes.OIEL
-            and application.goodstype_category["key"] in ["military", "uk_continental_shelf"]
+            and application.goodstype_category["key"]
+            in [GoodsTypeCategory.MILITARY, GoodsTypeCategory.UK_CONTINENTAL_SHELF]
             else {}
         ),
         applications.ApplicationSummaryPage.GOODS: _convert_goods_types(application["goods_types"]),
