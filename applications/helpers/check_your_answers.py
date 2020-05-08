@@ -87,7 +87,7 @@ def _convert_standard_application(application, editable=False, is_summary=False)
     converted_app = {
         **(
             {applications.ApplicationSummaryPage.GOODS_CATEGORIES: _get_goods_categories(application),}
-            if application.case_type["reference"]["key"] in ["siel", "sitl"]
+            if application.case_type["reference"]["key"] in [CaseTypes.SIEL, CaseTypes.SITL]
             else {}
         ),
         applications.ApplicationSummaryPage.GOODS: _convert_goods(application["goods"]),
@@ -118,7 +118,7 @@ def _convert_standard_application(application, editable=False, is_summary=False)
         ),
     }
 
-    if application.case_type["reference"]["key"] in ["siel", "sitl"]:
+    if application.case_type["reference"]["key"] in [CaseTypes.SIEL, CaseTypes.SITL]:
         converted_app[applications.ApplicationSummaryPage.GOODS_CATEGORIES] = _get_goods_categories(application)
 
     return converted_app
@@ -128,7 +128,7 @@ def _convert_open_application(application, editable=False):
     return {
         **(
             {applications.ApplicationSummaryPage.GOODS_CATEGORIES: _get_goods_categories(application),}
-            if application.case_type["reference"]["key"] == "oiel"
+            if application.case_type["reference"]["key"] == CaseTypes.OIEL
             and application.goodstype_category["key"] in ["military", "uk_continental_shelf"]
             else {}
         ),
@@ -256,7 +256,7 @@ def _get_route_of_goods(application):
 def _get_goods_categories(application):
     return [
         {
-            "Description": "Contains firearm products",
+            "Description": applications.GoodsCategories.GOODS_CATEGORIES,
             "Answer": friendly_boolean(application.get("contains_firearm_goods")),
         }
     ]
