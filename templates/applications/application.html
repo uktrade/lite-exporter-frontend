@@ -125,7 +125,7 @@
 					</dd>
 				</div>
 			{% endif %}
-			{% if summary_page %}
+			{% if summary_page and application.case_type.sub_type.key == 'standard'%}
 				<div class="govuk-summary-list__row">
 					<dt class="govuk-summary-list__key">
 						{% lcs 'applications.ApplicationPage.Summary.END_USER_CONTROL' %}
