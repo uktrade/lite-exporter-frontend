@@ -145,6 +145,7 @@ def get_application_countries(request, pk):
 
 
 def post_application_countries(request, pk, json):
+    print(json)
     data = post(request, APPLICATIONS_URL + str(pk) + COUNTRIES_URL, json)
     return data.json(), data.status_code
 

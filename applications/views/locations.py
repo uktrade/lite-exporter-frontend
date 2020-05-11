@@ -129,7 +129,7 @@ class AddExistingExternalLocation(SingleFormView):
 class Countries(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
-        self.data = {"countries": get_application_countries(request, self.object_pk)}
+        self.data = {"countries": [entry["country"] for entry in get_application_countries(request, self.object_pk)]}
         self.form = countries_form(self.object_pk)
         self.action = post_application_countries
         self.success_url = reverse_lazy("applications:contract_types", kwargs={"pk": self.object_pk})
@@ -140,10 +140,9 @@ class ContractTypes(SingleFormView):
         self.object_pk = kwargs["pk"]
         self.form = contract_type_form(self.object_pk)
         self.action = validate_contract_type_countries_choice
-        # application = get_application(request, self.object_pk)
 
     def get_success_url(self):
-        selected_countries = get_application_countries(self.request, self.object_pk)
+        selected_countries = [entry["country"] for entry in get_application_countries(self.request, self.object_pk)]
 
         choice = self.get_validated_data()["choice"]
         if choice == "all":
@@ -160,7 +159,9 @@ class ContractTypePerCountry(SingleFormView):
 
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
-        self.selected_countries = get_application_countries(self.request, self.object_pk)
+        self.selected_countries = [
+            entry["country"] for entry in get_application_countries(self.request, self.object_pk)
+        ]
         current_country = self.kwargs["country"]
 
         if current_country != "all":
@@ -176,16 +177,19 @@ class ContractTypePerCountry(SingleFormView):
         self.action = post_contract_type_for_country
 
     def get_success_url(self):
-        current_country = self.request.POST["countries"]
-        if len(current_country) == 1:
-            current_country_index = next(
-                (index for (index, d) in enumerate(self.selected_countries) if d["id"] == current_country[0]), None
+        # TODO look into how errors are displayed
+        current_country = self.request.POST.get("countries[]")
+        current_country_index = next(
+            (index for (index, d) in enumerate(self.selected_countries) if d["id"] == current_country), None
+        )
+        # This assumes the api returning the last country from the list it processed
+        # If country returned is not the last in the list of selected - keep going
+        # Once all countries have been assigned contract types, redirect to the summary list page
+        if isinstance(current_country_index, int) and current_country_index < len(self.selected_countries) - 1:
+            next_country = self.selected_countries[current_country_index + 1]["id"]
+            return reverse_lazy(
+                "applications:select_contract_country", kwargs={"pk": self.object_pk, "country": next_country}
             )
-            if isinstance(current_country_index, int) and current_country_index < len(self.selected_countries) - 1:
-                next_country = self.selected_countries[current_country_index + 1]["id"]
-                return reverse_lazy(
-                    "applications:select_contract_country", kwargs={"pk": self.object_pk, "country": next_country}
-                )
         return reverse_lazy("applications:task_list", kwargs={"pk": self.object_pk})
 
 
@@ -202,7 +206,7 @@ class StaticDestinations(TemplateView):
 
         context = {
             "application_id": application_id,
-            "countries": get_application_countries(request, application_id),
+            "countries": [entry["country"] for entry in get_application_countries(request, application_id)],
             "goodstype_category": goodstype_category,
             "goodstype_category_label": goodstype_category_label,
         }
