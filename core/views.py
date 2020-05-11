@@ -98,14 +98,10 @@ class RegisterAnOrganisationTriage(MultiFormView):
         self.action = validate_register_organisation_triage
         self.additional_context = {"user_in_limbo": True}
 
-        try:
-            organisation = get_user(request)["organisations"][0]
-            if organisation:
-                raise Http404
-        except JSONDecodeError:
-            pass
-
         if not request.user.is_authenticated:
+            raise Http404
+
+        if request.user.user_token and get_user(request)["organisations"]:
             raise Http404
 
     def get_success_url(self):
@@ -129,14 +125,10 @@ class RegisterAnOrganisation(SummaryListFormView):
         self.hide_components = ["site.address.address_line_2"]
         self.additional_context = {"user_in_limbo": True}
 
-        try:
-            organisation = get_user(request)["organisations"][0]
-            if organisation:
-                raise Http404
-        except JSONDecodeError:
-            pass
-
         if not request.user.is_authenticated:
+            raise Http404
+
+        if request.user.user_token and get_user(request)["organisations"]:
             raise Http404
 
     def prettify_data(self, data):
