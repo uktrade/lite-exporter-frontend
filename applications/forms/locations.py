@@ -78,19 +78,19 @@ def add_external_location(request):
     )
 
 
-def new_external_location_form(request, application_type=None, location_type=None, application_id=None):
+def new_external_location_form(request, application_type=None, location_type=None):
     return FormGroup(
         forms=[
             conditional(
                 (application_type in [CaseTypes.SICL, CaseTypes.OICL]),
-                location_type_form(request, application_type, application_id),
+                location_type_form(request, application_type),
             ),
             new_location_form(application_type, location_type),
         ]
     )
 
 
-def location_type_form(request, application_type=None, application_id=None):
+def location_type_form(request, application_type=None):
     return Form(
         title=LocationTypeForm.TITLE,
         description=LocationTypeForm.DESCRIPTION,
@@ -122,6 +122,7 @@ def new_location_form(application_type, location_type):
         title=NewLocationForm.TITLE,
         description=NewLocationForm.DESCRIPTION,
         questions=[
+            HiddenField(name="external_locations", value=""),
             TextInput(name="name", title=NewLocationForm.Name.TITLE),
             TextArea(
                 name="address",
