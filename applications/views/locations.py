@@ -147,7 +147,6 @@ class ContractTypes(SingleFormView):
 
         choice = self.get_validated_data()["choice"]
         if choice == "all":
-            # TODO for all countries at once
             return reverse_lazy("applications:select_contract_country", kwargs={"pk": self.object_pk, "country": "all"})
         else:
             return reverse_lazy(
@@ -157,30 +156,36 @@ class ContractTypes(SingleFormView):
 
 
 class ContractTypePerCountry(SingleFormView):
+    selected_countries = None
+
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
+        self.selected_countries = get_application_countries(self.request, self.object_pk)
         current_country = self.kwargs["country"]
+
         if current_country != "all":
             country_name = get_country(request, current_country)["name"]
-            self.form = contract_type_per_country_form(request, self.object_pk, current_country, country_name)
+            if country_name not in str(self.selected_countries):
+                return render(request, "404.html")
+            self.form = contract_type_per_country_form(request, self.object_pk, [current_country], country_name)
         else:
+            selected_countries_ids = [country["id"] for country in self.selected_countries]
             self.form = contract_type_per_country_form(
-                request, self.object_pk, current_country, "all selected countries"
+                request, self.object_pk, selected_countries_ids, "all selected countries"
             )
-        # TODO form action - sends country: and contracts[]: and other_text:
         self.action = post_contract_type_for_country
 
     def get_success_url(self):
-        selected_countries = get_application_countries(self.request, self.object_pk)
-        current_country = self.request.POST["country"]
-        current_country_index = next(
-            (index for (index, d) in enumerate(selected_countries) if d["id"] == current_country), None
-        )
-        if isinstance(current_country_index, int) and current_country_index < len(selected_countries) - 1:
-            next_country = selected_countries[current_country_index + 1]["id"]
-            return reverse_lazy(
-                "applications:select_contract_country", kwargs={"pk": self.object_pk, "country": next_country}
+        current_country = self.request.POST["countries"]
+        if len(current_country) == 1:
+            current_country_index = next(
+                (index for (index, d) in enumerate(self.selected_countries) if d["id"] == current_country[0]), None
             )
+            if isinstance(current_country_index, int) and current_country_index < len(self.selected_countries) - 1:
+                next_country = self.selected_countries[current_country_index + 1]["id"]
+                return reverse_lazy(
+                    "applications:select_contract_country", kwargs={"pk": self.object_pk, "country": next_country}
+                )
         return reverse_lazy("applications:task_list", kwargs={"pk": self.object_pk})
 
 

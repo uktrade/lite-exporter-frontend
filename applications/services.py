@@ -27,6 +27,7 @@ from conf.constants import (
     APPLICATION_COPY_URL,
     END_USE_DETAILS_URL,
     TEMPORARY_EXPORT_DETAILS_URL,
+    CONTRACT_TYPES_URL,
 )
 from conf.settings import AWS_STORAGE_BUCKET_NAME, STREAMING_CHUNK_SIZE
 from core.helpers import remove_prefix, convert_parameters_to_query_params, add_validate_only_to_data
@@ -150,10 +151,8 @@ def post_application_countries(request, pk, json):
 
 def post_contract_type_for_country(request, pk, json):
     print(json)
-    # TODO send the country/all along with the contract type
-    # data = post(request, APPLICATIONS_URL + str(pk), json)
-    # return data.json(), data.status_code
-    return {}, 200
+    data = post(request, APPLICATIONS_URL + str(pk) + CONTRACT_TYPES_URL, json)
+    return data.json(), data.status_code
 
 
 # Parties
