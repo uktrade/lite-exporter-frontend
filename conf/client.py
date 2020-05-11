@@ -15,14 +15,11 @@ def get(request, appended_address):
 
     sender = _get_hawk_sender(url, "GET", "text/plain", {})
 
-    if request:
-        response = requests.get(url, headers=_get_headers(request, sender))
+    response = requests.get(url, headers=_get_headers(request, sender))
 
-        _verify_api_response(response, sender)
+    _verify_api_response(response, sender)
 
-        return response
-
-    return requests.get(url)
+    return response
 
 
 def post(request, appended_address, request_data):
