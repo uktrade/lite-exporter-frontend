@@ -8,10 +8,10 @@ from conf.settings import env
 
 
 def get(request, appended_address):
-    url = env("LITE_API_URL") + appended_address
+    url = env("LITE_API_URL") + appended_address.replace(" ", "%20")
 
     if not url.endswith("/") and "?" not in url:
-        url += "/"
+        url = url + "/"
 
     sender = _get_hawk_sender(url, "GET", "text/plain", None)
 

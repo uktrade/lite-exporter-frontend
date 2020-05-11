@@ -92,7 +92,7 @@ class AddExternalLocation(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
         application = get_application(request, self.object_pk)
-        self.form = new_location_form(application.type_reference)
+        self.form = new_location_form(request, application.type_reference)
         self.action = post_external_locations
         self.success_url = reverse_lazy("applications:location", kwargs={"pk": self.object_pk})
 
@@ -120,7 +120,7 @@ class Countries(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
         self.data = {"countries": get_application_countries(request, self.object_pk)}
-        self.form = countries_form(self.object_pk)
+        self.form = countries_form(request, self.object_pk)
         self.action = post_application_countries
         self.success_url = reverse_lazy("applications:task_list", kwargs={"pk": self.object_pk})
 

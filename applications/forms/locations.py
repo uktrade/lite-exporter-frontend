@@ -66,12 +66,12 @@ def add_external_location():
     )
 
 
-def new_location_form(application_type):
+def new_location_form(request, application_type):
     exclude = []
     if application_type in [CaseTypes.SITL, CaseTypes.SICL, CaseTypes.OICL]:
         exclude.append("GB")
 
-    countries = get_countries(None, True, exclude)
+    countries = get_countries(request, True, exclude)
 
     return Form(
         title=NewLocationForm.TITLE,

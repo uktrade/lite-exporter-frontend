@@ -121,9 +121,9 @@ class RegisterAnOrganisation(SummaryListFormView):
         location = self.kwargs["location"]
 
         self.forms = (
-            register_a_commercial_organisation_group(location)
+            register_a_commercial_organisation_group(request, location)
             if _type == "commercial"
-            else register_an_individual_group(location)
+            else register_an_individual_group(request, location)
         )
         self.action = register_commercial_organisation if _type == "commercial" else register_private_individual
         self.hide_components = ["site.address.address_line_2"]
