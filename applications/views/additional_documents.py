@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
 
-from applications.services import get_additional_documents, get_application
+from applications.services import get_additional_documents
 
 
 class AdditionalDocuments(TemplateView):
