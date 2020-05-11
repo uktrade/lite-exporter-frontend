@@ -15,6 +15,7 @@ from conf.constants import (
     PERMANENT,
     CaseTypes,
     APPLICATION_TYPE_STRINGS,
+    GoodsTypeCategory,
 )
 from core.builtins.custom_tags import default_na, friendly_boolean, pluralise_unit, date_display, get_address
 from core.helpers import convert_to_link, convert_control_list_entries
@@ -84,14 +85,10 @@ def _convert_gifting_clearance(application, editable=False):
 
 
 def _convert_standard_application(application, editable=False, is_summary=False):
-    return {
+    converted_app = {
         **(
-            {
-                applications.ApplicationSummaryPage.GOODS_CATEGORIES: ", ".join(
-                    [x["value"] for x in application["goods_categories"]]
-                ),
-            }
-            if is_summary is False
+            {applications.ApplicationSummaryPage.GOODS_CATEGORIES: _get_goods_categories(application),}
+            if application.case_type["reference"]["key"] in [CaseTypes.SIEL, CaseTypes.SITL]
             else {}
         ),
         applications.ApplicationSummaryPage.GOODS: _convert_goods(application["goods"]),
@@ -122,9 +119,21 @@ def _convert_standard_application(application, editable=False, is_summary=False)
         ),
     }
 
+    if application.case_type["reference"]["key"] in [CaseTypes.SIEL, CaseTypes.SITL]:
+        converted_app[applications.ApplicationSummaryPage.GOODS_CATEGORIES] = _get_goods_categories(application)
+
+    return converted_app
+
 
 def _convert_open_application(application, editable=False):
     return {
+        **(
+            {applications.ApplicationSummaryPage.GOODS_CATEGORIES: _get_goods_categories(application),}
+            if application.case_type["reference"]["key"] == CaseTypes.OIEL
+            and application.goodstype_category["key"]
+            in [GoodsTypeCategory.MILITARY, GoodsTypeCategory.UK_CONTINENTAL_SHELF]
+            else {}
+        ),
         applications.ApplicationSummaryPage.GOODS: _convert_goods_types(application["goods_types"]),
         **(
             {applications.ApplicationSummaryPage.END_USE_DETAILS: _get_end_use_details(application),}
@@ -147,6 +156,16 @@ def _convert_open_application(application, editable=False):
             else {}
         ),
         applications.ApplicationSummaryPage.COUNTRIES: _convert_countries(application["destinations"]["data"]),
+        **(
+            {
+                applications.ApplicationSummaryPage.ULTIMATE_END_USERS: [
+                    convert_party(party, application, editable) for party in application["ultimate_end_users"]
+                ],
+            }
+            if has_incorporated_goods_types(application)
+            and application["goodstype_category"]["key"] == GoodsTypeCategory.MILITARY
+            else {}
+        ),
         applications.ApplicationSummaryPage.SUPPORTING_DOCUMENTATION: _get_supporting_documentation(
             application["additional_documents"], application["id"]
         ),
@@ -242,6 +261,15 @@ def _get_route_of_goods(application):
             "Answer": friendly_boolean(application.get("is_shipped_waybill_or_lading"))
             + NEWLINE
             + (application.get("non_waybill_or_lading_route_details") or ""),
+        }
+    ]
+
+
+def _get_goods_categories(application):
+    return [
+        {
+            "Description": applications.GoodsCategories.GOODS_CATEGORIES,
+            "Answer": friendly_boolean(application.get("contains_firearm_goods")),
         }
     ]
 
@@ -466,6 +494,14 @@ def is_application_export_type_permanent(application):
 def has_incorporated_goods(application):
     for good in application["goods"]:
         if good["is_good_incorporated"]:
+            return True
+
+    return False
+
+
+def has_incorporated_goods_types(application):
+    for goods_type in application["goods_types"]:
+        if goods_type["is_good_incorporated"]:
             return True
 
     return False
