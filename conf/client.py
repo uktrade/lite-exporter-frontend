@@ -13,7 +13,7 @@ def get(request, appended_address):
     if not url.endswith("/") and "?" not in url:
         url = url + "/"
 
-    sender = _get_hawk_sender(url, "GET", "text/plain", None)
+    sender = _get_hawk_sender(url, "GET", "application/json", None)
 
     response = requests.get(url, headers=_get_headers(request, sender))
 
@@ -75,7 +75,7 @@ def delete(request, appended_address):
     if not appended_address.endswith("/"):
         url += "/"
 
-    sender = _get_hawk_sender(url, "DELETE", "text/plain", None)
+    sender = _get_hawk_sender(url, "DELETE", "application/json", None)
 
     response = requests.delete(url=env("LITE_API_URL") + appended_address, headers=_get_headers(request, sender))
 
