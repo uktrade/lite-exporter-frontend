@@ -164,7 +164,7 @@ class ContractTypePerCountry(SingleFormView):
             country_name = get_country(request, current_country)["name"]
             self.form = contract_type_per_country_form(request, self.object_pk, current_country, country_name)
         else:
-            self.form = self.form = contract_type_per_country_form(
+            self.form = contract_type_per_country_form(
                 request, self.object_pk, current_country, "all selected countries"
             )
         # TODO form action - sends country: and contracts[]: and other_text:
