@@ -82,8 +82,7 @@ def new_external_location_form(request, application_type=None, location_type=Non
     return FormGroup(
         forms=[
             conditional(
-                (application_type in [CaseTypes.SICL, CaseTypes.OICL]),
-                location_type_form(request, application_type),
+                (application_type in [CaseTypes.SICL, CaseTypes.OICL]), location_type_form(request, application_type),
             ),
             new_location_form(application_type, location_type),
         ]
