@@ -119,6 +119,11 @@ urlpatterns = [
         locations.ContractTypePerCountry.as_view(),
         name="select_contract_country",
     ),
+    path(
+        "<uuid:pk>/goods-locations/countries/contract-types/summary",
+        locations.CountriesSummary.as_view(),
+        name="countries_summary",
+    ),
     # End User
     path("<uuid:pk>/end-user/", end_users.EndUser.as_view(), name="end_user"),
     path("<uuid:pk>/end-user/add/", end_users.AddEndUser.as_view(), name="add_end_user"),

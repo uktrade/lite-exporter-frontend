@@ -21,7 +21,7 @@ from applications.services import (
     get_application,
     get_application_countries,
     post_application_countries,
-    post_contract_type_for_country,
+    put_contract_type_for_country,
 )
 from core.services import (
     get_sites_on_draft,
@@ -163,6 +163,11 @@ class ContractTypePerCountry(SingleFormView):
             entry["country"] for entry in get_application_countries(self.request, self.object_pk)
         ]
         current_country = self.kwargs["country"]
+        self.data = {
+            "contract_types": [
+                entry["contract_types"] for entry in get_application_countries(self.request, self.object_pk)
+            ]
+        }
 
         if current_country != "all":
             country_name = get_country(request, current_country)["name"]
@@ -174,7 +179,7 @@ class ContractTypePerCountry(SingleFormView):
             self.form = contract_type_per_country_form(
                 request, self.object_pk, selected_countries_ids, "all selected countries"
             )
-        self.action = post_contract_type_for_country
+        self.action = put_contract_type_for_country
 
     def get_success_url(self):
         # TODO look into how errors are displayed
@@ -190,7 +195,27 @@ class ContractTypePerCountry(SingleFormView):
             return reverse_lazy(
                 "applications:select_contract_country", kwargs={"pk": self.object_pk, "country": next_country}
             )
-        return reverse_lazy("applications:task_list", kwargs={"pk": self.object_pk})
+        return reverse_lazy("applications:countries_summary", kwargs={"pk": self.object_pk})
+
+
+class CountriesSummary(TemplateView):
+    def get(self, request, **kwargs):
+        object_pk = kwargs["pk"]
+        countries_data = get_application_countries(request, object_pk)
+        country_contract_types = []
+        for entry in countries_data:
+            country = {
+                "country_id": entry["country"]["id"],
+                "country_name": entry["country"]["name"],
+                "contract_types": entry["contract_types"],
+            }
+            country_contract_types.append(country)
+
+        context = {
+            "application_id": str(object_pk),
+            "country_contract_type_list": country_contract_types,
+        }
+        return render(request, "applications/goods-locations/destinations_summary_list.html", context)
 
 
 class StaticDestinations(TemplateView):

@@ -71,7 +71,7 @@ def contract_type_per_country_form(request, application_id, current_country, cou
                 ],
                 classes=["govuk-checkboxes--small"],
             ),
-            TextInput(name="other_text", title="Provide details"),
+            TextInput(name="other_contract_type_text", title="Provide details"),
         ],
         default_button_name=strings.SAVE,
         back_link=back_to_task_list(application_id),

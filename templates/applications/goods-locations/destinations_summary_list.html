@@ -1,0 +1,51 @@
+{% extends 'layouts/two-pane.html' %}
+
+{% block back_link %}
+	<a href="{% url 'applications:task_list' application_id %}" id="back-link" class="govuk-back-link">Back to
+		application overview</a>
+{% endblock %}
+
+{% block full_width %}
+	<h1 class="govuk-heading-xl">
+		{% block title %}
+			Countries summary
+		{% endblock %}
+	</h1>
+
+	<dl class="govuk-summary-list govuk-!-margin-bottom-9">
+		{% for entry in country_contract_type_list %}
+			<div class="govuk-summary-list__row">
+				<dt class="govuk-summary-list__key">
+					{{ entry.country_name }}
+				</dt>
+				<dd class="govuk-summary-list__value">
+					{% for contract_type in entry.contract_types %}
+						{{ contract_type }}
+						<br>
+						{#                    <span class="govuk-hint">Hint here</span>#}
+					{% endfor %}
+				</dd>
+				<dd class="govuk-summary-list__actions">
+					<a href="{% url 'applications:select_contract_country' application_id entry.country_id %}"
+					   id="edit-contract-type-{{ entry.country_id }}" class="govuk-link">Change contract types
+					</a>
+				</dd>
+			</div>
+		{% endfor %}
+	</dl>
+
+
+	{#    <ul class="govuk-list govuk-list--number">#}
+	{#        {% for entry in country_contract_type_list %}#}
+	{#            <li>{{ entry.country_id }} - {{ entry.country_name }}</li>#}
+	{#            <ul class="govuk-list govuk-list--bullet">#}
+	{#                <li>#}
+	{#                    <a href="{% url 'applications:select_contract_country' application_id entry.country_id %}"#}
+	{#                       id="edit-contract-type-{{ entry.country_id }}" class="govuk-link">Change contract types#}
+	{#                        for {{ entry.country_name }}</a>#}
+	{#                </li>#}
+	{#                <li>{{ entry.contract_types }}</li>#}
+	{#            </ul>#}
+	{#        {% endfor %}#}
+	{#    </ul>#}
+{% endblock %}
