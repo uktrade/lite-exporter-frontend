@@ -94,7 +94,7 @@ def _get_headers(request, sender):
 
 def _get_hawk_sender(url, method, content_type, content):
     return Sender(
-        {"id": "exporter-frontend", "key": env("LITE_API_HAWK_KEY"), "algorithm": "sha256"},
+        {"id": "exporter-frontend", "key": env("LITE_EXPORTER_HAWK_KEY"), "algorithm": "sha256"},
         url,
         method,
         content_type=content_type,
