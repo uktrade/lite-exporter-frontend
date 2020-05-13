@@ -1,7 +1,6 @@
 {% extends 'layouts/two-pane.html' %}
 
 {% block back_link %}
-
 {% endblock %}
 
 {% block full_width %}
@@ -13,8 +12,7 @@
 
 	<div class="govuk-body-s">
 		<a href="{% url 'applications:countries' application_id %}"
-		   id="edit-countries" class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19">Change countries
-		</a>
+		   id="edit-countries" class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19">Change countries</a>
 	</div>
 
 	<dl class="govuk-summary-list govuk-!-margin-bottom-9">
@@ -37,9 +35,7 @@
 				</dd>
 				<dd class="govuk-summary-list__actions">
 					<a href="{% url 'applications:select_contract_country' application_id country.country_id %}"
-					   id="edit-contract-type-{{ country.country_id }}" class="govuk-link">Change sectors and contract
-						types
-					</a>
+					   id="edit-contract-type-{{ country.country_id }}" class="govuk-link">Change sectors and contract types</a>
 				</dd>
 			</div>
 		{% endfor %}
@@ -53,5 +49,4 @@
 		   class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19">Save and
 			return to application overview</a>
 	</div>
-
 {% endblock %}
