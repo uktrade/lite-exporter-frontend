@@ -18,15 +18,15 @@ def countries_form(application_id):
             ),
         ],
         javascript_imports=["/assets/javascripts/filter-checkbox-list.js"],
-        default_button_name=strings.SAVE,
+        default_button_name=strings.SAVE_AND_CONTINUE,
         back_link=back_to_task_list(application_id),
     )
 
 
-def contract_type_form(application_id):
+def contract_type_form():
     return Form(
-        title="Do you want the same sectors and contract types applied to each country?",
-        description="Description here",
+        title="Do you want to add the same sectors and contract types to all the countries you selected?",
+        description="Examples of sectors and contract types are ‘army’, ‘registered firearm dealers’ and ‘for the exporters own use’.",
         questions=[
             RadioButtons(
                 "choice",
@@ -34,11 +34,11 @@ def contract_type_form(application_id):
             )
         ],
         default_button_name=strings.SAVE,
-        back_link=back_to_task_list(application_id),
+        back_link=None,
     )
 
 
-def contract_type_per_country_form(request, application_id, current_country, country_name):
+def contract_type_per_country_form(current_country, country_name):
     return Form(
         title="Select the sectors and contract types for " + country_name,
         description=strings.applications.DestinationForm.DESCRIPTION,
@@ -73,6 +73,5 @@ def contract_type_per_country_form(request, application_id, current_country, cou
             ),
             TextInput(name="other_contract_type_text", title="Provide details"),
         ],
-        default_button_name=strings.SAVE,
-        back_link=back_to_task_list(application_id),
+        default_button_name=strings.SAVE_AND_CONTINUE,
     )

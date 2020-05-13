@@ -1,3 +1,5 @@
+from operator import itemgetter
+
 from django.http import Http404
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
@@ -12,6 +14,7 @@ from applications.forms.locations import (
     Locations,
     sites_form,
 )
+from applications.helpers.countries import get_countries_missing_contract_types, prettify_country_data
 from applications.helpers.validators import (
     validate_external_location_choice,
     validate_and_update_goods_location_choice,
@@ -22,6 +25,7 @@ from applications.services import (
     get_application_countries,
     post_application_countries,
     put_contract_type_for_country,
+    get_application_countries_and_contract_types,
 )
 from core.services import (
     get_sites_on_draft,
@@ -129,29 +133,38 @@ class AddExistingExternalLocation(SingleFormView):
 class Countries(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
-        self.data = {"countries": [entry["country"] for entry in get_application_countries(request, self.object_pk)]}
+        self.data = {"countries": get_application_countries(request, self.object_pk)}
         self.form = countries_form(self.object_pk)
         self.action = post_application_countries
-        self.success_url = reverse_lazy("applications:contract_types", kwargs={"pk": self.object_pk})
+
+    def get_success_url(self):
+        countries_without_contract_type = get_countries_missing_contract_types(self.request, self.object_pk)
+        if not countries_without_contract_type:
+            return reverse_lazy("applications:countries_summary", kwargs={"pk": self.object_pk})
+        else:
+            return reverse_lazy("applications:contract_types", kwargs={"pk": self.object_pk})
 
 
 class ContractTypes(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
-        self.form = contract_type_form(self.object_pk)
+        self.form = contract_type_form()
         self.action = validate_contract_type_countries_choice
 
     def get_success_url(self):
-        selected_countries = [entry["country"] for entry in get_application_countries(self.request, self.object_pk)]
-
         choice = self.get_validated_data()["choice"]
+        countries_without_contract_type = get_countries_missing_contract_types(self.request, self.object_pk)
+
         if choice == "all":
             return reverse_lazy("applications:select_contract_country", kwargs={"pk": self.object_pk, "country": "all"})
-        else:
+        if countries_without_contract_type:
             return reverse_lazy(
                 "applications:select_contract_country",
-                kwargs={"pk": self.object_pk, "country": selected_countries[0]["id"]},
+                kwargs={"pk": self.object_pk, "country": countries_without_contract_type[0]["id"]},
             )
+        else:
+            # Redirect to the summary page if a country has been removed
+            return reverse_lazy("applications:countries_summary", kwargs={"pk": self.object_pk})
 
 
 class ContractTypePerCountry(SingleFormView):
@@ -159,31 +172,29 @@ class ContractTypePerCountry(SingleFormView):
 
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
-        self.selected_countries = [
-            entry["country"] for entry in get_application_countries(self.request, self.object_pk)
-        ]
         current_country = self.kwargs["country"]
-        self.data = {
-            "contract_types": [
-                entry["contract_types"] for entry in get_application_countries(self.request, self.object_pk)
-            ]
-        }
+        self.action = put_contract_type_for_country
+
+        self.selected_countries = get_application_countries(self.request, self.object_pk)
 
         if current_country != "all":
             country_name = get_country(request, current_country)["name"]
             if country_name not in str(self.selected_countries):
                 return render(request, "404.html")
-            self.form = contract_type_per_country_form(request, self.object_pk, [current_country], country_name)
+            self.form = contract_type_per_country_form([current_country], country_name)
         else:
             selected_countries_ids = [country["id"] for country in self.selected_countries]
-            self.form = contract_type_per_country_form(
-                request, self.object_pk, selected_countries_ids, "all selected countries"
-            )
-        self.action = put_contract_type_for_country
+            self.form = contract_type_per_country_form(selected_countries_ids, "all the countries")
 
     def get_success_url(self):
-        # TODO look into how errors are displayed
         current_country = self.request.POST.get("countries[]")
+        selected_countries_without_contract_types = get_countries_missing_contract_types(self.request, self.object_pk)
+
+        # Handle changing a single country's contract types from the summary list
+        if not selected_countries_without_contract_types:
+            return reverse_lazy("applications:countries_summary", kwargs={"pk": self.object_pk})
+
+        # Find the index of the current country in the list of all selected so we can determine the next one
         current_country_index = next(
             (index for (index, d) in enumerate(self.selected_countries) if d["id"] == current_country), None
         )
@@ -201,21 +212,23 @@ class ContractTypePerCountry(SingleFormView):
 class CountriesSummary(TemplateView):
     def get(self, request, **kwargs):
         object_pk = kwargs["pk"]
-        countries_data = get_application_countries(request, object_pk)
-        country_contract_types = []
-        for entry in countries_data:
-            country = {
-                "country_id": entry["country"]["id"],
-                "country_name": entry["country"]["name"],
-                "contract_types": entry["contract_types"],
+        countries_data = get_application_countries_and_contract_types(request, object_pk)
+        countries = [
+            {
+                "country_id": country_entry["country"]["id"],
+                "country_name": country_entry["country"]["name"],
+                "contract_types": country_entry["contract_types"],
+                "other_contract_type_text": country_entry["other_contract_type_text"],
             }
-            country_contract_types.append(country)
+            for country_entry in countries_data
+        ]
 
+        prettified_countries = prettify_country_data(sorted(countries, key=itemgetter("country_name")))
         context = {
             "application_id": str(object_pk),
-            "country_contract_type_list": country_contract_types,
+            "countries": prettified_countries,
         }
-        return render(request, "applications/goods-locations/destinations_summary_list.html", context)
+        return render(request, "applications/goods-locations/destinations-summary-list.html", context)
 
 
 class StaticDestinations(TemplateView):
@@ -231,7 +244,7 @@ class StaticDestinations(TemplateView):
 
         context = {
             "application_id": application_id,
-            "countries": [entry["country"] for entry in get_application_countries(request, application_id)],
+            "countries": get_application_countries(request, application_id),
             "goodstype_category": goodstype_category,
             "goodstype_category_label": goodstype_category_label,
         }

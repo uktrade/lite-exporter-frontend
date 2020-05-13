@@ -1,0 +1,57 @@
+{% extends 'layouts/two-pane.html' %}
+
+{% block back_link %}
+
+{% endblock %}
+
+{% block full_width %}
+	<h1 class="govuk-heading-xl">
+		{% block title %}
+			Destination summary list
+		{% endblock %}
+	</h1>
+
+	<div class="govuk-body-s">
+		<a href="{% url 'applications:countries' application_id %}"
+		   id="edit-countries" class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19">Change countries
+		</a>
+	</div>
+
+	<dl class="govuk-summary-list govuk-!-margin-bottom-9">
+		{% for country in countries %}
+			<div class="govuk-summary-list__row">
+				<dt class="govuk-summary-list__key">
+					{{ country.country_name }}
+				</dt>
+				<dd class="govuk-summary-list__value">
+					{% for contract_type in country.contract_types %}
+						{% if contract_type %}
+							{{ contract_type }}
+						{% endif %}
+						<br>
+					{% endfor %}
+					{% if country.other_contract_type_text %}
+						Other sector or contract type
+						<span class="govuk-hint">({{ country.other_contract_type_text }})</span>
+					{% endif %}
+				</dd>
+				<dd class="govuk-summary-list__actions">
+					<a href="{% url 'applications:select_contract_country' application_id country.country_id %}"
+					   id="edit-contract-type-{{ country.country_id }}" class="govuk-link">Change sectors and contract
+						types
+					</a>
+				</dd>
+			</div>
+		{% endfor %}
+	</dl>
+
+	<div class="govuk-body-s">
+		<a href="{% url 'applications:task_list' application_id %}" id="button-submit" class="govuk-button">Save and
+			continue</a>
+		<br>
+		<a href="{% url 'applications:task_list' application_id %}" id="back-link-task-list"
+		   class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19">Save and
+			return to application overview</a>
+	</div>
+
+{% endblock %}

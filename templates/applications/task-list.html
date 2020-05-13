@@ -143,7 +143,11 @@
 					{% if oiel_noneditable_countries %}
 						{% url 'applications:static_destinations' application.id as countries_url %}
 					{% else %}
-						{% url 'applications:countries' application.id as countries_url %}
+						{% if not countries %}
+							{% url 'applications:countries' application.id as countries_url %}
+						{% else %}
+							{% url 'applications:countries_summary' application.id as countries_url %}
+						{% endif %}
 						{% tld countries 'country' 'countries' as countries_description %}
 					{% endif %}
 					{% include "includes/task-list-item.html" with id="countries" title=strings.GOODS_DESTINATION url=countries_url status=countries|task_list_item_status description=countries_description %}

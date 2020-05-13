@@ -62,6 +62,10 @@ def validate_contract_type_countries_choice(request, pk, json):
         return json, HTTPStatus.OK
 
     return (
-        {"errors": {"choice": ["Select whether you want the same sectors applied to each country"]}},
+        {
+            "errors": {
+                "choice": ["Select yes to add the same sectors and contract types to all the countries you selected"]
+            }
+        },
         HTTPStatus.BAD_REQUEST,
     )

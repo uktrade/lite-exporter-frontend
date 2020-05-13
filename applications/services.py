@@ -141,6 +141,11 @@ def get_data_from_post_good_on_app(json):
 # Countries
 def get_application_countries(request, pk):
     data = get(request, APPLICATIONS_URL + str(pk) + COUNTRIES_URL)
+    return [country_entry["country"] for country_entry in data.json()["countries"]]
+
+
+def get_application_countries_and_contract_types(request, pk):
+    data = get(request, APPLICATIONS_URL + str(pk) + COUNTRIES_URL)
     return data.json()["countries"]
 
 

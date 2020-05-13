@@ -75,7 +75,7 @@ class GoodsTypeCountries(TemplateView):
         self.application_id = str(kwargs["pk"])
         self.application = get_application(request, self.application_id)
         self.goods = self.application["goods_types"]
-        self.countries = [entry["country"] for entry in get_application_countries(request, self.application_id)]
+        self.countries = get_application_countries(request, self.application_id)
 
         # Prevent minor edits from accessing this page
         if get_application_edit_type(self.application) == ApplicationEditTypes.MINOR_EDIT:
