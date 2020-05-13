@@ -174,8 +174,20 @@ class ContractTypePerCountry(SingleFormView):
         self.object_pk = kwargs["pk"]
         current_country = self.kwargs["country"]
         self.action = put_contract_type_for_country
-
         self.selected_countries = get_application_countries(self.request, self.object_pk)
+        data_for_current_country = [
+            country_entry
+            for country_entry in get_application_countries_and_contract_types(self.request, self.object_pk)
+            if country_entry["country"]["id"] == current_country
+        ]
+        self.data = (
+            {
+                "contract_types": data_for_current_country[0]["contract_types"],
+                "other_contract_type_text": data_for_current_country[0]["other_contract_type_text"],
+            }
+            if data_for_current_country
+            else {}
+        )
 
         if current_country != "all":
             country_name = get_country(request, current_country)["name"]
