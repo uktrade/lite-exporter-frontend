@@ -158,6 +158,7 @@ def post_application_countries(request, pk, json):
 def put_contract_type_for_country(request, pk, json):
     print(json)
     data = put(request, APPLICATIONS_URL + str(pk) + CONTRACT_TYPES_URL, json)
+    print(data.json())
     return data.json(), data.status_code
 
 

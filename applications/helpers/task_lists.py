@@ -91,6 +91,7 @@ def get_application_task_list(request, application, errors=None):
         if application.get("goodstype_category"):
             goodstype_category = application.get("goodstype_category").get("key")
             context["is_crypto_application"] = goodstype_category == "cryptographic"
+            context["is_military_dual_use_application"] = goodstype_category == "military"
             context["oiel_noneditable_countries"] = OielLicenceTypes.is_non_editable_country(goodstype_category)
 
     if not application_type == OPEN:

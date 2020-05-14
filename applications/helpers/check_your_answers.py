@@ -129,7 +129,7 @@ def _convert_open_application(application, editable=False):
         applications.ApplicationSummaryPage.GOODS: _convert_goods_types(application["goods_types"]),
         **(
             {applications.ApplicationSummaryPage.END_USE_DETAILS: _get_end_use_details(application),}
-            if not is_application_oiel_cryptographic(application)
+            if not is_application_oiel_of_type("cryptographic", application)
             else {}
         ),
         applications.ApplicationSummaryPage.ROUTE_OF_GOODS: _get_route_of_goods(application),
@@ -144,7 +144,7 @@ def _convert_open_application(application, editable=False):
                     application["goods_locations"]
                 ),
             }
-            if not is_application_oiel_cryptographic(application)
+            if not is_application_oiel_of_type("cryptographic", application)
             else {}
         ),
         applications.ApplicationSummaryPage.COUNTRIES: _convert_countries(application["destinations"]["data"]),
@@ -167,7 +167,7 @@ def _convert_open_application(application, editable=False):
                     convert_party(party, application, editable) for party in application["third_parties"]
                 ],
             }
-            if is_application_oiel_cryptographic(application)
+            if is_application_oiel_of_type("cryptographic", application)
             else {}
         ),
     }
@@ -490,11 +490,11 @@ def has_incorporated_goods_types(application):
     return False
 
 
-def is_application_oiel_cryptographic(application):
+def is_application_oiel_of_type(oiel_type, application):
     return (
         False
         if not application.get("goodstype_category")
-        else (application.get("goodstype_category").get("key") == "cryptographic")
+        else (application.get("goodstype_category").get("key") == oiel_type)
     )
 
 

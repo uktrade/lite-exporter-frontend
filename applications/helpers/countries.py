@@ -1,4 +1,5 @@
 from applications.services import get_application_countries_and_contract_types
+from lite_content.lite_exporter_frontend.applications import ContractTypes as contractTypeStrings
 
 
 def get_countries_missing_contract_types(request, object_pk):
@@ -11,23 +12,23 @@ def get_countries_missing_contract_types(request, object_pk):
 
 class ContractTypes:
     contract_types = {
-        "nuclear_related": "Nuclear-related (trigger list items)",
-        "navy": "Navy",
-        "army": "Army",
-        "air_force": "Air force",
-        "police": "Police",
-        "ministry_of_interior": "Ministry of Interior (or equivalent)",
-        "other_security_forces": "Other security forces",
-        "companies_nuclear_related": "Companies requesting Nuclear Trigger List items",
-        "maritime_anti_piracy": "Maritime anti-piracy",
-        "aircraft_manufacturers": "Aircraft manufacturers, maintainers or operators",
-        "registered_firearm_dealers": "Registered firearm dealers",
-        "oil_and_gas_industry": "Oil and gas industry",
-        "pharmaceutical_or_medical": "Pharmaceutical or medical",
-        "media": "Media",
-        "private_military": "Private military or security companies (including security transportation)",
-        "education": "Education (e.g. schools, colleges and universities)",
-        "for_the_exporters_own_use": "For the exporters own use",
+        "nuclear_related": contractTypeStrings.NUCLEAR_RELATED,
+        "navy": contractTypeStrings.NAVY,
+        "army": contractTypeStrings.ARMY,
+        "air_force": contractTypeStrings.AIR_FORCE,
+        "police": contractTypeStrings.POLICE,
+        "ministry_of_interior": contractTypeStrings.MINISTRY_OF_INTERIOR,
+        "other_security_forces": contractTypeStrings.OTHER_SECURITY_FORCES,
+        "companies_nuclear_related": contractTypeStrings.COMPANIES_NUCLEAR_RELATED,
+        "maritime_anti_piracy": contractTypeStrings.MARITIME_ANTI_PIRACY,
+        "aircraft_manufacturers": contractTypeStrings.AIRCRAFT_MANUFACTURERS,
+        "registered_firearm_dealers": contractTypeStrings.REGISTERED_FIREARM_DEALERS,
+        "oil_and_gas_industry": contractTypeStrings.OIL_AND_GAS_INDUSTRY,
+        "pharmaceutical_or_medical": contractTypeStrings.PHARMACEUTICAL_OR_MEDICAL,
+        "media": contractTypeStrings.MEDIA,
+        "private_military": contractTypeStrings.PRIVATE_MILITARY,
+        "education": contractTypeStrings.EDUCATION,
+        "for_the_exporters_own_use": contractTypeStrings.FOR_THE_EXPORTERS_OWN_USE,
         "other_contract_type": "",
     }
 

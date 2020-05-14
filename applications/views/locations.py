@@ -5,7 +5,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
-from applications.forms.countries import countries_form, contract_type_form, contract_type_per_country_form
+from applications.forms.countries import countries_form, choose_contract_type_form, contract_type_per_country_form
 from applications.forms.locations import (
     which_location_form,
     new_location_form,
@@ -14,6 +14,7 @@ from applications.forms.locations import (
     Locations,
     sites_form,
 )
+from applications.helpers.check_your_answers import is_application_oiel_of_type
 from applications.helpers.countries import get_countries_missing_contract_types, prettify_country_data
 from applications.helpers.validators import (
     validate_external_location_choice,
@@ -138,6 +139,11 @@ class Countries(SingleFormView):
         self.action = post_application_countries
 
     def get_success_url(self):
+        application = get_application(self.request, self.object_pk)
+
+        if not is_application_oiel_of_type("military", application):
+            return reverse_lazy("applications:task_list", kwargs={"pk": self.object_pk})
+
         countries_without_contract_type = get_countries_missing_contract_types(self.request, self.object_pk)
         if not countries_without_contract_type:
             return reverse_lazy("applications:countries_summary", kwargs={"pk": self.object_pk})
@@ -148,7 +154,7 @@ class Countries(SingleFormView):
 class ChooseContractType(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
-        self.form = contract_type_form()
+        self.form = choose_contract_type_form()
         self.action = validate_contract_type_countries_choice
 
     def get_success_url(self):
