@@ -11,8 +11,7 @@
 	</h1>
 
 	<div class="govuk-body-s">
-		<a href="{% url 'applications:countries' application_id %}"
-		   id="edit-countries" class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19">Change countries</a>
+		<a href="{% url 'applications:countries' application_id %}" id="edit-countries" class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19">Change countries</a>
 	</div>
 
 	<dl class="govuk-summary-list govuk-!-margin-bottom-9">
@@ -34,8 +33,7 @@
 					{% endif %}
 				</dd>
 				<dd class="govuk-summary-list__actions">
-					<a href="{% url 'applications:add_contract_type' application_id country.country_id %}"
-					   id="edit-contract-type-{{ country.country_id }}" class="govuk-link">{% lcs 'applications.DestinationsSummaryList.CHANGE_SECTORS_AND_CONTRACT_TYPES' %}</a>
+					<a href="{% url 'applications:add_contract_type' application_id country.country_id %}" id="edit-contract-type-{{ country.country_id }}" class="govuk-link">{% lcs 'applications.DestinationsSummaryList.CHANGE_SECTORS_AND_CONTRACT_TYPES' %}</a>
 				</dd>
 			</div>
 		{% endfor %}
@@ -44,7 +42,6 @@
 	<div class="govuk-body-s">
 		<a href="{% url 'applications:task_list' application_id %}" id="button-submit" class="govuk-button">{% lcs 'applications.DestinationsSummaryList.SAVE_AND_CONTINUE' %}</a>
 		<br>
-		<a href="{% url 'applications:task_list' application_id %}" id="back-link-task-list"
-		   class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19">{% lcs 'applications.DestinationsSummaryList.SAVE_AND_RETURN' %}</a>
+		<a href="{% url 'applications:task_list' application_id %}" id="back-link-task-list" class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19">{% lcs 'applications.DestinationsSummaryList.SAVE_AND_RETURN' %}</a>
 	</div>
 {% endblock %}
