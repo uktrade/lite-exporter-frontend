@@ -122,7 +122,7 @@ urlpatterns = [
         name="add_contract_type",
     ),
     path(
-        "<uuid:pk>/goods-locations/countries/contract-types/summary",
+        "<uuid:pk>/goods-locations/countries/contract-types/summary/",
         locations.CountriesAndContractTypesSummary.as_view(),
         name="countries_summary",
     ),
