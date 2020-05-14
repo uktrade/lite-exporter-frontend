@@ -142,10 +142,10 @@ class Countries(SingleFormView):
         if not countries_without_contract_type:
             return reverse_lazy("applications:countries_summary", kwargs={"pk": self.object_pk})
         else:
-            return reverse_lazy("applications:contract_types", kwargs={"pk": self.object_pk})
+            return reverse_lazy("applications:choose_contract_type", kwargs={"pk": self.object_pk})
 
 
-class ContractTypes(SingleFormView):
+class ChooseContractType(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
         self.form = contract_type_form()
@@ -156,10 +156,10 @@ class ContractTypes(SingleFormView):
         countries_without_contract_type = get_countries_missing_contract_types(self.request, self.object_pk)
 
         if choice == "all":
-            return reverse_lazy("applications:select_contract_country", kwargs={"pk": self.object_pk, "country": "all"})
+            return reverse_lazy("applications:add_contract_type", kwargs={"pk": self.object_pk, "country": "all"})
         if countries_without_contract_type:
             return reverse_lazy(
-                "applications:select_contract_country",
+                "applications:add_contract_type",
                 kwargs={"pk": self.object_pk, "country": countries_without_contract_type[0]["id"]},
             )
         else:
@@ -167,14 +167,12 @@ class ContractTypes(SingleFormView):
             return reverse_lazy("applications:countries_summary", kwargs={"pk": self.object_pk})
 
 
-class ContractTypePerCountry(SingleFormView):
-    selected_countries = None
-
+class AddContractTypes(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
-        current_country = self.kwargs["country"]
         self.action = put_contract_type_for_country
-        self.selected_countries = get_application_countries(self.request, self.object_pk)
+        current_country = self.kwargs["country"]
+        selected_countries = get_application_countries(self.request, self.object_pk)
         data_for_current_country = [
             country_entry
             for country_entry in get_application_countries_and_contract_types(self.request, self.object_pk)
@@ -191,37 +189,27 @@ class ContractTypePerCountry(SingleFormView):
 
         if current_country != "all":
             country_name = get_country(request, current_country)["name"]
-            if country_name not in str(self.selected_countries):
+            if country_name not in str(selected_countries):
                 return render(request, "404.html")
             self.form = contract_type_per_country_form([current_country], country_name)
         else:
-            selected_countries_ids = [country["id"] for country in self.selected_countries]
+            selected_countries_ids = [country["id"] for country in selected_countries]
             self.form = contract_type_per_country_form(selected_countries_ids, "all the countries")
 
     def get_success_url(self):
-        current_country = self.request.POST.get("countries[]")
         selected_countries_without_contract_types = get_countries_missing_contract_types(self.request, self.object_pk)
 
-        # Handle changing a single country's contract types from the summary list
-        if not selected_countries_without_contract_types:
+        # Go through all countries without contract types and render the form again allowing the user to select them
+        if selected_countries_without_contract_types:
+            next_country = selected_countries_without_contract_types[0]["id"]
+            return reverse_lazy(
+                "applications:add_contract_type", kwargs={"pk": self.object_pk, "country": next_country}
+            )
+        else:
             return reverse_lazy("applications:countries_summary", kwargs={"pk": self.object_pk})
 
-        # Find the index of the current country in the list of all selected so we can determine the next one
-        current_country_index = next(
-            (index for (index, d) in enumerate(self.selected_countries) if d["id"] == current_country), None
-        )
-        # This assumes the api returning the last country from the list it processed
-        # If country returned is not the last in the list of selected - keep going
-        # Once all countries have been assigned contract types, redirect to the summary list page
-        if isinstance(current_country_index, int) and current_country_index < len(self.selected_countries) - 1:
-            next_country = self.selected_countries[current_country_index + 1]["id"]
-            return reverse_lazy(
-                "applications:select_contract_country", kwargs={"pk": self.object_pk, "country": next_country}
-            )
-        return reverse_lazy("applications:countries_summary", kwargs={"pk": self.object_pk})
 
-
-class CountriesSummary(TemplateView):
+class CountriesAndContractTypesSummary(TemplateView):
     def get(self, request, **kwargs):
         object_pk = kwargs["pk"]
         countries_data = get_application_countries_and_contract_types(request, object_pk)

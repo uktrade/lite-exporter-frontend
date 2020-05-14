@@ -73,5 +73,6 @@ def contract_type_per_country_form(current_country, country_name):
             ),
             TextInput(name="other_contract_type_text", title="Provide details"),
         ],
+        javascript_imports=["/assets/javascripts/filter-checkbox-list.js"],
         default_button_name=strings.SAVE_AND_CONTINUE,
     )

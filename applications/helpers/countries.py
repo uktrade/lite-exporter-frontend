@@ -35,8 +35,9 @@ class ContractTypes:
 def prettify_country_data(countries):
     for country in countries:
         pretty_contract_types = []
-        for contract_type in country["contract_types"]:
-            if contract_type != "other_contract_type":
-                pretty_contract_types.append(ContractTypes.contract_types[contract_type])
-        country["contract_types"] = pretty_contract_types
+        if country["contract_types"]:
+            for contract_type in country["contract_types"]:
+                if contract_type != "other_contract_type":
+                    pretty_contract_types.append(ContractTypes.contract_types[contract_type])
+            country["contract_types"] = pretty_contract_types
     return countries

@@ -34,7 +34,7 @@
 					{% endif %}
 				</dd>
 				<dd class="govuk-summary-list__actions">
-					<a href="{% url 'applications:select_contract_country' application_id country.country_id %}"
+					<a href="{% url 'applications:add_contract_type' application_id country.country_id %}"
 					   id="edit-contract-type-{{ country.country_id }}" class="govuk-link">Change sectors and contract types</a>
 				</dd>
 			</div>
