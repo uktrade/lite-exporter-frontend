@@ -243,7 +243,7 @@ def _convert_goods_types(goods_types):
 
 
 def _convert_countries(countries):
-    return [{"Name": country["name"]} for country in countries]
+    return [{"Name": country["country"]["name"], "Contract types": country["contract_types"]} for country in countries]
 
 
 def _get_route_of_goods(application):
