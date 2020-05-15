@@ -1,4 +1,5 @@
 from applications.components import back_to_task_list
+from applications.helpers.countries import ContractTypes
 from core.services import get_countries
 from lite_content.lite_exporter_frontend import strings
 from lite_content.lite_exporter_frontend.applications import ContractTypes as contractTypeStrings
@@ -51,24 +52,7 @@ def contract_type_per_country_form(current_country, country_name):
             Checkboxes(
                 name="contract_types[]",
                 options=[
-                    Option(key="nuclear_related", value=contractTypeStrings.NUCLEAR_RELATED,),
-                    Option(key="navy", value=contractTypeStrings.NAVY,),
-                    Option(key="army", value=contractTypeStrings.ARMY,),
-                    Option(key="air_force", value=contractTypeStrings.AIR_FORCE,),
-                    Option(key="police", value=contractTypeStrings.POLICE,),
-                    Option(key="ministry_of_interior", value=contractTypeStrings.MINISTRY_OF_INTERIOR,),
-                    Option(key="other_security_forces", value=contractTypeStrings.OTHER_SECURITY_FORCES,),
-                    Option(key="companies_nuclear_related", value=contractTypeStrings.COMPANIES_NUCLEAR_RELATED,),
-                    Option(key="maritime_anti_piracy", value=contractTypeStrings.MARITIME_ANTI_PIRACY,),
-                    Option(key="aircraft_manufacturers", value=contractTypeStrings.AIRCRAFT_MANUFACTURERS,),
-                    Option(key="registered_firearm_dealers", value=contractTypeStrings.REGISTERED_FIREARM_DEALERS,),
-                    Option(key="oil_and_gas_industry", value=contractTypeStrings.OIL_AND_GAS_INDUSTRY,),
-                    Option(key="pharmaceutical_or_medical", value=contractTypeStrings.PHARMACEUTICAL_OR_MEDICAL,),
-                    Option(key="media", value=contractTypeStrings.MEDIA,),
-                    Option(key="private_military", value=contractTypeStrings.PRIVATE_MILITARY,),
-                    Option(key="education", value=contractTypeStrings.EDUCATION,),
-                    Option(key="for_the_exporters_own_use", value=contractTypeStrings.FOR_THE_EXPORTERS_OWN_USE,),
-                    Option(key="other_contract_type", value=contractTypeStrings.OTHER,),
+                    Option(key=key.value, value=ContractTypes.get_str_representation(key)) for key in ContractTypes
                 ],
                 classes=["govuk-checkboxes--small"],
             ),

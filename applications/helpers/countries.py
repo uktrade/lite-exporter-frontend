@@ -1,3 +1,5 @@
+from enum import Enum
+
 from applications.services import get_application_countries_and_contract_types
 from lite_content.lite_exporter_frontend.applications import ContractTypes as contractTypeStrings
 
@@ -10,27 +12,52 @@ def get_countries_missing_contract_types(request, object_pk):
     ]
 
 
-class ContractTypes:
-    contract_types = {
-        "nuclear_related": contractTypeStrings.NUCLEAR_RELATED,
-        "navy": contractTypeStrings.NAVY,
-        "army": contractTypeStrings.ARMY,
-        "air_force": contractTypeStrings.AIR_FORCE,
-        "police": contractTypeStrings.POLICE,
-        "ministry_of_interior": contractTypeStrings.MINISTRY_OF_INTERIOR,
-        "other_security_forces": contractTypeStrings.OTHER_SECURITY_FORCES,
-        "companies_nuclear_related": contractTypeStrings.COMPANIES_NUCLEAR_RELATED,
-        "maritime_anti_piracy": contractTypeStrings.MARITIME_ANTI_PIRACY,
-        "aircraft_manufacturers": contractTypeStrings.AIRCRAFT_MANUFACTURERS,
-        "registered_firearm_dealers": contractTypeStrings.REGISTERED_FIREARM_DEALERS,
-        "oil_and_gas_industry": contractTypeStrings.OIL_AND_GAS_INDUSTRY,
-        "pharmaceutical_or_medical": contractTypeStrings.PHARMACEUTICAL_OR_MEDICAL,
-        "media": contractTypeStrings.MEDIA,
-        "private_military": contractTypeStrings.PRIVATE_MILITARY,
-        "education": contractTypeStrings.EDUCATION,
-        "for_the_exporters_own_use": contractTypeStrings.FOR_THE_EXPORTERS_OWN_USE,
-        "other_contract_type": "",
-    }
+class ContractTypes(Enum):
+    NUCLEAR_RELATED = "nuclear_related"
+    NAVY = "navy"
+    ARMY = "army"
+    AIR_FORCE = "air_force"
+    POLICE = "police"
+    MINISTRY_OF_INTERIOR = "ministry_of_interior"
+    OTHER_SECURITY_FORCES = "other_security_forces"
+    COMPANIES_NUCLEAR_RELATED = "companies_nuclear_related"
+    MARITIME_ANTI_PIRACY = "maritime_anti_piracy"
+    AIRCRAFT_MANUFACTURERS = "aircraft_manufacturers"
+    REGISTERED_FIREARM_DEALERS = "registered_firearm_dealers"
+    OIL_AND_GAS_INDUSTRY = "oil_and_gas_industry"
+    PHARMACEUTICAL_OR_MEDICAL = "pharmaceutical_or_medical"
+    MEDIA = "media"
+    PRIVATE_MILITARY = "private_military"
+    EDUCATION = "education"
+    FOR_THE_EXPORTERS_OWN_USE = "for_the_exporters_own_use"
+    OTHER_CONTRACT_TYPE = "other_contract_type"
+
+    @classmethod
+    def string_mapping(cls):
+        return {
+            ContractTypes.NUCLEAR_RELATED: contractTypeStrings.NUCLEAR_RELATED,
+            ContractTypes.NAVY: contractTypeStrings.NAVY,
+            ContractTypes.ARMY: contractTypeStrings.ARMY,
+            ContractTypes.AIR_FORCE: contractTypeStrings.AIR_FORCE,
+            ContractTypes.POLICE: contractTypeStrings.POLICE,
+            ContractTypes.MINISTRY_OF_INTERIOR: contractTypeStrings.MINISTRY_OF_INTERIOR,
+            ContractTypes.OTHER_SECURITY_FORCES: contractTypeStrings.OTHER_SECURITY_FORCES,
+            ContractTypes.COMPANIES_NUCLEAR_RELATED: contractTypeStrings.COMPANIES_NUCLEAR_RELATED,
+            ContractTypes.MARITIME_ANTI_PIRACY: contractTypeStrings.MARITIME_ANTI_PIRACY,
+            ContractTypes.AIRCRAFT_MANUFACTURERS: contractTypeStrings.AIRCRAFT_MANUFACTURERS,
+            ContractTypes.REGISTERED_FIREARM_DEALERS: contractTypeStrings.REGISTERED_FIREARM_DEALERS,
+            ContractTypes.OIL_AND_GAS_INDUSTRY: contractTypeStrings.OIL_AND_GAS_INDUSTRY,
+            ContractTypes.PHARMACEUTICAL_OR_MEDICAL: contractTypeStrings.PHARMACEUTICAL_OR_MEDICAL,
+            ContractTypes.MEDIA: contractTypeStrings.MEDIA,
+            ContractTypes.PRIVATE_MILITARY: contractTypeStrings.PRIVATE_MILITARY,
+            ContractTypes.EDUCATION: contractTypeStrings.EDUCATION,
+            ContractTypes.FOR_THE_EXPORTERS_OWN_USE: contractTypeStrings.FOR_THE_EXPORTERS_OWN_USE,
+            ContractTypes.OTHER_CONTRACT_TYPE: contractTypeStrings.OTHER,
+        }
+
+    @classmethod
+    def get_str_representation(cls, key):
+        return ContractTypes.string_mapping()[key]
 
 
 def prettify_country_data(countries):
@@ -39,6 +66,6 @@ def prettify_country_data(countries):
         if country["contract_types"]:
             for contract_type in country["contract_types"]:
                 if contract_type != "other_contract_type":
-                    pretty_contract_types.append(ContractTypes.contract_types[contract_type])
+                    pretty_contract_types.append(ContractTypes.get_str_representation(ContractTypes(contract_type)))
             country["contract_types"] = pretty_contract_types
     return countries

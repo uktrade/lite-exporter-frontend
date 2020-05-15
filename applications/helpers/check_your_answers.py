@@ -3,6 +3,7 @@ from _decimal import Decimal
 from django.contrib.humanize.templatetags.humanize import intcomma
 from django.urls import reverse_lazy
 
+from applications.helpers.countries import ContractTypes
 from conf.constants import (
     NEWLINE,
     STANDARD,
@@ -243,7 +244,23 @@ def _convert_goods_types(goods_types):
 
 
 def _convert_countries(countries):
-    return [{"Name": country["country"]["name"], "Contract types": country["contract_types"]} for country in countries]
+    return [
+        {"Name": country["country"]["name"], "Contract types": convert_country_contract_types(country)}
+        for country in countries
+    ]
+
+
+def convert_country_contract_types(country):
+    return default_na(
+        NEWLINE.join(
+            [
+                ContractTypes.get_str_representation(ContractTypes(contract_type))
+                if contract_type != "other_contract_type"
+                else "Other contract type - " + country["other_contract_type_text"]
+                for contract_type in country["contract_types"]
+            ]
+        )
+    )
 
 
 def _get_route_of_goods(application):
