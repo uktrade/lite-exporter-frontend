@@ -246,6 +246,8 @@ def _convert_goods_types(goods_types):
 def _convert_countries(countries):
     return [
         {"Name": country["country"]["name"], "Contract types": convert_country_contract_types(country)}
+        if country["contract_types"]
+        else {"Name": country["country"]["name"]}
         for country in countries
     ]
 
