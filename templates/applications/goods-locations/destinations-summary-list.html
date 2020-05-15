@@ -39,9 +39,15 @@
 		{% endfor %}
 	</dl>
 
-	<div class="govuk-body-s">
-		<a href="{% url 'applications:task_list' application_id %}" id="button-submit" class="govuk-button">{% lcs 'applications.DestinationsSummaryList.SAVE_AND_CONTINUE' %}</a>
-		<br>
+	<div class="govuk-form-group">
+		<div class="lite-buttons-row">
+			<form action="{% url 'applications:task_list' application_id %}">
+				<button type="submit" name="_action" value="submit" id="button-save-continue" class="govuk-button">
+					{% lcs 'applications.DestinationsSummaryList.SAVE_AND_CONTINUE' %}
+				</button>
+			</form>
+			<br>
+		</div>
 		<a href="{% url 'applications:task_list' application_id %}" id="back-link-task-list" class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19">{% lcs 'applications.DestinationsSummaryList.SAVE_AND_RETURN' %}</a>
 	</div>
 {% endblock %}

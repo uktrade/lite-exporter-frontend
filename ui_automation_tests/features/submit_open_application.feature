@@ -30,6 +30,10 @@ Feature: I want to indicate the open licence I want
     Then I should see a list of countries
     When I click select all countries
     And I click continue
+    And I select that I want to add the same sectors and contract types to all countries
+    And I select contract types for all countries
+    Then I should see all countries and the chosen contract types on the destination summary list
+    When I click continue
     Then I can see the sections "ultimate-end-users" are on the task list
     When I click on the "ultimate-end-users" section
     And I click on the add button
