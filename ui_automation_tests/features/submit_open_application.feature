@@ -177,7 +177,10 @@ Feature: I want to indicate the open licence I want
     When I click the back link
     And I click on the "countries" section
     Then I should see the UK Continental Shelf as the only permitted destination
-    When I click the back link
+    When I click continue
+    And I select contract types for all countries
+    Then I should see the UK Continental Shelf as the only destination and the chosen contract types on the destination summary list
+    When I click continue
     And I submit the application
     And I click continue
     And I agree to the declaration

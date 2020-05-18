@@ -120,7 +120,7 @@ def select_contract_types_for_all_countries(driver, context):
     page = OpenApplicationCountryContractTypes(driver)
     context.contract_types = ["Navy", "Aircraft manufacturers, maintainers or operators", "Pharmaceutical or medical"]
     page.select_contract_type(context.contract_types[0])
-    page.select_contract_type(context.countract_types[1])
+    page.select_contract_type(context.contract_types[1])
     page.select_contract_type(context.contract_types[2])
     page.select_other_contract_type_and_fill_in_details()
     functions.click_submit(driver)
@@ -131,6 +131,20 @@ def i_should_see_destinations_summary_countries_contract_types(driver, context):
     page = OpenApplicationCountryContractTypesSummaryPage(driver)
     countries_and_contract_types = page.get_countries_with_respective_contract_types()
     assert len(countries_and_contract_types) == 274
+    for country_with_contract_types in countries_and_contract_types:
+        for contract_type in context.contract_types:
+            assert contract_type in country_with_contract_types[1]
+
+
+@then(
+    "I should see the UK Continental Shelf as the only destination and the chosen contract types on the destination summary list"
+)
+def i_should_see_destinations_summary_uk_continental_shelf_contract_types(driver, context):
+    page = OpenApplicationCountryContractTypesSummaryPage(driver)
+    countries_and_contract_types = page.get_countries_with_respective_contract_types()
+    print(countries_and_contract_types)
+    assert len(countries_and_contract_types) == 1
+    assert countries_and_contract_types[0][0] == "UK Continental Shelf"
     for country_with_contract_types in countries_and_contract_types:
         for contract_type in context.contract_types:
             assert contract_type in country_with_contract_types[1]
