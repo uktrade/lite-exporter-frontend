@@ -142,7 +142,6 @@ def i_should_see_destinations_summary_countries_contract_types(driver, context):
 def i_should_see_destinations_summary_uk_continental_shelf_contract_types(driver, context):
     page = OpenApplicationCountryContractTypesSummaryPage(driver)
     countries_and_contract_types = page.get_countries_with_respective_contract_types()
-    print(countries_and_contract_types)
     assert len(countries_and_contract_types) == 1
     assert countries_and_contract_types[0][0] == "UK Continental Shelf"
     for country_with_contract_types in countries_and_contract_types:
