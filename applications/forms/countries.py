@@ -6,7 +6,7 @@ from lite_content.lite_exporter_frontend.applications import ContractTypes as co
 from lite_forms.components import Form, Filter, Checkboxes, RadioButtons, Option, TextInput, HiddenField
 
 
-def countries_form(application_id):
+def countries_form(request, application_id):
     return Form(
         title=strings.applications.DestinationForm.TITLE,
         description=strings.applications.DestinationForm.DESCRIPTION,
@@ -14,7 +14,7 @@ def countries_form(application_id):
             Filter(),
             Checkboxes(
                 name="countries[]",
-                options=get_countries(None, True),
+                options=get_countries(request, True),
                 classes=["govuk-checkboxes--small"],
                 show_select_links=True,
             ),

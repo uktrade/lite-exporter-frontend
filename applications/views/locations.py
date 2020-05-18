@@ -9,11 +9,11 @@ from applications.constants import OielLicenceTypes
 from applications.forms.countries import countries_form, choose_contract_type_form, contract_type_per_country_form
 from applications.forms.locations import (
     which_location_form,
-    new_location_form,
     external_locations_form,
     add_external_location,
     Locations,
     sites_form,
+    new_external_location_form,
 )
 from applications.helpers.check_your_answers import is_application_oiel_of_type
 from applications.helpers.countries import get_countries_missing_contract_types, prettify_country_data
@@ -40,7 +40,7 @@ from core.services import (
     get_country,
 )
 from lite_content.lite_exporter_frontend.applications import ContractTypes
-from lite_forms.views import SingleFormView
+from lite_forms.views import SingleFormView, MultiFormView
 
 
 class GoodsLocation(TemplateView):
@@ -71,7 +71,11 @@ class EditGoodsLocation(SingleFormView):
     def get_success_url(self):
         choice = self.get_validated_data()["choice"]
         if choice == Locations.EXTERNAL:
-            return reverse_lazy("applications:select_add_external_location", kwargs={"pk": self.object_pk})
+            return (
+                reverse_lazy("applications:select_add_external_location", kwargs={"pk": self.object_pk})
+                + "?return_to_link="
+                + self.request.get_full_path()
+            )
         elif choice == Locations.ORGANISATION:
             return reverse_lazy("applications:existing_sites", kwargs={"pk": self.object_pk})
         elif choice == Locations.DEPARTED:
@@ -81,13 +85,17 @@ class EditGoodsLocation(SingleFormView):
 class SelectAddExternalLocation(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
-        self.form = add_external_location()
+        self.form = add_external_location(request)
         self.action = validate_external_location_choice
 
     def get_success_url(self):
         choice = self.get_validated_data()["choice"]
         if choice == "new":
-            return reverse_lazy("applications:add_external_location", kwargs={"pk": self.object_pk})
+            return (
+                reverse_lazy("applications:add_external_location", kwargs={"pk": self.object_pk})
+                + "?return_to_link="
+                + self.request.get_full_path()
+            )
         else:
             return reverse_lazy("applications:add_preexisting_external_location", kwargs={"pk": self.object_pk})
 
@@ -106,11 +114,12 @@ class ExistingSites(SingleFormView):
         self.success_url = reverse_lazy("applications:location", kwargs={"pk": self.object_pk})
 
 
-class AddExternalLocation(SingleFormView):
+class AddExternalLocation(MultiFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
         application = get_application(request, self.object_pk)
-        self.form = new_location_form(application.type_reference)
+        location_type = request.POST.get("location_type", None)
+        self.forms = new_external_location_form(request, application.type_reference, location_type)
         self.action = post_external_locations
         self.success_url = reverse_lazy("applications:location", kwargs={"pk": self.object_pk})
 
@@ -138,7 +147,7 @@ class Countries(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
         self.data = {"countries": get_application_countries(request, self.object_pk)}
-        self.form = countries_form(self.object_pk)
+        self.form = countries_form(request, self.object_pk)
         self.action = post_application_countries
 
     def get_success_url(self):
@@ -250,6 +259,7 @@ class CountriesAndContractTypesSummary(TemplateView):
             "is_application_oiel_continental_shelf": len(countries) == 1 and countries[0]["country_id"] == "UKCS",
             "countries": prettified_countries,
         }
+
         return render(request, "applications/goods-locations/destinations-summary-list.html", context)
 
 
@@ -271,4 +281,5 @@ class StaticDestinations(TemplateView):
             "goodstype_category": goodstype_category,
             "goodstype_category_label": goodstype_category_label,
         }
+
         return render(request, "applications/goods-locations/static-all-destinations.html", context)

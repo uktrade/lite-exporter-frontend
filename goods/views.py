@@ -96,7 +96,7 @@ class GoodsDetail(TemplateView):
 
     def dispatch(self, request, *args, **kwargs):
         self.good_id = str(kwargs["pk"])
-        self.good = get_good(request, self.good_id)[0]
+        self.good = get_good(request, self.good_id, full_detail=True)[0]
         self.view_type = kwargs["type"]
 
         if self.view_type not in ["case-notes", "ecju-queries", "ecju-generated-documents"]:
@@ -142,7 +142,7 @@ class GoodsDetail(TemplateView):
             return Http404
 
         good_id = kwargs["pk"]
-        data, _ = get_good(request, str(good_id))
+        data, _ = get_good(request, str(good_id), full_detail=True)
 
         response, _ = post_case_notes(request, data["case_id"], request.POST)
 
@@ -156,12 +156,12 @@ class AddGood(MultiFormView):
     actions = [validate_good, post_goods, post_good_with_pv_grading]
 
     def init(self, request, **kwargs):
-        self.forms = add_good_form_group()
+        self.forms = add_good_form_group(request)
         self.action = post_goods
 
     def on_submission(self, request, **kwargs):
         is_pv_graded = request.POST.copy().get("is_pv_graded", "").lower() == "yes"
-        self.forms = add_good_form_group(is_pv_graded)
+        self.forms = add_good_form_group(request, is_pv_graded)
         if int(self.request.POST.get("form_pk")) == 1:
             self.action = self.actions[2]
         elif (int(self.request.POST.get("form_pk")) == 0) and is_pv_graded:
@@ -188,7 +188,7 @@ class EditGood(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = str(kwargs["pk"])
         self.data = get_good(request, self.object_pk)[0]
-        self.form = edit_good_detail_form(self.object_pk)
+        self.form = edit_good_detail_form(request, self.object_pk)
         self.action = edit_good
         self.success_url = reverse_lazy("goods:good", kwargs={"pk": self.object_pk})
 
@@ -197,7 +197,7 @@ class EditGrading(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = str(kwargs["pk"])
         self.data = get_good(request, self.object_pk)[0]
-        self.form = edit_grading_form(self.object_pk)
+        self.form = edit_grading_form(request, self.object_pk)
         self.action = edit_good_pv_grading
         self.success_url = reverse_lazy("goods:good", kwargs={"pk": self.object_pk})
 
@@ -214,7 +214,7 @@ class EditGrading(SingleFormView):
         return data
 
     def get_success_url(self):
-        good = get_good(self.request, self.object_pk)[0]
+        good = get_good(self.request, self.object_pk, full_detail=True)[0]
 
         raise_a_clc_query = "unsure" == good["is_good_controlled"]["key"]
         raise_a_pv_query = "grading_required" == good["is_pv_graded"]["key"]
@@ -311,12 +311,11 @@ class DeleteDocument(TemplateView):
         good_id = str(kwargs["pk"])
         file_pk = str(kwargs["file_pk"])
 
-        good, _ = get_good(request, good_id)
         document = get_good_document(request, good_id, file_pk)
 
         context = {
             "title": goods.DeleteGoodDocumentPage.TITLE,
-            "good": good,
+            "good_id": good_id,
             "document": document,
         }
         return render(request, "goods/delete-document.html", context)
@@ -341,7 +340,7 @@ class RespondToQuery(TemplateView):
         self.good_id = str(kwargs["pk"])
         self.ecju_query_id = str(kwargs["query_pk"])
 
-        good, _ = get_good(request, self.good_id)
+        good, _ = get_good(request, self.good_id, full_detail=True)
         self.clc_query_case_id = good["case_id"]
         self.ecju_query = get_ecju_query(request, self.clc_query_case_id, self.ecju_query_id)
 

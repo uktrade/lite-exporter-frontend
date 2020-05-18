@@ -86,14 +86,10 @@ def _convert_gifting_clearance(application, editable=False):
 
 
 def _convert_standard_application(application, editable=False, is_summary=False):
-    return {
+    converted_app = {
         **(
-            {
-                applications.ApplicationSummaryPage.GOODS_CATEGORIES: ", ".join(
-                    [x["value"] for x in application["goods_categories"]]
-                ),
-            }
-            if is_summary is False
+            {applications.ApplicationSummaryPage.GOODS_CATEGORIES: _get_goods_categories(application),}
+            if application.case_type["reference"]["key"] in [CaseTypes.SIEL, CaseTypes.SITL]
             else {}
         ),
         applications.ApplicationSummaryPage.GOODS: _convert_goods(application["goods"]),
@@ -124,9 +120,21 @@ def _convert_standard_application(application, editable=False, is_summary=False)
         ),
     }
 
+    if application.case_type["reference"]["key"] in [CaseTypes.SIEL, CaseTypes.SITL]:
+        converted_app[applications.ApplicationSummaryPage.GOODS_CATEGORIES] = _get_goods_categories(application)
+
+    return converted_app
+
 
 def _convert_open_application(application, editable=False):
     return {
+        **(
+            {applications.ApplicationSummaryPage.GOODS_CATEGORIES: _get_goods_categories(application),}
+            if application.case_type["reference"]["key"] == CaseTypes.OIEL
+            and application.goodstype_category["key"]
+            in [GoodsTypeCategory.MILITARY, GoodsTypeCategory.UK_CONTINENTAL_SHELF]
+            else {}
+        ),
         applications.ApplicationSummaryPage.GOODS: _convert_goods_types(application["goods_types"]),
         **(
             {applications.ApplicationSummaryPage.END_USE_DETAILS: _get_end_use_details(application),}
@@ -205,7 +213,7 @@ def _convert_goods(goods, is_exhibition=False):
         goods_dict = {
             "Description": good["good"]["description"],
             "Part number": default_na(good["good"]["part_number"]),
-            "Controlled": friendly_boolean(good["good"]["is_good_controlled"]),
+            "Controlled": good["good"]["is_good_controlled"]["value"],
             "Control list entries": convert_control_list_entries(good["good"]["control_list_entries"]),
         }
         if is_exhibition:
@@ -272,6 +280,15 @@ def _get_route_of_goods(application):
             "Answer": friendly_boolean(application.get("is_shipped_waybill_or_lading"))
             + NEWLINE
             + (application.get("non_waybill_or_lading_route_details") or ""),
+        }
+    ]
+
+
+def _get_goods_categories(application):
+    return [
+        {
+            "Description": applications.GoodsCategories.GOODS_CATEGORIES,
+            "Answer": friendly_boolean(application.get("contains_firearm_goods")),
         }
     ]
 

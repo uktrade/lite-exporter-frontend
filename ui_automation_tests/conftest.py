@@ -37,6 +37,7 @@ from ui_automation_tests.shared.fixtures.apply_for_application import (  # noqa
     apply_for_exhibition_clearance,
     apply_for_f680_clearance,
     apply_for_gifting_clearance,
+    apply_for_trade_control_application,
 )
 from ui_automation_tests.shared.fixtures.add_a_draft import add_a_draft  # noqa
 from ui_automation_tests.shared.fixtures.add_a_document_template import (  # noqa
@@ -192,6 +193,12 @@ def enter_permanent_or_temporary(driver, permanent_or_temporary, context):  # no
     # type needs to be permanent or temporary
     apply = ApplyForALicencePage(driver)
     apply.click_permanent_or_temporary_button(permanent_or_temporary)
+    functions.click_submit(driver)
+
+
+def answer_firearms_question(driver):  # noqa
+    apply = ApplyForALicencePage(driver)
+    apply.select_firearms_yes()
     functions.click_submit(driver)
 
 
@@ -714,3 +721,13 @@ def sections_did_not_appear_on_task_list(driver, sections):  # noqa
 @given(parsers.parse('the status is set to "{status}"'))  # noqa
 def set_status(api_test_client, context, status):  # noqa
     api_test_client.applications.set_status(context.app_id, status)
+
+
+@then("I see my edited reference number")
+def assert_ref_num(driver):  # noqa
+    assert "12345678" in driver.find_element_by_css_selector(".lite-task-list").text
+
+
+@when("I change my reference number")
+def change_ref_num(driver, context):  # noqa
+    enter_export_licence(driver, "yes", "12345678", context)

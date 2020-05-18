@@ -37,7 +37,7 @@ GENERATED_DOCUMENTS_URL = "/generated-documents/"
 ADDITIONAL_DOCUMENT_URL = "/documents/"
 MANAGE_STATUS_URL = "/status/"
 DOCUMENT_SENSITIVITY_URL = "/document-sensitivity/"
-EXISTING_PARTIES_URL = "/existing-parties"
+EXISTING_PARTIES_URL = "/existing-parties/"
 COUNTRIES_URL = "/countries/"
 LICENCES_URL = "/licences/"
 CONTRACT_TYPES_URL = "/contract-types/"
@@ -150,6 +150,11 @@ APPLICATION_TYPE_STRINGS = {
     F680: applications.ApplicationPage.Summary.Licence.F680,
     EXHIBITION: applications.ApplicationPage.Summary.Licence.EXHIBITION,
 }
+
+
+class LocationType:
+    SEA_BASED = "sea_based"
+    LAND_BASED = "land_based"
 
 
 class GoodsTypeCategory:
