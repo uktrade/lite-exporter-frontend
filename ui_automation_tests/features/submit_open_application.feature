@@ -84,6 +84,10 @@ Feature: I want to indicate the open licence I want
     When I search for country "Canada"
     Then only "Canada" is displayed in country list
     When I click continue
+    And I select that I want to add the same sectors and contract types to all countries
+    And I select contract types for all countries
+    Then I should see all countries and the chosen contract types on the destination summary list
+    When I click continue
     And I click on the "countries-matrix" section
     When I "unassign" all countries to all goods with link
     Then I see all countries are "unassigned" to all goods
