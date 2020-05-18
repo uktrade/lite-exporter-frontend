@@ -142,6 +142,11 @@
 				{% if application_type|application_type_in_list:"HAS_COUNTRIES" %}
 					{% if oiel_noneditable_countries %}
 						{% url 'applications:static_destinations' application.id as countries_url %}
+						{% if is_uk_continental_shelf_application %}
+							{% if not countries_missing_contract_types %}
+								{% url 'applications:countries_summary' application.id as countries_url %}
+							{% endif %}
+						{% endif %}
 					{% elif not is_military_dual_use_application  %}
 						{% url 'applications:countries' application.id as countries_url %}
 						{% tld countries 'country' 'countries' as countries_description %}

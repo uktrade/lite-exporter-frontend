@@ -5,6 +5,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
+from applications.constants import OielLicenceTypes
 from applications.forms.countries import countries_form, choose_contract_type_form, contract_type_per_country_form
 from applications.forms.locations import (
     which_location_form,
@@ -37,6 +38,7 @@ from core.services import (
     delete_external_locations_from_draft,
     get_country,
 )
+from lite_content.lite_exporter_frontend.applications import ContractTypes
 from lite_forms.views import SingleFormView
 
 
@@ -161,8 +163,11 @@ class ChooseContractType(SingleFormView):
         choice = self.get_validated_data()["choice"]
         countries_without_contract_type = get_countries_missing_contract_types(self.request, self.object_pk)
 
-        if choice == "all":
-            return reverse_lazy("applications:add_contract_type", kwargs={"pk": self.object_pk, "country": "all"})
+        if choice == ContractTypes.Variables.ALL_COUNTRIES_CHOSEN:
+            return reverse_lazy(
+                "applications:add_contract_type",
+                kwargs={"pk": self.object_pk, "country": ContractTypes.Variables.ALL_COUNTRIES_CHOSEN},
+            )
         if countries_without_contract_type:
             return reverse_lazy(
                 "applications:add_contract_type",
@@ -177,6 +182,7 @@ class AddContractTypes(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
         self.action = put_contract_type_for_country
+        application = get_application(request, self.object_pk)
         current_country = self.kwargs["country"]
         selected_countries = get_application_countries(self.request, self.object_pk)
         data_for_current_country = [
@@ -193,11 +199,18 @@ class AddContractTypes(SingleFormView):
             else {}
         )
 
-        if current_country != "all":
-            country_name = get_country(request, current_country)["name"]
-            if country_name not in str(selected_countries):
-                return render(request, "404.html")
-            self.form = contract_type_per_country_form([current_country], country_name)
+        if current_country != ContractTypes.Variables.ALL_COUNTRIES_CHOSEN:
+            # UKCS is not returned by the static/countries endpoint due to its special status so it is handled here:
+            if is_application_oiel_of_type(OielLicenceTypes.UK_CONTINENTAL_SHELF.value, application):
+                self.form = contract_type_per_country_form([current_country], "UK Continental Shelf")
+            else:
+                # Do not allow contract types for UKCS for any other application types
+                if current_country == "UKCS":
+                    return render(request, "404.html")
+                country_name = get_country(request, current_country)["name"]
+                if country_name not in str(selected_countries):
+                    return render(request, "404.html")
+                self.form = contract_type_per_country_form([current_country], country_name)
         else:
             selected_countries_ids = [country["id"] for country in selected_countries]
             self.form = contract_type_per_country_form(selected_countries_ids, "all the countries")
@@ -232,6 +245,7 @@ class CountriesAndContractTypesSummary(TemplateView):
         prettified_countries = prettify_country_data(sorted(countries, key=itemgetter("country_name")))
         context = {
             "application_id": str(object_pk),
+            "is_application_oiel_continental_shelf": len(countries) == 1 and countries[0]["country_id"] == "UKCS",
             "countries": prettified_countries,
         }
         return render(request, "applications/goods-locations/destinations-summary-list.html", context)
@@ -239,6 +253,7 @@ class CountriesAndContractTypesSummary(TemplateView):
 
 class StaticDestinations(TemplateView):
     # To be used for OIELs where all countries are preselected and non-modifiable by the user
+    # The UKCS OIEL is a special case - this is the initial page displayed before prompting the user to select contract types
     def get(self, request, **kwargs):
         application_id = str(kwargs["pk"])
         application = get_application(request, application_id)

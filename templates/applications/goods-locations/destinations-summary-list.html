@@ -10,9 +10,11 @@
 		{% endblock %}
 	</h1>
 
-	<div class="govuk-body-s">
-		<a href="{% url 'applications:countries' application_id %}" id="edit-countries" class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19">Change countries</a>
-	</div>
+	{% if not is_application_oiel_continental_shelf %}
+		<div class="govuk-body-s">
+			<a href="{% url 'applications:countries' application_id %}" id="edit-countries" class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19">Change countries</a>
+		</div>
+	{% endif %}
 
 	<dl class="govuk-summary-list govuk-!-margin-bottom-9">
 		{% for country in countries %}
