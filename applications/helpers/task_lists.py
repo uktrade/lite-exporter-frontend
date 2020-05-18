@@ -15,7 +15,7 @@ from applications.services import (
     get_application_goods,
     get_additional_documents,
 )
-from conf.constants import HMRC, OPEN, STANDARD, EXHIBITION, F680, GIFTING, Permissions, GoodsTypeCategory
+from conf.constants import HMRC, OPEN, STANDARD, EXHIBITION, F680, GIFTING, Permissions, GoodsTypeCategory, CaseTypes
 from core.services import get_sites_on_draft, get_external_locations_on_draft
 from lite_content.lite_exporter_frontend.strings import applications
 from organisation.roles.services import get_user_permissions
@@ -88,7 +88,7 @@ def get_application_task_list(request, application, errors=None):
                     goods_type["is_good_incorporated"] for goods_type in goods_types
                 ]
         context["route_of_goods"] = get_route_of_goods(application)
-
+        context["is_oicl_appplication"] = application.type_reference == CaseTypes.OICL
         if application.get("goodstype_category"):
             goodstype_category = application.get("goodstype_category").get("key")
             context["is_uk_continental_shelf_application"] = (

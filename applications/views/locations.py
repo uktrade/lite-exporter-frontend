@@ -29,6 +29,7 @@ from applications.services import (
     put_contract_type_for_country,
     get_application_countries_and_contract_types,
 )
+from conf.constants import CaseTypes
 from core.services import (
     get_sites_on_draft,
     post_sites_on_draft,
@@ -143,7 +144,8 @@ class Countries(SingleFormView):
     def get_success_url(self):
         application = get_application(self.request, self.object_pk)
 
-        if not is_application_oiel_of_type("military", application):
+        # Only military OIELs and Open Trade Control Licences have contract types per destination
+        if not (is_application_oiel_of_type("military", application) or application.type_reference == CaseTypes.OICL):
             return reverse_lazy("applications:task_list", kwargs={"pk": self.object_pk})
 
         countries_without_contract_type = get_countries_missing_contract_types(self.request, self.object_pk)
