@@ -118,10 +118,17 @@ def select_yes_to_all_countries_with_the_same_contract_types(driver):
 @when("I select contract types for all countries")
 def select_contract_types_for_all_countries(driver, context):
     page = OpenApplicationCountryContractTypes(driver)
-    context.contract_types = ["Navy", "Aircraft manufacturers, maintainers or operators", "Pharmaceutical or medical"]
-    page.select_contract_type(context.contract_types[0])
-    page.select_contract_type(context.contract_types[1])
-    page.select_contract_type(context.contract_types[2])
+    context.contract_types = [
+        {"id": "Navy", "value": "Navy"},
+        {
+            "id": "Aircraft-manufacturers,-maintainers-or-operators",
+            "value": "Aircraft manufacturers, maintainers or operators",
+        },
+        {"id": "Pharmaceutical-or-medical", "value": "Pharmaceutical or medical"},
+    ]
+    page.select_contract_type(context.contract_types[0]["id"])
+    page.select_contract_type(context.contract_types[1]["id"])
+    page.select_contract_type(context.contract_types[2]["id"])
     page.select_other_contract_type_and_fill_in_details()
     functions.click_submit(driver)
 
@@ -133,7 +140,7 @@ def i_should_see_destinations_summary_countries_contract_types(driver, context):
     assert len(countries_and_contract_types) == 274
     for country_with_contract_types in countries_and_contract_types:
         for contract_type in context.contract_types:
-            assert contract_type in country_with_contract_types[1]
+            assert contract_type["value"] in country_with_contract_types[1]
 
 
 @then(
@@ -146,7 +153,7 @@ def i_should_see_destinations_summary_uk_continental_shelf_contract_types(driver
     assert countries_and_contract_types[0][0] == "UK Continental Shelf"
     for country_with_contract_types in countries_and_contract_types:
         for contract_type in context.contract_types:
-            assert contract_type in country_with_contract_types[1]
+            assert contract_type["value"] in country_with_contract_types[1]
 
 
 @when(parsers.parse('I "{assign_or_unassign}" all countries to all goods with link'))
