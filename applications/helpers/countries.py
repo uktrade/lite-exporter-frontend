@@ -4,6 +4,7 @@ from applications.services import get_application_countries_and_contract_types
 from lite_content.lite_exporter_frontend.applications import ContractTypes as contractTypeStrings
 
 
+# TODO optimise - remove and replace with light version in task list
 def get_countries_missing_contract_types(request, object_pk):
     return [
         entry["country"]
@@ -64,7 +65,8 @@ def prettify_country_data(countries):
     for country in countries:
         pretty_contract_types = []
         if country["contract_types"]:
-            for contract_type in country["contract_types"]:
+            contract_types = country["contract_types"].split(",")
+            for contract_type in contract_types:
                 if contract_type != "other_contract_type":
                     pretty_contract_types.append(ContractTypes.get_str_representation(ContractTypes(contract_type)))
             country["contract_types"] = pretty_contract_types

@@ -5,7 +5,6 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
-from applications.constants import OielLicenceTypes
 from applications.forms.countries import countries_form, choose_contract_type_form, contract_type_per_country_form
 from applications.forms.locations import (
     which_location_form,
@@ -16,7 +15,7 @@ from applications.forms.locations import (
     new_external_location_form,
 )
 from applications.helpers.check_your_answers import is_application_oiel_of_type
-from applications.helpers.countries import get_countries_missing_contract_types, prettify_country_data
+from applications.helpers.countries import prettify_country_data
 from applications.helpers.validators import (
     validate_external_location_choice,
     validate_and_update_goods_location_choice,
@@ -27,7 +26,7 @@ from applications.services import (
     get_application_countries,
     post_application_countries,
     put_contract_type_for_country,
-    get_application_countries_and_contract_types,
+    get_application_countries_and_contract_types_light,
 )
 from conf.constants import CaseTypes
 from core.services import (
@@ -37,7 +36,6 @@ from core.services import (
     get_external_locations_on_draft,
     post_external_locations_on_draft,
     delete_external_locations_from_draft,
-    get_country,
 )
 from lite_content.lite_exporter_frontend.applications import ContractTypes
 from lite_forms.views import SingleFormView, MultiFormView
@@ -146,7 +144,12 @@ class AddExistingExternalLocation(SingleFormView):
 class Countries(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
-        self.data = {"countries": get_application_countries(request, self.object_pk)}
+        self.data = {
+            "countries": [
+                country_entry["country_id"]
+                for country_entry in get_application_countries_and_contract_types_light(request, self.object_pk)
+            ]
+        }
         self.form = countries_form(request, self.object_pk)
         self.action = post_application_countries
 
@@ -157,7 +160,12 @@ class Countries(SingleFormView):
         if not (is_application_oiel_of_type("military", application) or application.type_reference == CaseTypes.OICL):
             return reverse_lazy("applications:task_list", kwargs={"pk": self.object_pk})
 
-        countries_without_contract_type = get_countries_missing_contract_types(self.request, self.object_pk)
+        countries_without_contract_type = [
+            entry["country_id"]
+            for entry in get_application_countries_and_contract_types_light(self.request, self.object_pk)
+            if not entry["contract_types"]
+        ]
+
         if not countries_without_contract_type:
             return reverse_lazy("applications:countries_summary", kwargs={"pk": self.object_pk})
         else:
@@ -172,7 +180,11 @@ class ChooseContractType(SingleFormView):
 
     def get_success_url(self):
         choice = self.get_validated_data()["choice"]
-        countries_without_contract_type = get_countries_missing_contract_types(self.request, self.object_pk)
+        countries_without_contract_type = [
+            entry["country_id"]
+            for entry in get_application_countries_and_contract_types_light(self.request, self.object_pk)
+            if not entry["contract_types"]
+        ]
 
         if choice == ContractTypes.Variables.ALL_COUNTRIES_CHOSEN:
             return reverse_lazy(
@@ -182,7 +194,7 @@ class ChooseContractType(SingleFormView):
         if countries_without_contract_type:
             return reverse_lazy(
                 "applications:add_contract_type",
-                kwargs={"pk": self.object_pk, "country": countries_without_contract_type[0]["id"]},
+                kwargs={"pk": self.object_pk, "country": countries_without_contract_type[0]},
             )
         else:
             # Redirect to the summary page if a country has been removed
@@ -190,20 +202,22 @@ class ChooseContractType(SingleFormView):
 
 
 class AddContractTypes(SingleFormView):
+    contract_types_and_countries = None
+
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
         self.action = put_contract_type_for_country
-        application = get_application(request, self.object_pk)
+        self.contract_types_and_countries = get_application_countries_and_contract_types_light(request, self.object_pk)
         current_country = self.kwargs["country"]
-        selected_countries = get_application_countries(self.request, self.object_pk)
+        selected_countries = [country_entry["country_id"] for country_entry in self.contract_types_and_countries]
         data_for_current_country = [
             country_entry
-            for country_entry in get_application_countries_and_contract_types(self.request, self.object_pk)
-            if country_entry["country"]["id"] == current_country
+            for country_entry in self.contract_types_and_countries
+            if country_entry["country_id"] == current_country
         ]
         self.data = (
             {
-                "contract_types": data_for_current_country[0]["contract_types"],
+                "contract_types": data_for_current_country[0]["contract_types"].split(","),
                 "other_contract_type_text": data_for_current_country[0]["other_contract_type_text"],
             }
             if data_for_current_country
@@ -211,27 +225,26 @@ class AddContractTypes(SingleFormView):
         )
 
         if current_country != ContractTypes.Variables.ALL_COUNTRIES_CHOSEN:
-            # UKCS is not returned by the static/countries endpoint due to its special status so it is handled here:
-            if is_application_oiel_of_type(OielLicenceTypes.UK_CONTINENTAL_SHELF.value, application):
-                self.form = contract_type_per_country_form([current_country], "UK Continental Shelf")
+            if current_country == "UKCS":
+                country_name = "UK Continental Shelf"
             else:
-                # Do not allow contract types for UKCS for any other application types
-                if current_country == "UKCS":
-                    return render(request, "404.html")
-                country_name = get_country(request, current_country)["name"]
-                if country_name not in str(selected_countries):
-                    return render(request, "404.html")
-                self.form = contract_type_per_country_form([current_country], country_name)
+                country_name = data_for_current_country[0]["country__name"]
+            if country_name not in str(self.contract_types_and_countries):
+                return render(request, "404.html")
+            self.form = contract_type_per_country_form([current_country], country_name)
         else:
-            selected_countries_ids = [country["id"] for country in selected_countries]
+            selected_countries_ids = selected_countries
             self.form = contract_type_per_country_form(selected_countries_ids, "all the countries")
 
     def get_success_url(self):
-        selected_countries_without_contract_types = get_countries_missing_contract_types(self.request, self.object_pk)
-
-        # Go through all countries without contract types and render the form again allowing the user to select them
-        if selected_countries_without_contract_types:
-            next_country = selected_countries_without_contract_types[0]["id"]
+        # Go through all countries without contract types and render the form again with the first country passed in
+        next_country = None
+        if self.kwargs["country"] != ContractTypes.Variables.ALL_COUNTRIES_CHOSEN:
+            for country_entry in self.contract_types_and_countries:
+                if not country_entry["contract_types"] and country_entry["country_id"] != self.kwargs["country"]:
+                    next_country = country_entry["country_id"]
+                    break
+        if next_country:
             return reverse_lazy(
                 "applications:add_contract_type", kwargs={"pk": self.object_pk, "country": next_country}
             )
@@ -242,11 +255,11 @@ class AddContractTypes(SingleFormView):
 class CountriesAndContractTypesSummary(TemplateView):
     def get(self, request, **kwargs):
         object_pk = kwargs["pk"]
-        countries_data = get_application_countries_and_contract_types(request, object_pk)
+        countries_data = get_application_countries_and_contract_types_light(request, object_pk)
         countries = [
             {
-                "country_id": country_entry["country"]["id"],
-                "country_name": country_entry["country"]["name"],
+                "country_id": country_entry["country_id"],
+                "country_name": country_entry["country__name"],
                 "contract_types": country_entry["contract_types"],
                 "other_contract_type_text": country_entry["other_contract_type_text"],
             }
