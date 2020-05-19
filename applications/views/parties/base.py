@@ -111,6 +111,7 @@ class CopyParties(TemplateView):
             name=request.GET.get("name"),
             address=request.GET.get("address"),
             country=request.GET.get("country"),
+            page=request.GET.get("page"),
         )
 
         filters = FiltersBar(
