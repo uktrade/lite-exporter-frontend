@@ -26,7 +26,7 @@ from applications.services import (
     get_application_countries,
     post_application_countries,
     put_contract_type_for_country,
-    get_application_countries_and_contract_types_light,
+    get_application_countries_and_contract_types,
 )
 from conf.constants import CaseTypes
 from core.services import (
@@ -147,7 +147,7 @@ class Countries(SingleFormView):
         self.data = {
             "countries": [
                 country_entry["country_id"]
-                for country_entry in get_application_countries_and_contract_types_light(request, self.object_pk)
+                for country_entry in get_application_countries_and_contract_types(request, self.object_pk)
             ]
         }
         self.form = countries_form(request, self.object_pk)
@@ -162,7 +162,7 @@ class Countries(SingleFormView):
 
         countries_without_contract_type = [
             entry["country_id"]
-            for entry in get_application_countries_and_contract_types_light(self.request, self.object_pk)
+            for entry in get_application_countries_and_contract_types(self.request, self.object_pk)
             if not entry["contract_types"]
         ]
 
@@ -182,7 +182,7 @@ class ChooseContractType(SingleFormView):
         choice = self.get_validated_data()["choice"]
         countries_without_contract_type = [
             entry["country_id"]
-            for entry in get_application_countries_and_contract_types_light(self.request, self.object_pk)
+            for entry in get_application_countries_and_contract_types(self.request, self.object_pk)
             if not entry["contract_types"]
         ]
 
@@ -207,7 +207,7 @@ class AddContractTypes(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
         self.action = put_contract_type_for_country
-        self.contract_types_and_countries = get_application_countries_and_contract_types_light(request, self.object_pk)
+        self.contract_types_and_countries = get_application_countries_and_contract_types(request, self.object_pk)
         current_country = self.kwargs["country"]
         selected_countries = [country_entry["country_id"] for country_entry in self.contract_types_and_countries]
         data_for_current_country = [
@@ -237,10 +237,11 @@ class AddContractTypes(SingleFormView):
             self.form = contract_type_per_country_form(selected_countries_ids, "all the countries")
 
     def get_success_url(self):
-        # Go through all countries without contract types and render the form again with the first country passed in
+        # Go through all countries without contract types and render the form again if needed
         next_country = None
         if self.kwargs["country"] != ContractTypes.Variables.ALL_COUNTRIES_CHOSEN:
             for country_entry in self.contract_types_and_countries:
+                # If a country has no contract types and it is not the current country (still empty as we do not do an additional call to the api)
                 if not country_entry["contract_types"] and country_entry["country_id"] != self.kwargs["country"]:
                     next_country = country_entry["country_id"]
                     break
@@ -255,7 +256,7 @@ class AddContractTypes(SingleFormView):
 class CountriesAndContractTypesSummary(TemplateView):
     def get(self, request, **kwargs):
         object_pk = kwargs["pk"]
-        countries_data = get_application_countries_and_contract_types_light(request, object_pk)
+        countries_data = get_application_countries_and_contract_types(request, object_pk)
         countries = [
             {
                 "country_id": country_entry["country_id"],

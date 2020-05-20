@@ -1,16 +1,6 @@
 from enum import Enum
 
-from applications.services import get_application_countries_and_contract_types
 from lite_content.lite_exporter_frontend.applications import ContractTypes as contractTypeStrings
-
-
-# TODO optimise - remove and replace with light version in task list
-def get_countries_missing_contract_types(request, object_pk):
-    return [
-        entry["country"]
-        for entry in get_application_countries_and_contract_types(request, object_pk)
-        if not entry["contract_types"]
-    ]
 
 
 class ContractTypes(Enum):

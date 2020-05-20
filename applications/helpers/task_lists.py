@@ -2,7 +2,6 @@ from django.shortcuts import render
 
 from applications.constants import OielLicenceTypes
 from applications.helpers.check_your_answers import _is_application_export_type_temporary
-from applications.helpers.countries import get_countries_missing_contract_types
 from applications.helpers.task_list_sections import (
     get_reference_number_description,
     get_edit_type,
@@ -11,9 +10,9 @@ from applications.helpers.task_list_sections import (
     get_temporary_export_details,
 )
 from applications.services import (
-    get_application_countries,
     get_application_goods,
     get_additional_documents,
+    get_application_countries_and_contract_types,
 )
 from conf.constants import HMRC, OPEN, STANDARD, EXHIBITION, F680, GIFTING, Permissions, GoodsTypeCategory, CaseTypes
 from core.services import get_sites_on_draft, get_external_locations_on_draft
@@ -74,7 +73,10 @@ def get_application_task_list(request, application, errors=None):
         if _is_application_export_type_temporary(application):
             context["temporary_export_details"] = get_temporary_export_details(application)
     elif application_type == OPEN:
-        context["countries"] = get_application_countries(request, application["id"])
+        context["countries"] = [
+            country_entry["country_id"]
+            for country_entry in get_application_countries_and_contract_types(request, application["id"])
+        ]
         context["end_use_details"] = get_end_use_details(application)
         context["goodstypes"] = application["goods_types"]
         if _is_application_export_type_temporary(application):
@@ -95,9 +97,11 @@ def get_application_task_list(request, application, errors=None):
                 goodstype_category == GoodsTypeCategory.UK_CONTINENTAL_SHELF
             )
             if context["is_uk_continental_shelf_application"]:
-                context["countries_missing_contract_types"] = get_countries_missing_contract_types(
-                    request, application["id"]
-                )
+                context["countries_missing_contract_types"] = [
+                    entry["country_id"]
+                    for entry in get_application_countries_and_contract_types(request, application["id"])
+                    if not entry["contract_types"]
+                ]
             context["is_crypto_application"] = goodstype_category == GoodsTypeCategory.CRYPTOGRAPHIC
             context["is_military_dual_use_application"] = goodstype_category == GoodsTypeCategory.MILITARY
             context["oiel_noneditable_countries"] = OielLicenceTypes.is_non_editable_country(goodstype_category)
