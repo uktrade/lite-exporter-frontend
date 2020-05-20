@@ -28,6 +28,7 @@ from conf.constants import (
     END_USE_DETAILS_URL,
     TEMPORARY_EXPORT_DETAILS_URL,
     CONTRACT_TYPES_URL,
+    CONTRACT_TYPES_COUNTRIES,
 )
 from conf.settings import AWS_STORAGE_BUCKET_NAME, STREAMING_CHUNK_SIZE
 from core.helpers import remove_prefix, convert_parameters_to_query_params, add_validate_only_to_data
@@ -145,7 +146,7 @@ def get_application_countries(request, pk):
 
 
 def get_application_countries_and_contract_types(request, pk):
-    data = get(request, APPLICATIONS_URL + str(pk) + "/countries-contract-types/")
+    data = get(request, APPLICATIONS_URL + str(pk) + CONTRACT_TYPES_COUNTRIES)
     return data.json()["countries"]
 
 
