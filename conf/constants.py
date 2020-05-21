@@ -37,7 +37,7 @@ GENERATED_DOCUMENTS_URL = "/generated-documents/"
 ADDITIONAL_DOCUMENT_URL = "/documents/"
 MANAGE_STATUS_URL = "/status/"
 DOCUMENT_SENSITIVITY_URL = "/document-sensitivity/"
-EXISTING_PARTIES_URL = "/existing-parties"
+EXISTING_PARTIES_URL = "/existing-parties/"
 COUNTRIES_URL = "/countries/"
 LICENCES_URL = "/licences/"
 
@@ -101,7 +101,7 @@ CASE_SECTIONS = {
     "HAS_LOCATIONS": [STANDARD, OPEN, HMRC, EXHIBITION],
     "HAS_COUNTRIES": OPEN,
     "HAS_END_USER": [STANDARD, F680, GIFTING],
-    "HAS_ULTIMATE_END_USERS": [STANDARD, HMRC],
+    "HAS_ULTIMATE_END_USERS": [STANDARD, HMRC, OPEN],
     "HAS_CONSIGNEE": [STANDARD, HMRC],
     "HAS_THIRD_PARTIES": [STANDARD, F680, GIFTING],
     "HAS_OPTIONAL_NOTE": [HMRC],
@@ -149,3 +149,16 @@ APPLICATION_TYPE_STRINGS = {
     F680: applications.ApplicationPage.Summary.Licence.F680,
     EXHIBITION: applications.ApplicationPage.Summary.Licence.EXHIBITION,
 }
+
+
+class LocationType:
+    SEA_BASED = "sea_based"
+    LAND_BASED = "land_based"
+
+
+class GoodsTypeCategory:
+    MILITARY = "military"
+    CRYPTOGRAPHIC = "cryptographic"
+    MEDIA = "media"
+    UK_CONTINENTAL_SHELF = "uk_continental_shelf"
+    DEALER = "dealer"
