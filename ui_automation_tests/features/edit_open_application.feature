@@ -23,6 +23,6 @@ Feature: I want to be able to edit and update an active application
     And I agree to the declaration
     And I go to application previously created
     And I click on activity tab
-    Then "updated the status to: submitted" is shown as position "1" in the audit trail
+    Then "updated the status to: Submitted" is shown as position "1" in the audit trail
     And "added good type:" is shown as position "2" in the audit trail
     And "removed good type:" is shown as position "3" in the audit trail
