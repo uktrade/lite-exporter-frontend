@@ -75,7 +75,7 @@ def get_application_task_list(request, application, errors=None):
     elif application_type == OPEN:
         context["countries"] = [
             country_entry["country_id"]
-            for country_entry in get_application_countries_and_contract_types(request, application["id"])
+            for country_entry in get_application_countries_and_contract_types(request, application["id"])["countries"]
         ]
         context["end_use_details"] = get_end_use_details(application)
         context["goodstypes"] = application["goods_types"]
@@ -99,7 +99,7 @@ def get_application_task_list(request, application, errors=None):
             if context["is_uk_continental_shelf_application"]:
                 context["countries_missing_contract_types"] = [
                     entry["country_id"]
-                    for entry in get_application_countries_and_contract_types(request, application["id"])
+                    for entry in get_application_countries_and_contract_types(request, application["id"])["countries"]
                     if not entry["contract_types"]
                 ]
             context["is_crypto_application"] = goodstype_category == GoodsTypeCategory.CRYPTOGRAPHIC

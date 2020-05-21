@@ -28,7 +28,7 @@ from applications.services import (
     put_contract_type_for_country,
     get_application_countries_and_contract_types,
 )
-from conf.constants import CaseTypes
+from conf.constants import CaseTypes, APPLICANT_EDITING
 from core.services import (
     get_sites_on_draft,
     post_sites_on_draft,
@@ -147,7 +147,7 @@ class Countries(SingleFormView):
         self.data = {
             "countries": [
                 country_entry["country_id"]
-                for country_entry in get_application_countries_and_contract_types(request, self.object_pk)
+                for country_entry in get_application_countries_and_contract_types(request, self.object_pk)["countries"]
             ]
         }
         self.form = countries_form(request, self.object_pk)
@@ -162,7 +162,7 @@ class Countries(SingleFormView):
 
         countries_without_contract_type = [
             entry["country_id"]
-            for entry in get_application_countries_and_contract_types(self.request, self.object_pk)
+            for entry in get_application_countries_and_contract_types(self.request, self.object_pk)["countries"]
             if not entry["contract_types"]
         ]
 
@@ -182,7 +182,7 @@ class ChooseContractType(SingleFormView):
         choice = self.get_validated_data()["choice"]
         countries_without_contract_type = [
             entry["country_id"]
-            for entry in get_application_countries_and_contract_types(self.request, self.object_pk)
+            for entry in get_application_countries_and_contract_types(self.request, self.object_pk)["countries"]
             if not entry["contract_types"]
         ]
 
@@ -207,7 +207,9 @@ class AddContractTypes(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
         self.action = put_contract_type_for_country
-        self.contract_types_and_countries = get_application_countries_and_contract_types(request, self.object_pk)
+        self.contract_types_and_countries = get_application_countries_and_contract_types(request, self.object_pk)[
+            "countries"
+        ]
         current_country = self.kwargs["country"]
         selected_countries = [country_entry["country_id"] for country_entry in self.contract_types_and_countries]
         data_for_current_country = [
@@ -266,7 +268,7 @@ class CountriesAndContractTypesSummary(TemplateView):
                 "contract_types": country_entry["contract_types"],
                 "other_contract_type_text": country_entry["other_contract_type_text"],
             }
-            for country_entry in countries_data
+            for country_entry in countries_data["countries"]
         ]
 
         prettified_countries = prettify_country_data(sorted(countries, key=itemgetter("country_name")))
@@ -274,6 +276,7 @@ class CountriesAndContractTypesSummary(TemplateView):
             "application_id": str(object_pk),
             "is_application_oiel_continental_shelf": len(countries) == 1 and countries[0]["country_id"] == "UKCS",
             "countries": prettified_countries,
+            "is_application_draft_or_major_edit": countries_data["status"] in [APPLICANT_EDITING, "draft"],
         }
 
         return render(request, "applications/goods-locations/destinations-summary-list.html", context)

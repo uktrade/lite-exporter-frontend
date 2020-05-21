@@ -141,7 +141,11 @@ def _convert_open_application(application, editable=False):
             if not is_application_oiel_of_type("cryptographic", application)
             else {}
         ),
-        applications.ApplicationSummaryPage.ROUTE_OF_GOODS: _get_route_of_goods(application),
+        **(
+            {applications.ApplicationSummaryPage.ROUTE_OF_GOODS: _get_route_of_goods(application),}
+            if not is_application_oiel_of_type("cryptographic", application)
+            else {}
+        ),
         **(
             {applications.ApplicationSummaryPage.TEMPORARY_EXPORT_DETAILS: _get_temporary_export_details(application),}
             if _is_application_export_type_temporary(application)

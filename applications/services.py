@@ -147,7 +147,7 @@ def get_application_countries(request, pk):
 
 def get_application_countries_and_contract_types(request, pk):
     data = get(request, APPLICATIONS_URL + str(pk) + CONTRACT_TYPES_COUNTRIES)
-    return data.json()["countries"]
+    return data.json()
 
 
 def post_application_countries(request, pk, json):

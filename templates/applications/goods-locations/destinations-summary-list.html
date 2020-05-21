@@ -34,9 +34,11 @@
 						<span class="govuk-hint">({{ country.other_contract_type_text }})</span>
 					{% endif %}
 				</dd>
-				<dd class="govuk-summary-list__actions">
-					<a href="{% url 'applications:add_contract_type' application_id country.country_id %}" id="edit-contract-type-{{ country.country_id }}" class="govuk-link">{% lcs 'applications.DestinationsSummaryList.CHANGE_SECTORS_AND_CONTRACT_TYPES' %}</a>
-				</dd>
+				{% if is_application_draft_or_major_edit  %}
+					<dd class="govuk-summary-list__actions">
+						<a href="{% url 'applications:add_contract_type' application_id country.country_id %}" id="edit-contract-type-{{ country.country_id }}" class="govuk-link">{% lcs 'applications.DestinationsSummaryList.CHANGE_SECTORS_AND_CONTRACT_TYPES' %}</a>
+					</dd>
+				{% endif %}
 			</div>
 		{% endfor %}
 	</dl>
