@@ -4,7 +4,7 @@ Feature: I want to indicate the open licence I want
   I want to indicate the kind of licence I want
   So that I am more likely to get the correct kind of licence or the kind of licence I would like
 
-  @LT_1114 @submit_open_application @LT_1092_search @smoke
+  @LT_1114 @submit_open_application @LT_1092_search @smoke @SB
   Scenario: Submit open application for an export licence of the military type
     Given I go to exporter homepage and choose Test Org
     When I create an open application for an export licence of the "military" licence type
@@ -22,6 +22,9 @@ Feature: I want to indicate the open licence I want
     And I click on the "route_of_goods" section
     And I answer "Yes" for shipping air waybill or lading
     And I click continue
+    And I click on the "end_user" section
+    And I add a party of sub_type: "commercial", name: "Mr Jones", website: " ", address: "London" and country "Ukraine"
+    When I click the back linkfdrse
     Then I cannot see the sections "ultimate-end-users"
     When I click on the "goods" section
     And I add a goods type with description "Sniper" controlled "Yes" control code "ML1a" incorporated "Yes"
