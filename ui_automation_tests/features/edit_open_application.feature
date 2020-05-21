@@ -9,7 +9,7 @@ Feature: I want to be able to edit and update an active application
     Given I go to exporter homepage and choose Test Org
     And I create an open application via api
     # Ensure automation doesn't move application to non-editable state
-    And the status is set to "submitted"
+    And the status is set to "Submitted"
     When I go to application previously created
     And I click edit application
     And I choose to make major edits
