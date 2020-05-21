@@ -9,7 +9,7 @@ Feature: I want to be able to edit and update an active application
     Given I go to exporter homepage and choose Test Org
     And I create a standard application via api
     # Ensure automation doesn't move application to non-editable state
-    And the status is set to "Submitted"
+    And the status is set to "submitted"
     When I go to application previously created
     And I click edit application
     And I choose to make major edits
@@ -43,7 +43,7 @@ Feature: I want to be able to edit and update an active application
     Given I go to exporter homepage and choose Test Org
     And I create a standard application via api
     # Ensure automation doesn't move application to non-editable state
-    And the status is set to "Submitted"
+    And the status is set to "submitted"
     When I go to application previously created
     And I click edit application
     And I choose to make major edits
@@ -55,5 +55,5 @@ Feature: I want to be able to edit and update an active application
     And I agree to the declaration
     And I go to application previously created
     And I click on activity tab
-    Then "updated the status to: Submitted" is shown as position "1" in the audit trail
+    Then "updated the status to: submitted" is shown as position "1" in the audit trail
     And "updated the application name" is shown as position "2" in the audit trail
