@@ -27,7 +27,9 @@ class EndUser(TemplateView):
                     application=application,
                     editable=application["status"]["value"] == "draft",
                 ),
-                "highlight": ["Document"] if (is_permanent_app and application.sub_type != OPEN and not application["end_user"]["document"]) else {},
+                "highlight": ["Document"]
+                if (is_permanent_app and application.sub_type != OPEN and not application["end_user"]["document"])
+                else {},
             }
 
             return render(request, "applications/end-user.html", context)
@@ -55,9 +57,7 @@ class SetEndUser(SetParty):
 
     def get_success_url(self):
         if self.application.sub_type == OPEN:
-            return reverse_lazy(
-                "applications:end_user", kwargs={"pk": self.object_pk}
-            )
+            return reverse_lazy("applications:end_user", kwargs={"pk": self.object_pk})
         else:
             return reverse_lazy(
                 self.url, kwargs={"pk": self.object_pk, "obj_pk": self.get_validated_data()[self.party_type]["id"]}
@@ -90,9 +90,7 @@ class CopyEndUser(CopyAndSetParty):
 
     def get_success_url(self):
         if self.application.sub_type == OPEN:
-            return reverse_lazy(
-                "applications:end_user", kwargs={"pk": self.object_pk}
-            )
+            return reverse_lazy("applications:end_user", kwargs={"pk": self.object_pk})
         else:
             return reverse_lazy(
                 self.url, kwargs={"pk": self.object_pk, "obj_pk": self.get_validated_data()[self.party_type]["id"]}

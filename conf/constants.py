@@ -95,6 +95,7 @@ class GoodsTypeCategory:
     UK_CONTINENTAL_SHELF = "uk_continental_shelf"
     DEALER = "dealer"
 
+
 # Case type task list sections
 CASE_SECTIONS = {
     "HMRC": HMRC,
@@ -117,7 +118,7 @@ CASE_SECTIONS = {
     "HAS_OPTIONAL_NOTE": [HMRC],
     "HAS_NOTES": [STANDARD, OPEN, EXHIBITION, F680, GIFTING],
     "HAS_END_USE_DETAILS": [STANDARD, OPEN, F680],
-    "END_USERS_OPTIONAL": [F680, OPEN]
+    "END_USERS_OPTIONAL": [F680, OPEN],
 }
 
 PERMANENT = "permanent"

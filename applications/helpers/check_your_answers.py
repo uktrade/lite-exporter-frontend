@@ -418,7 +418,7 @@ def convert_party(party, application, editable):
         "Clearance level": None,
         "Descriptors": party.get("descriptors"),
         "Address": get_address(party),
-        "Website": convert_to_link(party["website"])
+        "Website": convert_to_link(party["website"]),
     }
 
     if application["case_type"]["sub_type"]["key"] != OPEN:
@@ -428,12 +428,13 @@ def convert_party(party, application, editable):
         else:
             document = convert_to_link(
                 reverse_lazy(
-                    f"applications:{party['type']}_attach_document", kwargs={"pk": application["id"], "obj_pk": party["id"]}
+                    f"applications:{party['type']}_attach_document",
+                    kwargs={"pk": application["id"], "obj_pk": party["id"]},
                 ),
                 "Attach document",
             )
 
-        data['Document'] = document
+        data["Document"] = document
 
     if has_clearance:
         data["Clearance level"] = party["clearance_level"].get("value") if party["clearance_level"] else None
@@ -550,7 +551,10 @@ def is_application_oiel_of_type(oiel_type, application):
 
 def is_open_application_with_end_user(application):
     if application.end_user:
-        if application.type_reference == application.type_reference or application.goodstype_category['key'] in [GoodsTypeCategory.MILITARY, GoodsTypeCategory.UK_CONTINENTAL_SHELF]:
+        if application.type_reference == application.type_reference or application.goodstype_category["key"] in [
+            GoodsTypeCategory.MILITARY,
+            GoodsTypeCategory.UK_CONTINENTAL_SHELF,
+        ]:
             return True
     return False
 
