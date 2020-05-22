@@ -22,7 +22,7 @@
 			</tr>
 		</thead>
 		<tbody class="govuk-table__body">
-			{% for role in roles %}
+			{% for role in roles.results %}
 				<tr class="govuk-table__row">
 					<td class="govuk-table__header" scope="row">
 						{{ role.name }}
@@ -63,4 +63,5 @@
 			{% endfor %}
 		</tbody>
 	</table>
+	{% pagination with data=roles %}
 {% endblock %}
