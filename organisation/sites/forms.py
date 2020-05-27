@@ -16,9 +16,11 @@ from lite_forms.components import (
     HiddenField,
     Checkboxes,
     Filter,
+    Label,
 )
 from lite_forms.helpers import conditional
 from lite_forms.styles import HeadingStyle
+from organisation.sites.services import get_sites
 
 
 def new_site_forms(request):
@@ -26,6 +28,7 @@ def new_site_forms(request):
 
     return FormGroup(
         [
+            site_records_location(request),
             Form(
                 caption="Step 1 of 3",
                 title=AddSiteForm.WhereIsYourSiteBased.TITLE,
@@ -69,6 +72,7 @@ def new_site_forms(request):
                 ],
                 default_button_name=generic.CONTINUE,
             ),
+            # PLACE ME HERE
             Form(
                 caption="Step 3 of 3",
                 title=AddSiteForm.AssignUsers.TITLE,
@@ -101,4 +105,43 @@ def edit_site_name_form(site):
             strings.sites.SitesPage.BACK_TO + site["name"],
             reverse_lazy("organisation:sites:site", kwargs={"pk": site["id"]}),
         ),
+    )
+
+
+def site_records_location(request, is_editing=False):
+    return Form(
+        caption="" if is_editing else "Step 3 of 4",
+        title=strings.sites.AddSiteForm.SiteRecords.TITLE,
+        description=strings.sites.AddSiteForm.SiteRecords.DESCRIPTION,
+        questions=[
+            RadioButtons(
+                name="site_records_stored_here",
+                options=[
+                    Option(key="yes", value=strings.YES),
+                    Option(
+                        key="no",
+                        value=strings.sites.AddSiteForm.SiteRecords.NO_RECORDS_HELD_ELSEWHERE,
+                        components=[
+                            RadioButtons(
+                                name="site_records_located_at",
+                                options=[
+                                    Option(site["id"], site["name"])
+                                    for site in get_sites(request, request.user.organisation)
+                                ],
+                            ),
+                            Label(
+                                'If the site isn\'t listed, you need to <a id="site-dashboard" href="'
+                                + str(reverse_lazy("organisation:sites:sites"))
+                                + '" class="govuk-link govuk-link--no-visited-state">'
+                                + "add the site"
+                                + "</a> "
+                                + "from your account dashboard."
+                            ),
+                        ],
+                    ),
+                ],
+            ),
+            HiddenField("validate_only", True),
+        ],
+        default_button_name=generic.CONTINUE,
     )
