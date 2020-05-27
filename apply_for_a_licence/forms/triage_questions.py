@@ -165,11 +165,18 @@ def goodstype_category_form(application_id=None):
 
 def trade_control_licence_questions(request):
     return FormGroup(
-        [application_type_form(), reference_name_form(), activity_form(request), product_category_form(request)]
+        [
+            application_type_form(request),
+            *conditional(
+                request.POST.get("application_type") != CaseTypes.OGTCL,
+                [reference_name_form(), activity_form(request), product_category_form(request)],
+                [],
+            ),
+        ]
     )
 
 
-def transhipment_questions():
+def transhipment_questions(request):
     return FormGroup(
         [
             Form(
@@ -179,6 +186,14 @@ def transhipment_questions():
                     RadioButtons(
                         name="application_type",
                         options=[
+                            conditional(
+                                not request.GET.get("hide_ogl"),
+                                Option(
+                                    key=CaseTypes.OGTL,
+                                    value=TranshipmentQuestions.TranshipmentLicenceQuestion.OPEN_GENERAL_TRANSHIPMENT_LICENCE,
+                                    description=TranshipmentQuestions.TranshipmentLicenceQuestion.OPEN_GENERAL_TRANSHIPMENT_LICENCE_DESCRIPTION,
+                                ),
+                            ),
                             Option(
                                 key=CaseTypes.SITL,
                                 value=TranshipmentQuestions.TranshipmentLicenceQuestion.STANDARD_LICENCE,
@@ -192,9 +207,11 @@ def transhipment_questions():
                     TranshipmentQuestions.TranshipmentLicenceQuestion.BACK, reverse_lazy("apply_for_a_licence:start")
                 ),
             ),
-            reference_name_form(),
-            told_by_an_official_form(),
-            firearms_form(),
+            *conditional(
+                request.POST.get("application_type") != CaseTypes.OGTL,
+                [reference_name_form(), told_by_an_official_form(), firearms_form()],
+                [],
+            ),
         ]
     )
 

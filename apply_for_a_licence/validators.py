@@ -1,5 +1,7 @@
 from http import HTTPStatus
 
+from lite_content.lite_exporter_frontend.applications import OpenGeneralLicenceQuestions
+
 
 def validate_opening_question(_, json):
     if json.get("licence_type"):
@@ -14,19 +16,16 @@ def validate_opening_question(_, json):
 def validate_open_general_licences(_, json):
     if not json.get("control_list_entry"):
         return (
-            {"errors": {"control_list_entry": ["Select a control list entry"]}},
+            {"errors": {"control_list_entry": [OpenGeneralLicenceQuestions.ControlListEntry.ERROR]}},
             HTTPStatus.BAD_REQUEST,
         )
 
     if not json.get("country"):
-        return (
-            {"errors": {"country": ["Select a country"]}},
-            HTTPStatus.BAD_REQUEST,
-        )
+        return ({"errors": {"country": [OpenGeneralLicenceQuestions.Country.ERROR]}}, HTTPStatus.BAD_REQUEST)
 
-    if not json.get("open_general_licence"):
+    if not hasattr(json.get("open_general_licence"), "__len__"):
         return (
-            {"errors": {"open_general_licence": ["Select the type of licence you want to apply for"]}},
+            {"errors": {"open_general_licence": [OpenGeneralLicenceQuestions.OpenGeneralLicences.ERROR]}},
             HTTPStatus.BAD_REQUEST,
         )
 

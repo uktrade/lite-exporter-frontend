@@ -77,6 +77,8 @@ F680 = "f680_clearance"
 class CaseTypes:
     OIEL = "oiel"
     OGEL = "ogel"
+    OGTL = "ogtl"
+    OGTCL = "ogtcl"
     OICL = "oicl"
     SIEL = "siel"
     SICL = "sicl"

@@ -1,7 +1,9 @@
 from django.urls import reverse
 
+from apply_for_a_licence.enums import OpenGeneralExportLicenceTypes
 from core.services import get_control_list_entries, get_countries, get_open_general_licences, get_open_general_licence
 from lite_content.lite_exporter_frontend import generic
+from lite_content.lite_exporter_frontend.applications import OpenGeneralLicenceQuestions
 from lite_forms.components import (
     FormGroup,
     Form,
@@ -10,16 +12,42 @@ from lite_forms.components import (
     Option,
     Custom,
     Heading,
-    Select,
     Label,
-    Button,
     Link,
+    Summary,
 )
 from lite_forms.helpers import conditional
 from lite_forms.styles import HeadingStyle
 
 
-def open_general_licence_forms(request):
+def no_open_general_licence_form(open_general_licence_type, selected_entry, selected_country):
+    return Form(
+        title=OpenGeneralLicenceQuestions.NoOpenGeneralLicencesAvailable.TITLE.format(
+            open_general_licence_type.name.lower()
+        ),
+        description=OpenGeneralLicenceQuestions.NoOpenGeneralLicencesAvailable.DESCRIPTION,
+        questions=[
+            *[
+                Label(x.format(open_general_licence_type.name.lower(), selected_entry, selected_country))
+                for x in OpenGeneralLicenceQuestions.NoOpenGeneralLicencesAvailable.INFORMATION.split("\n")
+            ],
+            Link(
+                OpenGeneralLicenceQuestions.NoOpenGeneralLicencesAvailable.APPLY_FOR_A_LICENCE_LINK,
+                reverse("apply_for_a_licence:start") + "?hide_ogl=True",
+                classes=["govuk-body", "govuk-link--no-visited-state"],
+            ),
+            Link(
+                OpenGeneralLicenceQuestions.NoOpenGeneralLicencesAvailable.RETURN_TO_ACCOUNT_HOME_LINK,
+                reverse("core:home"),
+                classes=["govuk-body", "govuk-link--no-visited-state"],
+            ),
+        ],
+        buttons=[],
+    )
+
+
+def open_general_licence_forms(request, **kwargs):
+    open_general_licence_type = OpenGeneralExportLicenceTypes.get_by_acronym(kwargs["ogl"])
     control_list_entries = get_control_list_entries(request, True)
     countries = get_countries(request, True)
     selected_entry = request.POST.get("control_list_entry")
@@ -27,21 +55,25 @@ def open_general_licence_forms(request):
     open_general_licences = get_open_general_licences(
         request,
         convert_to_options=True,
+        case_type=open_general_licence_type.id,
         control_list_entry=request.POST.get("control_list_entry"),
         country=request.POST.get("country"),
     )
-    selected_open_general_licence = get_open_general_licence(request, request.POST.get("open_general_licence"))
+    selected_open_general_licence = {}
+    if request.POST.get("open_general_licence"):
+        selected_open_general_licence = get_open_general_licence(request, request.POST.get("open_general_licence"))
 
     return FormGroup(
         [
             Form(
-                title="Enter the control list entries which apply to the product",
-                questions=[Select(name="control_list_entry", options=control_list_entries)],
+                title=OpenGeneralLicenceQuestions.ControlListEntry.TITLE,
+                description=OpenGeneralLicenceQuestions.ControlListEntry.DESCRIPTION,
+                questions=[AutocompleteInput(name="control_list_entry", options=control_list_entries)],
                 default_button_name=generic.CONTINUE,
             ),
             Form(
-                title="Enter the product's final destination",
-                description="",
+                title=OpenGeneralLicenceQuestions.Country.TITLE,
+                description=OpenGeneralLicenceQuestions.Country.DESCRIPTION,
                 questions=[AutocompleteInput(name="country", options=countries)],
                 default_button_name=generic.CONTINUE,
             ),
@@ -49,53 +81,73 @@ def open_general_licence_forms(request):
                 open_general_licences,
                 [
                     Form(
-                        title="Available open general licences",
-                        description=f"These are the open general licences described by **{selected_entry}** being exported to **{selected_country}**.",
+                        title=OpenGeneralLicenceQuestions.OpenGeneralLicences.TITLE.format(
+                            open_general_licence_type.name.lower()
+                        ),
+                        description=OpenGeneralLicenceQuestions.OpenGeneralLicences.DESCRIPTION.format(
+                            open_general_licence_type.name.lower(), selected_entry, selected_country
+                        ),
                         questions=[
                             RadioButtons(
                                 name="open_general_licence",
-                                description="Select the option which best matches your product and requirements.",
-                                options=[*open_general_licences, Option(None, "None of the above", show_or=True)],
+                                description=OpenGeneralLicenceQuestions.OpenGeneralLicences.HELP_TEXT,
+                                options=[
+                                    *open_general_licences,
+                                    Option(
+                                        "",
+                                        OpenGeneralLicenceQuestions.OpenGeneralLicences.NONE_OF_THE_ABOVE,
+                                        show_or=True,
+                                    ),
+                                ],
                             )
                         ],
                         default_button_name=generic.CONTINUE,
-                    ),
+                    )
+                ],
+                [no_open_general_licence_form(open_general_licence_type, selected_entry, selected_country)],
+            ),
+            *conditional(
+                selected_open_general_licence,
+                [
                     Form(
-                        caption="Applying for",
-                        title=selected_open_general_licence["case_type"]["reference"]["value"]
+                        caption=OpenGeneralLicenceQuestions.OpenGeneralLicenceDetail.CAPTION,
+                        title=open_general_licence_type.name
                         + " ("
-                        + selected_open_general_licence["name"]
+                        + selected_open_general_licence.get("name", "")
                         + ")",
-                        description=f"These are the open general licences described by **{selected_entry}** being exported to **{selected_country}**.",
                         questions=[
-                            Heading("Before you continue", HeadingStyle.S),
+                            Summary(
+                                {
+                                    OpenGeneralLicenceQuestions.OpenGeneralLicenceDetail.Summary.DESCRIPTION: selected_open_general_licence.get(
+                                        "description"
+                                    ),
+                                    OpenGeneralLicenceQuestions.OpenGeneralLicenceDetail.Summary.CONTROL_LIST_ENTRIES: ", ".join(
+                                        [
+                                            x["rating"]
+                                            for x in selected_open_general_licence.get("control_list_entries", [])
+                                        ]
+                                    ),
+                                    OpenGeneralLicenceQuestions.OpenGeneralLicenceDetail.Summary.COUNTRIES: ", ".join(
+                                        [x["name"] for x in selected_open_general_licence.get("countries", [])]
+                                    ),
+                                    OpenGeneralLicenceQuestions.OpenGeneralLicenceDetail.Summary.READ_MORE_LINK: "["
+                                    + selected_open_general_licence.get("url", "")
+                                    + "]("
+                                    + selected_open_general_licence.get("url", "")
+                                    + ")",
+                                }
+                            ),
+                            Heading(
+                                OpenGeneralLicenceQuestions.OpenGeneralLicenceDetail.Summary.HEADING, HeadingStyle.S
+                            ),
                             Custom("components/ogl-step-list.html"),
                             Custom("components/ogl-warning.html"),
                         ],
-                        default_button_name=generic.CONTINUE,
-                    ),
-                ],
-                [
-                    Form(
-                        title="No open general licences available",
-                        questions=[
-                            Label("Your item cannot be exported using an open general licence."),
-                            Label("You'll need to apply for an OIEL or SIEL if you wish to export your products."),
-                            Link(
-                                "Apply for an export licence",
-                                reverse("apply_for_a_licence:export_licence_questions") + "?hide_ogl=True",
-                                classes=["govuk-body", "govuk-link--no-visited-state"],
-                            ),
-                            Link(
-                                "Return to account home",
-                                reverse("core:home"),
-                                classes=["govuk-body", "govuk-link--no-visited-state"],
-                            ),
-                        ],
-                        default_button_name="Apply for a licence",
+                        # Submit button removed as it doesn't do anything until LT-2110
                         buttons=[],
-                    ),
+                    )
                 ],
+                [no_open_general_licence_form(open_general_licence_type, selected_entry, selected_country)],
             ),
         ]
     )

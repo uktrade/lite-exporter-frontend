@@ -43,7 +43,7 @@ class ExportLicenceQuestions(MultiFormView):
 
     def get_success_url(self):
         if self.request.POST.get("application_type") == CaseTypes.OGEL:
-            return reverse_lazy("apply_for_a_licence:ogl_questions")
+            return reverse_lazy("apply_for_a_licence:ogl_questions", kwargs={"ogl": CaseTypes.OGEL})
         else:
             pk = self.get_validated_data()["id"]
             return reverse_lazy("applications:task_list", kwargs={"pk": pk})
@@ -55,19 +55,25 @@ class TradeControlLicenceQuestions(MultiFormView):
         self.action = post_applications
 
     def get_success_url(self):
-        pk = self.get_validated_data()["id"]
-        return reverse_lazy("applications:task_list", kwargs={"pk": pk})
+        if self.request.POST.get("application_type") == CaseTypes.OGTCL:
+            return reverse_lazy("apply_for_a_licence:ogl_questions", kwargs={"ogl": CaseTypes.OGTCL})
+        else:
+            pk = self.get_validated_data()["id"]
+            return reverse_lazy("applications:task_list", kwargs={"pk": pk})
 
 
 class TranshipmentQuestions(MultiFormView):
     def init(self, request, **kwargs):
-        self.forms = transhipment_questions()
+        self.forms = transhipment_questions(request)
         self.action = post_applications
         self.data = {"export_type": PERMANENT}
 
     def get_success_url(self):
-        pk = self.get_validated_data()["id"]
-        return reverse_lazy("applications:task_list", kwargs={"pk": pk})
+        if self.request.POST.get("application_type") == CaseTypes.OGTL:
+            return reverse_lazy("apply_for_a_licence:ogl_questions", kwargs={"ogl": CaseTypes.OGTL})
+        else:
+            pk = self.get_validated_data()["id"]
+            return reverse_lazy("applications:task_list", kwargs={"pk": pk})
 
 
 class MODClearanceQuestions(MultiFormView):
@@ -85,5 +91,5 @@ class MODClearanceQuestions(MultiFormView):
 
 class OpenGeneralLicenceQuestions(MultiFormView):
     def init(self, request, **kwargs):
-        self.forms = open_general_licence_forms(request)
+        self.forms = open_general_licence_forms(request, **kwargs)
         self.action = validate_open_general_licences

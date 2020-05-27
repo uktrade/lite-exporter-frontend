@@ -5,9 +5,10 @@ from core.services import get_trade_control_activities, get_trade_control_produc
 from lite_content.lite_exporter_frontend import generic
 from lite_content.lite_exporter_frontend.applications import TradeControlLicenceQuestions
 from lite_forms.components import Form, RadioButtons, Option, BackLink, TextArea, Checkboxes
+from lite_forms.helpers import conditional
 
 
-def application_type_form():
+def application_type_form(request):
     return Form(
         title=TradeControlLicenceQuestions.TradeControlLicenceQuestion.TITLE,
         description=TradeControlLicenceQuestions.TradeControlLicenceQuestion.DESCRIPTION,
@@ -15,6 +16,14 @@ def application_type_form():
             RadioButtons(
                 name="application_type",
                 options=[
+                    conditional(
+                        not request.GET.get("hide_ogl"),
+                        Option(
+                            key=CaseTypes.OGTCL,
+                            value=TradeControlLicenceQuestions.TradeControlLicenceQuestion.OPEN_GENERAL_TRADE_CONTROL_LICENCE,
+                            description=TradeControlLicenceQuestions.TradeControlLicenceQuestion.OPEN_GENERAL_TRADE_CONTROL_LICENCE_DESCRIPTION,
+                        ),
+                    ),
                     Option(
                         key=CaseTypes.SICL,
                         value=TradeControlLicenceQuestions.TradeControlLicenceQuestion.STANDARD_LICENCE,

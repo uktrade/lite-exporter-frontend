@@ -283,11 +283,11 @@ def register_private_individual(request, json):
     return _register_organisation(request, json, "individual")
 
 
-def get_open_general_licences(request, convert_to_options=False, control_list_entry=None, country=None):
+def get_open_general_licences(request, convert_to_options=False, case_type=None, control_list_entry=None, country=None):
     data = get(
         request,
         OPEN_GENERAL_LICENCES_URL
-        + f"?disable_pagination={convert_to_options}&control_list_entry={control_list_entry}&country={country}",
+        + f"?disable_pagination={convert_to_options}&registration_required=True&case_type={case_type}&control_list_entry={control_list_entry}&country={country}",
     ).json()
 
     if convert_to_options:
@@ -304,7 +304,4 @@ def get_open_general_licences(request, convert_to_options=False, control_list_en
 
 
 def get_open_general_licence(request, pk):
-    if not pk:
-        return {"case_type": {"reference": {"value": "123"}}, "name": "123"}
-
     return get(request, OPEN_GENERAL_LICENCES_URL + str(pk)).json()
