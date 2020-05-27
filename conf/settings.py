@@ -167,6 +167,9 @@ STATICFILES_FINDERS = (
     "sass_processor.finders.CssFinder",
 )
 
+# Cache static files
+STATICFILES_STORAGE = "django.contrib.staticfiles.storage.ManifestStaticFilesStorage"
+
 SASS_PROCESSOR_ENABLED = True
 
 
@@ -225,6 +228,3 @@ CSP_FRAME_SRC = env("CSP_FRAME_SRC")
 CSP_CONNECT_SRC = env("CSP_CONNECT_SRC")
 CSP_INCLUDE_NONCE_IN = env("CSP_INCLUDE_NONCE_IN")
 CSP_REPORT_ONLY = env("CSP_REPORT_ONLY")
-
-# Static
-STATICFILES_STORAGE = "django.contrib.staticfiles.storage.ManifestStaticFilesStorage"
