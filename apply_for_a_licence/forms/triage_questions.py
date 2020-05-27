@@ -80,6 +80,11 @@ def export_licence_questions(application_type, goodstype_category=None):
                         name="application_type",
                         options=[
                             Option(
+                                key=CaseTypes.OGEL,
+                                value="OGEL",
+                                description=ExportLicenceQuestions.ExportLicenceQuestion.OPEN_LICENCE_DESCRIPTION,
+                            ),
+                            Option(
                                 key=CaseTypes.SIEL,
                                 value=ExportLicenceQuestions.ExportLicenceQuestion.STANDARD_LICENCE,
                                 description=ExportLicenceQuestions.ExportLicenceQuestion.STANDARD_LICENCE_DESCRIPTION,
@@ -103,7 +108,7 @@ def export_licence_questions(application_type, goodstype_category=None):
             ),
             *conditional(application_type == CaseTypes.OIEL, [goodstype_category_form()], []),
             *conditional(
-                goodstype_category not in ["media", "cryptographic"],
+                application_type != CaseTypes.OGEL,
                 [
                     Form(
                         title=ExportLicenceQuestions.ExportType.TITLE,
@@ -124,7 +129,7 @@ def export_licence_questions(application_type, goodstype_category=None):
                 ],
                 [],
             ),
-            reference_name_form(),
+            *conditional(application_type != CaseTypes.OGEL, [reference_name_form()], []),
             *conditional(application_type == CaseTypes.SIEL, [told_by_an_official_form()], []),
             *conditional(should_display_firearms_question, [firearms_form()], []),
         ]

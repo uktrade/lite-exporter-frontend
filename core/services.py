@@ -18,7 +18,9 @@ from conf.constants import (
     STATIC_F680_CLEARANCE_TYPES_URL,
     STATIC_TRADE_CONTROL_ACTIVITIES,
     STATIC_TRADE_CONTROL_PRODUCT_CATEGORIES,
+    OPEN_GENERAL_LICENCES_URL,
 )
+from core.builtins.custom_tags import pretty_json
 from core.helpers import convert_parameters_to_query_params, convert_value_to_query_param
 from lite_content.lite_exporter_frontend.generic import Document
 from lite_forms.components import Option, TextArea
@@ -279,3 +281,22 @@ def register_commercial_organisation(request, json):
 
 def register_private_individual(request, json):
     return _register_organisation(request, json, "individual")
+
+
+def get_open_general_licences(request, convert_to_options=False, control_list_entry=None, country=None):
+    data = get(request, OPEN_GENERAL_LICENCES_URL + f"?disable_pagination={convert_to_options}&control_list_entry={control_list_entry}&country={country}").json()
+
+    if convert_to_options:
+        return [
+            Option(ogl["id"], ogl["case_type"]["reference"]["value"] + " (" + ogl["name"] + ")", description=ogl["description"])
+            for ogl in data
+        ]
+
+    return data
+
+
+def get_open_general_licence(request, pk):
+    if not pk:
+        return {"case_type": {"reference": {"value": "123"}}, "name": "123"}
+
+    return get(request, OPEN_GENERAL_LICENCES_URL + str(pk)).json()

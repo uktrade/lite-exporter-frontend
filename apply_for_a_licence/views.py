@@ -1,6 +1,7 @@
 from django.urls import reverse_lazy
 
-from applications.services import post_applications
+from applications.services import post_applications, post_open_general_licences_applications
+from apply_for_a_licence.forms.open_general_licences import open_general_licence_forms
 
 from apply_for_a_licence.forms.triage_questions import (
     opening_question,
@@ -10,7 +11,7 @@ from apply_for_a_licence.forms.triage_questions import (
     trade_control_licence_questions,
 )
 from apply_for_a_licence.validators import validate_opening_question
-from conf.constants import PERMANENT
+from conf.constants import PERMANENT, CaseTypes
 from lite_forms.views import SingleFormView, MultiFormView
 
 
@@ -27,15 +28,23 @@ class LicenceType(SingleFormView):
 class ExportLicenceQuestions(MultiFormView):
     def init(self, request, **kwargs):
         self.forms = export_licence_questions(None)
-        self.action = post_applications
+
+    def get_action(self):
+        if self.request.POST.get("application_type") == CaseTypes.OGEL:
+            return post_open_general_licences_applications
+        else:
+            return post_applications
 
     def on_submission(self, request, **kwargs):
         copied_req = request.POST.copy()
         self.forms = export_licence_questions(copied_req.get("application_type"), copied_req.get("goodstype_category"))
 
     def get_success_url(self):
-        pk = self.get_validated_data()["id"]
-        return reverse_lazy("applications:task_list", kwargs={"pk": pk})
+        if self.request.POST.get("application_type") == CaseTypes.OGEL:
+            return reverse_lazy("apply_for_a_licence:ogl_questions")
+        else:
+            pk = self.get_validated_data()["id"]
+            return reverse_lazy("applications:task_list", kwargs={"pk": pk})
 
 
 class TradeControlLicenceQuestions(MultiFormView):
@@ -70,3 +79,9 @@ class MODClearanceQuestions(MultiFormView):
     def get_success_url(self):
         pk = self.get_validated_data()["id"]
         return reverse_lazy("applications:task_list", kwargs={"pk": pk})
+
+
+class OpenGeneralLicenceQuestions(MultiFormView):
+    def init(self, request, **kwargs):
+        self.forms = open_general_licence_forms(request)
+        self.action = post_open_general_licences_applications

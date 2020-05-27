@@ -42,6 +42,7 @@ COUNTRIES_URL = "/countries/"
 LICENCES_URL = "/licences/"
 CONTRACT_TYPES_URL = "/contract-types/"
 CONTRACT_TYPES_COUNTRIES = "/countries-contract-types/"
+OPEN_GENERAL_LICENCES_URL = "/open-general-licences/"
 
 # Queries URLs
 QUERIES_URL = "/queries/"
