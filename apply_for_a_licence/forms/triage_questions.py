@@ -64,7 +64,7 @@ def opening_question():
     )
 
 
-def export_licence_questions(application_type, goodstype_category=None):
+def export_licence_questions(request, application_type, goodstype_category=None):
     should_display_firearms_question = application_type == CaseTypes.SIEL or goodstype_category in [
         GoodsTypeCategory.MILITARY,
         GoodsTypeCategory.UK_CONTINENTAL_SHELF,
@@ -79,10 +79,13 @@ def export_licence_questions(application_type, goodstype_category=None):
                     RadioButtons(
                         name="application_type",
                         options=[
-                            Option(
-                                key=CaseTypes.OGEL,
-                                value="OGEL",
-                                description=ExportLicenceQuestions.ExportLicenceQuestion.OPEN_LICENCE_DESCRIPTION,
+                            conditional(
+                                not request.GET.get("hide_ogl"),
+                                Option(
+                                    key=CaseTypes.OGEL,
+                                    value=ExportLicenceQuestions.ExportLicenceQuestion.OPEN_GENERAL_EXPORT_LICENCE,
+                                    description=ExportLicenceQuestions.ExportLicenceQuestion.OPEN_GENERAL_EXPORT_LICENCE_DESCRIPTION,
+                                ),
                             ),
                             Option(
                                 key=CaseTypes.SIEL,

@@ -284,11 +284,19 @@ def register_private_individual(request, json):
 
 
 def get_open_general_licences(request, convert_to_options=False, control_list_entry=None, country=None):
-    data = get(request, OPEN_GENERAL_LICENCES_URL + f"?disable_pagination={convert_to_options}&control_list_entry={control_list_entry}&country={country}").json()
+    data = get(
+        request,
+        OPEN_GENERAL_LICENCES_URL
+        + f"?disable_pagination={convert_to_options}&control_list_entry={control_list_entry}&country={country}",
+    ).json()
 
     if convert_to_options:
         return [
-            Option(ogl["id"], ogl["case_type"]["reference"]["value"] + " (" + ogl["name"] + ")", description=ogl["description"])
+            Option(
+                ogl["id"],
+                ogl["case_type"]["reference"]["value"] + " (" + ogl["name"] + ")",
+                description=ogl["description"],
+            )
             for ogl in data
         ]
 

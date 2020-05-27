@@ -10,7 +10,7 @@ from apply_for_a_licence.forms.triage_questions import (
     transhipment_questions,
     trade_control_licence_questions,
 )
-from apply_for_a_licence.validators import validate_opening_question
+from apply_for_a_licence.validators import validate_opening_question, validate_open_general_licences
 from conf.constants import PERMANENT, CaseTypes
 from lite_forms.views import SingleFormView, MultiFormView
 
@@ -27,7 +27,7 @@ class LicenceType(SingleFormView):
 
 class ExportLicenceQuestions(MultiFormView):
     def init(self, request, **kwargs):
-        self.forms = export_licence_questions(None)
+        self.forms = export_licence_questions(request, None)
 
     def get_action(self):
         if self.request.POST.get("application_type") == CaseTypes.OGEL:
@@ -37,7 +37,9 @@ class ExportLicenceQuestions(MultiFormView):
 
     def on_submission(self, request, **kwargs):
         copied_req = request.POST.copy()
-        self.forms = export_licence_questions(copied_req.get("application_type"), copied_req.get("goodstype_category"))
+        self.forms = export_licence_questions(
+            request, copied_req.get("application_type"), copied_req.get("goodstype_category")
+        )
 
     def get_success_url(self):
         if self.request.POST.get("application_type") == CaseTypes.OGEL:
@@ -84,4 +86,4 @@ class MODClearanceQuestions(MultiFormView):
 class OpenGeneralLicenceQuestions(MultiFormView):
     def init(self, request, **kwargs):
         self.forms = open_general_licence_forms(request)
-        self.action = post_open_general_licences_applications
+        self.action = validate_open_general_licences
