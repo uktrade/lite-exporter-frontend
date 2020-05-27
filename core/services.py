@@ -20,7 +20,6 @@ from conf.constants import (
     STATIC_TRADE_CONTROL_PRODUCT_CATEGORIES,
     OPEN_GENERAL_LICENCES_URL,
 )
-from core.builtins.custom_tags import pretty_json
 from core.helpers import convert_parameters_to_query_params, convert_value_to_query_param
 from lite_content.lite_exporter_frontend.generic import Document
 from lite_forms.components import Option, TextArea

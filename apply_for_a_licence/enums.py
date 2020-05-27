@@ -1,6 +1,3 @@
-from munch import Munch
-
-
 class OpenGeneralExportLicenceTypes:
     class OpenGeneralLicenceType:
         def __init__(self, id, name, acronym):
