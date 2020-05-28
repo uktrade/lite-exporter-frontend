@@ -119,10 +119,10 @@
 				{% lcs "sites.SitePage.SummaryList.SITE" %}
 			</dt>
 			<dd class="govuk-summary-list__value">
-				{{ site.site_records_located_at }}
+				{{ site.site_records_located_at_name|default_na  }}
 			</dd>
 			<dd class="govuk-summary-list__actions">
-				<a id="link-change_site_records_location" href="{% url 'organisation:sites:edit_site_records_location' site.id %}#name" class="govuk-link govuk-link--no-visited-state">
+				<a id="link-change_site_records_location" href="{% url 'organisation:sites:edit_site_records_location' site.id %}" class="govuk-link govuk-link--no-visited-state">
 					{% lcs 'generic.CHANGE' %}
 					<span class="govuk-visually-hidden">{% lcs "sites.SitePage.SummaryList.NAME" %}</span>
 				</a>
