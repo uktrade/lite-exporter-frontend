@@ -287,7 +287,7 @@ def get_open_general_licences(request, convert_to_options=False, case_type=None,
         request,
         OPEN_GENERAL_LICENCES_URL
         + f"?disable_pagination={convert_to_options}&registration_required=True&case_type={case_type}"
-          f"&control_list_entry={control_list_entry}&country={country}",
+        f"&control_list_entry={control_list_entry}&country={country}",
     ).json()
 
     if convert_to_options:
