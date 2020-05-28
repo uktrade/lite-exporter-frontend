@@ -14,7 +14,7 @@ from lite_forms.components import (
     Heading,
     Label,
     Link,
-    Summary,
+    Summary, BackLink,
 )
 from lite_forms.helpers import conditional
 from lite_forms.styles import HeadingStyle
@@ -63,6 +63,13 @@ def open_general_licence_forms(request, **kwargs):
     if request.POST.get("open_general_licence"):
         selected_open_general_licence = get_open_general_licence(request, request.POST.get("open_general_licence"))
 
+    if open_general_licence_type.acronym == OpenGeneralExportLicenceTypes.open_general_export_licence.acronym:
+        back_link_url = reverse("apply_for_a_licence:export_licence_questions")
+    elif open_general_licence_type.acronym == OpenGeneralExportLicenceTypes.open_general_transhipment_licence.acronym:
+        back_link_url = reverse("apply_for_a_licence:transhipment_questions")
+    else:
+        back_link_url = reverse("apply_for_a_licence:trade_control_licence_questions")
+
     return FormGroup(
         [
             Form(
@@ -70,6 +77,7 @@ def open_general_licence_forms(request, **kwargs):
                 description=OpenGeneralLicenceQuestions.ControlListEntry.DESCRIPTION,
                 questions=[AutocompleteInput(name="control_list_entry", options=control_list_entries)],
                 default_button_name=generic.CONTINUE,
+                back_link=BackLink(url=back_link_url),
             ),
             Form(
                 title=OpenGeneralLicenceQuestions.Country.TITLE,
