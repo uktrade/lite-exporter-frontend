@@ -79,13 +79,10 @@ def export_licence_questions(request, application_type, goodstype_category=None)
                     RadioButtons(
                         name="application_type",
                         options=[
-                            conditional(
-                                not request.GET.get("hide_ogl"),
-                                Option(
-                                    key=CaseTypes.OGEL,
-                                    value=ExportLicenceQuestions.ExportLicenceQuestion.OPEN_GENERAL_EXPORT_LICENCE,
-                                    description=ExportLicenceQuestions.ExportLicenceQuestion.OPEN_GENERAL_EXPORT_LICENCE_DESCRIPTION,
-                                ),
+                            Option(
+                                key=CaseTypes.OGEL,
+                                value=ExportLicenceQuestions.ExportLicenceQuestion.OPEN_GENERAL_EXPORT_LICENCE,
+                                description=ExportLicenceQuestions.ExportLicenceQuestion.OPEN_GENERAL_EXPORT_LICENCE_DESCRIPTION,
                             ),
                             Option(
                                 key=CaseTypes.SIEL,
@@ -186,13 +183,10 @@ def transhipment_questions(request):
                     RadioButtons(
                         name="application_type",
                         options=[
-                            conditional(
-                                not request.GET.get("hide_ogl"),
-                                Option(
-                                    key=CaseTypes.OGTL,
-                                    value=TranshipmentQuestions.TranshipmentLicenceQuestion.OPEN_GENERAL_TRANSHIPMENT_LICENCE,
-                                    description=TranshipmentQuestions.TranshipmentLicenceQuestion.OPEN_GENERAL_TRANSHIPMENT_LICENCE_DESCRIPTION,
-                                ),
+                            Option(
+                                key=CaseTypes.OGTL,
+                                value=TranshipmentQuestions.TranshipmentLicenceQuestion.OPEN_GENERAL_TRANSHIPMENT_LICENCE,
+                                description=TranshipmentQuestions.TranshipmentLicenceQuestion.OPEN_GENERAL_TRANSHIPMENT_LICENCE_DESCRIPTION,
                             ),
                             Option(
                                 key=CaseTypes.SITL,

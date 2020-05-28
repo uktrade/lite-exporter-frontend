@@ -33,7 +33,7 @@ def no_open_general_licence_form(open_general_licence_type, selected_entry, sele
             ],
             Link(
                 OpenGeneralLicenceQuestions.NoOpenGeneralLicencesAvailable.APPLY_FOR_A_LICENCE_LINK,
-                reverse("apply_for_a_licence:start") + "?hide_ogl=True",
+                reverse("apply_for_a_licence:start"),
                 classes=["govuk-body", "govuk-link--no-visited-state"],
             ),
             Link(

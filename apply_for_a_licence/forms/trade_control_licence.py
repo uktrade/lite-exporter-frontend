@@ -16,13 +16,10 @@ def application_type_form(request):
             RadioButtons(
                 name="application_type",
                 options=[
-                    conditional(
-                        not request.GET.get("hide_ogl"),
-                        Option(
-                            key=CaseTypes.OGTCL,
-                            value=TradeControlLicenceQuestions.TradeControlLicenceQuestion.OPEN_GENERAL_TRADE_CONTROL_LICENCE,
-                            description=TradeControlLicenceQuestions.TradeControlLicenceQuestion.OPEN_GENERAL_TRADE_CONTROL_LICENCE_DESCRIPTION,
-                        ),
+                    Option(
+                        key=CaseTypes.OGTCL,
+                        value=TradeControlLicenceQuestions.TradeControlLicenceQuestion.OPEN_GENERAL_TRADE_CONTROL_LICENCE,
+                        description=TradeControlLicenceQuestions.TradeControlLicenceQuestion.OPEN_GENERAL_TRADE_CONTROL_LICENCE_DESCRIPTION,
                     ),
                     Option(
                         key=CaseTypes.SICL,
