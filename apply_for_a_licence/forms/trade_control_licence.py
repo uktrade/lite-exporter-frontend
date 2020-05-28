@@ -5,10 +5,9 @@ from core.services import get_trade_control_activities, get_trade_control_produc
 from lite_content.lite_exporter_frontend import generic
 from lite_content.lite_exporter_frontend.applications import TradeControlLicenceQuestions
 from lite_forms.components import Form, RadioButtons, Option, BackLink, TextArea, Checkboxes
-from lite_forms.helpers import conditional
 
 
-def application_type_form(request):
+def application_type_form():
     return Form(
         title=TradeControlLicenceQuestions.TradeControlLicenceQuestion.TITLE,
         description=TradeControlLicenceQuestions.TradeControlLicenceQuestion.DESCRIPTION,

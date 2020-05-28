@@ -163,7 +163,7 @@ def goodstype_category_form(application_id=None):
 def trade_control_licence_questions(request):
     return FormGroup(
         [
-            application_type_form(request),
+            application_type_form(),
             *conditional(
                 request.POST.get("application_type") != CaseTypes.OGTCL,
                 [reference_name_form(), activity_form(request), product_category_form(request)],
