@@ -108,7 +108,7 @@ def export_licence_questions(request, application_type, goodstype_category=None)
             ),
             *conditional(application_type == CaseTypes.OIEL, [goodstype_category_form()], []),
             *conditional(
-                application_type != CaseTypes.OGEL,
+                application_type != CaseTypes.OGEL and goodstype_category not in ["media", "cryptographic"],
                 [
                     Form(
                         title=ExportLicenceQuestions.ExportType.TITLE,
