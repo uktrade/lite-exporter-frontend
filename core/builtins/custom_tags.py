@@ -39,7 +39,7 @@ def get_const_string(value):
         if len(nested_properties_list) == 1:
             # We have reached the end of the path and now have the string
             if isinstance(object, str):
-                object = mark_safe(
+                object = mark_safe(  # nosec
                     object.replace("<!--", "<span class='govuk-visually-hidden'>").replace("-->", "</span>")
                 )
 
