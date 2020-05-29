@@ -4,7 +4,6 @@ Feature: I want to register an organisation
   I want to register an organisation
   So that I can export my products in the future
 
-
   @LT_1024_register_an_organisation @regression
   Scenario: Register a commercial organisation
     Given I am not logged in
