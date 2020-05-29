@@ -1,5 +1,6 @@
 from pytest_bdd import scenarios, then, when, parsers, given
 
+from pages.shared import Shared
 from ui_automation_tests.pages.application_page import ApplicationPage
 from ui_automation_tests.pages.submitted_applications_page import SubmittedApplicationsPages
 from ui_automation_tests.shared.functions import element_with_id_exists
@@ -43,20 +44,20 @@ def i_wont_be_able_to_see_the_withdraw_button(driver):
 
 @then("I won't be able to see the surrender button")
 def i_wont_be_able_to_see_the_surrender_button(driver):
-    text = driver.find_element_by_css_selector(".lite-app-bar__controls").text
+    text = Shared(driver).get_text_of_case_buttons()
     assert "Surrender" not in text
     assert "Copy" in text
 
 
 @then("the edit application button is not present")
 def edit_button_not_present(driver):
-    text = driver.find_element_by_css_selector(".lite-app-bar__controls").text
+    text = Shared(driver).get_text_of_case_buttons()
     assert "Edit" not in text
 
 
 @then("the case note text area is not present")
 def edit_button_not_present(driver):
-    text = driver.find_element_by_id("main-content").text
+    text = Shared(driver).get_text_of_main_content()
     assert "Post note" not in text
     assert "Cancel" not in text
     assert "Add a note" not in text
