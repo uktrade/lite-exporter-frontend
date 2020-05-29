@@ -1,4 +1,4 @@
-from pytest_bdd import scenarios, then, when, parsers, given
+from pytest_bdd import scenarios, then, when, parsers
 
 from ui_automation_tests.pages.shared import Shared
 from ui_automation_tests.pages.application_page import ApplicationPage
@@ -35,21 +35,21 @@ def the_application_will_have_status(driver, status):
 
 @then("I won't be able to see the withdraw button")
 def i_wont_be_able_to_see_the_withdraw_button(driver):
-    text = Shared(driver).get_text_of_case_buttons()
+    text = ApplicationPage(driver).get_text_of_case_buttons()
     assert "Withdraw" not in text
     assert "Copy" in text
 
 
 @then("I won't be able to see the surrender button")
 def i_wont_be_able_to_see_the_surrender_button(driver):
-    text = Shared(driver).get_text_of_case_buttons()
+    text = ApplicationPage(driver).get_text_of_case_buttons()
     assert "Surrender" not in text
     assert "Copy" in text
 
 
 @then("the edit application button is not present")
 def edit_button_not_present(driver):
-    text = Shared(driver).get_text_of_case_buttons()
+    text = ApplicationPage(driver).get_text_of_case_buttons()
     assert "Edit" not in text
 
 
