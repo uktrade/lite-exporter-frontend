@@ -36,26 +36,26 @@ def the_application_will_have_status(driver, status):
 @then("I won't be able to see the withdraw button")
 def i_wont_be_able_to_see_the_withdraw_button(driver):
     text = ApplicationPage(driver).get_text_of_case_buttons()
-    assert "Withdraw" not in text
-    assert "Copy" in text
+    assert "withdraw" not in text.lower()
+    assert "copy" in text.lower()
 
 
 @then("I won't be able to see the surrender button")
 def i_wont_be_able_to_see_the_surrender_button(driver):
     text = ApplicationPage(driver).get_text_of_case_buttons()
-    assert "Surrender" not in text
-    assert "Copy" in text
+    assert "surrender" not in text.lower()
+    assert "copy" in text.lower()
 
 
 @then("the edit application button is not present")
 def edit_button_not_present(driver):
     text = ApplicationPage(driver).get_text_of_case_buttons()
-    assert "Edit" not in text
+    assert "edit" not in text.lower()
 
 
 @then("the case note text area is not present")
 def edit_button_not_present(driver):
     text = Shared(driver).get_text_of_main_content()
-    assert "Post note" not in text
-    assert "Cancel" not in text
-    assert "Add a note" not in text
+    assert "post note" not in text.lower()
+    assert "cancel" not in text.lower()
+    assert "add a note" not in text.lower()
