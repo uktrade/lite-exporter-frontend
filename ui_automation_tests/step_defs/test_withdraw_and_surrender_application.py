@@ -36,27 +36,27 @@ def the_application_will_have_status(driver, status):
 
 @then("I won't be able to see the withdraw button")
 def i_wont_be_able_to_see_the_withdraw_button(driver):
-    driver.set_timeout_to(0)
-    assert not element_with_id_exists(driver, ApplicationPage.BUTTON_WITHDRAW_APPLICATION_ID)
-    driver.set_timeout_to(10)
+    text = driver.find_element_by_css_selector(".lite-app-bar__controls").text
+    assert "Withdraw" not in text
+    assert "Copy" in text
 
 
 @then("I won't be able to see the surrender button")
 def i_wont_be_able_to_see_the_surrender_button(driver):
-    driver.set_timeout_to(0)
-    assert not element_with_id_exists(driver, ApplicationPage.BUTTON_SURRENDER_APPLICATION_ID)
-    driver.set_timeout_to(10)
+    text = driver.find_element_by_css_selector(".lite-app-bar__controls").text
+    assert "Surrender" not in text
+    assert "Copy" in text
 
 
 @then("the edit application button is not present")
 def edit_button_not_present(driver):
-    driver.set_timeout_to(0)
-    assert len((ApplicationPage(driver).find_edit_application_button())) == 0
-    driver.set_timeout_to(10)
+    text = driver.find_element_by_css_selector(".lite-app-bar__controls").text
+    assert "Edit" not in text
 
 
 @then("the case note text area is not present")
 def edit_button_not_present(driver):
-    driver.set_timeout_to(0)
-    assert len((SubmittedApplicationsPages(driver).find_case_note_text_area())) == 0
-    driver.set_timeout_to(10)
+    text = driver.find_element_by_id("main-content").text
+    assert "Post note" not in text
+    assert "Cancel" not in text
+    assert "Add a note" not in text
