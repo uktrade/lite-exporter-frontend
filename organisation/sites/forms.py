@@ -28,7 +28,6 @@ def new_site_forms(request):
 
     return FormGroup(
         [
-            site_records_location(request),
             Form(
                 caption="Step 1 of 3",
                 title=AddSiteForm.WhereIsYourSiteBased.TITLE,
@@ -72,7 +71,7 @@ def new_site_forms(request):
                 ],
                 default_button_name=generic.CONTINUE,
             ),
-            # PLACE ME HERE
+            site_records_location(request),
             Form(
                 caption="Step 3 of 3",
                 title=AddSiteForm.AssignUsers.TITLE,
@@ -142,6 +141,7 @@ def site_records_location(request, is_editing=False):
                 ],
             ),
             HiddenField("validate_only", True),
+            HiddenField("records_located_step", True)
         ],
         default_button_name=generic.CONTINUE,
     )
