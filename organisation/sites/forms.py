@@ -141,7 +141,7 @@ def site_records_location(request, is_editing=False):
                 ],
             ),
             HiddenField("validate_only", True),
-            HiddenField("records_located_step", True)
+            HiddenField("records_located_step", True),
         ],
         default_button_name=generic.CONTINUE,
     )
