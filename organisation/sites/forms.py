@@ -116,9 +116,9 @@ def site_records_location(request, is_editing=False):
             RadioButtons(
                 name="site_records_stored_here",
                 options=[
-                    Option(key="yes", value=strings.YES),
+                    Option(key=True, value=strings.YES),
                     Option(
-                        key="no",
+                        key=False,
                         value=strings.sites.AddSiteForm.SiteRecords.NO_RECORDS_HELD_ELSEWHERE,
                         components=[
                             RadioButtons(
