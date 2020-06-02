@@ -29,7 +29,7 @@ def new_site_forms(request):
     return FormGroup(
         [
             Form(
-                caption="Step 1 of 3",
+                caption="Step 1 of 4",
                 title=AddSiteForm.WhereIsYourSiteBased.TITLE,
                 description=AddSiteForm.WhereIsYourSiteBased.DESCRIPTION,
                 questions=[
@@ -53,7 +53,7 @@ def new_site_forms(request):
                 back_link=BackLink(AddSiteForm.BACK_LINK, reverse_lazy("organisation:sites:sites")),
             ),
             Form(
-                caption="Step 2 of 3",
+                caption="Step 2 of 4",
                 title=AddSiteForm.Details.TITLE,
                 description=AddSiteForm.Details.DESCRIPTION,
                 questions=[
@@ -73,7 +73,7 @@ def new_site_forms(request):
             ),
             site_records_location(request),
             Form(
-                caption="Step 3 of 3",
+                caption="Step 3 of 4",
                 title=AddSiteForm.AssignUsers.TITLE,
                 description=AddSiteForm.AssignUsers.DESCRIPTION,
                 questions=[
