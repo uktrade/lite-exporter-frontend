@@ -9,7 +9,7 @@ class NewSite(BasePage):
     INPUT_CITY_ID = "address.city"
     INPUT_REGION_ID = "address.region"
 
-    SITE_RECORDS_LOCATED_AT_HERE_RADIO_ID = "site_records_stored_here-yes"
+    SITE_RECORDS_LOCATED_AT_HERE_RADIO_ID = "site_records_stored_here-True"
 
     def click_in_the_united_kingdom_radiobutton(self):
         self.driver.find_element_by_id(self.RADIOBUTTON_IN_THE_UNITED_KINGDOM_ID).click()
