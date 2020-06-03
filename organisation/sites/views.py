@@ -53,6 +53,8 @@ class EditSiteName(SingleFormView):
 class EditSiteRecordsLocation(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
-        self.form = site_records_location(request, is_editing=True)
+        site = get_site(request, request.user.organisation, self.object_pk)
+        in_uk = site["address"]["country"]["id"] == "GB"
+        self.form = site_records_location(request, in_uk=in_uk, is_editing=True)
         self.action = update_site
         self.success_url = reverse("organisation:sites:site", kwargs={"pk": self.object_pk})
