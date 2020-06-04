@@ -152,7 +152,7 @@ def open_general_licence_forms(request, **kwargs):
                                 + ")",
                             }
                         ),
-                        *(
+                        *conditional(
                             selected_open_general_licence.get("registration_required"),
                             [
                                 Heading(
@@ -161,6 +161,7 @@ def open_general_licence_forms(request, **kwargs):
                                 Custom("components/ogl-step-list.html"),
                                 Custom("components/ogl-warning.html"),
                             ],
+                            [],
                         ),
                     ],
                     # Submit button removed as it doesn't do anything until LT-2110
