@@ -295,7 +295,7 @@ def get_open_general_licences(request, convert_to_options=False, case_type=None,
             Option(
                 ogl["id"],
                 ogl["case_type"]["reference"]["value"] + " (" + ogl["name"] + ")",
-                description=ogl["description"],
+                more_information=ogl["description"],
             )
             for ogl in data
         ]

@@ -16,6 +16,7 @@ from lite_forms.components import (
     Link,
     Summary,
     BackLink,
+    WarningBanner,
 )
 from lite_forms.helpers import conditional
 from lite_forms.styles import HeadingStyle
@@ -115,48 +116,57 @@ def open_general_licence_forms(request, **kwargs):
                 ],
                 [no_open_general_licence_form(open_general_licence_type, selected_entry, selected_country)],
             ),
-            *conditional(
+            conditional(
                 selected_open_general_licence,
-                [
-                    Form(
-                        caption=OpenGeneralLicenceQuestions.OpenGeneralLicenceDetail.CAPTION,
-                        title=open_general_licence_type.name
-                        + " ("
-                        + selected_open_general_licence.get("name", "")
-                        + ")",
-                        questions=[
-                            Summary(
-                                {
-                                    OpenGeneralLicenceQuestions.OpenGeneralLicenceDetail.Summary.DESCRIPTION: selected_open_general_licence.get(
-                                        "description"
-                                    ),
-                                    OpenGeneralLicenceQuestions.OpenGeneralLicenceDetail.Summary.CONTROL_LIST_ENTRIES: ", ".join(
-                                        [
-                                            x["rating"]
-                                            for x in selected_open_general_licence.get("control_list_entries", [])
-                                        ]
-                                    ),
-                                    OpenGeneralLicenceQuestions.OpenGeneralLicenceDetail.Summary.COUNTRIES: ", ".join(
-                                        [x["name"] for x in selected_open_general_licence.get("countries", [])]
-                                    ),
-                                    OpenGeneralLicenceQuestions.OpenGeneralLicenceDetail.Summary.READ_MORE_LINK: "["
-                                    + selected_open_general_licence.get("url", "")
-                                    + "]("
-                                    + selected_open_general_licence.get("url", "")
-                                    + ")",
-                                }
+                Form(
+                    caption=conditional(
+                        selected_open_general_licence.get("registration_required"),
+                        OpenGeneralLicenceQuestions.OpenGeneralLicenceDetail.CAPTION,
+                    ),
+                    title=open_general_licence_type.name + " (" + selected_open_general_licence.get("name", "") + ")",
+                    questions=[
+                        conditional(
+                            not selected_open_general_licence.get("registration_required"),
+                            WarningBanner(
+                                "warning",
+                                OpenGeneralLicenceQuestions.OpenGeneralLicenceDetail.NO_REGISTRATION_REQUIRED.format(
+                                    open_general_licence_type.name.lower()
+                                ),
                             ),
-                            Heading(
-                                OpenGeneralLicenceQuestions.OpenGeneralLicenceDetail.Summary.HEADING, HeadingStyle.S
-                            ),
-                            Custom("components/ogl-step-list.html"),
-                            Custom("components/ogl-warning.html"),
-                        ],
-                        # Submit button removed as it doesn't do anything until LT-2110
-                        buttons=[],
-                    )
-                ],
-                [no_open_general_licence_form(open_general_licence_type, selected_entry, selected_country)],
+                        ),
+                        Summary(
+                            {
+                                OpenGeneralLicenceQuestions.OpenGeneralLicenceDetail.Summary.DESCRIPTION: selected_open_general_licence.get(
+                                    "description"
+                                ),
+                                OpenGeneralLicenceQuestions.OpenGeneralLicenceDetail.Summary.CONTROL_LIST_ENTRIES: ", ".join(
+                                    [x["rating"] for x in selected_open_general_licence.get("control_list_entries", [])]
+                                ),
+                                OpenGeneralLicenceQuestions.OpenGeneralLicenceDetail.Summary.COUNTRIES: ", ".join(
+                                    [x["name"] for x in selected_open_general_licence.get("countries", [])]
+                                ),
+                                OpenGeneralLicenceQuestions.OpenGeneralLicenceDetail.Summary.READ_MORE_LINK: "["
+                                + selected_open_general_licence.get("url", "")
+                                + "]("
+                                + selected_open_general_licence.get("url", "")
+                                + ")",
+                            }
+                        ),
+                        *(
+                            selected_open_general_licence.get("registration_required"),
+                            [
+                                Heading(
+                                    OpenGeneralLicenceQuestions.OpenGeneralLicenceDetail.Summary.HEADING, HeadingStyle.S
+                                ),
+                                Custom("components/ogl-step-list.html"),
+                                Custom("components/ogl-warning.html"),
+                            ],
+                        ),
+                    ],
+                    # Submit button removed as it doesn't do anything until LT-2110
+                    buttons=[],
+                ),
+                no_open_general_licence_form(open_general_licence_type, selected_entry, selected_country),
             ),
         ]
     )
