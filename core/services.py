@@ -119,7 +119,7 @@ def get_external_locations_on_draft(request, pk):
 
 def delete_external_locations_from_draft(request, pk, ext_loc_pk):
     data = delete(request, APPLICATIONS_URL + pk + "/external_locations/" + ext_loc_pk + "/")
-    return data.status_code
+    return data.json(), data.status_code
 
 
 def post_external_locations_on_draft(request, pk, json):
