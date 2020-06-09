@@ -143,11 +143,11 @@
 		<div class="app-tiles">
 			{# Open licence returns tile #}
 			<div class="app-tile">
-				<a href="" role="button" draggable="false" class="app-tile__link app-tile__heading" id="link-annual-returns">
+				<a href="{% url 'annual_returns:annual_returns' %}" role="button" draggable="false" class="app-tile__link app-tile__heading" id="link-annual-returns">
 					Open licence returns
 				</a>
 				<p>View and manage your open licence returns</p>
-				<a href="" class="govuk-link govuk-link--no-visited-state" role="button" draggable="false">
+				<a href="{% url 'annual_returns:annual_returns' %}" class="govuk-link govuk-link--no-visited-state" role="button" draggable="false">
 					Submit
 				</a>
 				<br>
