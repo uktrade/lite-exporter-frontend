@@ -6,6 +6,8 @@ PAGE_DATE_FORMAT = "%d %B %Y"
 TIMEZONE = "Europe/London"
 NEWLINE = "\n"
 
+MAX_ANNUAL_RETURNS_FILE_SIZE = 1000000  # 1 MB
+
 # URLs
 ACTIVITY_URL = "/activity/"
 ORGANISATIONS_URL = "/organisations/"
