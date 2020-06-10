@@ -72,13 +72,18 @@
 							</span>
 							{% for destination in licence.destinations|slice:":3" %}
 								<div class="app-expanded-row__item--invert">
-									{{ destination.country_name }}{% if destination.party_name %} - {{ destination.party_name|abbreviate_string:10 }}{% endif %}
+									{{ destination.country_name }}{% if destination.party_name %} - {{ destination.party_name }}{% endif %}
 									{% if licence.destinations|length > row_limit and forloop.counter == row_limit %}
 										<br>
 										<span class="govuk-hint govuk-!-margin-0">
 											({{ row_limit }} of {{ licence.destinations|length }})
 										</span>
 									{% endif %}
+								</div>
+							{% endfor %}
+							{% for destination in licence.destinations %}
+								<div class="app-expanded-row__item">
+									{{ destination.country_name }}{% if destination.party_name %} - {{ destination.party_name }}{% endif %}
 								</div>
 							{% endfor %}
 						</td>
@@ -88,6 +93,11 @@
 							</span>
 							<span class="govuk-visually-hidden">{% lcs "licences.LicencesList.DOWNLOAD_HIDDEN_TEXT" %}</span>
 							<a href="{% url 'applications:download_generated_document' licence.id licence.case_id %}" class="govuk-link govuk-link--no-visited-state" id="document-download">{{ licence.advice_type }}.pdf</a>
+						</td>
+						<td>
+							<a id="expand-{{ licence.id }}" class="lite-accordian-table__chevron">
+								{% svg 'chevron' %}
+							</a>
 						</td>
 					</tr>
 				{% endfor %}
