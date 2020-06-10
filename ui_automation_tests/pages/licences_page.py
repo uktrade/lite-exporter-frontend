@@ -11,10 +11,7 @@ class LicencesPage(BasePage):
     NLR_TAB_ID = "nlrs-tab"
 
     def licence_row_properties(self, id):
-        try:
-            self.driver.find_element_by_id(self.EXPAND_LICENCE_ROW_PARTIAL_ID + id).click()
-        except NoSuchElementException:
-            pass
+        self.driver.find_element_by_id(self.EXPAND_LICENCE_ROW_PARTIAL_ID + id).click()
         return self.driver.find_element_by_id(self.LICENCE_ROW_PARTIAL_ID + id).text
 
     def click_clearances_tab(self):
