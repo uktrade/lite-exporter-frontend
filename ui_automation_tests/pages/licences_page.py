@@ -1,3 +1,5 @@
+from selenium.common.exceptions import NoSuchElementException
+
 from ui_automation_tests.pages.BasePage import BasePage
 
 
@@ -9,7 +11,10 @@ class LicencesPage(BasePage):
     NLR_TAB_ID = "nlrs-tab"
 
     def licence_row_properties(self, id):
-        self.driver.find_element_by_id(self.EXPAND_LICENCE_ROW_PARTIAL_ID + id).click()
+        try:
+            self.driver.find_element_by_id(self.EXPAND_LICENCE_ROW_PARTIAL_ID + id).click()
+        except NoSuchElementException:
+            pass
         return self.driver.find_element_by_id(self.LICENCE_ROW_PARTIAL_ID + id).text
 
     def click_clearances_tab(self):
