@@ -8,7 +8,7 @@
 				{% lcs "licences.LicencesList.Tabs.CLEARANCE" %}
 			</a>
 			<a id="nlrs-tab" href="{% url 'licences:licences' %}?licence_type=nlr" class="lite-tabs__tab lite-tabs__tab{% if licence_type == "nlr" %}--selected{% endif %}">
-				NLRs
+				{% lcs "licences.LicencesList.Tabs.NLR" %}
 			</a>
 		{% endwith %}
 	</div>
