@@ -1,0 +1,55 @@
+{% extends 'layouts/base.html' %}
+
+{% block back_link %}
+	{% include 'includes/breadcrumbs.html' with title='hub.Tiles.ANNUAL_RETURNS' %}
+{% endblock %}
+
+{% block body %}
+	<div class="lite-app-bar">
+		<div class="lite-app-bar__content">
+			<h1 class="govuk-heading-l">
+				{% block title %}
+					Open licence returns
+				{% endblock %}
+			</h1>
+		</div>
+		<div class="lite-app-bar__controls">
+			<a href="{% url 'compliance:annual_returns' %}" class="govuk-button" draggable="false" role="button">
+				Submit a return
+			</a>
+		</div>
+	</div>
+
+	{% if open_licence_returns %}
+		<table class="govuk-table">
+			<thead class="govuk-table__head">
+				<tr class="govuk-table__row">
+					<th class="govuk-table__header" scope="col">Filename</th>
+					<th class="govuk-table__header" scope="col">Year of return</th>
+					<th class="govuk-table__header" scope="col">Added</th>
+				</tr>
+			</thead>
+			<tbody class="govuk-table__body">
+				{% for return in open_licence_returns.results %}
+					<tr id={{ return.id }} class="govuk-table__row">
+						<td class="govuk-table__cell">
+							<a id="advisory-details-link" class="govuk-link govuk-link--no-visited-state app-icon-label" href="">
+								{{ return.year }}OpenLicenceReturns.csv
+							</a>
+						</td>
+						<td class="govuk-table__cell">
+							{{ return.year }}
+						</td>
+						<td class="govuk-table__cell">
+							{{ return.created_at|str_date }}
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	{% else %}
+		{% include "includes/notice.html" with text="end_users.EndUsersPage.NO_CONTENT_NOTICE" %}
+	{% endif %}
+
+	{% pagination with data=open_licence_returns %}
+{% endblock %}

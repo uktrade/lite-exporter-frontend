@@ -1,7 +1,12 @@
 from http import HTTPStatus
 
-from conf.client import post
+from conf.client import post, get
 from conf.constants import MAX_ANNUAL_RETURNS_FILE_SIZE
+
+
+def get_open_licence_returns(request):
+    data = get(request, "/compliance/open-licence-returns/")
+    return data.json()
 
 
 def post_annual_return(request, json):
