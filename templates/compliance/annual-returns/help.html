@@ -6,5 +6,20 @@
 
 {% block body %}
 	<h1 class="govuk-heading-xl">{% block title %}Before you start{% endblock %}</h1>
+	<div class="govuk-body govuk-list govuk-list--bullet">
+		{% lcs 'compliance.OpenReturnsHelpPage.DESCRIPTION' as description %}
+		{{ description|markdown }}
+	</div>
+	<details class="govuk-details" data-module="govuk-details">
+		<summary class="govuk-details__summary">
+			<span class="govuk-details__summary-text">
+				{% lcs 'compliance.OpenReturnsHelpPage.FORMATTING_HELP_LINK' %}
+			</span>
+		</summary>
+		<div class="govuk-details__text govuk-body">
+			{% lcs 'compliance.OpenReturnsHelpPage.FORMATTING_HELP_DETAILS' as formatting_help %}
+			{{ formatting_help|markdown }}
+		</div>
+	</details>
 	<a href="{% url 'compliance:add_annual_return' %}" class="govuk-button">Next</a>
 {% endblock %}
