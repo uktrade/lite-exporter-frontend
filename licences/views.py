@@ -9,6 +9,7 @@ from licences.services import get_licences, get_licence
 from lite_content.lite_exporter_frontend.licences import LicencesList, LicencePage
 from lite_forms.components import FiltersBar, TextInput, HiddenField, Select, Checkboxes, Option
 from lite_forms.generators import error_page
+from lite_forms.helpers import conditional
 
 
 class Licences(TemplateView):
@@ -32,10 +33,13 @@ class Licences(TemplateView):
                     options=get_countries(request, convert_to_options=True),
                 ),
                 TextInput(name="end_user", title=LicencesList.Filters.DESTINATION_NAME,),
-                Checkboxes(
-                    name="active_only",
-                    options=[Option(key=True, value=LicencesList.Filters.ACTIVE)],
-                    classes=["govuk-checkboxes--small"],
+                conditional(
+                    licence_type != "nlr",
+                    Checkboxes(
+                        name="active_only",
+                        options=[Option(key=True, value=LicencesList.Filters.ACTIVE)],
+                        classes=["govuk-checkboxes--small"],
+                    ),
                 ),
                 HiddenField(name="licence_type", value=licence_type),
                 HiddenField(name="page", value=page_no),
