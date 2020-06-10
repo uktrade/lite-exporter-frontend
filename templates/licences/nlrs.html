@@ -72,7 +72,7 @@
 							</span>
 							{% for destination in licence.destinations|slice:":3" %}
 								<div class="app-expanded-row__item--invert">
-									{{ destination.country.name }}{% if destination.name %} - {{ destination.name|abbreviate_string:10 }}{% endif %}
+									{{ destination.country_name }}{% if destination.party_name %} - {{ destination.party_name|abbreviate_string:10 }}{% endif %}
 									{% if licence.destinations|length > row_limit and forloop.counter == row_limit %}
 										<br>
 										<span class="govuk-hint govuk-!-margin-0">
@@ -80,9 +80,6 @@
 										</span>
 									{% endif %}
 								</div>
-							{% endfor %}
-							{% for destination in licence.destinations %}
-								{{ destination.country_name }} - {{ destination.party_name }} <br>
 							{% endfor %}
 						</td>
 						<td class="govuk-table__cell">

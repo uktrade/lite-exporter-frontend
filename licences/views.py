@@ -1,7 +1,7 @@
 from http import HTTPStatus
 
 from django.http import Http404
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.views.generic import TemplateView
 
 from core.services import get_control_list_entries, get_countries
