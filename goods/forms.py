@@ -40,6 +40,133 @@ from lite_forms.helpers import conditional
 from lite_forms.styles import ButtonStyle, HeadingStyle
 
 
+def product_category_form(request):
+    return Form(
+        title="Select a product category",
+        questions=[
+            RadioButtons(
+                title="",
+                name="item_category",
+                options=[
+                    Option(key="group1_platform", value="Platform, vehicle, system or machine"),
+                    Option(key="group1_device", value="Device, equipment or object"),
+                    Option(key="group1_components", value="Components, modules or accessories of something"),
+                    Option(key="group1_materials", value="Materials or substances"),
+                    Option(key="group2_firearms", value="Firearms"),
+                    Option(key="group3_software", value="Software"),
+                    Option(key="group3_technology", value="Technology"),
+                ],
+            )
+        ],
+    )
+
+
+def product_military_use_form(request):
+    return Form(
+        title="Is the product for military use?",
+        questions=[
+            RadioButtons(
+                title="",
+                name="is_military_use",
+                options=[
+                    Option(key="yes_designed", value="Yes, designed specifically for military use"),
+                    Option(
+                        key="yes_modified",
+                        value="Yes, modified for military use",
+                        components=[
+                            TextArea(
+                                title="Provide details of the modifications",
+                                description="",
+                                name="modified_military_use_details",
+                                optional=False,
+                            ),
+                        ],
+                    ),
+                    Option(key="no", value="No"),
+                ],
+            )
+        ],
+    )
+
+
+def product_component_form(request):
+    return Form(
+        title="Is the product a component?",
+        questions=[
+            RadioButtons(
+                title="",
+                name="is_component",
+                options=[
+                    Option(
+                        key="yes_designed",
+                        value="Yes, it's designed specially for hardware",
+                        components=[
+                            TextArea(
+                                title="Provide details of the hardware",
+                                description="",
+                                name="designed_details",
+                                optional=False,
+                            ),
+                        ],
+                    ),
+                    Option(
+                        key="yes_modified",
+                        value="Yes, it's been modified for hardware",
+                        components=[
+                            TextArea(
+                                title="Provide details of the modifications and the hardware",
+                                description="",
+                                name="modified_details",
+                                optional=False,
+                            ),
+                        ],
+                    ),
+                    Option(
+                        key="yes_general",
+                        value="Yes, it's a general purpose component",
+                        components=[
+                            TextArea(
+                                title="Provide details of the types of applications it's intended to be used in",
+                                description="",
+                                name="general_details",
+                                optional=False,
+                            ),
+                        ],
+                    ),
+                    Option(key="no", value="No"),
+                ],
+            )
+        ],
+    )
+
+
+def product_uses_information_security(request):
+    return Form(
+        title="Is the product designed to employ 'information security' features?",
+        questions=[
+            RadioButtons(
+                title="",
+                name="uses_information_security",
+                options=[
+                    Option(
+                        key=True,
+                        value="Yes",
+                        components=[
+                            TextArea(
+                                title="Provide details of the information security features",
+                                description="",
+                                name="information_security_details",
+                                optional=True,
+                            ),
+                        ],
+                    ),
+                    Option(key=False, value="No",),
+                ],
+            )
+        ],
+    )
+
+
 def add_goods_questions(request, application_pk=None):
     return Form(
         title=conditional(application_pk, CreateGoodForm.TITLE_APPLICATION, CreateGoodForm.TITLE_GOODS_LIST),
@@ -149,7 +276,16 @@ def pv_details_form(request):
 
 
 def add_good_form_group(request, is_pv_graded: bool = None, draft_pk: str = None):
-    return FormGroup([add_goods_questions(request, draft_pk), conditional(is_pv_graded, pv_details_form(request))])
+    return FormGroup(
+        [
+            product_category_form(request),
+            product_military_use_form(request),
+            product_component_form(request),
+            product_uses_information_security(request),
+            add_goods_questions(request, draft_pk),
+            conditional(is_pv_graded, pv_details_form(request)),
+        ]
+    )
 
 
 def edit_good_detail_form(request, good_id):
