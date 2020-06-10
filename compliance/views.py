@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
 from compliance.forms import annual_return_form_group
-from compliance.services import post_annual_return, get_open_licence_returns
+from compliance.services import post_annual_return, get_open_licence_returns, get_open_licence_return_download
 from lite_forms.views import MultiFormView
 
 
@@ -16,6 +16,11 @@ class AnnualReturnsList(TemplateView):
     def get(self, request, *args, **kwargs):
         data = get_open_licence_returns(request)
         return render(request, "compliance/annual-returns/list.html", {"open_licence_returns": data})
+
+
+class AnnualReturnsDownload(TemplateView):
+    def get(self, request, pk):
+        return get_open_licence_return_download(request, pk)
 
 
 class AddAnnualReturn(MultiFormView):

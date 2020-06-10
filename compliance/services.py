@@ -1,5 +1,7 @@
 from http import HTTPStatus
 
+from django.http import HttpResponse
+
 from conf.client import post, get
 from conf.constants import MAX_ANNUAL_RETURNS_FILE_SIZE
 
@@ -7,6 +9,14 @@ from conf.constants import MAX_ANNUAL_RETURNS_FILE_SIZE
 def get_open_licence_returns(request):
     data = get(request, "/compliance/open-licence-returns/")
     return data.json()
+
+
+def get_open_licence_return_download(request, pk):
+    data = get(request, "/compliance/open-licence-returns/" + str(pk) + "/")
+    open_licence_returns = data.json()
+    response = HttpResponse(open_licence_returns["file"], content_type="text/csv")
+    response["Content-Disposition"] = f'attachment; filename="{open_licence_returns["year"]}OpenLicenceReturns.csv"'
+    return response
 
 
 def post_annual_return(request, json):
