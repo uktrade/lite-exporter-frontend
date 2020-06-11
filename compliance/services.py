@@ -19,7 +19,7 @@ def get_open_licence_return_download(request, pk):
     return response
 
 
-def post_annual_return(request, json):
+def post_open_licence_return(request, json):
     if not json.get("year"):
         return {"errors": {"year": ["No year selected"]}}, HTTPStatus.BAD_REQUEST
 
