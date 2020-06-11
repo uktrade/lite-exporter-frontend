@@ -19,7 +19,7 @@ from lite_forms.components import (
     Summary,
     BackLink,
     WarningBanner,
-    HiddenField,
+    HiddenField, Button,
 )
 from lite_forms.generators import success_page
 from lite_forms.helpers import conditional
@@ -169,6 +169,10 @@ def open_general_licence_forms(request, **kwargs):
                             [],
                         ),
                     ],
+                    buttons=[
+                        conditional(selected_open_general_licence.get("registration_required"),
+                                    Button("Register", "submit", disable_double_click=True))
+                    ]
                 ),
                 no_open_general_licence_form(open_general_licence_type, selected_entry, selected_country),
             ),
@@ -178,19 +182,21 @@ def open_general_licence_forms(request, **kwargs):
 
 def open_general_licence_submit_success_page(request, **kwargs):
     open_general_licence = get_open_general_licence(request, kwargs["pk"])
-
-    pprint(open_general_licence)
-
     return success_page(
         request=request,
         title="Registration complete",
-        secondary_title="You've successfully registered for **" + open_general_licence["case_type"]["reference"]["value"] + " (" + open_general_licence["name"] + ")**",
+        secondary_title="You've successfully registered for **"
+        + open_general_licence["case_type"]["reference"]["value"]
+        + " ("
+        + open_general_licence["name"]
+        + ")**",
         description=ApplicationSuccessPage.DESCRIPTION,
         what_happens_next=[],
         includes="includes/open-general-licence.html",
         additional_context={"licence": open_general_licence},
         links={
-            "View your open general licences": reverse_lazy("licences:licences") + "?licence_type=open_general_licences",
+            "View your open general licences": reverse_lazy("licences:licences")
+            + "?licence_type=open_general_licences",
             ApplicationSuccessPage.APPLY_AGAIN: reverse_lazy("apply_for_a_licence:start"),
             ApplicationSuccessPage.RETURN_TO_DASHBOARD: reverse_lazy("core:home"),
         },

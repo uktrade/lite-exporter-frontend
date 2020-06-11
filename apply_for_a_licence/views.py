@@ -2,8 +2,10 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic import TemplateView
 
 from applications.services import post_applications, post_open_general_licences_applications
-from apply_for_a_licence.forms.open_general_licences import open_general_licence_forms, \
-    open_general_licence_submit_success_page
+from apply_for_a_licence.forms.open_general_licences import (
+    open_general_licence_forms,
+    open_general_licence_submit_success_page,
+)
 
 from apply_for_a_licence.forms.triage_questions import (
     opening_question,
@@ -97,9 +99,14 @@ class OpenGeneralLicenceQuestions(MultiFormView):
         self.action = validate_open_general_licences
 
     def get_success_url(self):
-        return reverse("apply_for_a_licence:ogl_submit",
-                                   kwargs={"ogl": self.kwargs["ogl"],
-                                           "pk": self.get_validated_data()["open_general_licence"]}) + "?animate=True"
+        return (
+            reverse(
+                "apply_for_a_licence:ogl_submit",
+                kwargs={"ogl": self.kwargs["ogl"], "pk": self.get_validated_data()["open_general_licence"]},
+            )
+            + "?animate=True"
+        )
+
 
 class OpenGeneralLicenceSubmit(TemplateView):
     def get(self, request, *args, **kwargs):

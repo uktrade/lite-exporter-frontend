@@ -50,9 +50,17 @@ class Licences(TemplateView):
         self.data = get_open_general_licences(self.request, registered=True, **params)
         self.filters = [
             TextInput(name="name", title="name"),
-            AutocompleteInput(name="control_list_entry", title="control list entry", options=get_control_list_entries(self.request, True)),
+            AutocompleteInput(
+                name="control_list_entry",
+                title="control list entry",
+                options=get_control_list_entries(self.request, True),
+            ),
             AutocompleteInput(name="country", title="country", options=get_countries(self.request, True)),
-            Select(name="site", title="site", options=get_sites(self.request, self.request.user.organisation, convert_to_options=True)),
+            Select(
+                name="site",
+                title="site",
+                options=get_sites(self.request, self.request.user.organisation, convert_to_options=True),
+            ),
         ]
         self.template = "open-general-licences"
 

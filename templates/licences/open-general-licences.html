@@ -15,61 +15,99 @@
 
 	{% include 'includes/tabs.html' %}
 
-	{% include 'filters.html' %}
-
-	<p class="govuk-inset-text govuk-!-margin-top-0 govuk-!-margin-bottom-5" style="display: none;">
-		For information on the rules of conduct refer to the following: {{ 'https://www.gov.uk/rules/ogl/rules-of-conduct'|linkify }}
+	<p class="lite-filters__hint-text">
+		{{ 'https://www.gov.uk/rules/ogl/rules-of-conduct'|linkify:'View rules of conduct' }}
 	</p>
 
+	{% include 'filters.html' %}
+
 	{% if data.results %}
-		{% for licence in data.results %}
-			<h2 class="govuk-heading-m">{{ licence.case_type.reference.value }} ({{ licence.name|highlight_text:name }})</h2>
-			<p class="govuk-hint">
-				Documentation held at:
-				{% for registration in licence.registrations %}
-					{% if registration.site.site_records_located_at_name %}
-						{{ registration.site.name|linkify }}
-					{% endif %}
-				{% endfor %}
-			</p>
-			<table class="govuk-table govuk-!-margin-bottom-9">
-				<thead class="govuk-table__head">
-					<tr class="govuk-table__row">
-						<th scope="col" class="govuk-table__header">
-							Reference
-						</th>
-						<th scope="col" class="govuk-table__header">
-							Site
-						</th>
-						<th scope="col" class="govuk-table__header">
-							Status
-						</th>
-						<th scope="col" class="govuk-table__header">
-							Registration letter
-						</th>
-					</tr>
-				</thead>
-				<tbody class="govuk-table__body">
-					{% for registration in licence.registrations %}
-						<tr class="govuk-table__row">
-							<td scope="row" class="govuk-table__header">
-								{{ registration.reference_code }}
-							</td>
-							<td class="govuk-table__cell">
-								{{ registration.site.name }}<br>
-								<span class="govuk-hint govuk-!-margin-0">{{ registration.site|get_address }}</span>
-							</td>
-							<td class="govuk-table__cell">
-								{{ registration.status.value }}
-							</td>
-							<td class="govuk-table__cell">
-								{{ 'file.pdf'|linkify }}
-							</td>
-						</tr>
-					{% endfor %}
-				</tbody>
-			</table>
-		{% endfor %}
+		<div class="govuk-accordion" data-module="govuk-accordion">
+			{% for licence in data.results %}
+				<div class="govuk-accordion__section ">
+					<div class="govuk-accordion__section-header">
+						<h2 class="govuk-accordion__section-heading">
+							<span class="govuk-accordion__section-button">
+								{{ licence.case_type.reference.value }} ({{ licence.name|highlight_text:name }})
+							</span>
+						</h2>
+						<div class="govuk-accordion__section-summary govuk-body">
+							{{ licence.registrations|length }} sites - Registered at {{ licence.registrations.0.submitted_at|str_date }}
+						</div>
+					</div>
+					<div class="govuk-accordion__section-content">
+						<div class="govuk-grid-row">
+							<div class="govuk-grid-column-two-thirds">
+								<p class="govuk-heading-s">Details</p>
+								<p class="govuk-body">{{ licence.description }}</p>
+								<p class="govuk-body govuk-!-margin-0">{{ licence.url|linkify:'Read more on GOV.UK' }}</p>
+							</div>
+							<div class="govuk-grid-column-one-third">
+								<p class="govuk-heading-s">More information</p>
+								<ul class="govuk-list govuk-list--spaced">
+									<li>
+										<span data-definition-title="{{ licence.case_type.reference.value }} ({{ licence.name }})" data-definition-subtitle="{{ licence.control_list_entries|length }} control list entr{{ licence.control_list_entries|pluralize:'y,ies' }}" data-definition-list="{% for clc in licence.control_list_entries %}{{ clc.rating }}{% if not forloop.last %}, {% endif %}{% endfor %}">
+											{{ licence.control_list_entries|length }} control list entr{{ licence.control_list_entries|pluralize:'y,ies' }}
+										</span>
+									</li>
+									<li>
+										<span data-definition-title="{{ licence.case_type.reference.value }} ({{ licence.name }})" data-definition-subtitle="{{ licence.countries|length }} countr{{ open_general_licence.licence|pluralize:'y,ies' }}" data-definition-list="{% for country in licence.countries %}{{ country.name }}{% if not forloop.last %}, {% endif %}{% endfor %}">
+											{{ licence.countries|length }} countr{{ licence.countries|pluralize:'y,ies' }}
+										</span>
+									</li>
+									<li class="govuk-hint">
+										Documentation held at:
+										{% for registration in licence.registrations %}
+											{% if registration.site.site_records_located_at_name %}
+												{{ registration.site.name|linkify }}
+											{% endif %}
+										{% endfor %}
+									</li>
+								</ul>
+							</div>
+						</div>
+						<table class="govuk-table govuk-!-margin-top-7">
+							<caption class="govuk-table__caption">Sites</caption>
+							<thead class="govuk-table__head">
+								<tr class="govuk-table__row">
+									<th scope="col" class="govuk-table__header">
+										Reference
+									</th>
+									<th scope="col" class="govuk-table__header">
+										Site
+									</th>
+									<th scope="col" class="govuk-table__header">
+										Status
+									</th>
+									<th scope="col" class="govuk-table__header">
+										Registration letter
+									</th>
+								</tr>
+							</thead>
+							<tbody class="govuk-table__body">
+								{% for registration in licence.registrations %}
+									<tr class="govuk-table__row">
+										<td scope="row" class="govuk-table__header">
+											{{ registration.reference_code }}
+										</td>
+										<td class="govuk-table__cell">
+											{{ registration.site.name }}<br>
+											<span class="govuk-hint govuk-!-margin-0">{{ registration.site|get_address }}</span>
+										</td>
+										<td class="govuk-table__cell">
+											{{ registration.status.value }}
+										</td>
+										<td class="govuk-table__cell">
+											{{ 'file.pdf'|linkify }}
+										</td>
+									</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
 
 		{% pagination %}
 	{% else %}
