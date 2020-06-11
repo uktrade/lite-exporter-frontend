@@ -27,7 +27,8 @@ class AddAnnualReturn(MultiFormView):
 
     def get_success_url(self):
         return reverse_lazy(
-            "compliance:add_open_licence_return_success", kwargs={"pk": self.get_validated_data()["open_licence_returns"]}
+            "compliance:add_open_licence_return_success",
+            kwargs={"pk": self.get_validated_data()["open_licence_returns"]},
         )
 
 
