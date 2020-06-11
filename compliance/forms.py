@@ -26,7 +26,7 @@ def annual_return_form_group():
                     ),
                 ],
                 default_button_name=OpenReturnsHelpPage.BUTTON,
-                back_link=BackLink(OpenReturnsHelpPage.BACK, reverse_lazy("core:home"))
+                back_link=BackLink(OpenReturnsHelpPage.BACK, reverse_lazy("core:home")),
             ),
             Form(
                 title=OpenReturnsForm.Year.TITLE,
