@@ -32,7 +32,7 @@
 							</span>
 						</h2>
 						<div class="govuk-accordion__section-summary govuk-hint govuk-!-margin-bottom-0">
-							{{ licence.registrations|length }} sites - Registered at {{ licence.registrations.0.submitted_at|str_date }}
+							{{ licence.registrations|length }} site{{ licence.registrations|pluralize }} - Registered at {{ licence.registrations.0.submitted_at|str_date }}
 						</div>
 					</div>
 					<div class="govuk-accordion__section-content">
