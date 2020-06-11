@@ -3,7 +3,7 @@ from http import HTTPStatus
 from django.http import HttpResponse
 
 from conf.client import post, get
-from conf.constants import MAX_ANNUAL_RETURNS_FILE_SIZE
+from conf.constants import MAX_OPEN_LICENCE_RETURNS_FILE_SIZE
 
 
 def get_open_licence_returns(request):
@@ -27,7 +27,7 @@ def post_open_licence_return(request, json):
         return {"errors": {"file": ["No file"]}}, HTTPStatus.BAD_REQUEST
     if len(request.FILES) != 1:
         return {"errors": {"file": ["Multiple files"]}}, HTTPStatus.BAD_REQUEST
-    if request.FILES["file"].size > MAX_ANNUAL_RETURNS_FILE_SIZE:
+    if request.FILES["file"].size > MAX_OPEN_LICENCE_RETURNS_FILE_SIZE:
         return {"errors": {"file": ["File too large"]}}, HTTPStatus.BAD_REQUEST
 
     try:
