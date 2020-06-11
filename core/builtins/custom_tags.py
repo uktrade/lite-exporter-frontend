@@ -407,7 +407,7 @@ def get_address(data):
     """
     if data:
         address = data["address"]
-        country = data.get("country")
+        country = data.get("country", data.get("address").get("country"))
 
         if isinstance(address, str):
             if country:

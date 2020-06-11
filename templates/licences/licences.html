@@ -13,22 +13,11 @@
 		</div>
 	</div>
 
-	<div class="lite-tabs__container">
-		<div class="lite-tabs">
-			{% with request.GET.licence_type as licence_type %}
-				<a id="licences-tab" href="{% url 'licences:licences' %}?licence_type=licence" class="lite-tabs__tab lite-tabs__tab{% if not licence_type or licence_type == "licence" %}--selected{% endif %}">
-					{% lcs "licences.LicencesList.Tabs.LICENCE" %}
-				</a>
-				<a id="clearances-tab" href="{% url 'licences:licences' %}?licence_type=clearance" class="lite-tabs__tab lite-tabs__tab{% if licence_type == "clearance" %}--selected{% endif %}">
-					{% lcs "licences.LicencesList.Tabs.CLEARANCE" %}
-				</a>
-			{% endwith %}
-		</div>
-	</div>
+	{% include 'includes/tabs.html' %}
 
-	{% include "filters.html" %}
+	{% include 'filters.html' %}
 
-	{% if licences.results %}
+	{% if data.results %}
 		<table class="govuk-table">
 			<thead class="govuk-table__head">
 				<tr class="govuk-table__row">
@@ -42,7 +31,7 @@
 				</tr>
 			</thead>
 			<tbody class="govuk-table__body">
-				{% for licence in licences.results %}
+				{% for licence in data.results %}
 					<tr class="govuk-table__row lite-accordian-table__row" id="licence-{{ licence.id }}">
 						<td class="govuk-table__cell">
 							<span class="govuk-table__header" aria-hidden="true">
@@ -131,7 +120,7 @@
 			</tbody>
 		</table>
 
-		{% pagination with data=licences %}
+		{% pagination %}
 	{% else %}
 		{% include "includes/notice.html" with text="licences.LicencesList.NO_CONTENT_NOTICE" %}
 	{% endif %}

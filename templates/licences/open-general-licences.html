@@ -1,0 +1,78 @@
+{% extends 'layouts/base.html' %}
+
+{% load svg static %}
+
+{% block back_link %}
+	{% include 'includes/breadcrumbs.html' with title='licences.LicencesList.BREADCRUMB' %}
+{% endblock %}
+
+{% block body %}
+	<div class="lite-app-bar">
+		<div class="lite-app-bar__content">
+			<h1 class="govuk-heading-l">{% block title %}{% lcs "licences.LicencesList.TITLE" %}{% endblock %}</h1>
+		</div>
+	</div>
+
+	{% include 'includes/tabs.html' %}
+
+	{% include 'filters.html' %}
+
+	<p class="govuk-inset-text govuk-!-margin-top-0 govuk-!-margin-bottom-5" style="display: none;">
+		For information on the rules of conduct refer to the following: {{ 'https://www.gov.uk/rules/ogl/rules-of-conduct'|linkify }}
+	</p>
+
+	{% if data.results %}
+		{% for licence in data.results %}
+			<h2 class="govuk-heading-m">{{ licence.case_type.reference.value }} ({{ licence.name|highlight_text:name }})</h2>
+			<p class="govuk-hint">
+				Documentation held at:
+				{% for registration in licence.registrations %}
+					{% if registration.site.site_records_located_at_name %}
+						{{ registration.site.name|linkify }}
+					{% endif %}
+				{% endfor %}
+			</p>
+			<table class="govuk-table govuk-!-margin-bottom-9">
+				<thead class="govuk-table__head">
+					<tr class="govuk-table__row">
+						<th scope="col" class="govuk-table__header">
+							Reference
+						</th>
+						<th scope="col" class="govuk-table__header">
+							Site
+						</th>
+						<th scope="col" class="govuk-table__header">
+							Status
+						</th>
+						<th scope="col" class="govuk-table__header">
+							Registration letter
+						</th>
+					</tr>
+				</thead>
+				<tbody class="govuk-table__body">
+					{% for registration in licence.registrations %}
+						<tr class="govuk-table__row">
+							<td scope="row" class="govuk-table__header">
+								{{ registration.reference_code }}
+							</td>
+							<td class="govuk-table__cell">
+								{{ registration.site.name }}<br>
+								<span class="govuk-hint govuk-!-margin-0">{{ registration.site|get_address }}</span>
+							</td>
+							<td class="govuk-table__cell">
+								{{ registration.status.value }}
+							</td>
+							<td class="govuk-table__cell">
+								{{ 'file.pdf'|linkify }}
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		{% endfor %}
+
+		{% pagination %}
+	{% else %}
+		{% include "includes/notice.html" with text="licences.LicencesList.NO_CONTENT_NOTICE" %}
+	{% endif %}
+{% endblock %}

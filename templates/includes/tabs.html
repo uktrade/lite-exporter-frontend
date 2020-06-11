@@ -1,0 +1,9 @@
+<div class="lite-tabs__container">
+	<div class="lite-tabs">
+		{% for tab in tabs %}
+			<a id="tab-{{ tab.id }}" href="{{ tab.url }}" class="lite-tabs__tab lite-tabs__tab{% if tab.url in CURRENT_PATH %}--selected{% endif %}">
+				{{ tab.name }}
+			</a>
+		{% endfor %}
+	</div>
+</div>

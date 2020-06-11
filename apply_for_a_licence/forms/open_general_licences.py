@@ -1,9 +1,11 @@
-from django.urls import reverse
+from pprint import pprint
+
+from django.urls import reverse, reverse_lazy
 
 from apply_for_a_licence.enums import OpenGeneralExportLicenceTypes
 from core.services import get_control_list_entries, get_countries, get_open_general_licences, get_open_general_licence
 from lite_content.lite_exporter_frontend import generic
-from lite_content.lite_exporter_frontend.applications import OpenGeneralLicenceQuestions
+from lite_content.lite_exporter_frontend.applications import OpenGeneralLicenceQuestions, ApplicationSuccessPage
 from lite_forms.components import (
     FormGroup,
     Form,
@@ -17,7 +19,9 @@ from lite_forms.components import (
     Summary,
     BackLink,
     WarningBanner,
+    HiddenField,
 )
+from lite_forms.generators import success_page
 from lite_forms.helpers import conditional
 from lite_forms.styles import HeadingStyle
 
@@ -134,6 +138,7 @@ def open_general_licence_forms(request, **kwargs):
                                 ),
                             ),
                         ),
+                        HiddenField("application_type", open_general_licence_type.acronym.lower()),
                         Summary(
                             {
                                 OpenGeneralLicenceQuestions.OpenGeneralLicenceDetail.Summary.DESCRIPTION: selected_open_general_licence.get(
@@ -164,10 +169,29 @@ def open_general_licence_forms(request, **kwargs):
                             [],
                         ),
                     ],
-                    # Submit button removed as it doesn't do anything until LT-2110
-                    buttons=[],
                 ),
                 no_open_general_licence_form(open_general_licence_type, selected_entry, selected_country),
             ),
         ]
+    )
+
+
+def open_general_licence_submit_success_page(request, **kwargs):
+    open_general_licence = get_open_general_licence(request, kwargs["pk"])
+
+    pprint(open_general_licence)
+
+    return success_page(
+        request=request,
+        title="Registration complete",
+        secondary_title="You've successfully registered for **" + open_general_licence["case_type"]["reference"]["value"] + " (" + open_general_licence["name"] + ")**",
+        description=ApplicationSuccessPage.DESCRIPTION,
+        what_happens_next=[],
+        includes="includes/open-general-licence.html",
+        additional_context={"licence": open_general_licence},
+        links={
+            "View your open general licences": reverse_lazy("licences:licences") + "?licence_type=open_general_licences",
+            ApplicationSuccessPage.APPLY_AGAIN: reverse_lazy("apply_for_a_licence:start"),
+            ApplicationSuccessPage.RETURN_TO_DASHBOARD: reverse_lazy("core:home"),
+        },
     )

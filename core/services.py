@@ -1,4 +1,5 @@
 from http import HTTPStatus
+from pprint import pprint
 from urllib.parse import urlencode
 
 from django.http import StreamingHttpResponse
@@ -285,12 +286,22 @@ def register_private_individual(request, json):
     return _register_organisation(request, json, "individual")
 
 
-def get_open_general_licences(request, convert_to_options=False, case_type=None, control_list_entry=None, country=None):
+def get_open_general_licences(
+    request,
+    convert_to_options=False,
+    name=None,
+    site=None,
+    status=None,
+    case_type=None,
+    control_list_entry=None,
+    country=None,
+    registered=False,
+):
     data = get(
         request,
         OPEN_GENERAL_LICENCES_URL
-        + f"?disable_pagination={convert_to_options}&registration_required=True&case_type={case_type}"
-        f"&control_list_entry={control_list_entry}&country={country}",
+        + convert_parameters_to_query_params(locals())
+        + f"&disable_pagination={convert_to_options}",
     ).json()
 
     if convert_to_options:

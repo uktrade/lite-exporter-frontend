@@ -43,6 +43,7 @@ from applications.services import (
     copy_application,
     post_exhibition,
 )
+from conf.client import post
 from conf.constants import HMRC, APPLICANT_EDITING, NotificationType, STANDARD
 from core.helpers import str_to_bool, convert_dict_to_query_params
 from core.services import get_organisation
@@ -58,6 +59,15 @@ class ApplicationsList(TemplateView):
         params = {"page": int(request.GET.get("page", 1)), "submitted": str_to_bool(request.GET.get("submitted", True))}
         organisation = get_organisation(request, request.user.organisation)
         applications = get_applications(request, **params)
+
+        data = post(
+            request,
+            "/licences/open-general-licences/",
+            {"open_general_licence": "2d06cc11-79bd-4245-ba19-299018379987"},
+        )
+        print("\n")
+        print(data.json())
+        print("\n")
 
         context = {
             "applications": applications,
