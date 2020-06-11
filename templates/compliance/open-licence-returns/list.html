@@ -9,13 +9,13 @@
 		<div class="lite-app-bar__content">
 			<h1 class="govuk-heading-l">
 				{% block title %}
-					Open licence returns
+					{% lcs 'compliance.OpenReturnsList.TITLE' %}
 				{% endblock %}
 			</h1>
 		</div>
 		<div class="lite-app-bar__controls">
 			<a href="{% url 'compliance:add_open_licence_return' %}" class="govuk-button" draggable="false" role="button" id="submit-return">
-				Submit a return
+				{% lcs 'compliance.OpenReturnsList.SUBMIT_RETURN_BUTTON' %}
 			</a>
 		</div>
 	</div>
@@ -24,9 +24,9 @@
 		<table class="govuk-table">
 			<thead class="govuk-table__head">
 				<tr class="govuk-table__row">
-					<th class="govuk-table__header" scope="col">Filename</th>
-					<th class="govuk-table__header" scope="col">Year of return</th>
-					<th class="govuk-table__header" scope="col">Added</th>
+					<th class="govuk-table__header" scope="col">{% lcs 'compliance.OpenReturnsList.FILENAME_COLUMN' %}</th>
+					<th class="govuk-table__header" scope="col">{% lcs 'compliance.OpenReturnsList.YEAR_COLUMN' %}</th>
+					<th class="govuk-table__header" scope="col">{% lcs 'compliance.OpenReturnsList.ADDED_COLUMN' %}</th>
 				</tr>
 			</thead>
 			<tbody class="govuk-table__body">

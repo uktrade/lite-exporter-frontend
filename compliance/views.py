@@ -4,6 +4,7 @@ from django.views.generic import TemplateView
 
 from compliance.forms import open_licence_return_form_group
 from compliance.services import post_open_licence_return, get_open_licence_returns, get_open_licence_return_download
+from lite_content.lite_exporter_frontend.compliance import OpenReturnsForm
 from lite_forms.generators import success_page
 from lite_forms.views import MultiFormView
 
@@ -34,12 +35,12 @@ class AddAnnualReturnSuccess(TemplateView):
     def get(self, request, **kwargs):
         return success_page(
             request=request,
-            title="Open licence return submitted",
-            secondary_title="",
-            description="",
+            title=OpenReturnsForm.Success.TITLE,
+            secondary_title=OpenReturnsForm.Success.SECONDARY_TITLE,
+            description=OpenReturnsForm.Success.DESCRIPTION,
             what_happens_next="",
             links={
-                "View Open licence returns": reverse_lazy("compliance:open_licence_returns_list"),
-                "Return to your export control account dashboard": reverse_lazy("core:home"),
+                OpenReturnsForm.Success.OPEN_LICENCE_RETURNS_LINK: reverse_lazy("compliance:open_licence_returns_list"),
+                OpenReturnsForm.Success.HOME_LINK: reverse_lazy("core:home"),
             },
         )

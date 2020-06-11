@@ -11,7 +11,7 @@ FILENAME = "OpenLicenceReturns.csv"
 
 
 def get_open_licence_returns(request):
-    data = get(request, OPEN_LICENCE_RETURNS_URL)
+    data = get(request, OPEN_LICENCE_RETURNS_URL + f"?page={request.GET.get('page')}")
     return data.json()
 
 
