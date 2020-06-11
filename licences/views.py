@@ -55,6 +55,11 @@ class Licences(TemplateView):
         sites = get_potential_ogl_sites(self.data)
         self.filters = [
             TextInput(name="name", title="name"),
+            Select(
+                name="case_type",
+                title="type",
+                options=OpenGeneralExportLicenceTypes.as_options(),
+            ),
             AutocompleteInput(
                 name="control_list_entry",
                 title="control list entry",
@@ -65,11 +70,6 @@ class Licences(TemplateView):
                 name="site",
                 title="site",
                 options=sites,
-            ),
-            Select(
-                name="case_type",
-                title="type",
-                options=OpenGeneralExportLicenceTypes.as_options(),
             ),
         ]
         self.template = "open-general-licences"
