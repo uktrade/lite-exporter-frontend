@@ -54,7 +54,7 @@ from ui_automation_tests.shared.fixtures.apply_for_application import (  # noqa
     apply_for_exhibition_clearance,
     apply_for_f680_clearance,
     apply_for_gifting_clearance,
-    apply_for_trade_control_application,
+    apply_for_standard_trade_control_application,
 )
 from ui_automation_tests.shared.fixtures.core import (  # noqa
     context,
@@ -682,9 +682,11 @@ def create_licence(context, decision, api_test_client):  # noqa
         api_test_client.picklists, case_types=["oiel", "siel", "exhc"]
     )
     api_test_client.cases.add_generated_document(context.case_id, document_template["id"], decision)
+    context.generated_document = api_test_client.context["generated_document"]
     api_test_client.cases.finalise_case(context.case_id, "approve")
-    api_test_client.cases.finalise_licence(context.case_id)
-    context.licence = api_test_client.context["licence"]
+    if decision != "no_licence_required":
+        api_test_client.cases.finalise_licence(context.case_id)
+        context.licence = api_test_client.context["licence"]
 
 
 @given(

@@ -5,7 +5,8 @@ from django.shortcuts import render
 from django.views.generic import TemplateView
 
 from core.objects import Tab
-from core.services import get_control_list_entries, get_countries, get_open_general_licences
+from core.services import get_control_list_entries, get_countries
+from core.services import get_open_general_licences
 from licences.services import get_licences, get_licence
 from lite_content.lite_exporter_frontend.licences import LicencesList, LicencePage
 from lite_forms.components import FiltersBar, TextInput, HiddenField, Select, Checkboxes, Option, AutocompleteInput
