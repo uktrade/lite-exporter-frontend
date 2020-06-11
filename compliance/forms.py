@@ -14,7 +14,7 @@ def get_years():
     return [Option(key=current_year, value=current_year), Option(key=previous_year, value=previous_year)]
 
 
-def annual_return_form_group():
+def open_licence_return_form_group():
     return FormGroup(
         [
             Form(

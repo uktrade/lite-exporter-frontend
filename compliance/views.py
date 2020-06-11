@@ -2,8 +2,8 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
-from compliance.forms import annual_return_form_group
-from compliance.services import post_annual_return, get_open_licence_returns, get_open_licence_return_download
+from compliance.forms import open_licence_return_form_group
+from compliance.services import post_open_licence_return, get_open_licence_returns, get_open_licence_return_download
 from lite_forms.generators import success_page
 from lite_forms.views import MultiFormView
 
@@ -21,12 +21,12 @@ class AnnualReturnsDownload(TemplateView):
 
 class AddAnnualReturn(MultiFormView):
     def init(self, request, **kwargs):
-        self.forms = annual_return_form_group()
-        self.action = post_annual_return
+        self.forms = open_licence_return_form_group()
+        self.action = post_open_licence_return
 
     def get_success_url(self):
         return reverse_lazy(
-            "compliance:add_annual_return_success", kwargs={"pk": self.get_validated_data()["open_licence_returns"]}
+            "compliance:add_open_licence_return_success", kwargs={"pk": self.get_validated_data()["open_licence_returns"]}
         )
 
 
