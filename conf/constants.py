@@ -170,3 +170,9 @@ APPLICATION_TYPE_STRINGS = {
 class LocationType:
     SEA_BASED = "sea_based"
     LAND_BASED = "land_based"
+
+
+class LicenceType:
+    APPLICATION = "application"
+    CLEARANCE = "clearance"
+    NLR = "nlr"

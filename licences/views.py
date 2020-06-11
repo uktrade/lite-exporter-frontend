@@ -4,6 +4,7 @@ from django.http import Http404
 from django.shortcuts import render
 from django.views.generic import TemplateView
 
+from conf.constants import LicenceType
 from core.services import get_control_list_entries, get_countries
 from licences.services import get_licences, get_licence
 from lite_content.lite_exporter_frontend.licences import LicencesList, LicencePage
@@ -15,7 +16,7 @@ from lite_forms.helpers import conditional
 class Licences(TemplateView):
     def get(self, request, **kwargs):
         page_no = int(request.GET.get("page", 1))
-        licence_type = str(request.GET.get("licence_type"))
+        licence_type = request.GET.get("licence_type")
 
         licences = get_licences(request, **request.GET)
 
@@ -34,7 +35,7 @@ class Licences(TemplateView):
                 ),
                 TextInput(name="end_user", title=LicencesList.Filters.DESTINATION_NAME,),
                 conditional(
-                    licence_type != "nlr",
+                    licence_type != LicenceType.NLR,
                     Checkboxes(
                         name="active_only",
                         options=[Option(key=True, value=LicencesList.Filters.ACTIVE)],
@@ -53,7 +54,7 @@ class Licences(TemplateView):
             "row_limit": 3,
         }
 
-        if licence_type == "nlr":
+        if licence_type == LicenceType.NLR:
             page = "licences/nlrs.html"
         else:
             page = "licences/licences.html"
