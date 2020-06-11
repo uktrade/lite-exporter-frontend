@@ -6,6 +6,7 @@ app_name = "goods"
 urlpatterns = [
     path("", views.Goods.as_view(), name="goods"),
     path("add/", views.AddGood.as_view(), name="add"),
+    path("<uuid:pk>/edit-good", views.EditGoodDetails.as_view(), name="edit_good"),
     path("<uuid:pk>/edit/", views.EditGood.as_view(), name="edit"),
     path("<uuid:pk>/edit-grading/", views.EditGrading.as_view(), name="edit_grading"),
     path("<uuid:pk>/delete/", views.DeleteGood.as_view(), name="delete"),

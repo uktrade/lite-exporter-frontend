@@ -190,7 +190,7 @@
 				</dd>
 				<dd class="govuk-summary-list__actions">
 					{% if good.status.key == 'draft' %}
-						<a id="link-edit" class="govuk-link govuk-link--no-visited-state" href="{% url 'goods:edit' good.id %}#description">Change</a>
+						<a id="link-edit" class="govuk-link govuk-link--no-visited-state" href="{% url 'goods:edit_good' good.id %}#description">Change</a>
 					{% endif %}
 				</dd>
 			</div>
@@ -206,7 +206,7 @@
 				</dd>
 				<dd class="govuk-summary-list__actions">
 					{% if good.status.key == 'draft' %}
-						<a id="link-edit" class="govuk-link govuk-link--no-visited-state" href="{% url 'goods:edit' good.id %}#description">Change</a>
+						<a id="link-edit" class="govuk-link govuk-link--no-visited-state" href="{% url 'goods:edit_good' good.id %}#description">Change</a>
 					{% endif %}
 				</dd>
 			</div>
@@ -215,14 +215,18 @@
 					{% lcs "goods.GoodPage.Table.INFORMATION_SECURITY_FEATURES" %}
 				</dt>
 				<dd class="govuk-summary-list__value">
-					{{ good.uses_information_security|default_na }}
+					{% if good.uses_information_security %}
+						{{ good.uses_information_security|friendly_boolean }}
+					{% else %}
+						{{ good.uses_information_security|default_na }}
+					{% endif %}
 					{% if good.information_security_details %}
 						<span class="govuk-hint"> {{ good.information_security_details }} </span>
 					{% endif %}
 				</dd>
 				<dd class="govuk-summary-list__actions">
 					{% if good.status.key == 'draft' %}
-						<a id="link-edit" class="govuk-link govuk-link--no-visited-state" href="{% url 'goods:edit' good.id %}#description">Change</a>
+						<a id="link-edit" class="govuk-link govuk-link--no-visited-state" href="{% url 'goods:edit_good' good.id %}#description">Change</a>
 					{% endif %}
 				</dd>
 			</div>

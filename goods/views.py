@@ -29,6 +29,7 @@ from goods.forms import (
     add_good_form_group,
     edit_good_detail_form,
     edit_grading_form,
+    edit_good_details_form_group,
 )
 from goods.services import (
     get_goods,
@@ -152,8 +153,6 @@ class GoodsDetail(TemplateView):
 
 
 class AddGood(MultiFormView):
-    actions = [validate_good, post_goods]
-
     def init(self, request, **kwargs):
         self.forms = add_good_form_group(request)
         self.action = validate_good
@@ -166,18 +165,18 @@ class AddGood(MultiFormView):
 
         if is_pv_graded:
             if int(self.request.POST.get("form_pk")) == 3 and not is_military_use:
-                self.action = self.actions[1]
+                self.action = post_goods
             elif int(self.request.POST.get("form_pk")) == 4 and is_not_component:
-                self.action = self.actions[1]
+                self.action = post_goods
             elif int(self.request.POST.get("form_pk")) == 5:
-                self.action = self.actions[1]
+                self.action = post_goods
         else:
             if int(self.request.POST.get("form_pk")) == 2 and not is_military_use:
-                self.action = self.actions[1]
+                self.action = post_goods
             elif int(self.request.POST.get("form_pk")) == 3 and is_not_component:
-                self.action = self.actions[1]
+                self.action = post_goods
             elif int(self.request.POST.get("form_pk")) == 4:
-                self.action = self.actions[1]
+                self.action = post_goods
 
     def get_success_url(self):
         return reverse_lazy("goods:add_document", kwargs={"pk": self.get_validated_data()["good"]["id"]})
@@ -194,6 +193,16 @@ class RaiseGoodsQuery(SingleFormView):
         self.form = raise_a_goods_query(self.object_pk, raise_a_clc_query, raise_a_pv_query)
         self.action = raise_goods_query
         self.success_url = reverse_lazy("goods:good", kwargs={"pk": self.object_pk})
+
+
+class EditGoodDetails(MultiFormView):
+    def init(self, request, **kwargs):
+        self.object_pk = str(kwargs["pk"])
+        self.forms = edit_good_details_form_group(request)
+        self.action = edit_good
+
+    def get_success_url(self):
+        return reverse_lazy("goods:good", kwargs={"pk": self.object_pk})
 
 
 class EditGood(SingleFormView):
