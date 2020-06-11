@@ -11,7 +11,7 @@ from lite_forms.views import MultiFormView
 class AnnualReturnsList(TemplateView):
     def get(self, request, *args, **kwargs):
         data = get_open_licence_returns(request)
-        return render(request, "compliance/annual-returns/list.html", {"open_licence_returns": data})
+        return render(request, "compliance/open-licence-returns/list.html", {"open_licence_returns": data})
 
 
 class AnnualReturnsDownload(TemplateView):
@@ -23,7 +23,11 @@ class AddAnnualReturn(MultiFormView):
     def init(self, request, **kwargs):
         self.forms = annual_return_form_group()
         self.action = post_annual_return
-        self.success_url = reverse_lazy("compliance:add_annual_return_success")
+
+    def get_success_url(self):
+        return reverse_lazy(
+            "compliance:add_annual_return_success", kwargs={"pk": self.get_validated_data()["open_licence_returns"]}
+        )
 
 
 class AddAnnualReturnSuccess(TemplateView):
@@ -35,7 +39,7 @@ class AddAnnualReturnSuccess(TemplateView):
             description="",
             what_happens_next="",
             links={
-                "View Open licence returns": reverse_lazy("compliance:annual_returns_list"),
+                "View Open licence returns": reverse_lazy("compliance:open_licence_returns_list"),
                 "Return to your export control account dashboard": reverse_lazy("core:home"),
             },
         )

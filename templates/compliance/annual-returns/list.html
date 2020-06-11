@@ -14,7 +14,7 @@
 			</h1>
 		</div>
 		<div class="lite-app-bar__controls">
-			<a href="{% url 'compliance:add_annual_return' %}" class="govuk-button" draggable="false" role="button">
+			<a href="{% url 'compliance:add_annual_return' %}" class="govuk-button" draggable="false" role="button" id="submit-return">
 				Submit a return
 			</a>
 		</div>
@@ -33,7 +33,7 @@
 				{% for return in open_licence_returns.results %}
 					<tr id={{ return.id }} class="govuk-table__row">
 						<td class="govuk-table__cell">
-							<a id="advisory-details-link" class="govuk-link govuk-link--no-visited-state app-icon-label" href="{% url 'compliance:annual_returns_download' return.id %}">
+							<a id="advisory-details-link" class="govuk-link govuk-link--no-visited-state app-icon-label" href="{% url 'compliance:open_licence_returns_download' return.id %}">
 								{{ return.year }}OpenLicenceReturns.csv
 							</a>
 						</td>

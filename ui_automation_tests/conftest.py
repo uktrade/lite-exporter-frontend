@@ -65,6 +65,7 @@ from ui_automation_tests.shared.fixtures.core import (  # noqa
 )
 from ui_automation_tests.shared.fixtures.driver import driver  # noqa
 from ui_automation_tests.shared.fixtures.urls import exporter_url, api_url  # noqa
+from ui_automation_tests.shared.tools.utils import get_file_upload_path
 from ui_automation_tests.shared.tools.wait import wait_for_download_button_on_exporter_main_content
 
 strict_gherkin = False
@@ -641,16 +642,6 @@ def go_to_task_list_section(driver, section, status):  # noqa
     assert TaskListPage(driver).get_section_status(section) == status
 
 
-def get_file_upload_path(filename):  # noqa
-    # Path gymnastics to get the absolute path for $PWD/../resources/(file_to_upload_x) that works everywhere
-    file_to_upload_abs_path = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, "resources", filename))
-    if "ui_automation_tests" not in file_to_upload_abs_path:
-        file_to_upload_abs_path = os.path.abspath(
-            os.path.join(os.path.dirname(__file__), os.pardir, "ui_automation_tests/resources", filename)
-        )
-    return file_to_upload_abs_path
-
-
 @when("I agree to the declaration")
 def agree_to_the_declaration(driver):  # noqa
     declaration_page = DeclarationPage(driver)
@@ -735,3 +726,10 @@ def assert_ref_num(driver):  # noqa
 @when("I change my reference number")
 def change_ref_num(driver, context):  # noqa
     enter_export_licence(driver, "yes", "12345678", context)
+
+
+@given(parsers.parse('I create "{decision}" final advice for open application'))
+def final_advice_open(context, decision, api_test_client):
+    api_test_client.cases.create_final_advice(
+        context.case_id, [{"type": decision, "text": "abc", "note": "", "goods_type": context.goods_type["id"]}]
+    )
