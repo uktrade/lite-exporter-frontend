@@ -4,6 +4,7 @@ from django.http import Http404
 from django.shortcuts import render
 from django.views.generic import TemplateView
 
+from apply_for_a_licence.enums import OpenGeneralExportLicenceTypes
 from core.objects import Tab
 from core.services import get_control_list_entries, get_countries
 from core.services import get_open_general_licences
@@ -13,7 +14,6 @@ from licences.services import get_licences, get_licence
 from lite_content.lite_exporter_frontend.licences import LicencesList, LicencePage
 from lite_forms.components import FiltersBar, TextInput, HiddenField, Select, Checkboxes, Option, AutocompleteInput
 from lite_forms.generators import error_page
-from organisation.sites.services import get_sites
 
 
 class Licences(TemplateView):
@@ -65,6 +65,11 @@ class Licences(TemplateView):
                 name="site",
                 title="site",
                 options=sites,
+            ),
+            Select(
+                name="case_type",
+                title="type",
+                options=OpenGeneralExportLicenceTypes.as_options(),
             ),
         ]
         self.template = "open-general-licences"

@@ -64,6 +64,7 @@ def open_general_licence_forms(request, **kwargs):
         case_type=open_general_licence_type.id,
         control_list_entry=request.POST.get("control_list_entry"),
         country=request.POST.get("country"),
+        status="active"
     )
     selected_open_general_licence = {}
     if request.POST.get("open_general_licence"):
