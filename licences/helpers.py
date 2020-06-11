@@ -31,3 +31,18 @@ def get_potential_ogl_countries(open_general_licences):
         return_value.append(Option(country["id"], country["name"]))
 
     return return_value
+
+
+def get_potential_ogl_sites(open_general_licences):
+    sites = []
+
+    for open_general_licence in open_general_licences:
+        for registration in open_general_licence["registrations"]:
+            if registration["site"] not in sites:
+                sites.append(registration["site"])
+
+    return_value = []
+    for site in sites:
+        return_value.append(Option(site["id"], site["name"]))
+
+    return return_value

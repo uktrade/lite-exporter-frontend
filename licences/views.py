@@ -7,7 +7,8 @@ from django.views.generic import TemplateView
 from core.objects import Tab
 from core.services import get_control_list_entries, get_countries
 from core.services import get_open_general_licences
-from licences.helpers import get_potential_ogl_control_list_entries, get_potential_ogl_countries
+from licences.helpers import get_potential_ogl_control_list_entries, get_potential_ogl_countries, \
+    get_potential_ogl_sites
 from licences.services import get_licences, get_licence
 from lite_content.lite_exporter_frontend.licences import LicencesList, LicencePage
 from lite_forms.components import FiltersBar, TextInput, HiddenField, Select, Checkboxes, Option, AutocompleteInput
@@ -51,6 +52,7 @@ class Licences(TemplateView):
         self.data = get_open_general_licences(self.request, registered=True, **params)
         control_list_entries = get_potential_ogl_control_list_entries(self.data)
         countries = get_potential_ogl_countries(self.data)
+        sites = get_potential_ogl_sites(self.data)
         self.filters = [
             TextInput(name="name", title="name"),
             AutocompleteInput(
@@ -62,7 +64,7 @@ class Licences(TemplateView):
             Select(
                 name="site",
                 title="site",
-                options=get_sites(self.request, self.request.user.organisation, convert_to_options=True),
+                options=sites,
             ),
         ]
         self.template = "open-general-licences"
