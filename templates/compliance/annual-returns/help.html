@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block body %}
-	<h1 class="govuk-heading-xl">{% block title %}Before you start{% endblock %}</h1>
+	<h1 class="govuk-heading-xl">{% block title %}{% lcs 'compliance.OpenReturnsHelpPage.TITLE' %}{% endblock %}</h1>
 	<div class="govuk-body govuk-list govuk-list--bullet">
 		{% lcs 'compliance.OpenReturnsHelpPage.DESCRIPTION' as description %}
 		{{ description|markdown }}

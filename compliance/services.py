@@ -20,6 +20,9 @@ def get_open_licence_return_download(request, pk):
 
 
 def post_annual_return(request, json):
+    if not json.get("year"):
+        return {"errors": {"year": ["No year selected"]}}, HTTPStatus.BAD_REQUEST
+
     if len(request.FILES) == 0:
         return {"errors": {"file": ["No file"]}}, HTTPStatus.BAD_REQUEST
     if len(request.FILES) != 1:
