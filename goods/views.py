@@ -43,7 +43,6 @@ from goods.services import (
     raise_goods_query,
     post_good_document_sensitivity,
     validate_good,
-    post_good_with_pv_grading,
     edit_good_pv_grading,
 )
 from lite_content.lite_exporter_frontend import strings, goods

@@ -56,21 +56,6 @@ def validate_good(request, json):
     return post_goods(request, post_data)
 
 
-def post_good_with_pv_grading(request, json):
-    date_of_issue = format_date(json, "date_of_issue")
-
-    json["pv_grading_details"] = {
-        "grading": json["grading"],
-        "custom_grading": json["custom_grading"],
-        "prefix": json["prefix"],
-        "suffix": json["suffix"],
-        "issuing_authority": json["issuing_authority"],
-        "reference": json["reference"],
-        "date_of_issue": date_of_issue,
-    }
-    return post_goods(request, json)
-
-
 def edit_good(request, pk, json):
     data = put(request, GOODS_URL + pk + "/", json)
     return data.json(), data.status_code

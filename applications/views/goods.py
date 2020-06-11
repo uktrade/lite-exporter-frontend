@@ -26,7 +26,6 @@ from goods.services import (
     post_good_documents,
     post_good_document_sensitivity,
     validate_good,
-    post_good_with_pv_grading,
 )
 from lite_forms.components import FiltersBar, TextInput
 from lite_forms.generators import error_page, form_page

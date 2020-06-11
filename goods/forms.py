@@ -136,7 +136,7 @@ def product_component_form(request):
                     ),
                     Option(key="no", value="No"),
                 ],
-            )
+            ),
         ],
     )
 
@@ -164,7 +164,7 @@ def product_uses_information_security(request):
                     ),
                     Option(key=False, value="No",),
                 ],
-            )
+            ),
         ],
     )
 
