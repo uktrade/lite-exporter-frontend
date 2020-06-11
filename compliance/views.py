@@ -4,12 +4,8 @@ from django.views.generic import TemplateView
 
 from compliance.forms import annual_return_form_group
 from compliance.services import post_annual_return, get_open_licence_returns, get_open_licence_return_download
+from lite_forms.generators import success_page
 from lite_forms.views import MultiFormView
-
-
-class AnnualReturns(TemplateView):
-    def get(self, request, *args, **kwargs):
-        return render(request, "compliance/annual-returns/help.html", {})
 
 
 class AnnualReturnsList(TemplateView):
@@ -27,4 +23,19 @@ class AddAnnualReturn(MultiFormView):
     def init(self, request, **kwargs):
         self.forms = annual_return_form_group()
         self.action = post_annual_return
-        self.success_url = reverse_lazy("compliance:annual_returns_list")
+        self.success_url = reverse_lazy("compliance:add_annual_return_success")
+
+
+class AddAnnualReturnSuccess(TemplateView):
+    def get(self, request, **kwargs):
+        return success_page(
+            request=request,
+            title="Open licence return submitted",
+            secondary_title="",
+            description="",
+            what_happens_next="",
+            links={
+                "View Open licence returns": reverse_lazy("compliance:annual_returns_list"),
+                "Return to your export control account dashboard": reverse_lazy("core:home"),
+            },
+        )
