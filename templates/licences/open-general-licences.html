@@ -16,14 +16,14 @@
 	{% include 'includes/tabs.html' %}
 
 	<p class="lite-filters__hint-text">
-		{{ 'https://www.gov.uk/rules/ogl/rules-of-conduct'|linkify:'View rules of conduct' }}
+		Read {{ 'https://www.gov.uk/government/publications/compliance-code-of-practice'|linkify:'guidance on compliance and enforcement of export controls' }}
 	</p>
 
 	{% include 'filters.html' %}
 
-	{% if data.results %}
+	{% if data %}
 		<div class="govuk-accordion" data-module="govuk-accordion">
-			{% for licence in data.results %}
+			{% for licence in data %}
 				<div class="govuk-accordion__section ">
 					<div class="govuk-accordion__section-header">
 						<h2 class="govuk-accordion__section-heading">
@@ -108,8 +108,6 @@
 				</div>
 			{% endfor %}
 		</div>
-
-		{% pagination %}
 	{% else %}
 		{% include "includes/notice.html" with text="licences.LicencesList.NO_CONTENT_NOTICE" %}
 	{% endif %}

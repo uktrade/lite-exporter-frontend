@@ -296,12 +296,12 @@ def get_open_general_licences(
     control_list_entry=None,
     country=None,
     registered=False,
+    disable_pagination=True
 ):
     data = get(
         request,
         OPEN_GENERAL_LICENCES_URL
-        + convert_parameters_to_query_params(locals())
-        + f"&disable_pagination={convert_to_options}",
+        + convert_parameters_to_query_params(locals()),
     ).json()
 
     if convert_to_options:

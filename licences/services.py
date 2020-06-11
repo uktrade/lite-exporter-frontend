@@ -16,8 +16,3 @@ def get_licences(
 def get_licence(request, pk):
     response = get(request, LICENCES_URL + str(pk) + "/")
     return response.json(), response.status_code
-
-
-def get_open_general_licence_registrations(request, **kwargs):
-    response = get(request, LICENCES_URL + "open-general-licences/")
-    return response.json()

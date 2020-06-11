@@ -7,6 +7,7 @@ from django.views.generic import TemplateView
 from core.objects import Tab
 from core.services import get_control_list_entries, get_countries
 from core.services import get_open_general_licences
+from licences.helpers import get_potential_ogl_control_list_entries, get_potential_ogl_countries
 from licences.services import get_licences, get_licence
 from lite_content.lite_exporter_frontend.licences import LicencesList, LicencePage
 from lite_forms.components import FiltersBar, TextInput, HiddenField, Select, Checkboxes, Option, AutocompleteInput
@@ -25,12 +26,12 @@ class Licences(TemplateView):
         self.data = get_licences(self.request, **self.request.GET)
         self.filters = [
             TextInput(name="reference", title=LicencesList.Filters.REFERENCE,),
-            Select(
+            AutocompleteInput(
                 name="clc",
                 title=LicencesList.Filters.CLC,
                 options=get_control_list_entries(self.request, convert_to_options=True),
             ),
-            Select(
+            AutocompleteInput(
                 name="country",
                 title=LicencesList.Filters.DESTINATION_COUNTRY,
                 options=get_countries(self.request, convert_to_options=True),
@@ -48,14 +49,16 @@ class Licences(TemplateView):
         params = self.request.GET.copy()
         params.pop("licence_type")
         self.data = get_open_general_licences(self.request, registered=True, **params)
+        control_list_entries = get_potential_ogl_control_list_entries(self.data)
+        countries = get_potential_ogl_countries(self.data)
         self.filters = [
             TextInput(name="name", title="name"),
             AutocompleteInput(
                 name="control_list_entry",
                 title="control list entry",
-                options=get_control_list_entries(self.request, True),
+                options=control_list_entries,
             ),
-            AutocompleteInput(name="country", title="country", options=get_countries(self.request, True)),
+            AutocompleteInput(name="country", title="country", options=countries),
             Select(
                 name="site",
                 title="site",
