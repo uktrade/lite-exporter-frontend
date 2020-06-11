@@ -93,6 +93,7 @@ def product_component_form(request):
     return Form(
         title="Is the product a component?",
         questions=[
+            HiddenField("is_component_step", True),
             RadioButtons(
                 title="",
                 name="is_component",
@@ -144,6 +145,7 @@ def product_uses_information_security(request):
     return Form(
         title="Is the product designed to employ 'information security' features?",
         questions=[
+            HiddenField("is_information_security_step", True),
             RadioButtons(
                 title="",
                 name="uses_information_security",
@@ -276,14 +278,16 @@ def pv_details_form(request):
 
 
 def add_good_form_group(request, is_pv_graded: bool = None, draft_pk: str = None):
+    is_military_use = request.POST.get("is_military_use", "") == "yes_designed"
+    is_component = request.POST.get("is_component", "").startswith("yes")
     return FormGroup(
         [
             product_category_form(request),
-            product_military_use_form(request),
-            product_component_form(request),
-            product_uses_information_security(request),
             add_goods_questions(request, draft_pk),
             conditional(is_pv_graded, pv_details_form(request)),
+            product_military_use_form(request),
+            conditional(is_military_use, product_component_form(request)),
+            conditional(is_component, product_uses_information_security(request)),
         ]
     )
 

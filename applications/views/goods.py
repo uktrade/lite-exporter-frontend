@@ -93,21 +93,33 @@ class ExistingGoodsList(TemplateView):
 
 
 class AddGood(MultiFormView):
-    actions = [validate_good, post_goods, post_good_with_pv_grading]
+    actions = [validate_good, post_goods]
 
     def init(self, request, **kwargs):
         self.draft_pk = str(kwargs["pk"])
         self.forms = add_good_form_group(request, draft_pk=self.draft_pk)
-        self.action = post_goods
+        self.action = validate_good
 
     def on_submission(self, request, **kwargs):
-        self.draft_pk = str(kwargs["pk"])
-        is_pv_graded = request.POST.copy().get("is_pv_graded", "").lower() == "yes"
+        is_pv_graded = request.POST.get("is_pv_graded", "") == "yes"
+        is_military_use = request.POST.get("is_military_use", "") == "yes_designed"
+        is_not_component = request.POST.get("is_component", "") == "no"
         self.forms = add_good_form_group(request, is_pv_graded, draft_pk=self.draft_pk)
-        if int(self.request.POST.get("form_pk")) == 1:
-            self.action = self.actions[2]
-        elif (int(self.request.POST.get("form_pk")) == 0) and is_pv_graded:
-            self.action = self.actions[0]
+
+        if is_pv_graded:
+            if int(self.request.POST.get("form_pk")) == 3 and not is_military_use:
+                self.action = self.actions[1]
+            elif int(self.request.POST.get("form_pk")) == 4 and is_not_component:
+                self.action = self.actions[1]
+            elif int(self.request.POST.get("form_pk")) == 5:
+                self.action = self.actions[1]
+        else:
+            if int(self.request.POST.get("form_pk")) == 2 and not is_military_use:
+                self.action = self.actions[1]
+            elif int(self.request.POST.get("form_pk")) == 3 and is_not_component:
+                self.action = self.actions[1]
+            elif int(self.request.POST.get("form_pk")) == 4:
+                self.action = self.actions[1]
 
     def get_success_url(self):
         return reverse_lazy(

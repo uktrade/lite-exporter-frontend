@@ -29,9 +29,23 @@ def get_good(request, pk, full_detail=False):
 
 
 def post_goods(request, json):
+    if "is_pv_graded" in json and json["is_pv_graded"] == "yes":
+        if "reference" in json:
+            json["pv_grading_details"] = {
+                "grading": json["grading"],
+                "custom_grading": json["custom_grading"],
+                "prefix": json["prefix"],
+                "suffix": json["suffix"],
+                "issuing_authority": json["issuing_authority"],
+                "reference": json["reference"],
+                "date_of_issue": format_date(json, "date_of_issue"),
+            }
+
     data = post(request, GOODS_URL, json)
+
     if data.status_code == HTTPStatus.OK:
         data.json().get("good"), data.status_code
+
     return data.json(), data.status_code
 
 
