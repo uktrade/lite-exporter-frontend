@@ -164,12 +164,20 @@ class AddGood(MultiFormView):
         is_military_use = request.POST.get("is_military_use", "").lower() == "yes_designed"
         is_not_component = request.POST.get("is_component", "").lower() == "no"
 
-        if int(self.request.POST.get("form_pk")) == 3 and not is_military_use:
-            self.action = self.actions[1]
-        elif int(self.request.POST.get("form_pk")) == 4 and is_not_component:
-            self.action = self.actions[1]
-        elif int(self.request.POST.get("form_pk")) == 5:
-            self.action = self.actions[1]
+        if is_pv_graded:
+            if int(self.request.POST.get("form_pk")) == 3 and not is_military_use:
+                self.action = self.actions[1]
+            elif int(self.request.POST.get("form_pk")) == 4 and is_not_component:
+                self.action = self.actions[1]
+            elif int(self.request.POST.get("form_pk")) == 5:
+                self.action = self.actions[1]
+        else:
+            if int(self.request.POST.get("form_pk")) == 2 and not is_military_use:
+                self.action = self.actions[1]
+            elif int(self.request.POST.get("form_pk")) == 3 and is_not_component:
+                self.action = self.actions[1]
+            elif int(self.request.POST.get("form_pk")) == 4:
+                self.action = self.actions[1]
 
     def get_success_url(self):
         return reverse_lazy("goods:add_document", kwargs={"pk": self.get_validated_data()["good"]["id"]})
