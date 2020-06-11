@@ -5,9 +5,6 @@ from lite_forms.components import FormGroup, Form, Select, Option, FileUpload, L
 from datetime import datetime
 
 
-START_YEAR = 2020
-
-
 def get_years():
     current_year = datetime.now().year
     previous_year = current_year - 1
@@ -34,13 +31,18 @@ def open_licence_return_form_group():
                 questions=[
                     Select(
                         title=OpenReturnsForm.Year.FIELD_TITLE,
-                        description=OpenReturnsForm.Year.FiELD_DESCRIPTION,
+                        description=OpenReturnsForm.Year.FIELD_DESCRIPTION,
                         name="year",
                         options=get_years(),
                     )
                 ],
-                default_button_name="Continue",
+                default_button_name=OpenReturnsForm.Year.BUTTON,
             ),
-            Form(title="Upload", description="blah", questions=[FileUpload()], default_button_name="Submit",),
+            Form(
+                title=OpenReturnsForm.Upload.TITLE,
+                description=OpenReturnsForm.Upload.DESCRIPTION,
+                questions=[FileUpload()],
+                default_button_name=OpenReturnsForm.Upload.BUTTON,
+            ),
         ]
     )

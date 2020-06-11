@@ -46,6 +46,7 @@ NLR_URL = "nlrs/"
 CONTRACT_TYPES_URL = "/contract-types/"
 CONTRACT_TYPES_COUNTRIES = "/countries-contract-types/"
 OPEN_GENERAL_LICENCES_URL = "/open-general-licences/"
+OPEN_LICENCE_RETURNS_URL = "/compliance/open-licence-returns/"
 
 # Queries URLs
 QUERIES_URL = "/queries/"
