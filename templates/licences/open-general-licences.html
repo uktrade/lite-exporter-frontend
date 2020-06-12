@@ -15,7 +15,7 @@
 
 	{% include 'includes/tabs.html' %}
 
-	<p class="lite-filters__hint-text">
+	<p class="lite-filters__hint-text lite-filters__hint-text--warning">
 		Read {{ 'https://www.gov.uk/government/publications/compliance-code-of-practice'|linkify:'guidance on compliance and enforcement of export controls' }}
 	</p>
 
@@ -37,12 +37,12 @@
 					</div>
 					<div class="govuk-accordion__section-content">
 						<div class="govuk-grid-row">
-							<div class="govuk-grid-column-two-thirds">
+							<div class="govuk-grid-column-two-thirds govuk-!-margin-bottom-6">
 								<p class="govuk-heading-s">Details</p>
 								<p class="govuk-body">{{ licence.description }}</p>
 								<p class="govuk-body govuk-!-margin-0">{{ licence.url|linkify:'Read more on GOV.UK' }}</p>
 							</div>
-							<div class="govuk-grid-column-one-third">
+							<div class="govuk-grid-column-one-third govuk-!-margin-bottom-6">
 								<p class="govuk-heading-s">More information</p>
 								<ul class="govuk-list govuk-list--spaced">
 									<li>
@@ -66,8 +66,8 @@
 								</ul>
 							</div>
 						</div>
-						<table class="govuk-table govuk-!-margin-top-7">
-							<caption class="govuk-table__caption">Sites</caption>
+						<table class="govuk-table">
+							<caption class="govuk-table__caption govuk-!-margin-bottom-3">Sites</caption>
 							<thead class="govuk-table__head">
 								<tr class="govuk-table__row">
 									<th scope="col" class="govuk-table__header">
@@ -78,9 +78,6 @@
 									</th>
 									<th scope="col" class="govuk-table__header">
 										Status
-									</th>
-									<th scope="col" class="govuk-table__header">
-										Registration letter
 									</th>
 								</tr>
 							</thead>
@@ -96,9 +93,6 @@
 										</td>
 										<td class="govuk-table__cell">
 											{{ registration.status.value }}
-										</td>
-										<td class="govuk-table__cell">
-											{{ 'file.pdf'|linkify }}
 										</td>
 									</tr>
 								{% endfor %}

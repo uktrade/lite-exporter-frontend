@@ -110,7 +110,7 @@
 								<a href="{% url 'applications:download_generated_document' document.id licence.application.id %}" class="govuk-link govuk-link--no-visited-state" id="document-download">{{ document.advice_type.value }}.pdf</a>
 							{% endfor %}
 						</td>
-						<td>
+						<td class="govuk-table__cell govuk-table__cell--tight">
 							<a id="expand-{{ licence.id }}" class="lite-accordian-table__chevron">
 								{% svg 'chevron' %}
 							</a>

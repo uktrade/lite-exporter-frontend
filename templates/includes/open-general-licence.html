@@ -8,9 +8,6 @@
 			<th scope="col" class="govuk-table__header">
 				Site
 			</th>
-			<th scope="col" class="govuk-table__header">
-				Registration letter
-			</th>
 		</tr>
 	</thead>
 	<tbody class="govuk-table__body">
@@ -22,9 +19,6 @@
 				<td class="govuk-table__cell">
 					{{ registration.site.name }}<br>
 					<span class="govuk-hint govuk-!-margin-0">{{ registration.site|get_address }}</span>
-				</td>
-				<td class="govuk-table__cell">
-					{{ 'file.pdf'|linkify }}
 				</td>
 			</tr>
 		{% endfor %}
