@@ -97,7 +97,7 @@ class Licences(TemplateView):
         self.template = "open-general-licences"
 
     def get(self, request, **kwargs):
-        self.type = request.GET.get("licence_type")
+        self.type = request.GET.get("licence_type", "licences")
         self.page = int(request.GET.get("page", 1))
         getattr(self, f"get_{self.type}", self.get_licences)()  # Set template properties
 
