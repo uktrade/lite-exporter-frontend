@@ -106,10 +106,11 @@ class Licences(TemplateView):
             "filters": FiltersBar([*self.filters, HiddenField(name="licence_type", value=self.type)]),
             "tabs": [
                 Tab("licences", LicencesList.Tabs.LICENCE, "?licence_type=licences"),
-                Tab("open-general-licences", LicencesList.Tabs.OGLS, "?licence_type=open_general_licences"),
-                Tab("no-licence-required", LicencesList.Tabs.NLR, "?licence_type=no_licence_required"),
+                Tab("open_general_licences", LicencesList.Tabs.OGLS, "?licence_type=open_general_licences"),
+                Tab("no_licence_required", LicencesList.Tabs.NLR, "?licence_type=no_licence_required"),
                 Tab("clearances", LicencesList.Tabs.CLEARANCE, "?licence_type=clearances"),
             ],
+            "selected_tab": self.type,
             "name": request.GET.get("name", ""),
             "row_limit": 3,
         }
