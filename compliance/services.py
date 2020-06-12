@@ -18,7 +18,7 @@ def get_open_licence_returns(request):
 def get_open_licence_return_download(request, pk):
     data = get(request, OPEN_LICENCE_RETURNS_URL + str(pk) + "/")
     open_licence_returns = data.json()
-    response = HttpResponse("\n" + open_licence_returns["file"], content_type="text/csv")
+    response = HttpResponse("\n" + open_licence_returns["returns_data"], content_type="text/csv")
     response["Content-Disposition"] = f'attachment; filename="{open_licence_returns["year"]}{FILENAME}"'
     return response
 
