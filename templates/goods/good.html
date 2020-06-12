@@ -215,7 +215,7 @@
 					{% lcs "goods.GoodPage.Table.INFORMATION_SECURITY_FEATURES" %}
 				</dt>
 				<dd class="govuk-summary-list__value">
-					{% if good.uses_information_security %}
+					{% if good.uses_information_security is not None %}
 						{{ good.uses_information_security|friendly_boolean }}
 					{% else %}
 						{{ good.uses_information_security|default_na }}
@@ -243,7 +243,6 @@
 					{% endif %}
 				</dd>
 			</div>
-
 			{% if good.is_pv_graded.key == "yes" %}<br><br>{% endif %}
 			<div class="govuk-summary-list__row">
 				<dt class="govuk-summary-list__key">

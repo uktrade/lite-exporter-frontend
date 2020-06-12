@@ -11,6 +11,7 @@ from conf.constants import (
     CASES_URL,
     ADDITIONAL_DOCUMENT_URL,
     DOWNLOAD_URL,
+    GOODS_DETAILS_URL,
 )
 from core.helpers import convert_parameters_to_query_params
 from core.services import get_document_download_stream
@@ -25,6 +26,11 @@ def get_goods(
 
 def get_good(request, pk, full_detail=False):
     data = get(request, GOODS_URL + str(pk) + "/" + convert_parameters_to_query_params(locals()))
+    return data.json().get("good"), data.status_code
+
+
+def get_good_details(request, pk):
+    data = get(request, GOODS_URL + str(pk) + GOODS_DETAILS_URL + convert_parameters_to_query_params(locals()))
     return data.json().get("good"), data.status_code
 
 
@@ -58,6 +64,11 @@ def validate_good(request, json):
 
 def edit_good(request, pk, json):
     data = put(request, GOODS_URL + pk + "/", json)
+    return data.json(), data.status_code
+
+
+def edit_good_details(request, pk, json):
+    data = put(request, GOODS_URL + pk + GOODS_DETAILS_URL, json)
     return data.json(), data.status_code
 
 

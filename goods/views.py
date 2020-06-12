@@ -31,6 +31,7 @@ from goods.forms import (
     edit_grading_form,
     edit_good_details_form_group,
 )
+from goods.helpers import COMPONENT_SELECTION_TO_DETAIL_FIELD_MAP
 from goods.services import (
     get_goods,
     post_goods,
@@ -45,6 +46,8 @@ from goods.services import (
     post_good_document_sensitivity,
     validate_good,
     edit_good_pv_grading,
+    edit_good_details,
+    get_good_details,
 )
 from lite_content.lite_exporter_frontend import strings, goods
 from lite_content.lite_exporter_frontend.goods import AttachDocumentForm
@@ -199,10 +202,15 @@ class EditGoodDetails(MultiFormView):
     def init(self, request, **kwargs):
         self.object_pk = str(kwargs["pk"])
         self.forms = edit_good_details_form_group(request)
-        self.action = edit_good
+        self.action = edit_good_details
+        self.data = get_good_details(request, self.object_pk)[0]
+        self.success_url = reverse_lazy("goods:good", kwargs={"pk": self.object_pk})
 
-    def get_success_url(self):
-        return reverse_lazy("goods:good", kwargs={"pk": self.object_pk})
+    def get_data(self):
+        if self.data.get("is_component") and self.data.get("component_details"):
+            detail_field = COMPONENT_SELECTION_TO_DETAIL_FIELD_MAP[self.data["is_component"]]
+            self.data[detail_field] = self.data["component_details"]
+        return self.data
 
 
 class EditGood(SingleFormView):

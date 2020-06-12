@@ -15,3 +15,10 @@ def good_summary(good):
         },
         classes=["govuk-summary-list--no-border"],
     )
+
+
+COMPONENT_SELECTION_TO_DETAIL_FIELD_MAP = {
+    "yes_designed": "designed_details",
+    "yes_modified": "modified_details",
+    "yes_general": "general_details",
+}
