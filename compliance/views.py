@@ -22,6 +22,24 @@ class AnnualReturnsDownload(TemplateView):
 
 class AddAnnualReturn(MultiFormView):
     def init(self, request, **kwargs):
+        self.additional_context = {
+            "columns": [
+                OpenReturnsForm.Upload.ExampleTable.LICENCE_COLUMN,
+                OpenReturnsForm.Upload.ExampleTable.DESTINATION_COLUMN,
+                OpenReturnsForm.Upload.ExampleTable.END_USER_COLUMN,
+                OpenReturnsForm.Upload.ExampleTable.USAGE_COLUMN,
+                OpenReturnsForm.Upload.ExampleTable.PERIOD_COLUMN,
+            ],
+            "rows": [
+                [
+                    OpenReturnsForm.Upload.ExampleTable.LICENCE_EXAMPLE,
+                    OpenReturnsForm.Upload.ExampleTable.DESTINATION_EXAMPLE,
+                    OpenReturnsForm.Upload.ExampleTable.END_USER_EXAMPLE_COLUMN,
+                    OpenReturnsForm.Upload.ExampleTable.USAGE_EXAMPLE,
+                    OpenReturnsForm.Upload.ExampleTable.PERIOD_EXAMPLE,
+                ]
+            ],
+        }
         self.forms = open_licence_return_form_group()
         self.action = post_open_licence_return
 

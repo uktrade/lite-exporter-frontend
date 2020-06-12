@@ -1,7 +1,7 @@
 from django.urls import reverse_lazy
 
 from lite_content.lite_exporter_frontend.compliance import OpenReturnsForm, OpenReturnsHelpPage
-from lite_forms.components import FormGroup, Form, Select, Option, FileUpload, Label, DetailComponent, BackLink
+from lite_forms.components import FormGroup, Form, Select, Option, FileUpload, Label, DetailComponent, BackLink, Custom
 from datetime import datetime
 
 
@@ -41,7 +41,11 @@ def open_licence_return_form_group():
             Form(
                 title=OpenReturnsForm.Upload.TITLE,
                 description=OpenReturnsForm.Upload.DESCRIPTION,
-                questions=[FileUpload()],
+                questions=[
+                    FileUpload(),
+                    Label(OpenReturnsForm.Upload.ExampleTable.HEADING),
+                    Custom("components/table.html"),
+                ],
                 default_button_name=OpenReturnsForm.Upload.BUTTON,
             ),
         ]
