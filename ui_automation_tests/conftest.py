@@ -65,7 +65,6 @@ from ui_automation_tests.shared.fixtures.core import (  # noqa
 )
 from ui_automation_tests.shared.fixtures.driver import driver  # noqa
 from ui_automation_tests.shared.fixtures.urls import exporter_url, api_url  # noqa
-from ui_automation_tests.shared.tools.utils import get_file_upload_path
 from ui_automation_tests.shared.tools.wait import wait_for_download_button_on_exporter_main_content
 
 strict_gherkin = False
@@ -640,6 +639,16 @@ def enter_exhibition_details(driver, name):  # noqa
 @then(parsers.parse('The "{section}" section is set to status "{status}"'))  # noqa
 def go_to_task_list_section(driver, section, status):  # noqa
     assert TaskListPage(driver).get_section_status(section) == status
+
+
+def get_file_upload_path(filename):  # noqa
+    # Path gymnastics to get the absolute path for $PWD/../resources/(file_to_upload_x) that works everywhere
+    file_to_upload_abs_path = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, "resources", filename))
+    if "ui_automation_tests" not in file_to_upload_abs_path:
+        file_to_upload_abs_path = os.path.abspath(
+            os.path.join(os.path.dirname(__file__), os.pardir, "ui_automation_tests/resources", filename)
+        )
+    return file_to_upload_abs_path
 
 
 @when("I agree to the declaration")

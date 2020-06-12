@@ -7,7 +7,7 @@ from ui_automation_tests.pages.exporter_hub_page import ExporterHubPage
 from ui_automation_tests.pages.open_licence_returns_page import OpenLicenceReturnsPage
 from ui_automation_tests.pages.shared import Shared
 from ui_automation_tests.shared import functions
-from ui_automation_tests.shared.tools.utils import create_file, get_file_upload_path
+from ui_automation_tests.shared.tools.utils import create_temporary_file, get_temporary_file_path
 
 scenarios("../features/compliance.feature", strict_gherkin=False)
 
@@ -16,7 +16,7 @@ scenarios("../features/compliance.feature", strict_gherkin=False)
 def create_open_licence_return(context):
     context.open_licence_csv_filename = "open_licence_returns.csv"
     text = f"\n{context.reference_code},a,b,c,d"
-    create_file(context.open_licence_csv_filename, text)
+    create_temporary_file(context.open_licence_csv_filename, text)
 
 
 @when("I complete an open licence return")
@@ -31,7 +31,7 @@ def go_to_add_open_licence_return(driver, context):
     functions.click_submit(driver)
     open_licence_returns_page.select_year(context.open_licence_return_year)
     functions.click_submit(driver)
-    file_path = get_file_upload_path(context.open_licence_csv_filename)
+    file_path = get_temporary_file_path(context.open_licence_csv_filename)
     AttachDocumentPage(driver).choose_file(file_path)
     functions.click_submit(driver)
 
