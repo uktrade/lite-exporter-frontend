@@ -19,7 +19,8 @@ from lite_forms.components import (
     Summary,
     BackLink,
     WarningBanner,
-    HiddenField, Button,
+    HiddenField,
+    Button,
 )
 from lite_forms.generators import success_page
 from lite_forms.helpers import conditional
@@ -64,7 +65,7 @@ def open_general_licence_forms(request, **kwargs):
         case_type=open_general_licence_type.id,
         control_list_entry=request.POST.get("control_list_entry"),
         country=request.POST.get("country"),
-        status="active"
+        status="active",
     )
     selected_open_general_licence = {}
     if request.POST.get("open_general_licence"):
@@ -171,9 +172,11 @@ def open_general_licence_forms(request, **kwargs):
                         ),
                     ],
                     buttons=[
-                        conditional(selected_open_general_licence.get("registration_required"),
-                                    Button("Register", "submit", disable_double_click=True))
-                    ]
+                        conditional(
+                            selected_open_general_licence.get("registration_required"),
+                            Button("Register", "submit", disable_double_click=True),
+                        )
+                    ],
                 ),
                 no_open_general_licence_form(open_general_licence_type, selected_entry, selected_country),
             ),

@@ -28,9 +28,7 @@ class OpenGeneralExportLicenceTypes:
 
     @classmethod
     def as_options(cls):
-        return [
-            Option(key=ogl.id, value=f"{ogl.name} ({ogl.acronym})") for ogl in cls.all()
-        ]
+        return [Option(key=ogl.id, value=f"{ogl.name} ({ogl.acronym})") for ogl in cls.all()]
 
     @classmethod
     def get_by_acronym(cls, acronym):

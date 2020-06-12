@@ -8,11 +8,15 @@ from apply_for_a_licence.enums import OpenGeneralExportLicenceTypes
 from core.objects import Tab
 from core.services import get_control_list_entries, get_countries
 from core.services import get_open_general_licences
-from licences.helpers import get_potential_ogl_control_list_entries, get_potential_ogl_countries, \
-    get_potential_ogl_sites
+from licences.helpers import (
+    get_potential_ogl_control_list_entries,
+    get_potential_ogl_countries,
+    get_potential_ogl_sites,
+)
 from licences.services import get_licences, get_licence, get_nlr_licences
 from lite_content.lite_exporter_frontend.licences import LicencesList, LicencePage
-from lite_forms.components import FiltersBar, TextInput, HiddenField, Select, Checkboxes, Option, AutocompleteInput
+from lite_forms.components import FiltersBar, TextInput, HiddenField, Select, Checkboxes, Option, AutocompleteInput, \
+    DateInput
 from lite_forms.generators import error_page
 
 
@@ -80,21 +84,14 @@ class Licences(TemplateView):
         sites = get_potential_ogl_sites(self.data)
         self.filters = [
             TextInput(name="name", title="name"),
-            Select(
-                name="case_type",
-                title="type",
-                options=OpenGeneralExportLicenceTypes.as_options(),
-            ),
-            AutocompleteInput(
-                name="control_list_entry",
-                title="control list entry",
-                options=control_list_entries,
-            ),
+            Select(name="case_type", title="type", options=OpenGeneralExportLicenceTypes.as_options(),),
+            AutocompleteInput(name="control_list_entry", title="control list entry", options=control_list_entries,),
             AutocompleteInput(name="country", title="country", options=countries),
-            Select(
-                name="site",
-                title="site",
-                options=sites,
+            Select(name="site", title="site", options=sites,),
+            Checkboxes(
+                name="active_only",
+                options=[Option(key=True, value="Only show active")],
+                classes=["govuk-checkboxes--small"],
             ),
         ]
         self.template = "open-general-licences"
