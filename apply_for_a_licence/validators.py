@@ -1,7 +1,5 @@
 from http import HTTPStatus
 
-from applications.services import post_applications
-from conf.client import post
 from lite_content.lite_exporter_frontend.applications import OpenGeneralLicenceQuestions
 
 
@@ -15,7 +13,7 @@ def validate_opening_question(_, json):
     )
 
 
-def validate_open_general_licences(request, json):
+def validate_open_general_licences(_, json):
     if not json.get("control_list_entry"):
         return (
             {"errors": {"control_list_entry": [OpenGeneralLicenceQuestions.ControlListEntry.ERROR]}},
@@ -31,8 +29,4 @@ def validate_open_general_licences(request, json):
             HTTPStatus.BAD_REQUEST,
         )
 
-    data = post(request, "/licences/open-general-licences/", json)
-    print("\n")
-    print(data.json())
-    print("\n")
-    return data.json(), data.status_code
+    return json, HTTPStatus.OK

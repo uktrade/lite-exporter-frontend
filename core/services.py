@@ -319,3 +319,8 @@ def get_open_general_licences(
 
 def get_open_general_licence(request, pk):
     return get(request, OPEN_GENERAL_LICENCES_URL + str(pk)).json()
+
+
+def post_open_general_licence_cases(request, json):
+    data = post(request, "/licences/open-general-licences/", json)
+    return data.json(), data.status_code

@@ -16,6 +16,7 @@ from apply_for_a_licence.forms.triage_questions import (
 )
 from apply_for_a_licence.validators import validate_opening_question, validate_open_general_licences
 from conf.constants import PERMANENT, CaseTypes
+from core.services import post_open_general_licence_cases
 from lite_forms.views import SingleFormView, MultiFormView
 
 
@@ -99,6 +100,7 @@ class OpenGeneralLicenceQuestions(MultiFormView):
         self.action = validate_open_general_licences
 
     def get_success_url(self):
+        post_open_general_licence_cases(self.request, self.get_validated_data())
         return (
             reverse(
                 "apply_for_a_licence:ogl_submit",
