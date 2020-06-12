@@ -13,6 +13,13 @@ def get_licences(
     return response.json()
 
 
+def get_nlr_licences(
+    request, page=1, reference=None, clc=None, country=None, end_user=None, active_only=None,
+):
+    response = get(request, LICENCES_URL + NLR_URL + convert_parameters_to_query_params(locals()))
+    return response.json()
+
+
 def get_licence(request, pk):
     response = get(request, LICENCES_URL + str(pk) + "/")
     return response.json(), response.status_code

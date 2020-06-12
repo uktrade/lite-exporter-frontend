@@ -10,7 +10,7 @@ from core.services import get_control_list_entries, get_countries
 from core.services import get_open_general_licences
 from licences.helpers import get_potential_ogl_control_list_entries, get_potential_ogl_countries, \
     get_potential_ogl_sites
-from licences.services import get_licences, get_licence
+from licences.services import get_licences, get_licence, get_nlr_licences
 from lite_content.lite_exporter_frontend.licences import LicencesList, LicencePage
 from lite_forms.components import FiltersBar, TextInput, HiddenField, Select, Checkboxes, Option, AutocompleteInput
 from lite_forms.generators import error_page
@@ -45,6 +45,31 @@ class Licences(TemplateView):
             ),
         ]
         self.template = "licences"
+
+    def get_no_licence_required(self):
+        params = self.request.GET.copy()
+        params.pop("licence_type")
+        self.data = get_nlr_licences(self.request, **params)
+        self.filters = [
+            TextInput(name="reference", title=LicencesList.Filters.REFERENCE,),
+            AutocompleteInput(
+                name="clc",
+                title=LicencesList.Filters.CLC,
+                options=get_control_list_entries(self.request, convert_to_options=True),
+            ),
+            AutocompleteInput(
+                name="country",
+                title=LicencesList.Filters.DESTINATION_COUNTRY,
+                options=get_countries(self.request, convert_to_options=True),
+            ),
+            TextInput(name="end_user", title=LicencesList.Filters.DESTINATION_NAME,),
+            Checkboxes(
+                name="active_only",
+                options=[Option(key=True, value=LicencesList.Filters.ACTIVE)],
+                classes=["govuk-checkboxes--small"],
+            ),
+        ]
+        self.template = "nlrs"
 
     def get_open_general_licences(self):
         params = self.request.GET.copy()
@@ -83,10 +108,10 @@ class Licences(TemplateView):
             "data": self.data,
             "filters": FiltersBar([*self.filters, HiddenField(name="licence_type", value=self.type)]),
             "tabs": [
-                Tab("licences", "OIELs and SIELs", "?licence_type=licences"),
-                Tab("open-general-licences", "OGLs", "?licence_type=open_general_licences"),
-                Tab("no-licence-required", "NLRs", "?licence_type=no_licence_required"),
-                Tab("clearances", "Clearances", "?licence_type=clearances"),
+                Tab("licences", LicencesList.Tabs.LICENCE, "?licence_type=licences"),
+                Tab("open-general-licences", LicencesList.Tabs.OGLS, "?licence_type=open_general_licences"),
+                Tab("no-licence-required", LicencesList.Tabs.NLR, "?licence_type=no_licence_required"),
+                Tab("clearances", LicencesList.Tabs.CLEARANCE, "?licence_type=clearances"),
             ],
             "name": request.GET.get("name", ""),
             "row_limit": 3,
