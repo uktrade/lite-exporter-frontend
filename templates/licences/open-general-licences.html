@@ -39,8 +39,14 @@
 						<div class="govuk-grid-row">
 							<div class="govuk-grid-column-two-thirds govuk-!-margin-bottom-6">
 								<p class="govuk-heading-s">Details</p>
-								<p class="govuk-body">{{ licence.description }}</p>
-								<p class="govuk-body govuk-!-margin-0">{{ licence.url|linkify:'Read more on GOV.UK' }}</p>
+								<ul class="govuk-list govuk-list--spaced">
+									<li>
+										{{ licence.description }}
+									</li>
+									<li>
+										{{ licence.url|linkify:'Read more on GOV.UK' }}
+									</li>
+								</ul>
 							</div>
 							<div class="govuk-grid-column-one-third govuk-!-margin-bottom-6">
 								<p class="govuk-heading-s">More information</p>
