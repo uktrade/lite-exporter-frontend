@@ -118,6 +118,7 @@ class Licences(TemplateView):
                 Tab("clearances", LicencesList.Tabs.CLEARANCE, "?licence_type=clearances"),
             ],
             "selected_tab": self.type,
+            "reference": request.GET.get("reference", ""),
             "name": request.GET.get("name", ""),
             "row_limit": 3,
         }

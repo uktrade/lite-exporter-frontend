@@ -33,8 +33,8 @@
 				{% for licence in data.results %}
 					<tr class="govuk-table__row lite-accordian-table__row" id="licence-{{ licence.id }}">
 						<td class="govuk-table__cell">
-							<a href="{% url 'licences:licence' licence.id %}" id="view-{{ licence.id }}" class="govuk-link govuk-link--no-visited-state govuk-!-margin-right-3">{{ licence.application.reference_code }}</a>
-							<p class="govuk-!-font-size-16 govuk-!-margin-top-1 govuk-!-margin-bottom-0 govuk-!-margin-right-3">{{ licence.application.name|abbreviate_string:40 }}</p>
+							<a href="{% url 'licences:licence' licence.id %}" id="view-{{ licence.id }}" class="govuk-link govuk-link--no-visited-state govuk-!-margin-right-3">{{ licence.application.reference_code|highlight_text:reference }}</a>
+							<p class="govuk-!-font-size-16 govuk-!-margin-top-1 govuk-!-margin-bottom-0 govuk-!-margin-right-3">{{ licence.application.name|highlight_text:reference }}</p>
 						</td>
 						<td class="govuk-table__cell">
 							<span class="govuk-table__header" aria-hidden="true">
