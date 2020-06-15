@@ -1,5 +1,4 @@
 from http import HTTPStatus
-from pprint import pprint
 from urllib.parse import urlencode
 
 from django.http import StreamingHttpResponse

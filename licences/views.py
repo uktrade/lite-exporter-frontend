@@ -23,7 +23,6 @@ from lite_forms.components import (
     Checkboxes,
     Option,
     AutocompleteInput,
-    DateInput,
 )
 from lite_forms.generators import error_page
 

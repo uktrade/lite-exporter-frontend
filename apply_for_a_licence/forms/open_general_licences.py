@@ -1,5 +1,3 @@
-from pprint import pprint
-
 from django.urls import reverse, reverse_lazy
 
 from apply_for_a_licence.enums import OpenGeneralExportLicenceTypes
