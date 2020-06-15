@@ -6,7 +6,7 @@ app_name = "goods"
 urlpatterns = [
     path("", views.Goods.as_view(), name="goods"),
     path("add/", views.AddGood.as_view(), name="add"),
-    path("<uuid:pk>/edit-good", views.EditGoodDetails.as_view(), name="edit_good"),
+    path("<uuid:good_pk>/edit-good", views.EditGoodDetails.as_view(), name="edit_good"),
     path("<uuid:pk>/edit/", views.EditGood.as_view(), name="edit"),
     path("<uuid:pk>/edit-grading/", views.EditGrading.as_view(), name="edit_grading"),
     path("<uuid:pk>/delete/", views.DeleteGood.as_view(), name="delete"),
@@ -15,7 +15,7 @@ urlpatterns = [
     path("<uuid:pk>/documents/<uuid:file_pk>/delete/", views.DeleteDocument.as_view(), name="delete_document"),
     path("<uuid:pk>/attach/", views.AttachDocuments.as_view(), name="attach_documents"),
     path("<uuid:pk>/raise-good-query/", views.RaiseGoodsQuery.as_view(), name="raise_goods_query"),
-    path("<uuid:pk>/", views.GoodsDetailEmpty.as_view(), name="good"),
+    path("<uuid:good_pk>/", views.GoodsDetailEmpty.as_view(), name="good"),
     path("<uuid:pk>/<str:type>/", views.GoodsDetail.as_view(), name="good_detail"),
     path("<uuid:pk>/ecju-queries/<uuid:query_pk>/", views.RespondToQuery.as_view(), name="respond_to_query"),
 

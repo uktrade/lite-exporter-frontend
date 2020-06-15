@@ -67,8 +67,8 @@ def edit_good(request, pk, json):
     return data.json(), data.status_code
 
 
-def edit_good_details(request, pk, json):
-    data = put(request, GOODS_URL + pk + GOODS_DETAILS_URL, json)
+def edit_good_details(request, json, **kwargs):
+    data = put(request, GOODS_URL + str(kwargs["good_pk"]) + GOODS_DETAILS_URL, json)
     return data.json(), data.status_code
 
 

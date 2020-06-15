@@ -152,7 +152,7 @@ class GoodsDetail(TemplateView):
         if "errors" in response:
             return self.get(request, error=response["errors"]["text"][0], text=request.POST.get("text"), **kwargs)
 
-        return redirect(reverse_lazy("goods:good_detail", kwargs={"pk": good_id, "type": "case-notes"}))
+        return redirect(reverse_lazy("goods:good_detail", kwargs={"good_pk": good_id, "type": "case-notes"}))
 
 
 class AddGood(MultiFormView):
@@ -182,7 +182,7 @@ class AddGood(MultiFormView):
                 self.action = post_goods
 
     def get_success_url(self):
-        return reverse_lazy("goods:add_document", kwargs={"pk": self.get_validated_data()["good"]["id"]})
+        return reverse_lazy("goods:add_document", kwargs={"good_pk": self.get_validated_data()["good"]["id"]})
 
 
 class RaiseGoodsQuery(SingleFormView):
@@ -199,18 +199,25 @@ class RaiseGoodsQuery(SingleFormView):
 
 
 class EditGoodDetails(MultiFormView):
+
     def init(self, request, **kwargs):
-        self.object_pk = str(kwargs["pk"])
+        self.object_pk = str(kwargs["good_pk"])
         self.forms = edit_good_details_form_group(request)
         self.action = edit_good_details
         self.data = get_good_details(request, self.object_pk)[0]
-        self.success_url = reverse_lazy("goods:good", kwargs={"pk": self.object_pk})
 
     def get_data(self):
         if self.data.get("is_component") and self.data.get("component_details"):
             detail_field = COMPONENT_SELECTION_TO_DETAIL_FIELD_MAP[self.data["is_component"]]
             self.data[detail_field] = self.data["component_details"]
         return self.data
+
+    def get_success_url(self):
+        if len(self.kwargs) == 2:
+            application_id = str(self.kwargs["pk"])
+            return reverse_lazy("applications:add_good_summary", kwargs={"pk": application_id, "good_pk": self.object_pk})
+        else:
+            return reverse_lazy("goods:good", kwargs={"good_pk": self.object_pk})
 
 
 class EditGood(SingleFormView):

@@ -40,7 +40,7 @@ class EndUseDetails(TemplateView):
         single_form_view.request = request
         single_form_view.kwargs = kwargs
 
-        single_form_view.object_pk = self.object_pk
+        single_form_view.good_id = self.object_pk
         single_form_view.form = intended_end_use_form(F680ClearanceTaskList.END_USE_DETAILS)
         single_form_view.action = put_end_use_details
         single_form_view.success_url = self.success_url
@@ -60,7 +60,7 @@ class EndUseDetails(TemplateView):
         summary_list_form_view.request = request
         summary_list_form_view.kwargs = kwargs
 
-        summary_list_form_view.object_pk = self.object_pk
+        summary_list_form_view.good_id = self.object_pk
         summary_list_form_view.summary_list_title = strings.EndUseDetailsSummaryList.TITLE
         summary_list_form_view.summary_list_notice_title = ""
         summary_list_form_view.summary_list_notice_text = ""

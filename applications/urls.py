@@ -17,8 +17,9 @@ from applications.views import (
     route_of_goods,
     temporary_export_details,
 )
-from applications.views.goods import GoodsDetailSummary
+from applications.views.goods import GoodsDetailSummary, AddGoodsSummary
 from applications.views.parties import consignees, end_users, third_parties, ultimate_end_users
+from goods.views import EditGoodDetails
 
 app_name = "applications"
 urlpatterns = [
@@ -44,6 +45,8 @@ urlpatterns = [
     path("<uuid:pk>/optional-note/", optional_note.ApplicationOptionalNote.as_view(), name="optional_note"),
     # Goods
     path("<uuid:pk>/goods/", goods.ApplicationGoodsList.as_view(), name="goods"),
+    path("<uuid:pk>/goods/add-new/<uuid:good_pk>/good-detail-summary/", AddGoodsSummary.as_view(), name="add_good_summary"),
+    path("<uuid:pk>/goods/add-new/<uuid:good_pk>/edit/", EditGoodDetails.as_view(), name="edit_good_details"),
     path("<uuid:pk>/goods/add-new/", goods.AddGood.as_view(), name="new_good"),
     path(
         "<uuid:pk>/goods/add-new/<uuid:good_pk>/add-document/",
@@ -294,5 +297,4 @@ urlpatterns = [
     path("<uuid:pk>/exhibition-details/", common.ExhibitionDetail.as_view(), name="exhibition_details"),
     path("<uuid:pk>/declaration/", common.ApplicationDeclaration.as_view(), name="declaration"),
     path("<uuid:pk>/<str:type>/", common.ApplicationDetail.as_view(), name="application"),
-
 ]

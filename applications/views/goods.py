@@ -18,7 +18,9 @@ from applications.services import (
 )
 from conf.constants import EXHIBITION
 from core.helpers import convert_dict_to_query_params
-from goods.forms import document_grading_form, attach_documents_form, add_good_form_group
+from goods.forms import document_grading_form, attach_documents_form, add_good_form_group, edit_good_details_form_group, \
+    edit_grading_form
+from goods.helpers import COMPONENT_SELECTION_TO_DETAIL_FIELD_MAP
 from goods.services import (
     get_goods,
     get_good,
@@ -26,7 +28,8 @@ from goods.services import (
     post_good_documents,
     post_good_document_sensitivity,
     validate_good,
-)
+    edit_good_details, get_good_details, edit_good_pv_grading)
+from goods.views import EditGoodDetails as egd
 from lite_forms.components import FiltersBar, TextInput
 from lite_forms.generators import error_page, form_page
 from lite_forms.views import SingleFormView, MultiFormView
@@ -121,10 +124,13 @@ class AddGood(MultiFormView):
                 self.action = self.actions[1]
 
     def get_success_url(self):
-        return reverse_lazy(
-            "applications:add_document",
-            kwargs={"pk": self.draft_pk, "good_pk": self.get_validated_data()["good"]["id"]},
-        )
+        # return reverse_lazy(
+        #     "applications:add_document",
+        #     kwargs={"pk": self.draft_pk, "good_pk": self.get_validated_data()["good"]["id"]},
+        # )
+        #
+        return reverse_lazy("applications:add_good_summary",
+                            kwargs={"pk": self.draft_pk, "good_pk": self.get_validated_data()["good"]["id"]})
 
 
 class CheckDocumentGrading(SingleFormView):
@@ -204,3 +210,36 @@ class GoodsDetailSummary(TemplateView):
             "goods": application['goods']}
 
         return render(request, "applications/goods/goods-detail-summary.html", context)
+
+
+class AddGoodsSummary(TemplateView):
+    def get(self, request, **kwargs):
+        application_id = str(kwargs["pk"])
+        good_id = str(kwargs['good_pk'])
+        good = get_good(request, good_id, full_detail=True)[0]
+
+        context = {
+            "good": good,
+            "application_id": application_id}
+
+        return render(request, "applications/goods/add-good-detail-summary.html", context)
+
+
+# class EditGoodDetails(egd):
+#
+#     def init(self, request, **kwargs):
+#         self.good_id = str(kwargs["good_pk"])
+#         self.application_id = str(kwargs["pk"])
+#         self.forms = edit_good_details_form_group(request)
+#         self.action = edit_good_details
+#         self.data = get_good_details(request, self.good_id)[0]
+#         self.success_url = reverse_lazy("applications:add_good_summary", kwargs={"pk": self.application_id, "good_pk": self.good_id})
+#
+#     def get_data(self):
+#         if self.data.get("is_component") and self.data.get("component_details"):
+#             detail_field = COMPONENT_SELECTION_TO_DETAIL_FIELD_MAP[self.data["is_component"]]
+#             self.data[detail_field] = self.data["component_details"]
+#         return self.data
+
+
+
