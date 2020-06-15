@@ -3,20 +3,14 @@ from pytest_bdd import when, then, parsers, scenarios, given
 import ui_automation_tests.shared.tools.helpers as utils
 from ui_automation_tests.pages.add_end_user_advisory_pages import AddEndUserAdvisoryPages
 from ui_automation_tests.pages.end_user_advisory_page import EndUserAdvisoryPage
-from ui_automation_tests.pages.shared import Shared
 from ui_automation_tests.shared import functions
-from ui_automation_tests.shared.functions import element_with_id_exists
 
 scenarios("../features/end_user_advisory_queries.feature", strict_gherkin=False)
 
 
-@given("An end user advisory with a case note has been added via gov user")
+@given("An end user advisory with a case note and ecju query has been added via gov user")
 def end_user_advisory_exists_case_note_added(add_end_user_advisory, context, api_test_client):
     api_test_client.cases.add_case_note(context, context.end_user_advisory_id)
-
-
-@given("An end user advisory with an ecju query has been added via gov user")
-def end_user_advisory_exists_ecju_query_added(add_end_user_advisory, context, api_test_client):
     api_test_client.ecju_queries.add_ecju_query(context.end_user_advisory_id)
 
 
@@ -100,9 +94,9 @@ def open_already_created_end_user_advisory(driver, context):
     EndUserAdvisoryPage(driver).open_end_user_advisory(context.end_user_advisory_id)
 
 
-@then("I see a notification on end user advisory list")
-def notification_on_end_user_advisory_list(driver, context):
-    assert EndUserAdvisoryPage(driver).is_end_user_advisory_displayed_with_notification(context.end_user_advisory_id)
+@then(parsers.parse('I see my end user advisory with "{total}" notifications'))
+def notification_on_end_user_advisory_list(driver, context, total):
+    assert total == EndUserAdvisoryPage(driver).row_notifications()
 
 
 @then("I see a notification for case note and can view the case note")
@@ -112,6 +106,6 @@ def notification_on_notes_tab(driver, context):
     assert context.case_note_text in end_user_advisory_page.latest_case_note_text()
 
 
-@then(parsers.parse("I can view text in case notes"))
+@then(parsers.parse("I can see my text in the latest case note"))
 def notification_on_notes_tab(driver, context):
     assert context.text in EndUserAdvisoryPage(driver).latest_case_note_text()
