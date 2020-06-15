@@ -1,0 +1,119 @@
+{% extends 'layouts/base.html' %}
+
+{% block back_link %}
+	<a href="{% url 'applications:task_list' application_id %}" id="back-link"
+	   class="govuk-back-link">{% lcs 'goods.GoodsDetailSummary.BACK_BUTTON' %}</a>
+{% endblock %}
+
+{% block body %}
+	<div class="lite-app-bar">
+		<div class="lite-app-bar__content">
+			<h1 class="govuk-heading-l">
+				{% block title %} {% lcs 'goods.GoodsDetailSummary.TITLE' %} {% endblock %}
+			</h1>
+		</div>
+	</div>
+
+	{% if goods %}
+		{% for good in goods %}
+			<dl class="govuk-summary-list" id="good-detail-summary">
+				<h3 class="govuk-heading-m"> {% lcs 'goods.GoodsDetailSummary.HEADING' %} {{ forloop.counter }} </h3>
+				<div class="govuk-summary-list__row">
+					<dt class="govuk-summary-list__key">
+						{% lcs 'goods.GoodsDetailSummary.SELECT_CATEGORY' %}
+					</dt>
+					<dd class="govuk-summary-list__value">
+						{{ good.good.item_category.value }}
+					</dd>
+				</div>
+				<div class="govuk-summary-list__row">
+					<dt class="govuk-summary-list__key">
+						{% lcs "goods.GoodPage.Table.DESCRIPTION" %}
+					</dt>
+					<dd class="govuk-summary-list__value">
+						{{ good.good.description }}
+					</dd>
+				</div>
+
+				<div class="govuk-summary-list__row">
+					<dt class="govuk-summary-list__key">
+						{% lcs 'goods.GoodsDetailSummary.PART_NUMBER' %}
+					</dt>
+					<dd class="govuk-summary-list__value">
+						{{ good.good.part_number|default_na }}
+					</dd>
+				</div>
+
+				<div class="govuk-summary-list__row">
+					<dt class="govuk-summary-list__key">
+						{% lcs 'goods.GoodsDetailSummary.CONTROLLED' %}
+					</dt>
+					{% if good.good.control_list_entries %}
+						<dd class="govuk-summary-list__value">
+							{{ good.good.control_list_entries|display_clc_ratings }}
+						</dd>
+					{% else %}
+						<dd class="govuk-summary-list__value">
+							{{ good.good.control_list_entries|default_na }}
+						</dd>
+					{% endif %}
+				</div>
+				<div class="govuk-summary-list__row">
+					<dt class="govuk-summary-list__key">
+						{% lcs 'goods.GoodsDetailSummary.GRADED' %}
+					</dt>
+					<dd class="govuk-summary-list__value">
+						{{ good.good.is_pv_graded.value }}
+					</dd>
+				</div>
+
+				<div class="govuk-summary-list__row">
+					<dt class="govuk-summary-list__key">
+						{% lcs 'goods.GoodsDetailSummary.MILITARY' %}
+					</dt>
+					<dd class="govuk-summary-list__value">
+						{{ good.good.is_military_use.value }}
+					</dd>
+				</div>
+
+				<div class="govuk-summary-list__row">
+					<dt class="govuk-summary-list__key">
+						{% lcs 'goods.GoodsDetailSummary.COMPONENT' %}
+					</dt>
+					<dd class="govuk-summary-list__value">
+						{{ good.good.is_component.value|default_na }}
+					</dd>
+				</div>
+
+				<div class="govuk-summary-list__row">
+					<dt class="govuk-summary-list__key">
+						{% lcs 'goods.GoodsDetailSummary.DESIGNED_FOR_INFORMATION_SECURITY' %}
+					</dt>
+					<dd class="govuk-summary-list__value">
+						{{ good.good.uses_information_security.value|friendly_boolean|default_na }}
+					</dd>
+				</div>
+
+				<div class="govuk-summary-list__row">
+					<dt class="govuk-summary-list__key">
+						{% lcs "goods.GoodsDetailSummary.DOCUMENTS" %}
+					</dt>
+
+					{% if good.good.missing_document_reason %}
+						<dd class="govuk-summary-list__value">
+							{{ good.good.missing_document_reason.value }}
+						</dd>
+					{% else %}
+						<dd class="govuk-summary-list__value">
+							{% for document in good.good.documents %}
+								<a {% if document.safe == True %}href="{% url 'goods:document' pk=good.good.id file_pk=document.id %}"{% endif %}
+								   class="govuk-link--no-visited-state">{{ document.name }}</a><br>
+							{% endfor %}
+						</dd>
+					{% endif %}
+				</div>
+			</dl>
+		{% endfor %}
+
+	{% endif %}
+{% endblock %}

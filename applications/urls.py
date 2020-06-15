@@ -17,6 +17,7 @@ from applications.views import (
     route_of_goods,
     temporary_export_details,
 )
+from applications.views.goods import GoodsDetailSummary
 from applications.views.parties import consignees, end_users, third_parties, ultimate_end_users
 
 app_name = "applications"
@@ -287,9 +288,11 @@ urlpatterns = [
         name="download_generated_document",
     ),
     path("<uuid:pk>/clearance/", clearance.SetClearanceLevel.as_view(), name="clearance_level"),
+    path("<uuid:pk>/good-detail-summary/", GoodsDetailSummary.as_view(), name="good_detail_summary"),
     # This HAS to be at the bottom, otherwise it will swallow other url calls
     path("<uuid:pk>/", common.ApplicationDetail.as_view(), name="application"),
     path("<uuid:pk>/exhibition-details/", common.ExhibitionDetail.as_view(), name="exhibition_details"),
     path("<uuid:pk>/declaration/", common.ApplicationDeclaration.as_view(), name="declaration"),
     path("<uuid:pk>/<str:type>/", common.ApplicationDetail.as_view(), name="application"),
+
 ]

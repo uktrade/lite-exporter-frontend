@@ -192,3 +192,15 @@ class RemovePreexistingGood(TemplateView):
             return error_page(request, "Unexpected error removing product")
 
         return redirect(reverse_lazy("applications:goods", kwargs={"pk": application_id}))
+
+
+class GoodsDetailSummary(TemplateView):
+    def get(self, request, **kwargs):
+        application_id = str(kwargs["pk"])
+        application = get_application(request, application_id)
+
+        context = {
+            "application_id": application_id,
+            "goods": application['goods']}
+
+        return render(request, "applications/goods/goods-detail-summary.html", context)
