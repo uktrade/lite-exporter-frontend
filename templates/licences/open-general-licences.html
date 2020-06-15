@@ -22,20 +22,20 @@
 	{% include 'filters.html' %}
 
 	{% if data %}
-		<div class="govuk-accordion" data-module="govuk-accordion">
+		<div class="govuk-accordion" data-module="govuk-accordion" id="accordion">
 			{% for licence in data %}
-				<div class="govuk-accordion__section ">
+				<div class="govuk-accordion__section">
 					<div class="govuk-accordion__section-header">
 						<h2 class="govuk-accordion__section-heading">
-							<span class="govuk-accordion__section-button">
+							<span class="govuk-accordion__section-button" id="accordion-heading-{{ forloop.counter }}">
 								{{ licence.case_type.reference.value }} ({{ licence.name|highlight_text:name }})
 							</span>
 						</h2>
-						<div class="govuk-accordion__section-summary govuk-hint govuk-!-margin-bottom-0">
+						<div class="govuk-accordion__section-summary govuk-hint govuk-!-margin-bottom-0" id="accordion-summary-{{ forloop.counter }}">
 							{{ licence.registrations|length }} site{{ licence.registrations|pluralize }} - Registered at {{ licence.registrations.0.submitted_at|str_date }}
 						</div>
 					</div>
-					<div class="govuk-accordion__section-content">
+					<div id="{{ licence.id }}-content" class="govuk-accordion__section-content" aria-labelledby="accordion-heading-{{ forloop.counter }}">
 						<div class="govuk-grid-row">
 							<div class="govuk-grid-column-two-thirds govuk-!-margin-bottom-6">
 								<p class="govuk-heading-s">Details</p>
@@ -90,9 +90,9 @@
 							<tbody class="govuk-table__body">
 								{% for registration in licence.registrations %}
 									<tr class="govuk-table__row">
-										<td scope="row" class="govuk-table__header">
+										<th scope="row" class="govuk-table__header">
 											{{ registration.reference_code }}
-										</td>
+										</th>
 										<td class="govuk-table__cell">
 											{{ registration.site.name }}<br>
 											<span class="govuk-hint govuk-!-margin-top-1 govuk-!-margin-bottom-0">{{ registration.site|get_address }}</span>
