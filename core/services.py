@@ -297,7 +297,7 @@ def get_open_general_licences(
     country=None,
     registered=False,
     disable_pagination=True,
-    active_only=None
+    active_only=None,
 ):
     data = get(request, OPEN_GENERAL_LICENCES_URL + convert_parameters_to_query_params(locals()),).json()
 

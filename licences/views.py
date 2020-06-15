@@ -15,8 +15,16 @@ from licences.helpers import (
 )
 from licences.services import get_licences, get_licence, get_nlr_licences
 from lite_content.lite_exporter_frontend.licences import LicencesList, LicencePage
-from lite_forms.components import FiltersBar, TextInput, HiddenField, Select, Checkboxes, Option, AutocompleteInput, \
-    DateInput
+from lite_forms.components import (
+    FiltersBar,
+    TextInput,
+    HiddenField,
+    Select,
+    Checkboxes,
+    Option,
+    AutocompleteInput,
+    DateInput,
+)
 from lite_forms.generators import error_page
 
 
