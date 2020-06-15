@@ -56,13 +56,12 @@
 							{% lcs 'hub.Tiles.APPLICATIONS' %}{% if notifications.notifications.application %}<span id="applications-notifications" class="lite-notification-bubble">{{ notifications.notifications.application }}</span>
 							{% endif %}
 						</a>
-
 						<p>{% lcs 'hub.Tiles.Applications.CHECK_PROGRESS' %}</p>
 						<p>{% lcs 'hub.Tiles.Applications.EDIT_APPLICATIONS' %}</p>
 					</div>
 				{% endif %}
 
-				{% if existing.licences or existing.nlrs %}
+				{% if existing.licences or existing.open_general_licences or existing.nlrs %}
 					{# View and manage licences tile #}
 					<div class="app-tile">
 						<a href="{% url 'licences:licences' %}" role="button" draggable="false" class="app-tile__link app-tile__heading" id="link-licences">
@@ -107,7 +106,6 @@
 			</div>
 		</section>
 	{% else %}
-
 		<section class="govuk-form-group">
 			<div class="app-tiles">
 				{# Make a customs enquiry tile #}
@@ -120,8 +118,6 @@
 							{% lcs 'hub.Tiles.CustomsEnquiry.DRAFT_LINK' %}
 						</a>
 					</p>
-
-
 				</div>
 
 			{% if existing.queries %}
