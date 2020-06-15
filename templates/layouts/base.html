@@ -30,7 +30,6 @@
 	<meta property="og:image" content="{% static 'images/govuk-opengraph-image.png' %}">
 
 	<script src="{% static 'javascripts/jquery.min.js' %}"></script>
-	<script src="{% static 'javascripts/mark.js' %}"></script>
 
 	{% block head %}{% endblock %}
 </head>
@@ -135,6 +134,7 @@
 	<script src="{% static 'javascripts/modal.js' %}"></script>
 	<script src="{% static 'javascripts/definitions.js' %}"></script>
 	<script src="{% static 'javascripts/back-link.js' %}"></script>
+	<script src="{% static 'javascripts/mark.js' %}"></script>
 
 	<script nonce="{{ request.csp_nonce }}">
 		window.GOVUKFrontend.initAll()
