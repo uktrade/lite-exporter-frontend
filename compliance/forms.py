@@ -44,7 +44,7 @@ def open_licence_return_form_group():
                 questions=[
                     FileUpload(),
                     Label(OpenReturnsForm.Upload.ExampleTable.HEADING),
-                    Custom("components/table.html"),
+                    Custom("components/spreadsheet.html"),
                 ],
                 default_button_name=OpenReturnsForm.Upload.BUTTON,
             ),
