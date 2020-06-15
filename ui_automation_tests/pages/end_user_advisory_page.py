@@ -1,8 +1,6 @@
 from ui_automation_tests.pages.shared import Shared
 from ui_automation_tests.pages.BasePage import BasePage
 from ui_automation_tests.shared import functions
-from ui_automation_tests.shared.functions import element_with_css_selector_exists
-from ui_automation_tests.shared.tools.helpers import find_paginated_item_by_id
 
 
 class EndUserAdvisoryPage(BasePage):
