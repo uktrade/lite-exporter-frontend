@@ -45,7 +45,11 @@ urlpatterns = [
     path("<uuid:pk>/optional-note/", optional_note.ApplicationOptionalNote.as_view(), name="optional_note"),
     # Goods
     path("<uuid:pk>/goods/", goods.ApplicationGoodsList.as_view(), name="goods"),
-    path("<uuid:pk>/goods/add-new/<uuid:good_pk>/good-detail-summary/", AddGoodsSummary.as_view(), name="add_good_summary"),
+    path(
+        "<uuid:pk>/goods/add-new/<uuid:good_pk>/good-detail-summary/",
+        AddGoodsSummary.as_view(),
+        name="add_good_summary",
+    ),
     path("<uuid:pk>/goods/add-new/<uuid:good_pk>/edit/", EditGoodDetails.as_view(), name="edit_good_details"),
     path("<uuid:pk>/goods/add-new/", goods.AddGood.as_view(), name="new_good"),
     path(

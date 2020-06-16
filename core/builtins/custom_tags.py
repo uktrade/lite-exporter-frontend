@@ -445,5 +445,5 @@ def abbreviate_string(string, length):
 
 @register.filter()
 def display_clc_ratings(control_list_entries):
-    ratings = [item['rating'] for item in control_list_entries]
+    ratings = [item["rating"] for item in control_list_entries]
     return ", ".join(ratings)
