@@ -60,23 +60,8 @@
 	justify-content: space-between;
 }
 
-.home-link {
-	color: $govuk-text-colour !important;
-	display: inline-block;
-	padding: govuk-spacing(2) govuk-spacing(0) govuk-spacing(1);
-	text-decoration: none;
-	border-bottom: 4px solid transparent;
-
-	&:hover {
-		border-bottom: 4px solid govuk-colour("mid-grey");
-	}
-
-	&:focus {
-		@include govuk-focused-text;
-	}
-}
-
-.nav-item {
+.app-navigation__item {
+	@include govuk-font($size: 16);
 	color: $govuk-text-colour;
 	display: inline-block;
 	padding: govuk-spacing(2) govuk-spacing(0) govuk-spacing(1);

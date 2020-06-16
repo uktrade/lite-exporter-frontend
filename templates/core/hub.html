@@ -4,24 +4,24 @@
 	{% lcs 'hub.TITLE' %}
 {% endblock %}
 
-{% block header_title %}{% endblock %}
+{% block header_title %}<span></span>{% endblock %}
 
 {% block back_link %}{% endblock %}
 
 {% block navigation %}
-	<div class="app-navigation govuk-body-s govuk-!-margin-0" role="navigation">
-		<a href="{% url 'core:home' %}" class="home-link">{% lcs 'hub.Navigation.ACCOUNT_HOME' %}</a>
+	<div class="app-navigation" role="navigation">
+		<a href="{% url 'core:home' %}" class="app-navigation__item lite-mobile-hide">{% lcs 'hub.Navigation.ACCOUNT_HOME' %}</a>
 		{% if 'ADMINISTER_USERS' in user_permissions %}
-			<a href="{% url 'organisation:members:members' %}" class="nav-item" id="link-profile">{% lcs 'hub.Navigation.YOUR_ACCOUNT' %}</a>
+			<a href="{% url 'organisation:members:members' %}" class="app-navigation__item" id="link-profile">{% lcs 'hub.Navigation.YOUR_ACCOUNT' %}</a>
 		{% endif %}
 	</div>
 {% endblock %}
 
 {% block body %}
-	<span class="govuk-caption-xl">
+	<span class="govuk-caption-l">
 		{% lcs 'hub.Header.ACCOUNT_HOME' %}
 	</span>
-	<h1 class="govuk-heading-xl govuk-!-margin-bottom-5">
+	<h1 class="govuk-heading-l govuk-!-margin-bottom-5">
 		{{ organisation.name }}
 	</h1>
 

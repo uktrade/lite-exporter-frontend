@@ -68,20 +68,16 @@
 						</span>
 					</a>
 				</div>
-
-				{% block header_title %}
-					{% if not user_in_limbo %}
-						<div class="govuk-header__content">
+				{% if not user_in_limbo %}
+					<div class="govuk-header__content">
+						{% block header_title %}
 							<a href="/" class="govuk-header__link govuk-header__link--service-name">
 								{{ SERVICE_NAME }} {% if user.organisation_name  %} - {{ user.organisation_name }}{%  endif %}
 							</a>
-						</div>
-					{% endif %}
-				{% endblock %}
-
-				{% if user.is_authenticated %}
-					<div id="lite-user-menu">
-						<a href="{% url 'auth:logout' %}" class="lite-user-menu-button" id="link-sign-out">Sign out</a>
+						{% endblock %}
+						{% if user.is_authenticated %}
+							<a href="{% url 'auth:logout' %}" class="govuk-header__link app-header__link--sign-out" id="link-sign-out">Sign out</a>
+						{% endif %}
 					</div>
 				{% endif %}
 			</div>
@@ -91,8 +87,8 @@
 	{% if not user_in_limbo %}
 		<div class="govuk-width-container">
 			{% block navigation %}
-				<div class="app-navigation govuk-body-s govuk-!-margin-0" role="navigation">
-					<a href="{% url 'core:home' %}" class="home-link">{% lcs 'hub.Navigation.ACCOUNT_HOME' %}</a>
+				<div class="app-navigation" role="navigation">
+					<a href="{% url 'core:home' %}" class="app-navigation__item">{% lcs 'hub.Navigation.ACCOUNT_HOME' %}</a>
 				</div>
 			{% endblock %}
 		</div>
@@ -114,7 +110,7 @@
 	</div>
 
 	{% block footer %}
-	<footer class="govuk-footer " role="contentinfo">
+	<footer class="govuk-footer" role="contentinfo">
 		<div class="govuk-width-container ">
 			<div class="govuk-footer__meta">
 				<div class="govuk-footer__meta-item govuk-footer__meta-item--grow">
