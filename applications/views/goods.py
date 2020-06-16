@@ -22,9 +22,7 @@ from goods.forms import (
     document_grading_form,
     attach_documents_form,
     add_good_form_group,
-    edit_good_details_form_group,
 )
-from goods.helpers import COMPONENT_SELECTION_TO_DETAIL_FIELD_MAP
 from goods.services import (
     get_goods,
     get_good,
@@ -32,8 +30,6 @@ from goods.services import (
     post_good_documents,
     post_good_document_sensitivity,
     validate_good,
-    get_good_details,
-    edit_good_details,
 )
 from lite_forms.components import FiltersBar, TextInput
 from lite_forms.generators import error_page, form_page
