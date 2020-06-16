@@ -62,7 +62,11 @@
 						{% lcs 'goods.GoodsDetailSummary.GRADED' %}
 					</dt>
 					<dd class="govuk-summary-list__value">
-						{{ good.good.is_pv_graded.value }}
+						{% if good.good.pv_grading_details %}
+							{% lcs 'goods.GoodsDetailSummary.PV_GRADING_YES' %}
+						{% else %}
+							{% lcs 'goods.GoodsDetailSummary.PV_GRADING_NO' %}
+						{% endif %}
 					</dd>
 				</div>
 
