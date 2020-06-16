@@ -229,12 +229,18 @@ class EditGoodDetails(MultiFormView):
 
 
 class EditGood(SingleFormView):
+    application_id = None
+
     def init(self, request, **kwargs):
-        self.object_pk = str(kwargs["pk"])
+        if "good_pk" in kwargs:
+            # coming from the application
+            self.object_pk = str(kwargs["good_pk"])
+            self.application_id = str(kwargs["pk"])
+        else:
+            self.object_pk = str(kwargs["pk"])
         self.data = get_good(request, self.object_pk)[0]
         self.form = edit_good_detail_form(request, self.object_pk)
         self.action = edit_good
-        self.success_url = reverse_lazy("goods:good", kwargs={"pk": self.object_pk})
 
     def get_data(self):
         self.data["control_list_entries"] = [
@@ -242,14 +248,29 @@ class EditGood(SingleFormView):
         ]
         return self.data
 
+    def get_success_url(self):
+        # Return to the application add good summary if adding good from the application
+        if "good_pk" in self.kwargs:
+            return reverse_lazy(
+                "applications:add_good_summary", kwargs={"pk": self.application_id, "good_pk": self.object_pk}
+            )
+        else:
+            return reverse_lazy("goods:good", kwargs={"pk": self.object_pk})
+
 
 class EditGrading(SingleFormView):
+    application_id = None
+
     def init(self, request, **kwargs):
-        self.object_pk = str(kwargs["pk"])
+        if "good_pk" in kwargs:
+            # coming from the application
+            self.object_pk = str(kwargs["good_pk"])
+            self.application_id = str(kwargs["pk"])
+        else:
+            self.object_pk = str(kwargs["pk"])
         self.data = get_good(request, self.object_pk)[0]
         self.form = edit_grading_form(request, self.object_pk)
         self.action = edit_good_pv_grading
-        self.success_url = reverse_lazy("goods:good", kwargs={"pk": self.object_pk})
 
     def get_data(self):
         data = self.data
@@ -264,6 +285,10 @@ class EditGrading(SingleFormView):
         return data
 
     def get_success_url(self):
+        if "good_pk" in self.kwargs:
+            return reverse_lazy(
+                "applications:add_good_summary", kwargs={"pk": self.application_id, "good_pk": self.object_pk}
+            )
         good = get_good(self.request, self.object_pk, full_detail=True)[0]
 
         raise_a_clc_query = "unsure" == good["is_good_controlled"]["key"]

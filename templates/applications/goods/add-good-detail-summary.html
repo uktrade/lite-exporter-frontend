@@ -7,16 +7,15 @@
 	<div class="lite-app-bar">
 		<div class="lite-app-bar__content">
 			<h1 class="govuk-heading-l">
-				{% block title %} {% lcs 'goods.GoodsDetailSummary.TITLE' %} {% endblock %}
+				{% block title %} {% lcs 'Goods.AddGoodSummary.TITLE' %} {% endblock %}
 			</h1>
 		</div>
 	</div>
 
 	<dl class="govuk-summary-list" id="good-detail-summary">
-		<h3 class="govuk-heading-m"> {% lcs 'goods.GoodsDetailSummary.HEADING' %} {{ forloop.counter }} </h3>
 		<div class="govuk-summary-list__row">
 			<dt class="govuk-summary-list__key">
-				{% lcs 'goods.GoodsDetailSummary.SELECT_CATEGORY' %}
+				{% lcs 'Goods.AddGoodSummary.CATEGORY' %}
 			</dt>
 			<dd class="govuk-summary-list__value">
 				{{ good.item_category.value }}
@@ -25,35 +24,35 @@
 		</div>
 		<div class="govuk-summary-list__row">
 			<dt class="govuk-summary-list__key">
-				{% lcs "goods.GoodPage.Table.DESCRIPTION" %}
+				{% lcs "Goods.AddGoodSummary.DESCRIPTION" %}
 			</dt>
 			<dd class="govuk-summary-list__value">
 				{{ good.description }}
 			</dd>
 			<dd class="govuk-summary-list__actions">
 				{% if good.status.key == 'draft' %}
-					<a id="change-good-description" class="govuk-link govuk-link--no-visited-state" href="{% url 'goods:edit' good.id %}#description">Change</a>
+					<a id="change-good-description" class="govuk-link govuk-link--no-visited-state" href="{% url 'applications:edit_good' application_id good.id %}#description">Change</a>
 				{% endif %}
 			</dd>
 		</div>
 
 		<div class="govuk-summary-list__row">
 			<dt class="govuk-summary-list__key">
-				{% lcs 'goods.GoodsDetailSummary.PART_NUMBER' %}
+				{% lcs 'Goods.AddGoodSummary.PART_NUMBER' %}
 			</dt>
 			<dd class="govuk-summary-list__value">
 				{{ good.part_number|default_na }}
 			</dd>
 			<dd class="govuk-summary-list__actions">
 				{% if good.status.key == 'draft' %}
-					<a id="change-part-number" class="govuk-link govuk-link--no-visited-state" href="{% url 'goods:edit' good.id %}#part_number">Change</a>
+					<a id="change-part-number" class="govuk-link govuk-link--no-visited-state" href="{% url 'applications:edit_good' application_id good.id %}#part_number">Change</a>
 				{% endif %}
 			</dd>
 		</div>
 
 		<div class="govuk-summary-list__row">
 			<dt class="govuk-summary-list__key">
-				{% lcs 'goods.GoodsDetailSummary.CONTROLLED' %}
+				{% lcs 'Goods.AddGoodSummary.CLC' %}
 			</dt>
 			{% if good.control_list_entries %}
 				<dd class="govuk-summary-list__value">
@@ -66,27 +65,27 @@
 			{% endif %}
 			<dd class="govuk-summary-list__actions">
 				{% if good.status.key == 'draft' %}
-					<a id="change-good-controlled" class="govuk-link govuk-link--no-visited-state" href="{% url 'goods:edit' good.id %}#pane_is_good_controlled">Change</a>
+					<a id="change-good-controlled" class="govuk-link govuk-link--no-visited-state" href="{% url 'applications:edit_good' application_id good.id %}#pane_is_good_controlled">Change</a>
 				{% endif %}
 			</dd>
 		</div>
 		<div class="govuk-summary-list__row">
 			<dt class="govuk-summary-list__key">
-				{% lcs 'goods.GoodsDetailSummary.GRADED' %}
+				{% lcs 'Goods.AddGoodSummary.SECURITY_GRADING' %}
 			</dt>
 			<dd class="govuk-summary-list__value">
 				{{ good.is_pv_graded.value }}
 			</dd>
 			<dd class="govuk-summary-list__actions">
 				{% if good.status.key == 'draft' %}
-					<a id="change-good-grading" class="govuk-link govuk-link--no-visited-state" href="{% url 'goods:edit_grading' good.id %}#pane_is_good_controlled">Change</a>
+					<a id="change-good-grading" class="govuk-link govuk-link--no-visited-state" href="{% url 'applications:edit_grading' application_id good.id %}">Change</a>
 				{% endif %}
 			</dd>
 		</div>
 
 		<div class="govuk-summary-list__row">
 			<dt class="govuk-summary-list__key">
-				{% lcs "goods.GoodPage.Table.MILITARY_USE" %}
+				{% lcs "Goods.AddGoodSummary.MILITARY_USE" %}
 			</dt>
 			<dd class="govuk-summary-list__value">
 				{{ good.is_military_use.value|default_na }}
@@ -102,7 +101,7 @@
 		</div>
 		<div class="govuk-summary-list__row">
 			<dt class="govuk-summary-list__key">
-				{% lcs "goods.GoodPage.Table.COMPONENT" %}
+				{% lcs "Goods.AddGoodSummary.COMPONENT" %}
 			</dt>
 			<dd class="govuk-summary-list__value">
 				{{ good.is_component.value|default_na }}
@@ -118,7 +117,7 @@
 		</div>
 		<div class="govuk-summary-list__row">
 			<dt class="govuk-summary-list__key">
-				{% lcs "goods.GoodPage.Table.INFORMATION_SECURITY_FEATURES" %}
+				{% lcs "Goods.AddGoodSummary.INFORMATION_SECURITY_FEATURES" %}
 			</dt>
 			<dd class="govuk-summary-list__value">
 				{% if good.uses_information_security is not None %}
@@ -137,5 +136,5 @@
 			</dd>
 		</div>
 	</dl>
-	<a class="govuk-button" id="button-attach-document" href="{% url 'applications:add_document' application_id good_id %}">Save and Continue</a>
+	<a class="govuk-button" id="button-attach-document" href="{% url 'applications:add_document' application_id good_id %}">{% lcs "Goods.AddGoodSummary.SAVE_AND_CONTINUE_BUTTON" %}</a>
 {% endblock %}
