@@ -22,10 +22,7 @@ from goods.forms import (
     document_grading_form,
     attach_documents_form,
     add_good_form_group,
-    edit_good_details_form_group,
-    edit_grading_form,
 )
-from goods.helpers import COMPONENT_SELECTION_TO_DETAIL_FIELD_MAP
 from goods.services import (
     get_goods,
     get_good,
@@ -33,11 +30,7 @@ from goods.services import (
     post_good_documents,
     post_good_document_sensitivity,
     validate_good,
-    edit_good_details,
-    get_good_details,
-    edit_good_pv_grading,
 )
-from goods.views import EditGoodDetails as egd
 from lite_forms.components import FiltersBar, TextInput
 from lite_forms.generators import error_page, form_page
 from lite_forms.views import SingleFormView, MultiFormView
@@ -210,7 +203,7 @@ class RemovePreexistingGood(TemplateView):
         return redirect(reverse_lazy("applications:goods", kwargs={"pk": application_id}))
 
 
-class GoodsDetailSummary(TemplateView):
+class GoodsDetailSummaryCheckYourAnswers(TemplateView):
     # CHECK YOUR ANSWERS PAGE
     def get(self, request, **kwargs):
         application_id = str(kwargs["pk"])
