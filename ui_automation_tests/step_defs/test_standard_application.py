@@ -1,6 +1,6 @@
 from pytest_bdd import scenarios, when, then, parsers, given
 
-from pages.end_use_details_form_page import EndUseDetailsFormPage
+from ui_automation_tests.pages.end_use_details_form_page import EndUseDetailsFormPage
 from ui_automation_tests.conftest import (
     enter_type_of_application,
     enter_application_name,
