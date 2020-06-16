@@ -224,7 +224,11 @@ class GoodsDetailSummaryCheckYourAnswers(TemplateView):
         application_id = str(kwargs["pk"])
         application = get_application(request, application_id)
 
-        context = {"application_id": application_id, "goods": application["goods"]}
+        context = {
+            "application_id": application_id,
+            "goods": application["goods"],
+            "application_status": application["status"]["key"],
+        }
 
         return render(request, "applications/goods/goods-detail-summary.html", context)
 
