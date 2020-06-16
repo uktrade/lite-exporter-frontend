@@ -19,6 +19,7 @@ from lite_forms.components import (
     WarningBanner,
     HiddenField,
     Button,
+    Checkboxes,
 )
 from lite_forms.generators import success_page
 from lite_forms.helpers import conditional
@@ -165,6 +166,13 @@ def open_general_licence_forms(request, **kwargs):
                                 ),
                                 Custom("components/ogl-step-list.html"),
                                 Custom("components/ogl-warning.html"),
+                                Checkboxes(
+                                    name="confirmation[]",
+                                    options=[
+                                        Option("read", OpenGeneralLicenceQuestions.Conditions.READ),
+                                        Option("comply", OpenGeneralLicenceQuestions.Conditions.COMPLY),
+                                    ],
+                                ),
                             ],
                             [],
                         ),
