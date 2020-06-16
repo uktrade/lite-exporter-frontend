@@ -208,9 +208,9 @@ class EditGoodDetails(MultiFormView):
             self.application_id = str(kwargs["pk"])
         else:
             self.object_pk = str(kwargs["pk"])
+        self.data = get_good_details(request, self.object_pk)[0]
         self.forms = edit_good_details_form_group(request)
         self.action = edit_good_details
-        self.data = get_good_details(request, self.object_pk)[0]
 
     def get_data(self):
         if self.data.get("is_component") and self.data.get("component_details"):

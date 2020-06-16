@@ -299,7 +299,7 @@ def edit_good_details_form_group(request):
         [
             product_military_use_form(request),
             conditional(is_military_use, product_component_form(request)),
-            conditional(is_component, product_uses_information_security(request)),
+            conditional(is_military_use and is_component, product_uses_information_security(request)),
         ]
     )
 
