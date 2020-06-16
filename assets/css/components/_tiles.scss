@@ -9,21 +9,19 @@
 	@include govuk-media-query($from: desktop) {
 		grid-template-columns: 1fr 1fr 1fr!important;
 	}
-	grid-gap: (govuk-spacing(3) + 4px) govuk-spacing(3);
+	grid-gap: govuk-spacing(3) govuk-spacing(3);
+	margin-bottom: govuk-spacing(3);
 }
 
 .app-tile {
 	@include govuk-responsive-padding(5);
-	@include govuk-font($size: 16);
 	background-color: govuk-colour("light-grey");
-	border-top: 4px solid $govuk-brand-colour;
+	border-top: govuk-spacing(1) solid $govuk-brand-colour;
 	box-sizing: border-box;
-	padding-right: govuk-spacing(8);
-	min-height: 200px!important;
-	color: $govuk-brand-colour!important;
+	padding-bottom: 0!important;
 
-	@include govuk-media-query($from: tablet) {
-		min-height: 150px;
+	& > * {
+		margin-bottom: govuk-spacing(3)!important;
 	}
 
 	.lite-notification-bubble {
@@ -34,16 +32,18 @@
 		margin-left: govuk-spacing(1);
 	}
 
-	li,
-	p {
-		color: $govuk-text-colour!important;
+	.app-tile__heading {
+		@extend .govuk-link;
+		@extend .govuk-link--no-visited-state;
+		@include govuk-font($size: 19, $weight: bold);
+		display: inline-block;
+		text-decoration: underline;
 	}
 
-	.app-tile__heading {
-		@include govuk-font($size: 19, $weight: bold);
-		margin-bottom: govuk-spacing(1);
-		text-decoration: underline;
-		margin-right: govuk-spacing(1);
+	.app-tile__body {
+		@include govuk-font($size: 16, $line-height: 1.5);
+		margin: 0;
+		padding: 0;
 	}
 
 	.app-tile__link {
