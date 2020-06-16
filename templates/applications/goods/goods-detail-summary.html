@@ -1,8 +1,7 @@
 {% extends 'layouts/base.html' %}
 
 {% block back_link %}
-	<a href="{% url 'applications:task_list' application_id %}" id="back-link"
-	   class="govuk-back-link">{% lcs 'goods.GoodsDetailSummary.BACK_BUTTON' %}</a>
+	<a href="{% url 'applications:task_list' application_id %}" id="back-link" class="govuk-back-link">{% lcs 'goods.GoodsDetailSummary.BACK_BUTTON' %}</a>
 {% endblock %}
 
 {% block body %}
@@ -106,8 +105,7 @@
 					{% else %}
 						<dd class="govuk-summary-list__value">
 							{% for document in good.good.documents %}
-								<a {% if document.safe == True %}href="{% url 'goods:document' pk=good.good.id file_pk=document.id %}"{% endif %}
-								   class="govuk-link--no-visited-state">{{ document.name }}</a><br>
+								<a {% if document.safe == True %}href="{% url 'goods:document' pk=good.good.id file_pk=document.id %}"{% endif %} class="govuk-link--no-visited-state">{{ document.name }}</a><br>
 							{% endfor %}
 						</dd>
 					{% endif %}

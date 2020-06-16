@@ -137,7 +137,7 @@
 				</dd>
 				<dd class="govuk-summary-list__actions">
 					{% if good.status.key == 'draft' %}
-						<a id="link-edit" class="govuk-link govuk-link--no-visited-state" href="{% url 'goods:edit' good.id %}#description">Change</a>
+						<a id="change-good-description" class="govuk-link govuk-link--no-visited-state" href="{% url 'goods:edit' good.id %}#description">Change</a>
 					{% endif %}
 				</dd>
 			</div>
@@ -190,7 +190,7 @@
 				</dd>
 				<dd class="govuk-summary-list__actions">
 					{% if good.status.key == 'draft' %}
-						<a id="link-edit" class="govuk-link govuk-link--no-visited-state" href="{% url 'goods:edit_good' good.id %}#description">Change</a>
+						<a id="change-good-details" class="govuk-link govuk-link--no-visited-state" href="{% url 'goods:edit_good' good.id %}">Change</a>
 					{% endif %}
 				</dd>
 			</div>
@@ -206,7 +206,7 @@
 				</dd>
 				<dd class="govuk-summary-list__actions">
 					{% if good.status.key == 'draft' %}
-						<a id="link-edit" class="govuk-link govuk-link--no-visited-state" href="{% url 'goods:edit_good' good.id %}#description">Change</a>
+						<a class="govuk-link govuk-link--no-visited-state" href="{% url 'goods:edit_good' good.id %}">Change</a>
 					{% endif %}
 				</dd>
 			</div>
@@ -226,7 +226,7 @@
 				</dd>
 				<dd class="govuk-summary-list__actions">
 					{% if good.status.key == 'draft' %}
-						<a id="link-edit" class="govuk-link govuk-link--no-visited-state" href="{% url 'goods:edit_good' good.id %}#description">Change</a>
+						<a class="govuk-link govuk-link--no-visited-state" href="{% url 'goods:edit_good' good.id %}">Change</a>
 					{% endif %}
 				</dd>
 			</div>
