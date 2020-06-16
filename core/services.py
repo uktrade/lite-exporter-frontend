@@ -298,7 +298,7 @@ def get_open_general_licences(
     disable_pagination=True,
     active_only=None,
 ):
-    data = get(request, OPEN_GENERAL_LICENCES_URL + convert_parameters_to_query_params(locals()),).json()
+    data = get(request, OPEN_GENERAL_LICENCES_URL + convert_parameters_to_query_params(locals())).json()
 
     if convert_to_options:
         return [

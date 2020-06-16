@@ -4,8 +4,6 @@ from lite_forms.components import Option
 def get_potential_ogl_control_list_entries(open_general_licences):
     control_list_entries = []
 
-    print(open_general_licences)
-
     for open_general_licence in open_general_licences:
         for control_list_entry in open_general_licence["control_list_entries"]:
             if control_list_entry not in control_list_entries:
