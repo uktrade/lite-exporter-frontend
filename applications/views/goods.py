@@ -211,6 +211,7 @@ class RemovePreexistingGood(TemplateView):
 
 
 class GoodsDetailSummary(TemplateView):
+    # CHECK YOUR ANSWERS PAGE
     def get(self, request, **kwargs):
         application_id = str(kwargs["pk"])
         application = get_application(request, application_id)
@@ -226,6 +227,6 @@ class AddGoodsSummary(TemplateView):
         good_id = str(kwargs["good_pk"])
         good = get_good(request, good_id, full_detail=True)[0]
 
-        context = {"good": good, "application_id": application_id}
+        context = {"good": good, "application_id": application_id, "good_id": good_id}
 
         return render(request, "applications/goods/add-good-detail-summary.html", context)

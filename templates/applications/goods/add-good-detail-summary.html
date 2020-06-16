@@ -45,11 +45,12 @@
 			<dd class="govuk-summary-list__value">
 				{{ good.part_number|default_na }}
 			</dd>
-		<dd class="govuk-summary-list__actions">
-			{% if good.status.key == 'draft' %}
-				<a class="govuk-link govuk-link--no-visited-state" href="{% url 'goods:edit' good.id %}#part_number">Change</a>
-			{% endif %}
-		</dd>
+			<dd class="govuk-summary-list__actions">
+				{% if good.status.key == 'draft' %}
+					<a class="govuk-link govuk-link--no-visited-state"
+					   href="{% url 'goods:edit' good.id %}#part_number">Change</a>
+				{% endif %}
+			</dd>
 		</div>
 
 		<div class="govuk-summary-list__row">
@@ -65,12 +66,12 @@
 					{{ good.control_list_entries|default_na }}
 				</dd>
 			{% endif %}
-		<dd class="govuk-summary-list__actions">
-			{% if good.status.key == 'draft' %}
-				<a class="govuk-link govuk-link--no-visited-state"
-				   href="{% url 'goods:edit' good.id %}#pane_is_good_controlled">Change</a>
-			{% endif %}
-		</dd>
+			<dd class="govuk-summary-list__actions">
+				{% if good.status.key == 'draft' %}
+					<a class="govuk-link govuk-link--no-visited-state"
+					   href="{% url 'goods:edit' good.id %}#pane_is_good_controlled">Change</a>
+				{% endif %}
+			</dd>
 		</div>
 		<div class="govuk-summary-list__row">
 			<dt class="govuk-summary-list__key">
@@ -79,12 +80,12 @@
 			<dd class="govuk-summary-list__value">
 				{{ good.is_pv_graded.value }}
 			</dd>
-		<dd class="govuk-summary-list__actions">
-			{% if good.status.key == 'draft' %}
-				<a class="govuk-link govuk-link--no-visited-state"
-				   href="{% url 'goods:edit_grading' good.id %}#pane_is_good_controlled">Change</a>
-			{% endif %}
-		</dd>
+			<dd class="govuk-summary-list__actions">
+				{% if good.status.key == 'draft' %}
+					<a class="govuk-link govuk-link--no-visited-state"
+					   href="{% url 'goods:edit_grading' good.id %}#pane_is_good_controlled">Change</a>
+				{% endif %}
+			</dd>
 		</div>
 
 		<div class="govuk-summary-list__row">
@@ -138,11 +139,13 @@
 			<dd class="govuk-summary-list__actions">
 				{% if good.status.key == 'draft' %}
 					<a id="link-edit" class="govuk-link govuk-link--no-visited-state"
-					  href="{% url 'applications:edit_good_details' application_id good.id %}#description">Change</a>
+					   href="{% url 'applications:edit_good_details' application_id good.id %}#description">Change</a>
 				{% endif %}
 			</dd>
 		</div>
 
 	</dl>
+	<a class="govuk-button" id="button-attach-document"
+	   href="{% url 'applications:add_document' application_id good_id %}">Save and Continue</a>
 
 {% endblock %}
