@@ -9,7 +9,7 @@ So that I can register for all types of OGL
   Scenario: Create an ogel
     Given I go to exporter homepage and choose Test Org
     Given an ogel licence has been added
-    When I create a ogel application of a "ML1a" for "United Kingdom"
+    When I search for an ogel application of type "ML1a" for "United Kingdom"
     When I select the created OGEL
     And I agree to the ogel declaration
     Then application is submitted

@@ -7,6 +7,8 @@ class OgelPage(BasePage):
     COUNTRY_ID = "country"
     FILTER_NAME_ID = "name"
     PARTIAL_OGEL_ID = "open_general_licence-"
+    OGEL_TAB = "tab-open_general_licences"
+    OGEL_ACCORDION_IN_RESULTS = "accordion-heading-1"
 
     def enter_control_list_entry(self, control_list_entry):
         functions.send_keys_to_autocomplete(self.driver, self.CONTROL_LIST_ENTRY_ID, control_list_entry)
@@ -25,3 +27,9 @@ class OgelPage(BasePage):
         self.driver.find_element_by_id(self.FILTER_NAME_ID).clear()
         self.driver.find_element_by_id(self.FILTER_NAME_ID).send_keys(name)
         functions.apply_filters(self.driver)
+
+    def click_ogel_tab(self):
+        self.driver.find_element_by_id(self.OGEL_TAB).click()
+
+    def get_text_of_ogel_accordion(self):
+        return self.driver.find_element_by_id(self.OGEL_ACCORDION_IN_RESULTS).text

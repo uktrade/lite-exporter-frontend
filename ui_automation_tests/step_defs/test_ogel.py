@@ -14,13 +14,11 @@ scenarios(
 
 @given("an ogel licence has been added")  # noqa
 def ogel_licence_created(driver, api_test_client, context):  # noqa
-    # case = api_test_client.ogel.get_ogels()
-    # print(case)
     case = api_test_client.ogel.add_ogel(context)
     context.ogel_id = case
 
 
-@when(parsers.parse('I create a ogel application of a "{good_type}" for "{country}"'))  # noqa
+@when(parsers.parse('I search for an ogel application of type "{good_type}" for "{country}"'))  # noqa
 def create_standard_application(driver, good_type, country, context):  # noqa
     ExporterHubPage(driver).click_apply_for_a_licence()
     ApplyForALicencePage(driver).select_licence_type("export_licence")
@@ -44,10 +42,11 @@ def ogel_declaration(driver):
 
 @when("I go to the OGEL tab")
 def go_to_ogel_tab(driver):
-    driver.find_element_by_id("tab-open_general_licences").click()
+    OgelPage(driver).click_ogel_tab()
 
 
 @then("I see my OGEL displayed")
 def ogel_displayed(driver, context):
-    OgelPage(driver).filter_by_name(context.ogel_name)
-    assert context.ogel_name in driver.find_element_by_id("accordion-heading-1").text
+    ogel = OgelPage(driver)
+    ogel.filter_by_name(context.ogel_name)
+    assert context.ogel_name in ogel.get_text_of_ogel_accordion(), context.ogel_name + " is not found in " + ogel.get_text_of_ogel_accordion()
