@@ -2,7 +2,7 @@ from ui_automation_tests.pages.BasePage import BasePage
 
 
 class Shared(BasePage):
-    HEADING = ".govuk-heading-xl"  # CSS
+    HEADING = ".govuk-heading-l"  # CSS
     RADIO_BUTTONS = ".govuk-radios__label"  # CSS
     ERROR_MESSAGES = ".govuk-error-summary__body"
     GOV_TABLE_BODY = ".govuk-table__body"
