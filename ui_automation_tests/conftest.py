@@ -735,3 +735,8 @@ def assert_ref_num(driver):  # noqa
 @when("I change my reference number")
 def change_ref_num(driver, context):  # noqa
     enter_export_licence(driver, "yes", "12345678", context)
+
+
+@when("I go to the licences page")
+def licences_page(driver, exporter_url):
+    driver.get(exporter_url.rstrip("/") + "/licences/")
