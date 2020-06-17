@@ -278,20 +278,19 @@ def pv_details_form(request):
 
 
 def add_good_form_group(request, is_pv_graded: bool = None, draft_pk: str = None):
-    is_military_use = request.POST.get("is_military_use", "") == "yes_designed"
-    is_component = request.POST.get("is_component", "").startswith("yes")
     return FormGroup(
         [
             product_category_form(request),
             add_goods_questions(request, draft_pk),
             conditional(is_pv_graded, pv_details_form(request)),
             product_military_use_form(request),
-            conditional(is_military_use, product_component_form(request)),
-            conditional(is_component, product_uses_information_security(request)),
+            product_component_form(request),
+            product_uses_information_security(request),
         ]
     )
 
 
+# TODO DELETE
 def edit_good_details_form_group(request):
     is_military_use = request.POST.get("is_military_use", "") == "yes_designed"
     is_component = request.POST.get("is_component", "").startswith("yes")
