@@ -19,7 +19,7 @@ from applications.views import (
 )
 from applications.views.goods import AddGoodsSummary, GoodsDetailSummaryCheckYourAnswers
 from applications.views.parties import consignees, end_users, third_parties, ultimate_end_users
-from goods.views import EditGoodDetails, EditGood, EditGrading
+from goods.views import EditGoodDetails, EditGood, EditGrading, GoodMilitaryUse, GoodComponent, GoodInformationSecurity
 
 app_name = "applications"
 urlpatterns = [
@@ -46,6 +46,13 @@ urlpatterns = [
     # Goods
     path("<uuid:pk>/goods/", goods.ApplicationGoodsList.as_view(), name="goods"),
     path("<uuid:pk>/goods/add-new/", goods.AddGood.as_view(), name="new_good"),
+    path("<uuid:pk>/goods/<uuid:good_pk>/edit-military-use/", GoodMilitaryUse.as_view(), name="good_military_use"),
+    path("<uuid:pk>/goods/<uuid:good_pk>/edit-good-component/", GoodComponent.as_view(), name="good_component"),
+    path(
+        "<uuid:pk>/goods/<uuid:good_pk>/edit-information-security/",
+        GoodInformationSecurity.as_view(),
+        name="good_information_security",
+    ),
     path(
         "<uuid:pk>/goods/add-new/<uuid:good_pk>/good-detail-summary/",
         AddGoodsSummary.as_view(),

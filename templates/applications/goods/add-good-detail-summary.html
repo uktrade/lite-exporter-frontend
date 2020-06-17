@@ -95,7 +95,7 @@
 			</dd>
 			<dd class="govuk-summary-list__actions">
 				{% if good.status.key == 'draft' %}
-					<a id="change-good-details" class="govuk-link govuk-link--no-visited-state" href="{% url 'applications:edit_good_details' application_id good.id %}">Change</a>
+					<a id="change-good-details" class="govuk-link govuk-link--no-visited-state" href="{% url 'applications:good_military_use' application_id good.id %}">Change</a>
 				{% endif %}
 			</dd>
 		</div>
@@ -111,7 +111,7 @@
 			</dd>
 			<dd class="govuk-summary-list__actions">
 				{% if good.status.key == 'draft' %}
-					<a class="govuk-link govuk-link--no-visited-state" href="{% url 'applications:edit_good_details' application_id good.id %}">Change</a>
+					<a class="govuk-link govuk-link--no-visited-state" href="{% url 'applications:good_component' application_id good.id %}">Change</a>
 				{% endif %}
 			</dd>
 		</div>
@@ -131,7 +131,7 @@
 			</dd>
 			<dd class="govuk-summary-list__actions">
 				{% if good.status.key == 'draft' %}
-					<a class="govuk-link govuk-link--no-visited-state" href="{% url 'applications:edit_good_details' application_id good.id %}">Change</a>
+					<a class="govuk-link govuk-link--no-visited-state" href="{% url 'applications:good_information_security' application_id good.id %}">Change</a>
 				{% endif %}
 			</dd>
 		</div>
