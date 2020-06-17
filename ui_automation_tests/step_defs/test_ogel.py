@@ -7,9 +7,7 @@ from pages.generic_application.declaration import DeclarationPage
 from pages.ogel_pages import OgelPage
 from shared import functions
 
-scenarios(
-    "../features/submit_open_application.feature", "../features/ogel.feature", strict_gherkin=False
-)
+scenarios("../features/submit_open_application.feature", "../features/ogel.feature", strict_gherkin=False)
 
 
 @given("an ogel licence has been added")  # noqa
@@ -49,4 +47,6 @@ def go_to_ogel_tab(driver):
 def ogel_displayed(driver, context):
     ogel = OgelPage(driver)
     ogel.filter_by_name(context.ogel_name)
-    assert context.ogel_name in ogel.get_text_of_ogel_accordion(), context.ogel_name + " is not found in " + ogel.get_text_of_ogel_accordion()
+    assert context.ogel_name in ogel.get_text_of_ogel_accordion(), (
+        context.ogel_name + " is not found in " + ogel.get_text_of_ogel_accordion()
+    )
