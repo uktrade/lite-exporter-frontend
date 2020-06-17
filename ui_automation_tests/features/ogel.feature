@@ -8,11 +8,11 @@ So that I can register for all types of OGL
   @LT_2110_ogel @regression
   Scenario: Create an ogel
     Given I go to exporter homepage and choose Test Org
-    Given an ogel licence has been added
+    And an ogel licence has been added
     When I search for an ogel application of type "ML1a" for "United Kingdom"
-    When I select the created OGEL
+    And I select the created OGEL
     And I agree to the ogel declaration
     Then application is submitted
     When I go to the licences page
-    When I go to the OGEL tab
+    And I go to the OGEL tab
     Then I see my OGEL displayed
