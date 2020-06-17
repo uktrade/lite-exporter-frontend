@@ -15,11 +15,6 @@ def final_advice_open(context, decision, api_test_client):
     )
 
 
-@when("I go to the licences page")
-def licences_page(driver, exporter_url):
-    driver.get(exporter_url.rstrip("/") + "/licences/")
-
-
 @then("I see my standard licence")
 def standard_licence_row(context, driver):
     find_paginated_item_by_id(LicencesPage.LICENCE_ROW_PARTIAL_ID + context.licence, driver)
