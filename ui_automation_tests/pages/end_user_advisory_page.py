@@ -11,6 +11,7 @@ class EndUserAdvisoryPage(BasePage):
     CASE_NOTE_CSS_SELECTOR = ".lite-application-note"
     NAME_FILTER_ID = "name"
     BUTTON_APPLY_FILTERS = "button-apply-filters"
+    COPY_LINK_ID = "copy"
 
     def click_apply_for_advisories(self):
         self.driver.find_element_by_id(self.APPLY_FOR_ADVISORY).click()
@@ -43,4 +44,4 @@ class EndUserAdvisoryPage(BasePage):
         )
 
     def click_row_copy(self):
-        self.driver.find_element_by_css_selector(self.TABLE_ROW).find_element_by_link_text("Copy").click()
+        self.driver.find_element_by_css_selector(self.TABLE_ROW).find_element_by_id(self.COPY_LINK_ID).click()
