@@ -7,7 +7,7 @@ from ui_automation_tests.pages.generic_application.declaration import Declaratio
 from ui_automation_tests.pages.ogel_pages import OgelPage
 from ui_automation_tests.shared import functions
 
-scenarios("../features/submit_open_application.feature", "../features/ogel.feature", strict_gherkin=False)
+scenarios("../features/ogel.feature", strict_gherkin=False)
 
 
 @given("an ogel licence has been added")  # noqa
