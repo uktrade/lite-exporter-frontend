@@ -739,5 +739,5 @@ def change_ref_num(driver, context):  # noqa
 
 
 @when("I go to the licences page")
-def licences_page(driver, exporter_url):
+def licences_page(driver, exporter_url):  # noqa
     driver.get(exporter_url.rstrip("/") + "/licences/")
