@@ -290,19 +290,6 @@ def add_good_form_group(request, is_pv_graded: bool = None, draft_pk: str = None
     )
 
 
-# TODO DELETE
-def edit_good_details_form_group(request):
-    is_military_use = request.POST.get("is_military_use", "") == "yes_designed"
-    is_component = request.POST.get("is_component", "").startswith("yes")
-    return FormGroup(
-        [
-            product_military_use_form(request),
-            conditional(is_military_use, product_component_form(request)),
-            conditional(is_military_use and is_component, product_uses_information_security(request)),
-        ]
-    )
-
-
 def edit_good_detail_form(request, good_id):
     return Form(
         title=EditGoodForm.TITLE,

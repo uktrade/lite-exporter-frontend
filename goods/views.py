@@ -29,7 +29,6 @@ from goods.forms import (
     add_good_form_group,
     edit_good_detail_form,
     edit_grading_form,
-    edit_good_details_form_group,
     product_military_use_form,
     product_component_form,
     product_uses_information_security,
@@ -293,36 +292,6 @@ class RaiseGoodsQuery(SingleFormView):
         self.form = raise_a_goods_query(self.object_pk, raise_a_clc_query, raise_a_pv_query)
         self.action = raise_goods_query
         self.success_url = reverse_lazy("goods:good", kwargs={"pk": self.object_pk})
-
-
-class EditGoodDetails(MultiFormView):
-    application_id = None
-
-    def init(self, request, **kwargs):
-        if "good_pk" in kwargs:
-            # coming from the application
-            self.object_pk = str(kwargs["good_pk"])
-            self.application_id = str(kwargs["pk"])
-        else:
-            self.object_pk = str(kwargs["pk"])
-        self.data = get_good_details(request, self.object_pk)[0]
-        self.forms = edit_good_details_form_group(request)
-        self.action = edit_good_details
-
-    def get_data(self):
-        if self.data.get("is_component") and self.data.get("component_details"):
-            detail_field = COMPONENT_SELECTION_TO_DETAIL_FIELD_MAP[self.data["is_component"]]
-            self.data[detail_field] = self.data["component_details"]
-        return self.data
-
-    def get_success_url(self):
-        # Return to the application add good summary if adding good from the application
-        if "good_pk" in self.kwargs:
-            return reverse_lazy(
-                "applications:add_good_summary", kwargs={"pk": self.application_id, "good_pk": self.object_pk}
-            )
-        else:
-            return reverse_lazy("goods:good", kwargs={"pk": self.object_pk})
 
 
 class EditGood(SingleFormView):
