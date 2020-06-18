@@ -130,7 +130,7 @@ class ApplicationTaskList(TemplateView):
         application = get_application(request, str(kwargs["pk"]))
 
         data, status_code = submit_application(request, application_id)
-
+        
         if status_code != HTTPStatus.OK:
             return get_application_task_list(request, application, errors=data.get("errors"))
 

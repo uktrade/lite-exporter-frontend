@@ -1,3 +1,4 @@
+from django import forms
 from django.urls import reverse_lazy
 
 from conf.constants import EXHIBITION
@@ -75,3 +76,18 @@ def good_on_application_form(request, good, sub_case_type, application_id):
             ),
             javascript_imports={"/javascripts/add-good.js"},
         )
+
+
+class ImportSpireProductForm(forms.Form):
+    page_size = 30
+
+    licence_ref = forms.CharField(required=False)
+    part_no = forms.CharField(required=False)
+    description = forms.CharField(required=False)
+    page = forms.IntegerField(widget=forms.HiddenInput(), required=False, initial=1)
+
+    def clean(self):
+        super().clean()
+        # pagination
+        self.cleaned_data["limit"] = self.page_size
+        self.cleaned_data["offset"] = (self.cleaned_data["page"] - 1) * self.page_size

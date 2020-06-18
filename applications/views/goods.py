@@ -1,13 +1,16 @@
 from http import HTTPStatus
 
+from django.conf import settings
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import TemplateView
+from django.views.generic import FormView, TemplateView
+
 from s3chunkuploader.file_handler import S3FileUploadHandler
 
-from applications.forms.goods import good_on_application_form
+from applications.forms.goods import good_on_application_form, ImportSpireProductForm
+from applications.helpers import spire
 from applications.helpers.check_your_answers import get_total_goods_value
 from applications.services import (
     get_application,
@@ -31,7 +34,7 @@ from goods.services import (
     post_good_document_sensitivity,
     validate_good,
 )
-from lite_forms.components import FiltersBar, TextInput
+from lite_forms.components import FiltersBar, HiddenField, TextInput
 from lite_forms.generators import error_page, form_page
 from lite_forms.views import SingleFormView, MultiFormView
 
@@ -95,11 +98,58 @@ class ExistingGoodsList(TemplateView):
         return render(request, "applications/goods/preexisting.html", context)
 
 
-class AddGood(MultiFormView):
+class PrepopulateFromSpireApplicationMixin:
+
+    def get_forms(self):
+        forms = super().get_forms()
+        form = forms.forms[0]
+        if 'licence' in self.request.GET:
+            form.post_url = '?' + self.request.META["QUERY_STRING"]
+        return forms
+
+    def get_form(self):
+        form = super().get_form()
+        if 'licence' in self.request.GET:
+            form.post_url = '?' + self.request.META["QUERY_STRING"]
+        return form
+
+    @property
+    def spire_licence(self):
+        response = spire.client.get_license(self.request.GET["licence"])
+        response.raise_for_status()
+        return response.json()
+
+    def get_initial_data(self):
+        return {}
+
+    def get_data(self):
+        data = super().get_data() or {}
+        if "licence" in self.request.GET:
+            initial = self.get_initial_data()
+        else:
+            initial = {}
+        return {**initial, **data}
+
+
+class AddGood(PrepopulateFromSpireApplicationMixin, MultiFormView):
+    actions = [validate_good, post_goods, post_good_with_pv_grading]
+
     def init(self, request, **kwargs):
         self.draft_pk = str(kwargs["pk"])
         self.forms = add_good_form_group(request, draft_pk=self.draft_pk)
         self.action = validate_good
+
+    def get_initial_data(self):
+        for good in self.spire_licence["application"]["control_list_good_set"]:
+            if good["part_no"] == self.request.GET["part_number"]:
+                return {
+                    "description": good["description"],
+                    "part_number": good["part_no"],
+                    "is_good_controlled": "yes",
+                    "control_list_entries": [
+                        {"key": good["export_control_entry"], "value": good["export_control_entry"]}
+                    ],
+                }
 
     def on_submission(self, request, **kwargs):
         copied_request = request.POST.copy()
@@ -121,9 +171,10 @@ class AddGood(MultiFormView):
             "applications:add_good_summary",
             kwargs={"pk": self.draft_pk, "good_pk": self.get_validated_data()["good"]["id"]},
         )
+        return f"{url}?{self.request.META['QUERY_STRING']}"
 
 
-class CheckDocumentGrading(SingleFormView):
+class CheckDocumentGrading(PrepopulateFromSpireApplicationMixin, SingleFormView):
     def init(self, request, **kwargs):
         self.draft_pk = kwargs["pk"]
         self.object_pk = kwargs["good_pk"]
@@ -133,10 +184,11 @@ class CheckDocumentGrading(SingleFormView):
     def get_success_url(self):
         good = self.get_validated_data()["good"]
         if good["missing_document_reason"]:
-            url = "applications:add_good_to_application"
+            name = "applications:add_good_to_application"
         else:
-            url = "applications:attach_documents"
-        return reverse_lazy(url, kwargs={"pk": self.draft_pk, "good_pk": self.object_pk})
+            name = "applications:attach_documents"
+        url = reverse_lazy(name, kwargs={"pk": self.draft_pk, "good_pk": self.object_pk})
+        return f"{url}?{self.request.META['QUERY_STRING']}"
 
 
 @method_decorator(csrf_exempt, "dispatch")
@@ -167,7 +219,7 @@ class AttachDocument(TemplateView):
         )
 
 
-class AddGoodToApplication(SingleFormView):
+class AddGoodToApplication(PrepopulateFromSpireApplicationMixin, SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
         application = get_application(self.request, self.object_pk)
@@ -175,6 +227,14 @@ class AddGoodToApplication(SingleFormView):
         self.form = good_on_application_form(request, good, application["case_type"]["sub_type"], self.object_pk)
         self.action = post_good_on_application
         self.success_url = reverse_lazy("applications:goods", kwargs={"pk": self.object_pk})
+
+    def get_initial_data(self):
+        for good in self.spire_licence["document_instance"]["document_data"]["goods_item_list"]["goods_item"]:
+            if good["part_no"] == self.request.GET["part_number"]:
+                return {
+                    "quantity": good["goods_quantity"],
+                    "value": good["goods_value"],
+                }
 
 
 class RemovePreexistingGood(TemplateView):
@@ -212,3 +272,42 @@ class AddGoodsSummary(TemplateView):
         context = {"good": good, "application_id": application_id, "good_id": good_id}
 
         return render(request, "applications/goods/add-good-detail-summary.html", context)
+=======
+class ImportSpireProduct(FormView):
+    template_name = "applications/goods/import-from-spire.html"
+    form_class = ImportSpireProductForm
+    extra_context = {
+        "filters": FiltersBar(
+            [
+                TextInput(title="license number", name="licence_ref"),  # ARS
+                TextInput(title="description", name="description"),  # ARS
+                TextInput(title="part number", name="part_no"),
+                HiddenField(name="page", value=1),
+            ]
+        )
+    }
+
+    def get_form_kwargs(self):
+        # allows form to be submitted on GET by making self.get_form() return bound form
+        kwargs = super().get_form_kwargs()
+        if self.request.GET:
+            kwargs["data"] = self.request.GET
+        return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(
+            application=get_application(self.request, self.kwargs["pk"]), draft_id=self.kwargs["pk"], **kwargs,
+        )
+
+        form = context["form"]
+        filters = form.cleaned_data if form.is_valid() else {}
+        response = spire.client.list_licenses(
+            organisation=settings.LITE_SPIRE_ARCHIVE_EXAMPLE_ORGANISATION_ID, **filters
+        )
+        response.raise_for_status()
+        parsed = response.json()
+        context["results"] = parsed["results"]
+
+        # the {% paginator %} in the template needs this shaped data exposed
+        context["data"] = {"total_pages": parsed["count"] // form.page_size}
+        return context

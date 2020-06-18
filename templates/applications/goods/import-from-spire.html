@@ -1,0 +1,82 @@
+{% extends 'layouts/base.html' %}
+
+{% load static svg %}
+
+{% block back_link %}
+	<a href="{% url 'applications:goods' draft_id %}" id="back-link" class="govuk-back-link">Back to products</a>
+{% endblock%}
+
+{% block body %}
+	<h1 class="govuk-heading-l">{% block title %}Import product from SPIRE{% endblock %}</h1>
+
+	{% include 'filters.html' %}
+
+	{% if results %}
+
+		{% if results %}
+			<table class="govuk-table">
+				<thead class="govuk-table__head">
+					<tr class="govuk-table__row">
+						<th scope="col" class="govuk-table__header">License number</th>
+						<th scope="col" class="govuk-table__header">{% lcs 'goods.AddPreexistingGoodToApplicationForm.Table.DESCRIPTION' %}</th>
+						<th scope="col" class="govuk-table__header">{% lcs 'goods.AddPreexistingGoodToApplicationForm.Table.PART_NUMBER' %}</th>
+						<th scope="col" class="govuk-table__header"></th>
+					</tr>
+				</thead>
+				<tbody class="govuk-table__body">
+					{% for result in results %}
+						{% for good in result.document_instance.document_data.goods_item_list.goods_item %}
+							<tr class="govuk-table__row">
+								<td class="govuk-table__cell" id="good-licence-number">
+									{% if form.cleaned_data.licence_ref %}
+										{{ result.document_instance.document_data.licence_data.licence_ref|highlight_text:form.cleaned_data.licence_ref }}
+									{% else %}
+										{{ result.document_instance.document_data.licence_data.licence_ref }}
+									{% endif %}
+									{% if good.status.key == 'verified' %}<span class="app-verified__symbol">{% svg 'verified' %}</span><span class="govuk-visually-hidden"> (Verified product)</span>{% endif %}
+								</td>
+								<td class="govuk-table__cell" id="good-description">
+									{% if form.cleaned_data.description %}
+										{{ good.description|highlight_text:form.cleaned_data.description }}
+									{% else %}
+										{{ good.description }}
+									{% endif %}
+									{% if good.status.key == 'verified' %}<span class="app-verified__symbol">{% svg 'verified' %}</span><span class="govuk-visually-hidden"> (Verified product)</span>{% endif %}
+								</td>
+								<td class="govuk-table__cell" id="good-part-number">
+									{% if form.cleaned_data.part_no %}
+										{{ good.part_no|highlight_text:form.cleaned_data.part_no|default_na }}
+									{% else %}
+										{{ good.part_no|default_na }}
+									{% endif %}
+								</td>
+								<td class="govuk-table__cell lite-!-text-align-right">
+									<a href="{% url 'applications:new_good' application.id  %}?part_number={{ good.part_no }}&licence={{ result.id }}" id="add-to-application" class="govuk-link govuk-link--no-visited-state" draggable="false">
+										Add <span class="govuk-visually-hidden">{{ good.description }}</span> to application
+									</a>
+								</td>
+							</tr>
+						{% endfor %}
+					{% endfor %}
+				</tbody>
+			</table>
+			{% pagination %}
+		{% else %}
+			<div class="lite-information-text">
+				<span class="lite-information-text__icon" aria-hidden="true">!</span>
+				<p class="lite-information-text__text">
+					<span class="govuk-visually-hidden">Information</span>
+					You have no products in SPIRE matching the specified filters.
+				</p>
+			</div>
+		{% endif %}
+	{% else %}
+		<div class="lite-information-text">
+			<span class="lite-information-text__icon" aria-hidden="true">!</span>
+			<p class="lite-information-text__text">
+				<span class="govuk-visually-hidden">Information</span>
+				You have no products in SPIRE.
+			</p>
+		</div>
+	{% endif %}
+{% endblock %}
