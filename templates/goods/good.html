@@ -137,7 +137,7 @@
 				</dd>
 				<dd class="govuk-summary-list__actions">
 					{% if good.status.key == 'draft' %}
-						<a id="change-good-description" class="govuk-link govuk-link--no-visited-state" href="{% url 'goods:edit' good.id %}#description">Change</a>
+						<a id="link-edit" class="govuk-link govuk-link--no-visited-state" href="{% url 'goods:edit' good.id %}#description">Change</a>
 					{% endif %}
 				</dd>
 			</div>
@@ -190,7 +190,7 @@
 				</dd>
 				<dd class="govuk-summary-list__actions">
 					{% if good.status.key == 'draft' %}
-						<a id="change-good-details" class="govuk-link govuk-link--no-visited-state" href="{% url 'goods:good_military_use' good.id %}">Change</a>
+						<a id="change-good-military-use" class="govuk-link govuk-link--no-visited-state" href="{% url 'goods:good_military_use' good.id %}">Change</a>
 					{% endif %}
 				</dd>
 			</div>
@@ -206,7 +206,7 @@
 				</dd>
 				<dd class="govuk-summary-list__actions">
 					{% if good.status.key == 'draft' %}
-						<a class="govuk-link govuk-link--no-visited-state" href="{% url 'goods:good_component' good.id %}">Change</a>
+						<a id="change-good-is-component" class="govuk-link govuk-link--no-visited-state" href="{% url 'goods:good_component' good.id %}">Change</a>
 					{% endif %}
 				</dd>
 			</div>
@@ -226,7 +226,7 @@
 				</dd>
 				<dd class="govuk-summary-list__actions">
 					{% if good.status.key == 'draft' %}
-						<a class="govuk-link govuk-link--no-visited-state" href="{% url 'goods:good_information_security' good.id %}">Change</a>
+						<a id="change-good-information-security" class="govuk-link govuk-link--no-visited-state" href="{% url 'goods:good_information_security' good.id %}">Change</a>
 					{% endif %}
 				</dd>
 			</div>
@@ -253,7 +253,7 @@
 				</dd>
 				<dd class="govuk-summary-list__actions">
 					{% if good.status.key == 'draft' %}
-						<a class="govuk-link govuk-link--no-visited-state" href="{% url 'goods:edit_grading' good.id %}#pane_is_good_controlled">Change</a>
+						<a id="edit-good-grading" class="govuk-link govuk-link--no-visited-state" href="{% url 'goods:edit_grading' good.id %}#pane_is_good_controlled">Change</a>
 					{% endif %}
 				</dd>
 			</div>
