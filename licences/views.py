@@ -35,7 +35,10 @@ class Licences(TemplateView):
     page = 1
 
     def get_licences(self):
-        self.data = get_licences(self.request, **self.request.GET)
+        params = self.request.GET.copy()
+        if "licence_type" in params:
+            params.pop("licence_type")
+        self.data = get_licences(self.request, licence_type="licence" if self.type == "licences" else "clearance", **params)
         self.filters = [
             TextInput(name="reference", title=LicencesList.Filters.REFERENCE,),
             AutocompleteInput(
