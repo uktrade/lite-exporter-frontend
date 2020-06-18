@@ -14,8 +14,8 @@
 	{% include 'includes/tabs.html' %}
 
 	<p class="lite-filters__hint-text lite-filters__hint-text--warning">
-        {% lcs 'licences.OpenGeneralLicencesList.WARNING_LINK' as link %}
-        {{ link|markdown }}
+		{% lcs 'licences.OpenGeneralLicencesList.WARNING_LINK' as link %}
+		{{ link|markdown }}
 	</p>
 
 	{% include 'filters.html' %}
@@ -43,7 +43,7 @@
 										{{ licence.description }}
 									</li>
 									<li>
-                                        {% lcs 'licences.OpenGeneralLicencesList.READ_MORE_LINK' as read_more_link %}
+										{% lcs 'licences.OpenGeneralLicencesList.READ_MORE_LINK' as read_more_link %}
 										{{ licence.url|linkify:read_more_link }}
 									</li>
 								</ul>
@@ -74,8 +74,8 @@
 						</div>
 						<table class="govuk-table">
 							<caption class="govuk-table__caption govuk-!-margin-bottom-3">
-                                {% lcs 'licences.OpenGeneralLicencesList.Table.CAPTION' %}
-                            </caption>
+								{% lcs 'licences.OpenGeneralLicencesList.Table.CAPTION' %}
+							</caption>
 							<thead class="govuk-table__head">
 								<tr class="govuk-table__row">
 									<th scope="col" class="govuk-table__header">
@@ -85,7 +85,7 @@
 										{% lcs 'licences.OpenGeneralLicencesList.Table.SITE' %}
 									</th>
 									<th scope="col" class="govuk-table__header">
-                                        {% lcs 'licences.OpenGeneralLicencesList.Table.STATUS' %}
+										{% lcs 'licences.OpenGeneralLicencesList.Table.STATUS' %}
 									</th>
 								</tr>
 							</thead>
