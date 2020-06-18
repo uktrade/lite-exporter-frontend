@@ -154,9 +154,7 @@ def _verify_api_response(response, sender):
         # For all normal HTTPResponses we use the response content.
         content = response.headers.get("content-disposition") or response.content
         sender.accept_response(
-            response.headers["server-authorization"],
-            content=content,
-            content_type=response.headers["Content-Type"],
+            response.headers["server-authorization"], content=content, content_type=response.headers["Content-Type"],
         )
     except Exception as exc:  # noqa
         if "server-authorization" not in response.headers:
