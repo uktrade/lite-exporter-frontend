@@ -1,13 +1,7 @@
 {% extends 'layouts/base.html' %}
 
 {% block back_link %}
-	 <a href="
-		{% if application_status == 'draft' %}
-			{% url 'applications:summary' application_id %}
-		{% else %}
-			 {% url 'applications:application' application_id %}
-		{% endif %}
-	   " id="back-link" class="govuk-back-link">{% lcs 'goods.GoodsDetailSummary.BACK_BUTTON' %}</a>
+	 <a href="{% if application_status == 'draft' %} {% url 'applications:summary' application_id %} {% else %} {% url 'applications:application' application_id %} {% endif %}" id="back-link" class="govuk-back-link">{% lcs 'goods.GoodsDetailSummary.BACK_BUTTON' %}</a>
 {% endblock %}
 
 {% block body %}
