@@ -42,19 +42,19 @@ from lite_forms.styles import ButtonStyle, HeadingStyle
 
 def product_category_form(request):
     return Form(
-        title="Select a product category",
+        title=CreateGoodForm.ProductCategory.TITLE,
         questions=[
             RadioButtons(
                 title="",
                 name="item_category",
                 options=[
-                    Option(key="group1_platform", value="Platform, vehicle, system or machine"),
-                    Option(key="group1_device", value="Device, equipment or object"),
-                    Option(key="group1_components", value="Components, modules or accessories of something"),
-                    Option(key="group1_materials", value="Materials or substances"),
-                    Option(key="group2_firearms", value="Firearms"),
-                    Option(key="group3_software", value="Software"),
-                    Option(key="group3_technology", value="Technology"),
+                    Option(key="group1_platform", value=CreateGoodForm.ProductCategory.GROUP1_PLATFORM),
+                    Option(key="group1_device", value=CreateGoodForm.ProductCategory.GROUP1_DEVICE),
+                    Option(key="group1_components", value=CreateGoodForm.ProductCategory.GROUP1_COMPONENTS),
+                    Option(key="group1_materials", value=CreateGoodForm.ProductCategory.GROUP1_MATERIALS),
+                    Option(key="group2_firearms", value=CreateGoodForm.ProductCategory.GROUP2_FIREARMS),
+                    Option(key="group3_software", value=CreateGoodForm.ProductCategory.GROUP3_SOFTWARE),
+                    Option(key="group3_technology", value=CreateGoodForm.ProductCategory.GROUP3_TECHNOLOGY),
                 ],
             )
         ],
@@ -63,26 +63,26 @@ def product_category_form(request):
 
 def product_military_use_form(request):
     return Form(
-        title="Is the product for military use?",
+        title=CreateGoodForm.MilitaryUse.TITLE,
         questions=[
             RadioButtons(
                 title="",
                 name="is_military_use",
                 options=[
-                    Option(key="yes_designed", value="Yes, designed specifically for military use"),
+                    Option(key="yes_designed", value=CreateGoodForm.MilitaryUse.YES_DESIGNED),
                     Option(
                         key="yes_modified",
-                        value="Yes, modified for military use",
+                        value=CreateGoodForm.MilitaryUse.YES_MODIFIED,
                         components=[
                             TextArea(
-                                title="Provide details of the modifications",
+                                title=CreateGoodForm.MilitaryUse.MODIFIED_MILITARY_USE_DETAILS,
                                 description="",
                                 name="modified_military_use_details",
                                 optional=False,
                             ),
                         ],
                     ),
-                    Option(key="no", value="No"),
+                    Option(key="no", value=CreateGoodForm.MilitaryUse.NO),
                 ],
             )
         ],
@@ -91,7 +91,7 @@ def product_military_use_form(request):
 
 def product_component_form(request):
     return Form(
-        title="Is the product a component?",
+        title=CreateGoodForm.ProductComponent.TITLE,
         questions=[
             HiddenField("is_component_step", True),
             RadioButtons(
@@ -100,10 +100,10 @@ def product_component_form(request):
                 options=[
                     Option(
                         key="yes_designed",
-                        value="Yes, it's designed specially for hardware",
+                        value=CreateGoodForm.ProductComponent.YES_DESIGNED,
                         components=[
                             TextArea(
-                                title="Provide details of the hardware",
+                                title=CreateGoodForm.ProductComponent.DESIGNED_DETAILS,
                                 description="",
                                 name="designed_details",
                                 optional=False,
@@ -112,10 +112,10 @@ def product_component_form(request):
                     ),
                     Option(
                         key="yes_modified",
-                        value="Yes, it's been modified for hardware",
+                        value=CreateGoodForm.ProductComponent.YES_MODIFIED,
                         components=[
                             TextArea(
-                                title="Provide details of the modifications and the hardware",
+                                title=CreateGoodForm.ProductComponent.MODIFIED_DETAILS,
                                 description="",
                                 name="modified_details",
                                 optional=False,
@@ -124,17 +124,17 @@ def product_component_form(request):
                     ),
                     Option(
                         key="yes_general",
-                        value="Yes, it's a general purpose component",
+                        value=CreateGoodForm.ProductComponent.YES_GENERAL_PURPOSE,
                         components=[
                             TextArea(
-                                title="Provide details of the types of applications it's intended to be used in",
+                                title=CreateGoodForm.ProductComponent.GENERAL_DETAILS,
                                 description="",
                                 name="general_details",
                                 optional=False,
                             ),
                         ],
                     ),
-                    Option(key="no", value="No"),
+                    Option(key="no", value=CreateGoodForm.ProductComponent.NO),
                 ],
             ),
         ],
@@ -143,7 +143,7 @@ def product_component_form(request):
 
 def product_uses_information_security(request):
     return Form(
-        title="Is the product designed to employ 'information security' features?",
+        title=CreateGoodForm.ProductInformationSecurity.TITLE,
         questions=[
             HiddenField("is_information_security_step", True),
             RadioButtons(
@@ -155,14 +155,14 @@ def product_uses_information_security(request):
                         value="Yes",
                         components=[
                             TextArea(
-                                title="Provide details of the information security features",
+                                title=CreateGoodForm.ProductInformationSecurity.INFORMATION_SECURITY_DETAILS,
                                 description="",
                                 name="information_security_details",
                                 optional=True,
                             ),
                         ],
                     ),
-                    Option(key=False, value="No",),
+                    Option(key=False, value=CreateGoodForm.ProductInformationSecurity.NO),
                 ],
             ),
         ],
