@@ -14,6 +14,7 @@ scenarios("../features/submit_open_application.feature", "../features/ogel.featu
 def ogel_licence_created(apply_for_ogel):  # noqa
     pass
 
+
 @when(parsers.parse('I search for an ogel application of type "{good_type}" for "{country}"'))  # noqa
 def create_standard_application(driver, good_type, country, context):  # noqa
     ExporterHubPage(driver).click_apply_for_a_licence()
