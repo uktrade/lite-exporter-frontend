@@ -21,8 +21,9 @@ def create_standard_application(driver, good_type, country, context):  # noqa
     ApplyForALicencePage(driver).select_licence_type("export_licence")
     functions.click_submit(driver)
     enter_type_of_application(driver, "ogel", context)
-    OgelPage(driver).enter_control_list_entry(good_type)
-    OgelPage(driver).enter_country(country)
+    ogel = OgelPage(driver)
+    ogel.enter_control_list_entry(good_type)
+    ogel.enter_country(country)
 
 
 @when("I select the created OGEL")
@@ -32,8 +33,9 @@ def select_created_ogel(driver, context):
 
 @when("I agree to the ogel declaration")
 def ogel_declaration(driver):
-    DeclarationPage(driver).agree_to_ogel_conditions()
-    DeclarationPage(driver).agree_to_ogel_export_conditions()
+    declaration = DeclarationPage(driver)
+    declaration.agree_to_ogel_conditions()
+    declaration.agree_to_ogel_export_conditions()
     functions.click_submit(driver)
 
 
