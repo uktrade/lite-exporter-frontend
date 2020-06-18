@@ -13,10 +13,8 @@ scenarios(
 
 
 @given("an ogel licence has been added")  # noqa
-def ogel_licence_created(driver, api_test_client, context):  # noqa
-    case = api_test_client.ogel.add_ogel(context)
-    context.ogel_id = case
-
+def ogel_licence_created(apply_for_ogel):  # noqa
+    pass
 
 @when(parsers.parse('I search for an ogel application of type "{good_type}" for "{country}"'))  # noqa
 def create_standard_application(driver, good_type, country, context):  # noqa
