@@ -6,15 +6,15 @@ from django.views.generic import TemplateView
 
 from apply_for_a_licence.enums import OpenGeneralExportLicenceTypes
 from core.objects import Tab
-from core.services import get_control_list_entries, get_countries
 from core.services import get_open_general_licences
+from licences.filters import licences_filters
 from licences.helpers import (
     get_potential_ogl_control_list_entries,
     get_potential_ogl_countries,
     get_potential_ogl_sites,
 )
 from licences.services import get_licences, get_licence, get_nlr_letters
-from lite_content.lite_exporter_frontend.licences import LicencesList, LicencePage
+from lite_content.lite_exporter_frontend.licences import LicencesList, LicencePage, OpenGeneralLicencesList
 from lite_forms.components import (
     FiltersBar,
     TextInput,
@@ -42,18 +42,7 @@ class Licences(TemplateView):
             self.request, licence_type="licence" if self.type == "licences" else "clearance", **params
         )
         self.filters = [
-            TextInput(name="reference", title=LicencesList.Filters.REFERENCE,),
-            AutocompleteInput(
-                name="clc",
-                title=LicencesList.Filters.CLC,
-                options=get_control_list_entries(self.request, convert_to_options=True),
-            ),
-            AutocompleteInput(
-                name="country",
-                title=LicencesList.Filters.DESTINATION_COUNTRY,
-                options=get_countries(self.request, convert_to_options=True),
-            ),
-            TextInput(name="end_user", title=LicencesList.Filters.DESTINATION_NAME,),
+            *licences_filters(self.request),
             Checkboxes(
                 name="active_only",
                 options=[Option(key=True, value=LicencesList.Filters.ACTIVE)],
@@ -66,25 +55,7 @@ class Licences(TemplateView):
         params = self.request.GET.copy()
         params.pop("licence_type")
         self.data = get_nlr_letters(self.request, **params)
-        self.filters = [
-            TextInput(name="reference", title=LicencesList.Filters.REFERENCE,),
-            AutocompleteInput(
-                name="clc",
-                title=LicencesList.Filters.CLC,
-                options=get_control_list_entries(self.request, convert_to_options=True),
-            ),
-            AutocompleteInput(
-                name="country",
-                title=LicencesList.Filters.DESTINATION_COUNTRY,
-                options=get_countries(self.request, convert_to_options=True),
-            ),
-            TextInput(name="end_user", title=LicencesList.Filters.DESTINATION_NAME,),
-            Checkboxes(
-                name="active_only",
-                options=[Option(key=True, value=LicencesList.Filters.ACTIVE)],
-                classes=["govuk-checkboxes--small"],
-            ),
-        ]
+        self.filters = [*licences_filters(self.request)]
         self.template = "nlrs"
 
     def get_open_general_licences(self):
@@ -95,14 +66,22 @@ class Licences(TemplateView):
         countries = get_potential_ogl_countries(self.data)
         sites = get_potential_ogl_sites(self.data)
         self.filters = [
-            TextInput(name="name", title="name"),
-            Select(name="case_type", title="type", options=OpenGeneralExportLicenceTypes.as_options(),),
-            AutocompleteInput(name="control_list_entry", title="control list entry", options=control_list_entries,),
-            AutocompleteInput(name="country", title="country", options=countries),
-            Select(name="site", title="site", options=sites,),
+            TextInput(name="name", title=OpenGeneralLicencesList.Filters.NAME),
+            Select(
+                name="case_type",
+                title=OpenGeneralLicencesList.Filters.TYPE,
+                options=OpenGeneralExportLicenceTypes.as_options(),
+            ),
+            AutocompleteInput(
+                name="control_list_entry",
+                title=OpenGeneralLicencesList.Filters.CONTROL_LIST_ENTRY,
+                options=control_list_entries,
+            ),
+            AutocompleteInput(name="country", title=OpenGeneralLicencesList.Filters.COUNTRY, options=countries),
+            Select(name="site", title=OpenGeneralLicencesList.Filters.SITE, options=sites,),
             Checkboxes(
                 name="active_only",
-                options=[Option(key=True, value="Only show active")],
+                options=[Option(key=True, value=OpenGeneralLicencesList.Filters.ONLY_SHOW_ACTIVE)],
                 classes=["govuk-checkboxes--small"],
             ),
         ]

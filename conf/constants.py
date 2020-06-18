@@ -6,6 +6,8 @@ PAGE_DATE_FORMAT = "%d %B %Y"
 TIMEZONE = "Europe/London"
 NEWLINE = "\n"
 
+MAX_OPEN_LICENCE_RETURNS_FILE_SIZE = 1000000  # 1 MB
+
 # URLs
 ACTIVITY_URL = "/activity/"
 ORGANISATIONS_URL = "/organisations/"
@@ -40,10 +42,12 @@ DOCUMENT_SENSITIVITY_URL = "/document-sensitivity/"
 EXISTING_PARTIES_URL = "/existing-parties/"
 COUNTRIES_URL = "/countries/"
 LICENCES_URL = "/licences/"
+LICENCES_OPEN_GENERAL_POST_URL = "/licences/open-general-licences/"
 NLR_URL = "nlrs/"
 CONTRACT_TYPES_URL = "/contract-types/"
 CONTRACT_TYPES_COUNTRIES = "/countries-contract-types/"
 OPEN_GENERAL_LICENCES_URL = "/open-general-licences/"
+OPEN_LICENCE_RETURNS_URL = "/compliance/open-licence-returns/"
 
 # Queries URLs
 QUERIES_URL = "/queries/"
