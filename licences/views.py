@@ -6,7 +6,6 @@ from django.views.generic import TemplateView
 
 from apply_for_a_licence.enums import OpenGeneralExportLicenceTypes
 from core.objects import Tab
-from core.services import get_control_list_entries, get_countries
 from core.services import get_open_general_licences
 from licences.filters import licences_filters
 from licences.helpers import (
