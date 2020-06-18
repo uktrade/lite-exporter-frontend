@@ -145,7 +145,7 @@ def go_to_exporter(driver, register_organisation, sso_sign_in, exporter_url, con
         no = utils.get_element_index_by_text(Shared(driver).get_radio_buttons_elements(), context.org_name)
         Shared(driver).click_on_radio_buttons(no)
         functions.click_submit(driver)
-    elif Shared(driver).get_text_of_heading() != context.org_name:
+    elif Shared(driver).get_text_of_organisation_heading() != context.org_name:
         Hub(driver).click_switch_link()
         no = utils.get_element_index_by_text(Shared(driver).get_radio_buttons_elements(), context.org_name)
         Shared(driver).click_on_radio_buttons(no)
