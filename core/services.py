@@ -18,7 +18,8 @@ from conf.constants import (
     STATIC_F680_CLEARANCE_TYPES_URL,
     STATIC_TRADE_CONTROL_ACTIVITIES,
     STATIC_TRADE_CONTROL_PRODUCT_CATEGORIES,
-    OPEN_GENERAL_LICENCES_URL, LICENCES_OPEN_GENERAL_POST_URL,
+    OPEN_GENERAL_LICENCES_URL,
+    LICENCES_OPEN_GENERAL_POST_URL,
 )
 from core.helpers import convert_parameters_to_query_params, convert_value_to_query_param
 from lite_content.lite_exporter_frontend.generic import Document
