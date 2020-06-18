@@ -1,7 +1,5 @@
 {% extends 'layouts/base.html' %}
 
-{% load svg static %}
-
 {% block back_link %}
 	{% include 'includes/breadcrumbs.html' with title='licences.LicencesList.BREADCRUMB' %}
 {% endblock %}
@@ -16,7 +14,8 @@
 	{% include 'includes/tabs.html' %}
 
 	<p class="lite-filters__hint-text lite-filters__hint-text--warning">
-		Read {{ 'https://www.gov.uk/government/publications/compliance-code-of-practice'|linkify:'guidance on compliance and enforcement of export controls' }}
+        {% lcs 'licences.OpenGeneralLicencesList.WARNING_LINK' as link %}
+        {{ link|markdown }}
 	</p>
 
 	{% include 'filters.html' %}
@@ -32,37 +31,38 @@
 							</span>
 						</h2>
 						<div class="govuk-accordion__section-summary govuk-hint govuk-!-margin-bottom-0" id="accordion-summary-{{ forloop.counter }}">
-							{{ licence.registrations|length }} site{{ licence.registrations|pluralize }} - Registered at {{ licence.registrations.0.submitted_at|str_date }}
+							{{ licence.registrations|length }} {{ licence.registrations|lcsp:'licences.OpenGeneralLicencesList.SUBTITLE' }} {{ licence.registrations.0.submitted_at|str_date }}
 						</div>
 					</div>
 					<div id="{{ licence.id }}-content" class="govuk-accordion__section-content" aria-labelledby="accordion-heading-{{ forloop.counter }}">
 						<div class="govuk-grid-row">
 							<div class="govuk-grid-column-two-thirds govuk-!-margin-bottom-6">
-								<p class="govuk-heading-s">Details</p>
+								<p class="govuk-heading-s">{% lcs 'licences.OpenGeneralLicencesList.DETAILS' %}</p>
 								<ul class="govuk-list govuk-list--spaced">
 									<li>
 										{{ licence.description }}
 									</li>
 									<li>
-										{{ licence.url|linkify:'Read more on GOV.UK' }}
+                                        {% lcs 'licences.OpenGeneralLicencesList.READ_MORE_LINK' as read_more_link %}
+										{{ licence.url|linkify:read_more_link }}
 									</li>
 								</ul>
 							</div>
 							<div class="govuk-grid-column-one-third govuk-!-margin-bottom-6">
-								<p class="govuk-heading-s">More information</p>
+								<p class="govuk-heading-s">{% lcs 'licences.OpenGeneralLicencesList.MORE_INFORMATION' %}</p>
 								<ul class="govuk-list govuk-list--spaced">
 									<li>
 										<span data-definition-title="{{ licence.case_type.reference.value }} ({{ licence.name }})" data-definition-subtitle="{{ licence.control_list_entries|length }} control list entr{{ licence.control_list_entries|pluralize:'y,ies' }}" data-definition-list="{% for clc in licence.control_list_entries %}{{ clc.rating }}{% if not forloop.last %}, {% endif %}{% endfor %}">
-											{{ licence.control_list_entries|length }} control list entr{{ licence.control_list_entries|pluralize:'y,ies' }}
+											{{ licence.control_list_entries|length }} {{ licence.control_list_entries|lcsp:'licences.OpenGeneralLicencesList.CONTROL_LIST_ENTRIES' }}
 										</span>
 									</li>
 									<li>
 										<span data-definition-title="{{ licence.case_type.reference.value }} ({{ licence.name }})" data-definition-subtitle="{{ licence.countries|length }} countr{{ open_general_licence.licence|pluralize:'y,ies' }}" data-definition-list="{% for country in licence.countries %}{{ country.name }}{% if not forloop.last %}, {% endif %}{% endfor %}">
-											{{ licence.countries|length }} countr{{ licence.countries|pluralize:'y,ies' }}
+											{{ licence.countries|length }} {{ licence.control_list_entries|lcsp:'licences.OpenGeneralLicencesList.COUNTRIES' }}
 										</span>
 									</li>
 									<li>
-										Documentation held at:
+										{% lcs 'licences.OpenGeneralLicencesList.DOCUMENTATION_HELD_AT' %}
 										{% for registration in licence.registrations %}
 											{% if registration.site.site_records_located_at_name %}
 												{{ registration.site.name }}
@@ -73,17 +73,19 @@
 							</div>
 						</div>
 						<table class="govuk-table">
-							<caption class="govuk-table__caption govuk-!-margin-bottom-3">Sites</caption>
+							<caption class="govuk-table__caption govuk-!-margin-bottom-3">
+                                {% lcs 'licences.OpenGeneralLicencesList.Table.CAPTION' %}
+                            </caption>
 							<thead class="govuk-table__head">
 								<tr class="govuk-table__row">
 									<th scope="col" class="govuk-table__header">
-										Reference
+										{% lcs 'licences.OpenGeneralLicencesList.Table.REFERENCE' %}
 									</th>
 									<th scope="col" class="govuk-table__header">
-										Site
+										{% lcs 'licences.OpenGeneralLicencesList.Table.SITE' %}
 									</th>
 									<th scope="col" class="govuk-table__header">
-										Status
+                                        {% lcs 'licences.OpenGeneralLicencesList.Table.STATUS' %}
 									</th>
 								</tr>
 							</thead>
