@@ -1,11 +1,11 @@
 from pytest_bdd import scenarios, when, parsers, given, then
 
-from conftest import enter_type_of_application
-from pages.apply_for_a_licence_page import ApplyForALicencePage
-from pages.exporter_hub_page import ExporterHubPage
-from pages.generic_application.declaration import DeclarationPage
-from pages.ogel_pages import OgelPage
-from shared import functions
+from ui_automation_tests.conftest import enter_type_of_application
+from ui_automation_tests.pages.apply_for_a_licence_page import ApplyForALicencePage
+from ui_automation_tests.pages.exporter_hub_page import ExporterHubPage
+from ui_automation_tests.pages.generic_application.declaration import DeclarationPage
+from ui_automation_tests.pages.ogel_pages import OgelPage
+from ui_automation_tests.shared import functions
 
 scenarios("../features/submit_open_application.feature", "../features/ogel.feature", strict_gherkin=False)
 
