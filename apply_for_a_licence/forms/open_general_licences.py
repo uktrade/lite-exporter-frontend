@@ -4,6 +4,7 @@ from apply_for_a_licence.enums import OpenGeneralExportLicenceTypes
 from core.services import get_control_list_entries, get_countries, get_open_general_licences, get_open_general_licence
 from lite_content.lite_exporter_frontend import generic
 from lite_content.lite_exporter_frontend.applications import OpenGeneralLicenceQuestions, ApplicationSuccessPage
+from lite_content.lite_exporter_frontend.licences import OpenGeneralLicenceRegistration
 from lite_forms.components import (
     FormGroup,
     Form,
@@ -193,20 +194,16 @@ def open_general_licence_submit_success_page(request, **kwargs):
     open_general_licence = get_open_general_licence(request, kwargs["pk"])
     return success_page(
         request=request,
-        title="Registration complete",
-        secondary_title="You've successfully registered for **"
-        + open_general_licence["case_type"]["reference"]["value"]
-        + " ("
-        + open_general_licence["name"]
-        + ")**",
+        title=OpenGeneralLicenceRegistration.TITLE,
+        secondary_title=OpenGeneralLicenceRegistration.SECONDARY_TITLE.format(open_general_licence["case_type"]["reference"]["value"], open_general_licence["name"]),
         description=ApplicationSuccessPage.DESCRIPTION,
         what_happens_next=[],
         includes="includes/open-general-licence.html",
         additional_context={"licence": open_general_licence},
         links={
-            "View your open general licences": reverse_lazy("licences:licences")
+            OpenGeneralLicenceRegistration.Links.VIEW_OGLS_LINK: reverse_lazy("licences:licences")
             + "?licence_type=open_general_licences",
-            ApplicationSuccessPage.APPLY_AGAIN: reverse_lazy("apply_for_a_licence:start"),
-            ApplicationSuccessPage.RETURN_TO_DASHBOARD: reverse_lazy("core:home"),
+            OpenGeneralLicenceRegistration.Links.APPLY_AGAIN: reverse_lazy("apply_for_a_licence:start"),
+            OpenGeneralLicenceRegistration.Links.RETURN_TO_DASHBOARD: reverse_lazy("core:home"),
         },
     )
