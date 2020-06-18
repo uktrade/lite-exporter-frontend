@@ -10,7 +10,7 @@
 
 {% block navigation %}
 	<div class="app-navigation" role="navigation">
-		<a href="{% url 'core:home' %}" class="app-navigation__item lite-mobile-hide">{% lcs 'hub.Navigation.ACCOUNT_HOME' %}</a>
+		<span></span>
 		{% if 'ADMINISTER_USERS' in user_permissions %}
 			<a href="{% url 'organisation:members:members' %}" class="app-navigation__item" id="link-profile">{% lcs 'hub.Navigation.YOUR_ACCOUNT' %}</a>
 		{% endif %}
@@ -27,7 +27,9 @@
 
 	{% if user_data.organisations|length > 1 %}
 		<div class="govuk-!-margin-bottom-6">
-			<a class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19" href="{% url 'core:pick_organisation' %}" id="switch-link">{% lcs 'hub.Header.SWITCH_ORG' %}</a>
+			<a class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19" href="{% url 'core:pick_organisation' %}" id="switch-link">
+				{% lcs 'hub.Header.SWITCH_ORG' %} <span class="govuk-visually-hidden">from {{ organisation.name }}</span>
+			</a>
 		</div>
 	{% endif %}
 
@@ -53,7 +55,11 @@
 			{% if existing.applications %}
 				<div class="app-tile">
 					<a href="{% url 'applications:applications' %}" class="app-tile__heading" id="link-applications">
-						{% lcs 'hub.Tiles.APPLICATIONS' %}{% if notifications.notifications.application %}<span id="applications-notifications" class="lite-notification-bubble">{{ notifications.notifications.application }}</span>
+						{% lcs 'hub.Tiles.APPLICATIONS' %}
+						{% if notifications.notifications.application %}
+							<span id="applications-notifications" class="lite-notification-bubble">
+								<span class="govuk-visually-hidden">(</span>{{ notifications.notifications.application }} <span class="govuk-visually-hidden">notifications)</span>
+							</span>
 						{% endif %}
 					</a>
 					<p class="app-tile__body">{% lcs 'hub.Tiles.Applications.CHECK_PROGRESS' %}</p>
@@ -83,12 +89,12 @@
 				<p class="app-tile__body">{% lcs 'hub.Tiles.ProductList.PRODUCTS_INCLUDE' %}</p>
 				<ol class="govuk-list govuk-!-font-size-16">
 					<li>
-						<a href="{% url 'goods:add' %}" class="govuk-link govuk-link--no-visited-state" role="button" draggable="false">
+						<a href="{% url 'goods:add' %}" class="govuk-link govuk-link--no-visited-state">
 							{% lcs 'hub.Tiles.ProductList.CLC_LINK' %}
 						</a>
 					</li>
 					<li>
-						<a href="{% url 'goods:add' %}" class="govuk-link govuk-link--no-visited-state" role="button" draggable="false">
+						<a href="{% url 'goods:add' %}" class="govuk-link govuk-link--no-visited-state">
 							{% lcs 'hub.Tiles.ProductList.GRADING_LINK' %}
 						</a>
 					</li>
@@ -113,7 +119,7 @@
 					{% lcs 'hub.Tiles.CustomsEnquiry.MAKE_ENQUIRY' %}
 				</a>
 				<p class="app-tile__body">
-					<a href="{% url "applications:applications" %}?submitted=False" class="govuk-link govuk-link--no-visited-state" role="button" draggable="false">
+					<a href="{% url "applications:applications" %}?submitted=False" class="govuk-link govuk-link--no-visited-state">
 						{% lcs 'hub.Tiles.CustomsEnquiry.DRAFT_LINK' %}
 					</a>
 				</p>

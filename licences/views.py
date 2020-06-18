@@ -13,7 +13,7 @@ from licences.helpers import (
     get_potential_ogl_countries,
     get_potential_ogl_sites,
 )
-from licences.services import get_licences, get_licence, get_nlr_licences
+from licences.services import get_licences, get_licence, get_nlr_letters
 from lite_content.lite_exporter_frontend.licences import LicencesList, LicencePage
 from lite_forms.components import (
     FiltersBar,
@@ -35,7 +35,12 @@ class Licences(TemplateView):
     page = 1
 
     def get_licences(self):
-        self.data = get_licences(self.request, **self.request.GET)
+        params = self.request.GET.copy()
+        if "licence_type" in params:
+            params.pop("licence_type")
+        self.data = get_licences(
+            self.request, licence_type="licence" if self.type == "licences" else "clearance", **params
+        )
         self.filters = [
             TextInput(name="reference", title=LicencesList.Filters.REFERENCE,),
             AutocompleteInput(
@@ -60,7 +65,7 @@ class Licences(TemplateView):
     def get_no_licence_required(self):
         params = self.request.GET.copy()
         params.pop("licence_type")
-        self.data = get_nlr_licences(self.request, **params)
+        self.data = get_nlr_letters(self.request, **params)
         self.filters = [
             TextInput(name="reference", title=LicencesList.Filters.REFERENCE,),
             AutocompleteInput(

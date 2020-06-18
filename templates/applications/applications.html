@@ -89,7 +89,7 @@
 						{% endif %}
 						<td class="govuk-table__cell">
 							<a class="govuk-link govuk-link--no-visited-state app-icon-label" href="{% url 'applications:copy' application.id %}">
-								{% lcs "applications.ApplicationsList.COPY_LINK" %}
+								{% lcs "applications.ApplicationsList.COPY_LINK" %} <span class="govuk-visually-hidden">{{ application.reference_code }}</span>
 							</a>
 						</td>
 					</tr>

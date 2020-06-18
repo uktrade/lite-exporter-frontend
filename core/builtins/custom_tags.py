@@ -401,6 +401,11 @@ def equals(ob1, ob2):
 
 
 @register.filter()
+def sentence_case(str1):
+    return str1.replace("_", " ")
+
+
+@register.filter()
 def get_address(data):
     """
     Returns a correctly formatted address
@@ -410,7 +415,7 @@ def get_address(data):
     """
     if data:
         address = data["address"]
-        country = data.get("country", data.get("address").get("country"))
+        country = data.get("country")
 
         if isinstance(address, str):
             if country:
