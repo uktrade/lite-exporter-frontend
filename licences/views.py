@@ -79,11 +79,6 @@ class Licences(TemplateView):
                 options=get_countries(self.request, convert_to_options=True),
             ),
             TextInput(name="end_user", title=LicencesList.Filters.DESTINATION_NAME,),
-            Checkboxes(
-                name="active_only",
-                options=[Option(key=True, value=LicencesList.Filters.ACTIVE)],
-                classes=["govuk-checkboxes--small"],
-            ),
         ]
         self.template = "nlrs"
 
