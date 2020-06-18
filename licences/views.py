@@ -15,7 +15,7 @@ from licences.helpers import (
     get_potential_ogl_sites,
 )
 from licences.services import get_licences, get_licence, get_nlr_letters
-from lite_content.lite_exporter_frontend.licences import LicencesList, LicencePage
+from lite_content.lite_exporter_frontend.licences import LicencesList, LicencePage, OpenGeneralLicencesList
 from lite_forms.components import (
     FiltersBar,
     TextInput,
@@ -67,14 +67,22 @@ class Licences(TemplateView):
         countries = get_potential_ogl_countries(self.data)
         sites = get_potential_ogl_sites(self.data)
         self.filters = [
-            TextInput(name="name", title="name"),
-            Select(name="case_type", title="type", options=OpenGeneralExportLicenceTypes.as_options(),),
-            AutocompleteInput(name="control_list_entry", title="control list entry", options=control_list_entries,),
-            AutocompleteInput(name="country", title="country", options=countries),
-            Select(name="site", title="site", options=sites,),
+            TextInput(name="name", title=OpenGeneralLicencesList.Filters.NAME),
+            Select(
+                name="case_type",
+                title=OpenGeneralLicencesList.Filters.TYPE,
+                options=OpenGeneralExportLicenceTypes.as_options(),
+            ),
+            AutocompleteInput(
+                name="control_list_entry",
+                title=OpenGeneralLicencesList.Filters.CONTROL_LIST_ENTRY,
+                options=control_list_entries,
+            ),
+            AutocompleteInput(name="country", title=OpenGeneralLicencesList.Filters.COUNTRY, options=countries),
+            Select(name="site", title=OpenGeneralLicencesList.Filters.SITE, options=sites,),
             Checkboxes(
                 name="active_only",
-                options=[Option(key=True, value="Only show active")],
+                options=[Option(key=True, value=OpenGeneralLicencesList.Filters.ONLY_SHOW_ACTIVE)],
                 classes=["govuk-checkboxes--small"],
             ),
         ]
