@@ -443,6 +443,16 @@ def abbreviate_string(string, length):
         return str(string)[:length] + "..."
 
 
+@register.filter
+def index(string, index):
+    return string[index]
+
+
+@register.filter
+def subtract(integer, value):
+    return int(integer) - value
+
+
 @register.filter()
 def display_clc_ratings(control_list_entries):
     ratings = [item["rating"] for item in control_list_entries]

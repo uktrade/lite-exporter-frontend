@@ -54,7 +54,7 @@ from ui_automation_tests.shared.fixtures.apply_for_application import (  # noqa
     apply_for_exhibition_clearance,
     apply_for_f680_clearance,
     apply_for_gifting_clearance,
-    apply_for_trade_control_application,
+    apply_for_standard_trade_control_application,
 )
 from ui_automation_tests.shared.fixtures.core import (  # noqa
     context,
@@ -86,13 +86,10 @@ def pytest_addoption(parser):
         parser.addoption(
             "--exporter_url", action="store", default=f"http://localhost:{str(os.environ.get('PORT'))}/", help="url"
         )
-
         lite_api_url = os.environ.get("LOCAL_LITE_API_URL", os.environ.get("LITE_API_URL"),)
-
         parser.addoption(
             "--lite_api_url", action="store", default=lite_api_url, help="url",
         )
-
     elif env == "demo":
         raise Exception("This is the demo environment - Try another environment instead")
     else:
@@ -128,11 +125,6 @@ def standard_application_exists(apply_for_standard_application):  # noqa
 
 @given("I create an open application via api")  # noqa
 def open_application_exists(apply_for_open_application):  # noqa
-    pass
-
-
-@given("an Exhibition Clearance is created")  # noqa
-def an_exhibition_clearance_is_created(driver, apply_for_exhibition_clearance):  # noqa
     pass
 
 
@@ -271,26 +263,6 @@ def suspected_wmd_end_use_details(driver, choice):  # noqa
         end_use_details.answer_is_suspected_wmd(True, fake.sentence(nb_words=30))
     else:
         end_use_details.answer_is_suspected_wmd(False)
-    functions.click_submit(driver)
-
-
-@when(parsers.parse('I answer "{choice}" for products received under transfer licence from the EU'))  # noqa
-def eu_military_end_use_details(driver, choice):  # noqa
-    end_use_details = EndUseDetailsFormPage(driver)
-    if choice == "Yes":
-        end_use_details.answer_is_eu_military(True)
-    else:
-        end_use_details.answer_is_eu_military(False)
-    functions.click_submit(driver)
-
-
-@when(parsers.parse('I answer "{choice}" for compliance with the terms of export from the EU'))  # noqa
-def eu_compliant_limitations_end_use_details(driver, choice):  # noqa
-    end_use_details = EndUseDetailsFormPage(driver)
-    if choice == "Yes":
-        end_use_details.answer_is_compliant_limitations_eu(True)
-    else:
-        end_use_details.answer_is_compliant_limitations_eu(False, fake.sentence(nb_words=30))
     functions.click_submit(driver)
 
 
@@ -466,6 +438,7 @@ def determine_that_there_is_a_closed_query(driver):  # noqa
 
 @when(parsers.parse('I select "{value}" for submitting response and click submit'))  # noqa
 def submit_response_confirmation(driver, value):  # noqa
+    # TODO get rid of this xpaths
     driver.find_element_by_xpath('//input[@value="' + value + '"]').click()
     driver.find_element_by_xpath('//button[@type="submit"]').click()
 
@@ -659,11 +632,6 @@ def agree_to_the_declaration(driver):  # noqa
     functions.click_submit(driver)
 
 
-@when("I click on the my licences link")  # noqa
-def click_licences_link(driver):  # noqa
-    ExporterHubPage(driver).click_licences()
-
-
 @given(parsers.parse('I create "{decision}" final advice'))  # noqa
 def final_advice(context, decision, api_test_client):  # noqa
     api_test_client.cases.create_final_advice(
@@ -682,9 +650,11 @@ def create_licence(context, decision, api_test_client):  # noqa
         api_test_client.picklists, case_types=["oiel", "siel", "exhc"]
     )
     api_test_client.cases.add_generated_document(context.case_id, document_template["id"], decision)
+    context.generated_document = api_test_client.context["generated_document"]
     api_test_client.cases.finalise_case(context.case_id, "approve")
-    api_test_client.cases.finalise_licence(context.case_id)
-    context.licence = api_test_client.context["licence"]
+    if decision != "no_licence_required":
+        api_test_client.cases.finalise_licence(context.case_id)
+        context.licence = api_test_client.context["licence"]
 
 
 @given(
@@ -713,23 +683,13 @@ def sections_appear_on_task_list(driver, sections):  # noqa
         assert TaskListPage(driver).get_section(section) is not None
 
 
-@then(parsers.parse('I cannot see the sections "{sections}"'))  # noqa
-def sections_did_not_appear_on_task_list(driver, sections):  # noqa
-    sections = sections.split(", ")
-    for section in sections:
-        assert TaskListPage(driver).get_section(section) is None
-
-
 @given(parsers.parse('the status is set to "{status}"'))  # noqa
 def set_status(api_test_client, context, status):  # noqa
     api_test_client.applications.set_status(context.app_id, status)
 
 
-@then("I see my edited reference number")
-def assert_ref_num(driver):  # noqa
-    assert "12345678" in driver.find_element_by_css_selector(".lite-task-list").text
-
-
-@when("I change my reference number")
-def change_ref_num(driver, context):  # noqa
-    enter_export_licence(driver, "yes", "12345678", context)
+@given(parsers.parse('I create "{decision}" final advice for open application'))  # noqa
+def final_advice_open(context, decision, api_test_client):  # noqa
+    api_test_client.cases.create_final_advice(
+        context.case_id, [{"type": decision, "text": "abc", "note": "", "goods_type": context.goods_type["id"]}]
+    )
