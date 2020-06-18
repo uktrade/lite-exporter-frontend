@@ -2,7 +2,7 @@ from ui_automation_tests.pages.BasePage import BasePage
 
 
 class Shared(BasePage):
-    ORG_NAME_HEADING_ID = "org_name"  # CSS
+    ORG_NAME_HEADING_ID = "org_name"
     RADIO_BUTTONS = ".govuk-radios__label"  # CSS
     ERROR_MESSAGES = ".govuk-error-summary__body"
     GOV_TABLE_BODY = ".govuk-table__body"
