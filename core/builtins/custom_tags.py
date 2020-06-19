@@ -195,7 +195,10 @@ def linkify(address, name=None):
     address = escape(address)
     name = escape(name)
 
-    return safe(f'<a href="{address}" class="govuk-link govuk-link--no-visited-state">{name}</a>')
+    return safe(
+        f'<a href="{address}" rel="noreferrer noopener" target="_blank" class="govuk-link govuk-link--no-visited-state">{name} '
+        f'<span class="govuk-visually-hidden">(opens in new tab)</span></a>'
+    )
 
 
 @register.filter()
@@ -398,6 +401,11 @@ def equals(ob1, ob2):
 
 
 @register.filter()
+def sentence_case(str1):
+    return str1.replace("_", " ")
+
+
+@register.filter()
 def get_address(data):
     """
     Returns a correctly formatted address
@@ -441,3 +449,13 @@ def abbreviate_string(string, length):
         return string
     else:
         return str(string)[:length] + "..."
+
+
+@register.filter
+def index(string, index):
+    return string[index]
+
+
+@register.filter
+def subtract(integer, value):
+    return int(integer) - value
