@@ -99,6 +99,15 @@
 
 				<div class="govuk-summary-list__row">
 					<dt class="govuk-summary-list__key">
+						{% lcs 'goods.GoodsDetailSummary.INCORPORATED' %}
+					</dt>
+					<dd class="govuk-summary-list__value">
+						{{ good.good.is_good_incorporated|friendly_boolean|default_na }}
+					</dd>
+				</div>
+
+				<div class="govuk-summary-list__row">
+					<dt class="govuk-summary-list__key">
 						{% lcs "goods.GoodsDetailSummary.DOCUMENTS" %}
 					</dt>
 

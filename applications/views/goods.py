@@ -187,7 +187,6 @@ class RemovePreexistingGood(TemplateView):
 
 
 class GoodsDetailSummaryCheckYourAnswers(TemplateView):
-    # CHECK YOUR ANSWERS PAGE
     def get(self, request, **kwargs):
         application_id = str(kwargs["pk"])
         application = get_application(request, application_id)
