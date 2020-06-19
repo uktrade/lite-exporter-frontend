@@ -5,6 +5,22 @@
 {% endblock %}
 
 {% block body %}
+	{% if errors %}
+		<div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
+			<h2 class="govuk-error-summary__title" id="error-summary-title">
+				{% lcs "THERE_IS_A_PROBLEM" %}
+			</h2>
+			<div class="govuk-error-summary__body">
+				<ul class="govuk-list govuk-error-summary__list">
+					<li>
+						{% for error in errors %}
+							<a href="#">{{ error }}</a>
+						{% endfor %}
+					</li>
+				</ul>
+			</div>
+		</div>
+	{% endif %}
 	<div class="lite-app-bar">
 		<div class="lite-app-bar__content">
 			<h1 class="govuk-heading-l">
@@ -18,13 +34,15 @@
 			</h1>
 		</div>
 		<div class="lite-app-bar__controls">
-			<a href="{% url 'applications:edit_location' application.id %}" class="govuk-button govuk-button--secondary">
-				{% if application.goods_locations.type == 'sites' %}
-					Change to external locations
-				{% else %}
-					Change to sites
-				{% endif %}
-			</a>
+			{% if is_application_draft_or_major_edit  %}
+				<a href="{% url 'applications:edit_location' application.id %}" class="govuk-button govuk-button--secondary">
+					{% if application.goods_locations.type == 'sites' %}
+						Change to external locations
+					{% else %}
+						Change to sites
+					{% endif %}
+				</a>
+			{% endif %}
 			{% if application.goods_locations.type == 'sites' %}
 				<a href="{% url 'applications:existing_sites' application.id %}" class="govuk-button">
 					{% lcs 'goods.GoodsLocationPage.SELECT_SITES_BUTTON' %}

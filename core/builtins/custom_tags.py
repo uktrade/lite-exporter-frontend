@@ -38,6 +38,11 @@ def get_const_string(value):
         object = getattr(object_to_search, nested_properties_list[0])
         if len(nested_properties_list) == 1:
             # We have reached the end of the path and now have the string
+            if isinstance(object, str):
+                object = mark_safe(  # nosec
+                    object.replace("<!--", "<span class='govuk-visually-hidden'>").replace("-->", "</span>")
+                )
+
             return object
         else:
             # Search the object for the next property in `nested_properties_list`
@@ -50,6 +55,22 @@ def get_const_string(value):
         return get(path_object, path[1:]) if len(path) > 1 else path_object
     except AttributeError:
         return STRING_NOT_FOUND_ERROR
+
+
+@register.filter(name="lcsp")
+def pluralize_lcs(items, string):
+    """
+    Given a list of items and an LCS string, return the singular version if the list
+    contains one item otherwise return the plural version
+    {{ open_general_licence.control_list_entries|lcsp:'open_general_licences.List.Table.CONTROL_LIST_ENTRIES' }}
+    CONTROL_LIST_ENTRIES = "Control list entry/Control list entries"
+    """
+    strings = get_const_string(string).split("/")
+
+    if items and len(items) == 1:
+        return strings[0]
+    else:
+        return strings[1]
 
 
 @register.filter
@@ -174,7 +195,10 @@ def linkify(address, name=None):
     address = escape(address)
     name = escape(name)
 
-    return safe(f'<a href="{address}" class="govuk-link govuk-link--no-visited-state">{name}</a>')
+    return safe(
+        f'<a href="{address}" rel="noreferrer noopener" target="_blank" class="govuk-link govuk-link--no-visited-state">{name} '
+        f'<span class="govuk-visually-hidden">(opens in new tab)</span></a>'
+    )
 
 
 @register.filter()
@@ -377,6 +401,11 @@ def equals(ob1, ob2):
 
 
 @register.filter()
+def sentence_case(str1):
+    return str1.replace("_", " ")
+
+
+@register.filter()
 def get_address(data):
     """
     Returns a correctly formatted address
@@ -420,3 +449,13 @@ def abbreviate_string(string, length):
         return string
     else:
         return str(string)[:length] + "..."
+
+
+@register.filter
+def index(string, index):
+    return string[index]
+
+
+@register.filter
+def subtract(integer, value):
+    return int(integer) - value

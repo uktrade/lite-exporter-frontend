@@ -6,6 +6,8 @@ PAGE_DATE_FORMAT = "%d %B %Y"
 TIMEZONE = "Europe/London"
 NEWLINE = "\n"
 
+MAX_OPEN_LICENCE_RETURNS_FILE_SIZE = 1000000  # 1 MB
+
 # URLs
 ACTIVITY_URL = "/activity/"
 ORGANISATIONS_URL = "/organisations/"
@@ -40,8 +42,12 @@ DOCUMENT_SENSITIVITY_URL = "/document-sensitivity/"
 EXISTING_PARTIES_URL = "/existing-parties/"
 COUNTRIES_URL = "/countries/"
 LICENCES_URL = "/licences/"
+LICENCES_OPEN_GENERAL_POST_URL = "/licences/open-general-licences/"
+NLR_URL = "nlrs/"
 CONTRACT_TYPES_URL = "/contract-types/"
 CONTRACT_TYPES_COUNTRIES = "/countries-contract-types/"
+OPEN_GENERAL_LICENCES_URL = "/open-general-licences/"
+OPEN_LICENCE_RETURNS_URL = "/compliance/open-licence-returns/"
 
 # Queries URLs
 QUERIES_URL = "/queries/"
@@ -76,6 +82,8 @@ F680 = "f680_clearance"
 class CaseTypes:
     OIEL = "oiel"
     OGEL = "ogel"
+    OGTL = "ogtl"
+    OGTCL = "ogtcl"
     OICL = "oicl"
     SIEL = "siel"
     SICL = "sicl"
@@ -86,6 +94,14 @@ class CaseTypes:
     CRE = "cre"
     GQY = "gqy"
     EUA = "eua"
+
+
+class GoodsTypeCategory:
+    MILITARY = "military"
+    CRYPTOGRAPHIC = "cryptographic"
+    MEDIA = "media"
+    UK_CONTINENTAL_SHELF = "uk_continental_shelf"
+    DEALER = "dealer"
 
 
 # Case type task list sections
@@ -102,13 +118,15 @@ CASE_SECTIONS = {
     "HAS_GOODS_TYPES": [OPEN, HMRC],
     "HAS_LOCATIONS": [STANDARD, OPEN, HMRC, EXHIBITION],
     "HAS_COUNTRIES": OPEN,
-    "HAS_END_USER": [STANDARD, F680, GIFTING],
+    "HAS_END_USER": [STANDARD, F680, GIFTING, CaseTypes.OICL],
+    "HAS_END_USER_OPEN_APP": [GoodsTypeCategory.MILITARY, GoodsTypeCategory.UK_CONTINENTAL_SHELF],
     "HAS_ULTIMATE_END_USERS": [STANDARD, HMRC, OPEN],
     "HAS_CONSIGNEE": [STANDARD, HMRC],
     "HAS_THIRD_PARTIES": [STANDARD, F680, GIFTING],
     "HAS_OPTIONAL_NOTE": [HMRC],
     "HAS_NOTES": [STANDARD, OPEN, EXHIBITION, F680, GIFTING],
     "HAS_END_USE_DETAILS": [STANDARD, OPEN, F680],
+    "END_USERS_OPTIONAL": [F680, OPEN],
 }
 
 PERMANENT = "permanent"
@@ -156,11 +174,3 @@ APPLICATION_TYPE_STRINGS = {
 class LocationType:
     SEA_BASED = "sea_based"
     LAND_BASED = "land_based"
-
-
-class GoodsTypeCategory:
-    MILITARY = "military"
-    CRYPTOGRAPHIC = "cryptographic"
-    MEDIA = "media"
-    UK_CONTINENTAL_SHELF = "uk_continental_shelf"
-    DEALER = "dealer"

@@ -18,6 +18,8 @@ from conf.constants import (
     STATIC_F680_CLEARANCE_TYPES_URL,
     STATIC_TRADE_CONTROL_ACTIVITIES,
     STATIC_TRADE_CONTROL_PRODUCT_CATEGORIES,
+    OPEN_GENERAL_LICENCES_URL,
+    LICENCES_OPEN_GENERAL_POST_URL,
 )
 from core.helpers import convert_parameters_to_query_params, convert_value_to_query_param
 from lite_content.lite_exporter_frontend.generic import Document
@@ -119,7 +121,10 @@ def get_external_locations_on_draft(request, pk):
 
 def delete_external_locations_from_draft(request, pk, ext_loc_pk):
     data = delete(request, APPLICATIONS_URL + pk + "/external_locations/" + ext_loc_pk + "/")
-    return data.status_code
+    if data.status_code == HTTPStatus.BAD_REQUEST:
+        return data.json(), data.status_code
+    else:
+        return {}, data.status_code
 
 
 def post_external_locations_on_draft(request, pk, json):
@@ -279,3 +284,40 @@ def register_commercial_organisation(request, json):
 
 def register_private_individual(request, json):
     return _register_organisation(request, json, "individual")
+
+
+def get_open_general_licences(
+    request,
+    convert_to_options=False,
+    name=None,
+    site=None,
+    status=None,
+    case_type=None,
+    control_list_entry=None,
+    country=None,
+    registered=False,
+    disable_pagination=True,
+    active_only=None,
+):
+    data = get(request, OPEN_GENERAL_LICENCES_URL + convert_parameters_to_query_params(locals())).json()
+
+    if convert_to_options:
+        return [
+            Option(
+                ogl["id"],
+                ogl["case_type"]["reference"]["value"] + " (" + ogl["name"] + ")",
+                more_information=ogl["description"],
+            )
+            for ogl in data
+        ]
+
+    return data
+
+
+def get_open_general_licence(request, pk):
+    return get(request, OPEN_GENERAL_LICENCES_URL + str(pk)).json()
+
+
+def post_open_general_licence_cases(request, json):
+    data = post(request, LICENCES_OPEN_GENERAL_POST_URL, json)
+    return data.json(), data.status_code

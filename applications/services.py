@@ -46,7 +46,7 @@ def get_applications(request, page: int = 1, submitted: bool = True):
     return data.json()
 
 
-def has_existing_applications_and_licences(request):
+def has_existing_applications_and_licences_and_nlrs(request):
     """
     Returns if an hmrc org has any submitted queries
     Returns if a standard org has any applications & licences
@@ -78,6 +78,11 @@ def put_application_route_of_goods(request, pk, json):
 def put_end_use_details(request, pk, json):
     data = put(request, APPLICATIONS_URL + str(pk) + END_USE_DETAILS_URL, json)
     return data.json(), data.status_code
+
+
+def post_open_general_licences_applications(_, json):
+    # Placeholder for LT-2110
+    return json, 200
 
 
 def put_temporary_export_details(request, pk, json):
