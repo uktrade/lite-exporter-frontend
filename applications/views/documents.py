@@ -1,4 +1,3 @@
-import logging
 from http import HTTPStatus
 from inspect import signature
 
@@ -7,12 +6,12 @@ from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
-from s3chunkuploader.file_handler import S3FileUploadHandler
 
 from applications.forms.documents import attach_document_form, delete_document_confirmation_form
 from applications.helpers.check_your_answers import is_application_export_type_permanent
+from applications.helpers.documents import handle_document_upload, download_document_from_s3
 from applications.helpers.reverse_documents import document_switch
-from applications.services import add_document_data, download_document_from_s3, get_application
+from applications.services import get_application
 from goods.services import get_case_document_download
 from lite_content.lite_exporter_frontend import strings
 from lite_forms.generators import form_page, error_page
@@ -50,40 +49,33 @@ class AttachDocuments(TemplateView):
         form = get_upload_page(request.path, draft_id)
         return form_page(request, form, extra_data={"draft_id": draft_id})
 
+    @staticmethod
+    def _perform_upload(request, draft_id, data, kwargs):
+        action = document_switch(request.path)["attach"]
+        if len(signature(action).parameters) == 3:
+            _, status_code = action(request, draft_id, data)
+            if status_code == HTTPStatus.CREATED:
+                return get_homepage(request, draft_id)
+        else:
+            _, status_code = action(request, draft_id, kwargs["obj_pk"], data)
+            if status_code == HTTPStatus.CREATED:
+                return get_homepage(request, draft_id, kwargs["obj_pk"])
+
+        # If status isn't CREATED, show error page
+        return error_page(request, strings.applications.AttachDocumentPage.UPLOAD_FAILURE_ERROR)
+
     @csrf_exempt
     def post(self, request, **kwargs):
         draft_id = str(kwargs["pk"])
         application = get_application(request, draft_id)
         is_permanent_application = is_application_export_type_permanent(application)
         form = get_upload_page(request.path, draft_id, is_permanent_application=is_permanent_application)
-        self.request.upload_handlers.insert(0, S3FileUploadHandler(request))
 
-        # Only validate documents if there are any present or are mandatory in the following cases:
-        # standard permanent application end user section, additional documents section
-        if (
-            request.FILES
-            or ("/end-user" in request.path and is_application_export_type_permanent(application))
-            or "additional-document" in request.path
-        ):
-            logging.info(self.request)
-            data, error = add_document_data(request)
-
-            if error:
-                return form_page(request, form, extra_data={"draft_id": draft_id}, errors={"documents": [error]})
-
-            action = document_switch(request.path)["attach"]
-            if len(signature(action).parameters) == 3:
-                _, status_code = action(request, draft_id, data)
-                if status_code == HTTPStatus.CREATED:
-                    return get_homepage(request, draft_id)
-            else:
-                _, status_code = action(request, draft_id, kwargs["obj_pk"], data)
-                if status_code == HTTPStatus.CREATED:
-                    return get_homepage(request, draft_id, kwargs["obj_pk"])
-
-            return error_page(request, strings.applications.AttachDocumentPage.UPLOAD_FAILURE_ERROR)
-
-        return get_homepage(request, draft_id)
+        data, error = handle_document_upload(request)
+        if error:
+            return form_page(request, form, extra_data={"draft_id": draft_id}, errors={"file": [error]})
+        else:
+            return self._perform_upload(request, draft_id, data, kwargs)
 
 
 class DownloadDocument(TemplateView):

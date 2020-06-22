@@ -35,11 +35,6 @@ class UploadFailedMiddleware:
         response = self.get_response(request)
         return response
 
-    def process_exception(self, request, exception):
-        if not isinstance(exception, UploadFailed):
-            return None
-        return error_page(request, strings.Goods.Documents.AttachDocuments.FILE_TOO_LARGE)
-
 
 class LoggingMiddleware:
     def __init__(self, get_response=None):

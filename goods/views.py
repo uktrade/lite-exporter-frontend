@@ -6,7 +6,6 @@ from django.urls import reverse_lazy, reverse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
-from s3chunkuploader.file_handler import S3FileUploadHandler
 
 from applications.services import (
     get_application_ecju_queries,
@@ -14,11 +13,10 @@ from applications.services import (
     post_case_notes,
     get_ecju_query,
     put_ecju_query,
-    add_document_data,
-    download_document_from_s3,
     get_status_properties,
     get_case_generated_documents,
 )
+from applications.helpers.documents import download_document_from_s3, handle_document_upload
 from goods.forms import (
     attach_documents_form,
     respond_to_query_form,
@@ -280,19 +278,16 @@ class AttachDocuments(TemplateView):
 
     @csrf_exempt
     def post(self, request, **kwargs):
-        self.request.upload_handlers.insert(0, S3FileUploadHandler(request))
-
         good_id = str(kwargs["pk"])
         good, _ = get_good(request, good_id)
-
-        data, error = add_document_data(request)
+        data, error = handle_document_upload(request)
 
         if error:
-            return error_page(request, error)
+            return form_page(request, form, extra_data={"good_id": good_id}, errors={"file": [error]})
 
         data, status_code = post_good_documents(request, good_id, data)
         if status_code != HTTPStatus.CREATED:
-            return error_page(request, data["errors"]["file"])
+            return form_page(request, form, extra_data={"good_id": good_id}, errors=data["errors"])
 
         raise_a_clc_query = "unsure" == good["is_good_controlled"]["key"]
         raise_a_pv_query = "grading_required" == good["is_pv_graded"]["key"]
