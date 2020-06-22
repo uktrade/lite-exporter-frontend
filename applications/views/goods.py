@@ -16,7 +16,7 @@ from applications.services import (
     delete_application_preexisting_good,
     add_document_data,
 )
-from conf.constants import EXHIBITION
+from conf.constants import EXHIBITION, APPLICANT_EDITING
 from core.helpers import convert_dict_to_query_params
 from goods.forms import (
     document_grading_form,
@@ -194,9 +194,8 @@ class GoodsDetailSummaryCheckYourAnswers(TemplateView):
         context = {
             "application_id": application_id,
             "goods": application["goods"],
-            "application_status": application["status"]["key"],
+            "application_status_draft": application["status"]["key"] in ["draft", APPLICANT_EDITING],
         }
-
         return render(request, "applications/goods/goods-detail-summary.html", context)
 
 
