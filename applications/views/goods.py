@@ -133,11 +133,15 @@ class CheckDocumentGrading(SingleFormView):
 
 @method_decorator(csrf_exempt, "dispatch")
 class AttachDocument(TemplateView):
+    @staticmethod
+    def _get_form(draft_id, good_id):
+        back_link = reverse_lazy("applications:add_good_to_application", kwargs={"pk": draft_id, "good_pk": good_id})
+        return attach_documents_form(back_link)
+
     def get(self, request, **kwargs):
         good_id = str(kwargs["good_pk"])
         draft_id = str(kwargs["pk"])
-        back_link = reverse_lazy("applications:add_good_to_application", kwargs={"pk": draft_id, "good_pk": good_id})
-        form = attach_documents_form(back_link)
+        form = self._get_form(draft_id, good_id)
         return form_page(request, form, extra_data={"good_id": good_id})
 
     def post(self, request, **kwargs):
@@ -146,11 +150,15 @@ class AttachDocument(TemplateView):
         data, error = handle_document_upload(request)
 
         if error:
-            return form_page(request, form, extra_data={"good_id": good_id}, errors={"file": [error]})
+            return form_page(
+                request, self._get_form(draft_id, good_id), extra_data={"good_id": good_id}, errors={"file": [error]}
+            )
 
         data, status_code = post_good_documents(request, good_id, data)
         if status_code != HTTPStatus.CREATED:
-            return form_page(request, form, extra_data={"good_id": good_id}, errors=data["errors"])
+            return form_page(
+                request, self._get_form(draft_id, good_id), extra_data={"good_id": good_id}, errors=data["errors"]
+            )
 
         return redirect(
             reverse_lazy("applications:add_good_to_application", kwargs={"pk": draft_id, "good_pk": good_id})

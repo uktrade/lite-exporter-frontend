@@ -264,16 +264,20 @@ class CheckDocumentGrading(SingleFormView):
 
 @method_decorator(csrf_exempt, "dispatch")
 class AttachDocuments(TemplateView):
-    def get(self, request, **kwargs):
+    @staticmethod
+    def _get_form(request, good_id):
         return_to_good_page = request.GET.get("goodpage", "no")
-        good_id = str(kwargs["pk"])
         if return_to_good_page == "yes":
             back_link = BackLink(AttachDocumentForm.BACK_GOOD_LINK, reverse("goods:good", kwargs={"pk": good_id}))
         else:
             back_link = BackLink(
                 AttachDocumentForm.BACK_FORM_LINK, reverse("goods:add_document", kwargs={"pk": good_id})
             )
-        form = attach_documents_form(back_link)
+        return attach_documents_form(back_link)
+
+    def get(self, request, **kwargs):
+        good_id = str(kwargs["pk"])
+        form = self._get_form(request, good_id)
         return form_page(request, form, extra_data={"good_id": good_id})
 
     @csrf_exempt
@@ -283,11 +287,15 @@ class AttachDocuments(TemplateView):
         data, error = handle_document_upload(request)
 
         if error:
-            return form_page(request, form, extra_data={"good_id": good_id}, errors={"file": [error]})
+            return form_page(
+                request, self._get_form(request, good_id), extra_data={"good_id": good_id}, errors={"file": [error]}
+            )
 
         data, status_code = post_good_documents(request, good_id, data)
         if status_code != HTTPStatus.CREATED:
-            return form_page(request, form, extra_data={"good_id": good_id}, errors=data["errors"])
+            return form_page(
+                request, self._get_form(request, good_id), extra_data={"good_id": good_id}, errors=data["errors"]
+            )
 
         raise_a_clc_query = "unsure" == good["is_good_controlled"]["key"]
         raise_a_pv_query = "grading_required" == good["is_pv_graded"]["key"]
