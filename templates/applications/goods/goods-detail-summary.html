@@ -15,8 +15,8 @@
 
 	{% if goods %}
 		{% for good in goods %}
-			<dl class="govuk-summary-list" id="good-detail-summary">
-				<h3 class="govuk-heading-m"> {% lcs 'goods.GoodsDetailSummary.HEADING' %} {{ forloop.counter }} </h3>
+			<h2 class="govuk-heading-m"> {% lcs 'goods.GoodsDetailSummary.HEADING' %} {{ forloop.counter }} </h2>
+			<dl class="govuk-summary-list" id="good-detail-summary{{ forloop.counter }}">
 				<div class="govuk-summary-list__row">
 					<dt class="govuk-summary-list__key">
 						{% lcs 'goods.GoodsDetailSummary.SELECT_CATEGORY' %}
@@ -76,6 +76,9 @@
 					</dt>
 					<dd class="govuk-summary-list__value">
 						{{ good.good.is_military_use.value }}
+						{% if good.good.modified_military_use_details %}
+							<span class="govuk-hint"> {{ good.good.modified_military_use_details }} </span>
+						{% endif %}
 					</dd>
 				</div>
 
@@ -85,6 +88,9 @@
 					</dt>
 					<dd class="govuk-summary-list__value">
 						{{ good.good.is_component.value|default_na }}
+						{% if good.good.component_details %}
+							<span class="govuk-hint"> {{ good.good.component_details }} </span>
+						{% endif %}
 					</dd>
 				</div>
 
@@ -93,7 +99,14 @@
 						{% lcs 'goods.GoodsDetailSummary.DESIGNED_FOR_INFORMATION_SECURITY' %}
 					</dt>
 					<dd class="govuk-summary-list__value">
-						{{ good.good.uses_information_security.value|friendly_boolean|default_na }}
+						{% if good.good.uses_information_security is not None %}
+							{{ good.good.uses_information_security|friendly_boolean }}
+						{% else %}
+							{{ good.good.uses_information_security|default_na }}
+						{% endif %}
+						{% if good.good.information_security_details %}
+							<span class="govuk-hint"> {{ good.good.information_security_details }} </span>
+						{% endif %}
 					</dd>
 				</div>
 
