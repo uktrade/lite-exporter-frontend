@@ -52,12 +52,7 @@
 			{% if existing.applications %}
 				<div class="app-tile">
 					<a href="{% url 'applications:applications' %}" class="app-tile__heading" id="link-applications">
-						{% lcs 'hub.Tiles.APPLICATIONS' %}
-						{% if notifications.notifications.application %}
-							<span id="applications-notifications" class="lite-notification-bubble">
-								<span class="govuk-visually-hidden">(</span>{{ notifications.notifications.application }} <span class="govuk-visually-hidden">notifications)</span>
-							</span>
-						{% endif %}
+						<p>{% lcs 'hub.Tiles.APPLICATIONS' %}</p>{% if notifications.notifications.application %}<span id="applications-notifications" class="lite-notification-bubble"><span class="govuk-visually-hidden"> (</span>{{ notifications.notifications.application }} <span class="govuk-visually-hidden">notifications)</span></span>{% endif %}
 					</a>
 					<p class="app-tile__body">{% lcs 'hub.Tiles.Applications.CHECK_PROGRESS' %}</p>
 					<p class="app-tile__body">{% lcs 'hub.Tiles.Applications.EDIT_APPLICATIONS' %}</p>
@@ -78,10 +73,8 @@
 			{# Product list tile #}
 			<div class="app-tile">
 				<a href="{% url 'goods:goods' %}" class="app-tile__heading" id="link-products">
-					{% lcs 'hub.Tiles.GOODS' %}{% if notifications.notifications.goods %}<span class="lite-notification-bubble" id="product-notifications">{{ notifications.notifications.goods }}</span>
-				{% endif %}
+					{% lcs 'hub.Tiles.GOODS' %}{% if notifications.notifications.goods %}<span class="lite-notification-bubble" id="product-notifications">{{ notifications.notifications.goods }}</span>{% endif %}
 				</a>
-
 				<p class="app-tile__body">{% lcs 'hub.Tiles.ProductList.MANAGE_PRODUCTS' %}</p>
 				<p class="app-tile__body">{% lcs 'hub.Tiles.ProductList.PRODUCTS_INCLUDE' %}</p>
 				<ol class="govuk-list govuk-!-font-size-16">
@@ -101,10 +94,8 @@
 			{# End user query tile #}
 			<div class="app-tile">
 				<a href="{% url 'end_users:end_users' %}" class="app-tile__heading" id="link-eua">
-					{% lcs 'hub.Tiles.END_USER_ADVISORIES' %}{% if notifications.notifications.end_user_advisory %}<span class="lite-notification-bubble" id="eua-notifications">{{ notifications.notifications.end_user_advisory }}</span>
-				{% endif %}
+					{% lcs 'hub.Tiles.END_USER_ADVISORIES' %}{% if notifications.notifications.end_user_advisory %}<span class="lite-notification-bubble" id="eua-notifications">{{ notifications.notifications.end_user_advisory }}</span>{% endif %}
 				</a>
-
 				<p class="app-tile__body">{% lcs 'hub.Tiles.EUA.ASK_FOR_ADVICE' %}</p>
 			</div>
 		</section>
