@@ -18,7 +18,7 @@
 	background-color: govuk-colour("light-grey");
 	border-top: govuk-spacing(1) solid $govuk-brand-colour;
 	box-sizing: border-box;
-	padding-bottom: 0!important;
+	@include govuk-responsive-padding(2, "bottom");
 
 	& > * {
 		margin-bottom: govuk-spacing(3)!important;
