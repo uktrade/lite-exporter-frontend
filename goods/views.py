@@ -32,6 +32,7 @@ from goods.forms import (
     product_military_use_form,
     product_component_form,
     product_uses_information_security,
+    software_technology_details_form,
 )
 from goods.helpers import COMPONENT_SELECTION_TO_DETAIL_FIELD_MAP, return_to_good_summary
 from goods.services import (
@@ -177,6 +178,40 @@ class AddGood(MultiFormView):
 
     def get_success_url(self):
         return reverse_lazy("goods:add_document", kwargs={"pk": self.get_validated_data()["good"]["id"]})
+
+
+class GoodSoftwareTechnology(SingleFormView):
+    application_id = None
+
+    def init(self, request, **kwargs):
+        if "good_pk" in kwargs:
+            # coming from the application
+            self.object_pk = str(kwargs["good_pk"])
+            self.application_id = str(kwargs["pk"])
+        else:
+            self.object_pk = str(kwargs["pk"])
+        self.data = get_good_details(request, self.object_pk)[0]
+        self.form = software_technology_details_form(request, self.data.get("item_category"))
+        self.action = edit_good_details
+
+    def get_data(self):
+        return {
+            "software_or_technology_details": self.data.get("software_or_technology_details"),
+        }
+
+    def get_success_url(self):
+        good = get_good(self.request, self.object_pk, full_detail=True)[0]
+        # Next question military use
+        if not good.get("is_military_use"):
+            if "good_pk" in self.kwargs:
+                return reverse_lazy(
+                    "applications:good_military_use", kwargs={"pk": self.application_id, "good_pk": self.object_pk}
+                )
+            else:
+                return reverse_lazy("goods:good_military_use", kwargs={"pk": self.object_pk})
+        # Edit
+        else:
+            return return_to_good_summary(self.kwargs, self.application_id, self.object_pk)
 
 
 class GoodMilitaryUse(SingleFormView):

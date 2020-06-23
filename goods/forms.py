@@ -61,8 +61,10 @@ def product_category_form(request):
     )
 
 
-def software_technology_details_form(request):
-    category = get_category_display_string(request.POST.get("item_category", ""))
+def software_technology_details_form(request, item_category=None):
+    category = get_category_display_string(
+        request.POST.get("item_category", "") if not item_category else item_category
+    )
     return Form(
         title=CreateGoodForm.TechnologySoftware.TITLE + category,
         questions=[TextArea(title="", description="", name="software_or_technology_details", optional=False,),],
