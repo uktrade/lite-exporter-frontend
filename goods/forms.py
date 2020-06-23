@@ -73,6 +73,7 @@ def product_military_use_form(request):
     return Form(
         title=CreateGoodForm.MilitaryUse.TITLE,
         questions=[
+            HiddenField("is_military_use_step", True),
             RadioButtons(
                 title="",
                 name="is_military_use",
@@ -92,7 +93,7 @@ def product_military_use_form(request):
                     ),
                     Option(key="no", value=CreateGoodForm.MilitaryUse.NO),
                 ],
-            )
+            ),
         ],
     )
 
