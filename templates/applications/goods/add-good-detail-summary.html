@@ -83,6 +83,17 @@
 			</dd>
 		</div>
 
+		{% if good.item_category.key in 'group3_software,group3_technology' %}
+			<div class="govuk-summary-list__row">
+				<dt class="govuk-summary-list__key">
+					{% lcs 'goods.AddGoodSummary.PURPOSE_SOFTWARE_TECHNOLOGY' %}
+				</dt>
+				<dd class="govuk-summary-list__value">
+					{{ good.software_or_technology_details|default_na  }}
+				</dd>
+			</div>
+		{% endif %}
+
 		<div class="govuk-summary-list__row">
 			<dt class="govuk-summary-list__key">
 				{% lcs "Goods.AddGoodSummary.MILITARY_USE" %}

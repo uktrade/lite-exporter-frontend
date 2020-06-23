@@ -178,6 +178,23 @@
 					</dd>
 				</div>
 			{% endif %}
+
+			{% if good.item_category.key in 'group3_software,group3_technology' %}
+				<div class="govuk-summary-list__row">
+					<dt class="govuk-summary-list__key">
+						{% lcs "goods.GoodPage.Table.PURPOSE_SOFTWARE_TECHNOLOGY" %}
+					</dt>
+					<dd class="govuk-summary-list__value">
+						{{ good.software_or_technology_details|default_na }}
+					</dd>
+					<dd class="govuk-summary-list__actions">
+						{% if good.status.key == 'draft' %}
+							<a id="change-good-technology-software" class="govuk-link govuk-link--no-visited-state" href="{% url 'goods:good_military_use' good.id %}">Change</a>
+						{% endif %}
+					</dd>
+				</div>
+			{% endif %}
+
 			<div class="govuk-summary-list__row">
 				<dt class="govuk-summary-list__key">
 					{% lcs "goods.GoodPage.Table.MILITARY_USE" %}
