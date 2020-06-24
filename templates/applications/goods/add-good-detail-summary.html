@@ -93,7 +93,7 @@
 				</dd>
 				<dd class="govuk-summary-list__actions">
 					{% if good.status.key == 'draft' %}
-						<a id="change-good-technology-software" class="govuk-link govuk-link--no-visited-state" href="{% url 'applications:good_software_technology' application_id good.id %}">{% lcs 'generic.CHANGE' %}<span class="govuk-visually-hidden">{% lcs 'Goods.AddGoodSummary.PURPOSE_SOFTWARE_TECHNOLOGY' %}</span></a>
+						<a id="change-good-technology-software" class="govuk-link govuk-link--no-visited-state" href="{% url 'applications:good_software_technology' application_id good.id %}">{% lcs 'generic.CHANGE' %} <span class="govuk-visually-hidden">{% lcs 'Goods.AddGoodSummary.PURPOSE_SOFTWARE_TECHNOLOGY' %}</span></a>
 					{% endif %}
 				</dd>
 			</div>
@@ -111,7 +111,7 @@
 			</dd>
 			<dd class="govuk-summary-list__actions">
 				{% if good.status.key == 'draft' %}
-					<a id="change-good-details" class="govuk-link govuk-link--no-visited-state" href="{% url 'applications:good_military_use' application_id good.id %}">{% lcs 'generic.CHANGE' %}<span class="govuk-visually-hidden">{% lcs 'Goods.AddGoodSummary.MILITARY_USE' %}</span></a>
+					<a id="change-good-details" class="govuk-link govuk-link--no-visited-state" href="{% url 'applications:good_military_use' application_id good.id %}">{% lcs 'generic.CHANGE' %} <span class="govuk-visually-hidden">{% lcs 'Goods.AddGoodSummary.MILITARY_USE' %}</span></a>
 				{% endif %}
 			</dd>
 		</div>
@@ -129,7 +129,7 @@
 				</dd>
 				<dd class="govuk-summary-list__actions">
 					{% if good.status.key == 'draft' %}
-						<a class="govuk-link govuk-link--no-visited-state" href="{% url 'applications:good_component' application_id good.id %}">{% lcs 'generic.CHANGE' %}<span class="govuk-visually-hidden">{% lcs 'Goods.AddGoodSummary.COMPONENT' %}</span></a>
+						<a class="govuk-link govuk-link--no-visited-state" href="{% url 'applications:good_component' application_id good.id %}">{% lcs 'generic.CHANGE' %} <span class="govuk-visually-hidden">{% lcs 'Goods.AddGoodSummary.COMPONENT' %}</span></a>
 					{% endif %}
 				</dd>
 			</div>
@@ -151,7 +151,7 @@
 			</dd>
 			<dd class="govuk-summary-list__actions">
 				{% if good.status.key == 'draft' %}
-					<a class="govuk-link govuk-link--no-visited-state" href="{% url 'applications:good_information_security' application_id good.id %}">{% lcs 'generic.CHANGE' %}<span class="govuk-visually-hidden">{% lcs 'Goods.AddGoodSummary.INFORMATION_SECURITY_FEATURES' %}</span></a>
+					<a class="govuk-link govuk-link--no-visited-state" href="{% url 'applications:good_information_security' application_id good.id %}">{% lcs 'generic.CHANGE' %} <span class="govuk-visually-hidden">{% lcs 'Goods.AddGoodSummary.INFORMATION_SECURITY_FEATURES' %}</span></a>
 				{% endif %}
 			</dd>
 		</div>
