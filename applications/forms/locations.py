@@ -160,7 +160,7 @@ def external_locations_form(request, application_type):
                 options=get_external_locations(
                     request, str(request.user.organisation), True, exclude, application_type
                 ),
-                filterable=True
+                filterable=True,
             ),
         ],
         default_button_name=strings.SAVE_AND_CONTINUE,
@@ -176,7 +176,11 @@ def sites_form(request, application_type):
         title="Select locations",
         questions=[
             Filter(),
-            Checkboxes(name="sites[]", options=get_sites(request, request.user.organisation, True, False, exclude), filterable=True),
+            Checkboxes(
+                name="sites[]",
+                options=get_sites(request, request.user.organisation, True, False, exclude),
+                filterable=True,
+            ),
         ],
         default_button_name=generic.SAVE_AND_CONTINUE,
     )

@@ -86,7 +86,7 @@ def new_site_forms(request):
                             {"disable_pagination": True, "exclude_permission": Permissions.ADMINISTER_SITES},
                             True,
                         ),
-                        filterable=True
+                        filterable=True,
                     ),
                     HiddenField("validate_only", False),
                 ],

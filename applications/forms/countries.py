@@ -55,7 +55,7 @@ def contract_type_per_country_form(current_country, country_name):
                     Option(key=key.value, value=ContractTypes.get_str_representation(key)) for key in ContractTypes
                 ],
                 classes=["govuk-checkboxes--small"],
-                filterable=True
+                filterable=True,
             ),
             TextInput(name="other_contract_type_text", title=contractTypeStrings.AddContractTypesForm.PROVIDE_DETAILS),
         ],
