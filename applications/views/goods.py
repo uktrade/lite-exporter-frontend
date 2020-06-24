@@ -108,10 +108,12 @@ class AddGood(MultiFormView):
         self.forms = add_good_form_group(request, is_pv_graded, is_software_technology, draft_pk=self.draft_pk)
 
         if is_pv_graded:
-            if int(self.request.POST.get("form_pk")) == (6 if is_software_technology else 5):
+            # post on step 5 in both software/technology and group 1
+            if int(self.request.POST.get("form_pk")) == 5:
                 self.action = post_goods
         else:
-            if int(self.request.POST.get("form_pk")) == (5 if is_software_technology else 4):
+            # post on step 4 in both software/technology and group 1
+            if int(self.request.POST.get("form_pk")) == 4:
                 self.action = post_goods
 
     def get_success_url(self):

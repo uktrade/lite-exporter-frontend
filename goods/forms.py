@@ -296,7 +296,7 @@ def add_good_form_group(request, is_pv_graded: bool = None, is_software_technolo
             conditional(is_pv_graded, pv_details_form(request)),
             conditional(is_software_technology, software_technology_details_form(request)),
             product_military_use_form(request),
-            product_component_form(request),
+            conditional(not is_software_technology, product_component_form(request)),
             product_uses_information_security(request),
         ]
     )
