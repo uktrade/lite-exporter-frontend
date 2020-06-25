@@ -189,7 +189,7 @@ class RegisterAnOrganisationConfirmation(TemplateView):
 
 class SignatureHelp(TemplateView):
     def get(self, request, *args, **kwargs):
-        return render(request, "core/signature_help.html", {})
+        return render(request, "core/signature-help.html", {})
 
 
 class CertificateDownload(TemplateView):
