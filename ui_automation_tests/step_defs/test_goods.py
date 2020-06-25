@@ -110,7 +110,7 @@ def click_on_draft_good(driver, context, exporter_url):
     component_row_text = helpers.get_element_row_text_from_table(elements, "Component")
     infosec_row_text = helpers.get_element_row_text_from_table(elements, "Information security features")
     software_technology_details_row_text = helpers.get_element_row_text_from_table(elements, "Purpose")
-    assert "Yes, designed specifically for military use" in military_use_row_text
+    assert "Yes, specially designed for military use" in military_use_row_text
     if component_row_text:
         assert "Yes, it's designed specially for hardware" in component_row_text
     assert "No" in infosec_row_text
