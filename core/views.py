@@ -20,7 +20,8 @@ from core.services import (
     get_country,
     register_commercial_organisation,
     register_private_individual,
-    get_signature_certificate)
+    get_signature_certificate,
+)
 from core.validators import validate_register_organisation_triage
 from lite_content.lite_exporter_frontend import generic
 from lite_forms.components import BackLink
