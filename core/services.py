@@ -304,9 +304,11 @@ def get_open_general_licences(
     if convert_to_options:
         return [
             Option(
-                ogl["id"],
-                ogl["case_type"]["reference"]["value"] + " (" + ogl["name"] + ")",
+                key=ogl["id"],
+                value=ogl["case_type"]["reference"]["value"] + " (" + ogl["name"] + ")",
+                tag="Already registered" if bool(len(ogl["registrations"])) else None,
                 more_information=ogl["description"],
+                disabled=bool(len(ogl["registrations"])),
             )
             for ogl in data
         ]
