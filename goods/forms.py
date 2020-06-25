@@ -67,7 +67,10 @@ def software_technology_details_form(request, item_category=None):
     )
     return Form(
         title=CreateGoodForm.TechnologySoftware.TITLE + category,
-        questions=[TextArea(title="", description="", name="software_or_technology_details", optional=False,),],
+        questions=[
+            HiddenField("is_software_or_technology_step", True),
+            TextArea(title="", description="", name="software_or_technology_details", optional=False,),
+        ],
     )
 
 
