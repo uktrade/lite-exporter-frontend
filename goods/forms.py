@@ -478,3 +478,125 @@ def delete_good_form(good):
             ),
         ],
     )
+
+
+def group_two_product_type_form():
+    return Form(
+        title="select type",
+        questions=[
+            HiddenField("product_type_step", True),
+            RadioButtons(
+                title="",
+                name="type",
+                options=[
+                    Option(key="firearms", value="Firearm"),
+                    Option(key="components_for_firearm", value="Component for a firearm"),
+                    Option(key="ammunition", value="Ammunition"),
+                    Option(key="components_for_ammunition", value="Component for ammunition"),
+                ],
+            ),
+        ],
+    )
+
+
+def firearm_ammunition_details_form():
+    return Form(
+        title="Firearm and ammunition details",
+        questions=[
+            HiddenField("firearm_ammunition_step", True),
+            TextInput(title="Year of manufacture", description="", name="year_of_manufacture", optional=False,),
+            TextInput(title="Calibre", description="", name="calibre", optional=False,),
+        ],
+    )
+
+
+def firearms_act_confirmation_form():
+    return Form(
+        title="Is the product covered by section 1/2/4 of the Firearms Act 1968?",
+        questions=[
+            HiddenField("section_certificate_step", True),
+            Label("Firearms Act 1968"),
+            Link(
+                name="section-1-link",
+                text=strings.declaration.LicenceConditions.GeneralNotes.LINK,
+                address=strings.declaration.LicenceConditions.GeneralNotes.LINK,
+                classes=["govuk-body", "govuk-link--no-visited-state"],
+            ),
+            Link(
+                name="section-2-link",
+                text=strings.declaration.LicenceConditions.GeneralNotes.LINK,
+                address=strings.declaration.LicenceConditions.GeneralNotes.LINK,
+                classes=["govuk-body", "govuk-link--no-visited-state"],
+            ),
+            Link(
+                name="section-5-link",
+                text=strings.declaration.LicenceConditions.GeneralNotes.LINK,
+                address=strings.declaration.LicenceConditions.GeneralNotes.LINK,
+                classes=["govuk-body", "govuk-link--no-visited-state"],
+            ),
+            RadioButtons(
+                title="",
+                name="is_covered_by_firearm_act_section_one_two_or_five",
+                options=[
+                    Option(
+                        key=True,
+                        value="Yes",
+                        components=[
+                            TextInput(
+                                title="Section certificate number",
+                                description="",
+                                name="section_certificate_number",
+                                optional=False,
+                            ),
+                            DateInput(
+                                title="Expiry date",
+                                description="For example 12 11 2020",
+                                prefix="section_certificate_date_of_expiry",
+                                name="section_certificate_date_of_expiry",
+                            ),
+                        ],
+                    ),
+                    Option(key=False, value="No"),
+                ],
+            ),
+        ],
+    )
+
+
+def identification_markings_form():
+    return Form(
+        title="Do the products have identification markings?",
+        questions=[
+            HiddenField("identification_markings_step", True),
+            RadioButtons(
+                title="",
+                name="has_identification_markings",
+                options=[
+                    Option(
+                        key=True,
+                        value="Yes",
+                        components=[
+                            TextArea(
+                                title="Provide the identification markings",
+                                description="",
+                                name="identification_markings_details",
+                                optional=False,
+                            ),
+                        ],
+                    ),
+                    Option(
+                        key=False,
+                        value="No",
+                        components=[
+                            TextArea(
+                                title="Explain why there are no identification markings",
+                                description="",
+                                name="no_identification_markings_details",
+                                optional=False,
+                            )
+                        ],
+                    ),
+                ],
+            ),
+        ],
+    )
