@@ -1,5 +1,6 @@
 from django.urls import reverse, reverse_lazy
 
+from core.builtins.custom_tags import linkify
 from core.services import get_control_list_entries
 from core.services import get_pv_gradings
 from goods.helpers import good_summary, get_category_display_string
@@ -34,7 +35,6 @@ from lite_forms.components import (
     Breadcrumbs,
     FormGroup,
     Heading,
-    Link,
 )
 from lite_forms.generators import confirm_form
 from lite_forms.helpers import conditional
@@ -306,6 +306,19 @@ def add_good_form_group(request, is_pv_graded: bool = None, is_software_technolo
     )
 
 
+def add_firearm_good_form_group(request, is_pv_graded: bool = None, draft_pk: str = None):
+    return FormGroup(
+        [
+            add_goods_questions(request, draft_pk),
+            conditional(is_pv_graded, pv_details_form(request)),
+            group_two_product_type_form(),
+            firearm_ammunition_details_form(),
+            firearms_act_confirmation_form(),
+            identification_markings_form(),
+        ]
+    )
+
+
 def edit_good_detail_form(request, good_id):
     return Form(
         title=EditGoodForm.TITLE,
@@ -533,23 +546,26 @@ def firearms_act_confirmation_form():
         questions=[
             HiddenField("section_certificate_step", True),
             Label(CreateGoodForm.FirearmGood.FirearmsActCertificate.FIREARMS_ACT),
-            Link(
-                name="section-1-link",
-                text=CreateGoodForm.FirearmGood.FirearmsActCertificate.SECTION_ONE,
-                address=CreateGoodForm.FirearmGood.FirearmsActCertificate.SECTION_ONE_LINK,
-                classes=["govuk-body", "govuk-link--no-visited-state"],
+            Label(
+                id="section-1-link",
+                text=linkify(
+                    CreateGoodForm.FirearmGood.FirearmsActCertificate.SECTION_ONE_LINK,
+                    name=CreateGoodForm.FirearmGood.FirearmsActCertificate.SECTION_ONE,
+                ),
             ),
-            Link(
-                name="section-2-link",
-                text=CreateGoodForm.FirearmGood.FirearmsActCertificate.SECTION_TWO,
-                address=CreateGoodForm.FirearmGood.FirearmsActCertificate.SECTION_TWO_LINK,
-                classes=["govuk-body", "govuk-link--no-visited-state"],
+            Label(
+                id="section-2-link",
+                text=linkify(
+                    CreateGoodForm.FirearmGood.FirearmsActCertificate.SECTION_TWO_LINK,
+                    name=CreateGoodForm.FirearmGood.FirearmsActCertificate.SECTION_TWO,
+                ),
             ),
-            Link(
-                name="section-5-link",
-                text=CreateGoodForm.FirearmGood.FirearmsActCertificate.SECTION_FIVE,
-                address=CreateGoodForm.FirearmGood.FirearmsActCertificate.SECTION_FIVE_LINK,
-                classes=["govuk-body", "govuk-link--no-visited-state"],
+            Label(
+                id="section-5-link",
+                text=linkify(
+                    CreateGoodForm.FirearmGood.FirearmsActCertificate.SECTION_FIVE_LINK,
+                    name=CreateGoodForm.FirearmGood.FirearmsActCertificate.SECTION_FIVE,
+                ),
             ),
             RadioButtons(
                 title="",
