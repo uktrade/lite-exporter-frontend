@@ -34,6 +34,7 @@ from lite_forms.components import (
     Breadcrumbs,
     FormGroup,
     Heading,
+    Link,
 )
 from lite_forms.generators import confirm_form
 from lite_forms.helpers import conditional
@@ -482,17 +483,23 @@ def delete_good_form(good):
 
 def group_two_product_type_form():
     return Form(
-        title="select type",
+        title=CreateGoodForm.FirearmGood.ProductType.TITLE,
         questions=[
             HiddenField("product_type_step", True),
             RadioButtons(
                 title="",
                 name="type",
                 options=[
-                    Option(key="firearms", value="Firearm"),
-                    Option(key="components_for_firearm", value="Component for a firearm"),
-                    Option(key="ammunition", value="Ammunition"),
-                    Option(key="components_for_ammunition", value="Component for ammunition"),
+                    Option(key="firearms", value=CreateGoodForm.FirearmGood.ProductType.FIREARM),
+                    Option(
+                        key="components_for_firearm",
+                        value=CreateGoodForm.FirearmGood.ProductType.COMPONENTS_FOR_FIREARM,
+                    ),
+                    Option(key="ammunition", value=CreateGoodForm.FirearmGood.ProductType.AMMUNITION),
+                    Option(
+                        key="components_for_ammunition",
+                        value=CreateGoodForm.FirearmGood.ProductType.COMPONENTS_FOR_AMMUNITION,
+                    ),
                 ],
             ),
         ],
@@ -501,37 +508,47 @@ def group_two_product_type_form():
 
 def firearm_ammunition_details_form():
     return Form(
-        title="Firearm and ammunition details",
+        title=CreateGoodForm.FirearmGood.FirearmsAmmunitionDetails.TITLE,
         questions=[
             HiddenField("firearm_ammunition_step", True),
-            TextInput(title="Year of manufacture", description="", name="year_of_manufacture", optional=False,),
-            TextInput(title="Calibre", description="", name="calibre", optional=False,),
+            TextInput(
+                title=CreateGoodForm.FirearmGood.FirearmsAmmunitionDetails.YEAR_OF_MANUFACTURE,
+                description="",
+                name="year_of_manufacture",
+                optional=False,
+            ),
+            TextInput(
+                title=CreateGoodForm.FirearmGood.FirearmsAmmunitionDetails.CALIBRE,
+                description="",
+                name="calibre",
+                optional=False,
+            ),
         ],
     )
 
 
 def firearms_act_confirmation_form():
     return Form(
-        title="Is the product covered by section 1/2/4 of the Firearms Act 1968?",
+        title=CreateGoodForm.FirearmGood.FirearmsActCertificate.TITLE,
         questions=[
             HiddenField("section_certificate_step", True),
-            Label("Firearms Act 1968"),
+            Label(CreateGoodForm.FirearmGood.FirearmsActCertificate.FIREARMS_ACT),
             Link(
                 name="section-1-link",
-                text=strings.declaration.LicenceConditions.GeneralNotes.LINK,
-                address=strings.declaration.LicenceConditions.GeneralNotes.LINK,
+                text=CreateGoodForm.FirearmGood.FirearmsActCertificate.SECTION_ONE,
+                address=CreateGoodForm.FirearmGood.FirearmsActCertificate.SECTION_ONE_LINK,
                 classes=["govuk-body", "govuk-link--no-visited-state"],
             ),
             Link(
                 name="section-2-link",
-                text=strings.declaration.LicenceConditions.GeneralNotes.LINK,
-                address=strings.declaration.LicenceConditions.GeneralNotes.LINK,
+                text=CreateGoodForm.FirearmGood.FirearmsActCertificate.SECTION_TWO,
+                address=CreateGoodForm.FirearmGood.FirearmsActCertificate.SECTION_TWO_LINK,
                 classes=["govuk-body", "govuk-link--no-visited-state"],
             ),
             Link(
                 name="section-5-link",
-                text=strings.declaration.LicenceConditions.GeneralNotes.LINK,
-                address=strings.declaration.LicenceConditions.GeneralNotes.LINK,
+                text=CreateGoodForm.FirearmGood.FirearmsActCertificate.SECTION_FIVE,
+                address=CreateGoodForm.FirearmGood.FirearmsActCertificate.SECTION_FIVE_LINK,
                 classes=["govuk-body", "govuk-link--no-visited-state"],
             ),
             RadioButtons(
@@ -540,23 +557,23 @@ def firearms_act_confirmation_form():
                 options=[
                     Option(
                         key=True,
-                        value="Yes",
+                        value=CreateGoodForm.FirearmGood.FirearmsActCertificate.YES,
                         components=[
                             TextInput(
-                                title="Section certificate number",
+                                title=CreateGoodForm.FirearmGood.FirearmsActCertificate.SECTION_CERTIFICATE_NUMBER,
                                 description="",
                                 name="section_certificate_number",
                                 optional=False,
                             ),
                             DateInput(
-                                title="Expiry date",
-                                description="For example 12 11 2020",
+                                title=CreateGoodForm.FirearmGood.FirearmsActCertificate.EXPIRY_DATE,
+                                description=CreateGoodForm.FirearmGood.FirearmsActCertificate.EXPIRY_DATE_HINT,
                                 prefix="section_certificate_date_of_expiry",
                                 name="section_certificate_date_of_expiry",
                             ),
                         ],
                     ),
-                    Option(key=False, value="No"),
+                    Option(key=False, value=CreateGoodForm.FirearmGood.FirearmsActCertificate.NO),
                 ],
             ),
         ],
@@ -565,7 +582,7 @@ def firearms_act_confirmation_form():
 
 def identification_markings_form():
     return Form(
-        title="Do the products have identification markings?",
+        title=CreateGoodForm.FirearmGood.IdentificationMarkings.TITLE,
         questions=[
             HiddenField("identification_markings_step", True),
             RadioButtons(
@@ -574,10 +591,10 @@ def identification_markings_form():
                 options=[
                     Option(
                         key=True,
-                        value="Yes",
+                        value=CreateGoodForm.FirearmGood.IdentificationMarkings.YES,
                         components=[
                             TextArea(
-                                title="Provide the identification markings",
+                                title=CreateGoodForm.FirearmGood.IdentificationMarkings.MARKINGS_DETAILS,
                                 description="",
                                 name="identification_markings_details",
                                 optional=False,
@@ -586,10 +603,10 @@ def identification_markings_form():
                     ),
                     Option(
                         key=False,
-                        value="No",
+                        value=CreateGoodForm.FirearmGood.IdentificationMarkings.NO,
                         components=[
                             TextArea(
-                                title="Explain why there are no identification markings",
+                                title=CreateGoodForm.FirearmGood.IdentificationMarkings.NO_MARKINGS_DETAILS,
                                 description="",
                                 name="no_identification_markings_details",
                                 optional=False,
