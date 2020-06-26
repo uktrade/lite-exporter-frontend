@@ -308,7 +308,7 @@ def get_open_general_licences(
                 key=ogl["id"],
                 value=ogl["case_type"]["reference"]["value"] + " (" + ogl["name"] + ")",
                 tag=OpenGeneralLicenceQuestions.OpenGeneralLicences.ALREADY_REGISTERED
-                if bool(len(ogl["registrations"]))
+                if ogl["registrations"]
                 else None,
                 more_information=ogl["description"],
                 disabled=bool(len(ogl["registrations"])),
