@@ -26,7 +26,7 @@ COMPONENT_SELECTION_TO_DETAIL_FIELD_MAP = {
 }
 
 
-ITEM_CATEGORY_TO_DISPLAY_STRING_MAP = {"group3_software": "Software", "group3_technology": "Technology"}
+ITEM_CATEGORY_TO_DISPLAY_STRING_MAP = {"group3_software": "software", "group3_technology": "technology"}
 
 
 def get_category_display_string(category):

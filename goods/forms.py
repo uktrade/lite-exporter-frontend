@@ -66,7 +66,7 @@ def software_technology_details_form(request, item_category=None):
         request.POST.get("item_category", "") if not item_category else item_category
     )
     return Form(
-        title=CreateGoodForm.TechnologySoftware.TITLE + category.lower(),
+        title=CreateGoodForm.TechnologySoftware.TITLE + category,
         questions=[
             HiddenField("is_software_or_technology_step", True),
             TextArea(title="", description="", name="software_or_technology_details", optional=False,),
