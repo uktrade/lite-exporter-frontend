@@ -47,6 +47,27 @@ def post_goods(request, json):
                 "date_of_issue": format_date(json, "date_of_issue"),
             }
 
+    if "item_category" in json and json["item_category"] == "group2_firearms":
+        firearm_details = {}
+        if "product_type_step" in json:
+            firearm_details["type"] = json["type"]
+        if "firearm_ammunition_step" in json:
+            firearm_details["year_of_manufacture"] = json["year_of_manufacture"]
+            firearm_details["calibre"] = json["calibre"]
+        if "section_certificate_step" in json:
+            firearm_details["is_covered_by_firearm_act_section_one_two_or_five"] = json[
+                "is_covered_by_firearm_act_section_one_two_or_five"
+            ]
+            firearm_details["section_certificate_number"] = json["section_certificate_number"]
+            firearm_details["section_certificate_date_of_expiry"] = format_date(
+                json, "section_certificate_date_of_expiry"
+            )
+        if "identification_markings_step" in json:
+            firearm_details["has_identification_markings"] = json["has_identification_markings"]
+            firearm_details["identification_markings_details"] = json["identification_markings_details"]
+            firearm_details["no_identification_markings_details"] = json["no_identification_markings_details"]
+        json["firearm_details"] = firearm_details
+
     data = post(request, GOODS_URL, json)
 
     if data.status_code == HTTPStatus.OK:

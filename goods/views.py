@@ -33,6 +33,7 @@ from goods.forms import (
     product_component_form,
     product_uses_information_security,
     software_technology_details_form,
+    add_firearm_good_form_group,
 )
 from goods.helpers import COMPONENT_SELECTION_TO_DETAIL_FIELD_MAP, return_to_good_summary
 from goods.services import (
@@ -167,7 +168,12 @@ class AddGood(MultiFormView):
         copied_request = request.POST.copy()
         is_pv_graded = copied_request.get("is_pv_graded", "").lower() == "yes"
         is_software_technology = copied_request.get("item_category") in ["group3_software", "group3_technology"]
-        self.forms = add_good_form_group(request, is_pv_graded, is_software_technology)
+        is_firearms = copied_request.get("item_category") == "group2_firearms"
+
+        if not is_firearms:
+            self.forms = add_good_form_group(request, is_pv_graded, is_software_technology)
+        else:
+            self.forms = add_firearm_good_form_group(request, is_pv_graded)
 
         if is_pv_graded:
             # post on step 5 in both software/technology and group 1
