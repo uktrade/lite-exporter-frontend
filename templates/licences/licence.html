@@ -151,7 +151,7 @@
 		<thead class="govuk-table__head">
 			<tr class="govuk-table__row">
 				<th class="govuk-table__header" scope="col">{% lcs "licences.LicencePage.GoodsTable.DETAILS" %}</th>
-				{% if licence.application.goods.0.quantity %}
+				{% if licence.application.goods.0.usage_applied_for %}
 					<th class="govuk-table__header" scope="col">{% lcs "licences.LicencePage.GoodsTable.APPLIED_FOR" %}</th>
 					<th class="govuk-table__header" scope="col">{% lcs "licences.LicencePage.GoodsTable.LICENCED" %}</th>
 				{% endif %}
@@ -174,12 +174,12 @@
 								{{ good.description }}
 							{% endif %}
 						</td>
-						{% if licence.application.goods.0.quantity %}
+						{% if licence.application.goods.0.usage_applied_for %}
 							<td class="govuk-table__cell">
-								{{ good.quantity|floatformat|intcomma }} {{ good.unit.value }}
+								{{ good.usage_applied_for|floatformat|intcomma }} {{ good.unit.value }}
 							</td>
 							<td class="govuk-table__cell">
-								{{ good.licenced_quantity|floatformat|intcomma }} {{ good.unit.value }} (£{{ good.licenced_value|floatformat:2|intcomma }})
+								{{ good.usage_licenced|floatformat|intcomma }} {{ good.unit.value }} (£{{ good.licenced_value|floatformat:2|intcomma }})
 							</td>
 						{% endif %}
 						{% if licence.application.goods.0.usage != None and licence.application.case_type.sub_type.key == "standard" or licence.application.case_type.sub_type.key == "open" %}

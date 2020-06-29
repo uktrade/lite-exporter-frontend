@@ -651,7 +651,7 @@ def create_licence(context, decision, api_test_client):  # noqa
     )
     api_test_client.cases.add_generated_document(context.case_id, document_template["id"], decision)
     context.generated_document = api_test_client.context["generated_document"]
-    api_test_client.cases.finalise_case(context.case_id, "approve")
+    api_test_client.cases.finalise_case(context.case_id, decision)
     if decision != "no_licence_required":
         api_test_client.cases.finalise_licence(context.case_id)
         context.licence = api_test_client.context["licence"]
