@@ -50,22 +50,29 @@ def post_goods(request, json):
     if "item_category" in json and json["item_category"] == "group2_firearms":
         firearm_details = {}
         if "product_type_step" in json:
-            firearm_details["type"] = json["type"]
+            firearm_details["type"] = json.get("type", "")
         if "firearm_ammunition_step" in json:
-            firearm_details["year_of_manufacture"] = json["year_of_manufacture"]
-            firearm_details["calibre"] = json["calibre"]
+            firearm_details["year_of_manufacture"] = json.get("year_of_manufacture")
+            firearm_details["calibre"] = json.get("calibre")
+            del json["year_of_manufacture"]
+            del json["calibre"]
         if "section_certificate_step" in json:
-            firearm_details["is_covered_by_firearm_act_section_one_two_or_five"] = json[
-                "is_covered_by_firearm_act_section_one_two_or_five"
-            ]
-            firearm_details["section_certificate_number"] = json["section_certificate_number"]
-            firearm_details["section_certificate_date_of_expiry"] = format_date(
-                json, "section_certificate_date_of_expiry"
+            firearm_details["is_covered_by_firearm_act_section_one_two_or_five"] = json.get(
+                "is_covered_by_firearm_act_section_one_two_or_five", ""
             )
+            firearm_details["section_certificate_number"] = json.get("section_certificate_number")
+            formatted_section_certificate_date = format_date(json, "section_certificate_date_of_expiry")
+            firearm_details["section_certificate_date_of_expiry"] = (
+                formatted_section_certificate_date if formatted_section_certificate_date != "--" else ""
+            )
+
+            del json["section_certificate_number"]
         if "identification_markings_step" in json:
-            firearm_details["has_identification_markings"] = json["has_identification_markings"]
-            firearm_details["identification_markings_details"] = json["identification_markings_details"]
-            firearm_details["no_identification_markings_details"] = json["no_identification_markings_details"]
+            firearm_details["has_identification_markings"] = json.get("has_identification_markings", "")
+            firearm_details["identification_markings_details"] = json.get("identification_markings_details")
+            firearm_details["no_identification_markings_details"] = json.get("no_identification_markings_details")
+            del json["identification_markings_details"]
+            del json["no_identification_markings_details"]
         json["firearm_details"] = firearm_details
 
     data = post(request, GOODS_URL, json)
