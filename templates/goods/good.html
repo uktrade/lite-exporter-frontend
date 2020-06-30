@@ -251,6 +251,102 @@
 					{% endif %}
 				</dd>
 			</div>
+
+			{# BEGIN Category 2 firearms only #}
+			<div class="govuk-summary-list__row">
+				<dt class="govuk-summary-list__key">
+					{% lcs "goods.GoodPage.Table.FirearmDetails.PRODUCT_TYPE" %}
+				</dt>
+				<dd class="govuk-summary-list__value">
+					{{ good.firearm_details.type.value|default_na }}
+				</dd>
+				<dd class="govuk-summary-list__actions">
+					{% if good.status.key == 'draft' %}
+						<a id="change-product-type" class="govuk-link govuk-link--no-visited-state"
+						   href="{% url 'goods:firearm_type' good.id %}">{% lcs 'generic.CHANGE' %} <span
+								class="govuk-visually-hidden">{% lcs "goods.GoodPage.Table.FirearmDetails.PRODUCT_TYPE" %}</span></a>
+					{% endif %}
+				</dd>
+			</div>
+
+			<div class="govuk-summary-list__row">
+				<dt class="govuk-summary-list__key">
+					{% lcs "goods.GoodPage.Table.FirearmDetails.YEAR_OF_MANUFACTURE" %}
+				</dt>
+				<dd class="govuk-summary-list__value">
+					{{ good.firearm_details.year_of_manufacture.value|default_na }}
+				</dd>
+				<dd class="govuk-summary-list__actions">
+					{% if good.status.key == 'draft' %}
+						<a id="change-year-of-manufacture" class="govuk-link govuk-link--no-visited-state"
+						   href="{% url 'goods:ammunition' good.id %}">{% lcs 'generic.CHANGE' %} <span
+								class="govuk-visually-hidden">{% lcs "goods.GoodPage.Table.FirearmDetails.YEAR_OF_MANUFACTURE" %}</span></a>
+					{% endif %}
+				</dd>
+			</div>
+
+			<div class="govuk-summary-list__row">
+				<dt class="govuk-summary-list__key">
+					{% lcs "goods.GoodPage.Table.FirearmDetails.CALIBRE" %}
+				</dt>
+				<dd class="govuk-summary-list__value">
+					{{ good.firearm_details.calibre.value|default_na }}
+				</dd>
+				<dd class="govuk-summary-list__actions">
+					{% if good.status.key == 'draft' %}
+						<a id="change-calibre" class="govuk-link govuk-link--no-visited-state"
+						   href="{% url 'goods:ammunition' good.id %}">{% lcs 'generic.CHANGE' %} <span
+								class="govuk-visually-hidden">{% lcs "goods.GoodPage.Table.FirearmDetails.CALIBRE" %}</span></a>
+					{% endif %}
+				</dd>
+			</div>
+
+			<div class="govuk-summary-list__row">
+				<dt class="govuk-summary-list__key">
+					{% lcs "goods.GoodPage.Table.FirearmDetails.COVERED_BY_THE_FIREARMS_ACT_1968" %}
+				</dt>
+				<dd class="govuk-summary-list__value">
+					{% if good.firearm_details.is_covered_by_firearm_act_section_one_two_or_five %}
+						Yes - {{ good.firearm_details.section_certificate_number }} expires on
+						{{ good.firearm_details.section_certificate_date_of_expiry }}
+					{% else %}
+						No
+					{% endif %}
+
+				</dd>
+				<dd class="govuk-summary-list__actions">
+					{% if good.status.key == 'draft' %}
+						<a id="change-firearms-act-details" class="govuk-link govuk-link--no-visited-state"
+						   href="{% url 'goods:firearms_act' good.id %}">{% lcs 'generic.CHANGE' %} <span
+								class="govuk-visually-hidden">{% lcs "goods.GoodPage.Table.FirearmDetails.COVERED_BY_THE_FIREARMS_ACT_1968" %}</span></a>
+					{% endif %}
+				</dd>
+			</div>
+
+			<div class="govuk-summary-list__row">
+				<dt class="govuk-summary-list__key">
+					{% lcs "goods.GoodPage.Table.FirearmDetails.IDENTIFICATION_MARKINGS" %}
+				</dt>
+
+				<dd class="govuk-summary-list__value">
+					{% if good.firearm_details.has_identification_markings %}
+						Yes
+						<span class="govuk-hint"> {{ good.firearm_details.identification_markings_details }}</span>
+					{% else %}
+						No
+						<span class="govuk-hint"> {{ good.firearm_details.no_identification_markings_details }}</span>
+					{% endif %}
+				</dd>
+				<dd class="govuk-summary-list__actions">
+					{% if good.status.key == 'draft' %}
+						<a id="change-identification-markings" class="govuk-link govuk-link--no-visited-state"
+						   href="{% url 'goods:identification_markings' good.id %}">{% lcs 'generic.CHANGE' %} <span
+								class="govuk-visually-hidden">{% lcs "goods.GoodPage.Table.FirearmDetails.IDENTIFICATION_MARKINGS" %}</span></a>
+					{% endif %}
+				</dd>
+			</div>
+			{# END Category 2 firearms only #}
+
 			<div class="govuk-summary-list__row">
 				<dt class="govuk-summary-list__key">
 					{% lcs "goods.GoodPage.Table.IS_GOOD_CONTROLLED" %}
