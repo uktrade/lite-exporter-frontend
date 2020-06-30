@@ -274,7 +274,7 @@
 					{% lcs "goods.GoodPage.Table.FirearmDetails.YEAR_OF_MANUFACTURE" %}
 				</dt>
 				<dd class="govuk-summary-list__value">
-					{{ good.firearm_details.year_of_manufacture.value|default_na }}
+					{{ good.firearm_details.year_of_manufacture|default_na }}
 				</dd>
 				<dd class="govuk-summary-list__actions">
 					{% if good.status.key == 'draft' %}
@@ -290,7 +290,7 @@
 					{% lcs "goods.GoodPage.Table.FirearmDetails.CALIBRE" %}
 				</dt>
 				<dd class="govuk-summary-list__value">
-					{{ good.firearm_details.calibre.value|default_na }}
+					{{ good.firearm_details.calibre|default_na }}
 				</dd>
 				<dd class="govuk-summary-list__actions">
 					{% if good.status.key == 'draft' %}
