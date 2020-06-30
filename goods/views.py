@@ -56,6 +56,7 @@ from goods.services import (
     edit_good_pv_grading,
     edit_good_details,
     get_good_details,
+    edit_good_firearm_details,
 )
 from lite_content.lite_exporter_frontend import strings, goods
 from lite_content.lite_exporter_frontend.goods import AttachDocumentForm
@@ -440,8 +441,7 @@ class EditFirearmProductType(SingleFormView):
             self.object_pk = str(kwargs["pk"])
         self.data = get_good_details(request, self.object_pk)[0]
         self.form = group_two_product_type_form()
-        # TODO new endpoint calling edit_good_details with json = firearms_details only
-        self.action = edit_good_details
+        self.action = edit_good_firearm_details
 
     def get_success_url(self):
         # TODO retrieve just the firearm_details
@@ -471,8 +471,7 @@ class EditAmmunition(SingleFormView):
             self.object_pk = str(kwargs["pk"])
         self.data = get_good_details(request, self.object_pk)[0]
         self.form = firearm_ammunition_details_form()
-        # TODO new endpoint calling edit_good_details with json = firearms_details only
-        self.action = edit_good_details
+        self.action = edit_good_firearm_details
 
     def get_success_url(self):
         # TODO retrieve just the firearm_details
@@ -502,8 +501,7 @@ class EditFirearmActDetails(SingleFormView):
             self.object_pk = str(kwargs["pk"])
         self.data = get_good_details(request, self.object_pk)[0]
         self.form = firearms_act_confirmation_form()
-        # TODO new endpoint calling edit_good_details with json = firearms_details only
-        self.action = edit_good_details
+        self.action = edit_good_firearm_details
 
     def get_success_url(self):
         # TODO retrieve just the firearm_details
@@ -534,8 +532,7 @@ class EditIdentificationMarkings(SingleFormView):
             self.object_pk = str(kwargs["pk"])
         self.data = get_good_details(request, self.object_pk)[0]
         self.form = identification_markings_form()
-        # TODO new endpoint calling edit_good_details with json = firearms_details only
-        self.action = edit_good_details
+        self.action = edit_good_firearm_details
 
     def get_success_url(self):
         # Return to the application add good summary if adding/editing good from the application
