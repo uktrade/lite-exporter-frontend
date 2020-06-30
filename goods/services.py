@@ -80,7 +80,7 @@ def add_firearm_details_to_data(json):
         firearm_details["section_certificate_number"] = json.get("section_certificate_number")
         formatted_section_certificate_date = format_date(json, "section_certificate_date_of_expiry")
         firearm_details["section_certificate_date_of_expiry"] = (
-            formatted_section_certificate_date if formatted_section_certificate_date != "--" else ""
+            formatted_section_certificate_date if formatted_section_certificate_date != "--" else None
         )
         del json["section_certificate_number"]
     if "identification_markings_step" in json:
