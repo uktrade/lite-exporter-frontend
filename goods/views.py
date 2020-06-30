@@ -34,6 +34,10 @@ from goods.forms import (
     product_uses_information_security,
     software_technology_details_form,
     add_firearm_good_form_group,
+    group_two_product_type_form,
+    firearm_ammunition_details_form,
+    firearms_act_confirmation_form,
+    identification_markings_form,
 )
 from goods.helpers import COMPONENT_SELECTION_TO_DETAIL_FIELD_MAP, return_to_good_summary
 from goods.services import (
@@ -420,6 +424,127 @@ class EditGrading(SingleFormView):
             return reverse_lazy("goods:add_document", kwargs={"pk": self.object_pk})
         elif raise_a_clc_query or raise_a_pv_query:
             return reverse_lazy("goods:raise_goods_query", kwargs={"pk": self.object_pk})
+        else:
+            return reverse_lazy("goods:good", kwargs={"pk": self.object_pk})
+
+
+class EditFirearmProductType(SingleFormView):
+    application_id = None
+
+    def init(self, request, **kwargs):
+        if "good_pk" in kwargs:
+            # coming from the application
+            self.object_pk = str(kwargs["good_pk"])
+            self.application_id = str(kwargs["pk"])
+        else:
+            self.object_pk = str(kwargs["pk"])
+        self.data = get_good_details(request, self.object_pk)[0]
+        self.form = group_two_product_type_form()
+        # TODO new endpoint calling edit_good_details with json = firearms_details only
+        self.action = edit_good_details
+
+    def get_success_url(self):
+        # TODO retrieve just the firearm_details
+        good = get_good(self.request, self.object_pk, full_detail=True)[0]
+        # Next question firearm and ammunition details
+        if not good.get("year_of_manufacture") or not good.get("calibre"):
+            # TODO add enpoint to application
+            # if "good_pk" in self.kwargs:
+            # return reverse_lazy(
+            #     "applications:ammunition", kwargs={"pk": self.application_id, "good_pk": self.object_pk}
+            # )
+            # else:
+            return reverse_lazy("goods:ammunition", kwargs={"pk": self.object_pk})
+        # Edit
+        else:
+            return return_to_good_summary(self.kwargs, self.application_id, self.object_pk)
+
+
+class EditAmmunition(SingleFormView):
+    application_id = None
+
+    def init(self, request, **kwargs):
+        if "good_pk" in kwargs:
+            # coming from the application
+            self.object_pk = str(kwargs["good_pk"])
+            self.application_id = str(kwargs["pk"])
+        else:
+            self.object_pk = str(kwargs["pk"])
+        self.data = get_good_details(request, self.object_pk)[0]
+        self.form = firearm_ammunition_details_form()
+        # TODO new endpoint calling edit_good_details with json = firearms_details only
+        self.action = edit_good_details
+
+    def get_success_url(self):
+        # TODO retrieve just the firearm_details
+        good = get_good(self.request, self.object_pk, full_detail=True)[0]
+        # Next question is_covered_by_firearm_act_section_one_two_or_five - boolean
+        if good.get("is_covered_by_firearm_act_section_one_two_or_five") is None:
+            # TODO add enpoint to application
+            # if "good_pk" in self.kwargs:
+            # return reverse_lazy(
+            #     "applications:firearms_act", kwargs={"pk": self.application_id, "good_pk": self.object_pk}
+            # )
+            # else:
+            return reverse_lazy("goods:firearms_act", kwargs={"pk": self.object_pk})
+        # Edit
+        else:
+            return return_to_good_summary(self.kwargs, self.application_id, self.object_pk)
+
+
+class EditFirearmActDetails(SingleFormView):
+    application_id = None
+
+    def init(self, request, **kwargs):
+        if "good_pk" in kwargs:
+            # coming from the application
+            self.object_pk = str(kwargs["good_pk"])
+            self.application_id = str(kwargs["pk"])
+        else:
+            self.object_pk = str(kwargs["pk"])
+        self.data = get_good_details(request, self.object_pk)[0]
+        self.form = firearms_act_confirmation_form()
+        # TODO new endpoint calling edit_good_details with json = firearms_details only
+        self.action = edit_good_details
+
+    def get_success_url(self):
+        # TODO retrieve just the firearm_details
+        good = get_good(self.request, self.object_pk, full_detail=True)[0]
+        # Next question identification markings - boolean
+        if good.get("has_identification_markings") is None:
+            # TODO add enpoint to application
+            # if "good_pk" in self.kwargs:
+            # return reverse_lazy(
+            #     "applications:identification_markings", kwargs={"pk": self.application_id, "good_pk": self.object_pk}
+            # )
+            # else:
+            return reverse_lazy("goods:identification_markings", kwargs={"pk": self.object_pk})
+        # Edit
+        else:
+            return return_to_good_summary(self.kwargs, self.application_id, self.object_pk)
+
+
+class EditIdentificationMarkings(SingleFormView):
+    application_id = None
+
+    def init(self, request, **kwargs):
+        if "good_pk" in kwargs:
+            # coming from the application
+            self.object_pk = str(kwargs["good_pk"])
+            self.application_id = str(kwargs["pk"])
+        else:
+            self.object_pk = str(kwargs["pk"])
+        self.data = get_good_details(request, self.object_pk)[0]
+        self.form = identification_markings_form()
+        # TODO new endpoint calling edit_good_details with json = firearms_details only
+        self.action = edit_good_details
+
+    def get_success_url(self):
+        # Return to the application add good summary if adding/editing good from the application
+        if "good_pk" in self.kwargs:
+            return reverse_lazy(
+                "applications:add_good_summary", kwargs={"pk": self.application_id, "good_pk": self.object_pk}
+            )
         else:
             return reverse_lazy("goods:good", kwargs={"pk": self.object_pk})
 
