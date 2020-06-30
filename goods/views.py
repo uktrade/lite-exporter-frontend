@@ -448,13 +448,12 @@ class EditFirearmProductType(SingleFormView):
         good = get_good(self.request, self.object_pk, full_detail=True)[0]
         # Next question firearm and ammunition details
         if not good.get("year_of_manufacture") or not good.get("calibre"):
-            # TODO add enpoint to application
-            # if "good_pk" in self.kwargs:
-            # return reverse_lazy(
-            #     "applications:ammunition", kwargs={"pk": self.application_id, "good_pk": self.object_pk}
-            # )
-            # else:
-            return reverse_lazy("goods:ammunition", kwargs={"pk": self.object_pk})
+            if "good_pk" in self.kwargs:
+                return reverse_lazy(
+                    "applications:ammunition", kwargs={"pk": self.application_id, "good_pk": self.object_pk}
+                )
+            else:
+                return reverse_lazy("goods:ammunition", kwargs={"pk": self.object_pk})
         # Edit
         else:
             return return_to_good_summary(self.kwargs, self.application_id, self.object_pk)
@@ -480,13 +479,12 @@ class EditAmmunition(SingleFormView):
         good = get_good(self.request, self.object_pk, full_detail=True)[0]
         # Next question is_covered_by_firearm_act_section_one_two_or_five - boolean
         if good.get("is_covered_by_firearm_act_section_one_two_or_five") is None:
-            # TODO add enpoint to application
-            # if "good_pk" in self.kwargs:
-            # return reverse_lazy(
-            #     "applications:firearms_act", kwargs={"pk": self.application_id, "good_pk": self.object_pk}
-            # )
-            # else:
-            return reverse_lazy("goods:firearms_act", kwargs={"pk": self.object_pk})
+            if "good_pk" in self.kwargs:
+                return reverse_lazy(
+                    "applications:firearms_act", kwargs={"pk": self.application_id, "good_pk": self.object_pk}
+                )
+            else:
+                return reverse_lazy("goods:firearms_act", kwargs={"pk": self.object_pk})
         # Edit
         else:
             return return_to_good_summary(self.kwargs, self.application_id, self.object_pk)
@@ -512,13 +510,13 @@ class EditFirearmActDetails(SingleFormView):
         good = get_good(self.request, self.object_pk, full_detail=True)[0]
         # Next question identification markings - boolean
         if good.get("has_identification_markings") is None:
-            # TODO add enpoint to application
-            # if "good_pk" in self.kwargs:
-            # return reverse_lazy(
-            #     "applications:identification_markings", kwargs={"pk": self.application_id, "good_pk": self.object_pk}
-            # )
-            # else:
-            return reverse_lazy("goods:identification_markings", kwargs={"pk": self.object_pk})
+            if "good_pk" in self.kwargs:
+                return reverse_lazy(
+                    "applications:identification_markings",
+                    kwargs={"pk": self.application_id, "good_pk": self.object_pk},
+                )
+            else:
+                return reverse_lazy("goods:identification_markings", kwargs={"pk": self.object_pk})
         # Edit
         else:
             return return_to_good_summary(self.kwargs, self.application_id, self.object_pk)
