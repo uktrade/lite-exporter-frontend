@@ -308,11 +308,12 @@
 						{% lcs "goods.GoodPage.Table.FirearmDetails.COVERED_BY_THE_FIREARMS_ACT_1968" %}
 					</dt>
 					<dd class="govuk-summary-list__value">
-						{% if good.firearm_details.is_covered_by_firearm_act_section_one_two_or_five %}
-							Yes - {{ good.firearm_details.section_certificate_number }} expires on
-							{{ good.firearm_details.section_certificate_date_of_expiry }}
-						{% else %}
-							No
+						{% if good.firearm_details.is_covered_by_firearm_act_section_one_two_or_five is not None %}
+							{{ good.firearm_details.is_covered_by_firearm_act_section_one_two_or_five|friendly_boolean}}
+							{% if good.firearm_details.is_covered_by_firearm_act_section_one_two_or_five %}
+								- certificate number {{ good.firearm_details.section_certificate_number|default_na }} expires on
+								{{ good.firearm_details.section_certificate_date_of_expiry|date_display }}
+							{% endif %}
 						{% endif %}
 
 					</dd>
@@ -331,12 +332,15 @@
 					</dt>
 
 					<dd class="govuk-summary-list__value">
-						{% if good.firearm_details.has_identification_markings %}
-							Yes
-							<span class="govuk-hint"> {{ good.firearm_details.identification_markings_details }}</span>
-						{% else %}
-							No
-							<span class="govuk-hint"> {{ good.firearm_details.no_identification_markings_details }}</span>
+						{% if good.firearm_details.has_identification_markings is not None %}
+							{{ good.firearm_details.has_identification_markings|friendly_boolean }}
+							<span class="govuk-hint">
+								{% if good.firearm_details.has_identification_markings %}
+									{{ good.firearm_details.identification_markings_details|default_na }}
+								{% else %}
+									{{ good.firearm_details.no_identification_markings_details|default_na }}
+								{% endif %}
+							</span>
 						{% endif %}
 					</dd>
 					<dd class="govuk-summary-list__actions">
