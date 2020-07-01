@@ -505,7 +505,7 @@ def group_two_product_type_form():
                 options=[
                     Option(key="firearms", value=CreateGoodForm.FirearmGood.ProductType.FIREARM),
                     Option(
-                        key="components_for_firearm",
+                        key="components_for_firearms",
                         value=CreateGoodForm.FirearmGood.ProductType.COMPONENTS_FOR_FIREARM,
                     ),
                     Option(key="ammunition", value=CreateGoodForm.FirearmGood.ProductType.AMMUNITION),
