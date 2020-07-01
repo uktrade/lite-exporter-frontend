@@ -292,16 +292,26 @@ def pv_details_form(request):
     )
 
 
-def add_good_form_group(request, is_pv_graded: bool = None, is_software_technology: bool = None, draft_pk: str = None):
+def add_good_form_group(
+    request,
+    is_pv_graded: bool = None,
+    is_software_technology: bool = None,
+    is_firearms: bool = None,
+    draft_pk: str = None,
+):
     return FormGroup(
         [
             product_category_form(request),
             add_goods_questions(request, draft_pk),
             conditional(is_pv_graded, pv_details_form(request)),
             conditional(is_software_technology, software_technology_details_form(request)),
-            product_military_use_form(request),
-            conditional(not is_software_technology, product_component_form(request)),
-            product_uses_information_security(request),
+            conditional(not is_firearms, product_military_use_form(request)),
+            conditional(not is_software_technology and not is_firearms, product_component_form(request)),
+            conditional(not is_firearms, product_uses_information_security(request)),
+            conditional(is_firearms, group_two_product_type_form()),
+            conditional(is_firearms, firearm_ammunition_details_form()),
+            conditional(is_firearms, firearms_act_confirmation_form()),
+            conditional(is_firearms, identification_markings_form()),
         ]
     )
 
