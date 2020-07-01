@@ -264,9 +264,7 @@
 					</dd>
 					<dd class="govuk-summary-list__actions">
 						{% if good.status.key == 'draft' %}
-							<a id="change-product-type" class="govuk-link govuk-link--no-visited-state"
-							   href="{% url 'goods:firearm_type' good.id %}">{% lcs 'generic.CHANGE' %} <span
-									class="govuk-visually-hidden">{% lcs "goods.GoodPage.Table.FirearmDetails.PRODUCT_TYPE" %}</span></a>
+							<a id="change-product-type" class="govuk-link govuk-link--no-visited-state" href="{% url 'goods:firearm_type' good.id %}">{% lcs 'generic.CHANGE' %} <span class="govuk-visually-hidden">{% lcs "goods.GoodPage.Table.FirearmDetails.PRODUCT_TYPE" %}</span></a>
 						{% endif %}
 					</dd>
 				</div>
@@ -281,8 +279,7 @@
 					<dd class="govuk-summary-list__actions">
 						{% if good.status.key == 'draft' %}
 							<a id="change-year-of-manufacture" class="govuk-link govuk-link--no-visited-state"
-							   href="{% url 'goods:ammunition' good.id %}">{% lcs 'generic.CHANGE' %} <span
-									class="govuk-visually-hidden">{% lcs "goods.GoodPage.Table.FirearmDetails.YEAR_OF_MANUFACTURE" %}</span></a>
+							   href="{% url 'goods:ammunition' good.id %}">{% lcs 'generic.CHANGE' %} <span class="govuk-visually-hidden">{% lcs "goods.GoodPage.Table.FirearmDetails.YEAR_OF_MANUFACTURE" %}</span></a>
 						{% endif %}
 					</dd>
 				</div>
@@ -297,8 +294,7 @@
 					<dd class="govuk-summary-list__actions">
 						{% if good.status.key == 'draft' %}
 							<a id="change-calibre" class="govuk-link govuk-link--no-visited-state"
-							   href="{% url 'goods:ammunition' good.id %}">{% lcs 'generic.CHANGE' %} <span
-									class="govuk-visually-hidden">{% lcs "goods.GoodPage.Table.FirearmDetails.CALIBRE" %}</span></a>
+							   href="{% url 'goods:ammunition' good.id %}">{% lcs 'generic.CHANGE' %} <span class="govuk-visually-hidden">{% lcs "goods.GoodPage.Table.FirearmDetails.CALIBRE" %}</span></a>
 						{% endif %}
 					</dd>
 				</div>
@@ -319,8 +315,7 @@
 					<dd class="govuk-summary-list__actions">
 						{% if good.status.key == 'draft' %}
 							<a id="change-firearms-act-details" class="govuk-link govuk-link--no-visited-state"
-							   href="{% url 'goods:firearms_act' good.id %}">{% lcs 'generic.CHANGE' %} <span
-									class="govuk-visually-hidden">{% lcs "goods.GoodPage.Table.FirearmDetails.COVERED_BY_THE_FIREARMS_ACT_1968" %}</span></a>
+							   href="{% url 'goods:firearms_act' good.id %}">{% lcs 'generic.CHANGE' %} <span class="govuk-visually-hidden">{% lcs "goods.GoodPage.Table.FirearmDetails.COVERED_BY_THE_FIREARMS_ACT_1968" %}</span></a>
 						{% endif %}
 					</dd>
 				</div>
@@ -344,8 +339,7 @@
 					<dd class="govuk-summary-list__actions">
 						{% if good.status.key == 'draft' %}
 							<a id="change-identification-markings" class="govuk-link govuk-link--no-visited-state"
-							   href="{% url 'goods:identification_markings' good.id %}">{% lcs 'generic.CHANGE' %} <span
-									class="govuk-visually-hidden">{% lcs "goods.GoodPage.Table.FirearmDetails.IDENTIFICATION_MARKINGS" %}</span></a>
+							   href="{% url 'goods:identification_markings' good.id %}">{% lcs 'generic.CHANGE' %} <span class="govuk-visually-hidden">{% lcs "goods.GoodPage.Table.FirearmDetails.IDENTIFICATION_MARKINGS" %}</span></a>
 						{% endif %}
 					</dd>
 				</div>
