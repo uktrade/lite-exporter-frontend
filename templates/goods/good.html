@@ -376,7 +376,8 @@
 				</dd>
 				<dd class="govuk-summary-list__actions">
 					{% if good.status.key == 'draft' %}
-						<a id="edit-good-grading" class="govuk-link govuk-link--no-visited-state" href="{% url 'goods:edit_grading' good.id %}#pane_is_good_controlled">Change</a>
+						<a id="edit-good-grading" class="govuk-link govuk-link--no-visited-state" href="{% url 'goods:edit_grading' good.id %}">{% lcs 'generic.CHANGE' %} <span
+									class="govuk-visually-hidden">{% lcs "goods.GoodPage.Table.Grading.IS_GRADED" %}</span></a>
 					{% endif %}
 				</dd>
 			</div>
