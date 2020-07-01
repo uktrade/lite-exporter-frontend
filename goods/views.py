@@ -8,6 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
 from s3chunkuploader.file_handler import S3FileUploadHandler
 
+from applications.helpers.date_fields import split_date_into_components
 from applications.services import (
     get_application_ecju_queries,
     get_case_notes,
@@ -33,7 +34,6 @@ from goods.forms import (
     product_component_form,
     product_uses_information_security,
     software_technology_details_form,
-    add_firearm_good_form_group,
     group_two_product_type_form,
     firearm_ammunition_details_form,
     firearms_act_confirmation_form,
@@ -448,15 +448,13 @@ class EditFirearmProductType(SingleFormView):
             self.application_id = str(kwargs["pk"])
         else:
             self.object_pk = str(kwargs["pk"])
-        self.data = get_good_details(request, self.object_pk)[0]
+        self.data = get_good_details(request, self.object_pk)[0]["firearm_details"]
         self.form = group_two_product_type_form()
         self.action = edit_good_firearm_details
 
     def get_success_url(self):
-        # TODO retrieve just the firearm_details
-        good = get_good(self.request, self.object_pk, full_detail=True)[0]
         # Next question firearm and ammunition details
-        if not good.get("year_of_manufacture") or not good.get("calibre"):
+        if not self.data.get("year_of_manufacture") or not self.data.get("calibre"):
             if "good_pk" in self.kwargs:
                 return reverse_lazy(
                     "applications:ammunition", kwargs={"pk": self.application_id, "good_pk": self.object_pk}
@@ -478,15 +476,13 @@ class EditAmmunition(SingleFormView):
             self.application_id = str(kwargs["pk"])
         else:
             self.object_pk = str(kwargs["pk"])
-        self.data = get_good_details(request, self.object_pk)[0]
+        self.data = get_good_details(request, self.object_pk)[0]["firearm_details"]
         self.form = firearm_ammunition_details_form()
         self.action = edit_good_firearm_details
 
     def get_success_url(self):
-        # TODO retrieve just the firearm_details
-        good = get_good(self.request, self.object_pk, full_detail=True)[0]
         # Next question is_covered_by_firearm_act_section_one_two_or_five - boolean
-        if good.get("is_covered_by_firearm_act_section_one_two_or_five") is None:
+        if self.data.get("is_covered_by_firearm_act_section_one_two_or_five") is None:
             if "good_pk" in self.kwargs:
                 return reverse_lazy(
                     "applications:firearms_act", kwargs={"pk": self.application_id, "good_pk": self.object_pk}
@@ -508,15 +504,34 @@ class EditFirearmActDetails(SingleFormView):
             self.application_id = str(kwargs["pk"])
         else:
             self.object_pk = str(kwargs["pk"])
-        self.data = get_good_details(request, self.object_pk)[0]
+        self.data = get_good_details(request, self.object_pk)[0]["firearm_details"]
         self.form = firearms_act_confirmation_form()
         self.action = edit_good_firearm_details
 
+    def get_data(self):
+        if self.data:
+            new_data = {
+                "section_certificate_number": self.data.get("section_certificate_number"),
+                "is_covered_by_firearm_act_section_one_two_or_five": self.data.get(
+                    "is_covered_by_firearm_act_section_one_two_or_five"
+                ),
+            }
+            # Get the certificate date split into components to display on the form
+            certificate_date_of_expiry = self.data.get("section_certificate_date_of_expiry")
+            if certificate_date_of_expiry:
+                date_prefix = "section_certificate_date_of_expiry"
+                # Pre-populate the date fields
+                (
+                    new_data[date_prefix + "year"],
+                    new_data[date_prefix + "month"],
+                    new_data[date_prefix + "day"],
+                ) = split_date_into_components(certificate_date_of_expiry, "-")
+
+            return new_data
+
     def get_success_url(self):
-        # TODO retrieve just the firearm_details
-        good = get_good(self.request, self.object_pk, full_detail=True)[0]
         # Next question identification markings - boolean
-        if good.get("has_identification_markings") is None:
+        if self.data.get("has_identification_markings") is None:
             if "good_pk" in self.kwargs:
                 return reverse_lazy(
                     "applications:identification_markings",
@@ -539,7 +554,7 @@ class EditIdentificationMarkings(SingleFormView):
             self.application_id = str(kwargs["pk"])
         else:
             self.object_pk = str(kwargs["pk"])
-        self.data = get_good_details(request, self.object_pk)[0]
+        self.data = get_good_details(request, self.object_pk)[0]["firearm_details"]
         self.form = identification_markings_form()
         self.action = edit_good_firearm_details
 
