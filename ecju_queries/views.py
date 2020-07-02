@@ -104,11 +104,7 @@ class RespondToQuery(TemplateView):
                 return form_page(request, respond_to_query_form(self.back_link, self.ecju_query), data=request.POST)
             else:
                 error = {"required": ["This field is required"]}
-                form = ecju_query_respond_confirmation_form(
-                    reverse_lazy(
-                        "applications:respond_to_query", kwargs={"pk": self.case_id, "query_pk": self.ecju_query_id},
-                    )
-                )
+                form = ecju_query_respond_confirmation_form(self.request.path_info)
                 form.questions.append(HiddenField("response", request.POST.get("response")))
                 return form_page(request, form, errors=error)
         else:
