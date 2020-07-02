@@ -120,12 +120,13 @@ def click_on_draft_good(driver, context, exporter_url):
     )
     firearm_year_of_manufacture_row_text = helpers.get_element_row_text_from_table(elements, "Year of manufacture")
     firearm_calibre_row_text = helpers.get_element_row_text_from_table(elements, "Calibre")
-    assert "Yes, specially designed for military use" in military_use_row_text
-    if component_row_text:
-        assert "Yes, it's designed specially for hardware" in component_row_text
-    assert "No" in infosec_row_text
-    if software_technology_details_row_text:
-        assert "edited software purpose" in software_technology_details_row_text
+    if "Firearms" not in category_row_text:
+        assert "Yes, specially designed for military use" in military_use_row_text
+        if component_row_text:
+            assert "Yes, it's designed specially for hardware" in component_row_text
+        assert "No" in infosec_row_text
+        if software_technology_details_row_text:
+            assert "edited software purpose" in software_technology_details_row_text
     if "Firearms" in category_row_text:
         assert "Components for firearms" in firearm_product_type_row_text
         assert "2004" in firearm_year_of_manufacture_row_text

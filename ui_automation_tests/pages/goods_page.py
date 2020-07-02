@@ -32,13 +32,13 @@ class GoodsPage(BasePage):
         self.driver.find_element_by_id(self.LINK_EDIT_GOOD_SOFTWARE_TECHNOLOGY_ID).click()
 
     def click_on_firearm_good_edit_product_type_link(self):
-        self.driver.find_element_by_id(self.LINK_EDIT_FIREARM_GOOD_PRODUCT_TYPE_ID)
+        self.driver.find_element_by_id(self.LINK_EDIT_FIREARM_GOOD_PRODUCT_TYPE_ID).click()
 
     def click_on_firearm_good_edit_firearms_act_sections_applicable_link(self):
-        self.driver.find_element_by_id(self.LINK_EDIT_FIREARM_GOOD_FIREARMS_ACT_ID)
+        self.driver.find_element_by_id(self.LINK_EDIT_FIREARM_GOOD_FIREARMS_ACT_ID).click()
 
     def click_on_firearm_good_edit_identification_markings_link(self):
-        self.driver.find_element_by_id(self.LINK_EDIT_FIREARM_GOOD_IDENTIFICATION_MARKINGS_ID)
+        self.driver.find_element_by_id(self.LINK_EDIT_FIREARM_GOOD_IDENTIFICATION_MARKINGS_ID).click()
 
     def get_text_of_query_details(self):
         return self.driver.find_element_by_id(self.QUERY_TABLE_ID)
