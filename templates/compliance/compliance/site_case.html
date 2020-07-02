@@ -1,0 +1,76 @@
+{% extends 'layouts/base.html' %}
+
+{% block back_link %}
+	<a href="{% url 'compliance:compliance_list' %}" id="back-link" class="govuk-back-link">
+		Back to compliance list
+	</a>
+{% endblock %}
+
+{% block body %}
+	<div class="lite-app-bar">
+		<div class="lite-app-bar__content">
+			<h1 class="govuk-heading-l">
+				{% block title %}
+					{{ reference_code }}
+				{% endblock %}
+			</h1>
+		</div>
+	</div>
+
+	<div>
+		Primary site?
+	</div>
+
+	<div class="lite-tabs__container govuk-!-margin-top-6">
+		<div class="lite-tabs">
+			<a href="{% url 'compliance:compliance_site_details' id 'details' %}" class="lite-tabs__tab {% if tab == 'details' %}lite-tabs__tab--selected{% endif %}" id="link-case-notes">
+				Details
+			</a>
+			<a href="{% url 'compliance:compliance_site_details' id 'ecju-queries' %}" class="lite-tabs__tab {% if tab == 'ecju-queries' %}lite-tabs__tab--selected{% endif %}" id="link-case-notes">
+				ECJU queries
+				{% if exporter_user_notification_count.ecju_query %}
+					<div class="lite-notification-bubble">
+						{{ exporter_user_notification_count.ecju_query }}
+					</div>
+				{% endif %}
+			</a>
+			<a href="{% url 'compliance:compliance_site_details' id 'visit-reports' %}" class="lite-tabs__tab {% if tab == 'visit-reports' %}lite-tabs__tab--selected{% endif %}" id="link-case-notes">
+				Visits
+				{% if exporter_user_notification_count.visits %}
+					<div class="lite-notification-bubble">
+						{{ exporter_user_notification_count.ecju_query }}
+					</div>
+				{% endif %}
+			</a>
+			<a href="{% url 'compliance:compliance_site_details' id 'case-notes' %}" class="lite-tabs__tab {% if tab == 'case-notes' %}lite-tabs__tab--selected{% endif %}" id="link-case-notes">
+				Notes
+				{% if exporter_user_notification_count.case_notes %}
+					<div class="lite-notification-bubble">
+						{{ exporter_user_notification_count.ecju_query }}
+					</div>
+				{% endif %}
+			</a>
+			<a href="{% url 'compliance:compliance_site_details' id 'generated-documents' %}" class="lite-tabs__tab {% if tab == 'generated-documents' %}lite-tabs__tab--selected{% endif %}" id="link-case-notes">
+				Generated Documents
+				{% if exporter_user_notification_count.generated_documents %}
+					<div class="lite-notification-bubble">
+						{{ exporter_user_notification_count.ecju_query }}
+					</div>
+				{% endif %}
+			</a>
+		</div>
+	</div>
+
+	{% if tab == "details" %}
+		{% include "compliance/compliance/tabs/site_summary.html" %}
+	{% elif tab == "case-notes" %}
+		{% url "compliance:compliance_site_details" id "case-notes" as post_url %}
+		{% include "includes/case-notes.html" with post_url=post_url %}
+	{% elif tab == "ecju-queries" %}
+		{% include "includes/ecju-queries.html" with object_type="compliance-site" case_id=id %}
+	{% elif tab == "generated-documents" %}
+		{% include "core/ecju-generated-documents.html" with case_id=id %}
+	{% elif tab == "visit-reports" %}
+		{% include "compliance/compliance/tabs/visits.html" %}
+	{% endif %}
+{% endblock %}

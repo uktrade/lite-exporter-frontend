@@ -1,0 +1,59 @@
+<dl class="govuk-summary-list">
+	<div class="govuk-summary-list__row">
+		<dt class="govuk-summary-list__key">
+			visit_date
+		</dt>
+		<dd class="govuk-summary-list__value">
+			{{ visit_date|default:"Not set" }}
+		</dd>
+	</div>
+	<div class="govuk-summary-list__row">
+		<dt class="govuk-summary-list__key">
+			site_name
+		</dt>
+		<dd class="govuk-summary-list__value">
+			{{ site_name }}
+		</dd>
+	</div>
+	<div class="govuk-summary-list__row">
+		<dt class="govuk-summary-list__key">
+			building and street
+		</dt>
+		<dd class="govuk-summary-list__value">
+			{{ address.address_line_1 }}
+			{{ address.address_line_2 }}
+		</dd>
+	</div>
+	<div class="govuk-summary-list__row">
+		<dt class="govuk-summary-list__key">
+			town or city
+		</dt>
+		<dd class="govuk-summary-list__value">
+			{{ address.city }}
+		</dd>
+	</div>
+	<div class="govuk-summary-list__row">
+		<dt class="govuk-summary-list__key">
+			County or state
+		</dt>
+		<dd class="govuk-summary-list__value">
+			{{ address.region }}
+		</dd>
+	</div>
+	<div class="govuk-summary-list__row">
+		<dt class="govuk-summary-list__key">
+			Postcode
+		</dt>
+		<dd class="govuk-summary-list__value">
+			{{ address.postcode }}
+		</dd>
+	</div>
+	<div class="govuk-summary-list__row">
+		<dt class="govuk-summary-list__key">
+			Country
+		</dt>
+		<dd class="govuk-summary-list__value">
+			{{ address.country.name }}
+		</dd>
+	</div>
+</dl>
