@@ -11,12 +11,13 @@
 					<span class="govuk-visually-hidden">Created at </span>{{ ecju_query.created_at|str_date }}
 				</p>
 				{% if object_type == "good" %}
-					{% url 'ecju_queries:respond_to_query_good' ecju_query.id object_type good.id case_id as url%}
-					{{ url }}
+					{% url 'ecju_queries:respond_to_query_extra' ecju_query.id object_type good.id case_id as url%}
+					<a class="govuk-link govuk-link--no-visited-state" href={{ url }}>Respond to query</a>
+				{% elif object_type == "compliance-visit" %}
+					{% url 'ecju_queries:respond_to_query_extra' ecju_query.id object_type site_case_id case_id as url%}
 					<a class="govuk-link govuk-link--no-visited-state" href={{ url }}>Respond to query</a>
 				{% else %}
 					{% url 'ecju_queries:respond_to_query' ecju_query.id object_type case_id as url%}
-					{{ url }}
 					<a class="govuk-link govuk-link--no-visited-state" href={{ url }}>Respond to query</a>
 				{% endif %}
 			</div>

@@ -6,9 +6,9 @@ app_name = "compliance"
 
 urlpatterns = [
     path("", views.ComplianceSiteList.as_view(), name="compliance_list"),
-    path("<uuid:pk>/site/<str:tab>/", views.ComplianceSiteDetails.as_view(), name="compliance_site_details"),
+    path("<uuid:pk>/<str:tab>/", views.ComplianceSiteDetails.as_view(), name="compliance_site_details"),
     path(
-        "<uuid:site_case_id>/visit/<uuid:pk>/site/<str:tab>/",
+        "<uuid:site_case_id>/visit/<uuid:pk>/<str:tab>/",
         views.ComplianceVisitDetails.as_view(),
         name="compliance_visit_details",
     ),

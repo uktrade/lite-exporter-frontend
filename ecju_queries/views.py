@@ -13,12 +13,11 @@ from lite_forms.generators import form_page, error_page
 
 
 class RespondToQuery(TemplateView):
-    object_id = None
     object_type = None
     case_id = None
     ecju_query_id = None
     ecju_query = None
-    good_id = None
+    extra_id = None
     back_link = None
 
     def dispatch(self, request, *args, **kwargs):
@@ -28,17 +27,17 @@ class RespondToQuery(TemplateView):
         self.ecju_query = get_ecju_query(request, self.case_id, self.ecju_query_id)
 
         if self.object_type == "good":
-            self.good_id = kwargs["good_pk"]
-            good, _ = get_good(request, self.good_id, full_detail=True)
+            self.extra_id = kwargs["extra_pk"]
+            good, _ = get_good(request, self.extra_id, full_detail=True)
             self.case_id = good["case_id"]
             self.ecju_query = get_ecju_query(request, self.case_id, self.ecju_query_id)
 
         if self.object_type == "application":
             self.back_link = reverse_lazy(
-                "applications:application", kwargs={"pk": self.object_id, "type": "ecju-queries"}
+                "applications:application", kwargs={"pk": self.case_id, "type": "ecju-queries"}
             )
         elif self.object_type == "good":
-            self.back_link = reverse_lazy("goods:good_detail", kwargs={"pk": self.good_id, "type": "ecju-queries"})
+            self.back_link = reverse_lazy("goods:good_detail", kwargs={"pk": self.extra_id, "type": "ecju-queries"})
         elif self.object_type == "end-user-advisory":
             self.back_link = reverse_lazy(
                 "end_users:end_user_detail", kwargs={"pk": self.case_id, "type": "ecju-queries"}
@@ -48,8 +47,10 @@ class RespondToQuery(TemplateView):
                 "compliance:compliance_site_details", kwargs={"pk": self.case_id, "tab": "ecju-queries"}
             )
         elif self.object_type == "compliance-visit":
+            self.extra_id = kwargs["extra_pk"]
             self.back_link = reverse_lazy(
-                "compliance:compliance_visit_details", kwargs={"pk": self.case_id, "tab": "ecju-queries"}
+                "compliance:compliance_visit_details",
+                kwargs={"site_case_id": self.extra_id, "pk": self.case_id, "tab": "ecju-queries"},
             )
 
         if self.ecju_query["response"]:

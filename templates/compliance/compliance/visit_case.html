@@ -1,7 +1,7 @@
 {% extends 'layouts/base.html' %}
 
 {% block back_link %}
-	<a href="{% url 'compliance:compliance_site_details' site_case_id "details" %}" id="back-link" class="govuk-back-link">
+	<a href="{% url 'compliance:compliance_site_details' site_case_id "visit-reports" %}" id="back-link" class="govuk-back-link">
 		Back to compliance
 	</a>
 {% endblock %}
@@ -39,7 +39,7 @@
 	</div>
 
 	{% if tab == "ecju-queries" %}
-		{% include "includes/ecju-queries.html" with object_type="compliance-visit" case_id=id %}
+		{% include "includes/ecju-queries.html" with object_type="compliance-visit" case_id=id site_case_id=site_case_id %}
 	{% elif tab == "generated-documents" %}
 		{% include "core/ecju-generated-documents.html" with case_id=id %}
 	{% endif %}
