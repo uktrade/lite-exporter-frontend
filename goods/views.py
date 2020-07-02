@@ -174,11 +174,8 @@ class AddGood(MultiFormView):
         is_pv_graded = copied_request.get("is_pv_graded", "").lower() == "yes"
         is_software_technology = copied_request.get("item_category") in ["group3_software", "group3_technology"]
         is_firearms = copied_request.get("item_category") == "group2_firearms"
-
-        # if not is_firearms:
         self.forms = add_good_form_group(request, is_pv_graded, is_software_technology, is_firearms)
-        # else:
-        #     self.forms = add_firearm_good_form_group(request, is_pv_graded)
+
         if not is_firearms:
             if is_pv_graded:
                 # post on step 5 in both software/technology and group 1
@@ -190,11 +187,11 @@ class AddGood(MultiFormView):
                     self.action = post_goods
         else:
             if is_pv_graded:
-                # post on step 5 in both software/technology and group 1
+                # post on step 6 if firearms and pv graded
                 if int(self.request.POST.get("form_pk")) == 6:
                     self.action = post_goods
             else:
-                # post on step 4 in both software/technology and group 1
+                # post on step 5 if firearms and not pv graded
                 if int(self.request.POST.get("form_pk")) == 5:
                     self.action = post_goods
 

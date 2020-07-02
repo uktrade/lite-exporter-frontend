@@ -335,8 +335,7 @@
 					</dd>
 					<dd class="govuk-summary-list__actions">
 						{% if good.status.key == 'draft' %}
-							<a id="change-identification-markings" class="govuk-link govuk-link--no-visited-state"
-							   href="{% url 'goods:identification_markings' good.id %}">{% lcs 'generic.CHANGE' %} <span class="govuk-visually-hidden">{% lcs "goods.GoodPage.Table.FirearmDetails.IDENTIFICATION_MARKINGS" %}</span></a>
+							<a id="change-identification-markings" class="govuk-link govuk-link--no-visited-state" href="{% url 'goods:identification_markings' good.id %}">{% lcs 'generic.CHANGE' %} <span class="govuk-visually-hidden">{% lcs "goods.GoodPage.Table.FirearmDetails.IDENTIFICATION_MARKINGS" %}</span></a>
 						{% endif %}
 					</dd>
 				</div>

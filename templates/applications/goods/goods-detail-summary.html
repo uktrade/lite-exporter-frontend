@@ -70,7 +70,7 @@
 					</dd>
 				</div>
 
-				{% if good.item_category.key != 'group2_firearms' %}
+				{% if good.good.item_category.key != 'group2_firearms' %}
 					{% if good.good.item_category.key in 'group3_software,group3_technology' %}
 						<div class="govuk-summary-list__row">
 							<dt class="govuk-summary-list__key">
@@ -94,7 +94,7 @@
 						</dd>
 					</div>
 
-					{% if good.item_category.key not in 'group3_software,group3_technology' %}
+					{% if good.good.item_category.key not in 'group3_software,group3_technology' %}
 						<div class="govuk-summary-list__row">
 							<dt class="govuk-summary-list__key">
 								{% lcs 'goods.GoodsDetailSummary.COMPONENT' %}
@@ -125,13 +125,13 @@
 					</div>
 				{% endif %}
 
-				{% if good.item_category.key == 'group2_firearms' %}
+				{% if good.good.item_category.key == 'group2_firearms' %}
 					<div class="govuk-summary-list__row">
 						<dt class="govuk-summary-list__key">
 							{% lcs "goods.GoodsDetailSummary.FirearmDetails.PRODUCT_TYPE" %}
 						</dt>
 						<dd class="govuk-summary-list__value">
-							{{ good.firearm_details.type.value|default_na }}
+							{{ good.good.firearm_details.type.value|default_na }}
 						</dd>
 					</div>
 
@@ -140,16 +140,16 @@
 							{% lcs "goods.GoodsDetailSummary.FirearmDetails.YEAR_OF_MANUFACTURE" %}
 						</dt>
 						<dd class="govuk-summary-list__value">
-							{{ good.firearm_details.year_of_manufacture|default_na }}
+							{{ good.good.firearm_details.year_of_manufacture|default_na }}
 						</dd>
 					</div>
 
 					<div class="govuk-summary-list__row">
 						<dt class="govuk-summary-list__key">
-							{% lcs "goods.GoodsDetailSummary.FirearmDetails.FirearmDetails.CALIBRE" %}
+							{% lcs "goods.GoodsDetailSummary.FirearmDetails.CALIBRE" %}
 						</dt>
 						<dd class="govuk-summary-list__value">
-							{{ good.firearm_details.calibre|default_na }}
+							{{ good.good.firearm_details.calibre|default_na }}
 						</dd>
 					</div>
 
@@ -159,11 +159,11 @@
 							{% lcs "goods.GoodsDetailSummary.FirearmDetails.COVERED_BY_THE_FIREARMS_ACT_1968" %}
 						</dt>
 						<dd class="govuk-summary-list__value">
-							{% if good.firearm_details.is_covered_by_firearm_act_section_one_two_or_five is not None %}
-								{{ good.firearm_details.is_covered_by_firearm_act_section_one_two_or_five|friendly_boolean}}
-								{% if good.firearm_details.is_covered_by_firearm_act_section_one_two_or_five %}
-									- certificate number {{ good.firearm_details.section_certificate_number|default_na }} expires on
-									{{ good.firearm_details.section_certificate_date_of_expiry|date_display }}
+							{% if good.good.firearm_details.is_covered_by_firearm_act_section_one_two_or_five is not None %}
+								{{ good.good.firearm_details.is_covered_by_firearm_act_section_one_two_or_five|friendly_boolean}}
+								{% if good.good.firearm_details.is_covered_by_firearm_act_section_one_two_or_five %}
+									- certificate number {{ good.good.firearm_details.section_certificate_number|default_na }} expires on
+									{{ good.good.firearm_details.section_certificate_date_of_expiry|date_display }}
 								{% endif %}
 							{% endif %}
 						</dd>
@@ -174,13 +174,13 @@
 							{% lcs "goods.GoodsDetailSummary.FirearmDetails.IDENTIFICATION_MARKINGS" %}
 						</dt>
 						<dd class="govuk-summary-list__value">
-							{% if good.firearm_details.has_identification_markings is not None %}
-								{{ good.firearm_details.has_identification_markings|friendly_boolean }}
+							{% if good.good.firearm_details.has_identification_markings is not None %}
+								{{ good.good.firearm_details.has_identification_markings|friendly_boolean }}
 								<span class="govuk-hint">
-									{% if good.firearm_details.has_identification_markings %}
-										{{ good.firearm_details.identification_markings_details|default_na }}
+									{% if good.good.firearm_details.has_identification_markings %}
+										{{ good.good.firearm_details.identification_markings_details|default_na }}
 									{% else %}
-										{{ good.firearm_details.no_identification_markings_details|default_na }}
+										{{ good.good.firearm_details.no_identification_markings_details|default_na }}
 									{% endif %}
 								</span>
 							{% endif %}
