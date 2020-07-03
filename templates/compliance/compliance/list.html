@@ -32,6 +32,7 @@
 							<a class="govuk-link govuk-link--no-visited-state app-icon-label" href="{% url 'compliance:compliance_site_details' compliance_case.id "details" %}">
 								{{ compliance_case.reference_code }}
 							</a>
+							{% if compliance_case.exporter_user_notification_count %}<span class="lite-notification-bubble" id="eua-notifications"><span class="govuk-visually-hidden"> (</span>{{ compliance_case.exporter_user_notification_count }}<span class="govuk-visually-hidden"> notifications)</span></span>{% endif %}
 						</td>
 						<td class="govuk-table__cell">
 							{{ compliance_case.site_name }}

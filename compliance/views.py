@@ -17,6 +17,7 @@ from compliance.services import (
     get_compliance_list,
     get_compliance_detail,
     get_case_visit_reports,
+    get_case_visit_report,
 )
 from lite_content.lite_exporter_frontend.compliance import OpenReturnsForm
 from lite_forms.generators import success_page
@@ -63,7 +64,9 @@ class ComplianceSiteDetails(TemplateView):
 
 class ComplianceVisitDetails(TemplateView):
     def get(self, request, site_case_id, pk, tab, **kwargs):
-        data = {"id": pk, "tab": tab, "site_case_id": site_case_id}
+        data = get_case_visit_report(request, pk)
+        data["tab"] = tab
+        data["site_case_id"] = site_case_id
         if tab == "ecju-queries":
             data["open_queries"], data["closed_queries"] = get_application_ecju_queries(request, str(pk))
         elif tab == "generated-documents":

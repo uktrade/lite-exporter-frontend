@@ -4,8 +4,8 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
-from applications.services import get_ecju_query, put_ecju_query
 from ecju_queries.forms import respond_to_query_form, ecju_query_respond_confirmation_form
+from ecju_queries.services import get_ecju_query, put_ecju_query
 from goods.services import get_good
 from lite_content.lite_exporter_frontend import strings
 from lite_forms.components import HiddenField

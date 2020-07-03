@@ -21,17 +21,17 @@
 		<div class="lite-tabs">
 			<a href="{% url 'compliance:compliance_visit_details' site_case_id id 'ecju-queries' %}" class="lite-tabs__tab {% if tab == 'ecju-queries' %}lite-tabs__tab--selected{% endif %}" id="link-case-notes">
 				ECJU queries
-				{% if exporter_user_notification_count.ecju_query %}
+				{% if exporter_user_notification_count.ecjuquery %}
 					<div class="lite-notification-bubble">
-						{{ exporter_user_notification_count.ecju_query }}
+						{{ exporter_user_notification_count.ecjuquery }}
 					</div>
 				{% endif %}
 			</a>
 			<a href="{% url 'compliance:compliance_visit_details' site_case_id id 'generated-documents' %}" class="lite-tabs__tab {% if tab == 'generated-documents' %}lite-tabs__tab--selected{% endif %}" id="link-case-notes">
 				Generated Documents
-				{% if exporter_user_notification_count.generated_documents %}
+				{% if exporter_user_notification_count.generatedcasedocument %}
 					<div class="lite-notification-bubble">
-						{{ exporter_user_notification_count.ecju_query }}
+						{{ exporter_user_notification_count.generatedcasedocument }}
 					</div>
 				{% endif %}
 			</a>

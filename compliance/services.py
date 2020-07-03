@@ -21,7 +21,7 @@ def get_compliance_detail(request, pk):
 
 
 def get_case_visit_reports(request, pk):
-    data = get(request, COMPLIANCE_URL + str(pk) + VISIT_URL)
+    data = get(request, COMPLIANCE_URL + str(pk) + "/" + VISIT_URL)
     return data.json()
 
 

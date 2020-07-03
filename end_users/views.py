@@ -7,8 +7,6 @@ from applications.services import (
     get_case_notes,
     get_application_ecju_queries,
     post_case_notes,
-    get_ecju_query,
-    put_ecju_query,
     get_case_generated_documents,
 )
 from core.helpers import convert_parameters_to_query_params

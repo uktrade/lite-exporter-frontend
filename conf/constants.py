@@ -48,8 +48,8 @@ NLR_URL = "nlrs/"
 CONTRACT_TYPES_URL = "/contract-types/"
 CONTRACT_TYPES_COUNTRIES = "/countries-contract-types/"
 OPEN_GENERAL_LICENCES_URL = "/open-general-licences/"
-COMPLIANCE_URL = "/compliance/"
-VISIT_URL = "/visits/"
+COMPLIANCE_URL = "/compliance/exporter/"
+VISIT_URL = "visits/"
 OPEN_LICENCE_RETURNS_URL = COMPLIANCE_URL + "open-licence-returns/"
 
 # Queries URLs

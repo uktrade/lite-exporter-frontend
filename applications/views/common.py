@@ -31,8 +31,6 @@ from applications.services import (
     get_case_notes,
     get_case_generated_documents,
     get_application_ecju_queries,
-    get_ecju_query,
-    put_ecju_query,
     post_case_notes,
     submit_application,
     get_application,

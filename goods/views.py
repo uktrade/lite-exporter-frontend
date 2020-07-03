@@ -12,8 +12,6 @@ from applications.services import (
     get_application_ecju_queries,
     get_case_notes,
     post_case_notes,
-    get_ecju_query,
-    put_ecju_query,
     add_document_data,
     download_document_from_s3,
     get_status_properties,

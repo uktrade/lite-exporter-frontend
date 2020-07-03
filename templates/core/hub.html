@@ -130,6 +130,7 @@
 			<div class="app-tile">
 				<a href="{% url 'compliance:compliance_list' %}" class="app-tile__heading" id="link-open-licence-returns">
 					Compliance
+					{% if notifications.notifications.compliance %}<span class="lite-notification-bubble" id="eua-notifications"><span class="govuk-visually-hidden"> (</span>{{ notifications.notifications.compliance }}<span class="govuk-visually-hidden"> notifications)</span></span>{% endif %}
 				</a>
 				<p class="app-tile__body">View and manage your compliance visits</p>
 			</div>
