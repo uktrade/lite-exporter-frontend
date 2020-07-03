@@ -17,11 +17,13 @@
 		</div>
 	</div>
 
-	<div>
-		Primary site?
-	</div>
+	{% if is_primary_site %}
+		<div class="govuk-inset-text govuk-!-margin-top-0">
+			This is your organisation's primary site
+		</div>
+	{% endif %}
 
-	<div class="lite-tabs__container govuk-!-margin-top-6">
+	<div class="lite-tabs__container govuk-!-margin-top-0">
 		<div class="lite-tabs">
 			<a href="{% url 'compliance:compliance_site_details' id 'details' %}" class="lite-tabs__tab {% if tab == 'details' %}lite-tabs__tab--selected{% endif %}" id="link-case-notes">
 				Details
