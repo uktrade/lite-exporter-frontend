@@ -20,7 +20,7 @@ from lite_forms.components import (
     Link,
     Checkboxes,
 )
-from lite_forms.generators import confirm_form, success_page
+from lite_forms.generators import success_page
 from lite_forms.helpers import conditional
 
 

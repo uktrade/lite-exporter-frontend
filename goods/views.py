@@ -48,9 +48,9 @@ from goods.services import (
     edit_good_details,
     get_good_details,
 )
-from lite_content.lite_exporter_frontend import strings, goods
+from lite_content.lite_exporter_frontend import goods
 from lite_content.lite_exporter_frontend.goods import AttachDocumentForm
-from lite_forms.components import HiddenField, BackLink, FiltersBar, TextInput
+from lite_forms.components import BackLink, FiltersBar, TextInput
 from lite_forms.generators import error_page, form_page
 from lite_forms.views import SingleFormView, MultiFormView
 

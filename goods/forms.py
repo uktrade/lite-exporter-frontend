@@ -11,7 +11,6 @@ from lite_content.lite_exporter_frontend.goods import (
     EditGoodForm,
     DocumentSensitivityForm,
     AttachDocumentForm,
-    RespondToQueryForm,
     GoodsList,
     GoodGradingForm,
 )
@@ -24,7 +23,6 @@ from lite_forms.components import (
     BackLink,
     FileUpload,
     TextInput,
-    HTMLBlock,
     HiddenField,
     Button,
     DateInput,
@@ -35,7 +33,6 @@ from lite_forms.components import (
     FormGroup,
     Heading,
 )
-from lite_forms.generators import confirm_form
 from lite_forms.helpers import conditional
 from lite_forms.styles import ButtonStyle, HeadingStyle
 

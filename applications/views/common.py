@@ -43,9 +43,8 @@ from conf.constants import HMRC, APPLICANT_EDITING, NotificationType, STANDARD
 from core.helpers import str_to_bool, convert_dict_to_query_params
 from core.services import get_organisation
 from lite_content.lite_exporter_frontend import strings
-from lite_forms.components import HiddenField
 from lite_forms.generators import confirm_form
-from lite_forms.generators import error_page, form_page
+from lite_forms.generators import form_page
 from lite_forms.views import SingleFormView, MultiFormView
 
 

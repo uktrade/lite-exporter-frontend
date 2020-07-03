@@ -14,7 +14,7 @@ from lite_forms.components import (
     HTMLBlock,
     BackLink,
 )
-from lite_forms.generators import success_page, confirm_form
+from lite_forms.generators import success_page
 from lite_forms.helpers import conditional
 
 
