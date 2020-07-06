@@ -128,11 +128,11 @@
 		<section class="app-tiles">
 			{# Compliance licence tile #}
 			<div class="app-tile">
-				<a href="{% url 'compliance:compliance_list' %}" class="app-tile__heading" id="link-open-licence-returns">
-					Compliance
+				<a href="{% url 'compliance:compliance_list' %}" class="app-tile__heading" id="link-compliance">
+					{% lcs 'hub.Tiles.Compliance.COMPLIANCE_HEADING' %}
 					{% if notifications.notifications.compliance %}<span class="lite-notification-bubble" id="eua-notifications"><span class="govuk-visually-hidden"> (</span>{{ notifications.notifications.compliance }}<span class="govuk-visually-hidden"> notifications)</span></span>{% endif %}
 				</a>
-				<p class="app-tile__body">View and manage your compliance visits</p>
+				<p class="app-tile__body">{% lcs 'hub.Tiles.Compliance.DESCRIPTION' %}</p>
 			</div>
 			{# Open licence returns tile #}
 			<div class="app-tile">
