@@ -4,7 +4,7 @@
 			visit date
 		</dt>
 		<dd class="govuk-summary-list__value">
-			{{ visit_date|default:"Not set" }}
+			{{ visit_date|date_display|default:"Not set" }}
 		</dd>
 	</div>
 	<div class="govuk-summary-list__row">

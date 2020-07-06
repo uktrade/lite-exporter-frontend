@@ -17,10 +17,10 @@
 						{% if visit_report.exporter_user_notification_count %}<span class="lite-notification-bubble" id="eua-notifications"><span class="govuk-visually-hidden"> (</span>{{ visit_report.exporter_user_notification_count }}<span class="govuk-visually-hidden"> notifications)</span></span>{% endif %}
 					</td>
 					<td class="govuk-table__cell">
-						{{ visit_report.visit_date|default:"Not set" }}
+						{{ visit_report.visit_date|date_display|default:"Not set" }}
 					</td>
 					<td class="govuk-table__cell">
-						{% if visit_reports.case_officer_first_name %}
+						{% if visit_report.case_officer_first_name %}
 							{{ visit_report.case_officer_first_name }} {{ visit_report.case_officer_last_name }}
 						{% else %}
 							Not assigned
