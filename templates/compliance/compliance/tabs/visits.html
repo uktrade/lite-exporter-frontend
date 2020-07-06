@@ -2,9 +2,9 @@
 	<table class="govuk-table">
 		<thead class="govuk-table__head">
 			<tr class="govuk-table__row">
-				<th class="govuk-table__header" scope="col">Reference number</th>
-				<th class="govuk-table__header" scope="col">Date</th>
-				<th class="govuk-table__header" scope="col">Inspector's Name</th>
+				<th class="govuk-table__header" scope="col">{% lcs "compliance.ComplianceSiteCase.Visits.REFERENCE" %}</th>
+				<th class="govuk-table__header" scope="col">{% lcs "compliance.ComplianceSiteCase.Visits.DATE" %}</th>
+				<th class="govuk-table__header" scope="col">{% lcs "compliance.ComplianceSiteCase.Visits.INSPECTOR" %}</th>
 			</tr>
 		</thead>
 		<tbody class="govuk-table__body">
@@ -20,17 +20,15 @@
 						{{ visit_report.visit_date|date_display|default:"Not set" }}
 					</td>
 					<td class="govuk-table__cell">
-						{% if visit_report.case_officer_first_name %}
-							{{ visit_report.case_officer_first_name }} {{ visit_report.case_officer_last_name }}
-						{% else %}
-							Not assigned
-						{% endif %}
+						{{ visit_report.case_officer_first_name|default:"Not set" }} {{ visit_report.case_officer_last_name|default:"" }}
 					</td>
 				</tr>
 			{% endfor %}
 		</tbody>
 	</table>
+
 	{% pagination with data=visit_reports %}
+
 {% else %}
-	TODO notice no visits planned
+	{% include "includes/notice.html" with text="compliance.ComplianceSiteCase.Visits.NO_VISITS" %}
 {% endif %}

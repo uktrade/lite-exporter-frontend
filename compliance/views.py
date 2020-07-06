@@ -48,7 +48,7 @@ class ComplianceSiteDetails(TemplateView):
             data["errors"] = kwargs["errors"]
             data["text"] = kwargs["text"]
 
-        return render(request, "compliance/compliance/site_case.html", data)
+        return render(request, "compliance/compliance/site-case.html", data)
 
     def post(self, request, pk, tab):
         if tab != "case-notes":
@@ -73,7 +73,7 @@ class ComplianceVisitDetails(TemplateView):
             generated_documents, _ = get_case_generated_documents(request, str(pk))
             data["generated_documents"] = generated_documents["results"]
 
-        return render(request, "compliance/compliance/visit_case.html", data)
+        return render(request, "compliance/compliance/visit-case.html", data)
 
 
 class AnnualReturnsList(TemplateView):

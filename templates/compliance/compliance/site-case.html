@@ -2,7 +2,7 @@
 
 {% block back_link %}
 	<a href="{% url 'compliance:compliance_list' %}" id="back-link" class="govuk-back-link">
-		Back to compliance list
+		{% lcs "compliance.ComplianceSiteCase.BACK_LINK" %}
 	</a>
 {% endblock %}
 
@@ -19,17 +19,17 @@
 
 	{% if is_primary_site %}
 		<div class="govuk-inset-text govuk-!-margin-top-0">
-			This is your organisation's primary site
+			{% lcs "compliance.ComplianceSiteCase.PRIMARY_SITE" %}
 		</div>
 	{% endif %}
 
 	<div class="lite-tabs__container govuk-!-margin-top-0">
 		<div class="lite-tabs">
 			<a href="{% url 'compliance:compliance_site_details' id 'details' %}" class="lite-tabs__tab {% if tab == 'details' %}lite-tabs__tab--selected{% endif %}" id="link-case-notes">
-				Details
+				{% lcs "compliance.ComplianceSiteCase.Tabs.DETAILS" %}
 			</a>
 			<a href="{% url 'compliance:compliance_site_details' id 'ecju-queries' %}" class="lite-tabs__tab {% if tab == 'ecju-queries' %}lite-tabs__tab--selected{% endif %}" id="link-case-notes">
-				ECJU queries
+				{% lcs "compliance.ComplianceSiteCase.Tabs.ECJU_QUERIES" %}
 				{% if exporter_user_notification_count.ecjuquery %}
 					<div class="lite-notification-bubble">
 						{{ exporter_user_notification_count.ecjuquery }}
@@ -37,7 +37,7 @@
 				{% endif %}
 			</a>
 			<a href="{% url 'compliance:compliance_site_details' id 'visit-reports' %}" class="lite-tabs__tab {% if tab == 'visit-reports' %}lite-tabs__tab--selected{% endif %}" id="link-case-notes">
-				Visits
+				{% lcs "compliance.ComplianceSiteCase.Tabs.VISITS" %}
 				{% if exporter_user_notification_count.visitreport %}
 					<div class="lite-notification-bubble">
 						{{ exporter_user_notification_count.visitreport }}
@@ -45,7 +45,7 @@
 				{% endif %}
 			</a>
 			<a href="{% url 'compliance:compliance_site_details' id 'case-notes' %}" class="lite-tabs__tab {% if tab == 'case-notes' %}lite-tabs__tab--selected{% endif %}" id="link-case-notes">
-				Notes
+				{% lcs "compliance.ComplianceSiteCase.Tabs.NOTES" %}
 				{% if exporter_user_notification_count.casenote %}
 					<div class="lite-notification-bubble">
 						{{ exporter_user_notification_count.casenote }}
@@ -53,7 +53,7 @@
 				{% endif %}
 			</a>
 			<a href="{% url 'compliance:compliance_site_details' id 'generated-documents' %}" class="lite-tabs__tab {% if tab == 'generated-documents' %}lite-tabs__tab--selected{% endif %}" id="link-case-notes">
-				Generated Documents
+				{% lcs "compliance.ComplianceSiteCase.Tabs.GENERATED_DOCUMENTS" %}
 				{% if exporter_user_notification_count.generatedcasedocument %}
 					<div class="lite-notification-bubble">
 						{{ exporter_user_notification_count.generatedcasedocument }}
@@ -64,7 +64,7 @@
 	</div>
 
 	{% if tab == "details" %}
-		{% include "compliance/compliance/tabs/site_summary.html" %}
+		{% include "compliance/compliance/tabs/site-summary.html" %}
 	{% elif tab == "case-notes" %}
 		{% url "compliance:compliance_site_details" id "case-notes" as post_url %}
 		{% include "includes/case-notes.html" with post_url=post_url %}

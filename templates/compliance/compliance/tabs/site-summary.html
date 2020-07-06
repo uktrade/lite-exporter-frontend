@@ -1,7 +1,7 @@
 <dl class="govuk-summary-list">
 	<div class="govuk-summary-list__row">
 		<dt class="govuk-summary-list__key">
-			visit date
+			{% lcs "compliance.ComplianceSiteCase.Summary.VISIT_DATE" %}
 		</dt>
 		<dd class="govuk-summary-list__value">
 			{{ visit_date|date_display|default:"Not set" }}
@@ -9,7 +9,7 @@
 	</div>
 	<div class="govuk-summary-list__row">
 		<dt class="govuk-summary-list__key">
-			site name
+			{% lcs "compliance.ComplianceSiteCase.Summary.SITE_NAME" %}
 		</dt>
 		<dd class="govuk-summary-list__value">
 			{{ site_name }}
@@ -17,7 +17,7 @@
 	</div>
 	<div class="govuk-summary-list__row">
 		<dt class="govuk-summary-list__key">
-			building and street
+			{% lcs "compliance.ComplianceSiteCase.Summary.STREET" %}
 		</dt>
 		<dd class="govuk-summary-list__value">
 			{{ address.address_line_1 }}
@@ -26,7 +26,7 @@
 	</div>
 	<div class="govuk-summary-list__row">
 		<dt class="govuk-summary-list__key">
-			town or city
+			{% lcs "compliance.ComplianceSiteCase.Summary.CITY" %}
 		</dt>
 		<dd class="govuk-summary-list__value">
 			{{ address.city }}
@@ -34,7 +34,7 @@
 	</div>
 	<div class="govuk-summary-list__row">
 		<dt class="govuk-summary-list__key">
-			County or state
+			{% lcs "compliance.ComplianceSiteCase.Summary.COUNTY" %}
 		</dt>
 		<dd class="govuk-summary-list__value">
 			{{ address.region }}
@@ -42,7 +42,7 @@
 	</div>
 	<div class="govuk-summary-list__row">
 		<dt class="govuk-summary-list__key">
-			Postcode
+			{% lcs "compliance.ComplianceSiteCase.Summary.POSTCODE" %}
 		</dt>
 		<dd class="govuk-summary-list__value">
 			{{ address.postcode }}
@@ -50,7 +50,7 @@
 	</div>
 	<div class="govuk-summary-list__row">
 		<dt class="govuk-summary-list__key">
-			Country
+			{% lcs "compliance.ComplianceSiteCase.Summary.COUNTRY" %}
 		</dt>
 		<dd class="govuk-summary-list__value">
 			{{ address.country.name }}
