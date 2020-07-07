@@ -657,6 +657,17 @@ def create_licence(context, decision, api_test_client):  # noqa
         context.licence = api_test_client.context["licence"]
 
 
+@given("I finalise my NLR decision")  # noqa
+def create_licence(context, api_test_client):  # noqa
+    document_template = api_test_client.document_templates.add_template(
+        api_test_client.picklists, case_types=["oiel", "siel", "exhc"]
+    )
+    api_test_client.cases.finalise_case(context.case_id, "no_licence_required")
+    api_test_client.cases.add_generated_document(context.case_id, document_template["id"], "no_licence_required")
+    context.generated_document = api_test_client.context["generated_document"]
+    api_test_client.cases.finalise_licence(context.case_id, save_licence=False)
+
+
 @given(
     parsers.parse('I create a licence for my application with "{decision}" decision document and good decisions')
 )  # noqa
