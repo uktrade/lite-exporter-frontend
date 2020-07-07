@@ -129,7 +129,7 @@
 			{# Compliance licence tile #}
 			<div class="app-tile">
 				<a href="{% url 'compliance:compliance_list' %}" class="app-tile__heading" id="link-compliance">
-					{% lcs 'hub.Tiles.COMPLIANCE_HEADING' %}
+					{% lcs 'hub.Tiles.Compliance.TITLE' %}
 					{% if notifications.notifications.compliance %}<span class="lite-notification-bubble" id="eua-notifications"><span class="govuk-visually-hidden"> (</span>{{ notifications.notifications.compliance }}<span class="govuk-visually-hidden"> notifications)</span></span>{% endif %}
 				</a>
 				<p class="app-tile__body">{% lcs 'hub.Tiles.Compliance.DESCRIPTION' %}</p>
