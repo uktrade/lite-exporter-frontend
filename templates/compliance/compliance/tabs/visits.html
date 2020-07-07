@@ -9,9 +9,9 @@
 		</thead>
 		<tbody class="govuk-table__body">
 			{% for visit_report in visit_reports.results %}
-				<tr id={{ compliance_case.id }} class="govuk-table__row">
+				<tr id={{ visit_report.id }} class="govuk-table__row">
 					<td class="govuk-table__cell">
-						<a class="govuk-link govuk-link--no-visited-state app-icon-label" href="{% url 'compliance:compliance_visit_details' id visit_report.id "ecju-queries" %}">
+						<a class="govuk-link govuk-link--no-visited-state app-icon-label" href="{% url 'compliance:compliance_visit_details' id visit_report.id "ecju-queries" %}" id="visit-{{ visit_report.id }}">
 							{{ visit_report.reference_code }}
 						</a>
 						{% if visit_report.exporter_user_notification_count %}<span class="lite-notification-bubble" id="eua-notifications"><span class="govuk-visually-hidden"> (</span>{{ visit_report.exporter_user_notification_count }}<span class="govuk-visually-hidden"> notifications)</span></span>{% endif %}
