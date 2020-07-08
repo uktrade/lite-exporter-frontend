@@ -23,17 +23,17 @@ class CompliancePages(BasePage):
     def view_visit_case(self, case_id):
         self.driver.find_element_by_id(f"{self.PARTIAL_VISIT_CASE_LIST_LINK_ID}{case_id}").click()
 
-    def view_details_tab(self):
-        self.driver.find_element_by_id(self.TAB_DETAILS_ID).click()
+    def details_tab(self):
+        return self.driver.find_element_by_id(self.TAB_DETAILS_ID)
 
-    def view_ecju_queries_tab(self):
-        self.driver.find_element_by_id(self.TAB_ECJU_QUERIES_ID).click()
+    def ecju_queries_tab(self):
+        return self.driver.find_element_by_id(self.TAB_ECJU_QUERIES_ID)
 
-    def view_notes_tab(self):
-        self.driver.find_element_by_id(self.TAB_NOTES_ID).click()
+    def notes_tab(self):
+        return self.driver.find_element_by_id(self.TAB_NOTES_ID)
 
-    def view_generated_documents_tab(self):
-        self.driver.find_element_by_id(self.TAB_GENERATED_DOCUMENTS_ID).click()
+    def generated_documents_tab(self):
+        return self.driver.find_element_by_id(self.TAB_GENERATED_DOCUMENTS_ID)
 
-    def view_vists_tab(self):
-        self.driver.find_element_by_id(self.TAB_VISITS_ID).click()
+    def visits_tab(self):
+        return self.driver.find_element_by_id(self.TAB_VISITS_ID)

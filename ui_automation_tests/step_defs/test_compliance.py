@@ -79,20 +79,23 @@ def view_compliance_case(driver, context):
 @then("I can see the contents of the compliance case")
 def all_tabs_are_visible(driver):
     page = CompliancePages(driver)
-    page.view_details_tab()
-    page.view_ecju_queries_tab()
-    page.view_notes_tab()
-    page.view_generated_documents_tab()
-    page.view_vists_tab()
+    assert page.details_tab()
+    assert page.ecju_queries_tab()
+    assert page.notes_tab()
+    assert page.generated_documents_tab()
+    assert page.visits_tab()
 
 
 @then("I can see one visit case is created")
 def visit_case_created(driver, context):
-    assert CompliancePages(driver).find_paginated_compliance_visit_case(context.visit_case_id)
+    page = CompliancePages(driver)
+    page.visits_tab().click()
+    assert page.find_paginated_compliance_visit_case(context.visit_case_id)
 
 
 @then("I view the visit case where I can see a smaller set of tabs are visible")
 def view_visit_case_and_check_tabs(driver, context):
     page = CompliancePages(driver)
     page.view_visit_case(context.visit_case_id)
-    page.view_generated_documents_tab()
+    assert page.ecju_queries_tab()
+    assert page.generated_documents_tab()
