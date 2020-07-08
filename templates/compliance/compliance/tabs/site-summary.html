@@ -21,7 +21,9 @@
 		</dt>
 		<dd class="govuk-summary-list__value">
 			{{ address.address_line_1 }}
-			{{ address.address_line_2 }}
+			{% if address.address_line_2 %}
+				{{ address.address_line_2 }}
+			{% endif %}
 		</dd>
 	</div>
 	<div class="govuk-summary-list__row">
