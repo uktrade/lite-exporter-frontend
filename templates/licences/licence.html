@@ -33,12 +33,8 @@
 					{% lcs "licences.LicencePage.Summary.LICENCE_DOCUMENT" %}
 				</dt>
 				<dd class="govuk-summary-list__value">
-					{% for document in licence.application.documents %}
-						{% if document.advice_type.key == "approve" %}
-							<span class="govuk-visually-hidden">{% lcs "licences.LicencesList.DOWNLOAD_HIDDEN_TEXT" %}</span>
-							<a href="{% url 'applications:download_generated_document' document.id licence.application.id %}" class="govuk-button" id="licence-document-download">{% lcs "licences.LicencePage.Summary.DOWNLOAD_LICENCE_DOCUMENT" %}</a>
-						{% endif %}
-					{% endfor %}
+					<span class="govuk-visually-hidden">{% lcs "licences.LicencesList.DOWNLOAD_HIDDEN_TEXT" %}</span>
+					<a href="{% url 'applications:download_generated_document' licence.document.id licence.application.id %}" class="govuk-button" id="licence-document-download">{% lcs "licences.LicencePage.Summary.DOWNLOAD_LICENCE_DOCUMENT" %}</a>
 				</dd>
 			</div>
 			<div class="govuk-summary-list__row">
