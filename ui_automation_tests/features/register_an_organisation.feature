@@ -20,3 +20,14 @@ Feature: I want to register an organisation
     When I sign as user without an organisation registered
     And I register a new individual organisation
     Then I should see a success page
+
+  Scenario: Signing in with no organisation registered should take us to create account page
+    Given I register but I don't belong to an organisation
+    When I sign as user without an organisation registered
+    Then I should see create account page
+
+  Scenario: Accessing applications without registering an organisation
+    Given I register but I don't belong to an organisation
+    And I sign as user without an organisation registered
+    When I access my applications
+    Then I should see create account page
