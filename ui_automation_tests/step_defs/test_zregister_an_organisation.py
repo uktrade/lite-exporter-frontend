@@ -55,7 +55,7 @@ def register_individual(driver):
     functions.click_finish_button(driver)
 
 
-@when("I sign as user without an organisation registered")  # noqa
+@given("I sign as user without an organisation registered")  # noqa
 def go_to_exporter_when(driver, exporter_url, context):  # noqa
     driver.get(exporter_url)
     StartPage(driver).try_click_sign_in_button()
@@ -70,3 +70,14 @@ def not_logged_in(exporter_url, driver):
     if "accounts/logout" in driver.current_url:
         driver.find_element_by_css_selector("[action='/sso/accounts/logout/'] button").click()
         driver.get(exporter_url)
+
+
+@then("I should see create account page")
+def create_account_page(driver):
+    assert "Create an export control account - LITE - GOV.UK" == driver.title
+    assert driver.find_element_by_id("button-Create an account") is not None
+
+
+@when("I access my applications")
+def access_user_applications(driver, exporter_url):
+    driver.get(exporter_url.rstrip("/") + "/applications")

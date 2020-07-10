@@ -102,9 +102,6 @@ class RegisterAnOrganisationTriage(MultiFormView):
         if not request.user.is_authenticated:
             raise Http404
 
-        if request.user.user_token and get_user(request)["organisations"]:
-            raise Http404
-
     def get_success_url(self):
         return reverse(
             "core:register_an_organisation",
@@ -162,7 +159,12 @@ class RegisterAnOrganisation(SummaryListFormView):
 
 class RegisterAnOrganisationConfirmation(TemplateView):
     def get(self, request, *args, **kwargs):
-        organisation = get_user(request, params={"in_review": True})["organisations"][0]
+        user = get_user(request, params={"in_review": True})
+
+        if not user["organisations"]:
+            return redirect("core:register_an_organisation_triage")
+
+        organisation = user["organisations"][0]
         organisation_name = organisation["name"]
         organisation_status = organisation["status"]["key"]
 

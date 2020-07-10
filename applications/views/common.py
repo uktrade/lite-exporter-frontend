@@ -51,6 +51,9 @@ from lite_forms.views import SingleFormView, MultiFormView
 class ApplicationsList(TemplateView):
     def get(self, request, **kwargs):
         params = {"page": int(request.GET.get("page", 1)), "submitted": str_to_bool(request.GET.get("submitted", True))}
+        if not request.user.organisation:
+            return redirect("core:register_an_organisation_triage")
+
         organisation = get_organisation(request, request.user.organisation)
         applications = get_applications(request, **params)
 
