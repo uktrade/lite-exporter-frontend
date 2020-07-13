@@ -116,8 +116,8 @@ def pytest_exception_interact(node, report):
         logging.info(f"Test that has failed is file: {name}")
         try:
             utils.save_screenshot(node.funcargs.get("driver"), name)
-        except Exception:  # noqa
-            pass
+        except Exception as e:  # noqa
+            logging.error(f"Screenshot failed to be taken {e}")
 
 
 @given("I create a standard application via api")  # noqa
