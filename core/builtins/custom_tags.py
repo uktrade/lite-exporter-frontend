@@ -5,6 +5,7 @@ import json
 import re
 from html import escape
 
+from dateutil.relativedelta import relativedelta
 from django import template
 from django.template.defaultfilters import stringfilter, safe
 from django.templatetags.tz import do_timezone
@@ -92,16 +93,7 @@ def str_date_only(value):
 @register.filter()
 def add_months(start_date, months):
     start_date = datetime.datetime.strptime(start_date, DATE_FORMAT)
-    year = start_date.year
-    month = start_date.month
-
-    for _ in range(months):
-        month += 1
-        if month == 13:
-            year += 1
-            month = 1
-
-    new_date = datetime.date(year=year, month=month, day=start_date.day)
+    new_date = start_date + relativedelta(months=+months)
     return new_date.strftime(PAGE_DATE_FORMAT)
 
 
