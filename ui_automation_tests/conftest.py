@@ -113,11 +113,11 @@ def pytest_exception_interact(node, report):
             node._nodeid.replace(".py::", "").replace("ui_automation_tests/step_defs/", "").replace("step_defs", "")
         )
         name = "{0}_{1}".format(class_name, "").replace("/", "").replace("test", "_test")
-        logging.info(f"Test that has failed is file: {name}")
+        logging.info("Test that has failed is file: %s", name)
         try:
             utils.save_screenshot(node.funcargs.get("driver"), name)
         except Exception as e:  # noqa
-            logging.error(f"Screenshot failed to be taken {e}")
+            logging.error("Screenshot failed to be taken %e", e)
 
 
 @given("I create a standard application via api")  # noqa
