@@ -92,6 +92,10 @@ def str_date_only(value):
 
 @register.filter()
 def add_months(start_date, months):
+    """
+    Return a date with an added desired number of business months
+    Example 31/1/2020 + 1 month = 29/2/2020 (one business month)
+    """
     start_date = datetime.datetime.strptime(start_date, DATE_FORMAT)
     new_date = start_date + relativedelta(months=+months)
     return new_date.strftime(PAGE_DATE_FORMAT)
