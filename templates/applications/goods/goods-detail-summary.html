@@ -252,7 +252,7 @@
 							{% lcs 'goods.GoodGradingForm.DATE_OF_ISSUE' %}
 						</dt>
 						<dd class="govuk-summary-list__value">
-							{{ good.good.pv_grading_details.date_of_issue }}
+							{{ good.good.pv_grading_details.date_of_issue|str_date_only }}
 						</dd>
 					</div>
 
