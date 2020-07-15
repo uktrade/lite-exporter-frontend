@@ -595,7 +595,7 @@ class AttachDocuments(TemplateView):
 
     @csrf_exempt
     def post(self, request, **kwargs):
-        self.request.upload_handlers.insert(0, S3FileUploadHandler(request))
+        # self.request.upload_handlers.insert(0, S3FileUploadHandler(request))
 
         good_id = str(kwargs["pk"])
         good, _ = get_good(request, good_id)
