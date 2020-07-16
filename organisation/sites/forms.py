@@ -25,7 +25,9 @@ from organisation.sites.services import get_sites, filter_sites_in_the_uk
 
 def new_site_forms(request):
     in_uk = request.POST.get("location", "").lower() == "united_kingdom"
-    sites = get_sites(request, request.user.organisation, postcode=request.POST.get("address.postcode"))
+    sites = []
+    if request.POST.get("address.postcode"):
+        sites = get_sites(request, request.user.organisation, postcode=request.POST.get("address.postcode"))
 
     return FormGroup(
         [
