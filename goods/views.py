@@ -1,6 +1,7 @@
 import logging
 from http import HTTPStatus
 
+from django.core.files.uploadhandler import FileUploadHandler
 from django.http import Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
@@ -599,7 +600,7 @@ class AttachDocuments(TemplateView):
     def post(self, request, **kwargs):
         logging.info("Mark S post hit")
         if int(self.request.headers._store["content-length"][1]) > MAX_UPLOAD_SIZE:
-            logging.info("Mark S our except was hit")
+            logging.info("Mark S our exception was hit")
             return error_page(request, strings.Goods.Documents.AttachDocuments.FILE_TOO_LARGE)
 
         logging.info("Mark S inserting upload handler ...")

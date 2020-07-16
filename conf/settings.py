@@ -1,11 +1,14 @@
 import json
+import logging
 import os
 import sys
 
+from django.core.files.uploadhandler import FileUploadHandler
 from django.urls import reverse_lazy
 from environ import Env
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 ENV_FILE = os.path.join(BASE_DIR, ".env")
@@ -174,9 +177,25 @@ STATICFILES_STORAGE = "django.contrib.staticfiles.storage.ManifestStaticFilesSto
 SASS_PROCESSOR_ENABLED = True
 
 
+class MarkAndEugenesUploadHandler(FileUploadHandler):
+    def receive_data_chunk(self, raw_data, start):
+        logging.info("Mark S MarkAndEugenesUploadHandler receive data chunk")
+        pass
+
+    def file_complete(self, file_size):
+        logging.info("Mark S MarkAndEugenesUploadHandler file complete")
+        pass
+
+    def new_file(self, field_name, file_name, content_type, content_length, charset=None, content_type_extra=None):
+        logging.info("Mark S MarkAndEugenesUploadHandler new file")
+        super().new_file(field_name, file_name, content_type, content_length, charset, content_type_extra)
+
+
 # File Upload
 # https://github.com/uktrade/s3chunkuploader
-FILE_UPLOAD_HANDLERS = []
+FILE_UPLOAD_HANDLERS = [
+    "conf.settings.MarkAndEugenesUploadHandler",
+]
 AWS_ACCESS_KEY_ID = env("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = env("AWS_SECRET_ACCESS_KEY")
 AWS_STORAGE_BUCKET_NAME = env("AWS_STORAGE_BUCKET_NAME")
