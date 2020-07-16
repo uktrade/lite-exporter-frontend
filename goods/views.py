@@ -600,11 +600,12 @@ class AttachDocuments(TemplateView):
         logging.info("Mark S post hit")
         good_id = str(kwargs["pk"])
         good, _ = get_good(request, good_id)
-        if int(self.request.headers._store["content-length"][1]) > MAX_UPLOAD_SIZE:
-            raise UploadFailed("12345")
 
         data, error = add_document_data(request)
         logging.info("Mark S after add_document_data")
+
+        if int(self.request.headers._store["content-length"][1]) > MAX_UPLOAD_SIZE:
+            raise UploadFailed("12345")
 
         if error:
             return error_page(request, error)
