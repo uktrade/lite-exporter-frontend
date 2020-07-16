@@ -6,6 +6,7 @@ from django.urls import reverse_lazy, reverse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
+from s3chunkuploader.file_handler import UploadFailed
 
 from applications.helpers.date_fields import split_date_into_components
 from applications.services import (
@@ -17,6 +18,7 @@ from applications.services import (
     get_status_properties,
     get_case_generated_documents,
 )
+from conf.settings import MAX_UPLOAD_SIZE
 from goods.forms import (
     attach_documents_form,
     delete_good_form,
@@ -594,6 +596,11 @@ class AttachDocuments(TemplateView):
 
     @csrf_exempt
     def post(self, request, **kwargs):
+        file = request.FILES.getlist("file")[0]
+        if MAX_UPLOAD_SIZE and file.content_length:
+            if file.content_length > MAX_UPLOAD_SIZE:
+                raise UploadFailed("File too large")
+
         good_id = str(kwargs["pk"])
         good, _ = get_good(request, good_id)
 
