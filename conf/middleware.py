@@ -2,12 +2,11 @@ import logging
 import time
 import uuid
 
-from django.core.handlers.wsgi import LimitedStream
 from django.shortcuts import redirect
 from django.urls import resolve, reverse_lazy
 from s3chunkuploader.file_handler import UploadFailed
 
-from conf.settings import MAX_UPLOAD_SIZE
+from conf.settings import FILE_UPLOAD_HANDLERS
 from lite_content.lite_exporter_frontend import strings
 from lite_forms.generators import error_page
 
@@ -34,10 +33,7 @@ class UploadFailedMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        logging.info("Mark S Before content length check")
-        if isinstance(request._stream, LimitedStream) and int(request._stream.remaining) > MAX_UPLOAD_SIZE:
-            return error_page(request, strings.Goods.Documents.AttachDocuments.FILE_TOO_LARGE)
-        logging.info("Mark S After content length check")
+        logging.info(f"Mark S upload handler count = {len(FILE_UPLOAD_HANDLERS)}")
         response = self.get_response(request)
         return response
 
