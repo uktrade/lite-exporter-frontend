@@ -56,7 +56,7 @@ from goods.services import (
     get_good_details,
     edit_good_firearm_details,
 )
-from lite_content.lite_exporter_frontend import goods
+from lite_content.lite_exporter_frontend import goods, strings
 from lite_content.lite_exporter_frontend.goods import AttachDocumentForm
 from lite_forms.components import BackLink, FiltersBar, TextInput
 from lite_forms.generators import error_page, form_page
@@ -601,11 +601,11 @@ class AttachDocuments(TemplateView):
         good_id = str(kwargs["pk"])
         good, _ = get_good(request, good_id)
 
+        if int(self.request.headers._store["content-length"][1]) > MAX_UPLOAD_SIZE:
+            return error_page(request, strings.Goods.Documents.AttachDocuments.FILE_TOO_LARGE)
+
         data, error = add_document_data(request)
         logging.info("Mark S after add_document_data")
-
-        if int(self.request.headers._store["content-length"][1]) > MAX_UPLOAD_SIZE:
-            raise UploadFailed("12345")
 
         if error:
             return error_page(request, error)
