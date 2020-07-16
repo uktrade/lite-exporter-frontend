@@ -6,6 +6,7 @@ from django.shortcuts import redirect
 from django.urls import resolve, reverse_lazy
 from s3chunkuploader.file_handler import UploadFailed
 
+from conf.settings import MAX_UPLOAD_SIZE
 from lite_content.lite_exporter_frontend import strings
 from lite_forms.generators import error_page
 
@@ -32,6 +33,8 @@ class UploadFailedMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
+        if request.META.get("CONTENT_LENGTH") and int(request.META["CONTENT_LENGTH"]) > MAX_UPLOAD_SIZE:
+            return error_page(request, strings.Goods.Documents.AttachDocuments.FILE_TOO_LARGE)
         response = self.get_response(request)
         return response
 
