@@ -582,6 +582,14 @@ class CheckDocumentGrading(SingleFormView):
 
 @method_decorator(csrf_exempt, "dispatch")
 class AttachDocuments(TemplateView):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        if kwargs.get("request") and kwargs["request"].FILES.getlist("file"):
+            file = kwargs["request"].FILES.getlist("file")[0]
+            if MAX_UPLOAD_SIZE and file.content_length:
+                if file.content_length > MAX_UPLOAD_SIZE:
+                    raise UploadFailed("File too large")
+
     def get(self, request, **kwargs):
         return_to_good_page = request.GET.get("goodpage", "no")
         good_id = str(kwargs["pk"])
@@ -596,11 +604,6 @@ class AttachDocuments(TemplateView):
 
     @csrf_exempt
     def post(self, request, **kwargs):
-        file = request.FILES.getlist("file")[0]
-        if MAX_UPLOAD_SIZE and file.content_length:
-            if file.content_length > MAX_UPLOAD_SIZE:
-                raise UploadFailed("File too large")
-
         good_id = str(kwargs["pk"])
         good, _ = get_good(request, good_id)
 
