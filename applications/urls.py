@@ -26,6 +26,10 @@ from goods.views import (
     GoodComponent,
     GoodInformationSecurity,
     GoodSoftwareTechnology,
+    EditFirearmProductType,
+    EditAmmunition,
+    EditFirearmActDetails,
+    EditIdentificationMarkings,
 )
 
 app_name = "applications"
@@ -40,7 +44,6 @@ urlpatterns = [
     path("<uuid:pk>/check-your-answers/", common.CheckYourAnswers.as_view(), name="check_your_answers"),
     path("<uuid:pk>/submit/", common.Submit.as_view(), name="submit"),
     path("<uuid:pk>/copy/", common.ApplicationCopy.as_view(), name="copy"),
-    path("<uuid:pk>/ecju-queries/<uuid:query_pk>/", common.RespondToQuery.as_view(), name="respond_to_query"),
     # Standard and Open Licence
     path("<uuid:pk>/edit/reference-name/", edit.EditReferenceName.as_view(), name="edit_reference_name",),
     path(
@@ -64,6 +67,24 @@ urlpatterns = [
         "<uuid:pk>/goods/<uuid:good_pk>/edit-information-security/",
         GoodInformationSecurity.as_view(),
         name="good_information_security",
+    ),
+    path(
+        "<uuid:pk>/goods/<uuid:good_pk>/edit-firearm-details/type/",
+        EditFirearmProductType.as_view(),
+        name="firearm_type",
+    ),
+    path(
+        "<uuid:pk>/goods/<uuid:good_pk>/edit-firearm-details/ammunition/", EditAmmunition.as_view(), name="ammunition"
+    ),
+    path(
+        "<uuid:pk>/goods/<uuid:good_pk>/edit-firearm-details/firearms-act/",
+        EditFirearmActDetails.as_view(),
+        name="firearms_act",
+    ),
+    path(
+        "<uuid:pk>/goods/<uuid:good_pk>/edit-firearm-details/identification_markings/",
+        EditIdentificationMarkings.as_view(),
+        name="identification_markings",
     ),
     path(
         "<uuid:pk>/goods/add-new/<uuid:good_pk>/good-detail-summary/",

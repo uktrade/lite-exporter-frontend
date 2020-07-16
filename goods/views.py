@@ -8,12 +8,11 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
 from s3chunkuploader.file_handler import S3FileUploadHandler
 
+from applications.helpers.date_fields import split_date_into_components
 from applications.services import (
     get_application_ecju_queries,
     get_case_notes,
     post_case_notes,
-    get_ecju_query,
-    put_ecju_query,
     add_document_data,
     download_document_from_s3,
     get_status_properties,
@@ -21,8 +20,6 @@ from applications.services import (
 )
 from goods.forms import (
     attach_documents_form,
-    respond_to_query_form,
-    ecju_query_respond_confirmation_form,
     delete_good_form,
     document_grading_form,
     raise_a_goods_query,
@@ -33,6 +30,10 @@ from goods.forms import (
     product_component_form,
     product_uses_information_security,
     software_technology_details_form,
+    group_two_product_type_form,
+    firearm_ammunition_details_form,
+    firearms_act_confirmation_form,
+    identification_markings_form,
 )
 from goods.helpers import COMPONENT_SELECTION_TO_DETAIL_FIELD_MAP, return_to_good_summary
 from goods.services import (
@@ -51,10 +52,11 @@ from goods.services import (
     edit_good_pv_grading,
     edit_good_details,
     get_good_details,
+    edit_good_firearm_details,
 )
-from lite_content.lite_exporter_frontend import strings, goods
+from lite_content.lite_exporter_frontend import goods
 from lite_content.lite_exporter_frontend.goods import AttachDocumentForm
-from lite_forms.components import HiddenField, BackLink, FiltersBar, TextInput
+from lite_forms.components import BackLink, FiltersBar, TextInput
 from lite_forms.generators import error_page, form_page
 from lite_forms.views import SingleFormView, MultiFormView
 
@@ -167,16 +169,14 @@ class AddGood(MultiFormView):
         copied_request = request.POST.copy()
         is_pv_graded = copied_request.get("is_pv_graded", "").lower() == "yes"
         is_software_technology = copied_request.get("item_category") in ["group3_software", "group3_technology"]
-        self.forms = add_good_form_group(request, is_pv_graded, is_software_technology)
+        is_firearms = copied_request.get("item_category") == "group2_firearms"
+        self.forms = add_good_form_group(request, is_pv_graded, is_software_technology, is_firearms)
 
-        if is_pv_graded:
-            # post on step 5 in both software/technology and group 1
-            if int(self.request.POST.get("form_pk")) == 5:
-                self.action = post_goods
-        else:
-            # post on step 4 in both software/technology and group 1
-            if int(self.request.POST.get("form_pk")) == 4:
-                self.action = post_goods
+        # we require the form index of the last form in the group, not the total number
+        number_of_forms = len(self.forms.get_forms()) - 1
+
+        if int(self.request.POST.get("form_pk")) == number_of_forms:
+            self.action = post_goods
 
     def get_success_url(self):
         return reverse_lazy("goods:add_document", kwargs={"pk": self.get_validated_data()["good"]["id"]})
@@ -418,6 +418,136 @@ class EditGrading(SingleFormView):
             return reverse_lazy("goods:good", kwargs={"pk": self.object_pk})
 
 
+class EditFirearmProductType(SingleFormView):
+    application_id = None
+
+    def init(self, request, **kwargs):
+        if "good_pk" in kwargs:
+            # coming from the application
+            self.object_pk = str(kwargs["good_pk"])
+            self.application_id = str(kwargs["pk"])
+        else:
+            self.object_pk = str(kwargs["pk"])
+        self.data = get_good_details(request, self.object_pk)[0]["firearm_details"]
+        self.form = group_two_product_type_form()
+        self.action = edit_good_firearm_details
+
+    def get_success_url(self):
+        # Next question firearm and ammunition details
+        if not self.data.get("year_of_manufacture") or not self.data.get("calibre"):
+            if "good_pk" in self.kwargs:
+                return reverse_lazy(
+                    "applications:ammunition", kwargs={"pk": self.application_id, "good_pk": self.object_pk}
+                )
+            else:
+                return reverse_lazy("goods:ammunition", kwargs={"pk": self.object_pk})
+        # Edit
+        else:
+            return return_to_good_summary(self.kwargs, self.application_id, self.object_pk)
+
+
+class EditAmmunition(SingleFormView):
+    application_id = None
+
+    def init(self, request, **kwargs):
+        if "good_pk" in kwargs:
+            # coming from the application
+            self.object_pk = str(kwargs["good_pk"])
+            self.application_id = str(kwargs["pk"])
+        else:
+            self.object_pk = str(kwargs["pk"])
+        self.data = get_good_details(request, self.object_pk)[0]["firearm_details"]
+        self.form = firearm_ammunition_details_form()
+        self.action = edit_good_firearm_details
+
+    def get_success_url(self):
+        # Next question is_covered_by_firearm_act_section_one_two_or_five - boolean
+        if self.data.get("is_covered_by_firearm_act_section_one_two_or_five") is None:
+            if "good_pk" in self.kwargs:
+                return reverse_lazy(
+                    "applications:firearms_act", kwargs={"pk": self.application_id, "good_pk": self.object_pk}
+                )
+            else:
+                return reverse_lazy("goods:firearms_act", kwargs={"pk": self.object_pk})
+        # Edit
+        else:
+            return return_to_good_summary(self.kwargs, self.application_id, self.object_pk)
+
+
+class EditFirearmActDetails(SingleFormView):
+    application_id = None
+
+    def init(self, request, **kwargs):
+        if "good_pk" in kwargs:
+            # coming from the application
+            self.object_pk = str(kwargs["good_pk"])
+            self.application_id = str(kwargs["pk"])
+        else:
+            self.object_pk = str(kwargs["pk"])
+        self.data = get_good_details(request, self.object_pk)[0]["firearm_details"]
+        self.form = firearms_act_confirmation_form()
+        self.action = edit_good_firearm_details
+
+    def get_data(self):
+        if self.data:
+            new_data = {
+                "section_certificate_number": self.data.get("section_certificate_number"),
+                "is_covered_by_firearm_act_section_one_two_or_five": self.data.get(
+                    "is_covered_by_firearm_act_section_one_two_or_five"
+                ),
+            }
+            # Get the certificate date split into components to display on the form
+            certificate_date_of_expiry = self.data.get("section_certificate_date_of_expiry")
+            if certificate_date_of_expiry:
+                date_prefix = "section_certificate_date_of_expiry"
+                # Pre-populate the date fields
+                (
+                    new_data[date_prefix + "year"],
+                    new_data[date_prefix + "month"],
+                    new_data[date_prefix + "day"],
+                ) = split_date_into_components(certificate_date_of_expiry, "-")
+
+            return new_data
+
+    def get_success_url(self):
+        # Next question identification markings - boolean
+        if self.data.get("has_identification_markings") is None:
+            if "good_pk" in self.kwargs:
+                return reverse_lazy(
+                    "applications:identification_markings",
+                    kwargs={"pk": self.application_id, "good_pk": self.object_pk},
+                )
+            else:
+                return reverse_lazy("goods:identification_markings", kwargs={"pk": self.object_pk})
+        # Edit
+        else:
+            return return_to_good_summary(self.kwargs, self.application_id, self.object_pk)
+
+
+class EditIdentificationMarkings(SingleFormView):
+    application_id = None
+
+    def init(self, request, **kwargs):
+        if "good_pk" in kwargs:
+            # coming from the application
+            self.object_pk = str(kwargs["good_pk"])
+            self.application_id = str(kwargs["pk"])
+        else:
+            self.object_pk = str(kwargs["pk"])
+        self.data = get_good_details(request, self.object_pk)[0]["firearm_details"]
+        self.form = identification_markings_form()
+        self.action = edit_good_firearm_details
+
+    def get_success_url(self):
+        # Return to the application add good summary if adding/editing good from the application
+        if "good_pk" in self.kwargs:
+            return reverse_lazy(
+                "applications:add_good_summary", kwargs={"pk": self.application_id, "good_pk": self.object_pk}
+            )
+        else:
+            return reverse_lazy("goods:good", kwargs={"pk": self.object_pk})
+
+
 class DeleteGood(TemplateView):
     def get(self, request, **kwargs):
         data, _ = get_good(request, str(kwargs["pk"]))
@@ -519,83 +649,3 @@ class DeleteDocument(TemplateView):
         delete_good_document(request, good_id, file_pk)
 
         return redirect(reverse("goods:good", kwargs={"pk": good_id}))
-
-
-class RespondToQuery(TemplateView):
-    good_id = None
-    ecju_query_id = None
-    ecju_query = None
-    clc_query_case_id = None
-
-    def dispatch(self, request, *args, **kwargs):
-        self.good_id = str(kwargs["pk"])
-        self.ecju_query_id = str(kwargs["query_pk"])
-
-        good, _ = get_good(request, self.good_id, full_detail=True)
-        self.clc_query_case_id = good["case_id"]
-        self.ecju_query = get_ecju_query(request, self.clc_query_case_id, self.ecju_query_id)
-
-        if self.ecju_query["response"]:
-            return redirect(reverse_lazy("goods:good_detail", kwargs={"pk": self.good_id, "type": "ecju-queries"}))
-
-        return super(RespondToQuery, self).dispatch(request, *args, **kwargs)
-
-    def get(self, request, **kwargs):
-        """
-        Will get a text area form for the user to respond to the ecju_query
-        """
-
-        return form_page(request, respond_to_query_form(self.good_id, self.ecju_query))
-
-    def post(self, request, **kwargs):
-        """
-        will determine what form the user is on:
-        if the user is on the input form will then will determine if data is valid, and move user to confirmation form
-        else will allow the user to confirm they wish to respond and post data if accepted.
-        """
-        form_name = request.POST.get("form_name")
-
-        if form_name == "respond_to_query":
-            # Post the form data to API for validation only
-            data = {"response": request.POST.get("response"), "validate_only": True}
-            response, status_code = put_ecju_query(request, self.clc_query_case_id, self.ecju_query_id, data)
-
-            if status_code != 200:
-                errors = response.get("errors")
-                errors = {error: message for error, message in errors.items()}
-                form = respond_to_query_form(self.clc_query_case_id, self.ecju_query)
-                data = {"response": request.POST.get("response")}
-                return form_page(request, form, data=data, errors=errors)
-            else:
-                form = ecju_query_respond_confirmation_form(
-                    reverse_lazy("goods:respond_to_query", kwargs={"pk": self.good_id, "query_pk": self.ecju_query_id})
-                )
-                form.questions.append(HiddenField("response", request.POST.get("response")))
-                return form_page(request, form)
-        elif form_name == "ecju_query_response_confirmation":
-            if request.POST.get("confirm_response") == "yes":
-                data, status_code = put_ecju_query(request, self.clc_query_case_id, self.ecju_query_id, request.POST)
-                if "errors" in data:
-                    return form_page(
-                        request,
-                        respond_to_query_form(self.good_id, self.ecju_query),
-                        data=request.POST,
-                        errors=data["errors"],
-                    )
-
-                return redirect(reverse_lazy("goods:good_detail", kwargs={"pk": self.good_id, "type": "ecju-queries"}))
-
-            elif request.POST.get("confirm_response") == "no":
-                return form_page(
-                    request, respond_to_query_form(self.clc_query_case_id, self.ecju_query), data=request.POST
-                )
-            else:
-                error = {"required": ["Select yes to confirm you want to delete the file"]}
-                form = ecju_query_respond_confirmation_form(
-                    reverse_lazy("goods:respond_to_query", kwargs={"pk": self.good_id, "query_pk": self.ecju_query_id})
-                )
-                form.questions.append(HiddenField("response", request.POST.get("response")))
-                return form_page(request, form, errors=error)
-        else:
-            # Submitted data does not contain an expected form field - return an error
-            return error_page(request, strings.goods.AttachDocumentPage.UPLOAD_GENERIC_ERROR)

@@ -3,6 +3,7 @@ import os
 
 from django.conf import settings
 from faker import Faker  # noqa
+import logging
 from pytest_bdd import given, when, then, parsers
 
 import ui_automation_tests.shared.tools.helpers as utils
@@ -112,11 +113,11 @@ def pytest_exception_interact(node, report):
             node._nodeid.replace(".py::", "").replace("ui_automation_tests/step_defs/", "").replace("step_defs", "")
         )
         name = "{0}_{1}".format(class_name, "").replace("/", "").replace("test", "_test")
-        print(name)
+        logging.info("Test that has failed is file: %s", name)
         try:
             utils.save_screenshot(node.funcargs.get("driver"), name)
-        except Exception:  # noqa
-            pass
+        except Exception as e:  # noqa
+            logging.error("Screenshot failed to be taken %e", e)
 
 
 @given("I create a standard application via api")  # noqa
@@ -649,12 +650,26 @@ def create_licence(context, decision, api_test_client):  # noqa
     document_template = api_test_client.document_templates.add_template(
         api_test_client.picklists, case_types=["oiel", "siel", "exhc"]
     )
+
+    api_test_client.cases.finalise_case(context.case_id, "approve")
+
     api_test_client.cases.add_generated_document(context.case_id, document_template["id"], decision)
     context.generated_document = api_test_client.context["generated_document"]
-    api_test_client.cases.finalise_case(context.case_id, "approve")
+
     if decision != "no_licence_required":
         api_test_client.cases.finalise_licence(context.case_id)
         context.licence = api_test_client.context["licence"]
+
+
+@given("I finalise my NLR decision")  # noqa
+def finalise_case_with_nlr_decision(context, api_test_client):  # noqa
+    document_template = api_test_client.document_templates.add_template(
+        api_test_client.picklists, case_types=["oiel", "siel", "exhc"]
+    )
+    api_test_client.cases.finalise_case(context.case_id, "no_licence_required")
+    api_test_client.cases.add_generated_document(context.case_id, document_template["id"], "no_licence_required")
+    context.generated_document = api_test_client.context["generated_document"]
+    api_test_client.cases.finalise_licence(context.case_id, save_licence=False)
 
 
 @given(
@@ -664,14 +679,12 @@ def create_licence_with_licenced_goods(context, decision, api_test_client):  # n
     document_template = api_test_client.document_templates.add_template(
         api_test_client.picklists, case_types=["oiel", "siel", "exhc"]
     )
-    api_test_client.cases.add_generated_document(context.case_id, document_template["id"], decision)
-
     additional_data = {}
     for good in context.goods:
         additional_data[f"quantity-{good['id']}"] = good["quantity"]
         additional_data[f"value-{good['id']}"] = round(float(good["value"]) * good["quantity"], 2)
-
     api_test_client.cases.finalise_case(context.case_id, "approve", additional_data)
+    api_test_client.cases.add_generated_document(context.case_id, document_template["id"], decision)
     api_test_client.cases.finalise_licence(context.case_id)
     context.licence = api_test_client.context["licence"]
 
