@@ -84,8 +84,8 @@
 
 		<div class="govuk-width-container">
 			<section aria-label="banner">
-				{% if request.GET|get:'return_to' %}
-					<a href="{{ request.GET|get:'return_to' }}" id="back-link" class="govuk-back-link">{% lcs 'generic.BACK' %}</a>
+				{% if request.GET.return_to %}
+					<a href="{{ request.GET.return_to }}" id="back-link" class="govuk-back-link">{% lcs 'generic.BACK' %}</a>
 				{% else %}
 					{% block back_link %}
 						<a href="#" id="back-link" class="govuk-back-link">{% lcs 'generic.BACK' %}</a>
@@ -96,22 +96,7 @@
 				{% block body %}{% endblock %}
 			</main>
 		</div>
-	{% endif %}
 
-	<div class="govuk-width-container">
-		<section aria-label="banner">
-			{% if request.GET.return_to %}
-				<a href="{{ request.GET.return_to }}" id="back-link" class="govuk-back-link">{% lcs 'generic.BACK' %}</a>
-			{% else %}
-				{% block back_link %}
-					<a href="#" id="back-link" class="govuk-back-link">{% lcs 'generic.BACK' %}</a>
-				{% endblock %}
-			{% endif %}
-		</section>
-		<main class="govuk-main-wrapper " id="main-content" role="main">
-			{% block body %}{% endblock %}
-		</main>
-	</div>
 		{% block footer %}
 			<footer class="govuk-footer" role="contentinfo">
 				<div class="govuk-width-container ">

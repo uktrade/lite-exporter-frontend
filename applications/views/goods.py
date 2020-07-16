@@ -132,7 +132,6 @@ class PrepopulateFromSpireApplicationMixin:
 
 
 class AddGood(PrepopulateFromSpireApplicationMixin, MultiFormView):
-    actions = [validate_good, post_goods, post_good_with_pv_grading]
 
     def init(self, request, **kwargs):
         self.draft_pk = str(kwargs["pk"])
@@ -272,7 +271,8 @@ class AddGoodsSummary(TemplateView):
         context = {"good": good, "application_id": application_id, "good_id": good_id}
 
         return render(request, "applications/goods/add-good-detail-summary.html", context)
-=======
+
+
 class ImportSpireProduct(FormView):
     template_name = "applications/goods/import-from-spire.html"
     form_class = ImportSpireProductForm
