@@ -596,10 +596,10 @@ class AttachDocuments(TemplateView):
 
     @csrf_exempt
     def post(self, request, **kwargs):
-        if int(request.headers._store["content-length"][1]) > MAX_UPLOAD_SIZE:
-            raise UploadFailed("upload a file less than 100 mb")
         good_id = str(kwargs["pk"])
         good, _ = get_good(request, good_id)
+        if int(self.request.headers._store["content-length"][1]) > MAX_UPLOAD_SIZE:
+            raise UploadFailed("12345")
 
         data, error = add_document_data(request)
 
