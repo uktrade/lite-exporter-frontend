@@ -6,7 +6,6 @@ from django.urls import reverse_lazy, reverse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
-from s3chunkuploader.file_handler import S3FileUploadHandler
 
 from applications.helpers.date_fields import split_date_into_components
 from applications.services import (
@@ -595,8 +594,6 @@ class AttachDocuments(TemplateView):
 
     @csrf_exempt
     def post(self, request, **kwargs):
-        # self.request.upload_handlers.insert(0, S3FileUploadHandler(request))
-
         good_id = str(kwargs["pk"])
         good, _ = get_good(request, good_id)
 
