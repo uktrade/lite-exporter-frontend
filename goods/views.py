@@ -1,3 +1,4 @@
+import logging
 from http import HTTPStatus
 
 from django.http import Http404
@@ -596,17 +597,20 @@ class AttachDocuments(TemplateView):
 
     @csrf_exempt
     def post(self, request, **kwargs):
+        logging.info("Mark S post hit")
         good_id = str(kwargs["pk"])
         good, _ = get_good(request, good_id)
         if int(self.request.headers._store["content-length"][1]) > MAX_UPLOAD_SIZE:
             raise UploadFailed("12345")
 
         data, error = add_document_data(request)
+        logging.info("Mark S after add_document_data")
 
         if error:
             return error_page(request, error)
 
         data, status_code = post_good_documents(request, good_id, data)
+        logging.info("Mark S after post_good_documents")
         if status_code != HTTPStatus.CREATED:
             return error_page(request, data["errors"]["file"])
 
