@@ -55,12 +55,15 @@ def party_website_form(title, button):
     return Form(title=title, questions=[TextInput("website")], default_button_name=button,)
 
 
-def party_address_form(request, title, button):
+def party_address_form(request, title, button, is_gb_excluded=False):
     return Form(
         title=title,
         questions=[
             TextArea("address", "Address"),
-            country_question(countries=get_countries(request, True), prefix=""),
+            country_question(
+                countries=get_countries(request, True, ["GB"]) if is_gb_excluded else get_countries(request, True),
+                prefix="",
+            ),
         ],
         default_button_name=button,
     )
@@ -104,6 +107,11 @@ def new_party_form_group(request, application, strings, back_url, clearance_opti
     if clearance_options:
         forms.extend(clearance_level_forms(clearance_options, strings.BUTTON))
 
-    forms.append(party_address_form(request, strings.ADDRESS_FORM_TITLE, strings.SUBMIT_BUTTON))
+    from conf.constants import CaseTypes
+
+    is_gb_excluded = application.case_type["reference"]["key"] == CaseTypes.SITL
+    forms.append(
+        party_address_form(request, strings.ADDRESS_FORM_TITLE, strings.SUBMIT_BUTTON, is_gb_excluded=is_gb_excluded)
+    )
 
     return FormGroup(forms)
