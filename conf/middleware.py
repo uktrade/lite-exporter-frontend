@@ -6,7 +6,6 @@ from django.shortcuts import redirect
 from django.urls import resolve, reverse_lazy
 from s3chunkuploader.file_handler import UploadFailed
 
-from conf.settings import FILE_UPLOAD_HANDLERS
 from lite_content.lite_exporter_frontend import strings
 from lite_forms.generators import error_page
 

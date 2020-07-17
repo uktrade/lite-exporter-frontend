@@ -17,7 +17,6 @@ from applications.services import (
     get_status_properties,
     get_case_generated_documents,
 )
-from conf.settings import Mark_And_Eugene_MAX_UPLOAD_SIZE
 from goods.forms import (
     attach_documents_form,
     delete_good_form,
@@ -54,7 +53,7 @@ from goods.services import (
     get_good_details,
     edit_good_firearm_details,
 )
-from lite_content.lite_exporter_frontend import goods, strings
+from lite_content.lite_exporter_frontend import goods
 from lite_content.lite_exporter_frontend.goods import AttachDocumentForm
 from lite_forms.components import BackLink, FiltersBar, TextInput
 from lite_forms.generators import error_page, form_page
@@ -597,9 +596,6 @@ class AttachDocuments(TemplateView):
     def post(self, request, **kwargs):
         good_id = str(kwargs["pk"])
         good, _ = get_good(request, good_id)
-
-        if int(request.META.get("CONTENT_LENGTH")) > Mark_And_Eugene_MAX_UPLOAD_SIZE:
-            return error_page(request, "12345")
 
         data, error = add_document_data(request)
 

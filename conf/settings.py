@@ -2,7 +2,6 @@ import json
 import os
 import sys
 
-from django.core.files.uploadhandler import FileUploadHandler
 from django.urls import reverse_lazy
 from environ import Env
 
@@ -29,6 +28,9 @@ env = Env(
     CSP_REPORT_ONLY=(bool, True),
     HAWK_AUTHENTICATION_ENABLED=(bool, False),
 )
+
+
+DEBUG_PROPAGATE_EXCEPTIONS = True
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
@@ -68,7 +70,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "conf.middleware.LoggingMiddleware",
     "conf.middleware.ProtectAllViewsMiddleware",
-    "conf.middleware.UploadFailedMiddleware",
+    # "conf.middleware.UploadFailedMiddleware",
     "django.middleware.gzip.GZipMiddleware",
 ]
 
@@ -189,8 +191,7 @@ S3_PREFIX_QUERY_PARAM_NAME = ""
 S3_DOWNLOAD_LINK_EXPIRY_SECONDS = 180
 STREAMING_CHUNK_SIZE = 8192
 S3_MIN_PART_SIZE = 5 * 1024 * 1024
-MAX_UPLOAD_SIZE = None
-Mark_And_Eugene_MAX_UPLOAD_SIZE = 45 * 1024 * 1024
+MAX_UPLOAD_SIZE = 50 * 1024 * 1024
 
 
 # Database
@@ -233,5 +234,3 @@ CSP_FRAME_SRC = env("CSP_FRAME_SRC")
 CSP_CONNECT_SRC = env("CSP_CONNECT_SRC")
 CSP_INCLUDE_NONCE_IN = env("CSP_INCLUDE_NONCE_IN")
 CSP_REPORT_ONLY = env("CSP_REPORT_ONLY")
-
-DEBUG_PROPAGATE_EXCEPTIONS = True
