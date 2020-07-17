@@ -33,7 +33,6 @@ class UploadFailedMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        logging.info(f"Mark S upload handler count = {len(FILE_UPLOAD_HANDLERS)}")
         response = self.get_response(request)
         return response
 

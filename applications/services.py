@@ -1,4 +1,3 @@
-import logging
 from http import HTTPStatus
 
 from django.http import StreamingHttpResponse
@@ -290,9 +289,7 @@ def set_application_status(request, pk, status):
 
 
 def add_document_data(request):
-    logging.info("Mark S before request.FILES.getlist('file')")
     files = request.FILES.getlist("file")
-    logging.info("Mark S after request.FILES.getlist('file')")
     if not files:
         return None, "No files attached"
     if len(files) != 1:

@@ -1,14 +1,11 @@
-import logging
 from http import HTTPStatus
 
-from django.core.files.uploadhandler import FileUploadHandler
 from django.http import Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
-from s3chunkuploader.file_handler import UploadFailed, S3FileUploadHandler
 
 from applications.helpers.date_fields import split_date_into_components
 from applications.services import (
@@ -20,7 +17,6 @@ from applications.services import (
     get_status_properties,
     get_case_generated_documents,
 )
-from conf.settings import MAX_UPLOAD_SIZE
 from goods.forms import (
     attach_documents_form,
     delete_good_form,
@@ -598,27 +594,15 @@ class AttachDocuments(TemplateView):
 
     @csrf_exempt
     def post(self, request, **kwargs):
-        logging.info("Mark S post hit")
-        if int(self.request.headers._store["content-length"][1]) > MAX_UPLOAD_SIZE:
-            logging.info("Mark S our exception was hit")
-            return error_page(request, strings.Goods.Documents.AttachDocuments.FILE_TOO_LARGE)
-
-        logging.info("Mark S inserting upload handler ...")
-
-        request.upload_handlers.insert(0, S3FileUploadHandler(request))
-        logging.info("Mark S upload handler inserted")
-
         good_id = str(kwargs["pk"])
         good, _ = get_good(request, good_id)
 
         data, error = add_document_data(request)
-        logging.info("Mark S after add_document_data")
 
         if error:
             return error_page(request, error)
 
         data, status_code = post_good_documents(request, good_id, data)
-        logging.info("Mark S after post_good_documents")
         if status_code != HTTPStatus.CREATED:
             return error_page(request, data["errors"]["file"])
 
