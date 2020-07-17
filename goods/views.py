@@ -17,6 +17,7 @@ from applications.services import (
     get_status_properties,
     get_case_generated_documents,
 )
+from conf.settings import Mark_And_Eugene_MAX_UPLOAD_SIZE
 from goods.forms import (
     attach_documents_form,
     delete_good_form,
@@ -596,6 +597,9 @@ class AttachDocuments(TemplateView):
     def post(self, request, **kwargs):
         good_id = str(kwargs["pk"])
         good, _ = get_good(request, good_id)
+
+        if int(request.META.get("CONTENT_LENGTH")) > Mark_And_Eugene_MAX_UPLOAD_SIZE:
+            return error_page(request, "12345")
 
         data, error = add_document_data(request)
 
