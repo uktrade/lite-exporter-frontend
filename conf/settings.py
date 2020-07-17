@@ -70,7 +70,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "conf.middleware.LoggingMiddleware",
     "conf.middleware.ProtectAllViewsMiddleware",
-    # "conf.middleware.UploadFailedMiddleware",
+    "conf.middleware.UploadFailedMiddleware",
     "django.middleware.gzip.GZipMiddleware",
 ]
 
