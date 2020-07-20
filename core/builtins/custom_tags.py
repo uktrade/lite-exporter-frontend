@@ -360,6 +360,7 @@ def get_parties_status(parties):
 
     return DONE
 
+
 @register.filter()
 def get_end_use_details_status(application):
     fields = ["intended_end_use"]
