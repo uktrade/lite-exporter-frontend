@@ -12,6 +12,7 @@ from raven.contrib.django.raven_compat.models import client
 from auth.services import authenticate_exporter_user
 from auth.utils import get_client, AUTHORISATION_URL, TOKEN_SESSION_KEY, TOKEN_URL, get_profile
 from conf.settings import LOGOUT_URL
+from lite_forms.generators import error_page
 from organisation.members.services import get_user
 
 
@@ -68,7 +69,7 @@ class AuthCallbackView(View):
         response, status_code = authenticate_exporter_user(request, profile)
 
         if status_code == 400:
-            raise PermissionDenied(response.get("errors"))
+            return error_page(request, response.get("errors")[0])
 
         user = authenticate(request)
         login(request, user)
