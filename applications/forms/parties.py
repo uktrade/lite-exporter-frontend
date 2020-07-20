@@ -1,5 +1,6 @@
 from django.urls import reverse_lazy
 
+from conf.constants import CaseTypes
 from core.services import get_countries
 from lite_content.lite_exporter_frontend import strings
 from lite_content.lite_exporter_frontend.applications import PartyForm, PartyTypeForm
@@ -107,9 +108,9 @@ def new_party_form_group(request, application, strings, back_url, clearance_opti
     if clearance_options:
         forms.extend(clearance_level_forms(clearance_options, strings.BUTTON))
 
-    from conf.constants import CaseTypes
-
-    is_gb_excluded = application.case_type["reference"]["key"] == CaseTypes.SITL
+    # Exclude the UK if end user on standard transhipment
+    is_end_user = "/end-user" in request.path
+    is_gb_excluded = application.case_type["reference"]["key"] == CaseTypes.SITL and is_end_user
     forms.append(
         party_address_form(request, strings.ADDRESS_FORM_TITLE, strings.SUBMIT_BUTTON, is_gb_excluded=is_gb_excluded)
     )
