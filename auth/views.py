@@ -2,7 +2,6 @@ import logging
 
 from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
-from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseServerError
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
