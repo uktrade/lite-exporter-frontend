@@ -1,5 +1,5 @@
 from applications.services import get_party_document, get_ultimate_end_users
-from conf.constants import APPLICANT_EDITING, STANDARD, OPEN
+from conf.constants import APPLICANT_EDITING
 
 
 def get_reference_number_description(application):

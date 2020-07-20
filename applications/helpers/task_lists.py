@@ -74,9 +74,7 @@ def get_application_task_list(request, application, errors=None):
     context["supporting_documents"] = additional_documents["documents"]
     context["locations"] = sites["sites"] or external_locations["external_locations"]
 
-    if application_type == F680:
-        context["end_use_details"] = get_end_use_details(application)
-    elif application_type == STANDARD:
+    if application_type == STANDARD:
         context["reference_number_description"] = get_reference_number_description(application)
         context["route_of_goods"] = get_route_of_goods(application)
         if _is_application_export_type_temporary(application):
@@ -86,7 +84,6 @@ def get_application_task_list(request, application, errors=None):
             country_entry["country_id"]
             for country_entry in get_application_countries_and_contract_types(request, application["id"])["countries"]
         ]
-        context["end_use_details"] = get_end_use_details(application)
         context["goodstypes"] = application["goods_types"]
         if _is_application_export_type_temporary(application):
             context["temporary_export_details"] = get_temporary_export_details(application)
