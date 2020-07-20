@@ -1,6 +1,5 @@
 from http import HTTPStatus
 
-from django.core.files.uploadhandler import TemporaryFileUploadHandler
 from django.http import HttpResponse
 
 from conf.client import post, get
@@ -55,7 +54,6 @@ def get_open_licence_return_download(request, pk):
 def post_open_licence_return(request, json):
     if not json.get("year"):
         return {"errors": {"year": [OpenReturnsForm.Year.ERROR]}}, HTTPStatus.BAD_REQUEST
-    request.upload_handlers.insert(0, TemporaryFileUploadHandler(request))
 
     if len(request.FILES) == 0:
         return {"errors": {"file": [OpenReturnsForm.Upload.NO_FILE_ERROR]}}, HTTPStatus.BAD_REQUEST

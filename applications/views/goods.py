@@ -5,6 +5,7 @@ from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
+from s3chunkuploader.file_handler import S3FileUploadHandler
 
 from applications.forms.goods import good_on_application_form
 from applications.helpers.check_your_answers import get_total_goods_value
@@ -148,6 +149,8 @@ class AttachDocument(TemplateView):
         return form_page(request, form, extra_data={"good_id": good_id})
 
     def post(self, request, **kwargs):
+        self.request.upload_handlers.insert(0, S3FileUploadHandler(request))
+
         good_id = str(kwargs["good_pk"])
         draft_id = str(kwargs["pk"])
         data, error = add_document_data(request)

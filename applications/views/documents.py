@@ -7,6 +7,7 @@ from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
+from s3chunkuploader.file_handler import S3FileUploadHandler
 
 from applications.forms.documents import attach_document_form, delete_document_confirmation_form
 from applications.helpers.check_your_answers import is_application_export_type_permanent
@@ -57,6 +58,7 @@ class AttachDocuments(TemplateView):
         form = get_upload_page(request.path, draft_id, is_permanent_application=is_permanent_application)
 
         try:
+            request.upload_handlers.insert(0, S3FileUploadHandler(request))
             files = request.FILES
         except Exception:  # noqa
             return error_page(request, strings.applications.AttachDocumentPage.UPLOAD_FAILURE_ERROR)
