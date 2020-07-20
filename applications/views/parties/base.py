@@ -157,11 +157,16 @@ class CopyAndSetParty(SetParty):
 
         has_clearance = self.application["case_type"]["sub_type"]["key"] == F680
         clearance_options = get_pv_gradings(request, convert_to_options=True) if has_clearance else None
-        self.forms = self.form(
-            request,
-            self.application,
-            self.strings,
-            self.back_url,
-            clearance_options=clearance_options,
-            is_end_user=self.party_type == "end_user",
-        )
+        if self.party_type == "end_user":
+            self.forms = self.form(
+                request,
+                self.application,
+                self.strings,
+                self.back_url,
+                clearance_options=clearance_options,
+                is_end_user=True,
+            )
+        else:
+            self.forms = self.form(
+                request, self.application, self.strings, self.back_url, clearance_options=clearance_options,
+            )
