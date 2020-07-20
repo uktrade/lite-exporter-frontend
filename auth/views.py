@@ -2,6 +2,7 @@ import logging
 
 from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
+from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseServerError
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
@@ -66,6 +67,9 @@ class AuthCallbackView(View):
 
         response, status_code = authenticate_exporter_user(request, profile)
 
+        if status_code == 400:
+            raise PermissionDenied(response.get("errors"))
+
         user = authenticate(request)
         login(request, user)
 
@@ -76,7 +80,7 @@ class AuthCallbackView(View):
             user.lite_api_user_id = response["lite_api_user_id"]
             user.organisation = None
             user.save()
-        else:
+        elif status_code == 403:
             user.organisation = None
             user.save()
             return redirect("core:register_an_organisation_triage")
