@@ -48,18 +48,6 @@ def get_ultimate_end_users_section(request, application):
     return ultimate_end_users, ultimate_end_users_documents_complete
 
 
-def get_end_use_details(application):
-    fields = ["intended_end_use"]
-    if application.sub_type in [STANDARD, OPEN]:
-        fields += ["is_military_end_use_controls", "is_informed_wmd", "is_suspected_wmd"]
-        if application.sub_type == STANDARD:
-            fields.append("is_eu_military")
-    for field in fields:
-        if application.get(field) is None:
-            return False
-    return True
-
-
 def get_route_of_goods(application):
     if application.get("is_shipped_waybill_or_lading") is None:
         return False
