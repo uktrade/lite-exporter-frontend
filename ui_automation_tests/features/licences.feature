@@ -14,7 +14,7 @@ Feature: I want to be able to view licences as an exporter user
     Then I see all the typical licence details
     And I see my standard application licence details
 
-  @LT_1254_view_licences_open @regression @njwp
+  @LT_1254_view_licences_open @regression
   Scenario: View my open application licences
     Given I go to exporter homepage and choose Test Org
     And I create an open application via api
