@@ -26,7 +26,7 @@ def party_create_new_or_copy_existing_form(application_id):
         back_link_text=PartyForm.CopyExistingForm.BACK_LINK,
         back_url=reverse_lazy("applications:task_list", kwargs={"pk": application_id}),
         submit_button_text=PartyForm.CopyExistingForm.BUTTON,
-        side_by_side=True
+        side_by_side=True,
     )
 
 
@@ -40,9 +40,9 @@ def party_type_form(application, title, button, back_link):
                     Option("government", PartyForm.Options.GOVERNMENT),
                     Option("commercial", PartyForm.Options.COMMERCIAL),
                     Option("individual", PartyForm.Options.INDIVIDUAL),
-                    Option("other", PartyForm.Options.OTHER, show_or=True, components=[
-                        TextInput(name="sub_type_other")
-                    ])
+                    Option(
+                        "other", PartyForm.Options.OTHER, show_or=True, components=[TextInput(name="sub_type_other")]
+                    ),
                 ],
             ),
         ],

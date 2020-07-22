@@ -43,9 +43,7 @@ def third_party_forms(request, application, strings, back_url, sub_type=None, cl
         del form_options["additional_end_user"]
 
     options = [Option(key, value) for key, value in form_options.items()]
-    options.append(Option("other", PartyForm.Options.OTHER, show_or=True, components=[
-        TextInput(name="role_other")
-    ]))
+    options.append(Option("other", PartyForm.Options.OTHER, show_or=True, components=[TextInput(name="role_other")]))
     forms = [
         _third_party_role_form(application, strings.ROLE_TITLE, strings.BUTTON, options, back_url),
         party_type_form(application, strings.TYPE_TITLE, strings.BUTTON, BackLink()),
