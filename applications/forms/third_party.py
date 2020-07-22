@@ -10,7 +10,7 @@ from applications.forms.parties import (
 )
 from conf.constants import PERMANENT, F680
 from lite_content.lite_exporter_frontend.applications import ThirdPartyForm, PartyForm, PartyTypeForm
-from lite_forms.components import BackLink, RadioButtons, Form, Option, FormGroup
+from lite_forms.components import BackLink, RadioButtons, Form, Option, FormGroup, TextInput
 
 role_option_list = {
     "agent": ThirdPartyForm.Options.AGENT,
@@ -43,7 +43,9 @@ def third_party_forms(request, application, strings, back_url, sub_type=None, cl
         del form_options["additional_end_user"]
 
     options = [Option(key, value) for key, value in form_options.items()]
-    options.append(Option("other", PartyForm.Options.OTHER, show_or=True))
+    options.append(Option("other", PartyForm.Options.OTHER, show_or=True, components=[
+        TextInput(name="role_other")
+    ]))
     forms = [
         _third_party_role_form(application, strings.ROLE_TITLE, strings.BUTTON, options, back_url),
         party_type_form(application, strings.TYPE_TITLE, strings.BUTTON, BackLink()),

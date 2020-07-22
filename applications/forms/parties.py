@@ -39,7 +39,9 @@ def party_type_form(application, title, button, back_link):
                     Option("government", PartyForm.Options.GOVERNMENT),
                     Option("commercial", PartyForm.Options.COMMERCIAL),
                     Option("individual", PartyForm.Options.INDIVIDUAL),
-                    Option("other", PartyForm.Options.OTHER, show_or=True),
+                    Option("other", PartyForm.Options.OTHER, show_or=True, components=[
+                        TextInput(name="sub_type_other")
+                    ])
                 ],
             ),
         ],
