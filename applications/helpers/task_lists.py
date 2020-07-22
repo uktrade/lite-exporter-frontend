@@ -13,7 +13,8 @@ from applications.services import (
     get_application_goods,
     get_additional_documents,
     get_application_countries_and_contract_types,
-    get_case_notes)
+    get_case_notes,
+)
 from conf.constants import (
     HMRC,
     OPEN,
