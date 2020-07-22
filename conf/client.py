@@ -1,5 +1,6 @@
 import json
 import logging
+from http import HTTPStatus
 
 import requests
 from django.contrib.auth.models import AnonymousUser
@@ -10,6 +11,7 @@ from mohawk.exc import AlreadyProcessed
 
 from conf import settings
 from conf.settings import HAWK_AUTHENTICATION_ENABLED, env
+from lite_content.lite_exporter_frontend import core as strings
 
 
 def get(request, appended_address):
@@ -23,6 +25,9 @@ def get(request, appended_address):
         _verify_api_response(response, sender)
     else:
         response = requests.get(url=url, headers=_get_headers(request, content_type="application/json"))
+
+    if response.status_code in [HTTPStatus.FORBIDDEN, HTTPStatus.UNAUTHORIZED]:
+        raise PermissionDenied(strings.Errors.PERMISSION_DENIED)
 
     return response
 
@@ -41,6 +46,9 @@ def post(request, appended_address, request_data):
             url=url, headers=_get_headers(request, content_type="application/json"), json=request_data
         )
 
+    if response.status_code in [HTTPStatus.FORBIDDEN, HTTPStatus.UNAUTHORIZED]:
+        raise PermissionDenied(strings.Errors.PERMISSION_DENIED)
+
     return response
 
 
@@ -57,6 +65,9 @@ def put(request, appended_address, request_data):
         response = requests.put(
             url=url, headers=_get_headers(request, content_type="application/json"), json=request_data
         )
+
+    if response.status_code in [HTTPStatus.FORBIDDEN, HTTPStatus.UNAUTHORIZED]:
+        raise PermissionDenied(strings.Errors.PERMISSION_DENIED)
 
     return response
 
@@ -75,6 +86,9 @@ def patch(request, appended_address, request_data):
             url=url, headers=_get_headers(request, content_type="application/json"), json=request_data
         )
 
+    if response.status_code in [HTTPStatus.FORBIDDEN, HTTPStatus.UNAUTHORIZED]:
+        raise PermissionDenied(strings.Errors.PERMISSION_DENIED)
+
     return response
 
 
@@ -89,6 +103,9 @@ def delete(request, appended_address):
         _verify_api_response(response, sender)
     else:
         response = requests.delete(url=url, headers=_get_headers(request, content_type="text/plain"))
+
+    if response.status_code in [HTTPStatus.FORBIDDEN, HTTPStatus.UNAUTHORIZED]:
+        raise PermissionDenied(strings.Errors.PERMISSION_DENIED)
 
     return response
 
@@ -170,4 +187,4 @@ def _verify_api_response(response, sender):
             )
         else:
             logging.error("Unhandled exception %s: %s" % (type(exc).__name__, exc))
-        raise PermissionDenied("We were unable to authenticate your client")
+        raise PermissionDenied("Unable to authenticate the request")
