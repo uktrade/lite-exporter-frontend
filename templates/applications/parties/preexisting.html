@@ -57,7 +57,7 @@
 							{{ party|get_address }}
 						</td>
 						<td class="govuk-table__cell">
-							{{ party.website|linkify }}
+							{{ party.website|linkify:'Link' }}
 						</td>
 						<td class="govuk-table__cell">
 							<form action="{% url url draft_id party.id %}" method="get">
