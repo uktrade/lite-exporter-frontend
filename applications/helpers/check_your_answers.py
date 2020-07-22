@@ -411,7 +411,7 @@ def convert_party(party, application, editable):
 
     data = {
         "Name": party["name"],
-        "Type": party["sub_type"]["value"],
+        "Type": party["sub_type_other"] if party["sub_type_other"] else party["sub_type"]["value"],
         "Clearance level": None,
         "Descriptors": party.get("descriptors"),
         "Address": get_address(party),

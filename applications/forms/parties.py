@@ -26,6 +26,7 @@ def party_create_new_or_copy_existing_form(application_id):
         back_link_text=PartyForm.CopyExistingForm.BACK_LINK,
         back_url=reverse_lazy("applications:task_list", kwargs={"pk": application_id}),
         submit_button_text=PartyForm.CopyExistingForm.BUTTON,
+        side_by_side=True
     )
 
 
