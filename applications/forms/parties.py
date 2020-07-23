@@ -26,7 +26,6 @@ def party_create_new_or_copy_existing_form(application_id):
         back_link_text=PartyForm.CopyExistingForm.BACK_LINK,
         back_url=reverse_lazy("applications:task_list", kwargs={"pk": application_id}),
         submit_button_text=PartyForm.CopyExistingForm.BUTTON,
-        side_by_side=True,
     )
 
 
@@ -82,12 +81,8 @@ def party_clearance_level_form(options, button):
     )
 
 
-def party_descriptor_form(button, optional=False):
-    title = (
-        strings.Parties.Clearance.Descriptors.TITLE_OPTIONAL
-        if optional
-        else strings.Parties.Clearance.Descriptors.TITLE
-    )
+def party_descriptor_form(button):
+    title = strings.Parties.Clearance.Descriptors.TITLE
     return Form(
         title=title,
         questions=[TextInput(title=strings.Parties.Clearance.Descriptors.DESCRIPTION, name="descriptors")],
@@ -96,7 +91,7 @@ def party_descriptor_form(button, optional=False):
 
 
 def clearance_level_forms(options, button):
-    return [party_clearance_level_form(options, button), party_descriptor_form(button, optional=True)]
+    return [party_clearance_level_form(options, button), party_descriptor_form(button)]
 
 
 def new_party_form_group(request, application, strings, back_url, clearance_options=None, is_end_user=False):

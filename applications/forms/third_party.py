@@ -33,8 +33,7 @@ def _third_party_role_form(application, title, button, options, back_url):
     )
 
 
-def third_party_forms(request, application, strings, back_url, sub_type=None, clearance_options=None):
-    sub_type = sub_type[0] if isinstance(sub_type, list) else sub_type
+def third_party_forms(request, application, strings, back_url, clearance_options=None):
     form_options = role_option_list.copy()
     if application["case_type"]["sub_type"]["key"] != F680:
         form_options.pop("customer")
@@ -53,8 +52,6 @@ def third_party_forms(request, application, strings, back_url, sub_type=None, cl
 
     if clearance_options:
         forms.extend(clearance_level_forms(clearance_options, strings.BUTTON))
-    elif sub_type == "other":
-        forms.append(party_descriptor_form(strings.BUTTON, optional=False))
 
     forms.append(party_address_form(request, strings.ADDRESS_FORM_TITLE, strings.SUBMIT_BUTTON))
 
