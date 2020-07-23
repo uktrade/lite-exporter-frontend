@@ -6,7 +6,6 @@ from applications.forms.parties import (
     party_address_form,
     party_type_form,
     clearance_level_forms,
-    party_descriptor_form,
 )
 from conf.constants import PERMANENT, F680
 from lite_content.lite_exporter_frontend.applications import ThirdPartyForm, PartyForm, PartyTypeForm
