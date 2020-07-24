@@ -118,19 +118,17 @@ def edit_good_firearm_details(request, pk, json):
 
 
 def edit_good_pv_grading(request, pk, json):
-    data = {
-        "is_pv_graded": json["is_pv_graded"]
-    }
+    data = {"is_pv_graded": json["is_pv_graded"]}
     if json["is_pv_graded"] == "yes":
         data["pv_grading_details"] = {
-                "grading": json["grading"],
-                "custom_grading": json["custom_grading"],
-                "prefix": json["prefix"],
-                "suffix": json["suffix"],
-                "issuing_authority": json["issuing_authority"],
-                "reference": json["reference"],
-                "date_of_issue": format_date(json, "date_of_issue"),
-            }
+            "grading": json["grading"],
+            "custom_grading": json["custom_grading"],
+            "prefix": json["prefix"],
+            "suffix": json["suffix"],
+            "issuing_authority": json["issuing_authority"],
+            "reference": json["reference"],
+            "date_of_issue": format_date(json, "date_of_issue"),
+        }
     return edit_good(request, pk, data)
 
 
